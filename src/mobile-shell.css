@@ -1,3 +1,5 @@
+@import './storefront-footer-template.css';
+
 /* Global mobile shell contract.
    The mobile header remains fixed to the viewport on every route and during route transitions.
    This file is intentionally imported last so route/page-specific CSS cannot opt the header out. */
