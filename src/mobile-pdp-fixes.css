@@ -95,26 +95,30 @@
     stroke-width:1.6!important;
   }
 
-  /* Product gallery: use a measured inset stage and fit the complete asset inside
-     its visual bounds. Never stretch the image to the container's full box. */
+  /* Product gallery: this is a full merchandising stage, not a thumbnail card.
+     Give every product type enough vertical room, then contain the source image
+     without cropping or stretching regardless of its native aspect ratio. */
   .pdp{
     --pdp-gutter:16px;
-    --pdp-media-h:258px;
+    --pdp-media-h:clamp(340px,96vw,410px);
   }
 
   .pdp-media{
+    position:relative!important;
     width:calc(100% - (var(--pdp-gutter) * 2))!important;
     height:var(--pdp-media-h)!important;
     min-height:var(--pdp-media-h)!important;
-    max-height:var(--pdp-media-h)!important;
+    max-height:none!important;
     margin:10px var(--pdp-gutter) 0!important;
-    padding:16px!important;
-    display:grid!important;
-    place-items:center!important;
+    padding:22px!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
     overflow:hidden!important;
+    isolation:isolate!important;
     border:1px solid #e5e8e3!important;
-    border-radius:10px!important;
-    background:#f7f6f2!important;
+    border-radius:12px!important;
+    background:linear-gradient(145deg,#faf9f6 0%,#f5f4f0 100%)!important;
   }
 
   .pdp-media img{
@@ -128,21 +132,22 @@
     object-fit:contain!important;
     object-position:center!important;
     transform:none!important;
+    flex:0 1 auto!important;
   }
 
   .pdp-copy{
-    padding-top:14px!important;
+    padding-top:16px!important;
   }
 }
 
 @media (max-width:420px){
   .pdp{
     --pdp-gutter:14px;
-    --pdp-media-h:246px;
+    --pdp-media-h:clamp(332px,96vw,390px);
   }
 
   .pdp-media{
-    padding:14px!important;
+    padding:20px!important;
   }
 }
 
@@ -158,6 +163,10 @@
 
   .pdp{
     --pdp-gutter:12px;
-    --pdp-media-h:228px;
+    --pdp-media-h:320px;
+  }
+
+  .pdp-media{
+    padding:18px!important;
   }
 }
