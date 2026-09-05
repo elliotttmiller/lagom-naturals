@@ -46,8 +46,6 @@
   letter-spacing:-.01em;
 }
 
-/* The approved PDP uses an editorial serif product name rather than the rounded
-   global body face. Playfair is already part of the Lagom font bundle. */
 .pdp-copy h1{
   color:var(--pdp-ink);
   font-family:var(--font-display);
@@ -95,8 +93,63 @@
 .pdp .qty-row>div{border:1px solid var(--pdp-line);background:#fbfbf9}
 .pdp .primary-bar{background:var(--green);color:#fff;font-family:var(--font-ui);font-weight:800;letter-spacing:.012em;box-shadow:none}
 
-/* ─── MOBILE PDP ───────────────────────────────────────────────────────────
-   Designed as a native phone composition, not a desktop PDP scaled down. */
+/* Restored cannabis-native product information accordions. */
+.pdp-details{
+  margin-top:24px;
+  border-top:1px solid var(--pdp-line);
+}
+.pdp-detail-item{border-bottom:1px solid var(--pdp-line)}
+.pdp-detail-trigger{
+  width:100%;
+  min-height:52px;
+  padding:0;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  border:0;
+  background:transparent;
+  color:var(--pdp-ink);
+  text-align:left;
+  font-family:var(--font-primary);
+  font-size:13px;
+  font-weight:800;
+}
+.pdp-detail-trigger>span:first-child{flex:1}
+.pdp-detail-trigger>span:last-child{display:grid;place-items:center;flex:0 0 auto}
+.pdp-detail-trigger svg{width:16px;height:16px;stroke-width:1.7}
+.pdp-detail-panel{overflow:hidden}
+.pdp-detail-panel>div{padding:0 0 16px}
+.pdp-detail-panel p{
+  margin:0;
+  color:var(--pdp-muted);
+  font-family:var(--font-primary);
+  font-size:12px;
+  font-weight:500;
+  line-height:1.5;
+}
+.pdp-detail-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px 18px;
+}
+.pdp-detail-grid span{display:flex;min-width:0;flex-direction:column;gap:2px}
+.pdp-detail-grid b{
+  color:#5d655f;
+  font-family:var(--font-ui);
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.055em;
+  text-transform:uppercase;
+}
+.pdp-detail-grid small{
+  color:var(--pdp-ink);
+  font-family:var(--font-primary);
+  font-size:12px;
+  font-weight:650;
+  line-height:1.35;
+}
+
 @media(max-width:699px){
   .pdp{
     width:100%;
@@ -257,6 +310,14 @@
     border-radius:7px;
     font-size:12px;
   }
+
+  .pdp-details{margin-top:22px}
+  .pdp-detail-trigger{min-height:50px;font-size:12.5px}
+  .pdp-detail-panel>div{padding-bottom:15px}
+  .pdp-detail-panel p{font-size:11.5px;line-height:1.5}
+  .pdp-detail-grid{gap:11px 16px}
+  .pdp-detail-grid b{font-size:8.5px}
+  .pdp-detail-grid small{font-size:11.5px}
 }
 
 @media(max-width:380px){
@@ -272,9 +333,10 @@
   .pdp .size-row button,.pdp .size-row.single-option button{min-width:88px;height:44px}
   .pdp .qty-row>div{min-width:118px;height:42px}
   .pdp .primary-bar{height:50px}
+  .pdp-detail-trigger{font-size:12px}
+  .pdp-detail-grid{grid-template-columns:1fr 1fr;gap:10px 12px}
 }
 
-/* Tablet retains the same visual language at a calmer content width. */
 @media(min-width:700px) and (max-width:899px){
   .pdp{width:min(760px,calc(100vw - 48px));margin:28px auto 52px}
   .pdp-media{height:auto!important;aspect-ratio:1.18/1;padding:30px;border-radius:12px}
@@ -286,7 +348,6 @@
   .pdp-desc{font-size:14px;line-height:1.55}
 }
 
-/* Desktop remains a true desktop PDP; only the product-page type language is shared. */
 @media(min-width:900px){
   .pdp-media{overflow:hidden;border-radius:12px;background:linear-gradient(145deg,#f8f8f5,#f1f3ee)}
   .pdp-media img{max-width:86%!important;max-height:86%!important}
@@ -297,4 +358,6 @@
   .pdp-copy h2{font-size:28px}
   .meta-pills span{font-size:10px}
   .pdp-desc{font-size:14px;line-height:1.55}
+  .pdp-detail-trigger{font-size:14px}
+  .pdp-detail-panel p,.pdp-detail-grid small{font-size:13px}
 }
