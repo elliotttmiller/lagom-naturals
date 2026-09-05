@@ -1,0 +1,41 @@
+/* Mobile detail-header back control.
+   Uses the exact reference arrow path geometry, with no hover/tap transform animation. */
+@media (max-width:699px){
+  .header-inner > .icon-btn[aria-label="Back"]{
+    position:relative;
+    justify-self:start;
+    width:44px;
+    height:44px;
+    padding:0;
+    border:0;
+    border-radius:0;
+    background:transparent!important;
+    box-shadow:none!important;
+    transform:none!important;
+    transition:none!important;
+    color:var(--ink-soft,#25302a);
+  }
+
+  .header-inner > .icon-btn[aria-label="Back"]:hover,
+  .header-inner > .icon-btn[aria-label="Back"]:active{
+    background:transparent!important;
+    box-shadow:none!important;
+    transform:none!important;
+  }
+
+  .header-inner > .icon-btn[aria-label="Back"] > svg{
+    display:none;
+  }
+
+  .header-inner > .icon-btn[aria-label="Back"]::before{
+    content:'';
+    display:block;
+    width:32px;
+    height:32px;
+    margin:auto;
+    background-color:currentColor;
+    -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-linejoin='round' stroke-linecap='round' stroke-width='1.5' d='M11 6L5 12M5 12L11 18M5 12H19'/%3E%3C/svg%3E") center/contain no-repeat;
+    mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-linejoin='round' stroke-linecap='round' stroke-width='1.5' d='M11 6L5 12M5 12L11 18M5 12H19'/%3E%3C/svg%3E") center/contain no-repeat;
+    pointer-events:none;
+  }
+}
