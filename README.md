@@ -47,6 +47,10 @@ The interface uses the supplied mobile page library as the primary UX reference:
 
 The project includes a vectorized Lagom Naturals logo treatment and uses Lagom storefront imagery hosted by the existing Lagom web properties for the live experience.
 
+## Quality assurance
+
+Every push to `main` runs the production Vite build in GitHub Actions so dependency or compile regressions are visible immediately.
+
 ## Responsible-use note
 
 The customer-facing experience is intended for adults 21+ and includes responsible-use language. Commerce flows in this repository are UI/state demonstrations and should be connected to the chosen regulated cannabis menu, inventory, identity/age verification, payment, and pickup platform before production transactions are enabled.
