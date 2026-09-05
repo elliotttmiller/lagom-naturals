@@ -1,23 +1,28 @@
 /* Global motion contract. Motion owns mount/unmount, layout and route choreography; CSS supplies presentation and lightweight state styling. */
-:root{--motion-ease:cubic-bezier(.22,1,.36,1);--motion-ease-soft:cubic-bezier(.16,1,.3,1);--motion-fast:180ms;--motion-base:320ms;--motion-slow:500ms}
+:root{--motion-ease:cubic-bezier(.22,1,.36,1);--motion-ease-soft:cubic-bezier(.16,1,.3,1);--motion-fast:160ms;--motion-base:280ms;--motion-slow:460ms}
 .route-stage{width:100%;min-height:100%;isolation:isolate;transform-origin:50% 12%}
 
 /* Motion is the sole owner of entrance/layout animation. Disable superseded CSS keyframes. */
 .route-stage .app-shell main>*,.site-footer,.age-gate,.age-gate__panel,.home-hero>img,.hero-copy>p,.hero-copy h1,.hero-copy>span,.hero-actions,.drawer-bg,.drawer,.mobile-nav a.active:after{animation:none!important}
 .site-header,.mobile-nav,.drawer,.product-card,.category-card,.merch-card,.product-media img,.merch-media img,.hero-actions a,.primary-bar,.icon-btn{backface-visibility:hidden;-webkit-font-smoothing:antialiased}
 
-/* Motion wrappers are deliberately layout-neutral. */
-.motion-card-shell{min-width:0;height:100%}.motion-card-shell>.category-card{height:100%}.motion-card-shell>.category-card:hover{transform:none}.product-media>a{width:100%;height:100%;display:grid;place-items:center;min-width:0}.product-media>a>img{width:100%;height:100%;object-fit:contain}.merch-card>a{display:block;color:inherit;height:100%}.merch-card>a>p{font-size:8px;margin:7px 8px 2px}.merch-card>a>h3{font-size:10px;line-height:1.15;margin:0 8px}.merch-card>a>b{display:block;font-size:12px;margin:5px 8px}.merch-card>a>.swatches{margin:0 8px}.merch-grid>div{min-width:0;height:100%}.merch-grid>div>.merch-card{height:100%}
+/* Keep animated wrapper elements geometry-neutral and prevent unexpected grid/flex shrinkage. */
+.motion-card-shell{min-width:0;height:100%}.motion-card-shell>.category-card{height:100%}.motion-card-shell>.category-card:hover{transform:none}
+.mobile-nav>div{min-width:0;height:100%}.mobile-nav>div>a{width:100%;height:100%}
+.product-media>a{width:100%;height:100%;display:grid;place-items:center;min-width:0}.product-media>a>img{width:100%;height:100%;object-fit:contain}.product-media>img{display:none}
+.merch-card>a{display:block;color:inherit;height:100%}.merch-card>a>p{font-size:8px;margin:7px 8px 2px}.merch-card>a>h3{font-size:10px;line-height:1.15;margin:0 8px}.merch-card>a>b{display:block;font-size:12px;margin:5px 8px}.merch-card>a>.swatches{margin:0 8px}.merch-grid>div{min-width:0;height:100%}.merch-grid>div>.merch-card{height:100%}
 
 /* Drawer markup is animated through a nested nav while retaining the original visual contract. */
-.drawer nav>div>a{display:flex;align-items:center;justify-content:space-between;padding:17px 2px;border-top:1px solid var(--line);font-size:14px;font-weight:600}.drawer nav>div>a svg{width:17px}
+.drawer{overflow-y:auto;overscroll-behavior:contain}.drawer nav>div>a{display:flex;align-items:center;justify-content:space-between;padding:17px 2px;border-top:1px solid var(--line);font-size:14px;font-weight:600}.drawer nav>div>a svg{width:17px}
 
 /* Trust strip uses stagger wrappers; preserve the original three-column geometry. */
 .trust-strip>div{min-width:0}.trust-strip>div>div{display:flex;align-items:center;justify-content:center;gap:6px}.trust-strip>div>div svg{width:21px;color:#1d2b23;stroke-width:1.5}.trust-strip>div>div span{font-size:7px;font-weight:700;line-height:1.05}
 
-.product-card,.merch-card,.motion-card-shell,.product-media img,.merch-media img{will-change:transform}.product-media>img{display:none}.checkout-step{min-width:0}.account-rows>div{min-width:0}.account-rows>div>button{width:100%}
+/* Avoid permanent compositor promotion. Motion promotes elements only while they are actively animating. */
+.checkout-step{min-width:0}.account-rows>div{min-width:0}.account-rows>div>button{width:100%}
+button,a{touch-action:manipulation}
 
 @media(min-width:700px){.trust-strip>div>div{gap:8px}.trust-strip>div>div span{font-size:8px}.trust-strip>div>div svg{width:24px}}
 @media(max-width:640px){.trust-strip>div>div{justify-content:flex-start;gap:6px}.trust-strip>div>div svg{width:23px;height:23px;flex:0 0 auto}.trust-strip>div>div span{font-size:7px;line-height:1.1}}
 @media(max-width:380px){.trust-strip>div>div span{font-size:6.5px}.trust-strip>div>div svg{width:21px}}
-@media(prefers-reduced-motion:reduce){.route-stage{transform:none!important;filter:none!important}.product-card,.merch-card,.motion-card-shell,.product-media img,.merch-media img{will-change:auto}}
+@media(prefers-reduced-motion:reduce){.route-stage{transform:none!important;filter:none!important}}
