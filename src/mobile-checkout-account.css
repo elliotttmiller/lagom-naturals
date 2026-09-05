@@ -302,7 +302,8 @@
     height:92px!important;
     overflow:hidden!important;
     color:transparent!important;
-    background:url('/lagom-logo.svg') center/contain no-repeat!important;
+    font-size:0!important;
+    background:url('/lagom-logo-icon.svg') center/contain no-repeat!important;
     filter:none!important;
   }
 
