@@ -1,0 +1,49 @@
+/* Final mobile viewport polish layered after the global UI system. */
+@media(max-width:699px){
+  .home-hero{min-height:680px;height:min(760px,calc(100svh + 42px))}
+  .hero-copy{bottom:calc(92px + env(safe-area-inset-bottom));padding-inline:max(20px,env(safe-area-inset-left)) max(20px,env(safe-area-inset-right))}
+  .hero-copy h1{max-width:340px}
+  .hero-copy>span{max-width:360px}
+  .hero-actions{margin-top:18px}
+  .hero-actions>div,.hero-actions>div>a{width:100%;min-width:0}
+
+  .trust-strip{position:relative;z-index:1}
+  .mobile-section{padding-inline:18px}
+  .section-title{gap:16px}.section-title h2{min-width:0}.section-title a{flex:0 0 auto}
+
+  .category-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .category-grid .category-card{height:94px}
+  .category-symbol{width:56px;height:52px}
+
+  .product-card{overflow:hidden}
+  .product-copy{min-height:194px}
+  .product-copy h3{min-height:31px}
+  .product-copy small{min-height:25px}
+  .card-actions>button:first-child{min-width:0;overflow:hidden}
+
+  .account-welcome .leaf-mark{display:none}
+  .account-welcome{display:block;padding:8px 2px 24px}
+  .account-welcome p{margin:0 0 5px!important}
+  .account-welcome h1{margin:0!important}
+
+  .site-footer{position:relative;z-index:1}
+  .site-footer__inner>div{min-width:0}
+  .site-footer a,.site-footer span{overflow-wrap:anywhere}
+  .site-footer__bottom{padding-bottom:6px}
+
+  .mobile-nav{z-index:90}
+}
+
+@media(max-width:420px){
+  .hero-copy h1{font-size:clamp(46px,13.2vw,56px)}
+  .hero-copy>span{font-size:13px}
+  .hero-actions a{padding-inline:10px}
+  .product-copy{padding:10px 10px 11px}
+}
+
+@media(max-width:350px){
+  .home-hero{min-height:700px}
+  .hero-actions{grid-template-columns:1fr;gap:8px}
+  .hero-copy{bottom:calc(88px + env(safe-area-inset-bottom))}
+  .category-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
