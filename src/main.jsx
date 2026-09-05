@@ -8,11 +8,22 @@ import './responsive.css'
 import './production.css'
 import './motion.css'
 
+const routeMeta={
+  '/':{title:'Lagom Naturals | Minneapolis Cannabis Dispensary',label:'Home',description:'Premium cannabis products from trusted brands, thoughtfully curated in Minneapolis.'},
+  '/shop':{title:'Shop Cannabis | Lagom Naturals',label:'Shop',description:'Browse the current Lagom Naturals cannabis selection by product, brand, and category.'},
+  '/merch':{title:'Apparel & Merch | Lagom Naturals',label:'Apparel and merch',description:'Shop Lagom Naturals apparel and merchandise.'},
+  '/cart':{title:'Your Cart | Lagom Naturals',label:'Cart',description:'Review your Lagom Naturals cart and pickup selection.'},
+  '/checkout':{title:'Pickup Details | Lagom Naturals',label:'Pickup details',description:'Review contact and pickup details for your Lagom Naturals selection.'},
+  '/account':{title:'Account | Lagom Naturals',label:'Account',description:'Access Lagom Naturals account, favorites, orders, and rewards.'},
+  '/visit':{title:'Visit Lagom Naturals | Minneapolis',label:'Visit our store',description:'Store location, hours, directions, and accessibility information for Lagom Naturals in Minneapolis.'},
+  '/about':{title:'About Lagom Naturals',label:'About Lagom Naturals',description:'Learn about the Lagom approach to a clearer, more balanced cannabis retail experience.'},
+}
+
 class AppErrorBoundary extends React.Component {
   constructor(props){super(props);this.state={hasError:false}}
   static getDerivedStateFromError(){return{hasError:true}}
   componentDidCatch(error,info){console.error('Lagom storefront render error',error,info)}
-  render(){if(this.state.hasError)return <main className="fatal-error"><img src="/lagom-logo.svg" alt="Lagom Naturals"/><h1>Something went wrong.</h1><p>Please refresh the page to continue.</p><button onClick={()=>window.location.reload()}>Refresh</button></main>;return this.props.children}
+  render(){if(this.state.hasError)return <main className="fatal-error"><img src="/lagom-logo.svg" alt="Lagom Naturals"/><h1>Something went wrong.</h1><p>Please refresh the page to continue.</p><button type="button" onClick={()=>window.location.reload()}>Refresh</button></main>;return this.props.children}
 }
 
 function AgeGate(){
@@ -23,28 +34,55 @@ function AgeGate(){
   return <Presence>
     {!verified&&<m.div className="age-gate" role="dialog" aria-modal="true" aria-labelledby="age-gate-title" initial={reduceMotion?false:{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} transition={{duration:reduceMotion?0:motionTokens.duration.fast}}>
       <m.div className="age-gate__panel" initial={reduceMotion?false:{opacity:0,y:14,scale:.985}} animate={{opacity:1,y:0,scale:1}} exit={{opacity:0,y:8,scale:.99}} transition={reduceMotion?{duration:0}:motionTokens.springSnappy}>
-        <img src="/lagom-logo.svg" alt="Lagom Naturals"/><p className="age-gate__eyebrow">MINNEAPOLIS, MINNESOTA</p><h1 id="age-gate-title">Are you 21 or older?</h1><p>You must be 21+ to enter this cannabis storefront. Please enjoy responsibly.</p><button autoFocus onClick={enter}>YES, I’M 21+</button><button className="age-gate__exit" onClick={()=>window.location.replace('https://www.google.com/')}>NO, EXIT SITE</button>
+        <img src="/lagom-logo.svg" alt="Lagom Naturals"/>
+        <p className="age-gate__eyebrow">MINNEAPOLIS, MINNESOTA</p>
+        <h1 id="age-gate-title">Are you 21 or older?</h1>
+        <p>You must be 21+ to enter this cannabis storefront. Please enjoy responsibly.</p>
+        <button type="button" autoFocus onClick={enter}>YES, I’M 21+</button>
+        <button type="button" className="age-gate__exit" onClick={()=>window.location.replace('https://www.google.com/')}>NO, EXIT SITE</button>
       </m.div>
     </m.div>}
   </Presence>
 }
 
-function SiteFooter(){const reduceMotion=useReducedMotion();return <m.footer className="site-footer" initial={reduceMotion?false:{opacity:0,y:12}} whileInView={{opacity:1,y:0}} viewport={{once:true,amount:.08}} transition={reduceMotion?{duration:0}:{duration:motionTokens.duration.slow,ease:motionTokens.ease}}><div className="site-footer__inner"><div className="site-footer__brand"><img src="/lagom-logo.svg" alt="Lagom Naturals"/><p>Premium cannabis from trusted brands, thoughtfully curated for a more balanced you.</p></div><div><h4>Shop</h4><Link to="/shop">All products</Link><Link to="/shop?category=Beverages">Beverages</Link><Link to="/shop?category=Edibles">Edibles</Link><Link to="/merch">Apparel & merch</Link></div><div><h4>Visit</h4><Link to="/visit">North Loop store</Link><span>730 N Washington Ave</span><span>Minneapolis, MN 55401</span></div><div><h4>Lagom</h4><Link to="/about">About us</Link><Link to="/account">Rewards</Link><Link to="/account">My account</Link></div></div><div className="site-footer__bottom"><span>© 2026 Lagom Naturals</span><span>For adults 21+. Please enjoy responsibly.</span></div></m.footer>}
+function SiteFooter(){
+  const reduceMotion=useReducedMotion()
+  return <m.footer className="site-footer" initial={reduceMotion?false:{opacity:0,y:12}} whileInView={{opacity:1,y:0}} viewport={{once:true,amount:.08}} transition={reduceMotion?{duration:0}:{duration:motionTokens.duration.slow,ease:motionTokens.ease}}>
+    <div className="site-footer__inner">
+      <div className="site-footer__brand"><img src="/lagom-logo.svg" alt="Lagom Naturals"/><p>Premium cannabis from trusted brands, thoughtfully curated for a more balanced you.</p></div>
+      <div><h4>Shop</h4><Link to="/shop">All products</Link><Link to="/shop?category=Beverages">Beverages</Link><Link to="/shop?category=Edibles">Edibles</Link><Link to="/merch">Apparel & merch</Link></div>
+      <div><h4>Visit</h4><Link to="/visit">North Loop store</Link><span>730 N Washington Ave</span><span>Minneapolis, MN 55401</span></div>
+      <div><h4>Lagom</h4><Link to="/about">About us</Link><Link to="/account">Rewards</Link><Link to="/account">My account</Link></div>
+    </div>
+    <div className="site-footer__bottom"><span>© 2026 Lagom Naturals</span><span>For adults 21+. Please enjoy responsibly.</span></div>
+  </m.footer>
+}
+
+function getRouteMeta(pathname){
+  if(pathname.startsWith('/product/'))return{title:'Product | Lagom Naturals',label:'Product details',description:'Review product information and current Lagom Naturals availability.'}
+  if(pathname.startsWith('/merch/'))return{title:'Apparel | Lagom Naturals',label:'Apparel details',description:'Review Lagom Naturals apparel details and availability.'}
+  return routeMeta[pathname]||{title:'Lagom Naturals',label:'Lagom Naturals',description:'Premium cannabis retail in Minneapolis.'}
+}
 
 function AnimatedStorefront(){
   const location=useLocation()
   const routeKey=`${location.pathname}${location.search}`
-  React.useEffect(()=>{window.scrollTo({top:0,left:0,behavior:'instant'})},[routeKey])
-  return <RouteMotion routeKey={routeKey}><App /></RouteMotion>
+  const meta=getRouteMeta(location.pathname)
+
+  React.useEffect(()=>{
+    window.scrollTo({top:0,left:0,behavior:'instant'})
+    document.title=meta.title
+    const description=document.querySelector('meta[name="description"]')
+    if(description)description.setAttribute('content',meta.description)
+  },[routeKey,meta.title,meta.description])
+
+  return <>
+    <div className="route-announcer" role="status" aria-live="polite" aria-atomic="true">{meta.label}</div>
+    <RouteMotion routeKey={routeKey}><App /></RouteMotion>
+  </>
 }
 
-function StorefrontExperience(){
-  return <AppMotionProvider>
-    <AgeGate />
-    <AnimatedStorefront />
-    <SiteFooter />
-  </AppMotionProvider>
-}
+function StorefrontExperience(){return <AppMotionProvider><AgeGate/><AnimatedStorefront/><SiteFooter/></AppMotionProvider>}
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
