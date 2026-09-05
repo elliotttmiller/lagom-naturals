@@ -6,6 +6,7 @@ import { AppMotionProvider, Presence, RouteMotion, m, motionTokens, useReducedMo
 import './styles.css'
 import './responsive.css'
 import './production.css'
+import './motion.css'
 
 class AppErrorBoundary extends React.Component {
   constructor(props){super(props);this.state={hasError:false}}
