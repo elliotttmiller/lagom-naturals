@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { BrowserRouter, Link, useLocation } from 'react-router-dom'
+import { BrowserRouter, Link, useLocation, useNavigationType } from 'react-router-dom'
 import App from '@/App'
 import { AppMotionProvider, Presence, RouteMotion, m, motionTokens, useReducedMotion } from '@/motionSystem'
 import './app.css'
@@ -70,13 +70,37 @@ function getRouteMeta(pathname){
 
 function AnimatedStorefront(){
   const location=useLocation()
+  const navigationType=useNavigationType()
   const routeKey=`${location.pathname}${location.search}`
   const meta=getRouteMeta(location.pathname)
-  const previousKey=React.useRef(null)
+  const scrollPositions=React.useRef(new Map())
+  const previousLocation=React.useRef(null)
+
+  React.useLayoutEffect(()=>{
+    if('scrollRestoration' in window.history)window.history.scrollRestoration='manual'
+    return()=>{if('scrollRestoration' in window.history)window.history.scrollRestoration='auto'}
+  },[])
+
+  React.useLayoutEffect(()=>{
+    const previous=previousLocation.current
+    if(previous)scrollPositions.current.set(previous.key,previous.scrollY)
+
+    const destination=scrollPositions.current.get(location.key)
+    const nextY=navigationType==='POP'&&destination!=null?destination:0
+    window.scrollTo({top:nextY,left:0,behavior:'auto'})
+    previousLocation.current={key:location.key,scrollY:nextY}
+
+    const capture=()=>{
+      if(previousLocation.current?.key===location.key)previousLocation.current.scrollY=window.scrollY
+    }
+    window.addEventListener('scroll',capture,{passive:true})
+    return()=>{
+      window.removeEventListener('scroll',capture)
+      if(previousLocation.current?.key===location.key)previousLocation.current.scrollY=window.scrollY
+    }
+  },[location.key,navigationType,routeKey])
 
   React.useEffect(()=>{
-    if(previousKey.current!==null&&location.key==='default')window.scrollTo({top:0,left:0,behavior:'auto'})
-    previousKey.current=routeKey
     document.title=meta.title
     const description=document.querySelector('meta[name="description"]')
     const ogTitle=document.querySelector('meta[property="og:title"]')
@@ -84,11 +108,11 @@ function AnimatedStorefront(){
     if(description)description.setAttribute('content',meta.description)
     if(ogTitle)ogTitle.setAttribute('content',meta.title)
     if(ogDescription)ogDescription.setAttribute('content',meta.description)
-  },[location.key,routeKey,meta.title,meta.description])
+  },[routeKey,meta.title,meta.description])
 
   return <>
     <div className="route-announcer" role="status" aria-live="polite" aria-atomic="true">{meta.label}</div>
-    <RouteMotion routeKey={routeKey}><App /></RouteMotion>
+    <RouteMotion routeKey={routeKey} navigationType={navigationType}><App /></RouteMotion>
   </>
 }
 
