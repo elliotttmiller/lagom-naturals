@@ -18,21 +18,47 @@ import strawberryBanana from'@/assets/products/Strawberry-Banana-Photoroom-900x9
 import strawberryLime from'@/assets/products/Strawberry-Lime-Fusion-Photoroom-900x900.png'
 import watermelonRefresher from'@/assets/products/Watermelon-Refresher-Photoroom-900x900.png'
 import categoryEdibles from'@/assets/products/edibles.png'
+import edibles2 from'@/assets/products/edibles2.png'
+import edibles3 from'@/assets/products/edibles3.png'
+import edibles4 from'@/assets/products/edibles4.png'
 import categoryFlower from'@/assets/products/flower.png'
+import flower2 from'@/assets/products/flower2.png'
+import flower3 from'@/assets/products/flower3.png'
+import flower4 from'@/assets/products/flower4.png'
 import categoryPreRolls from'@/assets/products/pre-rolls.png'
+import preRolls2 from'@/assets/products/pre-rolls2.png'
+import preRolls3 from'@/assets/products/pre-rolls3.png'
+import preRolls4 from'@/assets/products/pre-rolls4.png'
 import categoryVapes from'@/assets/products/vapes.png'
+import vapes2 from'@/assets/products/vapes2.png'
+import vapes3 from'@/assets/products/vapes3.png'
+import vapes4 from'@/assets/products/vapes4.png'
 import mainstreetHoodie from'@/assets/merch/Lagom-Mainstreet-Hooded-Sweatshirt-900x900.png'
 import midweightCrewneck from'@/assets/merch/Lagom-Midweight-Crewneck-Sweatshirt-Front-900x900.png'
+
+const previewProduct=(id,name,category,type,image)=>({id,brand:'In-store preview',name,category,price:null,strength:'See package',type,rating:null,reviews:null,weight:'See package',image,preview:true})
 
 const products=[
 {id:'24k-lemonade',brand:'Lagom Naturals',name:'24K Lemonade',category:'Beverages',price:6,strength:'THC infused',type:'Seltzer',rating:4.9,reviews:124,weight:'12 oz',image:lemonade24k},
 {id:'blackberry-breeze',brand:'Lagom Naturals',name:'Blackberry Breeze',category:'Beverages',price:6,strength:'THC infused',type:'Seltzer',rating:4.8,reviews:98,weight:'12 oz',image:blackberryBreeze},
 {id:'strawberry-lime-fusion',brand:'Lagom Naturals',name:'Strawberry Lime Fusion',category:'Beverages',price:6,strength:'THC infused',type:'Seltzer',rating:4.8,reviews:83,weight:'12 oz',image:strawberryLime},
 {id:'watermelon-refresher',brand:'Lagom Naturals',name:'Watermelon Refresher',category:'Beverages',price:6,strength:'THC infused',type:'Seltzer',rating:4.7,reviews:76,weight:'12 oz',image:watermelonRefresher},
-{id:'flower-selection',brand:'In-store selection',name:'Flower Selection',category:'Flower',price:null,strength:'See package',type:'Flower',rating:null,reviews:null,weight:'See package',image:categoryFlower,preview:true},
-{id:'vape-selection',brand:'In-store selection',name:'Vape Selection',category:'Vapes',price:null,strength:'See package',type:'Vape',rating:null,reviews:null,weight:'See package',image:categoryVapes,preview:true},
-{id:'edibles-selection',brand:'In-store selection',name:'Edibles Selection',category:'Edibles',price:null,strength:'See package',type:'Edibles',rating:null,reviews:null,weight:'See package',image:categoryEdibles,preview:true},
-{id:'pre-roll-selection',brand:'In-store selection',name:'Pre-Roll Selection',category:'Pre-Rolls',price:null,strength:'See package',type:'Pre-Roll',rating:null,reviews:null,weight:'See package',image:categoryPreRolls,preview:true},
+previewProduct('flower-selection-1','Flower Selection 01','Flower','Flower',categoryFlower),
+previewProduct('flower-selection-2','Flower Selection 02','Flower','Flower',flower2),
+previewProduct('flower-selection-3','Flower Selection 03','Flower','Flower',flower3),
+previewProduct('flower-selection-4','Flower Selection 04','Flower','Flower',flower4),
+previewProduct('vape-selection-1','Vape Selection 01','Vapes','Vape',categoryVapes),
+previewProduct('vape-selection-2','Vape Selection 02','Vapes','Vape',vapes2),
+previewProduct('vape-selection-3','Vape Selection 03','Vapes','Vape',vapes3),
+previewProduct('vape-selection-4','Vape Selection 04','Vapes','Vape',vapes4),
+previewProduct('edibles-selection-1','Edibles Selection 01','Edibles','Edibles',categoryEdibles),
+previewProduct('edibles-selection-2','Edibles Selection 02','Edibles','Edibles',edibles2),
+previewProduct('edibles-selection-3','Edibles Selection 03','Edibles','Edibles',edibles3),
+previewProduct('edibles-selection-4','Edibles Selection 04','Edibles','Edibles',edibles4),
+previewProduct('pre-roll-selection-1','Pre-Roll Selection 01','Pre-Rolls','Pre-Roll',categoryPreRolls),
+previewProduct('pre-roll-selection-2','Pre-Roll Selection 02','Pre-Rolls','Pre-Roll',preRolls2),
+previewProduct('pre-roll-selection-3','Pre-Roll Selection 03','Pre-Rolls','Pre-Roll',preRolls3),
+previewProduct('pre-roll-selection-4','Pre-Roll Selection 04','Pre-Rolls','Pre-Roll',preRolls4),
 {id:'blueberry-yum-yum',brand:'Lagom Naturals',name:'Blueberry Yum Yum',category:'Edibles',price:24.99,strength:'5mg THC + 20mg CBD',type:'Indica gummies',rating:4.9,reviews:151,weight:'10 pc',image:blueberryYumYum},
 {id:'push-pop',brand:'Lagom Naturals',name:'Push Pop',category:'Edibles',price:24.99,strength:'5mg THC',type:'Hybrid gummies',rating:4.8,reviews:91,weight:'10 pc',image:pushPop},
 {id:'space-cadet',brand:'Moonlight Cannabis',name:'Space Cadet',category:'Edibles',price:null,strength:'5mg THC',type:'Live resin',rating:4.8,reviews:64,weight:'See package',image:spaceCadet},
