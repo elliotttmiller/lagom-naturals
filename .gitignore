@@ -1,0 +1,89 @@
+# Dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# Production builds
+dist/
+build/
+out/
+
+# Vite
+.vite/
+*.local
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage / testing
+coverage/
+.nyc_output/
+playwright-report/
+test-results/
+
+# TypeScript
+*.tsbuildinfo
+
+# ESLint / tooling caches
+.eslintcache
+.cache/
+.parcel-cache/
+.turbo/
+
+# IDE / editor
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*~
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+*.bak
+
+# Local certificates / secrets
+*.pem
+*.key
+*.crt
+
+# Package manager metadata that should remain tracked:
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
