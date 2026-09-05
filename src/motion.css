@@ -1,0 +1,15 @@
+/* Global motion contract. Motion owns mount/unmount and route choreography; CSS only supplies lightweight interaction states. */
+:root{--motion-ease:cubic-bezier(.22,1,.36,1);--motion-ease-soft:cubic-bezier(.16,1,.3,1);--motion-fast:180ms;--motion-base:320ms;--motion-slow:500ms}
+
+.route-stage{width:100%;min-height:100%;isolation:isolate;transform-origin:50% 12%}
+
+/* Prevent duplicate CSS entrance animations from competing with the global Motion provider. */
+.route-stage .app-shell main>*,.site-footer,.age-gate,.age-gate__panel{animation:none!important}
+
+/* Keep micro-interactions composited and visually consistent with the JS motion system. */
+.site-header,.mobile-nav,.drawer,.product-card,.category-card,.merch-card,.product-media>img,.merch-media img,.hero-actions a,.primary-bar,.icon-btn{backface-visibility:hidden;-webkit-font-smoothing:antialiased}
+.product-card,.category-card,.merch-card,.hero-actions a,.primary-bar,.icon-btn{transform:translateZ(0)}
+
+@media(prefers-reduced-motion:reduce){
+  .route-stage{transform:none!important;filter:none!important}
+}
