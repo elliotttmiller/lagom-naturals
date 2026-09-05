@@ -208,7 +208,6 @@ function HomePage(){return <Shell noNav>
       <m.div className="hero-actions" variants={motionVariants.item}><m.div whileHover={{y:-1}} whileTap={motionTokens.tap}><Link to="/shop">SHOP PRODUCTS <ArrowRight/></Link></m.div><m.div whileHover={{y:-1}} whileTap={motionTokens.tap}><Link to="/visit">VISIT OUR STORE</Link></m.div></m.div>
     </m.div>
   </m.section>
-  <Stagger className="trust-strip">{[[Store,'LOCALLY','OWNED'],[UsersRound,'KNOWLEDGEABLE','STAFF'],[Heart,'COMMUNITY','FOCUSED']].map(([Icon,a,b])=><StaggerItem key={a}><div><Icon/><span>{a}<br/>{b}</span></div></StaggerItem>)}</Stagger>
   <Reveal className="mobile-section"><Stagger><SectionTitle title="Shop by Category"/><div className="home-category-row">{categoryCards.slice(0,4).map(([a,b])=><CategoryCard key={a} name={a} label={b}/>)}</div></Stagger></Reveal>
   <Reveal className="mobile-section"><Stagger><SectionTitle title="Featured Products"/><div className="product-grid">{products.slice(0,4).map(p=><ProductCard key={p.id} p={p}/>)}</div></Stagger></Reveal>
 </Shell>}
