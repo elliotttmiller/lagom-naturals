@@ -1,0 +1,334 @@
+/* Product-detail refinement layer.
+   Loaded after production.css so PDP typography, media containment, and controls
+   have one authoritative responsive definition. */
+
+.pdp {
+  --pdp-ink: #141814;
+  --pdp-muted: #6f766f;
+  --pdp-line: #e7e9e4;
+  --pdp-soft: #f6f7f3;
+  --pdp-green-soft: #edf6f1;
+  color: var(--pdp-ink);
+  background: #fff;
+  min-width: 0;
+}
+
+.pdp-media {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  isolation: isolate;
+  background: #f6f6f2;
+  border: 1px solid var(--pdp-line);
+}
+
+/* Keep the complete product artwork inside the gallery stage. Motion's shared
+   layout transform must never cause the source artwork to clip at an edge. */
+.pdp-media img {
+  display: block;
+  width: auto !important;
+  height: auto !important;
+  max-width: 88% !important;
+  max-height: 88% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  transform: none !important;
+  margin: auto;
+}
+
+.pdp-dots { display: none !important; }
+
+.pdp-copy {
+  min-width: 0;
+  color: var(--pdp-ink);
+}
+
+.pdp-copy > p:first-child {
+  color: var(--pdp-muted);
+  font-family: var(--font-primary);
+  font-weight: 600;
+}
+
+.pdp-copy h1 {
+  color: var(--pdp-ink);
+  font-family: var(--font-primary);
+  font-weight: 800;
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+
+.review-line {
+  display: flex;
+  align-items: center;
+}
+
+.review-line span {
+  color: #d4942f;
+  letter-spacing: .07em;
+}
+
+.review-line small {
+  color: var(--pdp-muted);
+  font-family: var(--font-primary);
+  font-weight: 550;
+}
+
+.pdp-copy h2 {
+  color: var(--pdp-ink);
+  font-family: var(--font-primary);
+  font-weight: 900;
+  letter-spacing: -.035em;
+}
+
+.meta-pills {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.meta-pills span {
+  color: #235f4c;
+  background: var(--pdp-green-soft);
+  border: 1px solid #dfece5;
+  font-family: var(--font-primary);
+  font-weight: 700;
+}
+
+.pdp-desc {
+  color: var(--pdp-muted);
+  font-family: var(--font-primary);
+  font-weight: 500;
+}
+
+.pdp-copy label,
+.pdp-copy .qty-row > b {
+  color: #2a302b;
+  font-family: var(--font-primary);
+  font-weight: 800;
+}
+
+.pdp .size-row button,
+.pdp .qty-row > div,
+.pdp .qty-row button {
+  font-family: var(--font-primary);
+}
+
+.pdp .size-row button {
+  color: #202620;
+  background: #fff;
+  border: 1px solid #dfe3dd;
+}
+
+.pdp .size-row button.active {
+  color: #fff;
+  background: var(--green);
+  border-color: var(--green);
+}
+
+.pdp .qty-row > div {
+  border: 1px solid var(--pdp-line);
+  background: var(--pdp-soft);
+}
+
+.pdp .primary-bar {
+  background: var(--green);
+  color: #fff;
+  font-family: var(--font-ui);
+  font-weight: 850;
+  letter-spacing: .015em;
+  box-shadow: none;
+}
+
+@media (max-width: 699px) {
+  .pdp {
+    padding: 10px 12px calc(28px + env(safe-area-inset-bottom));
+  }
+
+  .pdp-media {
+    width: 100%;
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: 1.18 / 1;
+    max-height: none !important;
+    margin: 0;
+    padding: 16px 18px;
+    border-radius: 8px;
+  }
+
+  .pdp-media img {
+    max-width: 86% !important;
+    max-height: 86% !important;
+  }
+
+  .pdp-copy {
+    padding: 11px 1px 0;
+  }
+
+  .pdp-copy > p:first-child {
+    margin: 0 0 2px;
+    font-size: 9px;
+    line-height: 1.2;
+  }
+
+  .pdp-copy h1 {
+    margin: 0 0 4px;
+    max-width: 100%;
+    font-size: clamp(18px, 5.4vw, 21px);
+    line-height: 1.03;
+  }
+
+  .review-line {
+    min-height: 14px;
+    gap: 5px;
+    margin: 0;
+  }
+
+  .review-line span {
+    font-size: 9px;
+    line-height: 1;
+  }
+
+  .review-line small {
+    font-size: 7px;
+    line-height: 1;
+  }
+
+  .pdp-copy h2 {
+    margin: 8px 0 7px;
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  .meta-pills {
+    gap: 4px;
+    margin: 0 0 8px;
+  }
+
+  .meta-pills span {
+    padding: 4px 7px;
+    border-radius: 999px;
+    font-size: 7px;
+    line-height: 1;
+  }
+
+  .pdp-desc {
+    max-width: 100%;
+    margin: 0 0 12px;
+    font-size: 9px;
+    line-height: 1.42;
+  }
+
+  .pdp-copy label,
+  .pdp-copy .qty-row > b {
+    display: block;
+    margin: 0 0 5px;
+    font-size: 8px;
+    line-height: 1.1;
+  }
+
+  .pdp .size-row.single-option {
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pdp .size-row button {
+    height: 35px;
+    border-radius: 4px;
+    font-size: 8px;
+    font-weight: 800;
+  }
+
+  .pdp .qty-row {
+    margin: 9px 0 10px;
+  }
+
+  .pdp .qty-row > div {
+    min-width: 92px;
+    height: 30px;
+    justify-content: space-between;
+    border-radius: 5px;
+  }
+
+  .pdp .qty-row button {
+    width: 30px;
+    height: 28px;
+  }
+
+  .pdp .qty-row button svg {
+    width: 11px;
+    height: 11px;
+  }
+
+  .pdp .qty-row span {
+    min-width: 26px;
+    font-size: 8px;
+    font-weight: 800;
+  }
+
+  .pdp .primary-bar {
+    height: 40px;
+    border-radius: 4px;
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 380px) {
+  .pdp { padding-inline: 10px; }
+  .pdp-media {
+    aspect-ratio: 1.16 / 1;
+    padding: 14px 16px;
+  }
+  .pdp-media img {
+    max-width: 84% !important;
+    max-height: 84% !important;
+  }
+  .pdp-copy h1 { font-size: 18px; }
+}
+
+@media (min-width: 700px) and (max-width: 899px) {
+  .pdp {
+    width: min(760px, calc(100vw - 48px));
+    margin: 28px auto 52px;
+  }
+
+  .pdp-media {
+    height: auto !important;
+    aspect-ratio: 1.22 / 1;
+    padding: 28px;
+    border-radius: 10px;
+  }
+
+  .pdp-copy {
+    padding: 22px 4px 0;
+  }
+
+  .pdp-copy h1 { font-size: clamp(28px, 4vw, 36px); }
+  .pdp-copy h2 { font-size: 24px; }
+}
+
+@media (min-width: 900px) {
+  .pdp-media {
+    overflow: hidden;
+    border-radius: 10px;
+    background: linear-gradient(145deg, #f8f8f5, #f1f3ee);
+  }
+
+  .pdp-media img {
+    max-width: 82% !important;
+    max-height: 82% !important;
+  }
+
+  .pdp-copy > p:first-child { font-size: 11px; }
+
+  .pdp-copy h1 {
+    font-size: clamp(34px, 3vw, 46px);
+    line-height: 1;
+    font-weight: 800;
+  }
+
+  .review-line span { font-size: 12px; }
+  .review-line small { font-size: 9px; }
+  .pdp-copy h2 { font-size: 25px; }
+  .meta-pills span { font-size: 9px; }
+  .pdp-desc { font-size: 13px; line-height: 1.55; }
+}
