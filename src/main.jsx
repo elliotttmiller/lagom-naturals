@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Link, useLocation, useNavigationType } from 'react-router-dom'
 import App from '@/App'
 import CartInteractionFeedback from '@/CartInteractionFeedback'
+import HeaderUtilityToggleBridge from '@/HeaderUtilityToggleBridge'
 import { AppMotionProvider, Presence, RouteMotion, m, motionTokens, useReducedMotion } from '@/motionSystem'
 import './app.css'
 import './motion.css'
@@ -126,7 +127,7 @@ function AnimatedStorefront(){
   </>
 }
 
-function StorefrontExperience(){return <AppMotionProvider><AgeGate/><CartInteractionFeedback/><AnimatedStorefront/><SiteFooter/></AppMotionProvider>}
+function StorefrontExperience(){return <AppMotionProvider><AgeGate/><CartInteractionFeedback/><HeaderUtilityToggleBridge/><AnimatedStorefront/><SiteFooter/></AppMotionProvider>}
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
