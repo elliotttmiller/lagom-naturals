@@ -90,6 +90,19 @@ a, button, .icon-btn, .category-card, .product-card, .merch-card, .originals-ban
   flex: 0 0 auto;
 }
 
+/* ─── SHOP DISCOVERY ───────────────────────────────────────────────────────
+   Keep product discovery cannabis-native and focused. Apparel, accessories,
+   brand indexes and promotional/deal shortcuts live outside the core category
+   matrix instead of diluting the primary product taxonomy. */
+.shop-page .category-grid > .motion-card-shell:nth-child(n+9),
+.shop-page .originals-banner {
+  display:none !important;
+}
+
+.shop-page .category-grid {
+  grid-template-columns:repeat(4,minmax(0,1fr));
+}
+
 /* ─── MOBILE HOME CALIBRATION ────────────────────────────────────────────── */
 @media (max-width:699px) {
   .site-header { background:#fff; border-bottom:1px solid #e8ebe7; backdrop-filter:none; -webkit-backdrop-filter:none }
@@ -182,6 +195,7 @@ a, button, .icon-btn, .category-card, .product-card, .merch-card, .originals-ban
 
 @media (min-width:900px) {
   .category-card.has-image img { width:82px; height:76px }
+  .shop-page .category-grid { grid-template-columns:repeat(4,minmax(0,1fr)); }
 }
 
 /* ─── MISC UTILITIES ─────────────────────────────────────────────────────── */
