@@ -1,6 +1,6 @@
 ﻿import React,{createContext,useContext,useDeferredValue,useEffect,useMemo,useRef,useState}from'react'
 import{Link,NavLink,Route,Routes,useLocation,useNavigate,useParams}from'react-router-dom'
-import{ArrowLeft,ArrowRight,ChevronDown,ChevronRight,CircleHelp,CircleUserRound,CreditCard,Gift,Heart,Home,MapPin,Menu,Minus,Navigation,PackageCheck,Phone,Plus,Search,Settings,Share2,ShoppingBag,SlidersHorizontal,Star,Store,UsersRound,X}from'lucide-react'
+import{ArrowLeft,ArrowRight,ChevronDown,ChevronRight,CircleHelp,CircleUserRound,CreditCard,Gift,Heart,Home,MapPin,Menu,Minus,Navigation,PackageCheck,Phone,Plus,Search,Settings,Share2,ShoppingBag,SlidersHorizontal,Star,Store,X}from'lucide-react'
 import{m,Presence,Reveal,Stagger,StaggerItem,motionTokens,motionVariants}from'./motionSystem'
 import mainStore from'@/assets/mobile/main-store.webp'
 import mainStoreDesktop from'@/assets/desktop/main-store-desktop.webp'
@@ -17,6 +17,10 @@ import pushPop from'@/assets/products/Push-Pop-Photoroom-900x900.png'
 import strawberryBanana from'@/assets/products/Strawberry-Banana-Photoroom-900x900.png'
 import strawberryLime from'@/assets/products/Strawberry-Lime-Fusion-Photoroom-900x900.png'
 import watermelonRefresher from'@/assets/products/Watermelon-Refresher-Photoroom-900x900.png'
+import categoryEdibles from'@/assets/products/edibles.png'
+import categoryFlower from'@/assets/products/flower.png'
+import categoryPreRolls from'@/assets/products/pre-rolls.png'
+import categoryVapes from'@/assets/products/vapes.png'
 import mainstreetHoodie from'@/assets/merch/Lagom-Mainstreet-Hooded-Sweatshirt-900x900.png'
 import midweightCrewneck from'@/assets/merch/Lagom-Midweight-Crewneck-Sweatshirt-Front-900x900.png'
 
@@ -25,6 +29,10 @@ const products=[
 {id:'blackberry-breeze',brand:'Lagom Naturals',name:'Blackberry Breeze',category:'Beverages',price:6,strength:'THC infused',type:'Seltzer',rating:4.8,reviews:98,weight:'12 oz',image:blackberryBreeze},
 {id:'strawberry-lime-fusion',brand:'Lagom Naturals',name:'Strawberry Lime Fusion',category:'Beverages',price:6,strength:'THC infused',type:'Seltzer',rating:4.8,reviews:83,weight:'12 oz',image:strawberryLime},
 {id:'watermelon-refresher',brand:'Lagom Naturals',name:'Watermelon Refresher',category:'Beverages',price:6,strength:'THC infused',type:'Seltzer',rating:4.7,reviews:76,weight:'12 oz',image:watermelonRefresher},
+{id:'flower-selection',brand:'In-store selection',name:'Flower Selection',category:'Flower',price:null,strength:'See package',type:'Flower',rating:null,reviews:null,weight:'See package',image:categoryFlower,preview:true},
+{id:'vape-selection',brand:'In-store selection',name:'Vape Selection',category:'Vapes',price:null,strength:'See package',type:'Vape',rating:null,reviews:null,weight:'See package',image:categoryVapes,preview:true},
+{id:'edibles-selection',brand:'In-store selection',name:'Edibles Selection',category:'Edibles',price:null,strength:'See package',type:'Edibles',rating:null,reviews:null,weight:'See package',image:categoryEdibles,preview:true},
+{id:'pre-roll-selection',brand:'In-store selection',name:'Pre-Roll Selection',category:'Pre-Rolls',price:null,strength:'See package',type:'Pre-Roll',rating:null,reviews:null,weight:'See package',image:categoryPreRolls,preview:true},
 {id:'blueberry-yum-yum',brand:'Lagom Naturals',name:'Blueberry Yum Yum',category:'Edibles',price:24.99,strength:'5mg THC + 20mg CBD',type:'Indica gummies',rating:4.9,reviews:151,weight:'10 pc',image:blueberryYumYum},
 {id:'push-pop',brand:'Lagom Naturals',name:'Push Pop',category:'Edibles',price:24.99,strength:'5mg THC',type:'Hybrid gummies',rating:4.8,reviews:91,weight:'10 pc',image:pushPop},
 {id:'space-cadet',brand:'Moonlight Cannabis',name:'Space Cadet',category:'Edibles',price:null,strength:'5mg THC',type:'Live resin',rating:4.8,reviews:64,weight:'See package',image:spaceCadet},
@@ -35,7 +43,7 @@ const merch=[
 {id:'midweight-crewneck',name:'Midweight Crewneck Sweatshirt',price:58,type:'Crewnecks',color:'Sand',image:midweightCrewneck}]
 
 const categoryCards=[['Flower','Flower'],['Vapes','Vapes'],['Edibles','Edibles'],['Pre-Rolls','Pre-Rolls'],['Concentrates','Concentrates'],['Beverages','Beverages'],['Topicals','Topicals'],['Tinctures','Tinctures'],['Accessories','Accessories'],['Apparel & Merch','Merch'],['Brands','Brands'],['Deals','Deals']]
-const categoryImages={Edibles:blueberryYumYum,Beverages:lemonade24k,'Apparel & Merch':mainstreetHoodie}
+const categoryImages={Flower:categoryFlower,Vapes:categoryVapes,Edibles:categoryEdibles,'Pre-Rolls':categoryPreRolls,Beverages:lemonade24k,'Apparel & Merch':mainstreetHoodie}
 const CART_KEY='lagom-cart-v1'
 
 function readCart(){
@@ -169,7 +177,7 @@ function CategoryCard({name,label}){
   const img=categoryImages[name]
   const to=name==='Apparel & Merch'?'/merch':`/shop?category=${encodeURIComponent(name)}`
   return <m.div className="motion-card-shell" variants={motionVariants.item} layout whileHover={motionTokens.hover} whileTap={motionTokens.tap} transition={motionTokens.spring}>
-    <Link className="category-card" to={to}>{img?<m.img src={img} alt="" loading="lazy" decoding="async" whileHover={{scale:1.04,y:-2}} transition={motionTokens.springSoft}/>:<div className="category-symbol">{label.slice(0,2).toUpperCase()}</div>}<span>{label}</span></Link>
+    <Link className={`category-card${img?' has-image':''}`} to={to}>{img?<m.img src={img} alt={`${label} category preview`} loading="lazy" decoding="async" whileHover={{scale:1.04,y:-2}} transition={motionTokens.springSoft}/>:<div className="category-symbol">{label.slice(0,2).toUpperCase()}</div>}<span>{label}</span></Link>
   </m.div>
 }
 
@@ -182,7 +190,7 @@ function ProductCard({p}){
     </div>
     <div className="product-copy">
       <p>{p.brand}</p><Link to={`/product/${p.id}`}><h3>{p.name}</h3></Link><small>{p.type} · {p.strength}</small>
-      <div className="stars"><Star fill="currentColor"/><span>{p.rating}</span><em>({p.reviews})</em></div>
+      {p.rating!=null&&<div className="stars"><Star fill="currentColor"/><span>{p.rating}</span>{p.reviews!=null&&<em>({p.reviews})</em>}</div>}
       <b>{p.price==null?'In-store':`$${p.price.toFixed(2)}`}</b>
       {p.price!=null&&<div className="card-actions"><button type="button" aria-label={`Selected size ${p.weight}`}>{p.weight}<ChevronDown/></button><m.button type="button" whileTap={{scale:.86}} className="add-square" onClick={()=>add(p)} aria-label={`Add ${p.name}`}><Plus/></m.button></div>}
     </div>
@@ -208,7 +216,6 @@ function HomePage(){return <Shell noNav>
       <m.div className="hero-actions" variants={motionVariants.item}><m.div whileHover={{y:-1}} whileTap={motionTokens.tap}><Link to="/shop">SHOP PRODUCTS <ArrowRight/></Link></m.div><m.div whileHover={{y:-1}} whileTap={motionTokens.tap}><Link to="/visit">VISIT OUR STORE</Link></m.div></m.div>
     </m.div>
   </m.section>
-  <Stagger className="trust-strip">{[[Store,'LOCALLY','OWNED'],[UsersRound,'KNOWLEDGEABLE','STAFF'],[Heart,'COMMUNITY','FOCUSED']].map(([Icon,a,b])=><StaggerItem key={a}><div><Icon/><span>{a}<br/>{b}</span></div></StaggerItem>)}</Stagger>
   <Reveal className="mobile-section"><Stagger><SectionTitle title="Shop by Category"/><div className="home-category-row">{categoryCards.slice(0,4).map(([a,b])=><CategoryCard key={a} name={a} label={b}/>)}</div></Stagger></Reveal>
   <Reveal className="mobile-section"><Stagger><SectionTitle title="Featured Products"/><div className="product-grid">{products.slice(0,4).map(p=><ProductCard key={p.id} p={p}/>)}</div></Stagger></Reveal>
 </Shell>}
@@ -267,7 +274,7 @@ function ProductPage(){
     <m.div className="pdp-media"><m.img layoutId={`catalog-image-${p.id}`} src={p.image} alt={`${p.brand} ${p.name}`} fetchPriority="high" decoding="async" transition={motionTokens.springSoft}/><div className="pdp-dots"><i className="active"/></div></m.div>
     <m.div className="pdp-copy" initial="hidden" animate="visible" variants={motionVariants.stagger}>
       <m.p variants={motionVariants.item}>{p.brand}</m.p><m.h1 variants={motionVariants.item}>{p.name}</m.h1>
-      <m.div variants={motionVariants.item} className="review-line"><span>★★★★★</span> <small>({p.reviews} reviews)</small></m.div>
+      {p.rating!=null&&<m.div variants={motionVariants.item} className="review-line"><span>★★★★★</span>{p.reviews!=null&&<small>({p.reviews} reviews)</small>}</m.div>}
       <m.h2 variants={motionVariants.item}>{p.price==null?'Available in store':`$${p.price.toFixed(2)}`}</m.h2>
       <m.div variants={motionVariants.item} className="meta-pills"><span>{p.type}</span><span>{p.strength}</span></m.div>
       <m.p variants={motionVariants.item} className="pdp-desc">Product details, potency, batch information, and availability can vary. Review current package information before purchase.</m.p>
