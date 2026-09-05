@@ -8,12 +8,14 @@ export default defineConfig({
     sourcemap: false,
     cssCodeSplit: true,
     minify: 'esbuild',
-    chunkSizeWarningLimit: 700,
+    chunkSizeWarningLimit: 600,
     rollupOptions: {
       output: {
-        manualChunks: {
-          react: ['react', 'react-dom', 'react-router-dom'],
-          icons: ['lucide-react'],
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return
+          if (id.includes('/motion/') || id.includes('/framer-motion/') || id.includes('/motion-dom/') || id.includes('/motion-utils/')) return 'motion'
+          if (id.includes('/react/') || id.includes('/react-dom/') || id.includes('/react-router')) return 'react'
+          if (id.includes('/lucide-react/')) return 'icons'
         },
       },
     },
