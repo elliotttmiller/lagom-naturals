@@ -18,10 +18,7 @@ a, button, .icon-btn, .category-card, .product-card, .merch-card, .originals-ban
 .hero-copy { padding-left: max(20px, env(safe-area-inset-left)); padding-right: max(20px, env(safe-area-inset-right)) }
 .site-footer { padding-left: max(20px, env(safe-area-inset-left)); padding-right: max(20px, env(safe-area-inset-right)) }
 
-/* ─── HERO / SURFACE CONTINUITY ────────────────────────────────────────────
-   The photograph intentionally dissolves into the warm storefront surface.
-   The progressive blur is confined to the final image region so text and CTAs
-   remain sharp while the photographic edge disappears completely. */
+/* ─── HERO / SURFACE CONTINUITY ──────────────────────────────────────────── */
 .home-hero {
   background: var(--surface-warm);
   overflow: hidden;
@@ -90,10 +87,7 @@ a, button, .icon-btn, .category-card, .product-card, .merch-card, .originals-ban
   flex: 0 0 auto;
 }
 
-/* ─── SHOP DISCOVERY ───────────────────────────────────────────────────────
-   Keep product discovery cannabis-native and focused. Apparel, accessories,
-   brand indexes and promotional/deal shortcuts live outside the core category
-   matrix instead of diluting the primary product taxonomy. */
+/* ─── SHOP DISCOVERY ─────────────────────────────────────────────────────── */
 .shop-page .category-grid > .motion-card-shell:nth-child(n+9),
 .shop-page .originals-banner {
   display:none !important;
@@ -103,7 +97,62 @@ a, button, .icon-btn, .category-card, .product-card, .merch-card, .originals-ban
   grid-template-columns:repeat(4,minmax(0,1fr));
 }
 
-/* ─── MOBILE HOME CALIBRATION ────────────────────────────────────────────── */
+/* ─── PRODUCT DETAIL EXPERIENCE ────────────────────────────────────────────
+   Mobile PDPs intentionally use an inset media stage followed by a compact,
+   high-density information column. The image is clipped to its own surface so
+   shared-layout animation can never overlap the product title/content region. */
+.pdp {
+  background:#fff;
+  min-width:0;
+}
+
+.pdp-media {
+  overflow:hidden;
+  isolation:isolate;
+  background:#f5f5f2;
+}
+
+.pdp-media img {
+  display:block;
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+  object-position:center;
+}
+
+.pdp-dots {
+  display:none;
+}
+
+.pdp-copy > p:first-child,
+.pdp-copy h1,
+.pdp-copy h2,
+.pdp-copy .pdp-desc,
+.pdp-copy label,
+.pdp-copy .qty-row > b {
+  font-family:var(--font-primary);
+}
+
+.pdp-copy h1 {
+  font-weight:800;
+  letter-spacing:-.035em;
+}
+
+.pdp-copy h2 {
+  font-weight:900;
+  letter-spacing:-.035em;
+}
+
+.review-line span {
+  letter-spacing:.06em;
+}
+
+.meta-pills span {
+  background:#eef6f1;
+  border:1px solid #e2eee7;
+}
+
+/* ─── MOBILE HOME + PDP CALIBRATION ──────────────────────────────────────── */
 @media (max-width:699px) {
   .site-header { background:#fff; border-bottom:1px solid #e8ebe7; backdrop-filter:none; -webkit-backdrop-filter:none }
   .header-inner { height:70px; grid-template-columns:1fr auto 1fr; padding-inline:max(12px,env(safe-area-inset-left)) max(12px,env(safe-area-inset-right)) }
@@ -125,7 +174,6 @@ a, button, .icon-btn, .category-card, .product-card, .merch-card, .originals-ban
   .hero-copy h1 { max-width:325px; font:500 clamp(48px,13.4vw,54px)/.88 var(--font-display); letter-spacing:-.035em }
   .hero-copy > span { max-width:335px; margin-top:8px; font:600 12.5px/1.34 var(--font-primary); opacity:.96 }
 
-  /* Mockup-faithful hero CTA pair: compact, fluid, and visually asymmetric. */
   .hero-actions {
     width:min(100%,308px);
     max-width:308px;
@@ -171,6 +219,148 @@ a, button, .icon-btn, .category-card, .product-card, .merch-card, .originals-ban
 
   .category-grid .category-card.has-image { padding-top:7px }
   .category-grid .category-card.has-image img { width:54px; height:48px }
+
+  /* PDP: target-mockup proportions and hierarchy */
+  .pdp {
+    padding:10px 14px calc(94px + env(safe-area-inset-bottom));
+  }
+
+  .pdp-media {
+    height:clamp(270px,74vw,306px);
+    margin:0;
+    padding:16px 22px 18px;
+    border:1px solid #eceee9;
+    border-radius:8px;
+    background:linear-gradient(145deg,#f8f8f5,#f2f3ef);
+  }
+
+  .pdp-media img {
+    width:100%;
+    height:100%;
+    padding:0;
+    transform:none;
+  }
+
+  .pdp-copy {
+    padding:13px 1px 0;
+  }
+
+  .pdp-copy > p:first-child {
+    margin:0 0 3px;
+    color:#6f756f;
+    font-size:10px;
+    font-weight:600;
+    line-height:1.2;
+  }
+
+  .pdp-copy h1 {
+    margin:0 0 5px;
+    max-width:100%;
+    font-size:clamp(25px,7.5vw,30px);
+    line-height:1.02;
+  }
+
+  .review-line {
+    gap:6px;
+    min-height:16px;
+    margin-top:2px;
+  }
+
+  .review-line span {
+    font-size:11px;
+    line-height:1;
+    letter-spacing:.05em;
+  }
+
+  .review-line small {
+    color:#747a75;
+    font-size:8px;
+    font-weight:550;
+  }
+
+  .pdp-copy h2 {
+    margin:10px 0 9px;
+    font-size:22px;
+    line-height:1;
+  }
+
+  .meta-pills {
+    display:flex;
+    flex-wrap:wrap;
+    gap:5px;
+    margin-bottom:9px;
+  }
+
+  .meta-pills span {
+    padding:4px 8px;
+    border-radius:999px;
+    font-size:8px;
+    font-weight:700;
+    line-height:1;
+  }
+
+  .pdp-desc {
+    margin:0 0 13px;
+    color:#747a75;
+    font-size:10px;
+    line-height:1.45;
+  }
+
+  .pdp-copy label,
+  .pdp-copy .qty-row > b {
+    margin-bottom:5px;
+    font-size:9px;
+    font-weight:800;
+    line-height:1.1;
+  }
+
+  .size-row.single-option {
+    grid-template-columns:minmax(0,1fr);
+    width:100%;
+  }
+
+  .size-row button {
+    height:39px;
+    border-radius:4px;
+    font-size:9px;
+    font-weight:800;
+  }
+
+  .qty-row {
+    margin:10px 0 11px;
+  }
+
+  .qty-row > div {
+    min-width:98px;
+    height:32px;
+    justify-content:space-between;
+    border:1px solid #eef0ec;
+    border-radius:5px;
+    background:#f7f8f5;
+  }
+
+  .qty-row button {
+    width:32px;
+    height:30px;
+  }
+
+  .qty-row button svg {
+    width:12px;
+  }
+
+  .qty-row span {
+    min-width:28px;
+    font-size:9px;
+  }
+
+  .pdp .primary-bar {
+    height:44px;
+    border-radius:4px;
+    font-size:10px;
+    font-weight:900;
+    letter-spacing:.01em;
+    box-shadow:none;
+  }
 }
 
 @media (max-width:380px) {
@@ -185,17 +375,32 @@ a, button, .icon-btn, .category-card, .product-card, .merch-card, .originals-ban
   .hero-actions a { min-height:39px; padding-inline:8px; font-size:7.7px }
   .home-category-row .category-card { height:98px }
   .home-category-row .category-card.has-image img { width:60px; height:62px }
+
+  .pdp { padding-inline:12px }
+  .pdp-media { height:264px; padding:14px 18px 16px }
+  .pdp-copy h1 { font-size:24px }
 }
 
 @media (min-width:700px) {
   .home-hero::after { height:138px; backdrop-filter:blur(7px) saturate(.96); -webkit-backdrop-filter:blur(7px) saturate(.96) }
   .hero-surface-fade { height:154px }
   .category-card.has-image img { width:74px; height:68px }
+
+  .pdp-media {
+    overflow:hidden;
+    border:1px solid #eceee9;
+    background:linear-gradient(145deg,#f8f8f5,#f2f3ef);
+  }
 }
 
 @media (min-width:900px) {
   .category-card.has-image img { width:82px; height:76px }
   .shop-page .category-grid { grid-template-columns:repeat(4,minmax(0,1fr)); }
+
+  .pdp-copy h1 {
+    font-family:var(--font-primary);
+    font-weight:850;
+  }
 }
 
 /* ─── MISC UTILITIES ─────────────────────────────────────────────────────── */
