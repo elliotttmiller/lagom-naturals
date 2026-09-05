@@ -1,14 +1,16 @@
-/* Production mobile navigation drawer contract transplanted from the reference storefront.
-   The existing React state remains authoritative; this layer replaces the old left-slide drawer
-   presentation with the same full-surface mobile sheet choreography and timing taxonomy. */
+/* Production mobile navigation drawer contract.
+   The persistent top-header hamburger is the single visible open/close control.
+   Drawer motion is intentionally slow, layered, and eased to avoid mount flashes or snap transitions. */
 
 :root{
   --lagom-menu-ease-standard:cubic-bezier(.22,1,.36,1);
+  --lagom-menu-ease-emphasized:cubic-bezier(.16,1,.3,1);
   --lagom-menu-ease-exit:cubic-bezier(.4,0,.2,1);
-  --lagom-menu-fast:180ms;
-  --lagom-menu-normal:320ms;
-  --lagom-menu-overlay:400ms;
   --lagom-menu-header-h:70px;
+  --lagom-menu-backdrop-in:440ms;
+  --lagom-menu-backdrop-out:360ms;
+  --lagom-menu-panel-in:680ms;
+  --lagom-menu-panel-out:520ms;
 }
 
 @media(max-width:1024px){
@@ -21,20 +23,15 @@
     z-index:9998!important;
     display:block!important;
     background:transparent!important;
-    opacity:0!important;
-    transform:translateY(-4px)!important;
+    opacity:1!important;
+    transform:none!important;
     pointer-events:none!important;
     overflow:hidden!important;
     backdrop-filter:none!important;
     -webkit-backdrop-filter:none!important;
-    transition:
-      opacity 160ms var(--lagom-menu-ease-standard),
-      transform 180ms var(--lagom-menu-ease-standard)!important;
   }
 
   .drawer-bg:has(.drawer-top .hamburger input:checked){
-    opacity:1!important;
-    transform:translateY(0)!important;
     pointer-events:auto!important;
   }
 
@@ -46,11 +43,14 @@
     background:rgba(8,18,14,.30);
     opacity:0;
     pointer-events:none;
-    transition:opacity var(--lagom-menu-fast) var(--lagom-menu-ease-exit);
+    will-change:opacity;
+    transition:opacity var(--lagom-menu-backdrop-out) var(--lagom-menu-ease-exit)!important;
   }
 
   .drawer-bg:has(.drawer-top .hamburger input:checked)::before{
     opacity:1;
+    transition-duration:var(--lagom-menu-backdrop-in)!important;
+    transition-timing-function:var(--lagom-menu-ease-standard)!important;
   }
 
   .drawer{
@@ -71,35 +71,48 @@
     border-top:1px solid rgba(16,23,19,.08)!important;
     box-shadow:none!important;
     opacity:0!important;
-    transform:translateY(10%) scale(.994)!important;
+    transform:translate3d(0,5.5%,0) scale(.992)!important;
     transform-origin:50% 0!important;
     will-change:transform,opacity;
     transition:
-      opacity 240ms var(--lagom-menu-ease-standard),
-      transform 440ms var(--lagom-menu-ease-standard)!important;
+      opacity var(--lagom-menu-panel-out) var(--lagom-menu-ease-exit),
+      transform var(--lagom-menu-panel-out) var(--lagom-menu-ease-exit)!important;
   }
 
   .drawer-bg:has(.drawer-top .hamburger input:checked) .drawer{
     opacity:1!important;
-    transform:translateY(0) scale(1)!important;
+    transform:translate3d(0,0,0) scale(1)!important;
+    transition:
+      opacity 520ms var(--lagom-menu-ease-standard),
+      transform var(--lagom-menu-panel-in) var(--lagom-menu-ease-emphasized)!important;
   }
 
-  .drawer-bg:not(:has(.drawer-top .hamburger input:checked)) .drawer{
+  /* The top header's morphing hamburger is the sole close affordance. Keep the
+     controlled drawer copy in the DOM only as state plumbing for the current
+     implementation, but never render a duplicate X inside the sheet. */
+  .drawer-top .hamburger{
+    position:absolute!important;
+    width:1px!important;
+    height:1px!important;
+    min-width:1px!important;
+    min-height:1px!important;
+    margin:0!important;
+    padding:0!important;
     opacity:0!important;
-    transform:translateY(7%) scale(.996)!important;
-    transition:
-      opacity 180ms var(--lagom-menu-ease-exit),
-      transform 320ms var(--lagom-menu-ease-exit)!important;
+    overflow:hidden!important;
+    pointer-events:none!important;
+    clip-path:inset(50%)!important;
   }
 
   .drawer-top{
+    position:relative;
     flex:0 0 auto;
     min-height:48px;
     margin:0 0 26px!important;
     padding:0;
     display:flex!important;
     align-items:center!important;
-    justify-content:space-between!important;
+    justify-content:flex-start!important;
   }
 
   .drawer-top .brand img{
@@ -144,7 +157,7 @@
     height:18px!important;
     stroke-width:2!important;
     transform-origin:center;
-    transition:transform 240ms var(--lagom-menu-ease-standard)!important;
+    transition:transform 260ms var(--lagom-menu-ease-standard)!important;
   }
 }
 
@@ -159,7 +172,6 @@
 }
 
 @media(prefers-reduced-motion:reduce){
-  .drawer-bg,
   .drawer-bg::before,
   .drawer,
   .drawer nav a svg{
