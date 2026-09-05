@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { BrowserRouter, Link, useLocation } from 'react-router-dom'
+import { BrowserRouter, Link, useLocation, useNavigationType } from 'react-router-dom'
 import App from './App'
 import { AppMotionProvider, Presence, RouteMotion, m, motionTokens, useReducedMotion } from './motionSystem'
 import './styles.css'
@@ -64,17 +64,24 @@ function getRouteMeta(pathname){
   return routeMeta[pathname]||{title:'Lagom Naturals',label:'Lagom Naturals',description:'Premium cannabis retail in Minneapolis.'}
 }
 
+function setMetaContent(selector,content){
+  const node=document.querySelector(selector)
+  if(node)node.setAttribute('content',content)
+}
+
 function AnimatedStorefront(){
   const location=useLocation()
+  const navigationType=useNavigationType()
   const routeKey=`${location.pathname}${location.search}`
   const meta=getRouteMeta(location.pathname)
 
   React.useEffect(()=>{
-    window.scrollTo({top:0,left:0,behavior:'instant'})
+    if(navigationType!=='POP')window.scrollTo(0,0)
     document.title=meta.title
-    const description=document.querySelector('meta[name="description"]')
-    if(description)description.setAttribute('content',meta.description)
-  },[routeKey,meta.title,meta.description])
+    setMetaContent('meta[name="description"]',meta.description)
+    setMetaContent('meta[property="og:title"]',meta.title)
+    setMetaContent('meta[property="og:description"]',meta.description)
+  },[navigationType,routeKey,meta.title,meta.description])
 
   return <>
     <div className="route-announcer" role="status" aria-live="polite" aria-atomic="true">{meta.label}</div>
