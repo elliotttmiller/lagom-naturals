@@ -43,7 +43,7 @@ export function RouteMotion({routeKey,children}){
   const reduceMotion=useReducedMotion()
   const controls=useAnimationControls()
 
-  React.useEffect(()=>{
+  React.useLayoutEffect(()=>{
     if(reduceMotion){
       controls.set({opacity:1,y:0})
       return
