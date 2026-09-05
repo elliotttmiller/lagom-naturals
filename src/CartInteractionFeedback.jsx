@@ -1,5 +1,7 @@
-import React,{useEffect,useState}from'react'
+import React,{useEffect,useRef,useState}from'react'
+import{Link}from'react-router-dom'
 import'./add-to-cart-button.css'
+import'./cart-feedback-toast.css'
 
 const SELECTOR='.add-square, .pdp .primary-bar'
 const CART_KEY='lagom-cart-v2'
@@ -20,6 +22,14 @@ function ensureEnhanced(button){
   button.classList.add('lagom-atc',isCard?'lagom-atc--card':'lagom-atc--wide')
   button.removeAttribute('style')
   button.innerHTML=`<span class="lagom-atc__surface" aria-hidden="true"></span><span class="lagom-atc__content">${cartGlyph()}<span class="lagom-atc__label">${label}</span></span><span class="lagom-atc__spinner" aria-hidden="true"></span><span class="lagom-atc__success" aria-hidden="true"><svg viewBox="0 0 24 24"><circle class="lagom-atc__success-ring" cx="12" cy="12" r="10" fill="none"></circle><path class="lagom-atc__success-check" fill="none" d="m5.5 12.5 4.2 4.2 8.8-9.4"></path></svg></span>`
+}
+
+function productNameFor(trigger){
+  const pdp=trigger.closest('.pdp')
+  if(pdp){const title=pdp.querySelector('h1');if(title?.textContent?.trim())return title.textContent.trim()}
+  const card=trigger.closest('.product-card')
+  if(card){const title=card.querySelector('.product-copy h3');if(title?.textContent?.trim())return title.textContent.trim()}
+  return'Product added successfully'
 }
 
 function lockPurchaseControls(trigger){
@@ -55,7 +65,7 @@ function pulseCart(){
   window.setTimeout(()=>target.classList.remove('lagom-cart-target--pulse'),720)
 }
 
-function begin(trigger,before,announce){
+function begin(trigger,before,onSuccess){
   if(!trigger.isConnected||trigger.dataset.state!=='idle')return
   clearTimers(trigger)
   trigger.dataset.state='adding'
@@ -71,7 +81,7 @@ function begin(trigger,before,announce){
       settled=true
       trigger.dataset.state='added'
       trigger.removeAttribute('aria-busy')
-      announce('Added to cart')
+      onSuccess()
       const pulse=window.setTimeout(pulseCart,430)
       const resetTimer=window.setTimeout(()=>reset(trigger),1200)
       feedbackTimers.set(trigger,[pulse,resetTimer])
@@ -87,6 +97,20 @@ function begin(trigger,before,announce){
 
 export default function CartInteractionFeedback(){
   const[announcement,setAnnouncement]=useState('')
+  const[toast,setToast]=useState({visible:false,product:''})
+  const toastTimerRef=useRef(null)
+
+  const showSuccess=product=>{
+    setAnnouncement('')
+    setToast({visible:true,product})
+    requestAnimationFrame(()=>setAnnouncement(`${product} added to cart`))
+    if(toastTimerRef.current)window.clearTimeout(toastTimerRef.current)
+    toastTimerRef.current=window.setTimeout(()=>{
+      setToast(current=>({...current,visible:false}))
+      toastTimerRef.current=null
+    },2800)
+  }
+
   useEffect(()=>{
     const enhanceAll=root=>{if(root instanceof Element&&root.matches?.(SELECTOR))ensureEnhanced(root);root.querySelectorAll?.(SELECTOR).forEach(ensureEnhanced)}
     enhanceAll(document)
@@ -97,12 +121,24 @@ export default function CartInteractionFeedback(){
       if(!(trigger instanceof HTMLButtonElement)||trigger.disabled)return
       ensureEnhanced(trigger)
       if(trigger.dataset.state!=='idle')return
-      setAnnouncement('')
+      const product=productNameFor(trigger)
       const before=readCartSnapshot()
-      queueMicrotask(()=>begin(trigger,before,message=>{setAnnouncement('');requestAnimationFrame(()=>setAnnouncement(message))}))
+      queueMicrotask(()=>begin(trigger,before,()=>showSuccess(product)))
     }
     document.addEventListener('click',onClick,true)
-    return()=>{observer.disconnect();document.removeEventListener('click',onClick,true)}
+    return()=>{
+      observer.disconnect()
+      document.removeEventListener('click',onClick,true)
+      if(toastTimerRef.current)window.clearTimeout(toastTimerRef.current)
+    }
   },[])
-  return <span className="sr-only" role="status" aria-live="polite" aria-atomic="true">{announcement}</span>
+
+  return <>
+    <span className="lagom-cart-announcer" role="status" aria-live="polite" aria-atomic="true">{announcement}</span>
+    <div className="lagom-cart-toast" data-visible={toast.visible?'true':'false'} aria-hidden={toast.visible?undefined:'true'}>
+      <span className="lagom-cart-toast__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5.5 12.5 4.2 4.2 8.8-9.4"/></svg></span>
+      <span className="lagom-cart-toast__copy"><strong>Added to cart</strong><span>{toast.product}</span></span>
+      <Link className="lagom-cart-toast__action" to="/cart" onClick={()=>setToast(current=>({...current,visible:false}))}>View cart</Link>
+    </div>
+  </>
 }
