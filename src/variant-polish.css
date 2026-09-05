@@ -1,4 +1,5 @@
 @import './mobile-pdp-fixes.css';
+@import './home-category-rail.css';
 
 /* Interactive catalog variant selector. Loaded after catalog-polish.css. */
 .product-card{overflow:visible}
