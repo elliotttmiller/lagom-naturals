@@ -1,5 +1,5 @@
 import React from 'react'
-import { AnimatePresence, LayoutGroup, LazyMotion, MotionConfig, domAnimation, m, useReducedMotion } from 'motion/react'
+import { AnimatePresence, LayoutGroup, LazyMotion, MotionConfig, domAnimation, m, useAnimationControls, useReducedMotion } from 'motion/react'
 
 export const motionTokens={
   ease:[.22,1,.36,1],
@@ -41,22 +41,23 @@ export function AppMotionProvider({children}){
 
 export function RouteMotion({routeKey,children}){
   const reduceMotion=useReducedMotion()
-  const initial=reduceMotion?{opacity:1}:{opacity:0,y:6}
-  const animate={opacity:1,y:0}
-  const exit=reduceMotion?{opacity:1}:{opacity:0,y:-3}
+  const controls=useAnimationControls()
 
-  return <AnimatePresence mode="sync" initial={false}>
-    <m.div
-      key={routeKey}
-      className="route-stage"
-      initial={initial}
-      animate={animate}
-      exit={exit}
-      transition={reduceMotion?{duration:0}:{duration:motionTokens.duration.base,ease:motionTokens.ease}}
-    >
-      {children}
-    </m.div>
-  </AnimatePresence>
+  React.useEffect(()=>{
+    if(reduceMotion){
+      controls.set({opacity:1,y:0})
+      return
+    }
+
+    controls.set({opacity:.94,y:5})
+    controls.start({
+      opacity:1,
+      y:0,
+      transition:{duration:motionTokens.duration.base,ease:motionTokens.ease},
+    })
+  },[controls,reduceMotion,routeKey])
+
+  return <m.div className="route-stage" initial={false} animate={controls}>{children}</m.div>
 }
 
 export function Reveal({children,className,delay=0,amount=.14,once=true,...props}){
