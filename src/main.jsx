@@ -6,6 +6,7 @@ import { AppMotionProvider, Presence, RouteMotion, m, motionTokens, useReducedMo
 import './app.css'
 import './motion.css'
 import './production.css'
+import './pdp-polish.css'
 
 const routeMeta={
   '/':{title:'Lagom Naturals | Minneapolis Cannabis Dispensary',label:'Home',description:'Premium cannabis products from trusted brands, thoughtfully curated in Minneapolis.'},
