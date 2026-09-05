@@ -25,12 +25,6 @@
   -webkit-tap-highlight-color:transparent;
   touch-action:manipulation;
   user-select:none;
-  transition:background 200ms ease;
-}
-
-.header-mobile-toggle.hamburger:active,
-.hamburger:active{
-  background:rgba(15,81,61,.08);
 }
 
 .header-mobile-toggle.hamburger input,
@@ -106,6 +100,15 @@
   .header-inner>.hamburger{
     justify-self:start;
     padding:0!important;
+  }
+
+  /* Touch interaction should not paint a transient background behind the
+     morphing icon; the SVG state change itself is the feedback. */
+  .header-mobile-toggle.hamburger:active,
+  .hamburger:active,
+  .header-mobile-toggle.hamburger:hover,
+  .hamburger:hover{
+    background:transparent!important;
   }
 }
 
