@@ -17,6 +17,7 @@ import './mobile-checkout-account.css'
 import './mobile-merch.css'
 import './mobile-product-pdp.css'
 import './mobile-shop.css'
+import './mobile-home.css'
 import './mobile-shell.css'
 
 const routeMeta={
