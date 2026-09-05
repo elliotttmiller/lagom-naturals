@@ -18,6 +18,74 @@ a, button, .icon-btn, .category-card, .product-card, .merch-card, .originals-ban
 .hero-copy { padding-left: max(20px, env(safe-area-inset-left)); padding-right: max(20px, env(safe-area-inset-right)) }
 .site-footer { padding-left: max(20px, env(safe-area-inset-left)); padding-right: max(20px, env(safe-area-inset-right)) }
 
+/* ─── HERO / SURFACE CONTINUITY ────────────────────────────────────────────
+   The photograph intentionally dissolves into the warm storefront surface.
+   The progressive blur is confined to the final image region so text and CTAs
+   remain sharp while the photographic edge disappears completely. */
+.home-hero {
+  background: var(--surface-warm);
+  overflow: hidden;
+}
+
+.home-hero::after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: clamp(92px, 22vw, 150px);
+  pointer-events: none;
+  backdrop-filter: blur(6px) saturate(.96);
+  -webkit-backdrop-filter: blur(6px) saturate(.96);
+  mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.05) 18%, rgba(0,0,0,.24) 43%, rgba(0,0,0,.62) 72%, #000 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.05) 18%, rgba(0,0,0,.24) 43%, rgba(0,0,0,.62) 72%, #000 100%);
+}
+
+.hero-surface-fade {
+  display: block;
+  z-index: 2;
+  bottom: -2px;
+  height: clamp(108px, 25vw, 166px);
+  background: linear-gradient(
+    to bottom,
+    rgb(245 244 240 / 0) 0%,
+    rgb(245 244 240 / .01) 18%,
+    rgb(245 244 240 / .04) 34%,
+    rgb(245 244 240 / .12) 50%,
+    rgb(245 244 240 / .28) 65%,
+    rgb(245 244 240 / .54) 79%,
+    rgb(245 244 240 / .82) 91%,
+    rgb(245 244 240 / .96) 97%,
+    var(--surface-warm) 100%
+  );
+}
+
+.hero-gradient {
+  background: linear-gradient(
+    to bottom,
+    rgba(5,10,7,0) 24%,
+    rgba(5,10,7,.035) 42%,
+    rgba(5,10,7,.22) 60%,
+    rgba(5,10,7,.62) 78%,
+    rgba(5,10,7,.78) 90%,
+    rgba(5,10,7,.52) 100%
+  );
+}
+
+.trust-strip {
+  position: relative;
+  z-index: 4;
+  margin-top: -1px;
+  background: var(--surface-warm);
+  border-top: 0;
+  box-shadow: none;
+}
+
+.home-hero ~ .mobile-section {
+  background: var(--surface-warm);
+}
+
 /* ─── MOBILE HOME CALIBRATION ────────────────────────────────────────────── */
 @media (max-width:699px) {
   .site-header { background:#fff; border-bottom:1px solid #e8ebe7; backdrop-filter:none; -webkit-backdrop-filter:none }
@@ -33,9 +101,9 @@ a, button, .icon-btn, .category-card, .product-card, .merch-card, .originals-ban
   .home-hero { height:clamp(515px,68svh,555px); min-height:515px; max-height:555px }
   .home-hero > picture > img,
   .home-hero > img { object-position:50% 50% }
-  .hero-gradient { background:linear-gradient(to bottom,rgba(5,10,7,0) 25%,rgba(5,10,7,.04) 43%,rgba(5,10,7,.25) 61%,rgba(5,10,7,.68) 82%,rgba(5,10,7,.86) 100%) }
-  .hero-surface-fade { display:none }
-  .hero-copy { left:0; right:0; bottom:16px; max-width:360px; padding-inline:max(18px,env(safe-area-inset-left)) max(18px,env(safe-area-inset-right)) }
+  .home-hero::after { height:116px; backdrop-filter:blur(5.5px) saturate(.96); -webkit-backdrop-filter:blur(5.5px) saturate(.96) }
+  .hero-surface-fade { height:132px }
+  .hero-copy { left:0; right:0; bottom:50px; max-width:360px; padding-inline:max(18px,env(safe-area-inset-left)) max(18px,env(safe-area-inset-right)) }
   .hero-copy > p { margin-bottom:5px; font:700 9px/1.15 var(--font-ui); letter-spacing:.09em }
   .hero-copy h1 { max-width:325px; font:500 clamp(48px,13.4vw,54px)/.88 var(--font-display); letter-spacing:-.035em }
   .hero-copy > span { max-width:335px; margin-top:8px; font:600 12.5px/1.34 var(--font-primary); opacity:.96 }
@@ -47,12 +115,13 @@ a, button, .icon-btn, .category-card, .product-card, .merch-card, .originals-ban
   .hero-actions a:last-child { background:#fff !important; color:var(--ink) !important; border:1px solid rgba(16,23,19,.72) }
   .hero-actions svg { width:13px; height:13px }
 
-  .trust-strip { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); min-height:68px; padding:11px 12px; background:#fff; border-bottom:1px solid var(--line); align-items:center }
+  .trust-strip { display:grid !important; grid-template-columns:repeat(3,minmax(0,1fr)); min-height:62px; padding:9px 12px 11px; background:var(--surface-warm); border:0; align-items:center }
   .trust-strip > div { min-width:0 }
   .trust-strip > div > div { display:flex; align-items:center; justify-content:center; gap:7px; min-width:0 }
   .trust-strip svg { width:23px; height:23px; flex:0 0 auto; stroke-width:1.55; color:var(--ink-soft) }
   .trust-strip span { font:800 6.7px/1.08 var(--font-ui); letter-spacing:-.01em; color:var(--ink-soft); white-space:nowrap }
 
+  .trust-strip + .mobile-section { padding-top:18px }
   .mobile-section { padding:20px 14px 0 }
   .section-title { margin-bottom:11px }
   .mobile-section .section-title h2 { font:600 23px/1 var(--font-display); letter-spacing:-.025em }
@@ -68,13 +137,21 @@ a, button, .icon-btn, .category-card, .product-card, .merch-card, .originals-ban
 @media (max-width:380px) {
   .brand img { width:122px; height:52px }
   .home-hero { height:520px; min-height:520px }
-  .hero-copy { padding-inline:16px; bottom:15px }
+  .home-hero::after { height:108px; backdrop-filter:blur(5px); -webkit-backdrop-filter:blur(5px) }
+  .hero-surface-fade { height:122px }
+  .hero-copy { padding-inline:16px; bottom:46px }
   .hero-copy h1 { font-size:48px }
   .hero-copy > span { font-size:12px }
-  .trust-strip { padding-inline:9px }
+  .trust-strip { padding-inline:9px; min-height:60px }
   .trust-strip > div > div { gap:5px }
   .trust-strip svg { width:21px; height:21px }
   .trust-strip span { font-size:6.2px }
+}
+
+@media (min-width:700px) {
+  .home-hero::after { height:138px; backdrop-filter:blur(7px) saturate(.96); -webkit-backdrop-filter:blur(7px) saturate(.96) }
+  .hero-surface-fade { height:154px }
+  .trust-strip { background:var(--surface-warm); border:0 }
 }
 
 /* ─── MISC UTILITIES ─────────────────────────────────────────────────────── */
