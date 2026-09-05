@@ -1,0 +1,42 @@
+/* Interactive catalog variant selector. Loaded after catalog-polish.css. */
+.product-card{overflow:visible}
+.product-card.is-variant-open{z-index:12}
+.product-card .product-media{border-radius:11px 11px 0 0}
+.product-card .product-copy{border-radius:0 0 11px 11px}
+
+.variant-picker{position:relative;min-width:0}
+.variant-trigger{width:100%;display:flex!important;align-items:center;justify-content:space-between;gap:8px;padding:0 11px!important;color:#245648;background:#fff;border:1px solid #d9dfda;font-family:var(--font-primary);font-weight:800;text-align:left}
+.variant-trigger>span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.variant-trigger>span:last-child{display:grid;place-items:center;flex:0 0 auto}
+.variant-trigger svg{width:14px;height:14px;stroke-width:1.8}
+
+.variant-menu{position:absolute;z-index:30;left:0;right:0;bottom:calc(100% + 7px);overflow:hidden;padding:5px;background:rgba(255,255,255,.985);border:1px solid #d9dfda;border-radius:9px;box-shadow:0 16px 38px rgba(16,23,19,.14),0 4px 12px rgba(16,23,19,.07);transform-origin:bottom center;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.variant-menu>button{width:100%;min-height:39px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 9px;border:0;border-radius:6px;background:transparent;color:#1a221d;font-family:var(--font-primary);font-size:10.5px;font-weight:750;text-align:left;transition:background-color .16s ease,color .16s ease}
+.variant-menu>button:hover,.variant-menu>button:focus-visible{background:#f1f5f2;outline:none}
+.variant-menu>button.active{background:#eaf2ee;color:#0f513d}
+.variant-menu>button b{font-size:10px;font-weight:850;color:inherit}
+
+.card-actions{position:relative}
+.add-square{position:relative;z-index:1}
+
+@media(max-width:699px){
+  .variant-trigger{height:42px!important;border-radius:6px!important;font-size:10px!important}
+  .variant-menu{bottom:calc(100% + 6px);padding:4px;border-radius:8px}
+  .variant-menu>button{min-height:38px;font-size:10px}
+}
+
+@media(max-width:380px){
+  .variant-trigger{height:38px!important;padding:0 8px!important;font-size:9.5px!important}
+  .variant-menu>button{min-height:35px;padding:7px 8px;font-size:9.5px}
+}
+
+@media(min-width:700px){
+  .variant-trigger{height:46px!important;border-radius:7px!important;font-size:11px!important}
+  .variant-menu>button{min-height:42px;font-size:11px}
+}
+
+/* PDP variant buttons use the same selection semantics as the catalog dropdown. */
+.pdp .size-row:not(.apparel){display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:8px}
+.pdp .size-row:not(.apparel)>button{min-width:0;display:flex;align-items:center;justify-content:center;gap:5px;flex-direction:column}
+.pdp .size-row:not(.apparel)>button small{font:700 9px/1 var(--font-ui);opacity:.72}
+.pdp .size-row:not(.apparel)>button.active small{opacity:.9}
