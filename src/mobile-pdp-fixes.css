@@ -1,0 +1,163 @@
+/* Mobile PDP geometry repair.
+   Loaded with the final variant layer so it owns the phone detail-header/media contract. */
+
+@media (max-width:699px){
+  /* Detail header: one compact, balanced app bar. Safe-area padding is additive,
+     controls stay on a single optical centerline, and the logo remains centered. */
+  .app-shell:has(.pdp)>.site-header{
+    position:relative!important;
+    top:auto!important;
+    height:calc(76px + env(safe-area-inset-top))!important;
+    min-height:calc(76px + env(safe-area-inset-top))!important;
+    padding-top:env(safe-area-inset-top)!important;
+    background:#fff!important;
+    border-bottom:1px solid #edf0ec!important;
+    box-shadow:none!important;
+    backdrop-filter:none!important;
+    -webkit-backdrop-filter:none!important;
+  }
+
+  .app-shell:has(.pdp)>.site-header .header-inner{
+    position:relative!important;
+    display:grid!important;
+    grid-template-columns:52px minmax(0,1fr) 52px!important;
+    align-items:center!important;
+    width:100%!important;
+    height:76px!important;
+    max-width:none!important;
+    padding:0 8px!important;
+  }
+
+  .app-shell:has(.pdp)>.site-header .brand{
+    position:static!important;
+    grid-column:2!important;
+    grid-row:1!important;
+    justify-self:center!important;
+    align-self:center!important;
+    width:auto!important;
+    height:48px!important;
+    transform:none!important;
+    display:grid!important;
+    place-items:center!important;
+  }
+
+  .app-shell:has(.pdp)>.site-header .brand img{
+    width:96px!important;
+    max-width:96px!important;
+    height:46px!important;
+    object-fit:contain!important;
+  }
+
+  .app-shell:has(.pdp)>.site-header .header-inner>.icon-btn[aria-label="Back"]{
+    position:static!important;
+    grid-column:1!important;
+    grid-row:1!important;
+    justify-self:start!important;
+    align-self:center!important;
+    width:44px!important;
+    height:44px!important;
+    min-width:44px!important;
+    min-height:44px!important;
+    margin:0!important;
+  }
+
+  .app-shell:has(.pdp)>.site-header .header-tools{
+    position:static!important;
+    grid-column:3!important;
+    grid-row:1!important;
+    justify-self:end!important;
+    align-self:center!important;
+    width:44px!important;
+    height:44px!important;
+    display:grid!important;
+    place-items:center!important;
+  }
+
+  .app-shell:has(.pdp)>.site-header .header-tools>div{
+    display:none!important;
+  }
+
+  .app-shell:has(.pdp)>.site-header .header-tools>.icon-btn{
+    position:static!important;
+    width:44px!important;
+    height:44px!important;
+    min-width:44px!important;
+    min-height:44px!important;
+    margin:0!important;
+    background:transparent!important;
+    border:0!important;
+    box-shadow:none!important;
+  }
+
+  .app-shell:has(.pdp)>.site-header .header-tools>.icon-btn svg{
+    width:25px!important;
+    height:25px!important;
+    stroke-width:1.6!important;
+  }
+
+  /* Product gallery: use a measured inset stage and fit the complete asset inside
+     its visual bounds. Never stretch the image to the container's full box. */
+  .pdp{
+    --pdp-gutter:16px;
+    --pdp-media-h:258px;
+  }
+
+  .pdp-media{
+    width:calc(100% - (var(--pdp-gutter) * 2))!important;
+    height:var(--pdp-media-h)!important;
+    min-height:var(--pdp-media-h)!important;
+    max-height:var(--pdp-media-h)!important;
+    margin:10px var(--pdp-gutter) 0!important;
+    padding:16px!important;
+    display:grid!important;
+    place-items:center!important;
+    overflow:hidden!important;
+    border:1px solid #e5e8e3!important;
+    border-radius:10px!important;
+    background:#f7f6f2!important;
+  }
+
+  .pdp-media img{
+    display:block!important;
+    width:auto!important;
+    height:auto!important;
+    max-width:100%!important;
+    max-height:100%!important;
+    padding:0!important;
+    margin:auto!important;
+    object-fit:contain!important;
+    object-position:center!important;
+    transform:none!important;
+  }
+
+  .pdp-copy{
+    padding-top:14px!important;
+  }
+}
+
+@media (max-width:420px){
+  .pdp{
+    --pdp-gutter:14px;
+    --pdp-media-h:246px;
+  }
+
+  .pdp-media{
+    padding:14px!important;
+  }
+}
+
+@media (max-width:350px){
+  .app-shell:has(.pdp)>.site-header .header-inner{
+    grid-template-columns:48px minmax(0,1fr) 48px!important;
+    padding-inline:6px!important;
+  }
+
+  .app-shell:has(.pdp)>.site-header .brand img{
+    width:90px!important;
+  }
+
+  .pdp{
+    --pdp-gutter:12px;
+    --pdp-media-h:228px;
+  }
+}
