@@ -1,0 +1,168 @@
+/* Production mobile navigation drawer contract transplanted from the reference storefront.
+   The existing React state remains authoritative; this layer replaces the old left-slide drawer
+   presentation with the same full-surface mobile sheet choreography and timing taxonomy. */
+
+:root{
+  --lagom-menu-ease-standard:cubic-bezier(.22,1,.36,1);
+  --lagom-menu-ease-exit:cubic-bezier(.4,0,.2,1);
+  --lagom-menu-fast:180ms;
+  --lagom-menu-normal:320ms;
+  --lagom-menu-overlay:400ms;
+  --lagom-menu-header-h:70px;
+}
+
+@media(max-width:1024px){
+  .drawer-bg{
+    position:fixed!important;
+    top:var(--lagom-menu-header-h)!important;
+    right:0!important;
+    bottom:0!important;
+    left:0!important;
+    z-index:9998!important;
+    display:block!important;
+    background:transparent!important;
+    opacity:0!important;
+    transform:translateY(-4px)!important;
+    pointer-events:none!important;
+    overflow:hidden!important;
+    backdrop-filter:none!important;
+    -webkit-backdrop-filter:none!important;
+    transition:
+      opacity 160ms var(--lagom-menu-ease-standard),
+      transform 180ms var(--lagom-menu-ease-standard)!important;
+  }
+
+  .drawer-bg:has(.drawer-top .hamburger input:checked){
+    opacity:1!important;
+    transform:translateY(0)!important;
+    pointer-events:auto!important;
+  }
+
+  .drawer-bg::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    z-index:0;
+    background:rgba(8,18,14,.30);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity var(--lagom-menu-fast) var(--lagom-menu-ease-exit);
+  }
+
+  .drawer-bg:has(.drawer-top .hamburger input:checked)::before{
+    opacity:1;
+  }
+
+  .drawer{
+    position:absolute!important;
+    inset:0!important;
+    z-index:1!important;
+    width:100%!important;
+    max-width:none!important;
+    min-height:100%!important;
+    height:100%!important;
+    padding:22px 20px calc(28px + env(safe-area-inset-bottom))!important;
+    display:flex!important;
+    flex-direction:column!important;
+    overflow-y:auto!important;
+    overscroll-behavior:contain!important;
+    background:#f8f8f5!important;
+    color:var(--ink,#101713)!important;
+    border-top:1px solid rgba(16,23,19,.08)!important;
+    box-shadow:none!important;
+    opacity:0!important;
+    transform:translateY(10%) scale(.994)!important;
+    transform-origin:50% 0!important;
+    will-change:transform,opacity;
+    transition:
+      opacity 240ms var(--lagom-menu-ease-standard),
+      transform 440ms var(--lagom-menu-ease-standard)!important;
+  }
+
+  .drawer-bg:has(.drawer-top .hamburger input:checked) .drawer{
+    opacity:1!important;
+    transform:translateY(0) scale(1)!important;
+  }
+
+  .drawer-bg:not(:has(.drawer-top .hamburger input:checked)) .drawer{
+    opacity:0!important;
+    transform:translateY(7%) scale(.996)!important;
+    transition:
+      opacity 180ms var(--lagom-menu-ease-exit),
+      transform 320ms var(--lagom-menu-ease-exit)!important;
+  }
+
+  .drawer-top{
+    flex:0 0 auto;
+    min-height:48px;
+    margin:0 0 26px!important;
+    padding:0;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:space-between!important;
+  }
+
+  .drawer-top .brand img{
+    width:108px!important;
+    height:46px!important;
+    object-fit:contain!important;
+  }
+
+  .drawer nav{
+    display:grid!important;
+    gap:1px!important;
+    width:100%!important;
+    margin:0!important;
+    padding:0!important;
+  }
+
+  .drawer nav>div{
+    width:100%;
+    border-bottom:1px solid rgba(16,23,19,.09);
+  }
+
+  .drawer nav a{
+    width:100%!important;
+    min-height:58px!important;
+    padding:0 2px!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:space-between!important;
+    gap:18px!important;
+    color:var(--ink,#101713)!important;
+    background:transparent!important;
+    font-family:var(--font-primary)!important;
+    font-size:17px!important;
+    line-height:1.15!important;
+    font-weight:750!important;
+    letter-spacing:-.012em!important;
+    text-decoration:none!important;
+  }
+
+  .drawer nav a svg{
+    width:18px!important;
+    height:18px!important;
+    stroke-width:2!important;
+    transform-origin:center;
+    transition:transform 240ms var(--lagom-menu-ease-standard)!important;
+  }
+}
+
+@media(max-width:699px){
+  :root{--lagom-menu-header-h:70px}
+  .drawer{padding-inline:18px!important}
+}
+
+@media(max-width:380px){
+  .drawer{padding-inline:16px!important}
+  .drawer nav a{font-size:16px!important}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .drawer-bg,
+  .drawer-bg::before,
+  .drawer,
+  .drawer nav a svg{
+    transition-duration:1ms!important;
+  }
+}
