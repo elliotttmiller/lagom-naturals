@@ -4,6 +4,7 @@ import { BrowserRouter, Link } from 'react-router-dom'
 import App from './App'
 import './styles.css'
 import './responsive.css'
+import './production.css'
 
 class AppErrorBoundary extends React.Component {
   constructor(props){super(props);this.state={hasError:false}}
