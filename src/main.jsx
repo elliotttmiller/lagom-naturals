@@ -13,6 +13,7 @@ import './variant-polish.css'
 import './mobile-cart.css'
 import './mobile-visit.css'
 import './mobile-checkout-account.css'
+import './mobile-merch.css'
 import './mobile-shell.css'
 
 const routeMeta={
