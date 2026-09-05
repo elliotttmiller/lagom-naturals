@@ -1,0 +1,97 @@
+/* Mobile-native Shop by Category rail.
+   The homepage exposes every configured category in a touch-first horizontal scroller. */
+
+@media (max-width:699px){
+  .home-category-row{
+    display:grid!important;
+    grid-auto-flow:column;
+    grid-auto-columns:clamp(84px,24vw,98px);
+    grid-template-columns:none!important;
+    gap:8px;
+    width:calc(100% + 14px);
+    margin-right:-14px;
+    padding:1px 14px 8px 0;
+    overflow-x:auto;
+    overflow-y:hidden;
+    overscroll-behavior-x:contain;
+    scroll-snap-type:x proximity;
+    scroll-padding-inline:0 14px;
+    scrollbar-width:none;
+    -ms-overflow-style:none;
+    -webkit-overflow-scrolling:touch;
+    touch-action:pan-x pan-y;
+  }
+
+  .home-category-row::-webkit-scrollbar{display:none}
+
+  .home-category-row>.motion-card-shell{
+    width:100%;
+    min-width:0;
+    scroll-snap-align:start;
+    scroll-snap-stop:normal;
+  }
+
+  .home-category-row .category-card{
+    width:100%;
+    height:104px;
+    min-height:104px;
+    padding:8px 6px 9px;
+    gap:5px;
+    border-radius:9px;
+    background:#f8f7f3;
+    border:1px solid #e2e4df;
+    box-shadow:none;
+  }
+
+  .home-category-row .category-card.has-image img{
+    width:66px;
+    height:66px;
+    max-width:72%;
+    flex:1 1 auto;
+    padding:1px;
+    object-fit:contain;
+  }
+
+  .home-category-row .category-card span{
+    font:700 9px/1.08 var(--font-primary);
+    letter-spacing:-.012em;
+    white-space:nowrap;
+  }
+
+  .home-category-row .motion-card-shell,
+  .home-category-row .category-card,
+  .home-category-row .category-card img{
+    transform:none!important;
+  }
+
+  .home-category-row .category-card:active{
+    background:#f3f3ee;
+    border-color:#d5dad4;
+  }
+}
+
+@media (max-width:380px){
+  .home-category-row{
+    grid-auto-columns:clamp(82px,25vw,92px);
+    gap:7px;
+  }
+
+  .home-category-row .category-card{
+    height:100px;
+    min-height:100px;
+  }
+
+  .home-category-row .category-card.has-image img{
+    width:62px;
+    height:62px;
+  }
+}
+
+@media (min-width:700px){
+  .home-category-row{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:10px;
+    overflow:visible;
+  }
+}
