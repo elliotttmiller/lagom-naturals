@@ -6,7 +6,6 @@ a, button, .icon-btn, .category-card, .product-card, .merch-card, .originals-ban
 }
 .site-header { transition: background-color var(--motion-base) ease, box-shadow var(--motion-base) ease }
 .brand img { transition: opacity var(--motion-fast) ease }
-.mobile-nav a { transition: color var(--motion-fast) ease }
 
 /* ─── HOVER STATES ───────────────────────────────────────────────────────── */
 .hero-actions a:hover, .primary-bar:hover, .visit-actions a:first-child:hover { box-shadow: 0 8px 24px rgba(0,76,52,.18) }
@@ -17,6 +16,14 @@ a, button, .icon-btn, .category-card, .product-card, .merch-card, .originals-ban
 /* ─── SAFE AREA ──────────────────────────────────────────────────────────── */
 .hero-copy { padding-left: max(20px, env(safe-area-inset-left)); padding-right: max(20px, env(safe-area-inset-right)) }
 .site-footer { padding-left: max(20px, env(safe-area-inset-left)); padding-right: max(20px, env(safe-area-inset-right)) }
+
+/* ─── GLOBAL NAV CLEANUP ───────────────────────────────────────────────────
+   The storefront now uses the top header/drawer as the sole navigation
+   system on small screens. Remove the legacy fixed bottom navigation and its
+   reserved layout space. Detail headers also intentionally omit Share. */
+.mobile-nav { display:none !important }
+.app-shell main { padding-bottom:0 !important }
+.site-header .header-tools button[aria-label="Share"] { display:none !important }
 
 /* ─── HERO / SURFACE CONTINUITY ──────────────────────────────────────────── */
 .home-hero {
@@ -222,7 +229,7 @@ a, button, .icon-btn, .category-card, .product-card, .merch-card, .originals-ban
 
   /* PDP: target-mockup proportions and hierarchy */
   .pdp {
-    padding:10px 14px calc(94px + env(safe-area-inset-bottom));
+    padding:10px 14px calc(30px + env(safe-area-inset-bottom));
   }
 
   .pdp-media {
