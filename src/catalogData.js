@@ -11,50 +11,59 @@ import categoryFlower from '@/assets/products/flower.png'
 import flower2 from '@/assets/products/flower2.png'
 import flower3 from '@/assets/products/flower3.png'
 import flower4 from '@/assets/products/flower4.png'
-
 import categoryVapes from '@/assets/products/vapes.png'
 import vapes2 from '@/assets/products/vapes2.png'
 import vapes3 from '@/assets/products/vapes3.png'
 import vapes4 from '@/assets/products/vapes4.png'
-
 import categoryEdibles from '@/assets/products/edibles.png'
 import edibles2 from '@/assets/products/edibles2.png'
 import edibles3 from '@/assets/products/edibles3.png'
 import edibles4 from '@/assets/products/edibles4.png'
-
 import categoryPreRolls from '@/assets/products/pre-rolls.png'
 import preRolls2 from '@/assets/products/pre-rolls2.png'
 import preRolls3 from '@/assets/products/pre-rolls3.png'
 import preRolls4 from '@/assets/products/pre-rolls4.png'
-
 import categoryConcentrates from '@/assets/products/concentrate.png'
 import concentrate2 from '@/assets/products/concentrate2.png'
 import concentrate3 from '@/assets/products/concentrate3.png'
 import concentrate4 from '@/assets/products/concentrate4.png'
-
 import categoryTopicals from '@/assets/products/topicals.png'
 import topicals2 from '@/assets/products/topicals2.png'
-
 import categoryTinctures from '@/assets/products/tinctures.png'
 import tinctures2 from '@/assets/products/tinctures2.png'
 import tinctures3 from '@/assets/products/tinctures3.png'
-
 import mainstreetHoodie from '@/assets/merch/Lagom-Mainstreet-Hooded-Sweatshirt-900x900.png'
 import midweightCrewneck from '@/assets/merch/Lagom-Midweight-Crewneck-Sweatshirt-Front-900x900.png'
 
-const mockProduct=(product)=>({
-  preview:true,
-  mock:true,
-  rating:4.8,
-  reviews:42,
-  ...product,
-})
+const roundPrice=value=>Math.round(value*100)/100
+const secondVariantByCategory={
+  Flower:{label:'7g',multiplier:1.85},
+  Vapes:{label:'1g',multiplier:1.75},
+  Edibles:{label:'20 pc',multiplier:1.85},
+  'Pre-Rolls':{label:'2-pack',multiplier:1.75},
+  Concentrates:{label:'2g',multiplier:1.9},
+  Topicals:{label:'4 oz',multiplier:1.8},
+  Tinctures:{label:'60 mL',multiplier:1.85},
+  Beverages:{label:'4-pack',multiplier:3.6},
+}
+
+const withVariants=product=>{
+  if(product.variants?.length)return product
+  const first={id:'default',label:product.weight,price:product.price,mock:!!product.mock}
+  const plan=secondVariantByCategory[product.category]
+  if(!plan||product.price==null)return{...product,variants:[first]}
+  const second={id:'alt',label:plan.label,price:roundPrice(product.price*plan.multiplier),mock:true}
+  return{...product,variants:[first,second],mockVariants:true}
+}
+
+const mockProduct=product=>withVariants({preview:true,mock:true,rating:4.8,reviews:42,...product})
+const catalogProduct=product=>withVariants(product)
 
 export const products=[
-  {id:'24k-lemonade',brand:'Lagom Naturals',name:'24K Lemonade',category:'Beverages',price:6,strength:'THC infused',type:'Seltzer',rating:4.9,reviews:124,weight:'12 oz',image:lemonade24k},
-  {id:'blackberry-breeze',brand:'Lagom Naturals',name:'Blackberry Breeze',category:'Beverages',price:6,strength:'THC infused',type:'Seltzer',rating:4.8,reviews:98,weight:'12 oz',image:blackberryBreeze},
-  {id:'strawberry-lime-fusion',brand:'Lagom Naturals',name:'Strawberry Lime Fusion',category:'Beverages',price:6,strength:'THC infused',type:'Seltzer',rating:4.8,reviews:83,weight:'12 oz',image:strawberryLime},
-  {id:'watermelon-refresher',brand:'Lagom Naturals',name:'Watermelon Refresher',category:'Beverages',price:6,strength:'THC infused',type:'Seltzer',rating:4.7,reviews:76,weight:'12 oz',image:watermelonRefresher},
+  catalogProduct({id:'24k-lemonade',brand:'Lagom Naturals',name:'24K Lemonade',category:'Beverages',price:6,strength:'THC infused',type:'Seltzer',rating:4.9,reviews:124,weight:'12 oz',image:lemonade24k}),
+  catalogProduct({id:'blackberry-breeze',brand:'Lagom Naturals',name:'Blackberry Breeze',category:'Beverages',price:6,strength:'THC infused',type:'Seltzer',rating:4.8,reviews:98,weight:'12 oz',image:blackberryBreeze}),
+  catalogProduct({id:'strawberry-lime-fusion',brand:'Lagom Naturals',name:'Strawberry Lime Fusion',category:'Beverages',price:6,strength:'THC infused',type:'Seltzer',rating:4.8,reviews:83,weight:'12 oz',image:strawberryLime}),
+  catalogProduct({id:'watermelon-refresher',brand:'Lagom Naturals',name:'Watermelon Refresher',category:'Beverages',price:6,strength:'THC infused',type:'Seltzer',rating:4.7,reviews:76,weight:'12 oz',image:watermelonRefresher}),
 
   mockProduct({id:'flower-selection-1',brand:'Aster House',name:'Northern Lights',category:'Flower',price:42,strength:'24% THC',type:'Indica',rating:4.9,reviews:86,weight:'3.5g',image:categoryFlower}),
   mockProduct({id:'flower-selection-2',brand:'Birchline',name:'Citrus Grove',category:'Flower',price:38,strength:'22% THC',type:'Sativa',rating:4.7,reviews:51,weight:'3.5g',image:flower2}),
@@ -88,10 +97,10 @@ export const products=[
   mockProduct({id:'tincture-selection-2',brand:'North & Meadow',name:'Evening Calm Drops',category:'Tinctures',price:38,strength:'100mg THC + 200mg CBD',type:'CBD-forward tincture',rating:4.9,reviews:63,weight:'30 mL',image:tinctures2}),
   mockProduct({id:'tincture-selection-3',brand:'Stillwater Apothecary',name:'Bright Day Drops',category:'Tinctures',price:36,strength:'150mg THC',type:'THC tincture',rating:4.7,reviews:45,weight:'30 mL',image:tinctures3}),
 
-  {id:'blueberry-yum-yum',brand:'Lagom Naturals',name:'Blueberry Yum Yum',category:'Edibles',price:24.99,strength:'5mg THC + 20mg CBD',type:'Indica gummies',rating:4.9,reviews:151,weight:'10 pc',image:blueberryYumYum},
-  {id:'push-pop',brand:'Lagom Naturals',name:'Push Pop',category:'Edibles',price:24.99,strength:'5mg THC',type:'Hybrid gummies',rating:4.8,reviews:91,weight:'10 pc',image:pushPop},
-  {id:'space-cadet',brand:'Moonlight Cannabis',name:'Space Cadet',category:'Edibles',price:26,strength:'5mg THC',type:'Live resin gummies',rating:4.8,reviews:64,weight:'10 pc',image:spaceCadet,mockPrice:true},
-  {id:'strawberry-banana',brand:'Lagom Curated',name:'Strawberry Banana',category:'Edibles',price:22,strength:'5mg THC',type:'Hybrid gummies',rating:4.7,reviews:64,weight:'10 pc',image:strawberryBanana,mock:true},
+  catalogProduct({id:'blueberry-yum-yum',brand:'Lagom Naturals',name:'Blueberry Yum Yum',category:'Edibles',price:24.99,strength:'5mg THC + 20mg CBD',type:'Indica gummies',rating:4.9,reviews:151,weight:'10 pc',image:blueberryYumYum}),
+  catalogProduct({id:'push-pop',brand:'Lagom Naturals',name:'Push Pop',category:'Edibles',price:24.99,strength:'5mg THC',type:'Hybrid gummies',rating:4.8,reviews:91,weight:'10 pc',image:pushPop}),
+  withVariants({id:'space-cadet',brand:'Moonlight Cannabis',name:'Space Cadet',category:'Edibles',price:26,strength:'5mg THC',type:'Live resin gummies',rating:4.8,reviews:64,weight:'10 pc',image:spaceCadet,mockPrice:true}),
+  mockProduct({id:'strawberry-banana',brand:'Lagom Curated',name:'Strawberry Banana',category:'Edibles',price:22,strength:'5mg THC',type:'Hybrid gummies',rating:4.7,reviews:64,weight:'10 pc',image:strawberryBanana}),
 ]
 
 export const merch=[
@@ -99,24 +108,6 @@ export const merch=[
   {id:'midweight-crewneck',name:'Midweight Crewneck Sweatshirt',price:58,type:'Crewnecks',color:'Sand',image:midweightCrewneck},
 ]
 
-export const categoryCards=[
-  ['Flower','Flower'],
-  ['Vapes','Vapes'],
-  ['Edibles','Edibles'],
-  ['Pre-Rolls','Pre-Rolls'],
-  ['Concentrates','Concentrates'],
-  ['Beverages','Beverages'],
-  ['Topicals','Topicals'],
-  ['Tinctures','Tinctures'],
-]
+export const categoryCards=[['Flower','Flower'],['Vapes','Vapes'],['Edibles','Edibles'],['Pre-Rolls','Pre-Rolls'],['Concentrates','Concentrates'],['Beverages','Beverages'],['Topicals','Topicals'],['Tinctures','Tinctures']]
 
-export const categoryImages={
-  Flower:categoryFlower,
-  Vapes:categoryVapes,
-  Edibles:categoryEdibles,
-  'Pre-Rolls':categoryPreRolls,
-  Concentrates:categoryConcentrates,
-  Beverages:lemonade24k,
-  Topicals:categoryTopicals,
-  Tinctures:categoryTinctures,
-}
+export const categoryImages={Flower:categoryFlower,Vapes:categoryVapes,Edibles:categoryEdibles,'Pre-Rolls':categoryPreRolls,Concentrates:categoryConcentrates,Beverages:lemonade24k,Topicals:categoryTopicals,Tinctures:categoryTinctures}
