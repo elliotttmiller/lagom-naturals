@@ -1,10 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { BrowserRouter, Link, useLocation, useNavigationType } from 'react-router-dom'
+import { BrowserRouter, useLocation, useNavigationType } from 'react-router-dom'
 import App from '@/App'
 import CartInteractionFeedback from '@/CartInteractionFeedback'
 import HeaderUtilityToggleBridge from '@/HeaderUtilityToggleBridge'
 import GlobalSearchOverlay from '@/GlobalSearchOverlay'
+import SiteFooter from '@/SiteFooter'
 import { AppMotionProvider, Presence, RouteMotion, m, motionTokens, useReducedMotion } from '@/motionSystem'
 import './app.css'
 import './motion.css'
@@ -60,19 +61,6 @@ function AgeGate(){
       </m.div>
     </m.div>}
   </Presence>
-}
-
-function SiteFooter(){
-  const reduceMotion=useReducedMotion()
-  return <m.footer className="site-footer" initial={reduceMotion?false:{opacity:0,y:12}} whileInView={{opacity:1,y:0}} viewport={{once:true,amount:.08}} transition={reduceMotion?{duration:0}:{duration:motionTokens.duration.slow,ease:motionTokens.ease}}>
-    <div className="site-footer__inner">
-      <div className="site-footer__brand"><img src="/lagom-logo.svg" alt="Lagom Naturals"/><p>Premium cannabis from trusted brands, thoughtfully curated for a more balanced you.</p></div>
-      <div><h4>Shop</h4><Link to="/shop">All products</Link><Link to="/shop?category=Beverages">Beverages</Link><Link to="/shop?category=Edibles">Edibles</Link><Link to="/merch">Apparel & merch</Link></div>
-      <div><h4>Visit</h4><Link to="/visit">North Loop store</Link><span>730 N Washington Ave</span><span>Minneapolis, MN 55401</span></div>
-      <div><h4>Lagom</h4><Link to="/about">About us</Link><Link to="/account">Rewards</Link><Link to="/account">My account</Link></div>
-    </div>
-    <div className="site-footer__bottom"><span>© 2026 Lagom Naturals</span><span>For adults 21+. Please enjoy responsibly.</span></div>
-  </m.footer>
 }
 
 function getRouteMeta(pathname){
