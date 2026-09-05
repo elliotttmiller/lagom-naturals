@@ -35,8 +35,11 @@
   .variant-menu>button{min-height:42px;font-size:11px}
 }
 
-/* PDP variant buttons use the same selection semantics as the catalog dropdown. */
-.pdp .size-row:not(.apparel){display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:8px}
-.pdp .size-row:not(.apparel)>button{min-width:0;display:flex;align-items:center;justify-content:center;gap:5px;flex-direction:column}
-.pdp .size-row:not(.apparel)>button small{font:700 9px/1 var(--font-ui);opacity:.72}
-.pdp .size-row:not(.apparel)>button.active small{opacity:.9}
+/* PDP variants intentionally inherit the mobile-native PDP control system.
+   Keep the row app-scale and let selection update the prominent PDP price above. */
+.pdp .size-row:not(.apparel){display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.pdp .size-row.single-option{grid-template-columns:repeat(4,minmax(0,1fr))}
+.pdp .size-row:not(.apparel)>button{min-width:0;display:flex;align-items:center;justify-content:center;gap:2px;flex-direction:column}
+.pdp .size-row:not(.apparel)>button small{display:none}
+
+@media(max-width:420px){.pdp .size-row:not(.apparel){gap:6px}}
