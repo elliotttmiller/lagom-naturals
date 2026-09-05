@@ -45,23 +45,20 @@ export function RouteMotion({routeKey,navigationType='PUSH',children}){
 
   React.useLayoutEffect(()=>{
     if(reduceMotion){
-      controls.set({opacity:1,y:0,scale:1,filter:'blur(0px)'})
+      controls.set({opacity:1})
       return
     }
 
     const returning=navigationType==='POP'
-    controls.set({opacity:returning?.985:.965,y:returning?2:8,scale:returning?.999:.997,filter:'blur(0px)'})
+    controls.set({opacity:returning?.985:.965})
     const frame=requestAnimationFrame(()=>controls.start({
       opacity:1,
-      y:0,
-      scale:1,
-      filter:'blur(0px)',
       transition:{duration:returning?motionTokens.duration.base:motionTokens.duration.slow,ease:motionTokens.easeSoft},
     }))
     return()=>cancelAnimationFrame(frame)
   },[controls,navigationType,reduceMotion,routeKey])
 
-  return <m.div className="route-stage" initial={false} animate={controls}>{children}</m.div>
+  return <m.div className="route-stage" initial={false} animate={controls} style={{transform:'none',filter:'none'}}>{children}</m.div>
 }
 
 export function Reveal({children,className,delay=0,amount=.14,once=true,...props}){
