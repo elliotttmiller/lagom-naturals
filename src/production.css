@@ -1,0 +1,22 @@
+/* Production hardening: responsive website behavior, accessibility, safe areas, and PWA surfaces. */
+html{overflow-x:hidden;text-size-adjust:100%;-webkit-text-size-adjust:100%}body{overflow-x:hidden;min-width:320px}body.age-gate-open{overflow:hidden}#root{min-height:100vh}main{min-width:0}a,button,input,textarea,select{-webkit-tap-highlight-color:transparent}button,input,textarea,select{font:inherit}button:disabled{cursor:not-allowed;opacity:.55}img{height:auto}::selection{background:#004c34;color:#fff}
+
+:focus-visible{outline:3px solid #157a5b;outline-offset:3px}.icon-btn:focus-visible,.hero-actions a:focus-visible,.primary-bar:focus-visible,.mobile-nav a:focus-visible{outline-offset:-2px}
+
+.age-gate{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:max(20px,env(safe-area-inset-top)) max(20px,env(safe-area-inset-right)) max(20px,env(safe-area-inset-bottom)) max(20px,env(safe-area-inset-left));background:rgba(15,18,16,.72);backdrop-filter:blur(14px)}.age-gate__panel{width:min(100%,460px);background:#fff;border-radius:10px;padding:30px;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,.28)}.age-gate__panel img{width:118px;height:62px;object-fit:contain;margin:0 auto 18px}.age-gate__eyebrow{margin:0 0 9px!important;font-size:9px!important;font-weight:700;letter-spacing:.13em;color:#004c34}.age-gate__panel h1{font-family:Georgia,'Times New Roman',serif;font-size:36px;line-height:1;margin:0 0 12px;font-weight:400}.age-gate__panel>p:not(.age-gate__eyebrow){margin:0 auto 22px;max-width:340px;color:#5e655f;font-size:13px;line-height:1.55}.age-gate__panel button{width:100%;min-height:48px;border:0;border-radius:5px;background:#004c34;color:#fff;font-size:11px;font-weight:700}.age-gate__panel .age-gate__exit{margin-top:8px;background:transparent;color:#303631;border:1px solid #d9dbd7}
+
+.fatal-error{min-height:100vh;display:grid;place-items:center;align-content:center;text-align:center;padding:28px}.fatal-error img{width:128px;margin-bottom:24px}.fatal-error h1{font-family:Georgia,'Times New Roman',serif;font-size:38px;font-weight:400;margin:0 0 8px}.fatal-error p{color:#626862;margin:0 0 20px}.fatal-error button{min-height:48px;padding:0 22px;border:0;border-radius:5px;background:#004c34;color:#fff;font-weight:700}
+
+.site-header{padding-top:env(safe-area-inset-top)}.mobile-nav{height:calc(66px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom)}.site-footer{padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}
+
+@media(pointer:coarse){.icon-btn{min-width:48px;min-height:48px}.hero-actions a,.primary-bar,.visit-actions a{min-height:48px}.chips button{min-height:40px}.size-row button{min-height:44px}.card-actions>button:first-child,.add-square{min-height:40px}.account-rows button{min-height:48px}}
+
+@media(max-width:699px){.app-shell main{padding-bottom:calc(66px + env(safe-area-inset-bottom))}.site-footer{padding-bottom:calc(92px + env(safe-area-inset-bottom))}.product-grid,.merch-grid,.category-grid,.home-category-row{min-width:0}.product-card,.merch-card,.category-card{min-width:0}.hero-copy{padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}}
+
+@media(min-width:700px) and (max-width:1023px){.header-inner{width:100%;max-width:none;padding-inline:clamp(20px,4vw,42px)}.home-hero{width:100%;max-width:none;margin:0;border-radius:0;height:clamp(560px,72vh,720px)}.mobile-section,.shop-page,.listing-page,.merch-page,.cart-page,.checkout-page,.account-page,.about-page{width:100%;max-width:none;padding-left:clamp(24px,5vw,54px);padding-right:clamp(24px,5vw,54px)}}
+
+@media(min-width:1024px){.site-footer{margin-top:72px}.home-hero{min-height:min(680px,calc(100svh - 74px))}.mobile-section,.shop-page,.listing-page,.merch-page,.cart-page,.checkout-page,.account-page,.about-page{max-width:1600px;margin-left:auto;margin-right:auto}.product-grid{align-items:stretch}.product-card{height:100%}}
+
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+@media(prefers-contrast:more){:root{--line:#9a9f99}.product-card,.merch-card,.category-card,.shop-search,.filter-row button{border-color:#9a9f99}}
