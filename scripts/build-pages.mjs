@@ -33,7 +33,7 @@ async function normalizePublicUrls(directory) {
     if (!textExtensions.has(extname(entry.name))) continue
 
     const source = await readFile(filePath, 'utf8')
-    const normalized = source.replaceAll('/lagom-logo.svg', `${base}lagom-logo.svg`)
+    const normalized = source.replace(/(?<![A-Za-z0-9/_-])\/lagom-logo\.svg/g, `${base}lagom-logo.svg`)
     if (normalized !== source) await writeFile(filePath, normalized)
   }
 }
