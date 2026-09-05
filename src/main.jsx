@@ -1,15 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Link, useLocation } from 'react-router-dom'
-import App from './App'
-import { AppMotionProvider, Presence, RouteMotion, m, motionTokens, useReducedMotion } from './motionSystem'
-import './styles.css'
-import './responsive.css'
-import './production.css'
+import App from '@/App'
+import { AppMotionProvider, Presence, RouteMotion, m, motionTokens, useReducedMotion } from '@/motionSystem'
+import './app.css'
 import './motion.css'
-import './ui-system.css'
-import './mobile-polish.css'
-import './desktop-polish.css'
+import './production.css'
 
 const routeMeta={
   '/':{title:'Lagom Naturals | Minneapolis Cannabis Dispensary',label:'Home',description:'Premium cannabis products from trusted brands, thoughtfully curated in Minneapolis.'},

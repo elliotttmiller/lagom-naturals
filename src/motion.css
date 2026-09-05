@@ -21,13 +21,13 @@
 .drawer{overflow-y:auto;overscroll-behavior:contain}.drawer nav>div>a{display:flex;align-items:center;justify-content:space-between;padding:17px 2px;border-top:1px solid var(--line);font-size:14px;font-weight:600}.drawer nav>div>a svg{width:17px}
 
 /* Trust strip uses stagger wrappers; preserve the original three-column geometry. */
-.trust-strip>div{min-width:0}.trust-strip>div>div{display:flex;align-items:center;justify-content:center;gap:6px}.trust-strip>div>div svg{width:21px;color:#1d2b23;stroke-width:1.5}.trust-strip>div>div span{font-size:7px;font-weight:700;line-height:1.05}
+.trust-strip>div{min-width:0}.trust-strip>div>div{display:flex;align-items:center;justify-content:center;gap:5px}.trust-strip>div>div svg{width:15px;color:var(--ink-soft);stroke-width:1.5}.trust-strip>div>div span{font-size:6px;font-weight:700;line-height:1.05}
 
 /* Avoid permanent compositor promotion. Motion promotes elements only while they are actively animating. */
 .checkout-step{min-width:0}.account-rows>div{min-width:0}.account-rows>div>button{width:100%}
 button,a{touch-action:manipulation}
 
-@media(min-width:700px){.trust-strip>div>div{gap:8px}.trust-strip>div>div span{font-size:8px}.trust-strip>div>div svg{width:24px}}
-@media(max-width:640px){.trust-strip>div>div{justify-content:flex-start;gap:6px}.trust-strip>div>div svg{width:23px;height:23px;flex:0 0 auto}.trust-strip>div>div span{font-size:7px;line-height:1.1}}
-@media(max-width:380px){.trust-strip>div>div span{font-size:6.5px}.trust-strip>div>div svg{width:21px}}
+@media(min-width:700px){.trust-strip>div>div{gap:6px}.trust-strip>div>div span{font-size:7px}.trust-strip>div>div svg{width:17px}}
+@media(max-width:640px){.trust-strip>div>div{justify-content:center;gap:4px}.trust-strip>div>div svg{width:15px;height:15px;flex:0 0 auto}.trust-strip>div>div span{font-size:6px;line-height:1.05}}
+@media(max-width:380px){.trust-strip>div>div span{font-size:5.5px}.trust-strip>div>div svg{width:13px}}
 @media(prefers-reduced-motion:reduce){.route-stage{transform:none!important;filter:none!important}}

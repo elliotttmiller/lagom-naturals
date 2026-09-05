@@ -1,23 +1,24 @@
-import React,{createContext,useContext,useDeferredValue,useEffect,useMemo,useRef,useState}from'react'
+﻿import React,{createContext,useContext,useDeferredValue,useEffect,useMemo,useRef,useState}from'react'
 import{Link,NavLink,Route,Routes,useLocation,useNavigate,useParams}from'react-router-dom'
 import{ArrowLeft,ArrowRight,ChevronDown,ChevronRight,CircleHelp,CircleUserRound,CreditCard,Gift,Heart,Home,MapPin,Menu,Minus,Navigation,PackageCheck,Phone,Plus,Search,Settings,Share2,ShoppingBag,SlidersHorizontal,Star,Store,UsersRound,X}from'lucide-react'
 import{m,Presence,Reveal,Stagger,StaggerItem,motionTokens,motionVariants}from'./motionSystem'
-import mainStore from'./assets/main-store.webp'
-import mainStore2 from'./assets/main-store2.webp'
-import extraStore from'./assets/extra-store.webp'
-import extraStore2 from'./assets/extra-store2.webp'
-import storefrontDay from'./assets/storefront-day.webp'
-import storefrontNight from'./assets/storefront-night.webp'
-import lemonade24k from'./assets/24K-Lemonade-1.png'
-import blackberryBreeze from'./assets/Blackberry-Breeze-Photoroom-1-900x900.png'
-import blueberryYumYum from'./assets/Blueberry-Yum-Yum-1-Photoroom-900x900.png'
-import spaceCadet from'./assets/Moonlight-Space-Cadet-5mg-THC-Live-Resin-1024x1024.png'
-import pushPop from'./assets/Push-Pop-Photoroom-900x900.png'
-import strawberryBanana from'./assets/Strawberry-Banana-Photoroom-900x900.png'
-import strawberryLime from'./assets/Strawberry-Lime-Fusion-Photoroom-900x900.png'
-import watermelonRefresher from'./assets/Watermelon-Refresher-Photoroom-900x900.png'
-import mainstreetHoodie from'./assets/Lagom-Mainstreet-Hooded-Sweatshirt-900x900.png'
-import midweightCrewneck from'./assets/Lagom-Midweight-Crewneck-Sweatshirt-Front-900x900.png'
+import mainStore from'@/assets/mobile/main-store.webp'
+import mainStoreDesktop from'@/assets/desktop/main-store-desktop.webp'
+import mainStore2 from'@/assets/store/main-store2.webp'
+import extraStore from'@/assets/store/extra-store.webp'
+import extraStore2 from'@/assets/store/extra-store2.webp'
+import storefrontDay from'@/assets/store/storefront-day.webp'
+import storefrontNight from'@/assets/store/storefront-night.webp'
+import lemonade24k from'@/assets/products/24K-Lemonade-1.png'
+import blackberryBreeze from'@/assets/products/Blackberry-Breeze-Photoroom-1-900x900.png'
+import blueberryYumYum from'@/assets/products/Blueberry-Yum-Yum-1-Photoroom-900x900.png'
+import spaceCadet from'@/assets/products/Moonlight-Space-Cadet-5mg-THC-Live-Resin-1024x1024.png'
+import pushPop from'@/assets/products/Push-Pop-Photoroom-900x900.png'
+import strawberryBanana from'@/assets/products/Strawberry-Banana-Photoroom-900x900.png'
+import strawberryLime from'@/assets/products/Strawberry-Lime-Fusion-Photoroom-900x900.png'
+import watermelonRefresher from'@/assets/products/Watermelon-Refresher-Photoroom-900x900.png'
+import mainstreetHoodie from'@/assets/merch/Lagom-Mainstreet-Hooded-Sweatshirt-900x900.png'
+import midweightCrewneck from'@/assets/merch/Lagom-Midweight-Crewneck-Sweatshirt-Front-900x900.png'
 
 const products=[
 {id:'24k-lemonade',brand:'Lagom Naturals',name:'24K Lemonade',category:'Beverages',price:6,strength:'THC infused',type:'Seltzer',rating:4.9,reviews:124,weight:'12 oz',image:lemonade24k},
@@ -131,6 +132,12 @@ function Header({detail=false}){
           ?<m.button type="button" whileTap={{scale:.9}} className="icon-btn" onClick={()=>nav(-1)} aria-label="Back"><ArrowLeft/></m.button>
           :<m.button ref={triggerRef} type="button" whileTap={{scale:.9}} className="icon-btn" onClick={()=>setOpen(true)} aria-label="Menu" aria-expanded={open} aria-controls="site-navigation-drawer"><Menu/></m.button>}
         <Logo/>
+        {!detail&&<nav className="desktop-nav" aria-label="Primary navigation">
+          <NavLink to="/shop">Shop</NavLink>
+          <NavLink to="/merch">Merch</NavLink>
+          <NavLink to="/visit">Visit</NavLink>
+          <NavLink to="/about">About</NavLink>
+        </nav>}
         <div className="header-tools">
           {detail&&<m.button type="button" whileTap={{scale:.9}} className="icon-btn" onClick={sharePage} aria-label="Share"><Share2/></m.button>}
           <m.div whileTap={{scale:.92}}><Link className="icon-btn" to="/shop" aria-label="Search"><Search/></Link></m.div>
@@ -188,13 +195,17 @@ function EmptyState({title='Nothing here yet.',body='Check back soon for updated
 
 function HomePage(){return <Shell noNav>
   <m.section className="home-hero" initial="hidden" animate="visible">
-    <m.img src={mainStore} alt="Lagom Naturals dispensary interior" fetchPriority="high" decoding="async" initial={{scale:1.025}} animate={{scale:1}} transition={{duration:1.05,ease:motionTokens.ease}}/>
+    <picture>
+      <source media="(min-width:900px)" srcSet={mainStoreDesktop}/>
+      <m.img src={mainStore} alt="Lagom Naturals dispensary interior" fetchPriority="high" decoding="async" initial={{scale:1.04}} animate={{scale:1}} transition={{duration:1.1,ease:motionTokens.ease}}/>
+    </picture>
     <div className="hero-gradient"/>
+    <div className="hero-surface-fade"/>
     <m.div className="hero-copy" variants={motionVariants.stagger}>
       <m.p variants={motionVariants.item}>MINNEAPOLIS CANNABIS DISPENSARY</m.p>
       <m.h1 variants={motionVariants.item}>Find Your<br/>Just Right.</m.h1>
       <m.span variants={motionVariants.item}>Premium cannabis products from trusted brands. Thoughtfully curated for a more balanced you — right here in Minneapolis.</m.span>
-      <m.div className="hero-actions" variants={motionVariants.item}><m.div whileHover={{y:-2}} whileTap={motionTokens.tap}><Link to="/shop">SHOP PRODUCTS <ArrowRight/></Link></m.div><m.div whileHover={{y:-2}} whileTap={motionTokens.tap}><Link to="/visit">VISIT OUR STORE</Link></m.div></m.div>
+      <m.div className="hero-actions" variants={motionVariants.item}><m.div whileHover={{y:-1}} whileTap={motionTokens.tap}><Link to="/shop">SHOP PRODUCTS <ArrowRight/></Link></m.div><m.div whileHover={{y:-1}} whileTap={motionTokens.tap}><Link to="/visit">VISIT OUR STORE</Link></m.div></m.div>
     </m.div>
   </m.section>
   <Stagger className="trust-strip">{[[Store,'LOCALLY','OWNED'],[UsersRound,'KNOWLEDGEABLE','STAFF'],[Heart,'COMMUNITY','FOCUSED']].map(([Icon,a,b])=><StaggerItem key={a}><div><Icon/><span>{a}<br/>{b}</span></div></StaggerItem>)}</Stagger>
@@ -214,8 +225,9 @@ function ShopPage(){
   return <Shell><div className="shop-page">
     <Reveal><label className="shop-search"><Search/><input type="search" value={query} onChange={event=>setQuery(event.target.value)} placeholder="Search products, brands, or effects..." aria-label="Search products"/></label></Reveal>
     {deferredQuery
-      ?<Reveal><SectionTitle title={`Search Results (${searchResults.length})`}/>{searchResults.length?<Stagger className="product-grid">{searchResults.map(p=><ProductCard key={p.id} p={p}/>)}</Stagger>:<EmptyState title="No matching products." body="Try another product name, brand, category, or effect." to={null}/>}</Reveal>
-      :<><Stagger className="category-grid">{categoryCards.map(([a,b])=><CategoryCard key={a} name={a} label={b}/>)}</Stagger><Reveal><m.div whileHover={{y:-2}} whileTap={motionTokens.tap}><Link className="originals-banner" to="/merch"><img src={midweightCrewneck} alt="Lagom Originals"/><span>Lagom Originals</span><ChevronRight/></Link></m.div></Reveal><Reveal><SectionTitle title="Featured Products"/><Stagger className="product-grid">{products.slice(0,4).map(p=><ProductCard key={p.id} p={p}/>)}</Stagger></Reveal></>}
+      ? (<Reveal><SectionTitle title={`Search Results (${searchResults.length})`}/>{searchResults.length?<Stagger className="product-grid">{searchResults.map(p=><ProductCard key={p.id} p={p}/>)}</Stagger>:<EmptyState title="No matching products." body="Try another product name, brand, category, or effect." to={null}/>}</Reveal>)
+      : (<><Stagger className="category-grid">{categoryCards.map(([a,b])=><CategoryCard key={a} name={a} label={b}/>)}</Stagger><Reveal><m.div whileHover={{y:-2}} whileTap={motionTokens.tap}><Link className="originals-banner" to="/merch"><img src={midweightCrewneck} alt="Lagom Originals"/><span>Lagom Originals</span><ChevronRight/></Link></m.div></Reveal><Reveal><SectionTitle title="Featured Products"/><Stagger className="product-grid">{products.slice(0,4).map(p=><ProductCard key={p.id} p={p}/>)}</Stagger></Reveal></>
+      )}
   </div></Shell>
 }
 
@@ -240,7 +252,7 @@ function ListingPage({category}){
       <Presence>{filtersOpen&&<m.div className="chips" initial={{opacity:0,y:-4}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-4}}>{['All','Indica','Sativa','Hybrid'].map(name=><m.button type="button" layout key={name} className={filter===name?'active':''} onClick={()=>setFilter(name)} whileTap={{scale:.96}}>{name}</m.button>)}</m.div>}</Presence>
     </Reveal>
     <Presence mode="popLayout"><m.div key={`${category}-${filter}-${sort}`} className="product-grid listing-grid" layout initial="hidden" animate="visible" exit={{opacity:0,y:4}} variants={motionVariants.stagger}>{rendered.map(p=><ProductCard key={p.id} p={p}/>)}</m.div></Presence>
-    {!rendered.length&&<EmptyState title={base.length?'No products match this filter.':'No products loaded in this category yet.'} body={base.length?'Try another filter.':'Availability will appear here when products are connected to the live catalog.'}/>} 
+    {!rendered.length&&<EmptyState title={base.length?'No products match this filter.':'No products loaded in this category yet.'} body={base.length?'Try another filter.':'Availability will appear here when products are connected to the live catalog.'}/>}
   </div></Shell>
 }
 
@@ -337,9 +349,9 @@ function AccountPage(){
   return <Shell><div className="account-page"><Reveal><div className="account-welcome"><div className="leaf-mark">⌁</div><span><p>Welcome to</p><h1>Lagom</h1></span></div></Reveal><Stagger className="account-rows">{rows.map(([Icon,label])=><StaggerItem key={label}><m.button type="button" whileHover={{x:2}} whileTap={motionTokens.tap}><Icon/><span>{label}</span><ChevronRight/></m.button></StaggerItem>)}<StaggerItem><m.button type="button" whileHover={{x:2}} whileTap={motionTokens.tap} className="reward-row"><Gift/><span><b>Rewards</b><small>Shop. Earn. Get more.</small></span><ChevronRight/></m.button></StaggerItem>{lower.map(([Icon,label])=><StaggerItem key={label}><m.button type="button" whileHover={{x:2}} whileTap={motionTokens.tap}><Icon/><span>{label}</span><ChevronRight/></m.button></StaggerItem>)}</Stagger></div></Shell>
 }
 
-function VisitPage(){return <Shell><div className="visit-page"><m.div className="visit-photo" initial={{opacity:0,scale:1.01}} animate={{opacity:1,scale:1}} transition={{duration:motionTokens.duration.cinematic,ease:motionTokens.ease}}><img src={storefrontDay} alt="Lagom Naturals storefront"/></m.div><m.div className="visit-card" initial="hidden" animate="visible" variants={motionVariants.softScale}><p>VISIT OUR STORE</p><h1>North Loop<br/>Minneapolis</h1><span>730 N Washington Ave<br/>Minneapolis, MN 55401</span><div className="visit-actions"><m.a whileHover={{y:-2}} whileTap={motionTokens.tap} href="https://maps.google.com/?q=730+N+Washington+Ave+Minneapolis+MN+55401" target="_blank" rel="noreferrer"><Navigation/> GET DIRECTIONS</m.a><m.a whileHover={{y:-2}} whileTap={motionTokens.tap} href="tel:+16125550101"><Phone/> CALL STORE</m.a></div><div className="hours"><b>Store Hours</b><p><span>Mon – Sat</span><strong>10:00 AM – 9:00 PM</strong></p><p><span>Sunday</span><strong>11:00 AM – 6:00 PM</strong></p></div><div className="amenities"><span>Parking<br/>Available</span><span>In-Store<br/>Pickup</span><span>Accessible<br/>Entrance</span></div></m.div></div></Shell>}
+function VisitPage(){return <Shell><div className="visit-page"><m.div className="visit-photo" initial={{opacity:0,scale:1.01}} animate={{opacity:1,scale:1}} transition={{duration:motionTokens.duration.cinematic,ease:motionTokens.ease}}><img src={storefrontDay} alt="Lagom Naturals storefront" loading="lazy" decoding="async"/></m.div><m.div className="visit-card" initial="hidden" animate="visible" variants={motionVariants.softScale}><p>VISIT OUR STORE</p><h1>North Loop<br/>Minneapolis</h1><span>730 N Washington Ave<br/>Minneapolis, MN 55401</span><div className="visit-actions"><m.a whileHover={{y:-2}} whileTap={motionTokens.tap} href="https://maps.google.com/?q=730+N+Washington+Ave+Minneapolis+MN+55401" target="_blank" rel="noreferrer"><Navigation/> GET DIRECTIONS</m.a><m.a whileHover={{y:-2}} whileTap={motionTokens.tap} href="tel:+16125550101"><Phone/> CALL STORE</m.a></div><div className="hours"><b>Store Hours</b><p><span>Mon – Sat</span><strong>10:00 AM – 9:00 PM</strong></p><p><span>Sunday</span><strong>11:00 AM – 6:00 PM</strong></p></div><div className="amenities"><span>Parking<br/>Available</span><span>In-Store<br/>Pickup</span><span>Accessible<br/>Entrance</span></div></m.div></div></Shell>}
 
-function AboutPage(){return <Shell><div className="about-page"><Reveal><img src={mainStore2} alt="Inside Lagom Naturals"/></Reveal><Reveal><h1>Enough choice.<br/>More clarity.<br/>Better balance.</h1><p>Lagom is a Swedish idea meaning “not too much, not too little—just right.” We bring that standard to a multi-brand dispensary experience built around clear choices and thoughtful guidance.</p></Reveal><Stagger className="about-grid"><StaggerItem><m.img whileHover={{scale:1.01}} transition={motionTokens.springSoft} src={extraStore} alt="Lagom Naturals interior"/></StaggerItem><StaggerItem><m.img whileHover={{scale:1.01}} transition={motionTokens.springSoft} src={extraStore2} alt="Lagom Naturals interior"/></StaggerItem></Stagger><Reveal><img src={storefrontNight} alt="Lagom Naturals at night"/></Reveal></div></Shell>}
+function AboutPage(){return <Shell><div className="about-page"><Reveal><img src={mainStore2} alt="Inside Lagom Naturals" loading="lazy" decoding="async"/></Reveal><Reveal><h1>Enough choice.<br/>More clarity.<br/>Better balance.</h1><p>Lagom is a Swedish idea meaning "not too much, not too little—just right." We bring that standard to a multi-brand dispensary experience built around clear choices and thoughtful guidance.</p></Reveal><Stagger className="about-grid"><StaggerItem><m.img whileHover={{scale:1.01}} transition={motionTokens.springSoft} src={extraStore} alt="Lagom Naturals interior" loading="lazy" decoding="async"/></StaggerItem><StaggerItem><m.img whileHover={{scale:1.01}} transition={motionTokens.springSoft} src={extraStore2} alt="Lagom Naturals interior" loading="lazy" decoding="async"/></StaggerItem></Stagger><Reveal><img src={storefrontNight} alt="Lagom Naturals at night" loading="lazy" decoding="async"/></Reveal></div></Shell>}
 
 function NotFoundPage(){return <Shell><div className="listing-page"><EmptyState title="Page not found." body="The page you requested does not exist." to="/" action="Back home"/></div></Shell>}
 
