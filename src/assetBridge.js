@@ -1,4 +1,3 @@
-// Store imagery is now imported directly from src/assets and bundled by Vite.
-// This file is intentionally retained as a no-op for backward compatibility
-// with any stale imports during transition.
+// Store imagery is imported directly from src/assets and bundled by Vite.
+// This compatibility no-op can be removed once any stale imports are deleted.
 export function installAssetBridge() {}
