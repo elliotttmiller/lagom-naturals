@@ -1,8 +1,8 @@
 @import './storefront-footer-template.css';
 
 /* Global mobile shell contract.
-   The mobile header remains fixed to the viewport on every route and during route transitions.
-   This file is intentionally imported last so route/page-specific CSS cannot opt the header out. */
+   Keep the document as the single vertical scroll owner. Horizontal product/category
+   rails may pan sideways, but must yield vertical gestures immediately to the page. */
 
 :root{
   --mobile-header-content-h:70px;
@@ -17,11 +17,57 @@
     min-height:100%;
   }
 
+  html{
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+    scroll-behavior:auto!important;
+    overscroll-behavior-y:auto!important;
+    touch-action:pan-y pinch-zoom;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  body{
+    overflow-x:hidden!important;
+    overflow-y:visible!important;
+    overscroll-behavior-y:auto!important;
+    touch-action:pan-y pinch-zoom;
+  }
+
+  #root,
+  .app-shell,
+  .app-shell>main,
+  .route-stage{
+    overflow-x:clip!important;
+    overflow-y:visible!important;
+    touch-action:pan-y pinch-zoom;
+  }
+
   .route-stage{
     transform:none!important;
     filter:none!important;
     perspective:none!important;
-    overflow:visible!important;
+  }
+
+  /* Horizontal discovery rails previously used contain + scroll snapping. On touch
+     browsers that can capture a slightly diagonal first swipe and make the page feel
+     frozen. Keep native horizontal panning, but allow the gesture to chain vertically. */
+  .home-category-row,
+  .shop-page .product-grid,
+  .listing-page .chips,
+  .merch-chips{
+    overscroll-behavior:auto!important;
+    overscroll-behavior-inline:auto!important;
+    scroll-snap-type:none!important;
+    touch-action:pan-x pan-y pinch-zoom!important;
+  }
+
+  .home-category-row>.motion-card-shell,
+  .shop-page .product-grid>div,
+  .shop-page .product-grid>.product-card,
+  .listing-page .chips button,
+  .merch-chips button{
+    scroll-snap-align:none!important;
+    scroll-snap-stop:normal!important;
   }
 
   .app-shell:has(.pdp){--mobile-header-content-h:76px}
@@ -49,6 +95,7 @@
     transform:none!important;
     translate:none!important;
     will-change:auto!important;
+    touch-action:pan-y pinch-zoom;
   }
 
   .app-shell>.site-header .header-inner,
@@ -62,6 +109,7 @@
     padding-top:var(--mobile-header-total-h)!important;
   }
 
+  /* Drawer remains an intentional isolated scroll surface only while it is open. */
   .drawer-bg{
     position:fixed!important;
     top:var(--mobile-header-total-h)!important;
@@ -71,11 +119,17 @@
     z-index:950!important;
     width:100vw!important;
     height:calc(100dvh - var(--mobile-header-total-h))!important;
+    touch-action:none;
   }
 
   .drawer{
     min-height:100%!important;
     height:100%!important;
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+    overscroll-behavior:contain!important;
+    touch-action:pan-y pinch-zoom!important;
+    -webkit-overflow-scrolling:touch;
   }
 }
 
