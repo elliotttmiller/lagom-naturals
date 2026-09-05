@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 220" role="img" aria-labelledby="title desc">
+  <title id="title">Lagom Naturals</title>
+  <desc id="desc">Five-leaf Lagom Naturals brand mark with crossbarless A wordmark.</desc>
+  <g fill="none" stroke="#111" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M260 82C239 60 238 30 260 8c22 22 21 52 0 74Z"/>
+    <path d="M249 84c-30-9-52-32-53-57 27 1 49 20 60 54"/>
+    <path d="M271 84c30-9 52-32 53-57-27 1-49 20-60 54"/>
+    <path d="M253 88c-32 18-68 17-89-3 22-20 57-19 89 3Z"/>
+    <path d="M267 88c32 18 68 17 89-3-22-20-57-19-89 3Z"/>
+  </g>
+  <g fill="#111">
+    <path d="M70 124h12v55h44v11H70z"/>
+    <path d="M149 190h-14l33-66h12l33 66h-14l-25-51z"/>
+    <path d="M267 134c-8-5-17-7-27-7-19 0-32 11-32 27s13 27 32 27c9 0 17-2 23-6v-14h-25v-10h37v30c-10 7-22 11-36 11-27 0-44-15-44-38 0-22 18-38 45-38 13 0 25 3 34 9z"/>
+    <path d="M330 116c26 0 44 16 44 38 0 23-18 38-44 38s-44-15-44-38c0-22 18-38 44-38Zm0 11c-18 0-31 11-31 27s13 27 31 27 31-11 31-27-13-27-31-27Z"/>
+    <path d="M391 124h11l32 37 32-37h11v66h-12v-47l-31 35-31-35v47h-12z"/>
+  </g>
+  <line x1="68" y1="207" x2="154" y2="207" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+  <text x="260" y="214" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" letter-spacing="11" fill="#111">NATURALS</text>
+  <line x1="365" y1="207" x2="452" y2="207" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+</svg>
