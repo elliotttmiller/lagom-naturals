@@ -1,0 +1,73 @@
+.hamburger{
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  flex:0 0 42px;
+  margin:0;
+  padding:0;
+  border:0;
+  border-radius:999px;
+  background:transparent;
+  color:var(--ink-soft,#25302a);
+  cursor:pointer;
+  font-size:13px;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+  touch-action:manipulation;
+}
+
+.hamburger:hover{background:var(--surface-soft,#f7f8f6)}
+.hamburger:focus-visible{outline:3px solid #157a5b;outline-offset:-2px}
+
+.hamburger input{
+  position:absolute;
+  width:1px;
+  height:1px;
+  opacity:0;
+  pointer-events:none;
+}
+
+.hamburger svg{
+  width:3em;
+  height:3em;
+  display:block;
+  overflow:visible;
+  transition:transform 600ms cubic-bezier(.4,0,.2,1);
+}
+
+.hamburger .line{
+  fill:none;
+  stroke:currentColor;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  stroke-width:3;
+  transition:
+    stroke-dasharray 600ms cubic-bezier(.4,0,.2,1),
+    stroke-dashoffset 600ms cubic-bezier(.4,0,.2,1);
+}
+
+.hamburger .line-top-bottom{stroke-dasharray:12 63}
+
+.hamburger input:checked+svg{transform:rotate(-45deg)}
+.hamburger input:checked+svg .line-top-bottom{
+  stroke-dasharray:20 300;
+  stroke-dashoffset:-32.42;
+}
+
+.drawer-top .hamburger{
+  margin-left:auto;
+  color:var(--ink,#101713);
+}
+
+@media(max-width:699px){
+  .header-inner>.hamburger{justify-self:start}
+  .hamburger{width:44px;height:44px;flex-basis:44px;font-size:13px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .hamburger svg,
+  .hamburger .line{
+    transition-duration:0.01ms!important;
+  }
+}
