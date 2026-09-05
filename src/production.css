@@ -73,17 +73,21 @@ a, button, .icon-btn, .category-card, .product-card, .merch-card, .originals-ban
   );
 }
 
-.trust-strip {
-  position: relative;
-  z-index: 4;
-  margin-top: -1px;
-  background: var(--surface-warm);
-  border-top: 0;
-  box-shadow: none;
-}
-
 .home-hero ~ .mobile-section {
   background: var(--surface-warm);
+}
+
+/* ─── CATEGORY IMAGE SYSTEM ──────────────────────────────────────────────── */
+.category-card.has-image img {
+  object-fit: contain;
+  object-position: center;
+  max-width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.category-card.has-image span {
+  flex: 0 0 auto;
 }
 
 /* ─── MOBILE HOME CALIBRATION ────────────────────────────────────────────── */
@@ -115,23 +119,19 @@ a, button, .icon-btn, .category-card, .product-card, .merch-card, .originals-ban
   .hero-actions a:last-child { background:#fff !important; color:var(--ink) !important; border:1px solid rgba(16,23,19,.72) }
   .hero-actions svg { width:13px; height:13px }
 
-  .trust-strip { display:grid !important; grid-template-columns:repeat(3,minmax(0,1fr)); min-height:62px; padding:9px 12px 11px; background:var(--surface-warm); border:0; align-items:center }
-  .trust-strip > div { min-width:0 }
-  .trust-strip > div > div { display:flex; align-items:center; justify-content:center; gap:7px; min-width:0 }
-  .trust-strip svg { width:23px; height:23px; flex:0 0 auto; stroke-width:1.55; color:var(--ink-soft) }
-  .trust-strip span { font:800 6.7px/1.08 var(--font-ui); letter-spacing:-.01em; color:var(--ink-soft); white-space:nowrap }
-
-  .trust-strip + .mobile-section { padding-top:18px }
   .mobile-section { padding:20px 14px 0 }
+  .home-hero + .mobile-section { padding-top:22px }
   .section-title { margin-bottom:11px }
   .mobile-section .section-title h2 { font:600 23px/1 var(--font-display); letter-spacing:-.025em }
   .section-title a { font:700 10px/1 var(--font-primary) }
   .section-title svg { width:13px; height:13px }
   .home-category-row { gap:7px }
-  .home-category-row .category-card { height:92px; padding:8px 5px; border-radius:7px; background:#f7f6f2 }
-  .home-category-row .category-card img,
-  .home-category-row .category-symbol { width:55px; height:52px }
+  .home-category-row .category-card { height:104px; padding:7px 5px 8px; border-radius:8px; background:#f7f6f2 }
+  .home-category-row .category-card.has-image img { width:66px; height:68px; padding:1px }
   .home-category-row .category-card span { font-size:8.5px }
+
+  .category-grid .category-card.has-image { padding-top:7px }
+  .category-grid .category-card.has-image img { width:54px; height:48px }
 }
 
 @media (max-width:380px) {
@@ -142,16 +142,18 @@ a, button, .icon-btn, .category-card, .product-card, .merch-card, .originals-ban
   .hero-copy { padding-inline:16px; bottom:46px }
   .hero-copy h1 { font-size:48px }
   .hero-copy > span { font-size:12px }
-  .trust-strip { padding-inline:9px; min-height:60px }
-  .trust-strip > div > div { gap:5px }
-  .trust-strip svg { width:21px; height:21px }
-  .trust-strip span { font-size:6.2px }
+  .home-category-row .category-card { height:98px }
+  .home-category-row .category-card.has-image img { width:60px; height:62px }
 }
 
 @media (min-width:700px) {
   .home-hero::after { height:138px; backdrop-filter:blur(7px) saturate(.96); -webkit-backdrop-filter:blur(7px) saturate(.96) }
   .hero-surface-fade { height:154px }
-  .trust-strip { background:var(--surface-warm); border:0 }
+  .category-card.has-image img { width:74px; height:68px }
+}
+
+@media (min-width:900px) {
+  .category-card.has-image img { width:82px; height:76px }
 }
 
 /* ─── MISC UTILITIES ─────────────────────────────────────────────────────── */
