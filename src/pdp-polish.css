@@ -1,50 +1,300 @@
 /* Product-detail refinement layer.
-   The mobile composition is calibrated from the approved retail PDP reference.
-   Header/footer chrome is intentionally outside this layer. */
+   This file is authoritative for PDP layout/typography and is loaded last.
+   Mobile treatment follows the approved product-page reference; global header/footer
+   chrome is intentionally outside this layer. */
 
-.pdp{--pdp-ink:#111713;--pdp-muted:#68706a;--pdp-line:#e3e7e2;--pdp-soft:#f6f7f4;--pdp-green-soft:#edf6f1;color:var(--pdp-ink);background:#fff;min-width:0}
-.pdp-media{position:relative;display:grid;place-items:center;overflow:hidden;isolation:isolate;background:#f6f6f2;border:1px solid var(--pdp-line)}
-.pdp-media img{display:block;width:auto!important;height:auto!important;max-width:92%!important;max-height:92%!important;object-fit:contain!important;object-position:center!important;transform:none!important;margin:auto}
-.pdp-dots{display:none!important}.pdp-copy{min-width:0;color:var(--pdp-ink)}
-.pdp-copy>p:first-child{color:#5f675f;font-family:var(--font-primary);font-weight:600}
-.pdp-copy h1{color:var(--pdp-ink);font-family:var(--font-primary);font-weight:800;letter-spacing:-.03em;text-wrap:balance}
-.review-line{display:flex;align-items:center}.review-line span{color:#d79222;letter-spacing:.055em}.review-line small{color:#646c66;font-family:var(--font-primary);font-weight:600}
-.pdp-copy h2{color:var(--pdp-ink);font-family:var(--font-primary);font-weight:900;letter-spacing:-.035em}
-.meta-pills{display:flex;flex-wrap:wrap}.meta-pills span{color:#245d4b;background:#edf6f1;border:1px solid #deebe4;font-family:var(--font-primary);font-weight:700}
-.pdp-desc{color:#626b64;font-family:var(--font-primary);font-weight:500}
-.pdp-copy label,.pdp-copy .qty-row>b{color:#202620;font-family:var(--font-primary);font-weight:800}
+.pdp{
+  --pdp-ink:#111713;
+  --pdp-muted:#66706a;
+  --pdp-line:#e4e7e2;
+  --pdp-soft:#f7f7f3;
+  --pdp-green-soft:#eef5f1;
+  color:var(--pdp-ink);
+  background:#fff;
+  min-width:0;
+}
+
+.pdp-media{
+  position:relative;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  isolation:isolate;
+  background:#f7f7f3;
+  border:1px solid var(--pdp-line);
+}
+
+.pdp-media img{
+  display:block;
+  width:auto!important;
+  height:auto!important;
+  max-width:94%!important;
+  max-height:94%!important;
+  object-fit:contain!important;
+  object-position:center!important;
+  transform:none!important;
+  margin:auto;
+}
+
+.pdp-dots{display:none!important}
+.pdp-copy{min-width:0;color:var(--pdp-ink)}
+
+.pdp-copy>p:first-child{
+  color:#59635d;
+  font-family:var(--font-primary);
+  font-weight:600;
+  letter-spacing:-.01em;
+}
+
+/* The approved PDP uses an editorial serif product name rather than the rounded
+   global body face. Playfair is already part of the Lagom font bundle. */
+.pdp-copy h1{
+  color:var(--pdp-ink);
+  font-family:var(--font-display);
+  font-weight:600;
+  letter-spacing:-.035em;
+  text-wrap:balance;
+}
+
+.review-line{display:flex;align-items:center}
+.review-line span{color:#e0a020;letter-spacing:.07em}
+.review-line small{color:#59635d;font-family:var(--font-primary);font-weight:600}
+
+.pdp-copy h2{
+  color:var(--pdp-ink);
+  font-family:var(--font-primary);
+  font-weight:900;
+  letter-spacing:-.045em;
+}
+
+.meta-pills{display:flex;flex-wrap:wrap}
+.meta-pills span{
+  color:#175943;
+  background:var(--pdp-green-soft);
+  border:1px solid #dfeae4;
+  font-family:var(--font-primary);
+  font-weight:700;
+}
+
+.pdp-desc{
+  color:#59645e;
+  font-family:var(--font-primary);
+  font-weight:500;
+  letter-spacing:-.008em;
+}
+
+.pdp-copy label,.pdp-copy .qty-row>b{
+  color:#151b17;
+  font-family:var(--font-primary);
+  font-weight:800;
+}
+
 .pdp .size-row button,.pdp .qty-row>div,.pdp .qty-row button{font-family:var(--font-primary)}
-.pdp .size-row button{color:#202620;background:#fff;border:1px solid #d8ddd8}.pdp .size-row button.active{color:#fff;background:var(--green);border-color:var(--green)}
-.pdp .qty-row>div{border:1px solid var(--pdp-line);background:#fff}.pdp .primary-bar{background:var(--green);color:#fff;font-family:var(--font-ui);font-weight:850;letter-spacing:.005em;box-shadow:none}
+.pdp .size-row button{color:#fff;background:var(--green);border:1px solid var(--green)}
+.pdp .size-row button.active{color:#fff;background:var(--green);border-color:var(--green)}
+.pdp .qty-row>div{border:1px solid var(--pdp-line);background:#fbfbf9}
+.pdp .primary-bar{background:var(--green);color:#fff;font-family:var(--font-ui);font-weight:800;letter-spacing:.012em;box-shadow:none}
 
-/* Phone PDP: reference proportions are intentionally compact vertically but
-   use normal mobile reading sizes. The media is landscape-ish, not square. */
+/* ─── MOBILE PDP ───────────────────────────────────────────────────────────
+   Designed as a native phone composition, not a desktop PDP scaled down. */
 @media(max-width:699px){
-  .pdp{width:100%;padding:10px 18px calc(28px + env(safe-area-inset-bottom));}
-  .pdp-media{width:100%;height:auto!important;min-height:0!important;max-height:none!important;aspect-ratio:1.28/1;margin:0;padding:10px 14px;border-radius:7px}
-  .pdp-media img{max-width:94%!important;max-height:94%!important}
-  .pdp-copy{padding:10px 0 0}
-  .pdp-copy>p:first-child{margin:0 0 2px;font-size:11px;line-height:1.15}
-  .pdp-copy h1{margin:0 0 3px;max-width:100%;font-size:clamp(23px,6.5vw,27px);line-height:1.02}
-  .review-line{min-height:15px;gap:6px;margin:0}
-  .review-line span{font-size:11px;line-height:1}.review-line small{font-size:8.5px;line-height:1}
-  .pdp-copy h2{margin:7px 0 7px;font-size:22px;line-height:1}
-  .meta-pills{gap:5px;margin:0 0 7px}.meta-pills span{padding:3px 7px;border-radius:999px;font-size:8.5px;line-height:1.05}
-  .pdp-desc{max-width:100%;margin:0 0 10px;font-size:10.5px;line-height:1.35}
-  .pdp-copy label,.pdp-copy .qty-row>b{display:block;margin:0;font-size:9.5px;line-height:1.1}
-  .pdp .size-row{display:flex!important;flex-wrap:wrap;gap:6px;margin-top:5px}
-  .pdp .size-row.single-option{width:100%;grid-template-columns:none!important}
-  .pdp .size-row button,.pdp .size-row.single-option button{width:auto!important;min-width:72px;height:31px;padding:0 12px;border-radius:4px;font-size:9px;font-weight:800}
-  .pdp .qty-row{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:9px 0 9px}
-  .pdp .qty-row>div{display:flex;align-items:center;min-width:100px;height:30px;justify-content:space-between;border-radius:4px}
-  .pdp .qty-row button{display:grid;place-items:center;width:31px;height:28px;padding:0;background:transparent;border:0}.pdp .qty-row button svg{width:12px;height:12px}.pdp .qty-row span{min-width:26px;text-align:center;font-size:9px;font-weight:800}
-  .pdp .primary-bar{width:100%;height:36px;border-radius:4px;font-size:9.5px}
+  .pdp{
+    width:100%;
+    max-width:none;
+    margin:0;
+    padding:12px 14px calc(34px + env(safe-area-inset-bottom));
+  }
+
+  .pdp-media{
+    width:100%;
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+    aspect-ratio:1.22/1;
+    margin:0;
+    padding:16px 18px 18px;
+    border-radius:10px;
+    background:linear-gradient(145deg,#fafaf7 0%,#f5f6f1 100%);
+  }
+
+  .pdp-media img{
+    max-width:96%!important;
+    max-height:96%!important;
+  }
+
+  .pdp-copy{
+    padding:16px 2px 0;
+  }
+
+  .pdp-copy>p:first-child{
+    margin:0 0 3px;
+    font-size:12px;
+    line-height:1.2;
+  }
+
+  .pdp-copy h1{
+    margin:0 0 7px;
+    max-width:100%;
+    font-size:clamp(29px,8.2vw,34px);
+    line-height:.96;
+  }
+
+  .review-line{
+    min-height:18px;
+    gap:7px;
+    margin:0 0 2px;
+  }
+
+  .review-line span{
+    font-size:12px;
+    line-height:1;
+  }
+
+  .review-line small{
+    font-size:9.5px;
+    line-height:1.1;
+  }
+
+  .pdp-copy h2{
+    margin:12px 0 10px;
+    font-size:27px;
+    line-height:.98;
+  }
+
+  .meta-pills{
+    gap:7px;
+    margin:0 0 13px;
+  }
+
+  .meta-pills span{
+    padding:6px 10px;
+    border-radius:999px;
+    font-size:10px;
+    line-height:1;
+  }
+
+  .pdp-desc{
+    max-width:100%;
+    margin:0 0 18px;
+    font-size:12.5px;
+    line-height:1.46;
+  }
+
+  .pdp-copy label,
+  .pdp-copy .qty-row>b{
+    display:block;
+    margin:0;
+    font-size:11px;
+    line-height:1.2;
+  }
+
+  .pdp .size-row{
+    display:flex!important;
+    flex-wrap:wrap;
+    gap:7px;
+    margin-top:8px;
+  }
+
+  .pdp .size-row.single-option{
+    width:100%;
+    grid-template-columns:none!important;
+  }
+
+  .pdp .size-row button,
+  .pdp .size-row.single-option button{
+    width:auto!important;
+    min-width:94px;
+    height:46px;
+    padding:0 18px;
+    border-radius:7px;
+    font-size:12px;
+    font-weight:800;
+  }
+
+  .pdp .qty-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:18px;
+    margin:18px 0 16px;
+  }
+
+  .pdp .qty-row>div{
+    display:flex;
+    align-items:center;
+    min-width:126px;
+    height:44px;
+    justify-content:space-between;
+    border-radius:7px;
+    overflow:hidden;
+  }
+
+  .pdp .qty-row button{
+    display:grid;
+    place-items:center;
+    width:42px;
+    height:42px;
+    padding:0;
+    background:transparent;
+    border:0;
+  }
+
+  .pdp .qty-row button svg{
+    width:15px;
+    height:15px;
+  }
+
+  .pdp .qty-row span{
+    min-width:38px;
+    text-align:center;
+    font-size:12px;
+    font-weight:800;
+  }
+
+  .pdp .primary-bar{
+    width:100%;
+    height:52px;
+    border-radius:7px;
+    font-size:12px;
+  }
 }
 
 @media(max-width:380px){
-  .pdp{padding-inline:14px}.pdp-media{aspect-ratio:1.24/1;padding:9px 12px}.pdp-media img{max-width:95%!important;max-height:95%!important}
-  .pdp-copy h1{font-size:23px}.pdp-copy>p:first-child{font-size:10px}.pdp-desc{font-size:10px}.pdp .size-row button,.pdp .size-row.single-option button{min-width:66px}
+  .pdp{padding-inline:12px}
+  .pdp-media{aspect-ratio:1.18/1;padding:14px 14px 16px}
+  .pdp-media img{max-width:97%!important;max-height:97%!important}
+  .pdp-copy{padding-top:15px}
+  .pdp-copy>p:first-child{font-size:11.5px}
+  .pdp-copy h1{font-size:29px}
+  .pdp-copy h2{font-size:25px}
+  .pdp-desc{font-size:12px}
+  .meta-pills span{font-size:9.5px}
+  .pdp .size-row button,.pdp .size-row.single-option button{min-width:88px;height:44px}
+  .pdp .qty-row>div{min-width:118px;height:42px}
+  .pdp .primary-bar{height:50px}
 }
 
-@media(min-width:700px) and (max-width:899px){.pdp{width:min(760px,calc(100vw - 48px));margin:28px auto 52px}.pdp-media{height:auto!important;aspect-ratio:1.16/1;padding:28px;border-radius:10px}.pdp-media img{max-width:90%!important;max-height:90%!important}.pdp-copy{padding:24px 4px 0}.pdp-copy>p:first-child{font-size:12px}.pdp-copy h1{font-size:clamp(30px,4.4vw,38px)}.pdp-copy h2{font-size:26px}.pdp-desc{font-size:13px;line-height:1.55}}
-@media(min-width:900px){.pdp-media{overflow:hidden;border-radius:10px;background:linear-gradient(145deg,#f8f8f5,#f1f3ee)}.pdp-media img{max-width:84%!important;max-height:84%!important}.pdp-copy>p:first-child{font-size:12px}.pdp-copy h1{font-size:clamp(36px,3vw,48px);line-height:1;font-weight:850}.review-line span{font-size:12px}.review-line small{font-size:9px}.pdp-copy h2{font-size:26px}.meta-pills span{font-size:9px}.pdp-desc{font-size:13px;line-height:1.55}}
+/* Tablet retains the same visual language at a calmer content width. */
+@media(min-width:700px) and (max-width:899px){
+  .pdp{width:min(760px,calc(100vw - 48px));margin:28px auto 52px}
+  .pdp-media{height:auto!important;aspect-ratio:1.18/1;padding:30px;border-radius:12px}
+  .pdp-media img{max-width:92%!important;max-height:92%!important}
+  .pdp-copy{padding:26px 4px 0}
+  .pdp-copy>p:first-child{font-size:13px}
+  .pdp-copy h1{font-family:var(--font-display);font-size:clamp(36px,5vw,46px);font-weight:600;line-height:.98}
+  .pdp-copy h2{font-size:28px}
+  .pdp-desc{font-size:14px;line-height:1.55}
+}
+
+/* Desktop remains a true desktop PDP; only the product-page type language is shared. */
+@media(min-width:900px){
+  .pdp-media{overflow:hidden;border-radius:12px;background:linear-gradient(145deg,#f8f8f5,#f1f3ee)}
+  .pdp-media img{max-width:86%!important;max-height:86%!important}
+  .pdp-copy>p:first-child{font-size:13px}
+  .pdp-copy h1{font-family:var(--font-display);font-size:clamp(40px,3.2vw,54px);line-height:.96;font-weight:600}
+  .review-line span{font-size:13px}
+  .review-line small{font-size:10px}
+  .pdp-copy h2{font-size:28px}
+  .meta-pills span{font-size:10px}
+  .pdp-desc{font-size:14px;line-height:1.55}
+}
