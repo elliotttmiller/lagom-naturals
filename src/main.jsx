@@ -10,6 +10,7 @@ import './production.css'
 import './pdp-polish.css'
 import './catalog-polish.css'
 import './variant-polish.css'
+import './mobile-shell.css'
 
 const routeMeta={
   '/':{title:'Lagom Naturals | Minneapolis Cannabis Dispensary',label:'Home',description:'Premium cannabis products from trusted brands, thoughtfully curated in Minneapolis.'},
