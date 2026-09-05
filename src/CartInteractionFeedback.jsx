@@ -56,6 +56,7 @@ function pulseCart(){
 }
 
 function begin(trigger,before,announce){
+  if(!trigger.isConnected||trigger.dataset.state!=='idle')return
   clearTimers(trigger)
   trigger.dataset.state='adding'
   trigger.setAttribute('aria-busy','true')
@@ -98,7 +99,7 @@ export default function CartInteractionFeedback(){
       if(trigger.dataset.state!=='idle')return
       setAnnouncement('')
       const before=readCartSnapshot()
-      begin(trigger,before,message=>{setAnnouncement('');requestAnimationFrame(()=>setAnnouncement(message))})
+      queueMicrotask(()=>begin(trigger,before,message=>{setAnnouncement('');requestAnimationFrame(()=>setAnnouncement(message))}))
     }
     document.addEventListener('click',onClick,true)
     return()=>{observer.disconnect();document.removeEventListener('click',onClick,true)}
