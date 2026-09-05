@@ -39,23 +39,27 @@ export function AppMotionProvider({children}){
   </LazyMotion>
 }
 
-export function RouteMotion({routeKey,children}){
+export function RouteMotion({routeKey,navigationType='PUSH',children}){
   const reduceMotion=useReducedMotion()
   const controls=useAnimationControls()
 
   React.useLayoutEffect(()=>{
     if(reduceMotion){
-      controls.set({opacity:1,y:0})
+      controls.set({opacity:1,y:0,scale:1,filter:'blur(0px)'})
       return
     }
 
-    controls.set({opacity:.94,y:5})
-    controls.start({
+    const returning=navigationType==='POP'
+    controls.set({opacity:returning?.985:.965,y:returning?2:8,scale:returning?.999:.997,filter:'blur(0px)'})
+    const frame=requestAnimationFrame(()=>controls.start({
       opacity:1,
       y:0,
-      transition:{duration:motionTokens.duration.base,ease:motionTokens.ease},
-    })
-  },[controls,reduceMotion,routeKey])
+      scale:1,
+      filter:'blur(0px)',
+      transition:{duration:returning?motionTokens.duration.base:motionTokens.duration.slow,ease:motionTokens.easeSoft},
+    }))
+    return()=>cancelAnimationFrame(frame)
+  },[controls,navigationType,reduceMotion,routeKey])
 
   return <m.div className="route-stage" initial={false} animate={controls}>{children}</m.div>
 }
