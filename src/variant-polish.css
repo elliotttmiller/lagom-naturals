@@ -1,3 +1,5 @@
+@import './mobile-pdp-fixes.css';
+
 /* Interactive catalog variant selector. Loaded after catalog-polish.css. */
 .product-card{overflow:visible}
 .product-card.is-variant-open{z-index:12}
@@ -35,109 +37,63 @@
   .variant-menu>button{min-height:42px;font-size:11px}
 }
 
-/* PDP variant selector ------------------------------------------------------
-   White is the neutral state. Only the currently selected variant carries
-   the Lagom green fill. Selection changes are intentionally animated through
-   color/border/shadow rather than scaling the controls. */
-.pdp .size-row:not(.apparel){
-  display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:8px;
-}
+/* PDP variants intentionally inherit the mobile-native PDP control system.
+   Keep the row app-scale and let selection update the prominent PDP price above. */
+.pdp .size-row:not(.apparel){display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.pdp .size-row.single-option{grid-template-columns:repeat(4,minmax(0,1fr))}
+.pdp .size-row:not(.apparel)>button{min-width:0;display:flex;align-items:center;justify-content:center;gap:2px;flex-direction:column}
+.pdp .size-row:not(.apparel)>button small{display:none}
 
-.pdp .size-row.single-option{
-  grid-template-columns:repeat(4,minmax(0,1fr));
-}
+@media(max-width:420px){.pdp .size-row:not(.apparel){gap:6px}}
 
+/* PDP variation state contract: neutral available options, Lagom green selected option,
+   with restrained color/border easing and no mobile hover/scale behavior. */
 .pdp .size-row:not(.apparel)>button{
-  min-width:0;
-  min-height:48px;
-  position:relative;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  gap:2px;
-  padding:7px 8px;
-  overflow:hidden;
-  color:var(--ink,#101713)!important;
+  color:#17211c!important;
   background:#fff!important;
-  border:1px solid #d7ddd8!important;
-  border-radius:7px!important;
-  box-shadow:0 1px 2px rgba(16,23,19,.02);
-  font-family:var(--font-primary);
-  font-weight:800;
-  line-height:1.05;
+  border:1px solid #d8ddd8!important;
+  box-shadow:none!important;
+  transform:none!important;
   transition:
     background-color 260ms cubic-bezier(.22,1,.36,1),
     border-color 260ms cubic-bezier(.22,1,.36,1),
-    color 220ms cubic-bezier(.22,1,.36,1),
-    box-shadow 260ms cubic-bezier(.22,1,.36,1);
-}
-
-.pdp .size-row:not(.apparel)>button>span{
-  position:relative;
-  z-index:1;
-  color:inherit;
+    color 260ms cubic-bezier(.22,1,.36,1),
+    box-shadow 260ms cubic-bezier(.22,1,.36,1)!important;
 }
 
 .pdp .size-row:not(.apparel)>button small{
-  display:block;
-  position:relative;
-  z-index:1;
-  margin:1px 0 0;
-  color:#69726d;
-  font:800 9px/1 var(--font-ui);
+  display:block!important;
+  margin-top:3px;
+  color:#67716b;
+  font:750 10px/1 var(--font-primary);
   opacity:1;
-  transition:color 220ms cubic-bezier(.22,1,.36,1),opacity 220ms cubic-bezier(.22,1,.36,1);
+  transition:color 260ms cubic-bezier(.22,1,.36,1)!important;
 }
 
 .pdp .size-row:not(.apparel)>button.active{
   color:#fff!important;
-  background:var(--green,#0f513d)!important;
-  border-color:var(--green,#0f513d)!important;
-  box-shadow:0 5px 14px rgba(15,81,61,.14);
+  background:var(--green)!important;
+  border-color:var(--green)!important;
+  box-shadow:0 5px 12px rgba(15,81,61,.12)!important;
 }
 
 .pdp .size-row:not(.apparel)>button.active small{
-  color:rgba(255,255,255,.88);
+  color:#fff!important;
 }
 
 .pdp .size-row:not(.apparel)>button:focus-visible{
-  outline:3px solid rgba(21,122,91,.34);
-  outline-offset:2px;
+  outline:2px solid #157a5b!important;
+  outline-offset:2px!important;
 }
 
-/* Mobile is tap-first: no hover-only visual movement or hover fill. */
-@media(max-width:899px){
-  .pdp .size-row:not(.apparel)>button:hover{
-    color:var(--ink,#101713)!important;
-    background:#fff!important;
-    border-color:#d7ddd8!important;
-    box-shadow:0 1px 2px rgba(16,23,19,.02);
-  }
-
-  .pdp .size-row:not(.apparel)>button.active:hover{
-    color:#fff!important;
-    background:var(--green,#0f513d)!important;
-    border-color:var(--green,#0f513d)!important;
-    box-shadow:0 5px 14px rgba(15,81,61,.14);
-  }
-}
-
-@media(max-width:420px){
-  .pdp .size-row:not(.apparel){gap:6px}
-  .pdp .size-row:not(.apparel)>button{min-height:48px;padding-inline:6px}
-}
-
-@media(hover:hover) and (pointer:fine) and (min-width:900px){
+@media (hover:hover) and (pointer:fine){
   .pdp .size-row:not(.apparel)>button:not(.active):hover{
-    border-color:#aebbb3!important;
+    border-color:#bfc8c1!important;
     background:#fafbf9!important;
   }
 }
 
-@media(prefers-reduced-motion:reduce){
+@media (prefers-reduced-motion:reduce){
   .pdp .size-row:not(.apparel)>button,
   .pdp .size-row:not(.apparel)>button small{
     transition-duration:.01ms!important;
