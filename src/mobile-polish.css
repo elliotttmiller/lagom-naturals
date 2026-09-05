@@ -47,3 +47,54 @@
   .hero-copy{bottom:calc(88px + env(safe-area-inset-bottom))}
   .category-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
+
+/* Homepage mockup alignment: compact storefront hero with the next section visible. */
+@media(max-width:699px){
+  .app-shell main{padding-bottom:0}
+  .site-header{position:sticky;background:#fff;border-bottom:1px solid #e9e9e5;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+  .site-header .header-inner{height:70px;padding-inline:18px;grid-template-columns:44px 1fr 88px}
+  .brand{justify-self:center}
+  .brand img{width:82px;height:42px}
+  .header-tools{gap:0}
+  .icon-btn{width:40px;height:40px;border-radius:0}
+  .icon-btn:hover{background:transparent}
+  .icon-btn svg{width:21px;height:21px;stroke-width:1.85;color:#142019}
+  .cart-icon b{right:0;top:2px;background:#0f513d}
+
+  .home-hero{height:344px;min-height:344px;max-height:344px;background:#17110c}
+  .home-hero>img{height:100%;object-position:50% 60%;transform:scale(1)}
+  .hero-gradient{background:linear-gradient(to bottom,rgba(0,0,0,0) 0%,rgba(0,0,0,.04) 34%,rgba(0,0,0,.18) 55%,rgba(0,0,0,.68) 100%)}
+  .hero-copy{bottom:18px;padding-inline:24px;max-width:390px}
+  .hero-copy>p{font:800 9px/1.15 var(--font-ui);letter-spacing:.12em;margin:0 0 5px;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.35)}
+  .hero-copy h1{font:400 39px/.88 'Instrument Serif',Georgia,serif;letter-spacing:0;margin:0 0 8px;max-width:280px;color:#fff;text-shadow:0 2px 14px rgba(0,0,0,.35)}
+  .hero-copy>span{font:600 11.5px/1.28 var(--font-primary);max-width:315px;color:#fff;text-shadow:0 1px 10px rgba(0,0,0,.34)}
+  .hero-actions{grid-template-columns:1fr 1fr;gap:9px;margin-top:13px}
+  .hero-actions a{min-height:42px;border-radius:5px;font:800 8.5px/1 var(--font-ui);letter-spacing:0;padding-inline:7px}
+  .hero-actions a:first-child{background:#0b563e;color:#fff;box-shadow:0 4px 14px rgba(4,40,27,.24)}
+  .hero-actions a:last-child{background:#fff;color:#121812;border:1px solid #142019}
+  .hero-actions svg{width:13px;height:13px}
+
+  .trust-strip{min-height:58px;padding:10px 18px 9px;border-bottom:1px solid #e7e8e4;box-shadow:0 1px 8px rgba(12,18,14,.04)}
+  .trust-strip>div{justify-content:center;min-width:0}
+  .trust-strip>div>div{gap:6px!important;align-items:center}
+  .trust-strip>div>div svg{width:21px!important;height:21px!important;stroke-width:1.45!important;color:#172019!important}
+  .trust-strip>div>div span{font:800 6.4px/1.05 var(--font-ui)!important;letter-spacing:-.02em!important;color:#172019!important}
+
+  .mobile-section{padding:16px 20px 0}
+  .section-title{margin-bottom:9px}
+  .section-title h2{font:400 21px/1 'Instrument Serif',Georgia,serif;letter-spacing:0}
+  .section-title a{font:600 10px/1 var(--font-primary);color:#101713}
+  .home-category-row{grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+  .category-card{min-height:90px;border-radius:6px;padding:7px 4px 8px;background:#f4f3ef;border-color:#ecebe6;box-shadow:none}
+  .category-card img,.category-symbol{width:55px;height:50px;border-radius:5px}
+  .category-card span{font:700 8px/1.05 var(--font-primary)}
+}
+
+@media(max-width:380px){
+  .home-hero{height:336px;min-height:336px;max-height:336px}
+  .hero-copy{padding-inline:21px;bottom:16px}
+  .hero-copy h1{font-size:36px;max-width:260px}
+  .hero-copy>span{font-size:11px;max-width:300px}
+  .hero-actions{gap:8px}
+  .trust-strip{padding-inline:12px}
+}

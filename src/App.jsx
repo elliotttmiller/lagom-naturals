@@ -186,7 +186,7 @@ function EmptyState({title='Nothing here yet.',body='Check back soon for updated
   return <m.div className="empty-state" initial="hidden" animate="visible" variants={motionVariants.softScale}><h2>{title}</h2><p>{body}</p>{to&&<Link className="primary-bar" to={to}>{action}</Link>}</m.div>
 }
 
-function HomePage(){return <Shell>
+function HomePage(){return <Shell noNav>
   <m.section className="home-hero" initial="hidden" animate="visible">
     <m.img src={mainStore} alt="Lagom Naturals dispensary interior" fetchPriority="high" decoding="async" initial={{scale:1.025}} animate={{scale:1}} transition={{duration:1.05,ease:motionTokens.ease}}/>
     <div className="hero-gradient"/>
