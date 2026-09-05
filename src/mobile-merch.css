@@ -146,7 +146,7 @@
     letter-spacing:-.025em!important;
   }
 
-  .merch-card>b{
+  .merch-card>a>b{
     margin:10px 12px 0!important;
     color:var(--ink)!important;
     font:800 21px/1 var(--font-primary)!important;
@@ -380,7 +380,7 @@
   .merch-head h1{font-size:36px!important}
   .merch-grid{gap:10px!important}
   .merch-card h3{font-size:16px!important}
-  .merch-card>b{font-size:20px!important}
+  .merch-card>a>b{font-size:20px!important}
   .merch-detail-media{height:clamp(330px,103vw,390px)!important}
   .size-row.apparel{gap:6px!important}
   .size-row.apparel button{min-height:48px!important;font-size:15px!important}
