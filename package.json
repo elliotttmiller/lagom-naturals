@@ -19,7 +19,8 @@
     "react": "latest",
     "react-dom": "latest",
     "react-router-dom": "latest",
-    "lucide-react": "latest"
+    "lucide-react": "latest",
+    "motion": "13.2.0"
   },
   "devDependencies": {}
 }
