@@ -1,8 +1,9 @@
 ﻿import React,{createContext,useContext,useDeferredValue,useEffect,useMemo,useRef,useState}from'react'
 import{Link,NavLink,Route,Routes,useLocation,useNavigate,useParams}from'react-router-dom'
-import{ArrowLeft,ArrowRight,ChevronDown,ChevronRight,CircleHelp,CreditCard,Gift,Heart,MapPin,Menu,Minus,Navigation,PackageCheck,Phone,Plus,Search,Settings,ShoppingBag,SlidersHorizontal,Star,Store,X}from'lucide-react'
+import{ArrowLeft,ArrowRight,ChevronDown,ChevronRight,CircleHelp,CreditCard,Gift,Heart,MapPin,Minus,Navigation,PackageCheck,Phone,Plus,Search,Settings,ShoppingBag,SlidersHorizontal,Star,Store}from'lucide-react'
 import{m,Presence,Reveal,Stagger,StaggerItem,motionTokens,motionVariants}from'./motionSystem'
 import{products,merch,categoryCards,categoryImages}from'./catalogData'
+import HamburgerToggle from'./HamburgerToggle'
 import mainStore from'@/assets/mobile/main-store.webp'
 import mainStoreDesktop from'@/assets/desktop/main-store-desktop.webp'
 import mainStore2 from'@/assets/store/main-store2.webp'
@@ -12,6 +13,8 @@ import storefrontDay from'@/assets/store/storefront-day.webp'
 import storefrontNight from'@/assets/store/storefront-night.webp'
 
 const CART_KEY='lagom-cart-v2'
+const MENU_DURATION=600
+const MENU_EASE=[.4,0,.2,1]
 const productVariants=p=>p.variants?.length?p.variants:[{id:'default',label:p.weight,price:p.price}]
 const configuredProduct=(p,variant)=>({...p,variantId:variant.id,weight:variant.label,price:variant.price,cartKey:`${p.id}:${variant.id}`})
 
@@ -62,13 +65,26 @@ function Logo({onClick}){return <Link to="/" className="brand" onClick={onClick}
 function Header({detail=false}){
   const{count}=useCart()
   const[open,setOpen]=useState(false)
+  const[drawerVisible,setDrawerVisible]=useState(false)
   const nav=useNavigate()
   const triggerRef=useRef(null)
   const drawerRef=useRef(null)
   const closeRef=useRef(null)
-  const closeDrawer=()=>setOpen(false)
+  const closeTimerRef=useRef(null)
+  const openDrawer=()=>{
+    if(closeTimerRef.current)clearTimeout(closeTimerRef.current)
+    setDrawerVisible(true)
+    requestAnimationFrame(()=>setOpen(true))
+  }
+  const closeDrawer=()=>{
+    setOpen(false)
+    if(closeTimerRef.current)clearTimeout(closeTimerRef.current)
+    closeTimerRef.current=setTimeout(()=>setDrawerVisible(false),MENU_DURATION)
+  }
+  const setDrawerState=next=>next?openDrawer():closeDrawer()
+  useEffect(()=>()=>{if(closeTimerRef.current)clearTimeout(closeTimerRef.current)},[])
   useEffect(()=>{
-    if(!open)return
+    if(!drawerVisible)return
     const previous=document.activeElement
     const previousOverflow=document.body.style.overflow
     document.body.style.overflow='hidden'
@@ -76,7 +92,7 @@ function Header({detail=false}){
     const onKeyDown=event=>{
       if(event.key==='Escape'){event.preventDefault();closeDrawer();return}
       if(event.key!=='Tab')return
-      const focusable=drawerRef.current?.querySelectorAll('a[href],button:not([disabled]),input,select,textarea,[tabindex]:not([tabindex="-1"])')
+      const focusable=drawerRef.current?.querySelectorAll('a[href],button:not([disabled]),select,textarea,[tabindex]:not([tabindex="-1"])')
       if(!focusable?.length)return
       const first=focusable[0],last=focusable[focusable.length-1]
       if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus()}
@@ -84,15 +100,15 @@ function Header({detail=false}){
     }
     document.addEventListener('keydown',onKeyDown)
     return()=>{document.removeEventListener('keydown',onKeyDown);document.body.style.overflow=previousOverflow;previous?.focus?.()}
-  },[open])
+  },[drawerVisible])
   return <>
     <m.header className="site-header" layout="position"><div className="header-inner">
-      {detail?<m.button type="button" whileTap={{scale:.9}} className="icon-btn" onClick={()=>nav(-1)} aria-label="Back"><ArrowLeft/></m.button>:<m.button ref={triggerRef} type="button" whileTap={{scale:.9}} className="icon-btn" onClick={()=>setOpen(true)} aria-label="Menu" aria-expanded={open} aria-controls="site-navigation-drawer"><Menu/></m.button>}
+      {detail?<m.button type="button" whileTap={{scale:.9}} className="icon-btn" onClick={()=>nav(-1)} aria-label="Back"><ArrowLeft/></m.button>:<HamburgerToggle ref={triggerRef} checked={open} onChange={setDrawerState} controls="site-navigation-drawer" label={open?'Close menu':'Open menu'}/>} 
       <Logo/>
       {!detail&&<nav className="desktop-nav" aria-label="Primary navigation"><NavLink to="/shop">Shop</NavLink><NavLink to="/merch">Merch</NavLink><NavLink to="/visit">Visit</NavLink><NavLink to="/about">About</NavLink></nav>}
       <div className="header-tools"><m.div whileTap={{scale:.92}}><Link className="icon-btn" to="/shop" aria-label="Search"><Search/></Link></m.div>{!detail&&<m.div whileTap={{scale:.92}}><Link className="icon-btn cart-icon" to="/cart" aria-label={`Cart, ${count} item${count===1?'':'s'}`}><ShoppingBag/><Presence>{count>0&&<m.b key={count} initial={{scale:.4,opacity:0}} animate={{scale:1,opacity:1}} exit={{scale:.5,opacity:0}} transition={motionTokens.springSnappy}>{count}</m.b>}</Presence></Link></m.div>}{detail&&<m.button type="button" whileTap={{scale:.9}} className="icon-btn" aria-label="Save"><Heart/></m.button>}</div>
     </div></m.header>
-    <Presence>{open&&<m.div key="drawer" className="drawer-bg" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} transition={{duration:motionTokens.duration.fast}} onClick={closeDrawer}><m.aside ref={drawerRef} id="site-navigation-drawer" className="drawer" role="dialog" aria-modal="true" aria-label="Site navigation" initial={{x:'-102%'}} animate={{x:0}} exit={{x:'-102%'}} transition={motionTokens.springSoft} onClick={event=>event.stopPropagation()}><div className="drawer-top"><Logo onClick={closeDrawer}/><m.button ref={closeRef} type="button" whileTap={{scale:.9}} className="icon-btn" onClick={closeDrawer} aria-label="Close menu"><X/></m.button></div><m.nav initial="hidden" animate="visible" variants={motionVariants.stagger}>{[['Shop','/shop'],['Apparel & Merch','/merch'],['Visit Our Store','/visit'],['About Lagom','/about'],['My Account','/account']].map(([label,to])=><m.div key={to} variants={motionVariants.item}><Link to={to} onClick={closeDrawer}>{label}<ChevronRight/></Link></m.div>)}</m.nav></m.aside></m.div>}</Presence>
+    {drawerVisible&&<m.div key="drawer" className="drawer-bg" initial={{opacity:0}} animate={{opacity:open?1:0}} transition={{duration:MENU_DURATION/1000,ease:MENU_EASE}} onClick={closeDrawer}><m.aside ref={drawerRef} id="site-navigation-drawer" className="drawer" role="dialog" aria-modal="true" aria-label="Site navigation" initial={{x:'-102%'}} animate={{x:open?0:'-102%'}} transition={{duration:MENU_DURATION/1000,ease:MENU_EASE}} onClick={event=>event.stopPropagation()}><div className="drawer-top"><Logo onClick={closeDrawer}/><HamburgerToggle ref={closeRef} checked={open} onChange={setDrawerState} controls="site-navigation-drawer" label="Close menu"/></div><m.nav initial="hidden" animate={open?'visible':'hidden'} variants={motionVariants.stagger}>{[['Shop','/shop'],['Apparel & Merch','/merch'],['Visit Our Store','/visit'],['About Lagom','/about'],['My Account','/account']].map(([label,to])=><m.div key={to} variants={motionVariants.item}><Link to={to} onClick={closeDrawer}>{label}<ChevronRight/></Link></m.div>)}</m.nav></m.aside></m.div>}
   </>
 }
 
