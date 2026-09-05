@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { BrowserRouter, Link, useLocation, useNavigationType } from 'react-router-dom'
+import { BrowserRouter, Link, useLocation } from 'react-router-dom'
 import App from './App'
 import { AppMotionProvider, Presence, RouteMotion, m, motionTokens, useReducedMotion } from './motionSystem'
 import './styles.css'
@@ -18,6 +18,8 @@ const routeMeta={
   '/visit':{title:'Visit Lagom Naturals | Minneapolis',label:'Visit our store',description:'Store location, hours, directions, and accessibility information for Lagom Naturals in Minneapolis.'},
   '/about':{title:'About Lagom Naturals',label:'About Lagom Naturals',description:'Learn about the Lagom approach to a clearer, more balanced cannabis retail experience.'},
 }
+
+const routerBase=import.meta.env.BASE_URL==='/'?undefined:import.meta.env.BASE_URL.replace(/\/$/,'')
 
 class AppErrorBoundary extends React.Component {
   constructor(props){super(props);this.state={hasError:false}}
@@ -64,24 +66,23 @@ function getRouteMeta(pathname){
   return routeMeta[pathname]||{title:'Lagom Naturals',label:'Lagom Naturals',description:'Premium cannabis retail in Minneapolis.'}
 }
 
-function setMetaContent(selector,content){
-  const node=document.querySelector(selector)
-  if(node)node.setAttribute('content',content)
-}
-
 function AnimatedStorefront(){
   const location=useLocation()
-  const navigationType=useNavigationType()
   const routeKey=`${location.pathname}${location.search}`
   const meta=getRouteMeta(location.pathname)
+  const previousKey=React.useRef(null)
 
   React.useEffect(()=>{
-    if(navigationType!=='POP')window.scrollTo(0,0)
+    if(previousKey.current!==null&&location.key==='default')window.scrollTo({top:0,left:0,behavior:'auto'})
+    previousKey.current=routeKey
     document.title=meta.title
-    setMetaContent('meta[name="description"]',meta.description)
-    setMetaContent('meta[property="og:title"]',meta.title)
-    setMetaContent('meta[property="og:description"]',meta.description)
-  },[navigationType,routeKey,meta.title,meta.description])
+    const description=document.querySelector('meta[name="description"]')
+    const ogTitle=document.querySelector('meta[property="og:title"]')
+    const ogDescription=document.querySelector('meta[property="og:description"]')
+    if(description)description.setAttribute('content',meta.description)
+    if(ogTitle)ogTitle.setAttribute('content',meta.title)
+    if(ogDescription)ogDescription.setAttribute('content',meta.description)
+  },[location.key,routeKey,meta.title,meta.description])
 
   return <>
     <div className="route-announcer" role="status" aria-live="polite" aria-atomic="true">{meta.label}</div>
@@ -94,7 +95,7 @@ function StorefrontExperience(){return <AppMotionProvider><AgeGate/><AnimatedSto
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AppErrorBoundary>
-      <BrowserRouter>
+      <BrowserRouter basename={routerBase}>
         <StorefrontExperience />
       </BrowserRouter>
     </AppErrorBoundary>
