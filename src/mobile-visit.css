@@ -1,0 +1,256 @@
+/* Mobile-native Visit page. The 390px phone composition is authoritative.
+   This layer intentionally does not inherit the compact legacy Visit geometry. */
+
+@media (max-width:699px){
+  .visit-page{
+    min-height:calc(100svh - var(--mobile-header-total,70px));
+    padding:0 0 calc(34px + env(safe-area-inset-bottom));
+    background:#f7f5ef;
+    overflow:clip;
+  }
+
+  /* Use the dedicated mobile storefront artwork rather than the desktop/store asset. */
+  .visit-photo{
+    position:relative;
+    width:100%;
+    height:clamp(330px,108vw,455px);
+    margin:0;
+    overflow:hidden;
+    background:
+      linear-gradient(to bottom,rgba(12,18,14,0) 72%,rgba(12,18,14,.12) 100%),
+      url('./assets/mobile/visit-us.png') center 48% / cover no-repeat;
+  }
+
+  .visit-photo img{
+    position:absolute!important;
+    width:1px!important;
+    height:1px!important;
+    padding:0!important;
+    margin:-1px!important;
+    overflow:hidden!important;
+    clip:rect(0,0,0,0)!important;
+    white-space:nowrap!important;
+    border:0!important;
+  }
+
+  .visit-card{
+    position:relative;
+    z-index:2;
+    width:calc(100% - 24px);
+    margin:-28px 12px 0;
+    padding:26px 20px 24px;
+    border:1px solid rgba(16,23,19,.08);
+    border-radius:24px 24px 16px 16px;
+    background:rgba(255,255,252,.985);
+    box-shadow:
+      0 -1px 0 rgba(255,255,255,.75),
+      0 18px 48px rgba(24,31,27,.09);
+    backdrop-filter:blur(18px) saturate(1.04);
+    -webkit-backdrop-filter:blur(18px) saturate(1.04);
+  }
+
+  .visit-card>p{
+    margin:0 0 10px;
+    color:var(--green);
+    font:800 13px/1.1 var(--font-primary);
+    letter-spacing:.055em;
+    text-transform:uppercase;
+  }
+
+  .visit-card>p::after{
+    content:'  •  NORTH LOOP';
+    color:#7d837e;
+    font-weight:700;
+  }
+
+  .visit-card h1{
+    margin:0 0 18px;
+    max-width:330px;
+    color:var(--ink);
+    font:500 clamp(42px,12.3vw,54px)/.92 var(--font-display);
+    letter-spacing:-.038em;
+  }
+
+  .visit-card>span{
+    position:relative;
+    display:block;
+    margin:0 0 22px;
+    padding-left:42px;
+    color:#18211c;
+    font:550 17px/1.42 var(--font-primary);
+    letter-spacing:-.018em;
+  }
+
+  .visit-card>span::before{
+    content:'';
+    position:absolute;
+    left:2px;
+    top:2px;
+    width:28px;
+    height:28px;
+    background:no-repeat center/26px 26px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23101713' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z'/%3E%3Ccircle cx='12' cy='10' r='2.5'/%3E%3C/svg%3E");
+  }
+
+  .visit-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    width:100%;
+    margin:0 0 22px;
+  }
+
+  .visit-actions a{
+    min-width:0;
+    height:52px;
+    padding:0 12px;
+    border-radius:7px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    font:800 12px/1 var(--font-primary);
+    letter-spacing:.01em;
+    text-transform:uppercase;
+    box-shadow:none;
+    transform:none!important;
+  }
+
+  .visit-actions a:first-child{
+    border:1px solid var(--green);
+    background:var(--green);
+    color:#fff;
+  }
+
+  .visit-actions a:last-child{
+    border:1.5px solid var(--green);
+    background:#fffefa;
+    color:var(--green);
+  }
+
+  .visit-actions svg{
+    width:17px;
+    height:17px;
+    stroke-width:1.9;
+  }
+
+  .hours{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:0;
+    margin:0;
+    padding:20px 0 21px;
+    border-top:1px solid rgba(16,23,19,.14);
+    border-bottom:1px solid rgba(16,23,19,.14);
+  }
+
+  .hours>b{
+    grid-column:1/-1;
+    margin:0 0 13px;
+    font:800 15px/1 var(--font-primary);
+    color:var(--ink);
+  }
+
+  .hours p{
+    display:flex;
+    min-width:0;
+    flex-direction:column;
+    justify-content:flex-start;
+    gap:5px;
+    margin:0;
+    padding-right:14px;
+    color:#232b27;
+    font:550 14px/1.25 var(--font-primary);
+  }
+
+  .hours p+ p{
+    padding:0 0 0 18px;
+    border-left:1px solid rgba(16,23,19,.18);
+  }
+
+  .hours p span{
+    color:var(--ink);
+    font-weight:800;
+  }
+
+  .hours p strong{
+    color:#4f5853;
+    font-weight:550;
+    line-height:1.35;
+  }
+
+  .amenities{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:12px;
+    margin:0;
+    padding:22px 0 0;
+  }
+
+  .amenities span{
+    position:relative;
+    min-width:0;
+    padding-top:38px;
+    color:#202923;
+    text-align:center;
+    font:700 11px/1.22 var(--font-primary);
+  }
+
+  .amenities span::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:50%;
+    width:28px;
+    height:28px;
+    transform:translateX(-50%);
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size:27px 27px;
+  }
+
+  .amenities span:nth-child(1)::before{
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23101713' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 10v10h16V10M3 10l2-6h14l2 6'/%3E%3Cpath d='M3 10c0 2 3 2 3 0 0 2 3 2 3 0 0 2 3 2 3 0 0 2 3 2 3 0 0 2 3 2 3 0 0 2 3 2 3 0'/%3E%3Cpath d='M8 20v-6h8v6'/%3E%3C/svg%3E");
+  }
+
+  .amenities span:nth-child(2)::before{
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23101713' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='7' width='16' height='13' rx='2'/%3E%3Cpath d='M8 7V5a4 4 0 0 1 8 0v2'/%3E%3C/svg%3E");
+  }
+
+  .amenities span:nth-child(3)::before{
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23101713' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z'/%3E%3Cpath d='m9 12 2 2 4-4'/%3E%3C/svg%3E");
+  }
+
+  /* No hover-motion language on touch/mobile. */
+  .visit-actions a:hover,
+  .visit-actions a:active{
+    transform:none!important;
+  }
+}
+
+@media (max-width:420px){
+  .visit-photo{height:clamp(315px,105vw,405px)}
+  .visit-card{
+    width:calc(100% - 20px);
+    margin-left:10px;
+    margin-right:10px;
+    padding:23px 18px 22px;
+  }
+  .visit-card h1{font-size:clamp(39px,12vw,48px)}
+  .visit-card>span{font-size:16px}
+  .visit-actions a{height:50px;font-size:11.5px}
+}
+
+@media (max-width:350px){
+  .visit-card{padding-inline:16px}
+  .visit-card>p{font-size:11px}
+  .visit-card h1{font-size:37px}
+  .visit-actions{grid-template-columns:1fr}
+  .amenities{gap:7px}
+  .amenities span{font-size:10px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .visit-page *,
+  .visit-page *::before,
+  .visit-page *::after{scroll-behavior:auto!important;animation-duration:1ms!important;transition-duration:1ms!important}
+}
