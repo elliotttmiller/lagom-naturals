@@ -1,0 +1,28 @@
+/* Visit-page hero framing only.
+   Preserve the existing Visit UI and use the mobile-optimized storefront image as a deliberate focal crop. */
+@media (max-width:699px){
+  .visit-photo{
+    height:clamp(330px,108vw,455px)!important;
+    background-image:
+      linear-gradient(to bottom,rgba(12,18,14,0) 76%,rgba(12,18,14,.09) 100%),
+      url('./assets/mobile/visit-us.png')!important;
+    background-repeat:no-repeat!important;
+    background-size:148% auto!important;
+    background-position:18% 14%!important;
+  }
+}
+
+@media (max-width:420px){
+  .visit-photo{
+    height:clamp(315px,105vw,405px)!important;
+    background-size:152% auto!important;
+    background-position:17% 13%!important;
+  }
+}
+
+@media (max-width:350px){
+  .visit-photo{
+    background-size:158% auto!important;
+    background-position:16% 12%!important;
+  }
+}
