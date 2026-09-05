@@ -1,0 +1,33 @@
+{
+  "id": "/",
+  "name": "Lagom Naturals",
+  "short_name": "Lagom",
+  "description": "A premium Minneapolis cannabis storefront with thoughtfully curated products from trusted brands.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "orientation": "any",
+  "categories": ["shopping", "lifestyle"],
+  "icons": [
+    {
+      "src": "/lagom-logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Shop",
+      "short_name": "Shop",
+      "url": "/shop"
+    },
+    {
+      "name": "Visit Us",
+      "short_name": "Visit",
+      "url": "/visit"
+    }
+  ]
+}
