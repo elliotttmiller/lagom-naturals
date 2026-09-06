@@ -5,6 +5,7 @@ import App from '@/App'
 import CartInteractionFeedback from '@/CartInteractionFeedback'
 import HeaderUtilityToggleBridge from '@/HeaderUtilityToggleBridge'
 import GlobalSearchOverlay from '@/GlobalSearchOverlay'
+import MobileNavShopEnhancer from '@/MobileNavShopEnhancer'
 import SiteFooter from '@/SiteFooter'
 import { AppMotionProvider, Presence, RouteMotion, m, motionTokens, useReducedMotion } from '@/motionSystem'
 import './app.css'
@@ -22,6 +23,7 @@ import './mobile-product-pdp.css'
 import './mobile-shop.css'
 import './mobile-home.css'
 import './global-search.css'
+import './mobile-nav-shop.css'
 import './mobile-shell.css'
 
 const routeMeta={
@@ -117,7 +119,7 @@ function AnimatedStorefront(){
   </>
 }
 
-function StorefrontExperience(){return <AppMotionProvider><AgeGate/><CartInteractionFeedback/><HeaderUtilityToggleBridge/><GlobalSearchOverlay/><AnimatedStorefront/><SiteFooter/></AppMotionProvider>}
+function StorefrontExperience(){return <AppMotionProvider><AgeGate/><CartInteractionFeedback/><HeaderUtilityToggleBridge/><GlobalSearchOverlay/><MobileNavShopEnhancer/><AnimatedStorefront/><SiteFooter/></AppMotionProvider>}
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
