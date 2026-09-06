@@ -3,12 +3,24 @@
 
 @media(max-width:699px){
   body:has(.mobile-about){background:#fbfaf7}
+
+  /* The routed About shell only supplies the global fixed header on mobile.
+     Collapse its legacy 100vh shell so it cannot reserve a blank viewport before
+     or after the dedicated mobile About experience. */
+  body:has(.mobile-about) .route-stage .app-shell{
+    min-height:0!important;
+    height:0!important;
+    overflow:visible!important;
+    background:transparent!important;
+  }
   body:has(.mobile-about) .route-stage .app-shell>main{display:none!important}
+  body:has(.mobile-about) .route-stage{min-height:0!important;height:0!important}
   body:has(.mobile-about) .site-footer{display:block!important}
 
   .mobile-about{
     display:block;
     width:100%;
+    min-height:0;
     margin:0;
     padding:var(--mobile-header-total-h) 0 0;
     overflow:hidden;
@@ -188,35 +200,41 @@
     letter-spacing:-.012em;
   }
 
+  /* Our Space: stacked phone composition. The previous split grid squeezed the
+     editorial copy into ~150px and let the heading collide with the image. */
   .mobile-about__space{
-    display:grid;
-    grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);
-    align-items:stretch;
-    min-height:420px;
+    display:flex;
+    flex-direction:column;
+    width:100%;
+    min-height:0;
     border-top:1px solid rgba(16,23,19,.06);
     background:#fff;
   }
 
   .mobile-about__space-copy{
-    padding:34px 18px 34px 22px;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
+    width:100%;
+    padding:38px 22px 32px;
+    display:block;
   }
 
   .mobile-about__space-copy h2{
-    font-size:clamp(34px,9.7vw,46px);
+    max-width:330px;
+    font-size:clamp(42px,12vw,52px);
+    line-height:.94;
   }
 
   .mobile-about__space-copy>p:last-child{
+    max-width:330px;
     margin-top:18px;
-    font-size:14.5px;
-    line-height:1.45;
+    font-size:15px;
+    line-height:1.48;
   }
 
   .mobile-about__space-media{
+    width:100%;
     min-width:0;
-    min-height:420px;
+    height:clamp(300px,86vw,380px);
+    min-height:0;
     overflow:hidden;
     background:#f1efe9;
   }
@@ -224,14 +242,14 @@
   .mobile-about__space-media img{
     width:100%;
     height:100%;
-    min-height:420px;
+    min-height:0;
     display:block;
     object-fit:cover;
-    object-position:center;
+    object-position:center 48%;
   }
 
   .mobile-about__cta{
-    padding:42px 22px calc(48px + env(safe-area-inset-bottom));
+    padding:38px 22px calc(42px + env(safe-area-inset-bottom));
     background:#f5f3ee;
   }
 
@@ -269,6 +287,18 @@
   .mobile-about img{transform:none!important}
 }
 
+@media(min-width:500px) and (max-width:699px){
+  /* Larger phones/tablets can use the editorial split without compressing copy. */
+  .mobile-about__space{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);
+    align-items:stretch;
+  }
+  .mobile-about__space-copy{padding:40px 24px}
+  .mobile-about__space-copy h2{font-size:clamp(38px,7vw,48px)}
+  .mobile-about__space-media{height:auto;min-height:430px}
+}
+
 @media(max-width:420px){
   .mobile-about__hero{min-height:clamp(610px,168vw,680px)}
   .mobile-about__hero>img{object-position:center 45%}
@@ -282,11 +312,10 @@
   .mobile-about__value>span{width:58px;height:58px}
   .mobile-about__value svg{width:26px;height:26px}
   .mobile-about__value p{font-size:11.5px}
-  .mobile-about__space{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);min-height:390px}
-  .mobile-about__space-copy{padding:28px 14px 28px 18px}
-  .mobile-about__space-copy h2{font-size:35px}
-  .mobile-about__space-media,.mobile-about__space-media img{min-height:390px}
-  .mobile-about__cta{padding-inline:18px}
+  .mobile-about__space-copy{padding:34px 18px 28px}
+  .mobile-about__space-copy h2{font-size:clamp(39px,11.5vw,46px)}
+  .mobile-about__space-media{height:clamp(290px,82vw,340px)}
+  .mobile-about__cta{padding:34px 18px calc(38px + env(safe-area-inset-bottom))}
 }
 
 @media(max-width:350px){
@@ -295,9 +324,8 @@
   .mobile-about__hero h1{font-size:47px}
   .mobile-about__actions{grid-template-columns:1fr}
   .mobile-about__values{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 10px}
-  .mobile-about__space{grid-template-columns:1fr}
-  .mobile-about__space-copy{padding:30px 16px}
-  .mobile-about__space-media,.mobile-about__space-media img{min-height:300px}
+  .mobile-about__space-copy{padding:30px 16px 26px}
+  .mobile-about__space-media{height:280px}
   .mobile-about__cta>div{grid-template-columns:1fr}
 }
 
