@@ -9,6 +9,7 @@ import MobileNavShopEnhancer from '@/MobileNavShopEnhancer'
 import MobileAboutExperience from '@/MobileAboutExperience'
 import PdpHeaderCartBridge from '@/PdpHeaderCartBridge'
 import MobileSortMenuBridge from '@/MobileSortMenuBridge'
+import MobileListingControlIcons from '@/MobileListingControlIcons'
 import SiteFooter from '@/SiteFooter'
 import { AppMotionProvider, Presence, RouteMotion, m, motionTokens, useReducedMotion } from '@/motionSystem'
 import './app.css'
@@ -32,6 +33,7 @@ import './mobile-category-surface-polish.css'
 import './mobile-nav-shop.css'
 import './mobile-product-media-polish.css'
 import './mobile-sort-menu.css'
+import './mobile-listing-control-icons.css'
 import './desktop-responsive.css'
 import './mobile-shell.css'
 
@@ -128,7 +130,7 @@ function AnimatedStorefront(){
   </>
 }
 
-function StorefrontExperience(){return <AppMotionProvider><AgeGate/><CartInteractionFeedback/><HeaderUtilityToggleBridge/><GlobalSearchOverlay/><MobileNavShopEnhancer/><PdpHeaderCartBridge/><MobileSortMenuBridge/><MobileAboutExperience/><AnimatedStorefront/><SiteFooter/></AppMotionProvider>}
+function StorefrontExperience(){return <AppMotionProvider><AgeGate/><CartInteractionFeedback/><HeaderUtilityToggleBridge/><GlobalSearchOverlay/><MobileNavShopEnhancer/><PdpHeaderCartBridge/><MobileSortMenuBridge/><MobileListingControlIcons/><MobileAboutExperience/><AnimatedStorefront/><SiteFooter/></AppMotionProvider>}
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
