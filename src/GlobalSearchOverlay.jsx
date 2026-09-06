@@ -77,7 +77,7 @@ export default function GlobalSearchOverlay(){
   if(!open)return null
 
   return <div className="global-search-backdrop" role="presentation" onPointerDown={event=>{if(event.target===event.currentTarget)close()}}>
-    <section id="global-search-surface" className="global-search" role="dialog" aria-modal="true" aria-labelledby="global-search-title">
+    <section id="global-search-surface" className={`global-search${searching?' global-search--searching':''}`} role="dialog" aria-modal="true" aria-labelledby="global-search-title">
       <div className="global-search__head">
         <div><h1 id="global-search-title">Search</h1><p>Find products, brands, or effects...</p></div>
         <button type="button" className="global-search__close" onClick={close} aria-label="Close search"><X/></button>
@@ -111,16 +111,11 @@ export default function GlobalSearchOverlay(){
           </m.div>}
         </Presence>
 
-        <m.section
-          layout
-          className="global-search__section global-search__results"
-          aria-labelledby="top-results-title"
-          transition={contentTransition}
-        >
+        <m.section layout className="global-search__section global-search__results" aria-labelledby="top-results-title" transition={contentTransition}>
           <div className="global-search__section-head"><h2 id="top-results-title">{searching?`Top Results (${results.length})`:'Top Results'}</h2>{searching&&results.length>4&&<button type="button" onClick={goAll}>View All Results <ArrowRight/></button>}</div>
           <Presence mode="popLayout" initial={false}>
             {topResults.length?<m.div
-              key={`results-${normalized||'default'}`}
+              key="results-list"
               className="global-search__result-list"
               initial={reduceMotion?false:{opacity:0,y:8}}
               animate={{opacity:1,y:0}}
@@ -134,7 +129,6 @@ export default function GlobalSearchOverlay(){
               key={product.id}
               initial={reduceMotion?false:{opacity:0,y:8}}
               animate={{opacity:1,y:0}}
-              exit={reduceMotion?{opacity:0}:{opacity:0,y:-5}}
               transition={reduceMotion?{duration:0}:{duration:motionTokens.duration.base,ease:motionTokens.easeSoft,delay:Math.min(index*.025,.075)}}
             >
               <button type="button" className="global-search__result-main" onClick={()=>goProduct(product.id)}>
