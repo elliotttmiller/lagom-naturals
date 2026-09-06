@@ -1,0 +1,90 @@
+/* Final mobile homepage category-card polish.
+   Keep the rail touch-native while making product imagery and labels read as one card. */
+@media(max-width:699px){
+  .home-category-row{
+    gap:10px!important;
+    padding-bottom:2px!important;
+  }
+
+  .home-category-row>.motion-card-shell{
+    flex:0 0 clamp(120px,32vw,136px)!important;
+  }
+
+  .home-category-row .category-card{
+    min-height:148px!important;
+    display:grid!important;
+    grid-template-rows:minmax(0,1fr) auto!important;
+    align-content:stretch!important;
+    padding:6px 6px 8px!important;
+    overflow:hidden!important;
+    border:1px solid rgba(16,23,19,.075)!important;
+    border-radius:12px!important;
+    background:#fff!important;
+    box-shadow:0 1px 0 rgba(16,23,19,.015)!important;
+  }
+
+  .home-category-row .category-card img{
+    width:100%!important;
+    height:112px!important;
+    min-height:0!important;
+    margin:0!important;
+    padding:2px 3px 0!important;
+    display:block!important;
+    object-fit:contain!important;
+    object-position:center bottom!important;
+    background:#fff!important;
+  }
+
+  .home-category-row .category-card span{
+    min-height:30px!important;
+    margin:0!important;
+    padding:3px 5px 0!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    color:#18211d!important;
+    font:800 13px/1.08 var(--font-primary)!important;
+    letter-spacing:-.012em!important;
+    text-align:center!important;
+  }
+}
+
+@media(max-width:420px){
+  .home-category-row>.motion-card-shell{
+    flex-basis:122px!important;
+  }
+
+  .home-category-row .category-card{
+    min-height:144px!important;
+    padding:5px 5px 7px!important;
+  }
+
+  .home-category-row .category-card img{
+    height:108px!important;
+    padding:0 2px!important;
+  }
+
+  .home-category-row .category-card span{
+    min-height:29px!important;
+    font-size:13px!important;
+  }
+}
+
+@media(max-width:350px){
+  .home-category-row>.motion-card-shell{
+    flex-basis:116px!important;
+  }
+
+  .home-category-row .category-card{
+    min-height:138px!important;
+  }
+
+  .home-category-row .category-card img{
+    height:103px!important;
+  }
+
+  .home-category-row .category-card span{
+    min-height:27px!important;
+    font-size:12.5px!important;
+  }
+}
