@@ -1,0 +1,78 @@
+/* Final mobile product-media polish.
+   Product imagery in the current catalog is photographed/exported on white. Keep the
+   surrounding media stage white as well so image bounds disappear into the UI. */
+
+@media(max-width:699px){
+  .listing-page .product-media,
+  .shop-page .product-media{
+    background:#fff!important;
+  }
+
+  .listing-page .product-media>a,
+  .shop-page .product-media>a,
+  .listing-page .product-media img,
+  .shop-page .product-media img{
+    background:#fff!important;
+  }
+
+  .listing-page .product-media img,
+  .shop-page .product-media img{
+    padding:8px!important;
+  }
+
+  .pdp-media{
+    background:#fff!important;
+    box-shadow:inset 0 0 0 1px rgba(16,23,19,.045)!important;
+  }
+
+  .pdp-media img{
+    background:#fff!important;
+  }
+
+  /* Product detail headers use the global cart utility instead of a save/favorite
+     action. Hide the original detail-header utilities and leave the portaled cart
+     control as the single right-side action. */
+  .app-shell:has(.pdp) .site-header .header-tools>:not(.pdp-header-cart){
+    display:none!important;
+  }
+
+  .app-shell:has(.pdp) .site-header .pdp-header-cart{
+    display:grid!important;
+    position:relative!important;
+    width:44px!important;
+    height:44px!important;
+    min-width:44px!important;
+    min-height:44px!important;
+    place-items:center!important;
+    color:var(--ink,#101713)!important;
+    text-decoration:none!important;
+    transform:none!important;
+  }
+
+  .app-shell:has(.pdp) .site-header .pdp-header-cart>svg{
+    width:24px!important;
+    height:24px!important;
+    stroke-width:1.8!important;
+  }
+
+  .app-shell:has(.pdp) .site-header .pdp-header-cart>b{
+    position:absolute!important;
+    top:1px!important;
+    right:0!important;
+    min-width:18px!important;
+    height:18px!important;
+    padding:0 5px!important;
+    display:grid!important;
+    place-items:center!important;
+    border-radius:999px!important;
+    background:var(--green)!important;
+    color:#fff!important;
+    font:800 10px/1 var(--font-primary)!important;
+    box-shadow:0 0 0 2px #fff!important;
+  }
+}
+
+@media(max-width:420px){
+  .listing-page .product-media img,
+  .shop-page .product-media img{padding:6px!important}
+}
