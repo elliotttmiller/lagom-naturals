@@ -1,0 +1,27 @@
+/* Shared mobile category-selector surface treatment.
+   Match homepage category cards so white product-image backgrounds disappear into the tile. */
+@media(max-width:699px){
+  .shop-page .category-card{
+    border:1px solid rgba(16,23,19,.075)!important;
+    background:#fff!important;
+    box-shadow:0 1px 0 rgba(16,23,19,.015)!important;
+  }
+
+  .shop-page .category-card img{
+    background:#fff!important;
+  }
+
+  .global-search__categories button{
+    border:1px solid rgba(16,23,19,.075)!important;
+    background:#fff!important;
+    box-shadow:0 1px 0 rgba(16,23,19,.015)!important;
+  }
+
+  .global-search__categories button>span{
+    background:#fff!important;
+  }
+
+  .global-search__categories img{
+    background:#fff!important;
+  }
+}
