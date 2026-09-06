@@ -57,8 +57,9 @@
     height:112px!important;
     padding:7px!important;
     object-fit:contain!important;
+    object-position:center!important;
     border-radius:12px!important;
-    background:#f6f5f1!important;
+    background:#fff!important;
   }
 
   .cart-item-copy{
