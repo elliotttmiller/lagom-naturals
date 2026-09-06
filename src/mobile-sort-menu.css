@@ -8,9 +8,9 @@
     margin:0;
     padding:0;
     border:0;
-    background:rgba(18,24,21,.08);
-    backdrop-filter:blur(1.5px);
-    -webkit-backdrop-filter:blur(1.5px);
+    background:rgba(18,24,21,.075);
+    -webkit-tap-highlight-color:transparent;
+    will-change:opacity;
   }
 
   .mobile-sort-menu{
@@ -19,14 +19,17 @@
     overflow:hidden;
     border:1px solid rgba(18,26,22,.10);
     border-radius:18px;
-    background:rgba(252,252,250,.94);
+    background:#fcfcfa;
     box-shadow:
-      0 18px 44px rgba(18,26,22,.18),
-      0 3px 10px rgba(18,26,22,.08),
-      inset 0 1px 0 rgba(255,255,255,.88);
-    backdrop-filter:blur(24px) saturate(1.08);
-    -webkit-backdrop-filter:blur(24px) saturate(1.08);
+      0 18px 44px rgba(18,26,22,.16),
+      0 3px 10px rgba(18,26,22,.07),
+      inset 0 1px 0 rgba(255,255,255,.9);
     transform-origin:top right;
+    will-change:transform,opacity;
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
+    transform:translateZ(0);
+    contain:paint;
   }
 
   .mobile-sort-menu__label{
@@ -63,6 +66,7 @@
     text-align:left;
     font:700 16px/1.15 var(--font-primary);
     -webkit-tap-highlight-color:transparent;
+    will-change:opacity,transform;
   }
 
   .mobile-sort-menu>button+button{
@@ -106,5 +110,6 @@
 
 @media(prefers-reduced-motion:reduce){
   .mobile-sort-menu,
-  .mobile-sort-scrim{animation:none!important;transition:none!important}
+  .mobile-sort-scrim,
+  .mobile-sort-menu>button{animation:none!important;transition:none!important}
 }
