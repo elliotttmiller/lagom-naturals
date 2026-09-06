@@ -9,7 +9,6 @@ export default function SiteFooter(){
     <div className="site-footer__inner">
       <div className="site-footer__brand">
         <img src="/lagom-logo.svg" alt="Lagom Naturals"/>
-        <p>Premium cannabis from trusted brands, thoughtfully curated for a more balanced you.</p>
       </div>
 
       <div className="site-footer__group">
