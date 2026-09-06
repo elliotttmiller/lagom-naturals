@@ -29,6 +29,7 @@ import './mobile-about.css'
 import './global-search.css'
 import './mobile-nav-shop.css'
 import './mobile-product-media-polish.css'
+import './desktop-responsive.css'
 import './mobile-shell.css'
 
 const routeMeta={
