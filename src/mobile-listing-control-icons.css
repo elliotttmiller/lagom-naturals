@@ -1,0 +1,49 @@
+@media(max-width:699px){
+  .listing-page .filter-row button{
+    gap:10px!important;
+  }
+
+  .listing-page .filter-row button>svg,
+  .listing-page .filter-row .listing-control-icon{
+    width:22px!important;
+    height:22px!important;
+    flex:0 0 22px!important;
+    display:grid!important;
+    place-items:center!important;
+    color:#17211c!important;
+  }
+
+  .listing-page .filter-row button>svg,
+  .listing-page .filter-row .listing-control-icon svg{
+    width:22px!important;
+    height:22px!important;
+    overflow:visible!important;
+    fill:none!important;
+    stroke:currentColor!important;
+    stroke-width:1.75!important;
+    stroke-linecap:round!important;
+    stroke-linejoin:round!important;
+  }
+
+  .listing-page .filter-row button:first-child>svg circle,
+  .listing-page .filter-row .listing-control-icon:first-child svg circle{
+    fill:#fff!important;
+  }
+
+  .listing-page .filter-row button:nth-child(2){
+    position:relative!important;
+  }
+
+  .listing-page .filter-row button:nth-child(2)::after{
+    width:8px!important;
+    height:8px!important;
+    margin-left:3px!important;
+    border-right:1.65px solid currentColor!important;
+    border-bottom:1.65px solid currentColor!important;
+  }
+
+  .listing-page .filter-row button:active .listing-control-icon,
+  .listing-page .filter-row button:active>svg{
+    transform:scale(.94)!important;
+  }
+}
