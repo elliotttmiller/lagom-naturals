@@ -6,6 +6,7 @@ import CartInteractionFeedback from '@/CartInteractionFeedback'
 import HeaderUtilityToggleBridge from '@/HeaderUtilityToggleBridge'
 import GlobalSearchOverlay from '@/GlobalSearchOverlay'
 import MobileNavShopEnhancer from '@/MobileNavShopEnhancer'
+import MobileAboutExperience from '@/MobileAboutExperience'
 import PdpHeaderCartBridge from '@/PdpHeaderCartBridge'
 import SiteFooter from '@/SiteFooter'
 import { AppMotionProvider, Presence, RouteMotion, m, motionTokens, useReducedMotion } from '@/motionSystem'
@@ -24,6 +25,7 @@ import './mobile-product-pdp.css'
 import './mobile-shop.css'
 import './mobile-home.css'
 import './mobile-home-category-polish.css'
+import './mobile-about.css'
 import './global-search.css'
 import './mobile-nav-shop.css'
 import './mobile-product-media-polish.css'
@@ -122,7 +124,7 @@ function AnimatedStorefront(){
   </>
 }
 
-function StorefrontExperience(){return <AppMotionProvider><AgeGate/><CartInteractionFeedback/><HeaderUtilityToggleBridge/><GlobalSearchOverlay/><MobileNavShopEnhancer/><PdpHeaderCartBridge/><AnimatedStorefront/><SiteFooter/></AppMotionProvider>}
+function StorefrontExperience(){return <AppMotionProvider><AgeGate/><CartInteractionFeedback/><HeaderUtilityToggleBridge/><GlobalSearchOverlay/><MobileNavShopEnhancer/><PdpHeaderCartBridge/><MobileAboutExperience/><AnimatedStorefront/><SiteFooter/></AppMotionProvider>}
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
