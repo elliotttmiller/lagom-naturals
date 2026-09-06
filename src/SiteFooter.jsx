@@ -44,14 +44,14 @@ export default function SiteFooter(){
       </div>
 
       <div className="site-footer__bottom">
-        <div className="site-footer__legal">
-          <span>© 2026 Lagom Naturals</span>
-          <span>For adults 21+. Please enjoy responsibly.</span>
-        </div>
         <div className="site-footer__socials" aria-label="Lagom Naturals social media">
           <span className="site-footer__social" role="img" aria-label="Instagram"><InstagramIcon/></span>
           <span className="site-footer__social" role="img" aria-label="Facebook"><FacebookIcon/></span>
           <span className="site-footer__social" role="img" aria-label="X"><XIcon/></span>
+        </div>
+        <div className="site-footer__legal">
+          <span>© 2026 Lagom Naturals</span>
+          <span>For adults 21+. Please enjoy responsibly.</span>
         </div>
       </div>
     </div>
