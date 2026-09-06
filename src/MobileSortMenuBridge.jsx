@@ -68,7 +68,10 @@ export default function MobileSortMenuBridge(){
     setCurrent(readSort(button))
   }
 
-  return <Presence>
+  const menuTransition=reduceMotion?{duration:0}:{duration:.24,ease:[.22,1,.36,1]}
+  const scrimTransition=reduceMotion?{duration:0}:{duration:.18,ease:[.22,1,.36,1]}
+
+  return <Presence initial={false}>
     {open&&<>
       <m.button
         key="sort-scrim"
@@ -79,7 +82,7 @@ export default function MobileSortMenuBridge(){
         initial={reduceMotion?false:{opacity:0}}
         animate={{opacity:1}}
         exit={{opacity:0}}
-        transition={{duration:reduceMotion?0:motionTokens.duration.fast,ease:motionTokens.easeSoft}}
+        transition={scrimTransition}
       />
       <m.div
         key="sort-menu"
@@ -87,18 +90,28 @@ export default function MobileSortMenuBridge(){
         role="menu"
         aria-label="Sort products"
         style={{top:anchor.top,left:anchor.left,width:anchor.width}}
-        initial={reduceMotion?false:{opacity:0,y:-8,scale:.975}}
+        initial={reduceMotion?false:{opacity:0,y:-5,scale:.992}}
         animate={{opacity:1,y:0,scale:1}}
-        exit={{opacity:0,y:-5,scale:.985}}
-        transition={reduceMotion?{duration:0}:motionTokens.springSoft}
+        exit={{opacity:0,y:-3,scale:.996}}
+        transition={menuTransition}
       >
         <div className="mobile-sort-menu__label">Sort Products <ChevronDown aria-hidden="true"/></div>
-        {OPTIONS.map(option=>{
+        {OPTIONS.map((option,index)=>{
           const selected=option.key===active.key
-          return <button type="button" role="menuitemradio" aria-checked={selected} key={option.key} className={selected?'is-selected':''} onClick={()=>choose(option)}>
+          return <m.button
+            type="button"
+            role="menuitemradio"
+            aria-checked={selected}
+            key={option.key}
+            className={selected?'is-selected':''}
+            onClick={()=>choose(option)}
+            initial={reduceMotion?false:{opacity:0,y:-2}}
+            animate={{opacity:1,y:0}}
+            transition={reduceMotion?{duration:0}:{duration:.16,delay:.025*index,ease:[.22,1,.36,1]}}
+          >
             <span>{option.label}</span>
             <span className="mobile-sort-menu__check" aria-hidden="true">{selected&&<Check/>}</span>
-          </button>
+          </m.button>
         })}
       </m.div>
     </>}
