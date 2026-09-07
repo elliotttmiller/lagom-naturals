@@ -1,0 +1,181 @@
+# Curated official-government source manifest.
+# Add newly discovered official URLs rather than broadening to non-government sources.
+
+sources:
+  - id: ocm_license_holder_data
+    agency: Minnesota Office of Cannabis Management
+    jurisdiction: state
+    kind: landing_page
+    url: https://mn.gov/ocm/data-reports/application-data/
+    domain: mn.gov
+    authority: primary
+    discover_files: true
+    keywords:
+      - license holder
+      - licensed businesses
+      - application data
+      - retailer
+      - microbusiness
+      - mezzobusiness
+      - manufacturer
+      - wholesaler
+
+  - id: ocm_public_licensing_download
+    agency: Minnesota Office of Cannabis Management
+    jurisdiction: state
+    kind: xlsx
+    url: https://mn.gov/ocm/assets/MN_OCM_licensed_businesses_083126_tcm1202-714418.xlsx
+    domain: mn.gov
+    authority: primary
+    discover_files: false
+    expected_date: 2026-08-31
+
+  - id: ocm_lottery_overview
+    agency: Minnesota Office of Cannabis Management
+    jurisdiction: state
+    kind: landing_page
+    url: https://mn.gov/ocm/businesses/lottery/lottery-overview.jsp
+    domain: mn.gov
+    authority: primary
+    discover_files: true
+    keywords:
+      - lottery
+      - selected
+      - application number
+      - qualified applicant
+      - preliminary approval
+
+  - id: ocm_licensing_process
+    agency: Minnesota Office of Cannabis Management
+    jurisdiction: state
+    kind: landing_page
+    url: https://mn.gov/ocm/businesses/licensing/process.jsp
+    domain: mn.gov
+    authority: primary
+    discover_files: true
+    keywords:
+      - qualified applicant
+      - preliminary approval
+      - license issued
+      - application
+
+  - id: ocm_data_requests
+    agency: Minnesota Office of Cannabis Management
+    jurisdiction: state
+    kind: html
+    url: https://mn.gov/ocm/connect/data-requests/
+    domain: mn.gov
+    authority: primary
+    discover_files: false
+
+  - id: mda_current_hemp_license_holders
+    agency: Minnesota Department of Agriculture
+    jurisdiction: state
+    kind: landing_page
+    url: https://www.mda.state.mn.us/plants-insects/current-hemp-program-license-holders
+    domain: mda.state.mn.us
+    authority: primary
+    discover_files: true
+    keywords:
+      - hemp
+      - license holder
+      - grower
+      - processor
+
+  - id: mda_hemp_program
+    agency: Minnesota Department of Agriculture
+    jurisdiction: state
+    kind: landing_page
+    url: https://www.mda.state.mn.us/plants-insects/hemp
+    domain: mda.state.mn.us
+    authority: primary
+    discover_files: true
+    keywords:
+      - hemp
+      - license
+
+  - id: revenue_cannabis_tax_delinq_june_2026
+    agency: Minnesota Department of Revenue
+    jurisdiction: state
+    kind: pdf
+    url: https://www.revenue.state.mn.us/sites/default/files/2026-06/cannabisposting061526.pdf
+    domain: revenue.state.mn.us
+    authority: primary
+    discover_files: false
+    expected_date: 2026-06-12
+
+  - id: minneapolis_cannabis_business_rules
+    agency: City of Minneapolis
+    jurisdiction: local
+    kind: html
+    url: https://www.minneapolismn.gov/business-services/licenses-permits-inspections/business-licenses/information/cannabis-businesses/
+    domain: minneapolismn.gov
+    authority: primary
+    discover_files: true
+    keywords:
+      - cannabis
+      - hemp
+      - retail registration
+      - registration form
+
+  - id: minneapolis_local_approval_steps
+    agency: City of Minneapolis
+    jurisdiction: local
+    kind: html
+    url: https://www.minneapolismn.gov/business-services/business-assistance/business-guides/cannabis/steps/local/
+    domain: minneapolismn.gov
+    authority: primary
+    discover_files: true
+    keywords:
+      - cannabis retail registration
+      - local approval
+      - state license
+
+  - id: mn_revisor_chapter_342
+    agency: Minnesota Revisor of Statutes
+    jurisdiction: state
+    kind: html
+    url: https://www.revisor.mn.gov/statutes/cite/342
+    domain: revisor.mn.gov
+    authority: primary
+    discover_files: true
+    keywords:
+      - 342.20
+      - applicant
+      - license
+      - public data
+
+  - id: mn_revisor_342_20
+    agency: Minnesota Revisor of Statutes
+    jurisdiction: state
+    kind: html
+    url: https://www.revisor.mn.gov/statutes/cite/342.20
+    domain: revisor.mn.gov
+    authority: primary
+    discover_files: false
+
+  - id: sos_business_search_help
+    agency: Minnesota Secretary of State
+    jurisdiction: state
+    kind: html
+    url: https://www.sos.state.mn.us/business-liens/business-help/how-to-search-business-filings/
+    domain: sos.state.mn.us
+    authority: primary
+    discover_files: true
+    keywords:
+      - business filings
+      - business name
+      - file number
+
+  - id: sos_assumed_name
+    agency: Minnesota Secretary of State
+    jurisdiction: state
+    kind: html
+    url: https://www.sos.state.mn.us/business-liens/business-forms-fees/assumed-namedba/
+    domain: sos.state.mn.us
+    authority: primary
+    discover_files: true
+    keywords:
+      - assumed name
+      - DBA
+      - LLC

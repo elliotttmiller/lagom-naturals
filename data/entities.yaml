@@ -1,0 +1,27 @@
+entities:
+  legal_names:
+    - Lagom Naturals LLC
+    - LAGOM NATURALS LLC
+
+  brand_names:
+    - Lagom Naturals
+    - LAGOM NATURALS
+    - Lagom
+
+  addresses:
+    - 707 N 3rd St
+    - 707 3rd St N
+    - 707 North 3rd Street
+    - 707 N 3rd St Ste 101
+    - 707 N 3rd St Suite 101
+    - 707 3rd Street North
+    - Minneapolis MN 55401
+
+  phones:
+    - 612-930-7643
+    - 6129307643
+
+  application_numbers: []
+  license_numbers: []
+  related_entities: []
+  owners_or_control_persons: []
