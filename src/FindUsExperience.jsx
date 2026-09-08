@@ -1,6 +1,6 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
-import storefrontMobile from '@/assets/mobile/main-store.png'
+import storefrontMobile from '@/assets/mobile/storefront.png'
 
 const SHOPS=[
 ['Barstock Liquors','31 E Main St','Crosby','MN','56441','+12185453004','http://www.barstockliquors.com/'],
