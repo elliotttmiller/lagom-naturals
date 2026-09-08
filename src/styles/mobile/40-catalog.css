@@ -13,21 +13,28 @@
 
   .shop-page .product-grid,.listing-page .product-grid{display:grid!important;grid-template-columns:1fr!important;gap:22px!important;align-items:start!important}
   .shop-page .product-grid>*,.listing-page .product-grid>*{min-width:0!important}
+
+  /* The catalog is primary page content, not below-the-fold decoration. Motion's
+     viewport stagger can leave a tall initial grid at opacity:0 in mobile Safari
+     until a filter interaction forces a new observation. Keep catalog content
+     immediately paintable on mobile; interaction motion remains on the cards. */
+  .shop-page .product-grid,.shop-page .product-grid>*,.shop-page .product-grid .product-card,
+  .listing-page .product-grid,.listing-page .product-grid>*,.listing-page .product-grid .product-card{
+    opacity:1!important;
+    visibility:visible!important;
+  }
+  .shop-page .product-grid>*,.listing-page .product-grid>*{transform:none!important}
+
   .product-card{width:100%!important;min-width:0!important;height:auto!important;display:flex!important;flex-direction:column!important;background:#fff!important;border:1px solid #dedbd3!important;border-radius:14px!important;box-shadow:0 8px 24px rgba(20,24,20,.05)!important;overflow:hidden!important}
   .shop-page .product-grid>*:has(.product-card.is-variant-open),.listing-page .product-grid>*:has(.product-card.is-variant-open){position:relative!important;z-index:100!important}
   .product-card.is-variant-open,.product-card.is-variant-open .product-copy,.product-card.is-variant-open .card-actions,.product-card.is-variant-open .variant-picker{overflow:visible!important}
 
-  /* Product photography owns the full media frame. Source images are centered and
-     cover the frame so differently composed pack/single imagery reads consistently. */
   .product-media{position:relative!important;width:100%!important;aspect-ratio:1.42/1!important;padding:0!important;display:block!important;border:0!important;border-bottom:1px solid #e7e4dd!important;border-radius:13px 13px 0 0!important;background:#f7f5ef!important;overflow:hidden!important}
   .product-media>a{display:block!important;width:100%!important;height:100%!important;overflow:hidden!important}
   .product-media img{display:block!important;width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;margin:0!important;object-fit:cover!important;object-position:center center!important;background:transparent!important;transform:none!important}
   .heart-btn{position:absolute!important;z-index:2!important;top:12px!important;right:12px!important;width:40px!important;height:40px!important;display:grid!important;place-items:center!important;border:1px solid rgba(17,17,17,.08)!important;border-radius:50%!important;background:rgba(255,255,255,.96)!important;color:#111!important;box-shadow:0 3px 12px rgba(0,0,0,.04)!important}.heart-btn svg{width:20px!important;height:20px!important;stroke-width:1.7!important}
 
   .product-copy{padding:17px 18px 18px!important;display:flex!important;flex:1!important;flex-direction:column!important}.product-copy>p{display:block!important;margin:0 0 7px!important;color:#687069!important;font:800 9px/1 var(--m-font-ui)!important;letter-spacing:.14em!important;text-transform:uppercase!important}.product-copy h3{min-height:0!important;margin:0!important;font:800 clamp(18px,4.9vw,22px)/1.12 var(--m-font-body)!important;letter-spacing:-.025em!important}.product-copy h3 a{display:block!important}
-
-  /* Compact review summary. This remains an explicit unrated state until verified
-     review data is connected; stars are deliberately subordinate to the title. */
   .product-copy h3::after{content:'☆ ☆ ☆ ☆ ☆  No reviews yet';display:block!important;width:max-content!important;max-width:100%!important;margin-top:7px!important;color:#686d68!important;font:650 10px/1.15 var(--m-font-ui)!important;letter-spacing:0!important;word-spacing:0!important;white-space:nowrap!important}
   .product-copy small{display:block!important;margin:9px 0 0!important;color:#626761!important;font:600 12px/1.35 var(--m-font-body)!important}.product-copy>b{display:block!important;margin-top:13px!important;font:800 19px/1 var(--m-font-body)!important;letter-spacing:-.02em!important}
   .product-copy .stars{display:flex!important;align-items:center!important;gap:4px!important;margin:7px 0 0!important;color:#686d68!important;font:650 10px/1.15 var(--m-font-ui)!important;white-space:nowrap!important}.product-copy .stars svg{width:13px!important;height:13px!important;flex:0 0 13px!important}.product-copy h3:has(+ .stars)::after{display:none!important}
