@@ -1,0 +1,53 @@
+/* Lagom Naturals mobile typography system.
+   Display: Playfair Display. UI/body: Nunito. Utility labels: Manrope.
+   This layer owns mobile type scale, wrapping, rhythm, and text rendering. */
+@media(max-width:899px){
+  :root{
+    --m-font-display:'Playfair Display',Georgia,serif;
+    --m-font-body:'Nunito','Avenir Next','Segoe UI',sans-serif;
+    --m-font-utility:'Manrope','Avenir Next','Segoe UI',sans-serif;
+
+    --m-type-hero:clamp(52px,14.6vw,72px);
+    --m-type-page:clamp(43px,11.4vw,58px);
+    --m-type-section:clamp(31px,8vw,40px);
+    --m-type-product:clamp(34px,9vw,44px);
+    --m-type-card:clamp(15px,4vw,18px);
+    --m-type-body:clamp(15px,3.9vw,17px);
+    --m-type-small:clamp(12px,3.2vw,14px);
+    --m-type-label:11px;
+  }
+
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{font-family:var(--m-font-body)!important;font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
+
+  h1,h2,h3,p{overflow-wrap:normal;word-break:normal}
+  h1,h2{font-family:var(--m-font-display);font-weight:500;letter-spacing:-.045em;text-wrap:balance}
+  h3,strong,b{font-family:var(--m-font-body)}
+
+  .m-eyebrow,
+  .section-head p,
+  .editorial-page>p,
+  .story-hero>p,
+  .find-page>div>p:first-child,
+  .beverage-hero__copy::before{
+    font-family:var(--m-font-utility)!important;
+    font-size:var(--m-type-label)!important;
+    font-weight:800!important;
+    line-height:1.1!important;
+    letter-spacing:.16em!important;
+    text-transform:uppercase!important;
+  }
+
+  .section-head h2,.section-title h2{font-family:var(--m-font-display)!important;font-size:var(--m-type-section)!important;font-weight:500!important;line-height:.98!important;letter-spacing:-.045em!important}
+
+  .primary-bar,.hero-actions a,.cart-page .linkbar,.checkout-page button,.variant-trigger,.size-row button,.filter-row button,.chips button{
+    font-family:var(--m-font-utility)!important;
+    letter-spacing:.015em;
+  }
+
+  .muted,.product-copy small,.pdp-desc,.cart-item-copy small,.checkout-step small,.availability-empty p{color:var(--m-muted)!important}
+}
+
+@media(max-width:360px){
+  :root{--m-type-page:42px;--m-type-product:33px;--m-type-body:14.5px}
+}
