@@ -2,14 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, useLocation, useNavigationType } from 'react-router-dom'
 import App from '@/App'
-import CartInteractionFeedback from '@/CartInteractionFeedback'
-import HeaderUtilityToggleBridge from '@/HeaderUtilityToggleBridge'
-import GlobalSearchOverlay from '@/GlobalSearchOverlay'
-import MobileNavShopEnhancer from '@/MobileNavShopEnhancer'
-import MobileAboutExperience from '@/MobileAboutExperience'
-import PdpHeaderCartBridge from '@/PdpHeaderCartBridge'
-import MobileSortMenuBridge from '@/MobileSortMenuBridge'
-import MobileListingControlIcons from '@/MobileListingControlIcons'
 import SiteFooter from '@/SiteFooter'
 import { AppMotionProvider, Presence, RouteMotion, m, motionTokens, useReducedMotion } from '@/motionSystem'
 import './app.css'
@@ -36,16 +28,16 @@ import './mobile-sort-menu.css'
 import './mobile-listing-control-icons.css'
 import './desktop-responsive.css'
 import './mobile-shell.css'
+import './beverage-brand.css'
 
 const routeMeta={
-  '/':{title:'Lagom Naturals | Minneapolis Cannabis Dispensary',label:'Home',description:'Premium cannabis products from trusted brands, thoughtfully curated in Minneapolis.'},
-  '/shop':{title:'Shop Cannabis | Lagom Naturals',label:'Shop',description:'Browse the current Lagom Naturals cannabis selection by product, brand, and category.'},
+  '/':{title:'Lagom Naturals | Premium THC Seltzer',label:'Home',description:'Premium hemp-derived THC seltzers made for considered adult occasions.'},
+  '/shop':{title:'Drinks | Lagom Naturals',label:'Drinks',description:'Explore the Lagom Naturals THC seltzer lineup by flavor.'},
   '/merch':{title:'Apparel & Merch | Lagom Naturals',label:'Apparel and merch',description:'Shop Lagom Naturals apparel and merchandise.'},
-  '/cart':{title:'Your Cart | Lagom Naturals',label:'Cart',description:'Review your Lagom Naturals cart and pickup selection.'},
-  '/checkout':{title:'Pickup Details | Lagom Naturals',label:'Pickup details',description:'Review contact and pickup details for your Lagom Naturals selection.'},
-  '/account':{title:'Account | Lagom Naturals',label:'Account',description:'Access Lagom Naturals account, favorites, orders, and rewards.'},
-  '/visit':{title:'Visit Lagom Naturals | Minneapolis',label:'Visit our store',description:'Store location, hours, directions, and accessibility information for Lagom Naturals in Minneapolis.'},
-  '/about':{title:'About Lagom Naturals',label:'About Lagom Naturals',description:'Learn about the Lagom approach to a clearer, more balanced cannabis retail experience.'},
+  '/visit':{title:'Find Lagom | Lagom Naturals',label:'Find Lagom',description:'Find current Lagom Naturals retailer availability.'},
+  '/about':{title:'Our Story | Lagom Naturals',label:'Our Story',description:'The idea of balance behind Lagom Naturals.'},
+  '/learn':{title:'THC, Explained | Lagom Naturals',label:'Learn',description:'Clear guidance for enjoying Lagom THC seltzer responsibly.'},
+  '/journal':{title:'Journal | Lagom Naturals',label:'Journal',description:'Stories from flavor, food, music, art, design, and hospitality.'},
 }
 
 const routerBase=import.meta.env.BASE_URL==='/'?undefined:import.meta.env.BASE_URL.replace(/\/$/,'')
@@ -66,9 +58,9 @@ function AgeGate(){
     {!verified&&<m.div className="age-gate" role="dialog" aria-modal="true" aria-labelledby="age-gate-title" initial={reduceMotion?false:{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} transition={{duration:reduceMotion?0:motionTokens.duration.fast}}>
       <m.div className="age-gate__panel" initial={reduceMotion?false:{opacity:0,y:14,scale:.985}} animate={{opacity:1,y:0,scale:1}} exit={{opacity:0,y:8,scale:.99}} transition={reduceMotion?{duration:0}:motionTokens.springSnappy}>
         <img src="/lagom-logo.svg" alt="Lagom Naturals"/>
-        <p className="age-gate__eyebrow">MINNEAPOLIS, MINNESOTA</p>
+        <p className="age-gate__eyebrow">THC SELTZER · FOR ADULTS</p>
         <h1 id="age-gate-title">Are you 21 or older?</h1>
-        <p>You must be 21+ to enter this cannabis storefront. Please enjoy responsibly.</p>
+        <p>You must be 21 or older to enter. Passing this gate does not establish legal purchase eligibility.</p>
         <button type="button" autoFocus onClick={enter}>YES, I’M 21+</button>
         <button type="button" className="age-gate__exit" onClick={()=>window.location.replace('https://www.google.com/')}>NO, EXIT SITE</button>
       </m.div>
@@ -77,9 +69,9 @@ function AgeGate(){
 }
 
 function getRouteMeta(pathname){
-  if(pathname.startsWith('/product/'))return{title:'Product | Lagom Naturals',label:'Product details',description:'Review product information and current Lagom Naturals availability.'}
+  if(pathname.startsWith('/product/'))return{title:'THC Seltzer | Lagom Naturals',label:'Drink details',description:'Explore flavor, format, and responsible-use information for Lagom THC seltzer.'}
   if(pathname.startsWith('/merch/'))return{title:'Apparel | Lagom Naturals',label:'Apparel details',description:'Review Lagom Naturals apparel details and availability.'}
-  return routeMeta[pathname]||{title:'Lagom Naturals',label:'Lagom Naturals',description:'Premium cannabis retail in Minneapolis.'}
+  return routeMeta[pathname]||{title:'Lagom Naturals',label:'Lagom Naturals',description:'Premium hemp-derived THC seltzer.'}
 }
 
 function AnimatedStorefront(){
@@ -130,7 +122,7 @@ function AnimatedStorefront(){
   </>
 }
 
-function StorefrontExperience(){return <AppMotionProvider><AgeGate/><CartInteractionFeedback/><HeaderUtilityToggleBridge/><GlobalSearchOverlay/><MobileNavShopEnhancer/><PdpHeaderCartBridge/><MobileSortMenuBridge/><MobileListingControlIcons/><MobileAboutExperience/><AnimatedStorefront/><SiteFooter/></AppMotionProvider>}
+function StorefrontExperience(){return <AppMotionProvider><AgeGate/><AnimatedStorefront/><SiteFooter/></AppMotionProvider>}
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

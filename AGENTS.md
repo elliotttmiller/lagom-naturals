@@ -1636,4 +1636,4 @@ Every decision should reinforce one central idea:
 
 This is a sophisticated THC beverage and lifestyle brand operating in a regulated category — not a dispensary, not a novelty cannabis brand, and not a generic e-commerce template.
 
-Build accordingly.
+Build accordingly
