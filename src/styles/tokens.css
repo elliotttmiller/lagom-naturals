@@ -7,9 +7,12 @@
   --color-line-strong:#c9c2b6;
   --color-accent:#0f513d;
 
+  /* Brand type package: editorial serif + rounded primary sans + utility sans. */
   --font-display:"Playfair Display",Georgia,serif;
-  --font-ui:"Manrope","Segoe UI",sans-serif;
-  --font-primary:var(--font-ui);
+  --font-primary:"Nunito","Avenir Next","Segoe UI",sans-serif;
+  --font-ui:"Manrope","Avenir Next","Segoe UI",sans-serif;
+  --font-body:var(--font-primary);
+  --font-utility:var(--font-ui);
 
   --page-gutter:clamp(24px,4.2vw,72px);
   --page-wide:1480px;
