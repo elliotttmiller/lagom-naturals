@@ -1,6 +1,7 @@
 import React from 'react'
 import {Link,useLocation,useNavigate} from 'react-router-dom'
-import {ShoppingBag,Menu,Search,X,ChevronRight} from 'lucide-react'
+import {ShoppingBag,Search,ChevronRight} from 'lucide-react'
+import HamburgerToggle from './HamburgerToggle'
 import mobileHero from '@/assets/mobile/hero.png'
 
 const drawerItems=[
@@ -19,6 +20,7 @@ export default function MobileReferenceChrome(){
   const location=useLocation()
   const navigate=useNavigate()
   const[menuOpen,setMenuOpen]=React.useState(false)
+  const[menuVisible,setMenuVisible]=React.useState(false)
   const[count,setCount]=React.useState(cartCount)
   const isHome=location.pathname==='/'
   const isDetail=location.pathname.startsWith('/product/')||location.pathname.startsWith('/merch/')
@@ -39,11 +41,20 @@ export default function MobileReferenceChrome(){
     return()=>document.body.classList.remove('mobile-menu-open')
   },[menuOpen])
 
+  React.useEffect(()=>{
+    if(menuOpen){
+      setMenuVisible(true)
+      return
+    }
+    const timer=window.setTimeout(()=>setMenuVisible(false),560)
+    return()=>window.clearTimeout(timer)
+  },[menuOpen])
+
   return <>
     <header className={`mobile-reference-header${isHome?' is-home':''}`}>
-      <button type="button" className="mobile-reference-header__left" aria-label={isDetail?'Go back':'Open menu'} onClick={()=>isDetail?navigate(-1):setMenuOpen(true)}>
-        {isDetail?<span className="mobile-back-glyph">‹</span>:<Menu/>}
-      </button>
+      {isDetail
+        ? <button type="button" className="mobile-reference-header__left" aria-label="Go back" onClick={()=>navigate(-1)}><span className="mobile-back-glyph">‹</span></button>
+        : <HamburgerToggle className="mobile-reference-header__left" checked={menuOpen} onChange={setMenuOpen} controls="mobile-reference-menu" label={menuOpen?'Close menu':'Open menu'}/>}
       <Link className="mobile-reference-header__brand" to="/" aria-label="Lagom Naturals home"><img src="/lagom-logo.svg" alt="Lagom Naturals"/></Link>
       <div className="mobile-reference-header__tools">
         {!isDetail&&<Link to="/shop" aria-label="Search"><Search/></Link>}
@@ -51,12 +62,8 @@ export default function MobileReferenceChrome(){
       </div>
     </header>
 
-    {menuOpen&&<div className="mobile-reference-menu-backdrop" onClick={()=>setMenuOpen(false)}>
-      <aside className="mobile-reference-menu" role="dialog" aria-modal="true" aria-label="Site navigation" onClick={e=>e.stopPropagation()}>
-        <div className="mobile-reference-menu__head">
-          <img src="/lagom-logo.svg" alt="Lagom Naturals"/>
-          <button type="button" aria-label="Close menu" onClick={()=>setMenuOpen(false)}><X/></button>
-        </div>
+    {menuVisible&&<div className={`mobile-reference-menu-backdrop${menuOpen?' is-open':''}`} onClick={()=>setMenuOpen(false)}>
+      <aside id="mobile-reference-menu" className="mobile-reference-menu" role="dialog" aria-modal="true" aria-label="Site navigation" onClick={e=>e.stopPropagation()}>
         <nav>
           {drawerItems.map(([label,to])=><Link key={label} to={to} onClick={()=>setMenuOpen(false)}><span>{label}</span><ChevronRight/></Link>)}
         </nav>
