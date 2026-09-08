@@ -202,8 +202,8 @@ function Header({ detail = false }) {
   }, [visible]);
   const links = [
     ["Shop", "/shop"],
-    ["Find Us", "/visit"],
     ["Merch", "/merch"],
+    ["Find Us", "/visit"],
     ["Our Story", "/about"],
   ];
   return (
@@ -253,7 +253,7 @@ function Header({ detail = false }) {
             <Link className="icon-btn" to="/shop" aria-label="Search drinks">
               <Search />
             </Link>
-            <Link className="icon-btn header-account" to="/about" aria-label="Account">
+            <Link className="icon-btn header-account" to="/account" aria-label="Account">
               <User />
             </Link>
             <Link
@@ -629,21 +629,6 @@ function HomePage() {
         </m.div>
         <p className="beverage-hero__note">10 mg THC per can · 12 fl oz</p>
       </section>
-      <Reveal className="intro-band">
-        <p>LAGOM / LAH-GOM</p>
-        <h2>
-          Not too much.
-          <br />
-          Not too little.
-        </h2>
-        <div>
-          <p>
-            Lagom is a Swedish idea about balance. We bring it to bright flavor,
-            thoughtful consumption, and the moments people share around a table.
-          </p>
-          <ArrowLink to="/about">Meet Lagom</ArrowLink>
-        </div>
-      </Reveal>
       <section className="lineup">
         <Reveal className="section-head">
           <div>
@@ -1025,59 +1010,25 @@ function VisitPage() {
 function AboutPage() {
   return (
     <Shell>
-      <section className="story-hero">
-        <p>OUR STORY</p>
-        <h1>
-          A little more balance
-          <br />
-          in the everyday.
-        </h1>
-      </section>
-      <Reveal className="story-grid">
-        <h2>
-          Not too much,
-          <br />
-          not too little—
-          <br />
-          just right.
-        </h2>
-        <div>
-          <p>
-            Lagom is a Swedish idea about having enough: the right measure for
-            the moment. It shapes how we think about flavor, product design,
-            hospitality, and responsible THC use.
-          </p>
-          <p>
-            We make drinks for adults who want another option at the table.
-            Clear information belongs beside good taste, so the amount of THC
-            stays visible wherever a drink appears.
-          </p>
-        </div>
-      </Reveal>
-      <section className="principles">
-        <article>
-          <span>01</span>
-          <h3>Taste leads</h3>
-          <p>
-            Bright flavor and a crisp finish give every can its own point of
-            view.
-          </p>
-        </article>
-        <article>
-          <span>02</span>
-          <h3>Clarity matters</h3>
-          <p>
-            Potency and format should be easy to understand before you choose.
-          </p>
-        </article>
-        <article>
-          <span>03</span>
-          <h3>Culture lives here</h3>
-          <p>
-            Food, music, art, and hospitality shape the occasions we design for.
-          </p>
-        </article>
-      </section>
+      <main className="about-page">
+        <section className="about-hero">
+          <div className="about-hero__copy"><p>OUR STORY</p><h1>A little more balance in the everyday.</h1></div>
+          <div className="about-hero__media"><img src={hospitality} alt="Lagom Naturals in a considered social setting" /></div>
+        </section>
+        <Reveal className="about-story">
+          <div className="about-story__heading"><span>LAGOM / LAH-GOM</span><h2>Not too much,<br />not too little—<br /><em>just right.</em></h2></div>
+          <div className="about-story__body">
+            <p>Lagom is a Swedish idea about having enough: the right measure for the moment. It shapes how we think about flavor, product design, hospitality, and responsible THC use.</p>
+            <p>We make drinks for adults who want another option at the table. Clear information belongs beside good taste, so the amount of THC stays visible wherever a drink appears.</p>
+          </div>
+        </Reveal>
+        <section className="about-image"><img src={storefront} alt="Lagom Naturals storefront in Minneapolis" /></section>
+        <section className="about-principles" aria-label="What guides Lagom Naturals">
+          <article><span>01</span><h3>Taste leads</h3><p>Bright flavor and a crisp finish give every can its own point of view.</p></article>
+          <article><span>02</span><h3>Clarity matters</h3><p>Potency and format should be easy to understand before you choose.</p></article>
+          <article><span>03</span><h3>Culture lives here</h3><p>Food, music, art, and hospitality shape the occasions we design for.</p></article>
+        </section>
+      </main>
     </Shell>
   );
 }
