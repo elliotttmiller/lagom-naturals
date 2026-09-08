@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 343" role="img" aria-labelledby="title desc">
+  <title id="title">Lagom Naturals icon</title>
+  <desc id="desc">Refined circular Lagom Naturals mark with bird, horizon, and water lines.</desc>
+
+  <!-- Outer circular ring: normalized concentric geometry -->
+  <path
+    d="M150 43
+       C71.024 43 7 107.024 7 186
+       C7 264.976 71.024 329 150 329
+       C228.976 329 293 264.976 293 186
+       C293 107.024 228.976 43 150 43
+       Z
+       M150 78
+       C209.647 78 258 126.353 258 186
+       C258 245.647 209.647 294 150 294
+       C90.353 294 42 245.647 42 186
+       C42 126.353 90.353 78 150 78
+       Z"
+    fill="#fff"
+    fill-rule="evenodd"/>
+
+  <!-- Horizon divider -->
+  <rect x="35" y="188.5" width="230" height="28" rx="1" fill="#fff"/>
+
+  <!-- Bird: manually redrawn with smooth cubic Bézier curves -->
+  <path
+    d="M107.5 103.4
+       C119.6 105.8 136.9 109.4 149.5 116.0
+       C159.0 121.0 160.0 130.2 164.3 139.6
+       C168.4 148.6 173.0 155.1 181.2 156.8
+       C188.2 158.3 194.3 154.8 200.3 151.7
+       C207.0 148.2 212.4 150.0 216.4 153.9
+       L221.2 158.6
+       C207.2 159.0 198.4 162.5 188.2 166.8
+       C174.1 172.7 160.5 173.3 145.8 170.4
+       L106.7 163.0
+       C116.2 159.6 126.8 156.5 132.5 151.7
+       C137.4 147.6 136.6 142.2 133.4 136.6
+       Z"
+    fill="#fff"/>
+
+  <!-- Water / reflection lines: consistent rounded geometry -->
+  <path d="M73 230.5 H228" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
+  <path d="M81 248.5 H219" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
+  <path d="M96 266.5 H205" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
+  <path d="M119 283.5 H181" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+</svg>
