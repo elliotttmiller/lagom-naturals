@@ -1,0 +1,32 @@
+/* Mobile catalog — shop, cards, horizontal filters, listing controls and image-surface polish. */
+@media(max-width:899px){
+  .shop-page{position:relative;width:100%!important;margin:0!important;padding:26px var(--m-gutter) 30px!important;background:#fff!important}
+  .shop-page::before{content:'Shop';display:block;margin:2px 0 4px;font:500 44px/.95 var(--font-display);letter-spacing:-.045em}
+  .shop-page::after{content:'Premium THC beverages for every occasion.';display:block;position:absolute;top:61px;left:var(--m-gutter);right:var(--m-gutter);font:500 14px/1.35 var(--font-ui);pointer-events:none}
+  .shop-search,.shop-page .category-grid,.shop-page>.reveal:first-child{display:none!important}
+  .shop-page .section-title{margin-top:48px!important;margin-bottom:12px!important}.shop-page .section-title h2,.shop-page .section-title>a{display:none!important}
+
+  .shop-page .chips,.listing-page .chips{display:flex!important;gap:8px!important;overflow-x:auto!important;margin:0 0 14px!important;padding:0 0 2px!important;scrollbar-width:none}
+  .shop-page .chips::-webkit-scrollbar,.listing-page .chips::-webkit-scrollbar{display:none}
+  .shop-page .chips button,.listing-page .chips button{min-width:max-content!important;height:35px!important;padding:0 17px!important;border:0!important;border-radius:999px!important;background:transparent!important;color:#111!important;font:700 11px/1 var(--font-ui)!important}
+  .shop-page .chips button.active,.listing-page .chips button.active{background:#111!important;color:#fff!important}
+
+  .shop-page .product-grid,.listing-page .product-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+  .product-card{min-width:0!important;background:#fff!important;border:0!important;box-shadow:none!important}
+  .product-media{position:relative!important;width:100%!important;aspect-ratio:1/1.22!important;padding:12px!important;display:grid!important;place-items:center!important;border:1px solid #e5e3de!important;border-radius:7px!important;background:#fff!important;overflow:hidden!important}
+  .product-media>a{display:grid!important;width:100%!important;height:100%!important;place-items:center!important}.product-media img{width:100%!important;height:100%!important;object-fit:contain!important;background:#fff!important}
+  .heart-btn{position:absolute!important;top:7px!important;right:7px!important;width:30px!important;height:30px!important;display:grid!important;place-items:center!important;border:0!important;background:rgba(255,255,255,.92)!important;border-radius:50%!important}.heart-btn svg{width:16px!important;height:16px!important}
+  .product-copy{padding:8px 2px 4px!important}.product-copy>p{display:none!important}.product-copy h3{margin:0!important;font:750 12px/1.25 var(--font-ui)!important}.product-copy small,.stars,.card-actions{display:none!important}.product-copy>b{display:block!important;margin-top:4px!important;font:700 12px/1 var(--font-ui)!important}
+
+  /* Legacy category/listing support migrated from mobile-shop and polish sheets. */
+  .listing-page{width:100%!important;margin:0!important;padding:24px var(--m-gutter) 34px!important;background:#fff!important}
+  .listing-page h1{margin:0 0 14px!important;font:500 40px/.96 var(--font-display)!important;letter-spacing:-.045em!important}.listing-page h1 span{font-size:.45em!important;color:#7b7c75!important}
+  .listing-page .filter-row{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important;margin-bottom:10px!important}.listing-page .filter-row>button{min-height:46px!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:9px!important;border:1px solid var(--m-line)!important;border-radius:8px!important;background:#fff!important;color:#172019!important;font:750 12px/1 var(--font-ui)!important}
+  .listing-control-icon,.listing-page .filter-row button>svg{width:20px!important;height:20px!important;flex:0 0 20px!important}.listing-control-icon svg,.listing-page .filter-row button>svg{width:20px!important;height:20px!important;fill:none!important;stroke:currentColor!important;stroke-width:1.75!important;stroke-linecap:round!important;stroke-linejoin:round!important}
+  .listing-page .filter-row button:nth-child(2)::after{content:'';width:7px;height:7px;margin-left:2px;border-right:1.7px solid currentColor;border-bottom:1.7px solid currentColor;transform:translateY(-2px) rotate(45deg)}
+
+  .category-card.has-image,.category-grid .category-card.has-image{background:#fff!important}.category-card.has-image img{object-fit:contain!important;object-position:center!important}
+}
+
+@media(max-width:380px){.product-copy h3{font-size:11px!important}}
+@media(min-width:600px) and (max-width:899px){.shop-page .product-grid,.listing-page .product-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}.product-media{aspect-ratio:1/1.08!important}}
