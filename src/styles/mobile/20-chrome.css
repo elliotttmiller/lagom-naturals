@@ -1,5 +1,11 @@
 /* Mobile chrome — one fixed viewport header contract for every mobile route.
    Route state may change color/treatment, but never header geometry. */
+.mobile-reference-header,
+.mobile-reference-menu-backdrop,
+.mobile-recipes-page{
+  display:none;
+}
+
 @media(max-width:899px){
   :root{
     --lagom-menu-ease-standard:cubic-bezier(.22,1,.36,1);

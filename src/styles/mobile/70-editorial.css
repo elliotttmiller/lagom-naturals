@@ -38,11 +38,12 @@
   .editorial-page:has(.merch-grid)>p{margin-bottom:13px!important}
   .editorial-page:has(.merch-grid)>h1{max-width:560px!important;margin-bottom:38px!important;font-size:clamp(43px,11vw,56px)!important;line-height:.94!important}
   .merch-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:28px 14px!important;align-items:start!important}
-  .merch-grid>*,.merch-card{min-width:0!important}
-  .merch-card>a{display:block!important;color:inherit!important;text-decoration:none!important}
-  .merch-card>a>div:first-child,.merch-media{position:relative!important;width:100%!important;aspect-ratio:1/1.12!important;padding:14px!important;display:grid!important;place-items:center!important;border:1px solid var(--m-line)!important;border-radius:10px!important;background:#faf9f6!important;overflow:hidden!important}
+  .merch-grid>*,.merch-card{min-width:0!important;height:100%!important}
+  .merch-card{overflow:hidden!important;border:1px solid rgba(31,35,31,.12)!important;border-radius:12px!important;background:#fff!important;box-shadow:0 6px 20px rgba(20,24,20,.045)!important}
+  .merch-card>a{display:flex!important;height:100%!important;flex-direction:column!important;color:inherit!important;text-decoration:none!important}
+  .merch-card>a>div:first-child,.merch-media{position:relative!important;width:100%!important;aspect-ratio:1/1.12!important;padding:14px!important;display:grid!important;place-items:center!important;border:0!important;border-bottom:1px solid rgba(31,35,31,.1)!important;border-radius:11px 11px 0 0!important;background:#f8f7f3!important;overflow:hidden!important}
   .merch-card img{display:block!important;width:100%!important;height:100%!important;object-fit:contain!important}.merch-media>svg{position:absolute!important;top:10px!important;right:10px!important;width:21px!important;height:21px!important;stroke-width:1.7!important}
-  .merch-card p{margin:10px 0 3px!important;color:#6b6d67!important;font:650 12px/1.2 var(--m-font-body)!important}.merch-card h3{margin:0!important;font:850 15px/1.22 var(--m-font-body)!important;letter-spacing:-.012em!important}.merch-card b{display:block!important;margin-top:6px!important;font:850 15px/1 var(--m-font-body)!important}.swatches{display:none!important}
+  .merch-copy{display:flex!important;flex:1!important;flex-direction:column!important;padding:12px 12px 14px!important}.merch-card p{margin:0 0 5px!important;color:#6b6d67!important;font:750 10px/1.2 var(--m-font-body)!important;letter-spacing:.055em!important;text-transform:uppercase!important}.merch-card h3{min-height:2.44em!important;margin:0!important;font:850 15px/1.22 var(--m-font-body)!important;letter-spacing:-.012em!important}.merch-card b{display:block!important;margin-top:8px!important;font:850 16px/1 var(--m-font-body)!important}.swatches{display:none!important}
 
   /* MERCH PDP */
   .merch-detail{width:100%!important;margin:0!important;padding:0 0 42px!important;background:#fff!important}

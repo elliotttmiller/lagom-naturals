@@ -1,4 +1,5 @@
 @import './tokens.css';
 @import './legacy-core.css';
 @import './mobile.css';
+@import '../storefront-footer-template.css';
 @import './desktop.css';

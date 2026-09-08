@@ -528,13 +528,15 @@ function MerchCard({ item }) {
           />
           <Heart />
         </div>
-        <p>Lagom Naturals</p>
-        <h3>{item.name}</h3>
-        <b>${item.price.toFixed(2)}</b>
-        <div className="swatches">
-          <i />
-          <i />
-          <i />
+        <div className="merch-copy">
+          <p>Lagom Naturals</p>
+          <h3>{item.name}</h3>
+          <b>${item.price.toFixed(2)}</b>
+          <div className="swatches" aria-hidden="true">
+            <i />
+            <i />
+            <i />
+          </div>
         </div>
       </Link>
     </m.div>
@@ -658,20 +660,6 @@ function HomePage() {
           ))}
         </Stagger>
       </section>
-      <Reveal className="education-split">
-        <div className="education-split__number">10</div>
-        <div>
-          <p>MG THC PER CAN</p>
-          <h2>Know what’s in your glass.</h2>
-          <p>
-            Each Lagom can contains 10 mg THC. If you are unfamiliar with THC,
-            start with a lower serving and allow adequate time before consuming
-            more. Experience varies by person, dose, food intake, and other
-            factors.
-          </p>
-          <ArrowLink to="/learn">Learn before you sip</ArrowLink>
-        </div>
-      </Reveal>
       <section className="occasion">
         <img src={hospitality} alt="A warm, contemporary hospitality setting" />
         <Reveal>
