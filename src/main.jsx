@@ -30,6 +30,7 @@ import './desktop-responsive.css'
 import './mobile-shell.css'
 import './beverage-brand.css'
 import './desktop-reference-redesign.css'
+import './desktop-reference-commerce.css'
 
 const routeMeta={
   '/':{title:'Lagom Naturals | Premium THC Seltzer',label:'Home',description:'Premium hemp-derived THC seltzers made for considered adult occasions.'},
