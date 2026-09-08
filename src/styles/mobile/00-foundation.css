@@ -1,0 +1,43 @@
+/* Mobile foundation — viewport, scroll ownership, safe areas, shared type and geometry. */
+@media(max-width:899px){
+  :root{
+    --m-bg:#fbfaf7;
+    --m-surface:#fff;
+    --m-ink:#10110f;
+    --m-muted:#65665f;
+    --m-line:#dedbd4;
+    --m-green:#0f513d;
+    --m-header:68px;
+    --m-bottom:64px;
+    --m-gutter:clamp(16px,4.2vw,22px);
+    --mobile-header-content-h:68px;
+    --mobile-header-total-h:calc(var(--mobile-header-content-h) + env(safe-area-inset-top,0px));
+  }
+
+  html,body,#root{width:100%;max-width:100%;min-width:320px;min-height:100%}
+  html{overflow-x:hidden;overflow-y:auto;scroll-behavior:auto;overscroll-behavior-y:auto;touch-action:pan-y pinch-zoom;-webkit-overflow-scrolling:touch}
+  body{margin:0;overflow-x:hidden;overflow-y:visible;background:var(--m-bg);color:var(--m-ink);font-family:var(--font-ui);padding-bottom:calc(var(--m-bottom) + env(safe-area-inset-bottom,0px));overscroll-behavior-y:auto;touch-action:pan-y pinch-zoom}
+  #root,.route-stage,.app-shell,.app-shell>main{width:100%;max-width:100%;min-height:0!important;height:auto!important;overflow-x:clip!important;overflow-y:visible!important;touch-action:pan-y pinch-zoom}
+  .route-stage{transform:none!important;filter:none!important;perspective:none!important}
+  .app-shell>main{padding:var(--m-header) 0 0!important}
+  .announcement,.app-shell>.site-header,.drawer-bg,.site-footer{display:none!important}
+
+  img,svg,video{max-width:100%}
+  button,a,input,select,textarea{font:inherit}
+  button,a{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+  input,textarea,select{font-size:16px}
+
+  .shop-page,.listing-page,.cart-page,.checkout-page,.account-page,.visit-page,.pdp,.merch-detail,.editorial-page,.find-page{max-width:none!important}
+
+  .section-head,.section-title{display:flex!important;align-items:end!important;justify-content:space-between!important;gap:16px!important}
+  .section-head p,.editorial-page>p,.story-hero>p,.find-page>div>p:first-child{margin:0 0 8px!important;color:#4f514b!important;font:800 9px/1 var(--font-ui)!important;letter-spacing:.14em!important;text-transform:uppercase!important}
+  .section-head h2,.section-title h2{margin:0!important;font:500 34px/.96 var(--font-display)!important;letter-spacing:-.04em!important}
+
+  .home-category-row,.shop-page .product-grid,.listing-page .chips,.merch-chips,.global-search__chips,.global-search__categories{overscroll-behavior:auto;overscroll-behavior-inline:auto;scroll-snap-type:none;touch-action:pan-x pan-y pinch-zoom;-webkit-overflow-scrolling:touch}
+  .home-category-row>*,.shop-page .product-grid>*,.listing-page .chips button,.merch-chips button{scroll-snap-align:none;scroll-snap-stop:normal}
+
+  .route-announcer,.lagom-cart-announcer{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+}
+
+@media(max-width:380px){:root{--m-gutter:14px}}
+@media(min-width:600px) and (max-width:899px){:root{--m-gutter:28px}}
