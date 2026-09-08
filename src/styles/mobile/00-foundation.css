@@ -43,6 +43,8 @@
     position:relative!important;
     inset:auto!important;
     transform:none!important;
+    background:#000!important;
+    background-image:none!important;
   }
 
   img,svg,video{display:block;max-width:100%}
