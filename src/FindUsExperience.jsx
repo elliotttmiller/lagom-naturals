@@ -1,5 +1,6 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
+import storefrontMobile from '@/assets/mobile/main-store.png'
 
 const SHOPS=[
 ['Barstock Liquors','31 E Main St','Crosby','MN','56441','+12185453004','http://www.barstockliquors.com/'],
@@ -32,64 +33,65 @@ const SHOPS=[
 ['Westwood Liquor','2304 Louisiana Ave S','St Louis Park','MN','55426','+19525447878','']
 ].map(([name,street,city,state,zip,phone,website],i)=>({id:i+1,name,street,city,state,zip,phone,website,address:`${street}, ${city}, ${state} ${zip}`}))
 
-const mapsEmbed=(shop)=>`https://www.google.com/maps?q=${encodeURIComponent(shop.address)}&output=embed`
-const mapsDirections=(shop)=>`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(shop.address)}`
-const phoneLabel=(p)=>p?`(${p.slice(-10,-7)}) ${p.slice(-7,-4)}-${p.slice(-4)}`:''
-const initials=(name)=>name.replace(/[^A-Za-z0-9 ]/g,'').split(/\s+/).filter(Boolean).slice(0,2).map(word=>word[0]).join('').toUpperCase()
-const logoFor=(shop)=>{
-  if(!shop.website)return ''
-  try{return `https://www.google.com/s2/favicons?domain_url=${encodeURIComponent(new URL(shop.website).origin)}&sz=128`}catch{return ''}
+const mapsEmbed=shop=>`https://www.google.com/maps?q=${encodeURIComponent(shop.address)}&output=embed`
+const mapsDirections=shop=>`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(shop.address)}`
+const phoneLabel=p=>p?`(${p.slice(-10,-7)}) ${p.slice(-7,-4)}-${p.slice(-4)}`:''
+const initials=name=>name.replace(/[^A-Za-z0-9 ]/g,'').split(/\s+/).filter(Boolean).slice(0,2).map(word=>word[0]).join('').toUpperCase()
+const logoFor=shop=>{if(!shop.website)return '';try{return `https://www.google.com/s2/favicons?domain_url=${encodeURIComponent(new URL(shop.website).origin)}&sz=128`}catch{return ''}}
+
+function SearchIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.2 4.2"/></svg>}
+function PinIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.4 6-11a6 6 0 1 0-12 0c0 5.6 6 11 6 11Z"/><circle cx="12" cy="10" r="2"/></svg>}
+function ArrowIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M14 7l5 5-5 5"/></svg>}
+
+function RetailerMark({shop}){
+  const src=logoFor(shop);const [failed,setFailed]=React.useState(false)
+  React.useEffect(()=>setFailed(false),[src])
+  return <span className="find-brand" aria-hidden="true">{src&&!failed?<img src={src} alt="" loading="lazy" onError={()=>setFailed(true)}/>:<b>{initials(shop.name)}</b>}</span>
 }
 
-function RetailerMark({shop,compact=false}){
-  const src=logoFor(shop)
-  const [failed,setFailed]=React.useState(false)
-  React.useEffect(()=>setFailed(false),[src])
-  return <div className={`retailer-brand-mark${compact?' retailer-brand-mark--compact':''}`} aria-hidden="true">
-    {src&&!failed?<img src={src} alt="" loading="lazy" onError={()=>setFailed(true)}/>:<span>{initials(shop.name)}</span>}
-  </div>
+function LocationRow({shop,selected,onSelect}){
+  return <article className={`find-location-row${selected?' is-selected':''}`}>
+    <button type="button" className="find-location-row__main" onClick={()=>onSelect(shop)} aria-label={`Show ${shop.name} on map`}>
+      <RetailerMark shop={shop}/>
+      <span className="find-location-row__copy"><strong>{shop.name}</strong><small>{shop.city}, {shop.state} · {shop.zip}</small></span>
+      <ArrowIcon/>
+    </button>
+  </article>
 }
 
 export default function FindUsExperience(){
-  const {pathname}=useLocation()
-  const [query,setQuery]=React.useState('')
-  const [selected,setSelected]=React.useState(SHOPS[0])
+  const {pathname}=useLocation();const [query,setQuery]=React.useState('');const [selected,setSelected]=React.useState(SHOPS[0])
   if(pathname!=='/visit')return null
-  const q=query.trim().toLowerCase()
-  const visible=q?SHOPS.filter(s=>`${s.name} ${s.address}`.toLowerCase().includes(q)):SHOPS
-  const choose=(shop)=>{setSelected(shop);document.querySelector('.retailer-map')?.scrollIntoView({behavior:'smooth',block:'start'})}
-  return <section className="retailer-locator" aria-labelledby="retailer-title">
-    <header className="retailer-hero">
-      <p className="retailer-kicker">FIND LAGOM NATURALS</p>
-      <h1 id="retailer-title">Find your<br/><em>nearest Lagom.</em></h1>
-      <p>Find Lagom Naturals near you. Explore our retail partners across Minnesota and Wisconsin, then contact your preferred location to confirm current availability.</p>
-    </header>
-    <div className="retailer-map" aria-label={`Map showing ${selected.name}`}>
-      <iframe key={selected.id} title={`Map — ${selected.name}`} src={mapsEmbed(selected)} loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen />
-      <aside className="retailer-map-card">
-        <div className="retailer-map-card__top"><RetailerMark shop={selected}/><span>SELECTED LOCATION</span></div>
-        <h2>{selected.name}</h2>
-        <address>{selected.street}<br/>{selected.city}, {selected.state} {selected.zip}</address>
-        <div className="retailer-actions">
-          <a href={mapsDirections(selected)} target="_blank" rel="noreferrer">Directions ↗</a>
-          {selected.phone&&<a href={`tel:${selected.phone}`}>Call</a>}
-          {selected.website&&<a href={selected.website} target="_blank" rel="noreferrer">Website ↗</a>}
+  const q=query.trim().toLowerCase();const visible=q?SHOPS.filter(s=>`${s.name} ${s.address}`.toLowerCase().includes(q)):SHOPS
+  const choose=shop=>{setSelected(shop);if(window.innerWidth<900)document.querySelector('.find-map-pane')?.scrollIntoView({behavior:'smooth',block:'start'})}
+  return <section className="find-experience" aria-labelledby="find-title">
+    <div className="find-mobile-visual" aria-hidden="true"><img src={storefrontMobile} alt=""/></div>
+    <div className="find-shell">
+      <aside className="find-sidebar">
+        <div className="find-intro">
+          <p className="find-eyebrow">FIND US</p>
+          <h1 id="find-title">Find Lagom<br/>Near You</h1>
+          <p>Great drinks are better together.<br/>Find Lagom Naturals near you.</p>
+        </div>
+        <label className="find-search"><span className="sr-only">Search locations</span><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Enter your city, ZIP, or shop name"/><SearchIcon/></label>
+        <div className="find-result-meta"><span>{visible.length} locations</span><span>Minnesota + Wisconsin</span></div>
+        <div className="find-location-list" aria-live="polite">
+          {visible.map(shop=><LocationRow key={shop.id} shop={shop} selected={selected.id===shop.id} onSelect={choose}/>)}
+          {!visible.length&&<div className="find-empty"><strong>No locations found.</strong><button type="button" onClick={()=>setQuery('')}>Clear search</button></div>}
         </div>
       </aside>
-    </div>
-    <div className="retailer-directory">
-      <div className="retailer-directory-head"><div><p>STOCKISTS / RETAILERS</p><h2>Find Lagom near you.</h2></div><label><span>Search locations</span><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="City, ZIP, or shop name"/></label></div>
-      <p className="retailer-count" aria-live="polite">Showing {visible.length} of {SHOPS.length} locations</p>
-      <div className="retailer-grid">
-        {visible.map(shop=><article className={`retailer-card${selected.id===shop.id?' is-selected':''}`} key={shop.id}>
-          <button className="retailer-card-main" type="button" onClick={()=>choose(shop)} aria-label={`Show ${shop.name} on map`}>
-            <div className="retailer-card-brand"><RetailerMark shop={shop} compact/><span>{String(shop.id).padStart(2,'0')}</span></div>
-            <h3>{shop.name}</h3><address>{shop.street}<br/>{shop.city}, {shop.state} {shop.zip}</address><b>View on map →</b>
-          </button>
-          <div className="retailer-card-links">{shop.phone&&<a href={`tel:${shop.phone}`}>{phoneLabel(shop.phone)}</a>}<a href={mapsDirections(shop)} target="_blank" rel="noreferrer">Directions</a>{shop.website&&<a href={shop.website} target="_blank" rel="noreferrer">Website</a>}</div>
-        </article>)}
+      <div className="find-map-pane">
+        <iframe key={selected.id} title={`Map — ${selected.name}`} src={mapsEmbed(selected)} loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen/>
+        <article className="find-map-popover">
+          <div className="find-map-popover__identity"><RetailerMark shop={selected}/><span><small>SELECTED LOCATION</small><strong>{selected.name}</strong></span></div>
+          <address>{selected.street}<br/>{selected.city}, {selected.state} {selected.zip}</address>
+          <div className="find-map-popover__links">
+            <a className="find-directions" href={mapsDirections(selected)} target="_blank" rel="noreferrer"><PinIcon/>Get Directions</a>
+            {selected.phone&&<a href={`tel:${selected.phone}`}>{phoneLabel(selected.phone)}</a>}
+            {selected.website&&<a href={selected.website} target="_blank" rel="noreferrer">Website ↗</a>}
+          </div>
+        </article>
       </div>
-      {!visible.length&&<div className="retailer-empty"><h3>No locations match that search.</h3><button type="button" onClick={()=>setQuery('')}>Show all locations</button></div>}
     </div>
   </section>
 }
