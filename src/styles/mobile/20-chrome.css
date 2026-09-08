@@ -76,8 +76,7 @@
   .mobile-reference-header .hamburger.mobile-reference-header__left .line{stroke:currentColor;stroke-width:2.8}
   .mobile-back-glyph{font:400 38px/1 system-ui;transform:translateY(-1px)}
 
-  /* True viewport centering. This element is independent of left/right tool width,
-     cart badge state, route type, and hamburger/back-button state. */
+  /* True viewport centering. Independent of tool widths and cart-badge state. */
   .mobile-reference-header__brand{
     position:fixed!important;
     z-index:2!important;
@@ -97,11 +96,18 @@
     translate:none!important;
     flex:none!important;
     will-change:auto!important;
-    pointer-events:none!important;
+    pointer-events:auto!important;
+    cursor:pointer!important;
     user-select:none!important;
     -webkit-user-select:none!important;
     -webkit-tap-highlight-color:transparent!important;
-    touch-action:none!important;
+    touch-action:manipulation!important;
+  }
+
+  .mobile-reference-header__brand:focus-visible{
+    outline:2px solid currentColor!important;
+    outline-offset:-5px!important;
+    border-radius:8px!important;
   }
 
   .mobile-reference-header__brand img{
@@ -112,6 +118,7 @@
     margin:0!important;
     object-fit:contain!important;
     transform:none!important;
+    pointer-events:none!important;
   }
 
   .mobile-reference-header.is-home .mobile-reference-header__brand img{
