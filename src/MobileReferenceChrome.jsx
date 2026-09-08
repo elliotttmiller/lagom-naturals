@@ -1,10 +1,10 @@
 import React from 'react'
 import {Link,useLocation,useNavigate} from 'react-router-dom'
-import {ShoppingBag,Menu,Search,User,X,ChevronRight} from 'lucide-react'
+import {ShoppingBag,Menu,Search,X,ChevronRight} from 'lucide-react'
 import mobileHero from '@/assets/mobile/hero.png'
 
 const drawerItems=[
-  ['Shop','/shop'],['Find Us','/visit'],['Our Story','/about'],['Recipes','/recipes'],['Merch','/merch'],['Blog','/learn'],['FAQs','/learn'],['Contact','/visit']
+  ['Shop','/shop'],['Find Us','/visit'],['Our Story','/about'],['Account','/about'],['Recipes','/recipes'],['Merch','/merch'],['Blog','/learn'],['FAQs','/learn'],['Contact','/visit']
 ]
 
 function cartCount(){
@@ -47,7 +47,6 @@ export default function MobileReferenceChrome(){
       <Link className="mobile-reference-header__brand" to="/" aria-label="Lagom Naturals home"><img src="/lagom-logo.svg" alt="Lagom Naturals"/></Link>
       <div className="mobile-reference-header__tools">
         {!isDetail&&<Link to="/shop" aria-label="Search"><Search/></Link>}
-        {!isDetail&&<Link to="/about" aria-label="Account"><User/></Link>}
         <Link className="mobile-reference-cart" to="/cart" aria-label={`Cart, ${count} items`}><ShoppingBag/>{count>0&&<b>{count}</b>}</Link>
       </div>
     </header>
