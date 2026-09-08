@@ -1,48 +1,62 @@
-/* Desktop Find Us — fluid, scroll-safe split layout.
-   The storefront source remains uncropped; CSS performs the responsive cover crop. */
+/* Desktop Find Us — fluid split hero with a full-width retailer directory below.
+   The map remains an immersive viewport composition; the complete retailer list
+   is no longer trapped inside a small independently scrolling rail. */
 @media (min-width:900px){
   .find-experience{
     min-height:calc(100dvh - var(--desktop-announcement-h,28px) - var(--desktop-header-h,88px));
     overflow:visible;
+    background:#fbfaf7;
   }
 
   .find-shell{
     display:grid;
     grid-template-columns:minmax(420px,44%) minmax(0,56%);
+    grid-template-rows:auto auto;
     width:100%;
-    height:clamp(700px,calc(100dvh - var(--desktop-announcement-h,28px) - var(--desktop-header-h,88px)),980px);
-    min-height:0;
+    min-height:calc(100dvh - var(--desktop-announcement-h,28px) - var(--desktop-header-h,88px));
+    height:auto;
     max-height:none;
-    overflow:hidden;
+    overflow:visible;
+    align-items:stretch;
   }
 
   .find-sidebar{
     --find-side-pad:clamp(32px,3.75vw,72px);
-    display:grid;
-    grid-template-rows:clamp(190px,23dvh,285px) auto auto auto minmax(0,1fr);
+    grid-column:1;
+    grid-row:1 / span 2;
+    display:contents;
     min-height:0;
-    height:100%;
-    padding:0 var(--find-side-pad);
-    overflow:hidden;
+    height:auto;
+    padding:0;
+    overflow:visible;
     background:#fbfaf7;
   }
 
+  /* The storefront + locator controls form the left side of the desktop hero. */
   .find-sidebar::before{
     content:"";
     display:block;
+    grid-column:1;
     grid-row:1;
-    width:calc(100% + (var(--find-side-pad) * 2));
-    min-width:0;
-    max-width:none;
-    height:100%;
-    margin:0 calc(var(--find-side-pad) * -1);
+    min-height:clamp(220px,27dvh,300px);
+    width:100%;
     background:url('../assets/desktop/storefront.png') 62% 40% / cover no-repeat;
   }
 
+  .find-intro,
+  .find-search,
+  .find-result-meta{
+    grid-column:1;
+    position:relative;
+    z-index:2;
+    margin-inline:var(--find-side-pad);
+  }
+
   .find-intro{
-    grid-row:2;
-    min-height:0;
-    padding-top:clamp(20px,2.6dvh,30px);
+    grid-row:1;
+    align-self:start;
+    margin-top:clamp(220px,27dvh,300px);
+    padding-top:clamp(22px,2.8dvh,32px);
   }
   .find-eyebrow{margin:0 0 clamp(9px,1.3dvh,14px)}
   .find-intro h1{
@@ -58,81 +72,104 @@
     line-height:1.42;
   }
 
-  .find-search{grid-row:3;min-height:0}
+  .find-search{
+    grid-row:1;
+    align-self:end;
+    margin-bottom:48px;
+  }
   .find-search input{height:clamp(48px,5.5dvh,56px)}
 
   .find-result-meta{
-    grid-row:4;
-    min-height:0;
-    padding:clamp(10px,1.5dvh,16px) 2px clamp(8px,1.2dvh,12px);
+    grid-row:1;
+    align-self:end;
+    transform:translateY(2px);
+    margin-bottom:0;
+    padding:14px 2px 12px;
   }
 
-  .find-location-list{
-    grid-row:5;
-    min-height:0;
-    height:100%;
-    overflow-y:auto;
-    overflow-x:hidden;
-    overscroll-behavior:contain;
-    scrollbar-gutter:stable;
-    padding-bottom:10px;
-  }
-  .find-location-row__main{
-    min-height:clamp(64px,7.7dvh,78px);
-    padding:10px 8px;
-  }
-  .find-brand{width:44px;height:44px}
-  .find-brand img{max-width:42px;max-height:39px}
-
+  /* Map owns the right side of the hero and stays large enough to be useful. */
   .find-map-pane{
-    min-height:0;
-    height:100%;
+    grid-column:2;
+    grid-row:1;
+    min-height:clamp(700px,calc(100dvh - var(--desktop-announcement-h,28px) - var(--desktop-header-h,88px)),900px);
+    height:auto;
     overflow:hidden;
   }
-  .find-map-pane iframe{height:100%}
+  .find-map-pane iframe{width:100%;height:100%;min-height:inherit}
+
+  /* Complete location directory: normal document flow, full desktop width.
+     This intentionally removes the nested mini-scroll region. */
+  .find-location-list{
+    grid-column:1 / -1;
+    grid-row:2;
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    width:100%;
+    height:auto;
+    min-height:0;
+    max-height:none;
+    overflow:visible;
+    overscroll-behavior:auto;
+    scrollbar-gutter:auto;
+    padding:clamp(26px,3vw,46px) clamp(32px,4.5vw,80px) clamp(52px,6vw,88px);
+    border-top:1px solid rgba(16,17,15,.12);
+    background:#fbfaf7;
+  }
+
+  .find-location-row{
+    min-width:0;
+    border-bottom:1px solid rgba(16,17,15,.12);
+  }
+  .find-location-row:nth-child(odd){border-right:1px solid rgba(16,17,15,.12)}
+  .find-location-row__main{
+    min-height:96px;
+    padding:18px clamp(18px,2vw,30px);
+  }
+  .find-location-row:nth-child(odd) .find-location-row__main{padding-left:0}
+  .find-location-row:nth-child(even) .find-location-row__main{padding-right:0}
+  .find-brand{width:50px;height:50px;flex:0 0 50px}
+  .find-brand img{max-width:48px;max-height:44px}
 }
 
-/* Standard laptop widths: preserve useful map width and compact the locator rail. */
 @media (min-width:900px) and (max-width:1180px){
-  .find-shell{grid-template-columns:minmax(380px,43%) minmax(0,57%)}
-  .find-sidebar{--find-side-pad:clamp(26px,3vw,36px);grid-template-rows:clamp(165px,20dvh,220px) auto auto auto minmax(0,1fr)}
-  .find-intro{padding-top:18px}
+  .find-shell{grid-template-columns:minmax(390px,45%) minmax(0,55%)}
+  .find-sidebar{--find-side-pad:clamp(26px,3vw,38px)}
+  .find-sidebar::before{min-height:clamp(185px,23dvh,235px)}
+  .find-intro{margin-top:clamp(185px,23dvh,235px);padding-top:18px}
   .find-intro h1{font-size:clamp(44px,5vw,58px)}
   .find-intro>p:last-child{font-size:13px;margin:10px 0 13px}
+  .find-search{margin-bottom:42px}
   .find-search input{height:48px}
-  .find-result-meta{padding:10px 2px 8px}
-  .find-location-row__main{min-height:62px;padding-block:8px}
+  .find-result-meta{padding:10px 2px 9px}
+  .find-map-pane{min-height:680px}
+  .find-location-list{padding-inline:clamp(26px,3.5vw,48px)}
+  .find-location-row__main{min-height:88px;padding-block:15px}
 }
 
-/* Short desktop viewports: every fixed-content region contracts; the retailer
-   list owns the remaining height and scrolls instead of being clipped. */
 @media (min-width:900px) and (max-height:820px){
-  .find-shell{height:max(600px,calc(100dvh - var(--desktop-announcement-h,28px) - var(--desktop-header-h,88px)))}
-  .find-sidebar{grid-template-rows:clamp(140px,19dvh,180px) auto auto auto minmax(0,1fr)}
-  .find-intro{padding-top:14px}
+  .find-sidebar::before{min-height:150px}
+  .find-intro{margin-top:150px;padding-top:14px}
   .find-eyebrow{margin-bottom:7px}
   .find-intro h1{font-size:clamp(42px,3.75vw,58px);line-height:.9}
   .find-intro>p:last-child{margin:8px 0 10px;font-size:12px;line-height:1.35}
+  .find-search{margin-bottom:38px}
   .find-search input{height:44px;font-size:14px}
   .find-result-meta{padding:8px 2px 7px}
-  .find-location-row__main{min-height:58px;padding-block:7px}
-  .find-location-row__copy{gap:4px}
-  .find-location-row__copy strong{font-size:14px}
-  .find-location-row__copy small{font-size:11px}
-  .find-brand{width:40px;height:40px}
-}
-
-/* Very short desktop windows should scroll as a page rather than hide content. */
-@media (min-width:900px) and (max-height:660px){
-  .find-experience{overflow:visible}
-  .find-shell{height:600px;overflow:hidden}
-  .find-sidebar{grid-template-rows:125px auto auto auto minmax(0,1fr)}
-  .find-intro h1{font-size:40px}
+  .find-map-pane{min-height:620px}
 }
 
 @media (min-width:1500px){
   .find-shell{grid-template-columns:minmax(600px,43.5%) minmax(0,56.5%)}
   .find-sidebar{--find-side-pad:clamp(56px,4vw,80px)}
+  .find-location-list{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    padding-inline:clamp(56px,5vw,96px);
+  }
+  .find-location-row:nth-child(odd){border-right:0}
+  .find-location-row:not(:nth-child(3n)){border-right:1px solid rgba(16,17,15,.12)}
+  .find-location-row .find-location-row__main{padding-inline:clamp(20px,1.8vw,32px)}
+  .find-location-row:nth-child(3n+1) .find-location-row__main{padding-left:0}
+  .find-location-row:nth-child(3n) .find-location-row__main{padding-right:0}
 }
 
 @media (max-width:899px){
