@@ -1,212 +1,185 @@
 # Lagom Naturals — Development Guidelines
 
-## Code Style
+## Code Quality Standards
 
-### Formatting
-- Minified/compact JSX: no blank lines between statements, no unnecessary whitespace inside JSX
-- Single-line component definitions are common for small presentational components
-- Arrow functions for all components and helpers
-- No semicolons at end of statements inside JSX expressions (relies on ASI)
-- Imports are grouped: React → router → icons → internal modules → assets
+### Formatting & Style
+- No semicolons in JSX/JS files (App.jsx, catalogData.js, GlobalSearchOverlay.jsx)
+- Single quotes for strings throughout JS/JSX
+- Compact, dense JSX — entire page components written as single expressions with minimal line breaks
+- Imports are tightly packed with no blank lines between import groups
+- Arrow functions preferred for all component and utility definitions
+- No explicit `return` in single-expression arrow function components
 
-### Naming
-- Components: PascalCase (`ProductCard`, `CartProvider`, `MobileNav`)
-- Hooks/context: camelCase (`useCart`, `readCart`)
-- CSS classes: kebab-case (`product-card`, `cart-row`, `primary-bar`)
-- Constants: camelCase for objects/arrays (`motionTokens`, `motionVariants`, `categoryCards`)
-- Asset imports: camelCase descriptive names (`lemonade24k`, `mainstreetHoodie`)
-- localStorage keys: namespaced strings (`lagom-cart-v1`, `lagom-age-verified`)
+### Naming Conventions
+- Components: PascalCase (`ProductCard`, `CatalogVariantPicker`, `GlobalSearchOverlay`)
+- Hooks: camelCase with `use` prefix (`useCart`, `useReducedMotion`)
+- Constants: SCREAMING_SNAKE_CASE for module-level config (`CART_KEY`, `MENU_DURATION`, `APPAREL_SIZES`)
+- Data helpers: camelCase verbs (`withVariants`, `mockProduct`, `catalogProduct`, `roundPrice`)
+- CSS classes: BEM-style with double underscores for elements (`global-search__head`, `global-search__input-wrap`)
+- Event handler variables: descriptive verbs (`openDrawer`, `closeDrawer`, `goProduct`, `goCategory`)
+- Route paths: kebab-case (`/product/:id`, `/merch/:id`)
+
+### File Organization
+- One CSS file per feature, named to match the feature (`mobile-cart.css`, `global-search.css`, `add-to-cart-button.css`)
+- Bridge/enhancer components for cross-cutting concerns (`HeaderUtilityToggleBridge.jsx`, `MobileNavShopEnhancer.jsx`, `PdpHeaderCartBridge.jsx`)
+- All page-level components in `App.jsx`; standalone utility components in their own files
+
+---
+
+## React Patterns
+
+### State Management
+- `createContext` + `useContext` for cart state — no external state library
+- `useState` initializer function for expensive reads: `useState(readCart)` (not `useState(readCart())`)
+- `useMemo` for all derived/filtered/sorted lists — always include correct dependency arrays
+- `useDeferredValue` for search input to avoid blocking renders
+- `useRef` for DOM references (focus management, click-outside detection, timers)
+- `useEffect` cleanup always returns a cleanup function when adding event listeners or timers
 
 ### Component Patterns
-- Functional components only — no class components (except `AppErrorBoundary`)
-- Props destructured inline: `function Shell({children, detail=false, noNav=false})`
-- Default prop values set in destructuring, not separately
-- Short-circuit rendering: `{condition && <Component/>}`
-- Ternary for two-branch renders: `{detail ? <BackButton/> : <MenuButton/>}`
+- Shared layout wrapper: `<Shell detail={bool}>` wraps every page
+- `EmptyState` component for all empty/error/not-found states — always provide `title`, `body`, `to`, `action`
+- `SectionTitle` for all section headings with "View All" links
+- Variant/size state always initialized from `variants[0]?.id`, reset via `useEffect` when `p.id` changes
+- Cart key format: `${item.id}:${variantId}` — always use `cartKey` for identity, never `id` alone
+
+### Data Helpers (catalogData.js)
+- `withVariants(product)` — wraps any product to ensure `variants[]` array exists
+- `mockProduct(product)` — adds `preview:true`, `mock:true`, `rating:4.8`, `reviews:42`, then calls `withVariants`
+- `catalogProduct(product)` — calls `withVariants` directly (for real/live products)
+- `roundPrice(value)` — `Math.round(value * 100) / 100` for price arithmetic
+- `secondVariantByCategory` map drives auto-generated second variant for mock products
+
+### Event Handling
+- Custom window events for cross-component communication: `lagom:toggle-global-search`, `lagom:open-global-search`, `lagom:close-global-search`
+- Dispatch pattern: `window.dispatchEvent(new CustomEvent('lagom:open-global-search'))`
+- Click-outside: `document.addEventListener('pointerdown', handler)` (not `mousedown`)
+- Keyboard: always handle `Escape` for overlays/drawers; handle `Tab` for focus trapping in modals
+
+### Accessibility
+- All interactive elements have `aria-label` when icon-only
+- Drawers/overlays: `role="dialog"`, `aria-modal="true"`, `aria-label` or `aria-labelledby`
+- Focus trap in navigation drawer: manually implemented with `querySelectorAll` focusable selector
+- `document.body.style.overflow = 'hidden'` when any overlay/drawer is open; always restore on cleanup
+- `aria-expanded` on trigger buttons for drawers and variant pickers
+- `aria-live="polite"` on search result lists
+- `useReducedMotion()` checked in all animation-heavy components; skip or reduce animations when true
 
 ---
 
-## Motion System Usage
+## Animation System (motionSystem.jsx)
 
-All animation uses the custom `motionSystem.jsx` abstraction. Never import directly from `motion/react` in `App.jsx`.
-
-### Imports
+### Always use the abstraction layer — never import directly from `motion/react` in page components
 ```js
+// Correct
 import { m, Presence, Reveal, Stagger, StaggerItem, motionTokens, motionVariants } from './motionSystem'
+
+// Wrong — do not use in App.jsx or page components
+import { motion, AnimatePresence } from 'motion/react'
 ```
 
-### Primitives
-- `m.div`, `m.button`, `m.header`, `m.img`, etc. — motion-enabled elements
-- `Presence` — wraps conditionally rendered elements for exit animations
-- `Reveal` — scroll-triggered fade-up for sections
-- `Stagger` / `StaggerItem` — staggered list entry animations
-
-### Token Usage
-```jsx
-// Tap feedback on interactive elements
-<m.button whileTap={motionTokens.tap}>...</m.button>
-
-// Hover lift
-<m.div whileHover={motionTokens.hover}>...</m.div>
-
-// Spring transitions
-<m.img transition={motionTokens.springSoft}/>
-<m.div transition={motionTokens.springSnappy}/>
-
-// Duration values
-transition={{ duration: motionTokens.duration.fast }}   // 0.16s
-transition={{ duration: motionTokens.duration.base }}   // 0.28s
-transition={{ duration: motionTokens.duration.slow }}   // 0.46s
-transition={{ duration: motionTokens.duration.cinematic }} // 0.68s
-```
-
-### Variant Usage
-```jsx
-// Stagger parent + item children
-<m.div initial="hidden" animate="visible" variants={motionVariants.stagger}>
-  <m.div variants={motionVariants.item}>...</m.div>
-</m.div>
-
-// Soft scale entrance
-<m.div initial="hidden" animate="visible" variants={motionVariants.softScale}/>
-```
-
-### Reduced Motion
-- `AppMotionProvider` sets `MotionConfig reducedMotion="user"` globally
-- Components that need explicit control use `useReducedMotion()` hook
-- Pattern: `initial={reduceMotion ? false : 'hidden'}`
-
-### Shared Layout Animations
-- Use `layoutId` for shared element transitions between routes: `layoutId={\`catalog-image-${p.id}\`}`
-- Use `layout` or `layout="position"` on elements that shift position
-
----
-
-## Cart Context
-
-### API
+### Token usage
 ```js
-const { items, add, change, remove, count, subtotal } = useCart()
+// Spring transitions
+transition={motionTokens.spring}        // default spring
+transition={motionTokens.springSoft}    // gentle, for images/cards
+transition={motionTokens.springSnappy}  // fast, for small UI elements
+
+// Hover / tap
+whileHover={motionTokens.hover}   // { y: -3, scale: 1.004 }
+whileTap={motionTokens.tap}       // { scale: 0.985 }
+
+// Duration (use with ease)
+transition={{ duration: motionTokens.duration.base, ease: motionTokens.ease }}
 ```
 
-- `add(item, quantity?)` — adds item; ignores items with `price == null`
-- `change(id, qty)` — updates qty; removes if qty <= 0
-- `remove(id)` — removes item
-- `count` — total item count (sum of qty)
-- `subtotal` — total price (sum of price × qty)
+### Variant usage
+```js
+// Staggered list
+<Stagger className="product-grid">
+  {items.map(item => <StaggerItem key={item.id}><ProductCard p={item}/></StaggerItem>)}
+</Stagger>
 
-### Persistence
-- Serialized to `localStorage` key `lagom-cart-v1`
-- Only `{id, qty, weight, brand, category}` are persisted; full item data is re-hydrated from the `products`/`merch` arrays on load
-- Items with `price == null` are filtered out on read
+// Scroll reveal
+<Reveal className="mobile-section">
+  <SectionTitle title="Featured Products"/>
+</Reveal>
 
----
-
-## Routing
-
-### Route Structure
-```jsx
-<CartProvider>
-  <Routes>
-    <Route path="/" element={<HomePage/>}/>
-    <Route path="/shop" element={<ShopPage/>}/>
-    <Route path="/product/:id" element={<ProductPage/>}/>
-    <Route path="/merch" element={<MerchPage/>}/>
-    <Route path="/merch/:id" element={<MerchDetailPage/>}/>
-    <Route path="/cart" element={<CartPage/>}/>
-    <Route path="/checkout" element={<CheckoutPage/>}/>
-    <Route path="/account" element={<AccountPage/>}/>
-    <Route path="/visit" element={<VisitPage/>}/>
-    <Route path="/about" element={<AboutPage/>}/>
-    <Route path="*" element={<NotFoundPage/>}/>
-  </Routes>
-</CartProvider>
+// Presence (exit animations)
+<Presence mode="popLayout">
+  {open && <m.div key="panel" initial={{opacity:0,y:-6}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-4}}>...</m.div>}
+</Presence>
 ```
 
-- Category filtering uses query params: `/shop?category=Edibles`
-- `ShopPage` reads `?category` and delegates to `ListingPage` component
-- Route transitions handled by `RouteMotion` in `main.jsx`
-
----
-
-## Shell Layout
-
-Every page wraps content in `Shell`:
-```jsx
-<Shell>           // standard page with mobile nav
-<Shell detail>    // detail page: back button, share/save icons, no cart icon
-<Shell noNav>     // no mobile bottom nav (used on HomePage)
-```
+### Shared-element transitions (layoutId)
+- Product images use `layoutId={`catalog-image-${p.id}`}` on both catalog card and PDP for smooth transitions
+- Always pair with `transition={motionTokens.springSoft}`
 
 ---
 
 ## CSS Conventions
 
-### Design Tokens (CSS custom properties)
-```css
---green: #004c34    /* primary brand color */
---ink: #111510      /* body text */
---muted: #666c66    /* secondary text */
---line: #dedfd9     /* borders */
---soft: #f5f4ef     /* soft background */
---cream: #faf9f4    /* page background variant */
---radius: 10px      /* default border radius */
---serif: ...        /* display/heading font */
---sans: ...         /* body font */
-```
+### Class naming
+- BEM double-underscore for elements: `.global-search__head`, `.cart-summary__eyebrow`
+- State modifiers with `is-` prefix: `.is-open`, `.is-variant-open`
+- Modifier classes with `--` suffix: `.global-search--searching`
 
-### Layout Patterns
-- Mobile-first: base styles target mobile, `@media(min-width:700px)` for tablet, `@media(min-width:1024px)` for desktop
-- Page containers: `max-width: 1180px; margin: auto; padding: 10px 20px`
-- Grids: CSS Grid throughout (`grid-template-columns`, `repeat()`)
-- Sticky header: `position: sticky; top: 0; z-index: 50`
-- Fixed mobile nav: `position: fixed; bottom: 0; z-index: 55`
-
-### Class Naming
-- Page wrapper: `.[page-name]-page` (e.g., `.cart-page`, `.merch-page`)
-- Component: descriptive kebab-case (`.product-card`, `.cart-row`, `.primary-bar`)
-- State modifier: `.active` class toggled via ternary in JSX
-- Utility: `.primary-bar` (full-width green CTA button), `.linkbar` (link styled as primary-bar)
+### Responsive approach
+- Mobile-first: base styles target mobile, `desktop-responsive.css` adds breakpoints
+- Separate CSS files per surface: `mobile-home.css`, `mobile-pdp.css`, `mobile-cart.css`, etc.
+- `production.css` for global production overrides
 
 ---
 
-## Accessibility Patterns
+## Python (data/audit.py)
 
-- All icon buttons have `aria-label`
-- Mobile nav drawer: `role="dialog"`, `aria-modal="true"`, `aria-label`, focus trap, Escape key handler, scroll lock
-- Cart icon: dynamic `aria-label` with count (`Cart, 2 items`)
-- Quantity buttons: `aria-label="Increase quantity"` / `aria-label="Decrease quantity"`
-- Route announcer: `<div role="status" aria-live="polite">` updates on navigation
-- Age gate: `role="dialog"`, `aria-modal="true"`, `autoFocus` on confirm button
-- Images: meaningful `alt` text on product/store images; `alt=""` on decorative images
-
----
-
-## Performance Patterns
-
-- `useDeferredValue` for search input to avoid blocking renders
-- `useMemo` for filtered/sorted product lists
-- `loading="lazy" decoding="async"` on below-fold images
-- `fetchPriority="high"` on hero/LCP images
-- `LazyMotion` with `domAnimation` features only (no full motion bundle)
-- Vendor chunk splitting: `react`, `motion`, `icons` chunks in Vite config
+### Patterns (separate from React build — not imported by Vite)
+- `@dataclass` for structured output (`Evidence`)
+- `from __future__ import annotations` at top of every file
+- Type hints on all function signatures
+- `Path` (pathlib) for all file operations — never `os.path`
+- Retry loops with exponential backoff for HTTP requests (3 attempts, `1.5 * (attempt + 1)` delay)
+- `robots.txt` compliance checked before every fetch
+- Fuzzy matching via `rapidfuzz.fuzz.partial_ratio` with configurable `min_score` (default 78)
+- Deduplication: dict keyed by `(source_id, location, raw_text, matched_term, classification)`
+- Output: CSV (utf-8-sig for Excel compatibility) + JSON
 
 ---
 
 ## Build & Deployment
 
-- Output dir is `docs/` (not `dist/`) for GitHub Pages
-- `scripts/build-pages.mjs` handles: clean → vite build → normalize public URLs → copy `404.html` → write `.nojekyll`
-- Base URL is `/lagom-naturals/` by default; override with `GITHUB_PAGES_BASE` env var
-- `npm run check` (alias: `vite build`) is used for CI compile verification
-- SPA fallback: `docs/404.html` is a copy of `index.html`
+- Build output goes to `docs/` — never commit build artifacts to `src/`
+- `npm run check` (alias: `vite build`) used for CI compile checks
+- `npm run build` runs `scripts/build-pages.mjs` for full production output
+- `@` path alias resolves to `src/` — always use `@/assets/...` for asset imports, never relative `../../`
+- Manual chunks defined in `vite.config.js` — do not add new large dependencies without updating `manualChunks`
+- GitHub Actions runs on every push to `main`; build failures are regressions
 
 ---
 
-## Data Patterns
+## Common Idioms
 
-- Static product/merch arrays defined at module level in `App.jsx`
-- Product shape: `{id, brand, name, category, price, strength, type, rating, reviews, weight, image}`
-- Merch shape: `{id, name, price, type, color, image}`
-- `price: null` means "in-store only" — these items cannot be added to cart
-- IDs are URL-safe slugs matching route params (e.g., `'24k-lemonade'` → `/product/24k-lemonade`)
+```js
+// Price display — always toFixed(2)
+${selected.price.toFixed(2)}
+
+// Conditional className
+className={`product-card${variantOpen ? ' is-variant-open' : ''}`}
+
+// Cart key construction
+const cartKey = `${item.id}:${item.variantId || item.weight || 'default'}`
+
+// Normalize search query
+const normalized = query.trim().toLowerCase()
+
+// Filter products
+products.filter(p =>
+  `${p.brand} ${p.name} ${p.category} ${p.type} ${p.strength}`.toLowerCase().includes(query)
+)
+
+// Quantity guard
+Math.max(1, Number(qty) || 1)
+
+// Encode category for URL
+`/shop?category=${encodeURIComponent(name)}`
+```

@@ -1,46 +1,44 @@
 # Lagom Naturals — Product Overview
 
 ## Purpose
-Mobile-first retail storefront for Lagom Naturals, a multi-brand cannabis dispensary in Minneapolis (North Loop). Provides a complete customer-facing shopping experience: browse, cart, pickup checkout, account, and store info.
+Mobile-first retail storefront for Lagom Naturals, a multi-brand cannabis dispensary in Minneapolis (North Loop). The site is a customer-facing UI/state demonstration intended to be connected to a regulated cannabis menu, inventory, age-verification, payment, and pickup platform before production use.
 
 ## Value Proposition
-- Dispensary/retailer-first positioning (not a single-product brand)
-- "Lagom" (Swedish: just right) — curated, balanced cannabis retail
-- Adults 21+ responsible-use experience
-- UI/state demonstration ready to connect to a regulated menu, inventory, age-verification, payment, and pickup platform
+- Dispensary-first experience (not a single-product brand)
+- "Lagom" (Swedish: just right) — balance, clarity, thoughtful curation
+- Warm, editorial retail aesthetic with compact mobile density
+- Guided product discovery for both new and experienced cannabis customers
 
 ## Key Features
-- Homepage: hero image, category discovery, featured products, trust signals, store CTA
-- Product discovery: search (deferred), category filtering, sort (Featured / Price low / Price high)
-- Product detail: size selection, quantity stepper, add-to-cart
-- Apparel/merch catalog with filter by type and size selection
-- Functional cart: localStorage persistence, qty change, remove, subtotal + tax estimate
+
+### Shopping
+- Homepage with hero, category discovery rail, featured products, trust signals, store CTA
+- Product catalog with search (deferred value), category filtering, and sort (Featured / Price low / Price high)
+- Product detail page (PDP) with variant/size picker, quantity control, accordion details
+- Apparel & merchandise catalog with size picker (S–XXL) and color variants
+- Merch detail page
+
+### Cart & Checkout
+- Persistent local cart (localStorage key: `lagom-cart-v2`)
+- Cart page with quantity controls, order note, pickup summary, tax estimate (8%)
 - Three-step pickup checkout (contact info → review → done)
-- Account UI: orders, favorites, addresses, payment, rewards, settings
-- Visit/store page: address, hours, directions, call CTA, amenities
-- About page: brand story with editorial imagery
-- Mobile bottom nav (Home / Shop / Account) + desktop top nav + slide-in drawer
+
+### Account & Store
+- Account page: orders, favorites, addresses, payment, rewards, settings, help
+- Visit page: store address, hours, directions, phone, amenities
+- About page: brand story, philosophy, principles, store gallery, CTA
+
+### Navigation
+- Mobile: hamburger drawer with focus trap and keyboard navigation
+- Desktop: centered logo with split nav links (Shop, Merch | Visit, About)
+- Bottom-nav pattern implied by mobile CSS modules
+- Global search overlay (GlobalSearchOverlay.jsx)
 
 ## Target Users
-- Cannabis consumers 21+ in Minneapolis
-- Developers integrating a regulated cannabis menu/POS/payment backend
+- Adults 21+ in Minneapolis / North Loop area
+- New-to-cannabis customers seeking guidance
+- Returning customers browsing current inventory
+- Internal: developers connecting live menu/inventory/payment APIs
 
-## Routes
-| Path | Page |
-|---|---|
-| `/` | HomePage |
-| `/shop` | ShopPage (search + categories) |
-| `/shop?category=X` | ListingPage (filtered) |
-| `/product/:id` | ProductPage |
-| `/merch` | MerchPage |
-| `/merch/:id` | MerchDetailPage |
-| `/cart` | CartPage |
-| `/checkout` | CheckoutPage |
-| `/account` | AccountPage |
-| `/visit` | VisitPage |
-| `/about` | AboutPage |
-
-## Data
-- Products and merch are static arrays in `src/App.jsx`
-- Cart state lives in React Context + `localStorage` (key: `lagom-cart-v1`)
-- Images are local assets in `src/assets/` (webp + png)
+## Responsible-Use Note
+Commerce flows are UI demonstrations. Age/identity verification, regulated inventory, and payment must be integrated before production transactions.
