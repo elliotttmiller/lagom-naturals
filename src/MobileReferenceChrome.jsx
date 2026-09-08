@@ -1,6 +1,6 @@
 import React from 'react'
 import {Link,useLocation,useNavigate} from 'react-router-dom'
-import {ShoppingBag,Search,ChevronRight} from 'lucide-react'
+import {ShoppingBag,Search,ChevronRight,PackageCheck,Heart,MapPin,CreditCard,Gift,Settings,Bell,CircleHelp,X} from 'lucide-react'
 import HamburgerToggle from './HamburgerToggle'
 import mobileHero from '@/assets/mobile/hero.png'
 
@@ -9,9 +9,21 @@ const drawerItems=[
   ['Merch','/merch'],
   ['Find Us','/visit'],
   ['Our Story','/about'],
-  ['Account','/about'],
+  ['Account','account'],
   ['FAQ','/learn'],
   ['Contact Us','/visit']
+]
+
+const accountRows=[
+  [PackageCheck,'My Orders'],
+  [Heart,'Favorites'],
+  [MapPin,'Addresses'],
+  [CreditCard,'Payment Methods']
+]
+const accountLower=[
+  [Settings,'Account Settings'],
+  [Bell,'Notifications'],
+  [CircleHelp,'Help & Support']
 ]
 
 function cartCount(){
@@ -27,6 +39,7 @@ export default function MobileReferenceChrome(){
   const navigate=useNavigate()
   const[menuOpen,setMenuOpen]=React.useState(false)
   const[menuVisible,setMenuVisible]=React.useState(false)
+  const[accountOpen,setAccountOpen]=React.useState(false)
   const[count,setCount]=React.useState(cartCount)
   const isHome=location.pathname==='/'
   const isDetail=location.pathname.startsWith('/product/')||location.pathname.startsWith('/merch/')
@@ -34,6 +47,7 @@ export default function MobileReferenceChrome(){
 
   React.useEffect(()=>{
     setMenuOpen(false)
+    setAccountOpen(false)
     document.body.classList.toggle('mobile-recipes-route',isRecipes)
     const update=()=>setCount(cartCount())
     update()
@@ -43,9 +57,10 @@ export default function MobileReferenceChrome(){
   },[location.pathname,isRecipes])
 
   React.useEffect(()=>{
-    document.body.classList.toggle('mobile-menu-open',menuOpen)
+    const locked=menuOpen||accountOpen
+    document.body.classList.toggle('mobile-menu-open',locked)
     return()=>document.body.classList.remove('mobile-menu-open')
-  },[menuOpen])
+  },[menuOpen,accountOpen])
 
   React.useEffect(()=>{
     if(menuOpen){
@@ -55,6 +70,11 @@ export default function MobileReferenceChrome(){
     const timer=window.setTimeout(()=>setMenuVisible(false),560)
     return()=>window.clearTimeout(timer)
   },[menuOpen])
+
+  const openAccount=()=>{
+    setMenuOpen(false)
+    window.setTimeout(()=>setAccountOpen(true),120)
+  }
 
   return <>
     <header className={`mobile-reference-header${isHome?' is-home':''}`}>
@@ -73,7 +93,9 @@ export default function MobileReferenceChrome(){
     {menuVisible&&<div className={`mobile-reference-menu-backdrop${menuOpen?' is-open':''}`} onClick={()=>setMenuOpen(false)}>
       <aside id="mobile-reference-menu" className="mobile-reference-menu" role="dialog" aria-modal="true" aria-label="Site navigation" onClick={e=>e.stopPropagation()}>
         <nav>
-          {drawerItems.map(([label,to])=><Link key={label} to={to} onClick={()=>setMenuOpen(false)}><span>{label}</span><ChevronRight/></Link>)}
+          {drawerItems.map(([label,to])=>to==='account'
+            ? <button key={label} type="button" className="mobile-reference-menu__link" onClick={openAccount}><span>{label}</span><ChevronRight/></button>
+            : <Link key={label} to={to} onClick={()=>setMenuOpen(false)}><span>{label}</span><ChevronRight/></Link>)}
         </nav>
         <div className="mobile-reference-menu__social" aria-label="Social links">
           <SocialGlyph label="Instagram">◎</SocialGlyph>
@@ -84,6 +106,25 @@ export default function MobileReferenceChrome(){
         <div className="mobile-reference-menu__tag">GOOD DRINKS<br/>BRIGHTER DAYS</div>
       </aside>
     </div>}
+
+    <div className={`mobile-account-backdrop${accountOpen?' is-open':''}`} aria-hidden={!accountOpen} onClick={()=>setAccountOpen(false)}>
+      <aside className="mobile-account-drawer" role="dialog" aria-modal="true" aria-label="Account" onClick={e=>e.stopPropagation()}>
+        <div className="mobile-account-drawer__top">
+          <span>ACCOUNT</span>
+          <button type="button" aria-label="Close account" onClick={()=>setAccountOpen(false)}><X/></button>
+        </div>
+        <div className="mobile-account-welcome">
+          <img src="/lagom-logo-icon.svg" alt="" aria-hidden="true"/>
+          <span><p>Welcome to</p><h2>Lagom</h2></span>
+        </div>
+        <div className="mobile-account-rows">
+          {accountRows.map(([Icon,label])=><button type="button" key={label}><Icon/><span>{label}</span><ChevronRight/></button>)}
+          <button type="button" className="mobile-account-reward"><Gift/><span><b>Rewards</b><small>Shop. Earn. Get more.</small></span><ChevronRight/></button>
+          {accountLower.map(([Icon,label])=><button type="button" key={label}><Icon/><span>{label}</span><ChevronRight/></button>)}
+        </div>
+        <p className="mobile-account-drawer__note">Account services require connection to the commerce and customer account backend.</p>
+      </aside>
+    </div>
 
     {isRecipes&&<main className="mobile-recipes-page">
       <section className="mobile-recipes-hero">
