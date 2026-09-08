@@ -1,0 +1,10 @@
+/* Transitional compatibility layer.
+   Root-level legacy sheets are imported here so the application has one stylesheet
+   entry point while their rules are migrated into /src/styles. */
+@import '../app.css';
+@import '../motion.css';
+@import '../production.css';
+@import '../pdp-polish.css';
+@import '../catalog-polish.css';
+@import '../variant-polish.css';
+@import '../beverage-brand.css';
