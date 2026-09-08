@@ -1,0 +1,29 @@
+/* Mobile accessibility/device hardening — safe areas, focus, coarse pointers, iOS inputs. */
+@media(max-width:899px){
+  :where(a,button,input,select,textarea):focus-visible{outline:2px solid #157a5b!important;outline-offset:2px!important}
+  :where(button,a){min-touch-target-size:44px}
+
+  .mobile-reference-header,.mobile-reference-bottom{padding-left:max(10px,env(safe-area-inset-left,0px));padding-right:max(10px,env(safe-area-inset-right,0px))}
+  .beverage-hero,.shop-page,.listing-page,.cart-page,.checkout-page,.editorial-page,.find-page,.pdp-copy,.merch-detail>div:not(.merch-detail-media){padding-left:max(var(--m-gutter),env(safe-area-inset-left,0px))!important;padding-right:max(var(--m-gutter),env(safe-area-inset-right,0px))!important}
+
+  input,textarea,select{border-radius:0;-webkit-appearance:none;appearance:none}
+  input[type='checkbox'],input[type='radio']{-webkit-appearance:auto;appearance:auto}
+  button:disabled,[aria-disabled='true']{cursor:not-allowed;opacity:.58}
+
+  @media(hover:none) and (pointer:coarse){
+    .mobile-reference-header a:hover,.mobile-reference-header button:hover,.mobile-reference-bottom a:hover,.mobile-reference-bottom button:hover,.hamburger:hover,.product-card:hover,.merch-card:hover,.category-card:hover{background-color:transparent!important;transform:none!important}
+  }
+}
+
+@supports(padding:max(0px)){
+  @media(max-width:899px){
+    body{padding-bottom:calc(var(--m-bottom) + env(safe-area-inset-bottom,0px))}
+    .mobile-reference-bottom{padding-bottom:env(safe-area-inset-bottom,0px)}
+    .mobile-reference-menu{padding-bottom:env(safe-area-inset-bottom,0px)}
+  }
+}
+
+@media(forced-colors:active) and (max-width:899px){
+  .mobile-reference-header,.mobile-reference-bottom,.product-media,.merch-media,.global-search,.mobile-sort-menu{forced-color-adjust:auto}
+  .primary-bar,.lagom-atc{border:1px solid ButtonText!important}
+}
