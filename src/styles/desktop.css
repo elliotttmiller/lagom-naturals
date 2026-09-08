@@ -100,6 +100,7 @@
   .hero-actions svg{width:16px;height:16px}
   .beverage-hero__cans{display:none!important}
   .beverage-hero__note{position:absolute;z-index:2;right:max(var(--desktop-gutter),calc((100vw - var(--desktop-wide))/2));bottom:24px;margin:0;color:#fff;font:800 10px/1 var(--font-ui);letter-spacing:.15em;text-transform:uppercase}
+  .beverage-hero__proof{display:none!important}
 
   /* Shared typography / rails */
   .editorial-page,.shop-page,.listing-page,.cart-page,.checkout-page,.account-page,.visit-page{

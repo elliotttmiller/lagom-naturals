@@ -20,7 +20,10 @@ import {
   ArrowRight,
   ChevronDown,
   ChevronRight,
+  Droplet,
+  Flower2,
   Heart,
+  Leaf,
   MapPin,
   Minus,
   Plus,
@@ -587,6 +590,24 @@ function HomePage() {
             </Link>
             <Link to="/learn">THC, EXPLAINED</Link>
           </m.div>
+          <div className="beverage-hero__proof" aria-label="Product highlights">
+            <span>
+              <Heart aria-hidden="true" />
+              ZERO<br />SUGAR
+            </span>
+            <span>
+              <Leaf aria-hidden="true" />
+              REAL<br />FLAVOR
+            </span>
+            <span>
+              <Flower2 aria-hidden="true" />
+              10MG<br />THC
+            </span>
+            <span>
+              <Droplet aria-hidden="true" />
+              GOOD<br />VIBES
+            </span>
+          </div>
         </div>
         <m.div
           className="beverage-hero__cans"

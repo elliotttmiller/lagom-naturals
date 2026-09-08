@@ -21,8 +21,8 @@
 
 @supports(padding:max(0px)){
   @media(max-width:899px){
-    body{padding-bottom:calc(var(--m-bottom) + env(safe-area-inset-bottom,0px))}
-    .mobile-reference-bottom{padding-bottom:env(safe-area-inset-bottom,0px)}
+    body{padding-bottom:0}
+    .mobile-reference-bottom{display:none!important;padding-bottom:0}
     .mobile-reference-menu{padding-bottom:env(safe-area-inset-bottom,0px)}
   }
 }

@@ -1,14 +1,7 @@
 import React from 'react'
 import {Link,useLocation,useNavigate} from 'react-router-dom'
-import {Home,ShoppingBag,BookOpen,MapPin,MoreHorizontal,Menu,Search,User,X,ChevronRight,Instagram,Youtube,Facebook} from 'lucide-react'
+import {ShoppingBag,Menu,Search,User,X,ChevronRight} from 'lucide-react'
 import mobileHero from '@/assets/mobile/hero.png'
-
-const navItems=[
-  {label:'Home',to:'/',icon:Home},
-  {label:'Shop',to:'/shop',icon:ShoppingBag},
-  {label:'Recipes',to:'/recipes',icon:BookOpen},
-  {label:'Find Us',to:'/visit',icon:MapPin},
-]
 
 const drawerItems=[
   ['Shop','/shop'],['Find Us','/visit'],['Our Story','/about'],['Recipes','/recipes'],['Merch','/merch'],['Blog','/learn'],['FAQs','/learn'],['Contact','/visit']
@@ -16,6 +9,10 @@ const drawerItems=[
 
 function cartCount(){
   try{return (JSON.parse(localStorage.getItem('lagom-beverage-cart-v1')||'[]')||[]).reduce((sum,item)=>sum+(item.qty||0),0)}catch{return 0}
+}
+
+function SocialGlyph({label,children}){
+  return <span className="mobile-reference-menu__social-glyph" aria-label={label} role="img">{children}</span>
 }
 
 export default function MobileReferenceChrome(){
@@ -55,14 +52,6 @@ export default function MobileReferenceChrome(){
       </div>
     </header>
 
-    <nav className="mobile-reference-bottom" aria-label="Mobile navigation">
-      {navItems.map(({label,to,icon:Icon})=>{
-        const active=to==='/'?location.pathname==='/':location.pathname.startsWith(to)
-        return <Link key={label} to={to} className={active?'is-active':''}><Icon/><span>{label}</span></Link>
-      })}
-      <button type="button" onClick={()=>setMenuOpen(true)} className={menuOpen?'is-active':''}><MoreHorizontal/><span>More</span></button>
-    </nav>
-
     {menuOpen&&<div className="mobile-reference-menu-backdrop" onClick={()=>setMenuOpen(false)}>
       <aside className="mobile-reference-menu" role="dialog" aria-modal="true" aria-label="Site navigation" onClick={e=>e.stopPropagation()}>
         <div className="mobile-reference-menu__head">
@@ -72,7 +61,12 @@ export default function MobileReferenceChrome(){
         <nav>
           {drawerItems.map(([label,to])=><Link key={label} to={to} onClick={()=>setMenuOpen(false)}><span>{label}</span><ChevronRight/></Link>)}
         </nav>
-        <div className="mobile-reference-menu__social"><Instagram/><span>♪</span><Facebook/><Youtube/></div>
+        <div className="mobile-reference-menu__social" aria-label="Social links">
+          <SocialGlyph label="Instagram">◎</SocialGlyph>
+          <SocialGlyph label="TikTok">♪</SocialGlyph>
+          <SocialGlyph label="Facebook">f</SocialGlyph>
+          <SocialGlyph label="YouTube">▶</SocialGlyph>
+        </div>
         <div className="mobile-reference-menu__tag">GOOD DRINKS<br/>BRIGHTER DAYS</div>
       </aside>
     </div>}
