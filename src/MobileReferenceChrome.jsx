@@ -5,7 +5,13 @@ import HamburgerToggle from './HamburgerToggle'
 import mobileHero from '@/assets/mobile/hero.png'
 
 const drawerItems=[
-  ['Shop','/shop'],['Find Us','/visit'],['Our Story','/about'],['Account','/about'],['Recipes','/recipes'],['Merch','/merch'],['Blog','/learn'],['FAQs','/learn'],['Contact','/visit']
+  ['Shop','/shop'],
+  ['Merch','/merch'],
+  ['Find Us','/visit'],
+  ['Our Story','/about'],
+  ['Account','/about'],
+  ['FAQ','/learn'],
+  ['Contact Us','/visit']
 ]
 
 function cartCount(){
@@ -55,7 +61,9 @@ export default function MobileReferenceChrome(){
       {isDetail
         ? <button type="button" className="mobile-reference-header__left" aria-label="Go back" onClick={()=>navigate(-1)}><span className="mobile-back-glyph">‹</span></button>
         : <HamburgerToggle className="mobile-reference-header__left" checked={menuOpen} onChange={setMenuOpen} controls="mobile-reference-menu" label={menuOpen?'Close menu':'Open menu'}/>}
-      <div className="mobile-reference-header__brand" aria-label="Lagom Naturals"><img src="/lagom-logo.svg" alt="Lagom Naturals"/></div>
+      <Link className="mobile-reference-header__brand" to="/" aria-label="Lagom Naturals home" onClick={()=>setMenuOpen(false)}>
+        <img src="/lagom-logo.svg" alt="Lagom Naturals"/>
+      </Link>
       <div className="mobile-reference-header__tools">
         {!isDetail&&<Link to="/shop" aria-label="Search"><Search/></Link>}
         <Link className="mobile-reference-cart" to="/cart" aria-label={`Cart, ${count} items`}><ShoppingBag/>{count>0&&<b>{count}</b>}</Link>
