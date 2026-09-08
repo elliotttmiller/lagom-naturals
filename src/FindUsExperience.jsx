@@ -60,9 +60,9 @@ export default function FindUsExperience(){
   const choose=(shop)=>{setSelected(shop);document.querySelector('.retailer-map')?.scrollIntoView({behavior:'smooth',block:'start'})}
   return <section className="retailer-locator" aria-labelledby="retailer-title">
     <header className="retailer-hero">
-      <p className="retailer-kicker">FIND LAGOM</p>
-      <h1 id="retailer-title">Out in the world.</h1>
-      <p>Find Lagom at 28 listed shops across Minnesota and Wisconsin. Retail availability can change, so contact the location before making a special trip.</p>
+      <p className="retailer-kicker">FIND LAGOM NATURALS</p>
+      <h1 id="retailer-title">Find your<br/><em>nearest Lagom.</em></h1>
+      <p>Find Lagom Naturals near you. Explore our retail partners across Minnesota and Wisconsin, then contact your preferred location to confirm current availability.</p>
     </header>
     <div className="retailer-map" aria-label={`Map showing ${selected.name}`}>
       <iframe key={selected.id} title={`Map — ${selected.name}`} src={mapsEmbed(selected)} loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen />
@@ -78,7 +78,7 @@ export default function FindUsExperience(){
       </aside>
     </div>
     <div className="retailer-directory">
-      <div className="retailer-directory-head"><div><p>STOCKISTS / RETAILERS</p><h2>28 places to find Lagom.</h2></div><label><span>Search locations</span><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="City, ZIP, or shop name"/></label></div>
+      <div className="retailer-directory-head"><div><p>STOCKISTS / RETAILERS</p><h2>Find Lagom near you.</h2></div><label><span>Search locations</span><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="City, ZIP, or shop name"/></label></div>
       <p className="retailer-count" aria-live="polite">Showing {visible.length} of {SHOPS.length} locations</p>
       <div className="retailer-grid">
         {visible.map(shop=><article className={`retailer-card${selected.id===shop.id?' is-selected':''}`} key={shop.id}>
@@ -89,7 +89,7 @@ export default function FindUsExperience(){
           <div className="retailer-card-links">{shop.phone&&<a href={`tel:${shop.phone}`}>{phoneLabel(shop.phone)}</a>}<a href={mapsDirections(shop)} target="_blank" rel="noreferrer">Directions</a>{shop.website&&<a href={shop.website} target="_blank" rel="noreferrer">Website</a>}</div>
         </article>)}
       </div>
-      {!visible.length&&<div className="retailer-empty"><h3>No locations match that search.</h3><button type="button" onClick={()=>setQuery('')}>Show all 28 locations</button></div>}
+      {!visible.length&&<div className="retailer-empty"><h3>No locations match that search.</h3><button type="button" onClick={()=>setQuery('')}>Show all locations</button></div>}
     </div>
   </section>
 }
