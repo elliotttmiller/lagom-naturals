@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter, useLocation, useNavigationType } from 'react-router-dom'
 import App from '@/App'
 import MobileReferenceChrome from '@/MobileReferenceChrome'
+import VerifiedFindUsExperience from '@/VerifiedFindUsExperience'
 import SiteFooter from '@/SiteFooter'
 import { AppMotionProvider, Presence, RouteMotion, m, motionTokens, useReducedMotion } from '@/motionSystem'
 import './styles/index.css'
@@ -13,7 +14,7 @@ const routeMeta={
   '/merch':{title:'Apparel & Merch | Lagom Naturals',label:'Apparel and merch',description:'Shop Lagom Naturals apparel and merchandise.'},
   '/cart':{title:'Your Cart | Lagom Naturals',label:'Cart',description:'Review your Lagom Naturals drinks and apparel.'},
   '/checkout':{title:'Checkout | Lagom Naturals',label:'Checkout',description:'Enter fulfillment details and review your Lagom Naturals order.'},
-  '/visit':{title:'Find Us | Lagom Naturals',label:'Find Us',description:'Find current Lagom Naturals retailer availability.'},
+  '/visit':{title:'Find Us | Lagom Naturals',label:'Find Us',description:'Visit Lagom Naturals at 707 N 3rd St, Ste 101 in Minneapolis, Minnesota.'},
   '/about':{title:'Our Story | Lagom Naturals',label:'Our Story',description:'The idea of balance behind Lagom Naturals.'},
   '/learn':{title:'THC, Explained | Lagom Naturals',label:'Learn',description:'Clear guidance for enjoying Lagom THC seltzer responsibly.'},
   '/recipes':{title:'Recipes & Rituals | Lagom Naturals',label:'Recipes',description:'Lagom Naturals drink recipes, pairings, and balanced occasion ideas.'},
@@ -101,7 +102,7 @@ function AnimatedStorefront(){
   </>
 }
 
-function StorefrontExperience(){return <AppMotionProvider><AgeGate/><AnimatedStorefront/><MobileReferenceChrome/><SiteFooter/></AppMotionProvider>}
+function StorefrontExperience(){return <AppMotionProvider><AgeGate/><AnimatedStorefront/><MobileReferenceChrome/><VerifiedFindUsExperience/><SiteFooter/></AppMotionProvider>}
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
