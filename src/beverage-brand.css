@@ -1019,11 +1019,15 @@ body {
   gap: 8px;
 }
 .product-card {
+  position: relative;
   min-width: 0;
-  overflow: hidden;
+  overflow: visible;
   background: #fff;
   border: 1px solid var(--line);
   border-radius: 6px;
+}
+.product-card.is-variant-open {
+  z-index: 40;
 }
 .product-media {
   height: clamp(160px, 44vw, 210px);
@@ -1128,7 +1132,7 @@ body {
   left: 0;
   right: 0;
   top: calc(100% + 6px);
-  z-index: 20;
+  z-index: 80;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 6px;
@@ -2750,6 +2754,18 @@ body {
   overflow: hidden;
   padding: 0;
   background: #fff;
+}
+.shop-page .product-card {
+  overflow: visible;
+}
+.shop-page .product-card.is-variant-open {
+  z-index: 80;
+}
+.shop-page .product-grid,
+.shop-page .listing-grid,
+.shop-page .product-grid > div,
+.shop-page .listing-grid > div {
+  overflow: visible;
 }
 .shop-page .category-card {
   display: grid;
