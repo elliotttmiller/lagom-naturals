@@ -6,41 +6,164 @@ import lemonade4Pack from "@/assets/products/enhanced/4-Pack-24K-Lemonade-enhanc
 import blackberry4Pack from "@/assets/products/enhanced/4-Pack-Blackberry-Breeze-enhanced.png";
 import strawberryLime4Pack from "@/assets/products/enhanced/4-Pack-Strawberry-Lime-enhanced.png";
 import watermelon4Pack from "@/assets/products/enhanced/4-Pack-Watermelon-Referesher-enhanced.png";
+
 import blueberryYumYum from "@/assets/products/enhanced/Blueberry-Yum-Yum-enhanced.png";
 import greenApple from "@/assets/products/enhanced/Green-Apple-enhanced.png";
 import strawberryBanana from "@/assets/products/enhanced/Strawberry-Banana-enhanced.png";
+import berryMelonBlissOrganic from "@/assets/products/enhanced/Berry-Melon-Bliss-organic-enhanced.png";
+import blueRazzOrganic from "@/assets/products/enhanced/Blue-Razz-organic-enhanced.png";
+import cherryBlissOrganic from "@/assets/products/enhanced/Cherry-Bliss-organic-enhanced.png";
+import pushPopOrganic from "@/assets/products/enhanced/Push-Pop-organic-enhanced.png";
+import blueberryMidnightDrift from "@/assets/products/enhanced/Blueberry-Yum-Yum-midnight-drift.png";
+import peachMidnightDrift from "@/assets/products/enhanced/Peach-Photoroom-midnight-drift.png";
+import pinkLemonadeMidnightDrift from "@/assets/products/enhanced/Pink-Lemonade-midnight-drift.png";
+import strawberryMidnightDrift from "@/assets/products/enhanced/Strawberry-midnight-drift.png";
+
 import hoodie from "@/assets/merch/Lagom-Mainstreet-Hooded-Sweatshirt-900x900.png";
 import crewneck from "@/assets/merch/Lagom-Midweight-Crewneck-Sweatshirt-Front-900x900.png";
 
-const gummyProducts = [
-  ["blueberry-yum-yum", "Blueberry Yum Yum", "Blueberry", blueberryYumYum],
-  ["green-apple", "Green Apple", "Green apple", greenApple],
-  ["strawberry-banana", "Strawberry Banana", "Strawberry banana", strawberryBanana],
-].map(([id, name, flavor, image]) => ({
-  id,
+const GUMMY_PREVIEW_PRICE = 24.99;
+
+const gummyCatalog = [
+  {
+    id: "blueberry-yum-yum",
+    name: "Blueberry Yum Yum",
+    flavor: "Blueberry",
+    productLine: "Classic",
+    image: blueberryYumYum,
+    packageLabel: "10 pc",
+    packageDetail: "10-piece pouch",
+  },
+  {
+    id: "green-apple",
+    name: "Green Apple",
+    flavor: "Green apple",
+    productLine: "Classic",
+    image: greenApple,
+    packageLabel: "10 pc",
+    packageDetail: "10-piece pouch",
+  },
+  {
+    id: "strawberry-banana",
+    name: "Strawberry Banana",
+    flavor: "Strawberry banana",
+    productLine: "Classic",
+    image: strawberryBanana,
+    packageLabel: "10 pc",
+    packageDetail: "10-piece pouch",
+  },
+  {
+    id: "berry-melon-bliss-organic",
+    name: "Berry Melon Bliss",
+    flavor: "Berry melon",
+    productLine: "Organic",
+    image: berryMelonBlissOrganic,
+    packageLabel: "Pouch",
+    packageDetail: "Gummy pouch",
+  },
+  {
+    id: "blue-razz-organic",
+    name: "Blue Razz",
+    flavor: "Blue raspberry",
+    productLine: "Organic",
+    image: blueRazzOrganic,
+    packageLabel: "Pouch",
+    packageDetail: "Gummy pouch",
+  },
+  {
+    id: "cherry-bliss-organic",
+    name: "Cherry Bliss",
+    flavor: "Cherry",
+    productLine: "Organic",
+    image: cherryBlissOrganic,
+    packageLabel: "Pouch",
+    packageDetail: "Gummy pouch",
+  },
+  {
+    id: "push-pop-organic",
+    name: "Push Pop",
+    flavor: "Push Pop",
+    productLine: "Organic",
+    image: pushPopOrganic,
+    packageLabel: "Pouch",
+    packageDetail: "Gummy pouch",
+  },
+  {
+    id: "blueberry-yum-yum-midnight-drift",
+    name: "Blueberry Yum Yum",
+    flavor: "Blueberry",
+    productLine: "Midnight Drift",
+    image: blueberryMidnightDrift,
+    packageLabel: "Pouch",
+    packageDetail: "Midnight Drift gummy pouch",
+  },
+  {
+    id: "peach-midnight-drift",
+    name: "Peach",
+    flavor: "Peach",
+    productLine: "Midnight Drift",
+    image: peachMidnightDrift,
+    packageLabel: "Pouch",
+    packageDetail: "Midnight Drift gummy pouch",
+  },
+  {
+    id: "pink-lemonade-midnight-drift",
+    name: "Pink Lemonade",
+    flavor: "Pink lemonade",
+    productLine: "Midnight Drift",
+    image: pinkLemonadeMidnightDrift,
+    packageLabel: "Pouch",
+    packageDetail: "Midnight Drift gummy pouch",
+  },
+  {
+    id: "strawberry-midnight-drift",
+    name: "Strawberry",
+    flavor: "Strawberry",
+    productLine: "Midnight Drift",
+    image: strawberryMidnightDrift,
+    packageLabel: "Pouch",
+    packageDetail: "Midnight Drift gummy pouch",
+  },
+];
+
+const gummyProducts = gummyCatalog.map((gummy) => ({
+  id: gummy.id,
   brand: "Lagom Naturals",
-  name,
-  price: 24.99,
-  flavor,
+  name: gummy.name,
+  price: GUMMY_PREVIEW_PRICE,
+  flavor: gummy.flavor,
   flavorFamily: "Gummies",
   category: "Gummies",
-  type: "THC gummies",
+  productLine: gummy.productLine,
+  type:
+    gummy.productLine === "Classic"
+      ? "THC gummies"
+      : `${gummy.productLine} THC gummies`,
   strength: "THC gummies",
-  weight: "10 pc",
-  image,
+  weight: gummy.packageLabel,
+  image: gummy.image,
+  imageAlt: `${gummy.name} ${gummy.productLine === "Classic" ? "" : `${gummy.productLine} `}gummy pouch`.trim(),
   variants: [
     {
-      id: "10-pack",
-      label: "10 pc",
-      detail: "10-piece pouch",
-      price: 24.99,
-      image,
+      id: "pouch",
+      label: gummy.packageLabel,
+      detail: gummy.packageDetail,
+      price: GUMMY_PREVIEW_PRICE,
+      image: gummy.image,
     },
   ],
-  accent: "#0f513d",
+  accent:
+    gummy.productLine === "Midnight Drift"
+      ? "#191b25"
+      : gummy.productLine === "Organic"
+        ? "#3d6b45"
+        : "#0f513d",
+  preview: true,
+  mock: true,
 }));
 
-// Facts below are limited to text visible on approved package photography.
+// Product facts below are limited to approved product photography and current preview catalog conventions.
+// Gummy pricing/package metadata remains preview-only until verified commerce data is connected.
 export const products = [
   {
     id: "24k-lemonade",
