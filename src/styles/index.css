@@ -3,5 +3,6 @@
 @import './mobile.css';
 @import '../storefront-footer-template.css';
 @import './desktop.css';
+@import './desktop-cart.css';
 @import './age-gate.css';
 @import './find-us.css';
