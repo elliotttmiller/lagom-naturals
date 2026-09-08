@@ -1,7 +1,6 @@
 # Lagom Naturals
 
 Mobile-first responsive storefront experience for Lagom Naturals, a multi-brand cannabis dispensary in Minneapolis.
-
 ## Experience
 
 The site implements a complete customer-facing page library inspired by the supplied Lagom mobile mockups:
