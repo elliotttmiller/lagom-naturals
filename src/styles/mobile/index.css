@@ -1,0 +1,12 @@
+/* Lagom Naturals mobile style manifest.
+   Import order is intentional: foundation → motion → chrome → page systems → overlays → hardening. */
+@import './00-foundation.css';
+@import './10-motion.css';
+@import './20-chrome.css';
+@import './30-home.css';
+@import './40-catalog.css';
+@import './50-pdp.css';
+@import './60-commerce.css';
+@import './70-editorial.css';
+@import './80-overlays.css';
+@import './90-accessibility.css';
