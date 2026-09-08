@@ -35,6 +35,20 @@ const SHOPS=[
 const mapsEmbed=(shop)=>`https://www.google.com/maps?q=${encodeURIComponent(shop.address)}&output=embed`
 const mapsDirections=(shop)=>`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(shop.address)}`
 const phoneLabel=(p)=>p?`(${p.slice(-10,-7)}) ${p.slice(-7,-4)}-${p.slice(-4)}`:''
+const initials=(name)=>name.replace(/[^A-Za-z0-9 ]/g,'').split(/\s+/).filter(Boolean).slice(0,2).map(word=>word[0]).join('').toUpperCase()
+const logoFor=(shop)=>{
+  if(!shop.website)return ''
+  try{return `https://www.google.com/s2/favicons?domain_url=${encodeURIComponent(new URL(shop.website).origin)}&sz=128`}catch{return ''}
+}
+
+function RetailerMark({shop,compact=false}){
+  const src=logoFor(shop)
+  const [failed,setFailed]=React.useState(false)
+  React.useEffect(()=>setFailed(false),[src])
+  return <div className={`retailer-brand-mark${compact?' retailer-brand-mark--compact':''}`} aria-hidden="true">
+    {src&&!failed?<img src={src} alt="" loading="lazy" onError={()=>setFailed(true)}/>:<span>{initials(shop.name)}</span>}
+  </div>
+}
 
 export default function FindUsExperience(){
   const {pathname}=useLocation()
@@ -53,7 +67,8 @@ export default function FindUsExperience(){
     <div className="retailer-map" aria-label={`Map showing ${selected.name}`}>
       <iframe key={selected.id} title={`Map — ${selected.name}`} src={mapsEmbed(selected)} loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen />
       <aside className="retailer-map-card">
-        <span>SELECTED LOCATION</span><h2>{selected.name}</h2>
+        <div className="retailer-map-card__top"><RetailerMark shop={selected}/><span>SELECTED LOCATION</span></div>
+        <h2>{selected.name}</h2>
         <address>{selected.street}<br/>{selected.city}, {selected.state} {selected.zip}</address>
         <div className="retailer-actions">
           <a href={mapsDirections(selected)} target="_blank" rel="noreferrer">Directions ↗</a>
@@ -68,7 +83,8 @@ export default function FindUsExperience(){
       <div className="retailer-grid">
         {visible.map(shop=><article className={`retailer-card${selected.id===shop.id?' is-selected':''}`} key={shop.id}>
           <button className="retailer-card-main" type="button" onClick={()=>choose(shop)} aria-label={`Show ${shop.name} on map`}>
-            <span>{String(shop.id).padStart(2,'0')}</span><h3>{shop.name}</h3><address>{shop.street}<br/>{shop.city}, {shop.state} {shop.zip}</address><b>View on map →</b>
+            <div className="retailer-card-brand"><RetailerMark shop={shop} compact/><span>{String(shop.id).padStart(2,'0')}</span></div>
+            <h3>{shop.name}</h3><address>{shop.street}<br/>{shop.city}, {shop.state} {shop.zip}</address><b>View on map →</b>
           </button>
           <div className="retailer-card-links">{shop.phone&&<a href={`tel:${shop.phone}`}>{phoneLabel(shop.phone)}</a>}<a href={mapsDirections(shop)} target="_blank" rel="noreferrer">Directions</a>{shop.website&&<a href={shop.website} target="_blank" rel="noreferrer">Website</a>}</div>
         </article>)}
