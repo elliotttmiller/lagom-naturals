@@ -1,10 +1,7 @@
 /* Mobile homepage — reference-led hero. Mobile owns the dedicated mobile art.
    Desktop owns src/assets/desktop/hero.png in styles/desktop.css. */
 @media(max-width:899px){
-  .app-shell:has(.beverage-hero)>main{
-    padding-top:0!important;
-    margin-top:0!important;
-  }
+  .app-shell:has(.beverage-hero)>main{padding-top:0!important;margin-top:0!important}
 
   .beverage-hero{
     --home-hero-image:url('../../assets/mobile/hero.png');
@@ -26,221 +23,49 @@
   }
 
   .beverage-hero::before{
-    content:'';
-    position:absolute;
-    inset:0;
-    z-index:0;
-    background:
-      linear-gradient(90deg,rgba(5,10,7,.48) 0%,rgba(5,10,7,.24) 43%,rgba(5,10,7,.06) 68%,rgba(5,10,7,0) 100%),
-      linear-gradient(180deg,rgba(0,0,0,.10) 0%,rgba(0,0,0,0) 42%,rgba(0,0,0,.16) 100%);
-    pointer-events:none;
+    content:'';position:absolute;inset:0;z-index:0;
+    background:linear-gradient(90deg,rgba(5,10,7,.48) 0%,rgba(5,10,7,.24) 43%,rgba(5,10,7,.06) 68%,rgba(5,10,7,0) 100%),linear-gradient(180deg,rgba(0,0,0,.10) 0%,rgba(0,0,0,0) 42%,rgba(0,0,0,.16) 100%);
+    pointer-events:none
   }
+  .beverage-hero::after{content:'';position:absolute;inset:auto 0 0;z-index:0;height:27%;background:linear-gradient(180deg,transparent,rgba(3,8,5,.18));pointer-events:none}
 
-  .beverage-hero::after{
-    content:'';
-    position:absolute;
-    inset:auto 0 0;
-    z-index:0;
-    height:27%;
-    background:linear-gradient(180deg,transparent,rgba(3,8,5,.18));
-    pointer-events:none;
-  }
+  .beverage-hero__copy{position:relative!important;z-index:2!important;width:min(88vw,470px)!important;margin:clamp(108px,15.5svh,148px) 0 0!important;color:#fff!important}
+  .beverage-hero__copy::before{content:'PREMIUM THC SELTZERS';display:block;margin-bottom:13px;color:#fff;font:800 clamp(9px,2.2vw,12px)/1 var(--font-ui);letter-spacing:.24em;text-transform:uppercase}
+  .beverage-hero h1{max-width:440px!important;margin:0!important;color:#fff!important;font:500 clamp(54px,14vw,82px)/.86 var(--font-display)!important;letter-spacing:-.055em!important;text-wrap:balance!important;text-shadow:0 1px 14px rgba(0,0,0,.10)}
+  .beverage-hero h1 em{color:#fff!important;font-weight:400!important}
+  .beverage-hero__copy>p{max-width:405px!important;margin:20px 0!important;color:#fff!important;font:500 clamp(14px,3.8vw,19px)/1.38 var(--font-ui)!important}
 
-  .beverage-hero__copy{
-    position:relative!important;
-    z-index:2!important;
-    width:min(88vw,470px)!important;
-    margin:clamp(108px,15.5svh,148px) 0 0!important;
-    color:#fff!important;
-  }
+  .hero-actions{position:relative!important;display:grid!important;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr)!important;width:min(100%,390px)!important;gap:10px!important;margin:0!important}
+  .hero-actions a{min-width:0!important;min-height:48px!important;padding:0 14px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:12px!important;border-radius:5px!important;font:800 clamp(9px,2.25vw,11px)/1 var(--font-ui)!important;letter-spacing:.035em!important;text-transform:uppercase!important;text-decoration:none!important;white-space:nowrap!important}
+  .hero-actions a:first-child{border:1px solid rgba(255,255,255,.95)!important;background:#111!important;color:#fff!important;font-size:0!important}
+  .hero-actions a:first-child::before{content:'SHOP THE DRINKS';font:800 clamp(9px,2.25vw,11px)/1 var(--font-ui);letter-spacing:.035em}
+  .hero-actions a:nth-child(2){border:1px solid rgba(255,255,255,.92)!important;background:rgba(255,255,255,.96)!important;color:#111!important;font-size:0!important}
+  .hero-actions a:nth-child(2)::before{content:'OUR STORY';font:800 clamp(9px,2.25vw,11px)/1 var(--font-ui);letter-spacing:.035em}
+  .hero-actions svg{width:15px!important;height:15px!important;flex:0 0 auto!important}
 
-  .beverage-hero__copy::before{
-    content:'PREMIUM THC SELTZERS';
-    display:block;
-    margin-bottom:13px;
-    color:#fff;
-    font:800 clamp(9px,2.2vw,12px)/1 var(--font-ui);
-    letter-spacing:.24em;
-    text-transform:uppercase;
-  }
+  .beverage-hero__cans,.beverage-hero__note{display:none!important}
 
-  .beverage-hero h1{
-    max-width:440px!important;
-    margin:0!important;
-    color:#fff!important;
-    font:500 clamp(54px,14vw,82px)/.86 var(--font-display)!important;
-    letter-spacing:-.055em!important;
-    text-wrap:balance!important;
-    text-shadow:0 1px 14px rgba(0,0,0,.10);
-  }
-
-  .beverage-hero h1 em{
-    color:#fff!important;
-    font-weight:400!important;
-  }
-
-  .beverage-hero__copy>p{
-    max-width:405px!important;
-    margin:20px 0 20px!important;
-    color:#fff!important;
-    font:500 clamp(14px,3.8vw,19px)/1.38 var(--font-ui)!important;
-  }
-
-  .hero-actions{
-    position:relative!important;
-    display:grid!important;
-    grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr)!important;
-    width:min(100%,390px)!important;
-    gap:10px!important;
-    margin:0!important;
-  }
-
-  .hero-actions a{
-    min-width:0!important;
-    min-height:48px!important;
-    padding:0 14px!important;
-    display:inline-flex!important;
-    align-items:center!important;
-    justify-content:center!important;
-    gap:12px!important;
-    border-radius:5px!important;
-    font:800 clamp(9px,2.25vw,11px)/1 var(--font-ui)!important;
-    letter-spacing:.035em!important;
-    text-transform:uppercase!important;
-    text-decoration:none!important;
-    white-space:nowrap!important;
-  }
-
-  .hero-actions a:first-child{
-    border:1px solid rgba(255,255,255,.95)!important;
-    background:#111!important;
-    color:#fff!important;
-  }
-
-  .hero-actions a:first-child{
-    font-size:0!important;
-  }
-  .hero-actions a:first-child::before{
-    content:'SHOP THE DRINKS';
-    font:800 clamp(9px,2.25vw,11px)/1 var(--font-ui);
-    letter-spacing:.035em;
-  }
-
-  .hero-actions a:nth-child(2){
-    border:1px solid rgba(255,255,255,.92)!important;
-    background:rgba(255,255,255,.96)!important;
-    color:#111!important;
-    font-size:0!important;
-  }
-  .hero-actions a:nth-child(2)::before{
-    content:'OUR STORY';
-    font:800 clamp(9px,2.25vw,11px)/1 var(--font-ui);
-    letter-spacing:.035em;
-  }
-
-  .hero-actions svg{
-    width:15px!important;
-    height:15px!important;
-    flex:0 0 auto!important;
-  }
-
-  .beverage-hero__cans,
-  .beverage-hero__note{
-    display:none!important;
-  }
-
-  .beverage-hero__proof{
-    position:absolute!important;
-    z-index:2!important;
-    left:max(14px,var(--m-gutter))!important;
-    right:max(14px,var(--m-gutter))!important;
-    bottom:clamp(28px,4.5svh,48px)!important;
-    display:grid!important;
-    grid-template-columns:repeat(4,minmax(0,1fr))!important;
-    gap:8px!important;
-    color:#fff!important;
-    text-align:center!important;
-  }
-
-  .beverage-hero__proof span{
-    min-width:0!important;
-    display:grid!important;
-    justify-items:center!important;
-    gap:7px!important;
-    font:800 clamp(8px,2.05vw,11px)/1.12 var(--font-ui)!important;
-    letter-spacing:.075em!important;
-    text-transform:uppercase!important;
-  }
-
-  .beverage-hero__proof svg{
-    width:clamp(42px,11vw,58px)!important;
-    height:clamp(42px,11vw,58px)!important;
-    padding:10px!important;
-    border:1.5px solid rgba(255,255,255,.96)!important;
-    border-radius:50%!important;
-    background:rgba(7,12,7,.08)!important;
-    stroke-width:1.65!important;
-  }
+  .beverage-hero__proof{position:absolute!important;z-index:2!important;left:max(14px,var(--m-gutter))!important;right:max(14px,var(--m-gutter))!important;bottom:clamp(66px,8.5svh,84px)!important;display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px!important;color:#fff!important;text-align:center!important}
+  .beverage-hero__proof span{min-width:0!important;display:grid!important;justify-items:center!important;gap:7px!important;font:800 clamp(8px,2.05vw,11px)/1.12 var(--font-ui)!important;letter-spacing:.075em!important;text-transform:uppercase!important}
+  .beverage-hero__proof svg{width:clamp(42px,11vw,58px)!important;height:clamp(42px,11vw,58px)!important;padding:10px!important;border:1.5px solid rgba(255,255,255,.96)!important;border-radius:50%!important;background:rgba(7,12,7,.08)!important;stroke-width:1.65!important}
+  .beverage-hero__proof::after{content:'';position:absolute;left:50%;bottom:-48px;width:50px;height:10px;transform:translateX(-50%);background:radial-gradient(circle at 5px 5px,#fff 0 4px,transparent 4.5px),radial-gradient(circle at 25px 5px,rgba(255,255,255,.42) 0 4px,transparent 4.5px),radial-gradient(circle at 45px 5px,rgba(255,255,255,.42) 0 4px,transparent 4.5px);pointer-events:none}
 
   .intro-band,.education-split,.occasion,.find-band{display:none!important}
   .lineup{width:100%!important;margin:0!important;padding:34px var(--m-gutter) 40px!important;background:#fff}
-  .lineup .section-head{margin-bottom:17px!important}
-  .lineup .section-head h2{font-size:32px!important}
+  .lineup .section-head{margin-bottom:17px!important}.lineup .section-head h2{font-size:32px!important}
   .lineup .drink-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px!important}
 }
 
 @media(max-width:480px){
-  .beverage-hero{
-    height:100svh!important;
-    min-height:690px!important;
-    max-height:860px!important;
-    background-size:cover!important;
-    background-position:center center!important;
-  }
-
-  .beverage-hero__copy{
-    width:min(92vw,350px)!important;
-    margin-top:clamp(102px,14.5svh,126px)!important;
-  }
-
-  .beverage-hero h1{
-    max-width:340px!important;
-    font-size:clamp(52px,15.8vw,66px)!important;
-  }
-
-  .beverage-hero__copy>p{
-    max-width:310px!important;
-    margin:15px 0 17px!important;
-    font-size:14px!important;
-    line-height:1.35!important;
-  }
-
-  .hero-actions{
-    width:min(100%,320px)!important;
-    gap:8px!important;
-  }
-
-  .hero-actions a{
-    min-height:43px!important;
-    padding-inline:10px!important;
-  }
-
-  .beverage-hero__proof{
-    bottom:24px!important;
-    gap:4px!important;
-  }
-
-  .beverage-hero__proof span{
-    gap:5px!important;
-    font-size:8px!important;
-    letter-spacing:.055em!important;
-  }
-
-  .beverage-hero__proof svg{
-    width:40px!important;
-    height:40px!important;
-    padding:9px!important;
-  }
+  .beverage-hero{height:100svh!important;min-height:690px!important;max-height:860px!important;background-size:cover!important;background-position:center center!important}
+  .beverage-hero__copy{width:min(92vw,350px)!important;margin-top:clamp(102px,14.5svh,126px)!important}
+  .beverage-hero h1{max-width:340px!important;font-size:clamp(52px,15.8vw,66px)!important}
+  .beverage-hero__copy>p{max-width:310px!important;margin:15px 0 17px!important;font-size:14px!important;line-height:1.35!important}
+  .hero-actions{width:min(100%,320px)!important;gap:8px!important}
+  .hero-actions a{min-height:43px!important;padding-inline:10px!important}
+  .beverage-hero__proof{bottom:62px!important;gap:4px!important}
+  .beverage-hero__proof span{gap:5px!important;font-size:8px!important;letter-spacing:.055em!important}
+  .beverage-hero__proof svg{width:40px!important;height:40px!important;padding:9px!important}
 }
 
 @media(max-width:380px){
@@ -248,7 +73,7 @@
   .beverage-hero__copy{width:310px!important;margin-top:98px!important}
   .beverage-hero h1{font-size:52px!important}
   .hero-actions{width:300px!important}
-  .beverage-hero__proof{left:10px!important;right:10px!important;bottom:20px!important}
+  .beverage-hero__proof{left:10px!important;right:10px!important;bottom:58px!important}
   .beverage-hero__proof svg{width:36px!important;height:36px!important;padding:8px!important}
   .beverage-hero__proof span{font-size:7.5px!important}
 }
