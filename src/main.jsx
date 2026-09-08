@@ -34,10 +34,11 @@ const routeMeta={
   '/':{title:'Lagom Naturals | Premium THC Seltzer',label:'Home',description:'Premium hemp-derived THC seltzers made for considered adult occasions.'},
   '/shop':{title:'Drinks | Lagom Naturals',label:'Drinks',description:'Explore the Lagom Naturals THC seltzer lineup by flavor.'},
   '/merch':{title:'Apparel & Merch | Lagom Naturals',label:'Apparel and merch',description:'Shop Lagom Naturals apparel and merchandise.'},
-  '/visit':{title:'Find Lagom | Lagom Naturals',label:'Find Lagom',description:'Find current Lagom Naturals retailer availability.'},
+  '/cart':{title:'Your Cart | Lagom Naturals',label:'Cart',description:'Review your Lagom Naturals drinks and apparel.'},
+  '/checkout':{title:'Checkout | Lagom Naturals',label:'Checkout',description:'Enter fulfillment details and review your Lagom Naturals order.'},
+  '/visit':{title:'Find Us | Lagom Naturals',label:'Find Us',description:'Find current Lagom Naturals retailer availability.'},
   '/about':{title:'Our Story | Lagom Naturals',label:'Our Story',description:'The idea of balance behind Lagom Naturals.'},
   '/learn':{title:'THC, Explained | Lagom Naturals',label:'Learn',description:'Clear guidance for enjoying Lagom THC seltzer responsibly.'},
-  '/journal':{title:'Journal | Lagom Naturals',label:'Journal',description:'Stories from flavor, food, music, art, design, and hospitality.'},
 }
 
 const routerBase=import.meta.env.BASE_URL==='/'?undefined:import.meta.env.BASE_URL.replace(/\/$/,'')
