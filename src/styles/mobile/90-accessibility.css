@@ -15,7 +15,8 @@
   button:disabled,[aria-disabled='true']{cursor:not-allowed;opacity:.58}
 
   @media(hover:none) and (pointer:coarse){
-    .mobile-reference-header a:hover,.mobile-reference-header button:hover,.mobile-reference-bottom a:hover,.mobile-reference-bottom button:hover,.hamburger:hover,.product-card:hover,.merch-card:hover,.category-card:hover{background-color:transparent!important;transform:none!important}
+    .mobile-reference-bottom a:hover,.mobile-reference-bottom button:hover,.product-card:hover,.merch-card:hover,.category-card:hover{background-color:transparent!important;transform:none!important}
+    .mobile-reference-header a:hover,.mobile-reference-header button:hover,.hamburger:hover{background-color:transparent!important}
   }
 }
 

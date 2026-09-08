@@ -79,17 +79,29 @@
   /* True viewport centering. This element is independent of left/right tool width,
      cart badge state, route type, and hamburger/back-button state. */
   .mobile-reference-header__brand{
-    position:absolute!important;
+    position:fixed!important;
     z-index:2!important;
     top:env(safe-area-inset-top,0px)!important;
-    left:50%!important;
+    right:auto!important;
+    left:calc(50vw - 71px)!important;
     width:142px!important;
+    min-width:142px!important;
+    max-width:142px!important;
     height:var(--mobile-header-row-h)!important;
+    min-height:var(--mobile-header-row-h)!important;
     display:grid!important;
     place-items:center!important;
     margin:0!important;
-    transform:translate3d(-50%,0,0)!important;
+    padding:0!important;
+    transform:none!important;
     translate:none!important;
+    flex:none!important;
+    will-change:auto!important;
+    pointer-events:none!important;
+    user-select:none!important;
+    -webkit-user-select:none!important;
+    -webkit-tap-highlight-color:transparent!important;
+    touch-action:none!important;
   }
 
   .mobile-reference-header__brand img{
@@ -227,7 +239,12 @@
   .mobile-reference-header__left{width:46px!important}
   .mobile-reference-header .hamburger.mobile-reference-header__left{flex-basis:46px!important}
   .mobile-reference-header .hamburger.mobile-reference-header__left svg{width:38px;height:38px}
-  .mobile-reference-header__brand{width:136px!important}
+  .mobile-reference-header__brand{
+    left:calc(50vw - 68px)!important;
+    width:136px!important;
+    min-width:136px!important;
+    max-width:136px!important;
+  }
   .mobile-reference-header__brand img{max-width:136px!important;height:46px!important}
   .mobile-reference-header__tools{gap:2px!important}
   .mobile-reference-header__tools>a{width:40px}

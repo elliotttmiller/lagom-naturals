@@ -55,7 +55,7 @@ export default function MobileReferenceChrome(){
       {isDetail
         ? <button type="button" className="mobile-reference-header__left" aria-label="Go back" onClick={()=>navigate(-1)}><span className="mobile-back-glyph">‹</span></button>
         : <HamburgerToggle className="mobile-reference-header__left" checked={menuOpen} onChange={setMenuOpen} controls="mobile-reference-menu" label={menuOpen?'Close menu':'Open menu'}/>}
-      <Link className="mobile-reference-header__brand" to="/" aria-label="Lagom Naturals home"><img src="/lagom-logo.svg" alt="Lagom Naturals"/></Link>
+      <div className="mobile-reference-header__brand" aria-label="Lagom Naturals"><img src="/lagom-logo.svg" alt="Lagom Naturals"/></div>
       <div className="mobile-reference-header__tools">
         {!isDetail&&<Link to="/shop" aria-label="Search"><Search/></Link>}
         <Link className="mobile-reference-cart" to="/cart" aria-label={`Cart, ${count} items`}><ShoppingBag/>{count>0&&<b>{count}</b>}</Link>
