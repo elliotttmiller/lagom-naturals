@@ -1,0 +1,96 @@
+import React from 'react'
+import {Link,useLocation,useNavigate} from 'react-router-dom'
+import {Home,ShoppingBag,BookOpen,MapPin,MoreHorizontal,Menu,Search,User,X,ChevronRight,Instagram,Youtube,Facebook} from 'lucide-react'
+import mobileHero from '@/assets/mobile/hero.png'
+
+const navItems=[
+  {label:'Home',to:'/',icon:Home},
+  {label:'Shop',to:'/shop',icon:ShoppingBag},
+  {label:'Recipes',to:'/recipes',icon:BookOpen},
+  {label:'Find Us',to:'/visit',icon:MapPin},
+]
+
+const drawerItems=[
+  ['Shop','/shop'],['Find Us','/visit'],['Our Story','/about'],['Recipes','/recipes'],['Merch','/merch'],['Blog','/learn'],['FAQs','/learn'],['Contact','/visit']
+]
+
+function cartCount(){
+  try{return (JSON.parse(localStorage.getItem('lagom-beverage-cart-v1')||'[]')||[]).reduce((sum,item)=>sum+(item.qty||0),0)}catch{return 0}
+}
+
+export default function MobileReferenceChrome(){
+  const location=useLocation()
+  const navigate=useNavigate()
+  const[menuOpen,setMenuOpen]=React.useState(false)
+  const[count,setCount]=React.useState(cartCount)
+  const isHome=location.pathname==='/'
+  const isDetail=location.pathname.startsWith('/product/')||location.pathname.startsWith('/merch/')
+  const isRecipes=location.pathname==='/recipes'
+
+  React.useEffect(()=>{
+    setMenuOpen(false)
+    document.body.classList.toggle('mobile-recipes-route',isRecipes)
+    const update=()=>setCount(cartCount())
+    update()
+    window.addEventListener('storage',update)
+    const timer=window.setInterval(update,700)
+    return()=>{document.body.classList.remove('mobile-recipes-route');window.removeEventListener('storage',update);window.clearInterval(timer)}
+  },[location.pathname,isRecipes])
+
+  React.useEffect(()=>{
+    document.body.classList.toggle('mobile-menu-open',menuOpen)
+    return()=>document.body.classList.remove('mobile-menu-open')
+  },[menuOpen])
+
+  return <>
+    <header className={`mobile-reference-header${isHome?' is-home':''}`}>
+      <button type="button" className="mobile-reference-header__left" aria-label={isDetail?'Go back':'Open menu'} onClick={()=>isDetail?navigate(-1):setMenuOpen(true)}>
+        {isDetail?<span className="mobile-back-glyph">‹</span>:<Menu/>}
+      </button>
+      <Link className="mobile-reference-header__brand" to="/" aria-label="Lagom Naturals home"><img src="/lagom-logo.svg" alt="Lagom Naturals"/></Link>
+      <div className="mobile-reference-header__tools">
+        {!isDetail&&<Link to="/shop" aria-label="Search"><Search/></Link>}
+        {!isDetail&&<Link to="/about" aria-label="Account"><User/></Link>}
+        <Link className="mobile-reference-cart" to="/cart" aria-label={`Cart, ${count} items`}><ShoppingBag/>{count>0&&<b>{count}</b>}</Link>
+      </div>
+    </header>
+
+    <nav className="mobile-reference-bottom" aria-label="Mobile navigation">
+      {navItems.map(({label,to,icon:Icon})=>{
+        const active=to==='/'?location.pathname==='/':location.pathname.startsWith(to)
+        return <Link key={label} to={to} className={active?'is-active':''}><Icon/><span>{label}</span></Link>
+      })}
+      <button type="button" onClick={()=>setMenuOpen(true)} className={menuOpen?'is-active':''}><MoreHorizontal/><span>More</span></button>
+    </nav>
+
+    {menuOpen&&<div className="mobile-reference-menu-backdrop" onClick={()=>setMenuOpen(false)}>
+      <aside className="mobile-reference-menu" role="dialog" aria-modal="true" aria-label="Site navigation" onClick={e=>e.stopPropagation()}>
+        <div className="mobile-reference-menu__head">
+          <img src="/lagom-logo.svg" alt="Lagom Naturals"/>
+          <button type="button" aria-label="Close menu" onClick={()=>setMenuOpen(false)}><X/></button>
+        </div>
+        <nav>
+          {drawerItems.map(([label,to])=><Link key={label} to={to} onClick={()=>setMenuOpen(false)}><span>{label}</span><ChevronRight/></Link>)}
+        </nav>
+        <div className="mobile-reference-menu__social"><Instagram/><span>♪</span><Facebook/><Youtube/></div>
+        <div className="mobile-reference-menu__tag">GOOD DRINKS<br/>BRIGHTER DAYS</div>
+      </aside>
+    </div>}
+
+    {isRecipes&&<main className="mobile-recipes-page">
+      <section className="mobile-recipes-hero">
+        <div className="mobile-recipes-copy">
+          <p>RECIPES &amp; RITUALS</p>
+          <h1>Simple<br/>Moments.<br/><em>Elevated.</em></h1>
+          <span>Drink recipes, pairing ideas, and lifestyle inspiration for a more balanced you.</span>
+        </div>
+        <div className="mobile-recipes-image" style={{backgroundImage:`url(${mobileHero})`}}><b>Good Drinks<br/>Brighter Days.</b></div>
+      </section>
+      <article className="mobile-recipe-card">
+        <div className="mobile-recipe-card__media" style={{backgroundImage:`url(${mobileHero})`}}/>
+        <div><h2>The Blush Spritz</h2><p>A light, refreshing mocktail and a touch of lemon.</p><b>VIEW RECIPE →</b></div>
+      </article>
+      <div className="mobile-recipe-dots"><span>‹</span><i/><i className="is-active"/><i/><i/><span>›</span></div>
+    </main>}
+  </>
+}
