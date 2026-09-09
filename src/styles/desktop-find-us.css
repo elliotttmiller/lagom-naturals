@@ -19,7 +19,7 @@
   .find-sidebar{
     --find-side-pad:clamp(32px,3.75vw,72px);
     display:grid;
-    grid-template-rows:clamp(190px,23dvh,285px) auto auto auto minmax(0,1fr);
+    grid-template-rows:clamp(280px,34dvh,420px) auto auto auto minmax(0,1fr);
     min-height:0;
     height:100%;
     padding:0 var(--find-side-pad);
@@ -36,7 +36,8 @@
     max-width:none;
     height:100%;
     margin:0 calc(var(--find-side-pad) * -1);
-    background:url('../assets/desktop/storefront.webp') 62% 40% / cover no-repeat;
+    border-bottom:1px solid var(--find-line);
+    background:url('../assets/desktop/storefront.webp') 58% 34% / cover no-repeat;
   }
 
   .find-intro{
@@ -95,7 +96,7 @@
 /* Standard laptop widths: preserve useful map width and compact the locator rail. */
 @media (min-width:900px) and (max-width:1180px){
   .find-shell{grid-template-columns:minmax(380px,43%) minmax(0,57%)}
-  .find-sidebar{--find-side-pad:clamp(26px,3vw,36px);grid-template-rows:clamp(165px,20dvh,220px) auto auto auto minmax(0,1fr)}
+  .find-sidebar{--find-side-pad:clamp(26px,3vw,36px);grid-template-rows:clamp(240px,30dvh,340px) auto auto auto minmax(0,1fr)}
   .find-intro{padding-top:18px}
   .find-intro h1{font-size:clamp(44px,5vw,58px)}
   .find-intro>p:last-child{font-size:13px;margin:10px 0 13px}
@@ -107,8 +108,8 @@
 /* Short desktop viewports: every fixed-content region contracts; the retailer
    list owns the remaining height and scrolls instead of being clipped. */
 @media (min-width:900px) and (max-height:820px){
-  .find-shell{height:max(600px,calc(100dvh - var(--desktop-announcement-h,28px) - var(--desktop-header-h,88px)))}
-  .find-sidebar{grid-template-rows:clamp(140px,19dvh,180px) auto auto auto minmax(0,1fr)}
+  .find-shell{height:max(680px,calc(100dvh - var(--desktop-announcement-h,28px) - var(--desktop-header-h,88px)))}
+  .find-sidebar{grid-template-rows:clamp(210px,27dvh,250px) auto auto auto minmax(0,1fr)}
   .find-intro{padding-top:14px}
   .find-eyebrow{margin-bottom:7px}
   .find-intro h1{font-size:clamp(42px,3.75vw,58px);line-height:.9}
@@ -125,8 +126,8 @@
 /* Very short desktop windows should scroll as a page rather than hide content. */
 @media (min-width:900px) and (max-height:660px){
   .find-experience{overflow:visible}
-  .find-shell{height:600px;overflow:hidden}
-  .find-sidebar{grid-template-rows:125px auto auto auto minmax(0,1fr)}
+  .find-shell{height:680px;overflow:hidden}
+  .find-sidebar{grid-template-rows:200px auto auto auto minmax(0,1fr)}
   .find-intro h1{font-size:40px}
 }
 
