@@ -1,6 +1,6 @@
 import React from 'react'
 import {Link,useLocation,useNavigate} from 'react-router-dom'
-import {ShoppingBag,Search,ChevronRight,PackageCheck,Heart,MapPin,CreditCard,Gift,Settings,Bell,CircleHelp,X} from 'lucide-react'
+import {ShoppingBag,Search,ChevronRight,PackageCheck,Heart,Gift,Settings,Bell,CircleHelp,X} from 'lucide-react'
 import HamburgerToggle from './HamburgerToggle'
 import mobileHero from '@/assets/mobile/hero.webp'
 
@@ -16,9 +16,7 @@ const drawerItems=[
 
 const accountRows=[
   [PackageCheck,'My Orders'],
-  [Heart,'Favorites'],
-  [MapPin,'Addresses'],
-  [CreditCard,'Payment Methods']
+  [Heart,'Favorites']
 ]
 const accountLower=[
   [Settings,'Account Settings'],

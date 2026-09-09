@@ -1,11 +1,11 @@
 import React from 'react'
 import {Link,NavLink} from 'react-router-dom'
-import {Bell,ChevronRight,CircleHelp,CreditCard,Gift,Heart,MapPin,PackageCheck,Search,Settings,ShoppingBag,User} from 'lucide-react'
+import {Bell,ChevronRight,CircleHelp,Gift,Heart,PackageCheck,Search,Settings,ShoppingBag,User} from 'lucide-react'
 import {m,Stagger,StaggerItem,motionTokens} from './motionSystem'
 import './styles/account.css'
 
 const CART_KEY='lagom-beverage-cart-v1'
-const primary=[[PackageCheck,'My Orders','Review purchases and order status'],[Heart,'Favorites','Your saved Lagom products'],[MapPin,'Addresses','Manage delivery and billing addresses'],[CreditCard,'Payment Methods','Manage saved payment preferences']]
+const primary=[[PackageCheck,'My Orders','Review purchases and order status'],[Heart,'Favorites','Your saved Lagom products']]
 const secondary=[[Settings,'Account Settings','Profile, email and account details'],[Bell,'Notifications','Choose the updates you receive'],[CircleHelp,'Help & Support','Answers and customer support']]
 
 function cartCount(){try{return(JSON.parse(localStorage.getItem(CART_KEY)||'[]')||[]).reduce((sum,item)=>sum+(Number(item.qty)||0),0)}catch{return 0}}

@@ -71,7 +71,6 @@ export default function FindUsExperience(){
         <div className="find-intro">
           <p className="find-eyebrow">FIND US</p>
           <h1 id="find-title">Find Lagom<br/>Near You</h1>
-          <p>Great drinks are better together.<br/>Find Lagom Naturals near you.</p>
         </div>
         <label className="find-search"><span className="sr-only">Search locations</span><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Enter your city, ZIP, or shop name"/><SearchIcon/></label>
         <div className="find-result-meta"><span>{visible.length} locations</span><span>Minnesota + Wisconsin</span></div>
