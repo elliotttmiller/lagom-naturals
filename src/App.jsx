@@ -390,6 +390,23 @@ function CategoryCard({ name, label, description }) {
     </m.div>
   );
 }
+function productCardFacts(product) {
+  const facts = [];
+
+  if (product.flavor) facts.push(product.flavor);
+
+  if (product.category === "Seltzers") {
+    if (product.canVolume) facts.push(product.canVolume.replace(/\s*\([^)]*\)$/, ""));
+    if (product.thcMgPerCan) facts.push(`${product.thcMgPerCan} mg THC / can`);
+  } else {
+    if (product.productLine && product.productLine !== "Classic") facts.push(product.productLine);
+    if (product.weight) facts.push(product.weight);
+  }
+
+  if (facts.length < 2 && product.type) facts.push(product.type);
+  return [...new Set(facts.filter(Boolean))];
+}
+
 function ProductCard({ product }) {
   const { add } = useCart();
   const variants = useMemo(() => productVariants(product), [product]);
@@ -416,6 +433,7 @@ function ProductCard({ product }) {
     };
   }, [variantOpen]);
   const item = configuredProduct(product, selected);
+  const facts = productCardFacts(product);
   return (
     <m.article
       className={`product-card ${variantOpen ? "is-variant-open" : ""}`}
@@ -431,7 +449,7 @@ function ProductCard({ product }) {
           <m.img
             layoutId={`catalog-image-${product.id}`}
             src={selected.image || product.image}
-            alt={`${product.name} THC seltzer can`}
+            alt={`${product.name} ${product.type}`}
             loading="lazy"
             decoding="async"
             transition={motionTokens.springSoft}
@@ -451,9 +469,10 @@ function ProductCard({ product }) {
         <h3>
           <Link to={`/product/${product.id}`}>{product.name}</Link>
         </h3>
-        <small>
-          {product.type}
-          {product.thcMgPerCan ? ` · ${product.thcMgPerCan} mg THC` : ""}
+        <small className="product-facts" aria-label={facts.join(", ")}>
+          {facts.map((fact) => (
+            <span key={fact}>{fact}</span>
+          ))}
         </small>
         <b>${selected.price.toFixed(2)}</b>
         <div className="card-actions">
@@ -1031,21 +1050,45 @@ function AboutPage() {
     <Shell>
       <main className="about-page">
         <section className="about-hero">
-          <div className="about-hero__copy"><p>OUR STORY</p><h1>A little more balance in the everyday.</h1></div>
+          <div className="about-hero__copy">
+            <p>OUR STORY</p>
+            <h1>Just the right amount.</h1>
+            <div className="about-hero__intro">
+              <p>The Swedish idea behind our name is simple: <em>lagom</em> means neither too much nor too little—just right.</p>
+              <p>Founded by four friends and rooted in Minneapolis’ North Loop, Lagom Naturals began with a shared belief that thoughtfully made THC products should feel considered, approachable, and made for real life.</p>
+            </div>
+          </div>
           <div className="about-hero__media"><img src={hospitality} alt="Lagom Naturals in a considered social setting" /></div>
         </section>
-        <Reveal className="about-story">
-          <div className="about-story__heading"><span>LAGOM / LAH-GOM</span><h2>Not too much,<br />not too little—<br /><em>just right.</em></h2></div>
+        <Reveal className="about-origin">
+          <div className="about-origin__heading"><span>ROOTED IN MINNEAPOLIS</span><h2>Built from a shared vision.</h2></div>
           <div className="about-story__body">
-            <p>Lagom is a Swedish idea about having enough: the right measure for the moment. It shapes how we think about flavor, product design, hospitality, and responsible THC use.</p>
-            <p>We make drinks for adults who want another option at the table. Clear information belongs beside good taste, so the amount of THC stays visible wherever a drink appears.</p>
+            <p>Our story began in Minnesota with four friends and a belief that high-quality THC products could be made with greater intention, transparency, and care.</p>
+            <p>That North Loop perspective still shapes how we approach the work: stay close to community, keep the experience approachable, and make every choice feel considered.</p>
           </div>
         </Reveal>
-        <section className="about-image"><img src={storefront} alt="Lagom Naturals storefront in Minneapolis" /></section>
-        <section className="about-principles" aria-label="What guides Lagom Naturals">
-          <article><span>01</span><h3>Taste leads</h3><p>Bright flavor and a crisp finish give every can its own point of view.</p></article>
-          <article><span>02</span><h3>Clarity matters</h3><p>Potency and format should be easy to understand before you choose.</p></article>
-          <article><span>03</span><h3>Culture lives here</h3><p>Food, music, art, and hospitality shape the occasions we design for.</p></article>
+        <figure className="about-image">
+          <img src={storefront} alt="Lagom Naturals storefront in Minneapolis" />
+          <figcaption><span>MINNEAPOLIS, MINNESOTA</span><span>OUR ROOTS</span></figcaption>
+        </figure>
+        <section className="about-values" aria-labelledby="about-values-title">
+          <div className="about-values__intro">
+            <p>WHAT GUIDES US</p>
+            <h2 id="about-values-title">Made with intention.</h2>
+            <p>Principles that keep the brand grounded as Lagom grows.</p>
+          </div>
+          <div className="about-values__list">
+            <article><span>01</span><div><h3>Quality without shortcuts</h3><p>Thoughtfully crafted products and high standards remain central to every experience carrying the Lagom name.</p></div></article>
+            <article><span>02</span><div><h3>Transparency by design</h3><p>Clear, useful information should make every product easier to understand and every choice more confident.</p></div></article>
+            <article><span>03</span><div><h3>Innovation with purpose</h3><p>New ideas matter when they make the product, the experience, or the way people connect meaningfully better.</p></div></article>
+            <article><span>04</span><div><h3>Community first</h3><p>Local relationships, inclusivity, and a genuine sense of belonging are part of how Lagom was built.</p></div></article>
+            <article><span>05</span><div><h3>Growing thoughtfully</h3><p>Minnesota is home. Expansion into neighboring states and beyond should remain measured, intentional, and true to our roots.</p></div></article>
+          </div>
+        </section>
+        <section className="about-closing" aria-label="The meaning of Lagom">
+          <p>LAGOM / LAH-GOM</p>
+          <h2>Neither too much<br />nor too little.</h2>
+          <em>Just right.</em>
         </section>
       </main>
     </Shell>
