@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, useLocation, useNavigationType } from 'react-router-dom'
 import App from '@/App'
+import CartInteractionFeedback from '@/CartInteractionFeedback'
 import MobileReferenceChrome from '@/MobileReferenceChrome'
 import VerifiedFindUsExperience from '@/VerifiedFindUsExperience'
 import SiteFooter from '@/SiteFooter'
@@ -103,7 +104,7 @@ function AnimatedStorefront(){
   </>
 }
 
-function StorefrontExperience(){return <AppMotionProvider><AgeGate/><AnimatedStorefront/><HomeHeroPortal/><MobileReferenceChrome/><VerifiedFindUsExperience/><SiteFooter/></AppMotionProvider>}
+function StorefrontExperience(){return <AppMotionProvider><AgeGate/><CartInteractionFeedback/><AnimatedStorefront/><HomeHeroPortal/><MobileReferenceChrome/><VerifiedFindUsExperience/><SiteFooter/></AppMotionProvider>}
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
