@@ -1,0 +1,118 @@
+/* Shop category selector thumbnails.
+   Uses the dedicated Seltzers and Gummies campaign thumbnails as full-bleed
+   card art while preserving a clean, accessible text label surface. */
+
+.shop-page .category-grid .category-card.has-image{
+  --category-thumb:none;
+  position:relative;
+  display:grid;
+  grid-template-rows:minmax(0,1fr) auto;
+  width:100%;
+  min-width:0;
+  padding:0!important;
+  overflow:hidden;
+  isolation:isolate;
+  background:#fff;
+  border:1px solid rgba(23,23,20,.10);
+  border-radius:10px;
+  box-shadow:0 1px 2px rgba(16,23,19,.025);
+  transition:
+    transform 320ms cubic-bezier(.22,1,.36,1),
+    box-shadow 320ms cubic-bezier(.22,1,.36,1),
+    border-color 240ms ease;
+}
+
+.shop-page .category-grid .category-card[href*="category=Seltzers"]{
+  --category-thumb:url('./assets/seltzers-thumbnail.webp');
+}
+
+.shop-page .category-grid .category-card[href*="category=Gummies"]{
+  --category-thumb:url('./assets/gummies-thumbnail.webp');
+}
+
+/* Replace the legacy product-image thumbnail without changing the category
+   component or its routing semantics. */
+.shop-page .category-grid .category-card.has-image>img{
+  display:none!important;
+}
+
+.shop-page .category-grid .category-card.has-image::before{
+  content:'';
+  grid-row:1;
+  width:100%;
+  height:100%;
+  min-height:0;
+  background-image:var(--category-thumb);
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  transform:scale(1.002);
+  transition:transform 520ms cubic-bezier(.22,1,.36,1),filter 320ms ease;
+}
+
+.shop-page .category-grid .category-card.has-image>span{
+  grid-row:2;
+  position:relative;
+  z-index:2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  min-height:44px;
+  margin:0!important;
+  padding:10px 14px;
+  background:rgba(255,255,255,.97);
+  border-top:1px solid rgba(23,23,20,.08);
+  color:#1a211d;
+  font-family:var(--font-primary);
+  font-size:12px;
+  font-weight:750;
+  line-height:1;
+  letter-spacing:-.01em;
+  text-align:center;
+}
+
+@media (hover:hover) and (pointer:fine){
+  .shop-page .category-grid .category-card.has-image:hover{
+    transform:translateY(-3px);
+    border-color:rgba(23,23,20,.16);
+    box-shadow:0 12px 28px rgba(16,23,19,.09);
+  }
+
+  .shop-page .category-grid .category-card.has-image:hover::before{
+    transform:scale(1.035);
+    filter:saturate(1.025) contrast(1.01);
+  }
+}
+
+.shop-page .category-grid .category-card.has-image:focus-visible{
+  outline:2px solid var(--green);
+  outline-offset:3px;
+}
+
+@media (min-width:700px){
+  .shop-page .category-grid .category-card.has-image{
+    aspect-ratio:1 / 1.12;
+  }
+}
+
+@media (max-width:699px){
+  .shop-page .category-grid .category-card.has-image{
+    aspect-ratio:1 / 1.06;
+    border-radius:8px;
+  }
+
+  .shop-page .category-grid .category-card.has-image>span{
+    min-height:36px;
+    padding:8px 10px;
+    font-size:10px;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .shop-page .category-grid .category-card.has-image,
+  .shop-page .category-grid .category-card.has-image::before{
+    transition:none!important;
+    transform:none!important;
+  }
+}
