@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, useLocation, useNavigationType } from 'react-router-dom'
 import App from '@/App'
+import AccountPage from '@/AccountPage'
 import CartInteractionFeedback from '@/CartInteractionFeedback'
 import MobileReferenceChrome from '@/MobileReferenceChrome'
 import VerifiedFindUsExperience from '@/VerifiedFindUsExperience'
@@ -16,6 +17,7 @@ const routeMeta={
   '/merch':{title:'Apparel & Merch | Lagom Naturals',label:'Apparel and merch',description:'Shop Lagom Naturals apparel and merchandise.'},
   '/cart':{title:'Your Cart | Lagom Naturals',label:'Cart',description:'Review your Lagom Naturals drinks and apparel.'},
   '/checkout':{title:'Checkout | Lagom Naturals',label:'Checkout',description:'Enter fulfillment details and review your Lagom Naturals order.'},
+  '/account':{title:'My Account | Lagom Naturals',label:'Account',description:'Manage your Lagom Naturals orders, favorites, rewards and account preferences.'},
   '/visit':{title:'Find Us | Lagom Naturals',label:'Find Us',description:'Visit Lagom Naturals at 707 N 3rd St, Ste 101 in Minneapolis, Minnesota.'},
   '/about':{title:'Our Story | Lagom Naturals',label:'Our Story',description:'The idea of balance behind Lagom Naturals.'},
   '/learn':{title:'THC, Explained | Lagom Naturals',label:'Learn',description:'Clear guidance for enjoying Lagom THC seltzer responsibly.'},
@@ -72,20 +74,13 @@ function AnimatedStorefront(){
   React.useLayoutEffect(()=>{
     const previous=previousLocation.current
     if(previous)scrollPositions.current.set(previous.key,previous.scrollY)
-
     const destination=scrollPositions.current.get(location.key)
     const nextY=navigationType==='POP'&&destination!=null?destination:0
     window.scrollTo({top:nextY,left:0,behavior:'auto'})
     previousLocation.current={key:location.key,scrollY:nextY}
-
-    const capture=()=>{
-      if(previousLocation.current?.key===location.key)previousLocation.current.scrollY=window.scrollY
-    }
+    const capture=()=>{if(previousLocation.current?.key===location.key)previousLocation.current.scrollY=window.scrollY}
     window.addEventListener('scroll',capture,{passive:true})
-    return()=>{
-      window.removeEventListener('scroll',capture)
-      if(previousLocation.current?.key===location.key)previousLocation.current.scrollY=window.scrollY
-    }
+    return()=>{window.removeEventListener('scroll',capture);if(previousLocation.current?.key===location.key)previousLocation.current.scrollY=window.scrollY}
   },[location.key,navigationType,routeKey])
 
   React.useEffect(()=>{
@@ -98,9 +93,10 @@ function AnimatedStorefront(){
     if(ogDescription)ogDescription.setAttribute('content',meta.description)
   },[routeKey,meta.title,meta.description])
 
+  const page=location.pathname==='/account'?<AccountPage/>:<App/>
   return <>
     <div className="route-announcer" role="status" aria-live="polite" aria-atomic="true">{meta.label}</div>
-    <RouteMotion routeKey={routeKey} navigationType={navigationType}><App /></RouteMotion>
+    <RouteMotion routeKey={routeKey} navigationType={navigationType}>{page}</RouteMotion>
   </>
 }
 
