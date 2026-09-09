@@ -83,7 +83,7 @@
     position:relative;isolation:isolate;width:100%;height:calc(100svh - var(--desktop-announcement-h));
     min-height:720px;max-height:1080px;padding:0 max(var(--desktop-gutter),calc((100vw - var(--desktop-wide))/2));
     display:flex;align-items:center;overflow:hidden;
-    background-image:url('../assets/desktop/hero.png')!important;background-size:cover!important;
+    background-image:url('../assets/desktop/hero.webp')!important;background-size:cover!important;
     background-position:center center!important;background-repeat:no-repeat!important
   }
   .beverage-hero::before{content:"";position:absolute;inset:0;z-index:0;background:linear-gradient(90deg,rgba(7,10,7,.40) 0%,rgba(7,10,7,.22) 31%,rgba(7,10,7,0) 58%);pointer-events:none}

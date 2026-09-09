@@ -2,7 +2,7 @@ import React from 'react'
 import {Link,useLocation,useNavigate} from 'react-router-dom'
 import {ShoppingBag,Search,ChevronRight,PackageCheck,Heart,MapPin,CreditCard,Gift,Settings,Bell,CircleHelp,X} from 'lucide-react'
 import HamburgerToggle from './HamburgerToggle'
-import mobileHero from '@/assets/mobile/hero.png'
+import mobileHero from '@/assets/mobile/hero.webp'
 
 const drawerItems=[
   ['Shop','/shop'],

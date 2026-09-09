@@ -1,10 +1,10 @@
 /* Mobile homepage — reference-led hero using the dedicated mobile art.
-   Desktop continues to own src/assets/desktop/hero.png. */
+   Desktop continues to own src/assets/desktop/hero.webp. */
 @media(max-width:899px){
   .app-shell:has(.beverage-hero)>main{padding-top:0!important;margin-top:0!important}
 
   .beverage-hero{
-    --home-hero-image:url('../../assets/mobile/hero.png');
+    --home-hero-image:url('../../assets/mobile/hero.webp');
     position:relative!important;isolation:isolate!important;width:100%!important;
     height:100svh!important;min-height:700px!important;max-height:none!important;
     margin:0!important;padding:0 var(--m-gutter)!important;display:block!important;overflow:hidden!important;

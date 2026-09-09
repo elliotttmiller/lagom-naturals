@@ -36,7 +36,7 @@
     max-width:none;
     height:100%;
     margin:0 calc(var(--find-side-pad) * -1);
-    background:url('../assets/desktop/storefront.png') 62% 40% / cover no-repeat;
+    background:url('../assets/desktop/storefront.webp') 62% 40% / cover no-repeat;
   }
 
   .find-intro{

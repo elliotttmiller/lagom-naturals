@@ -52,4 +52,4 @@ See `mobile/AUDIT.md` for the file-by-file migration/disposition record.
 6. CSS transitions are for lightweight state feedback; Motion owns component entrance/exit/layout choreography where a Motion component already exists.
 7. Avoid `!important` except where the structured layer must neutralize a still-loaded legacy contract.
 8. Preserve safe-area handling, keyboard focus, reduced motion, coarse-pointer behavior and vertical scroll ownership when modifying mobile geometry.
-9. The desktop homepage hero uses `src/assets/desktop/hero.png`; the mobile homepage uses `src/assets/mobile/hero.png`. Do not layer catalog thumbnails over either art-directed hero.
+9. The desktop homepage hero uses `src/assets/desktop/hero.webp`; the mobile homepage uses `src/assets/mobile/hero.webp`. Do not layer catalog thumbnails over either art-directed hero.
