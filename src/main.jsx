@@ -5,6 +5,7 @@ import App from '@/App'
 import MobileReferenceChrome from '@/MobileReferenceChrome'
 import VerifiedFindUsExperience from '@/VerifiedFindUsExperience'
 import SiteFooter from '@/SiteFooter'
+import HomeHeroPortal from '@/HomeHeroPortal'
 import { AppMotionProvider, Presence, RouteMotion, m, motionTokens, useReducedMotion } from '@/motionSystem'
 import './styles/index.css'
 
@@ -102,7 +103,7 @@ function AnimatedStorefront(){
   </>
 }
 
-function StorefrontExperience(){return <AppMotionProvider><AgeGate/><AnimatedStorefront/><MobileReferenceChrome/><VerifiedFindUsExperience/><SiteFooter/></AppMotionProvider>}
+function StorefrontExperience(){return <AppMotionProvider><AgeGate/><AnimatedStorefront/><HomeHeroPortal/><MobileReferenceChrome/><VerifiedFindUsExperience/><SiteFooter/></AppMotionProvider>}
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
