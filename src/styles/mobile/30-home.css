@@ -35,14 +35,14 @@
 
   .intro-band,.education-split,.occasion,.find-band{display:none!important}
 
-  /* Homepage lineup uses the same production card component as Shop. On phones it
-     must therefore use the same single-column card geometry rather than squeezing
-     full merchandising controls into half-width cards. */
+  /* Homepage lineup is primary catalog content. Keep the product rail immediately
+     paintable on mobile instead of allowing viewport-stagger state to reserve a
+     large invisible block in Safari. */
   .lineup{width:100%!important;margin:0!important;padding:38px var(--m-gutter) 46px!important;background:#fff!important;overflow:hidden!important}
   .lineup .section-head{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:end!important;gap:16px!important;margin-bottom:20px!important}
   .lineup .section-head>*{min-width:0!important}
-  .lineup .drink-grid{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:22px!important;width:100%!important;align-items:start!important}
-  .lineup .drink-grid>*{min-width:0!important;width:100%!important}
+  .lineup .drink-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;width:100%!important;align-items:stretch!important;opacity:1!important;visibility:visible!important}
+  .lineup .drink-grid>*,.lineup .drink-grid .product-card{min-width:0!important;width:100%!important;height:100%!important;opacity:1!important;visibility:visible!important;transform:none!important}
   .lineup .product-card{max-width:none!important;margin:0!important}
 }
 
@@ -61,7 +61,7 @@
 
 @media(max-width:380px){
   .beverage-hero{min-height:670px!important}.beverage-hero__copy{width:320px!important;margin-top:100px!important}.beverage-hero h1{font-size:52px!important}.hero-actions{width:310px!important}.hero-actions a{font-size:8.8px!important;padding-inline:9px!important}.beverage-hero__proof{left:17px!important;right:17px!important;bottom:25px!important}.beverage-hero__proof svg{width:39px!important;height:39px!important}.beverage-hero__proof span{font-size:7.6px!important}
-  .lineup{padding-inline:16px!important}.lineup .section-head{grid-template-columns:1fr!important;align-items:start!important}.lineup .section-head a{justify-self:start!important}
+  .lineup{padding-inline:12px!important}.lineup .section-head{grid-template-columns:1fr!important;align-items:start!important}.lineup .section-head a{justify-self:start!important}.lineup .drink-grid{gap:8px!important}
 }
 
 @media(min-width:600px) and (max-width:899px){
