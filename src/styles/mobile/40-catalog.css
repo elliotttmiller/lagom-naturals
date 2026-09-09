@@ -26,7 +26,7 @@
   .product-media img{display:block!important;width:100%!important;height:100%!important;min-width:100%!important;min-height:100%!important;max-width:none!important;max-height:none!important;margin:0!important;padding:0!important;object-fit:cover!important;object-position:50% 50%!important;background:transparent!important;transform:none!important}
   .heart-btn{position:absolute!important;z-index:2!important;top:7px!important;right:7px!important;width:32px!important;height:32px!important;min-width:32px!important;min-height:32px!important;display:grid!important;place-items:center!important;border:1px solid rgba(17,17,17,.08)!important;border-radius:50%!important;background:rgba(255,255,255,.96)!important;color:#111!important;box-shadow:0 2px 8px rgba(0,0,0,.035)!important;transform:none!important}.heart-btn svg{width:16px!important;height:16px!important;stroke-width:1.7!important}
 
-  .product-copy{min-width:0!important;padding:11px 10px 10px!important;display:flex!important;flex:1!important;flex-direction:column!important}.product-copy>p{display:block!important;margin:0 0 5px!important;color:#687069!important;font:800 8px/1 var(--m-font-ui)!important;letter-spacing:.11em!important;text-transform:uppercase!important}.product-copy h3{min-height:0!important;margin:0!important;font:800 15px/1.12 var(--m-font-body)!important;letter-spacing:-.025em!important}.product-copy h3 a{display:block!important}
+  .product-copy{min-width:0!important;padding:11px 10px 10px!important;display:flex!important;flex:1!important;flex-direction:column!important}.product-copy>p{display:block!important;width:100%!important;max-width:100%!important;margin:0 0 5px!important;overflow:hidden!important;color:#747a74!important;font:600 8px/1.1 var(--m-font-ui)!important;letter-spacing:.025em!important;text-overflow:ellipsis!important;text-transform:none!important;white-space:nowrap!important}.product-copy h3{min-height:0!important;margin:0!important;color:#111!important;font:850 17px/1.08 var(--m-font-body)!important;letter-spacing:-.035em!important}.product-copy h3 a{display:block!important;color:inherit!important;text-decoration:none!important}
   .product-copy h3::after{content:'☆ ☆ ☆ ☆ ☆  No reviews yet';display:block!important;width:100%!important;max-width:100%!important;margin-top:6px!important;color:#686d68!important;font:650 8px/1.15 var(--m-font-ui)!important;letter-spacing:-.01em!important;word-spacing:-1px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:clip!important}
   .product-copy small{display:block!important;margin:7px 0 0!important;color:#626761!important;font:600 10px/1.3 var(--m-font-body)!important}.product-copy>b{display:block!important;margin-top:9px!important;font:800 17px/1 var(--m-font-body)!important;letter-spacing:-.02em!important}
   .product-copy .stars{display:flex!important;align-items:center!important;gap:2px!important;margin:6px 0 0!important;color:#686d68!important;font:650 8px/1.15 var(--m-font-ui)!important;white-space:nowrap!important;overflow:hidden!important}.product-copy .stars svg{width:10px!important;height:10px!important;flex:0 0 10px!important}.product-copy .stars em{min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;font-style:normal!important}.product-copy h3:has(+ .stars)::after{display:none!important}
@@ -46,7 +46,7 @@
   .shop-page,.listing-page{padding-left:12px!important;padding-right:12px!important}
   .shop-page .product-grid,.listing-page .product-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px 7px!important}
   .product-copy{padding:10px 8px 9px!important}
-  .product-copy h3{font-size:14px!important}
+  .product-copy h3{font-size:16px!important}
   .product-copy h3::after{font-size:7px!important}
   .product-copy .stars{font-size:7px!important;gap:1px!important}.product-copy .stars svg{width:9px!important;height:9px!important;flex-basis:9px!important}
   .product-copy small{font-size:9px!important}.product-copy>b{font-size:16px!important}
@@ -58,7 +58,7 @@
 @media(min-width:600px) and (max-width:899px){
   .shop-page .product-grid,.listing-page .product-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:20px!important}
   .product-media{aspect-ratio:1.08/1!important}
-  .product-copy h3{font-size:18px!important}
+  .product-copy h3{font-size:20px!important}
   .product-copy small{font-size:12px!important}
   .product-copy>b{font-size:19px!important}
   .shop-page::after{top:calc(var(--m-page-top) + 60px)}
