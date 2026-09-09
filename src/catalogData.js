@@ -21,6 +21,8 @@ import strawberryMidnightDrift from "@/assets/products/enhanced/Strawberry-midni
 
 import hoodie from "@/assets/merch/Lagom-Mainstreet-Hooded-Sweatshirt-900x900.png";
 import crewneck from "@/assets/merch/Lagom-Midweight-Crewneck-Sweatshirt-Front-900x900.png";
+import seltzersThumbnail from "@/assets/seltzers-thumbnail.webp";
+import gummiesThumbnail from "@/assets/gummies-thumbnail.webp";
 
 const GUMMY_PREVIEW_PRICE = 24.99;
 
@@ -316,10 +318,10 @@ export const merch = [
 ];
 
 export const categoryCards = [
-  ["Seltzers", "Seltzers"],
-  ["Gummies", "Gummies"],
+  ["Seltzers", "Seltzers", "Sparkling THC seltzers"],
+  ["Gummies", "Gummies", "THC gummy collection"],
 ];
 export const categoryImages = {
-  Seltzers: lemonade,
-  Gummies: blueberryYumYum,
+  Seltzers: seltzersThumbnail,
+  Gummies: gummiesThumbnail,
 };

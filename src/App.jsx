@@ -346,7 +346,7 @@ function SectionTitle({ title, to = "/shop" }) {
     </m.div>
   );
 }
-function CategoryCard({ name, label }) {
+function CategoryCard({ name, label, description }) {
   const img = categoryImages[name];
   const to = `/shop?category=${encodeURIComponent(name)}`;
   return (
@@ -358,20 +358,34 @@ function CategoryCard({ name, label }) {
       whileTap={motionTokens.tap}
       transition={motionTokens.spring}
     >
-      <Link className={`category-card${img ? " has-image" : ""}`} to={to}>
+      <Link
+        className={`category-card${img ? " has-image" : ""}`}
+        to={to}
+        aria-label={`Shop ${label}`}
+      >
         {img ? (
-          <m.img
-            src={img}
-            alt={`${label} category preview`}
-            loading="lazy"
-            decoding="async"
-            whileHover={{ scale: 1.04, y: -2 }}
-            transition={motionTokens.springSoft}
-          />
+          <span className="category-card__media">
+            <m.img
+              src={img}
+              alt=""
+              loading="lazy"
+              decoding="async"
+              whileHover={{ scale: 1.025 }}
+              transition={motionTokens.springSoft}
+            />
+          </span>
         ) : (
           <div className="category-symbol">{label.slice(0, 2).toUpperCase()}</div>
         )}
-        <span>{label}</span>
+        <span className="category-card__content">
+          <span className="category-card__copy">
+            <strong>{label}</strong>
+            <small>{description}</small>
+          </span>
+          <span className="category-card__action" aria-hidden="true">
+            <ArrowRight />
+          </span>
+        </span>
       </Link>
     </m.div>
   );
@@ -703,8 +717,13 @@ function ShopPage() {
         </Reveal>
         {!query.trim() && category === "All" && (
           <Stagger className="category-grid">
-            {categoryCards.map(([name, label]) => (
-              <CategoryCard key={name} name={name} label={label} />
+            {categoryCards.map(([name, label, description]) => (
+              <CategoryCard
+                key={name}
+                name={name}
+                label={label}
+                description={description}
+              />
             ))}
           </Stagger>
         )}
