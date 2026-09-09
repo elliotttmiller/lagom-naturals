@@ -4,7 +4,7 @@ import'./add-to-cart-button.css'
 import'./cart-feedback-toast.css'
 
 const SELECTOR='.add-square, .pdp .primary-bar'
-const CART_KEY='lagom-cart-v2'
+const CART_KEY='lagom-beverage-cart-v1'
 const feedbackTimers=new WeakMap()
 const lockedControls=new WeakMap()
 
@@ -57,8 +57,20 @@ function reset(trigger){
   unlockPurchaseControls(trigger)
 }
 
+function activeCartTarget(){
+  return Array.from(document.querySelectorAll('.mobile-reference-cart, .account-cart-icon, .cart-icon')).find(el=>{const r=el.getBoundingClientRect();return r.width>0&&r.height>0})
+}
+
+function toastAnchor(){
+  const target=activeCartTarget()
+  if(!target)return{top:82,right:12,arrowRight:24}
+  const rect=target.getBoundingClientRect()
+  const right=Math.max(10,window.innerWidth-rect.right)
+  return{top:Math.round(rect.bottom+10),right:Math.round(right),arrowRight:Math.max(22,Math.round(window.innerWidth-(rect.left+rect.width/2)-right))}
+}
+
 function pulseCart(){
-  const target=Array.from(document.querySelectorAll('.cart-icon')).find(el=>{const r=el.getBoundingClientRect();return r.width>0&&r.height>0})
+  const target=activeCartTarget()
   if(!target)return
   target.classList.remove('lagom-cart-target--pulse')
   requestAnimationFrame(()=>target.classList.add('lagom-cart-target--pulse'))
@@ -97,12 +109,12 @@ function begin(trigger,before,onSuccess){
 
 export default function CartInteractionFeedback(){
   const[announcement,setAnnouncement]=useState('')
-  const[toast,setToast]=useState({visible:false,product:''})
+  const[toast,setToast]=useState({visible:false,product:'',anchor:{top:82,right:12,arrowRight:24}})
   const toastTimerRef=useRef(null)
 
   const showSuccess=product=>{
     setAnnouncement('')
-    setToast({visible:true,product})
+    setToast({visible:true,product,anchor:toastAnchor()})
     requestAnimationFrame(()=>setAnnouncement(`${product} added to cart`))
     if(toastTimerRef.current)window.clearTimeout(toastTimerRef.current)
     toastTimerRef.current=window.setTimeout(()=>{
@@ -133,9 +145,17 @@ export default function CartInteractionFeedback(){
     }
   },[])
 
+  useEffect(()=>{
+    if(!toast.visible)return undefined
+    const reposition=()=>setToast(current=>current.visible?{...current,anchor:toastAnchor()}:current)
+    window.addEventListener('resize',reposition)
+    window.addEventListener('scroll',reposition,true)
+    return()=>{window.removeEventListener('resize',reposition);window.removeEventListener('scroll',reposition,true)}
+  },[toast.visible])
+
   return <>
     <span className="lagom-cart-announcer" role="status" aria-live="polite" aria-atomic="true">{announcement}</span>
-    <div className="lagom-cart-toast" data-visible={toast.visible?'true':'false'} aria-hidden={toast.visible?undefined:'true'}>
+    <div className="lagom-cart-toast" data-visible={toast.visible?'true':'false'} aria-hidden={toast.visible?undefined:'true'} style={{'--lagom-toast-top':`${toast.anchor.top}px`,'--lagom-toast-right':`${toast.anchor.right}px`,'--lagom-toast-arrow-right':`${toast.anchor.arrowRight}px`}}>
       <span className="lagom-cart-toast__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5.5 12.5 4.2 4.2 8.8-9.4"/></svg></span>
       <span className="lagom-cart-toast__copy"><strong>Added to cart</strong><span>{toast.product}</span></span>
       <Link className="lagom-cart-toast__action" to="/cart" onClick={()=>setToast(current=>({...current,visible:false}))}>View cart</Link>

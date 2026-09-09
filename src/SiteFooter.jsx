@@ -10,10 +10,9 @@ export default function SiteFooter(){
       <div className="site-footer__brand">
         <Link to="/" aria-label="Lagom Naturals home"><img src="/lagom-logo.svg" alt="Lagom Naturals"/></Link>
       </div>
-      <div className="site-footer__group"><h4>Shop</h4><Link to="/shop">All Products</Link><Link to="/shop?category=Flower">Flower</Link><Link to="/shop?category=Edibles">Edibles</Link><Link to="/merch">Merch</Link></div>
-      <div className="site-footer__group"><h4>Visit</h4><Link to="/visit">Find Us</Link><Link to="/visit">Store Hours</Link><Link to="/visit">Directions</Link><Link to="/visit">Contact Us</Link></div>
-      <div className="site-footer__group"><h4>Lagom</h4><Link to="/about">Our Story</Link><Link to="/learn">FAQ</Link><Link to="/learn#responsible-use">Responsible Use</Link><span>Adults 21+</span></div>
-      <div className="site-footer__group"><h4>Account</h4><Link to="/account">My Account</Link><Link to="/account">Rewards</Link><Link to="/account">Favorites</Link><Link to="/account">Orders</Link></div>
+      <nav className="site-footer__group" aria-label="Shop"><h4>Shop</h4><Link to="/shop">All Products</Link><Link to="/shop?category=Seltzers">Drinks</Link><Link to="/shop?category=Gummies">Gummies</Link></nav>
+      <nav className="site-footer__group" aria-label="Explore"><h4>Explore</h4><Link to="/visit">Find Us</Link><Link to="/about">Our Story</Link><Link to="/merch">Merch</Link></nav>
+      <nav className="site-footer__group" aria-label="Help"><h4>Help</h4><Link to="/account">Account</Link><Link to="/learn">FAQ</Link><Link to="/visit">Contact Us</Link></nav>
       <div className="site-footer__bottom">
         <div className="site-footer__socials" aria-label="Lagom Naturals social media">
           <span className="site-footer__social" role="img" aria-label="Instagram"><InstagramIcon/></span>

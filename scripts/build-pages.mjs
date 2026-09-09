@@ -9,14 +9,35 @@ const base = configuredBase === '/'
   ? '/'
   : `/${configuredBase.replace(/^\/+|\/+$/g, '')}/`
 
-await rm(outDir, { recursive: true, force: true })
+async function cleanOutputDirectory(directory) {
+  try {
+    await rm(directory, {
+      recursive: true,
+      force: true,
+      maxRetries: 12,
+      retryDelay: 250,
+    })
+  } catch (error) {
+    if (error?.code === 'EPERM' || error?.code === 'EBUSY') {
+      throw new Error(
+        `Unable to clean ${directory}/ because Windows is holding a generated file open. ` +
+        'Close any File Explorer preview, image viewer, dev server, or process using docs/, then run the build again.',
+        { cause: error },
+      )
+    }
+    throw error
+  }
+}
+
+await cleanOutputDirectory(outDir)
 await mkdir(outDir, { recursive: true })
 
 await build({
   base,
   build: {
     outDir,
-    emptyOutDir: true,
+    // The output directory was already cleaned with Windows-aware retries.
+    emptyOutDir: false,
   },
 })
 
