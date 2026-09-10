@@ -1,7 +1,7 @@
 /* Shop catalog render + responsive card hardening.
    Catalog availability must never depend on an IntersectionObserver/motion reveal.
-   Mobile cards use a beverage-native two-column merchandising grid with a stable
-   image stage so transparent product photography remains centered and fully visible. */
+   Mobile cards retain the approved two-column merchandising architecture while
+   scaling type, spacing and controls fluidly across phone widths. */
 
 .shop-page .product-grid.listing-grid {
   display: grid;
@@ -24,17 +24,18 @@
 /* Mobile storefront cards */
 @media (max-width: 699px) {
   .shop-page {
-    padding-inline: 14px;
+    padding-inline: clamp(10px, 3.55vw, 15px);
   }
 
   .shop-page .product-grid.listing-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px 8px;
+    gap: clamp(8px, 2.4vw, 11px);
     align-items: stretch;
   }
 
   .shop-page .product-grid.listing-grid > * {
     height: 100%;
+    container-type: inline-size;
   }
 
   .shop-page .product-card {
@@ -44,7 +45,7 @@
     flex-direction: column;
     overflow: visible;
     border: 1px solid rgba(22, 26, 22, .10);
-    border-radius: 8px;
+    border-radius: 10px;
     background: #fff;
     box-shadow: none;
   }
@@ -58,8 +59,8 @@
     display: grid;
     place-items: center;
     overflow: hidden;
-    padding: 12px 10px;
-    border-radius: 7px 7px 0 0;
+    padding: clamp(8px, 2.6vw, 12px) clamp(7px, 2.2vw, 10px);
+    border-radius: 9px 9px 0 0;
     border-bottom: 1px solid rgba(22, 26, 22, .075);
     background: #f7f6f2;
   }
@@ -90,85 +91,114 @@
   }
 
   .shop-page .heart-btn {
-    top: 7px;
-    right: 7px;
-    width: 30px;
-    height: 30px;
+    top: 8px;
+    right: 8px;
+    width: clamp(32px, 9vw, 38px);
+    height: clamp(32px, 9vw, 38px);
     border: 1px solid rgba(22, 26, 22, .08);
-    background: rgba(255, 255, 255, .94);
-    box-shadow: none;
+    background: rgba(255, 255, 255, .96);
+    box-shadow: 0 1px 4px rgba(0,0,0,.04);
   }
 
   .shop-page .heart-btn svg {
-    width: 15px;
-    height: 15px;
+    width: clamp(16px, 4.5vw, 19px);
+    height: clamp(16px, 4.5vw, 19px);
   }
 
   .shop-page .product-copy {
     min-height: 0;
-    padding: 10px 9px 9px;
+    padding: clamp(10px, 3vw, 13px) clamp(9px, 3vw, 13px) clamp(10px, 3vw, 13px);
     display: flex;
     flex: 1;
     flex-direction: column;
   }
 
   .shop-page .product-copy > p {
-    margin: 0 0 3px;
-    font-size: 8px;
-    line-height: 1.15;
-    letter-spacing: .04em;
+    margin: 0 0 4px;
+    font-size: clamp(9.5px, 2.55vw, 11px);
+    line-height: 1.2;
+    letter-spacing: .025em;
   }
 
   .shop-page .product-copy h3 {
     min-height: 0;
     margin: 0;
-    font-size: 12px;
-    line-height: 1.18;
-    letter-spacing: -.018em;
+    font-size: clamp(14px, 3.75vw, 16.5px);
+    line-height: 1.08;
+    letter-spacing: -.025em;
+    text-wrap: balance;
   }
 
   .shop-page .product-copy small {
     min-height: 0;
-    margin-top: 4px;
-    font-size: 8px;
+    margin-top: 6px;
+    font-size: clamp(9.5px, 2.5vw, 10.75px);
     line-height: 1.3;
+  }
+
+  /* The product name already communicates flavor. On cards, reserve the facts row
+     for decision-useful format information instead of repeating that flavor. */
+  .shop-page .product-facts {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: 0;
+    row-gap: 2px;
+  }
+
+  .shop-page .product-facts > span:first-child {
+    display: none;
+  }
+
+  .shop-page .product-facts > span:nth-child(3) {
+    order: 1;
+  }
+
+  .shop-page .product-facts > span:nth-child(2) {
+    order: 2;
+  }
+
+  .shop-page .product-facts > span:not(:first-child):not(:last-child)::after {
+    content: " · ";
+    white-space: pre;
   }
 
   .shop-page .product-copy > b {
     margin-top: 8px;
     padding: 0;
-    font-size: 14px;
+    font-size: clamp(17px, 4.7vw, 20px);
     line-height: 1;
+    letter-spacing: -.025em;
   }
 
   .shop-page .card-actions {
-    grid-template-columns: minmax(0, 1fr) 38px;
-    gap: 6px;
+    grid-template-columns: minmax(0, 1fr) clamp(44px, 12vw, 48px);
+    gap: clamp(6px, 1.8vw, 8px);
     margin-top: auto;
-    padding-top: 10px;
+    padding-top: clamp(10px, 3vw, 13px);
   }
 
   .shop-page .variant-trigger {
     width: 100%;
     min-width: 0;
-    min-height: 38px;
-    height: 38px;
-    padding-inline: 9px !important;
-    border-radius: 5px;
-    font-size: 8.5px;
+    min-height: 44px;
+    height: clamp(44px, 12vw, 48px);
+    padding-inline: clamp(9px, 2.8vw, 12px) !important;
+    border-radius: 7px;
+    font-size: clamp(10px, 2.8vw, 11.5px);
   }
 
-  /* Add-to-cart is intentionally a compact + control on catalog cards. */
+  /* Add-to-cart stays visually compact but now meets a proper mobile touch target. */
   .shop-page .add-square {
-    width: 38px;
-    min-width: 38px;
-    height: 38px;
-    min-height: 38px;
+    width: clamp(44px, 12vw, 48px);
+    min-width: 44px;
+    height: clamp(44px, 12vw, 48px);
+    min-height: 44px;
     padding: 0;
     display: grid;
     place-items: center;
     border: 0;
-    border-radius: 5px;
+    border-radius: 7px;
     background: #111;
     color: #fff;
     font-size: 0;
@@ -177,38 +207,38 @@
 
   .shop-page .add-square svg {
     display: block;
-    width: 17px;
-    height: 17px;
+    width: clamp(18px, 5vw, 21px);
+    height: clamp(18px, 5vw, 21px);
     margin: 0;
     stroke-width: 2;
   }
 
   .shop-page .variant-menu {
-    min-width: 150px;
+    min-width: min(165px, calc(100vw - 24px));
   }
+}
+
+/* Container-aware refinement keeps the two-up grid readable on narrow cards. */
+@container (max-width: 165px) {
+  .shop-page .product-copy h3 { font-size: 13.5px; }
+  .shop-page .product-copy { padding-inline: 9px; }
+  .shop-page .product-copy small { font-size: 9.25px; }
+  .shop-page .variant-trigger { font-size: 10px; }
 }
 
 /* Narrow phones retain two-up merchandising without clipping the product stage. */
 @media (max-width: 380px) {
   .shop-page {
-    padding-inline: 12px;
+    padding-inline: 10px;
   }
 
   .shop-page .product-grid.listing-grid {
-    gap: 8px 6px;
+    gap: 7px;
   }
 
   .shop-page .product-media,
   .shop-page .listing-grid .product-media {
-    padding: 10px 8px;
-  }
-
-  .shop-page .product-copy {
-    padding-inline: 8px;
-  }
-
-  .shop-page .product-copy h3 {
-    font-size: 11.5px;
+    padding: 9px 7px;
   }
 }
 
