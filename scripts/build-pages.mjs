@@ -4,6 +4,8 @@ import { build } from 'vite'
 import { spawn } from 'node:child_process'
 
 const outDir = 'docs'
+const strict = process.argv.includes('--strict')
+if (strict) process.env.BUILD_STRICT = '1'
 const defaultBase = '/lagom-naturals/'
 const configuredBase = process.env.GITHUB_PAGES_BASE || defaultBase
 const base = configuredBase === '/' ? '/' : `/${configuredBase.replace(/^\/+|\/+$/g, '')}/`
@@ -29,11 +31,7 @@ function runNode(script, args = []) {
 
 await cleanOutputDirectory(outDir)
 await mkdir(outDir, { recursive: true })
-
-await build({
-  base,
-  build: { outDir, emptyOutDir: false },
-})
+await build({ base, build: { outDir, emptyOutDir: false } })
 
 // Temporary compatibility bridge for legacy root-relative public logo references.
 // New application code must use import.meta.env.BASE_URL for public assets. This
@@ -53,10 +51,7 @@ async function normalizeLegacyPublicUrls(directory) {
 }
 await normalizeLegacyPublicUrls(outDir)
 
-// GitHub Pages has no SPA rewrite configuration. The 404 application shell lets
-// BrowserRouter + basename resolve direct links after Pages returns the fallback.
 await copyFile(`${outDir}/index.html`, `${outDir}/404.html`)
 await writeFile(`${outDir}/.nojekyll`, '')
-
 await runNode('scripts/validate-build.mjs', [outDir])
-console.log(`\nGitHub Pages production build written to ${outDir}/ with base ${base}`)
+console.log(`\nGitHub Pages production build written to ${outDir}/ with base ${base}${strict ? ' (strict)' : ''}`)
