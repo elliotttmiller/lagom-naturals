@@ -1,46 +1,71 @@
 /* Product merchandising integrity layer.
-   This file is intentionally loaded after legacy/catalog compatibility CSS.
-   It prevents stale review UI from rendering without a verified review source and
-   establishes the authoritative PDP title -> price -> verified facts hierarchy. */
+   Loaded after legacy/catalog compatibility CSS so verified commerce data has one
+   authoritative presentation contract across mobile and desktop. */
 
-/* Reviews are not connected to a verified source in the current catalog contract.
-   Never expose legacy/demo stars, ratings, or review counts. */
+/* Review UI remains available for a real review provider. Never manufacture stars.
+   A connected review component should set data-review-count and render its verified
+   rating only when count > 0. Empty state stays compact and text-only. */
 .review-line,
 .pdp .review-line,
-.product-card .review-line,
-.product-card [data-review-placeholder] {
+.product-card .review-line {
+  display: flex !important;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 16px;
+  margin: 6px 0 0;
+  color: #68706a;
+  font: 500 11px/1.25 var(--font-ui);
+}
+.review-line[data-review-count="0"] .stars,
+.review-line[data-review-count="0"] [data-review-stars],
+.review-line[data-review-count="0"] .rating-value {
+  display: none !important;
+}
+.review-line[data-review-count="0"] .review-empty::before {
+  content: "No reviews";
+}
+.review-line[data-review-count="0"] .review-empty:empty::before {
+  display: inline;
+}
+.review-line[data-review-count]:not([data-review-count="0"]) .review-empty {
   display: none !important;
 }
 
-/* PDP commerce hierarchy: brand -> product name -> price -> verified facts -> description. */
+/* PDP commerce hierarchy: brand -> product name -> reviews -> price -> verified facts. */
 .pdp-copy > p:first-child { order: 0; }
 .pdp-copy > h1 { order: 1; }
+.pdp-copy > .review-line { order: 2; }
 .pdp-copy > h2 {
-  order: 2;
+  order: 3;
   margin-top: clamp(10px, 2.8vw, 14px);
+  font-variant-numeric: tabular-nums;
 }
 .pdp-copy > .meta-pills {
-  order: 3;
+  order: 4;
   margin-top: clamp(12px, 3vw, 16px);
 }
-.pdp-copy > .pdp-desc { order: 4; }
-.pdp-copy > div:not(.meta-pills):not(.pdp-details):not(.review-line) { order: 5; }
-.pdp .qty-row { order: 6; }
-.pdp .primary-bar { order: 7; }
-.pdp .pdp-details { order: 8; }
+.pdp-copy > .pdp-desc { order: 5; }
+.pdp-copy > div:not(.meta-pills):not(.pdp-details):not(.review-line) { order: 6; }
+.pdp .qty-row { order: 7; }
+.pdp .primary-bar { order: 8; }
+.pdp .pdp-details { order: 9; }
 
-/* Verified facts remain discrete, readable commerce attributes rather than being
-   visually merged with price or any future review provider. */
+/* Product/category context already communicates that this is a THC seltzer.
+   Hide the redundant type pill and keep only decision-useful verified attributes. */
 .pdp .meta-pills {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
 }
+.pdp .meta-pills > span:first-child {
+  display: none !important;
+}
 
-/* Current catalog ProductCard emits flavor first, volume second and potency third.
-   Product names already communicate flavor, so the redundant flavor is suppressed.
-   Seltzer facts are presented potency-first: “10 mg THC / can · 12 fl oz”. */
+/* Current catalog ProductCard still emits flavor first, volume second and potency
+   third. Product names already communicate flavor, so suppress that redundant value
+   and present the remaining verified seltzer facts potency-first. */
 .shop-page .product-facts > span:first-child { display: none !important; }
 .shop-page .product-facts > span:nth-child(3) { order: 1; }
 .shop-page .product-facts > span:nth-child(2) { order: 2; }
@@ -50,12 +75,16 @@
 }
 
 @media (max-width: 699px) {
-  .pdp-copy > h2 {
-    margin-top: 12px;
-    font-variant-numeric: tabular-nums;
+  .product-card .review-line {
+    gap: 4px;
+    min-height: 14px;
+    margin-top: 5px;
+    font-size: clamp(9.5px, 2.5vw, 10.5px);
   }
-
-  .pdp .meta-pills {
-    margin-top: 14px;
+  .pdp-copy > .review-line {
+    margin-top: 8px;
+    font-size: 12px;
   }
+  .pdp-copy > h2 { margin-top: 10px; }
+  .pdp .meta-pills { margin-top: 14px; }
 }
