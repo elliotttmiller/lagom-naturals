@@ -1,0 +1,61 @@
+/* Product merchandising integrity layer.
+   This file is intentionally loaded after legacy/catalog compatibility CSS.
+   It prevents stale review UI from rendering without a verified review source and
+   establishes the authoritative PDP title -> price -> verified facts hierarchy. */
+
+/* Reviews are not connected to a verified source in the current catalog contract.
+   Never expose legacy/demo stars, ratings, or review counts. */
+.review-line,
+.pdp .review-line,
+.product-card .review-line,
+.product-card [data-review-placeholder] {
+  display: none !important;
+}
+
+/* PDP commerce hierarchy: brand -> product name -> price -> verified facts -> description. */
+.pdp-copy > p:first-child { order: 0; }
+.pdp-copy > h1 { order: 1; }
+.pdp-copy > h2 {
+  order: 2;
+  margin-top: clamp(10px, 2.8vw, 14px);
+}
+.pdp-copy > .meta-pills {
+  order: 3;
+  margin-top: clamp(12px, 3vw, 16px);
+}
+.pdp-copy > .pdp-desc { order: 4; }
+.pdp-copy > div:not(.meta-pills):not(.pdp-details):not(.review-line) { order: 5; }
+.pdp .qty-row { order: 6; }
+.pdp .primary-bar { order: 7; }
+.pdp .pdp-details { order: 8; }
+
+/* Verified facts remain discrete, readable commerce attributes rather than being
+   visually merged with price or any future review provider. */
+.pdp .meta-pills {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Current catalog ProductCard emits flavor first, volume second and potency third.
+   Product names already communicate flavor, so the redundant flavor is suppressed.
+   Seltzer facts are presented potency-first: “10 mg THC / can · 12 fl oz”. */
+.shop-page .product-facts > span:first-child { display: none !important; }
+.shop-page .product-facts > span:nth-child(3) { order: 1; }
+.shop-page .product-facts > span:nth-child(2) { order: 2; }
+.shop-page .product-facts > span:nth-child(3)::after {
+  content: " · ";
+  white-space: pre;
+}
+
+@media (max-width: 699px) {
+  .pdp-copy > h2 {
+    margin-top: 12px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .pdp .meta-pills {
+    margin-top: 14px;
+  }
+}
