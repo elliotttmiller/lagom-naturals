@@ -25,17 +25,32 @@
 .review-line[data-review-count="0"] .review-empty::before {
   content: "No reviews";
 }
-.review-line[data-review-count="0"] .review-empty:empty::before {
-  display: inline;
-}
 .review-line[data-review-count]:not([data-review-count="0"]) .review-empty {
   display: none !important;
+}
+
+/* Until a verified provider mounts a review-line, expose a truthful neutral empty
+   state. :has() automatically removes this fallback the moment live review markup
+   is present, so provider data always wins and is never duplicated. */
+.product-card .product-copy:not(:has(> .review-line))::before,
+.pdp-copy:not(:has(> .review-line))::before {
+  content: "No reviews";
+  color: #68706a;
+  font: 500 11px/1.25 var(--font-ui);
+}
+.product-card .product-copy:not(:has(> .review-line))::before {
+  order: 2;
+  margin-top: 6px;
 }
 
 /* PDP commerce hierarchy: brand -> product name -> reviews -> price -> verified facts. */
 .pdp-copy > p:first-child { order: 0; }
 .pdp-copy > h1 { order: 1; }
 .pdp-copy > .review-line { order: 2; }
+.pdp-copy:not(:has(> .review-line))::before {
+  order: 2;
+  margin-top: 8px;
+}
 .pdp-copy > h2 {
   order: 3;
   margin-top: clamp(10px, 2.8vw, 14px);
@@ -75,13 +90,14 @@
 }
 
 @media (max-width: 699px) {
-  .product-card .review-line {
-    gap: 4px;
+  .product-card .review-line,
+  .product-card .product-copy:not(:has(> .review-line))::before {
     min-height: 14px;
     margin-top: 5px;
     font-size: clamp(9.5px, 2.5vw, 10.5px);
   }
-  .pdp-copy > .review-line {
+  .pdp-copy > .review-line,
+  .pdp-copy:not(:has(> .review-line))::before {
     margin-top: 8px;
     font-size: 12px;
   }
