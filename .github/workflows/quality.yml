@@ -1,0 +1,46 @@
+name: Production quality
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.19.0'
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Audit source media
+        run: npm run audit:assets
+
+      - name: Strict production build
+        run: npm run build:strict
+
+      - name: Upload production artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lagom-pages-${{ github.sha }}
+          path: docs/
+          if-no-files-found: error
+          retention-days: 7
