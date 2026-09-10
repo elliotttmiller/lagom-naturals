@@ -1,0 +1,43 @@
+/* Final mobile drawer refinements: full-viewport sheet, shared branded top bar. */
+@media (max-width:899px){
+  .mobile-reference-menu-backdrop{
+    inset:0!important;
+    top:0!important;
+    z-index:1905!important;
+  }
+  .mobile-reference-menu{
+    inset:0!important;
+    padding-top:0!important;
+    min-height:100dvh!important;
+    height:100dvh!important;
+  }
+  .mobile-reference-menu .mobile-drawer-top{
+    min-height:calc(72px + env(safe-area-inset-top,0px));
+    padding-top:env(safe-area-inset-top,0px);
+    margin-bottom:10px;
+  }
+  .mobile-drawer-top{
+    grid-template-columns:52px minmax(0,1fr) 52px!important;
+  }
+  .mobile-drawer-top__brand{
+    width:48px!important;
+    height:48px!important;
+    justify-self:start;
+  }
+  .mobile-drawer-top__brand img{
+    width:40px!important;
+    height:40px!important;
+    object-fit:contain!important;
+  }
+  .mobile-drawer-top>span{
+    font-size:11px!important;
+    letter-spacing:.18em!important;
+  }
+  .mobile-drawer-top>button{
+    width:48px!important;
+    height:48px!important;
+  }
+  .mobile-reference-menu__footer{
+    padding-bottom:max(8px,env(safe-area-inset-bottom,0px));
+  }
+}
