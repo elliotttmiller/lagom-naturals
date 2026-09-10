@@ -14,6 +14,12 @@ const drawerItems=[
   ['Contact Us','/visit']
 ]
 
+const socialLinks=[
+  ['Instagram','https://www.instagram.com/lagomnaturalsmn?stkn=MXc1cnEyY2s2OTh2aQ==',InstagramIcon],
+  ['X','https://x.com/lagomnaturalsmn?s=21&t=o19JKEqucRv55S5u6wBKXQ',XSocialIcon],
+  ['Facebook','https://www.facebook.com/share/19fFEcDKpR/?mibextid=wwXIfr',FacebookIcon]
+]
+
 const accountRows=[
   [PackageCheck,'My Orders'],
   [Heart,'Favorites']
@@ -24,12 +30,12 @@ const accountLower=[
   [CircleHelp,'Help & Support']
 ]
 
+function InstagramIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.6" cy="6.6" r="1" className="social-fill"/></svg>}
+function FacebookIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.2 21v-8h2.8l.45-3.2H14.2V7.75c0-.93.3-1.56 1.63-1.56h1.73V3.33A23.2 23.2 0 0 0 15.03 3c-2.5 0-4.21 1.52-4.21 4.32V9.8H8v3.2h2.82v8h3.38Z" className="social-fill"/></svg>}
+function XSocialIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4l14 16M19 4 5 20"/></svg>}
+
 function cartCount(){
   try{return (JSON.parse(localStorage.getItem('lagom-beverage-cart-v1')||'[]')||[]).reduce((sum,item)=>sum+(item.qty||0),0)}catch{return 0}
-}
-
-function SocialGlyph({label,children}){
-  return <span className="mobile-reference-menu__social-glyph" aria-label={label} role="img">{children}</span>
 }
 
 export default function MobileReferenceChrome(){
@@ -95,13 +101,12 @@ export default function MobileReferenceChrome(){
             ? <button key={label} type="button" className="mobile-reference-menu__link" onClick={openAccount}><span>{label}</span><ChevronRight/></button>
             : <Link key={label} to={to} onClick={()=>setMenuOpen(false)}><span>{label}</span><ChevronRight/></Link>)}
         </nav>
-        <div className="mobile-reference-menu__social" aria-label="Social links">
-          <SocialGlyph label="Instagram">◎</SocialGlyph>
-          <SocialGlyph label="TikTok">♪</SocialGlyph>
-          <SocialGlyph label="Facebook">f</SocialGlyph>
-          <SocialGlyph label="YouTube">▶</SocialGlyph>
+        <div className="mobile-reference-menu__footer">
+          <p>Follow Lagom</p>
+          <div className="mobile-reference-menu__social" aria-label="Lagom Naturals social media">
+            {socialLinks.map(([label,href,Icon])=><a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={`${label} — Lagom Naturals`}><Icon/></a>)}
+          </div>
         </div>
-        <div className="mobile-reference-menu__tag">GOOD DRINKS<br/>BRIGHTER DAYS</div>
       </aside>
     </div>}
 
