@@ -34,6 +34,14 @@ function InstagramIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><rec
 function FacebookIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.2 21v-8h2.8l.45-3.2H14.2V7.75c0-.93.3-1.56 1.63-1.56h1.73V3.33A23.2 23.2 0 0 0 15.03 3c-2.5 0-4.21 1.52-4.21 4.32V9.8H8v3.2h2.82v8h3.38Z" className="social-fill"/></svg>}
 function XSocialIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4l14 16M19 4 5 20"/></svg>}
 
+function DrawerTop({label,onClose}){
+  return <div className="mobile-drawer-top">
+    <Link className="mobile-drawer-top__brand" to="/" aria-label="Lagom Naturals home" onClick={onClose}><img src="/lagom-logo-icon.svg" alt="" aria-hidden="true"/></Link>
+    <span>{label}</span>
+    <button type="button" aria-label={`Close ${label.toLowerCase()}`} onClick={onClose}><X/></button>
+  </div>
+}
+
 function cartCount(){
   try{return (JSON.parse(localStorage.getItem('lagom-beverage-cart-v1')||'[]')||[]).reduce((sum,item)=>sum+(item.qty||0),0)}catch{return 0}
 }
@@ -67,10 +75,7 @@ export default function MobileReferenceChrome(){
   },[menuOpen,accountOpen])
 
   React.useEffect(()=>{
-    if(menuOpen){
-      setMenuVisible(true)
-      return
-    }
+    if(menuOpen){setMenuVisible(true);return}
     const timer=window.setTimeout(()=>setMenuVisible(false),560)
     return()=>window.clearTimeout(timer)
   },[menuOpen])
@@ -85,9 +90,7 @@ export default function MobileReferenceChrome(){
       {isDetail
         ? <button type="button" className="mobile-reference-header__left" aria-label="Go back" onClick={()=>navigate(-1)}><span className="mobile-back-glyph">‹</span></button>
         : <HamburgerToggle className="mobile-reference-header__left" checked={menuOpen} onChange={setMenuOpen} controls="mobile-reference-menu" label={menuOpen?'Close menu':'Open menu'}/>}
-      <Link className="mobile-reference-header__brand" to="/" aria-label="Lagom Naturals home" onClick={()=>setMenuOpen(false)}>
-        <img src="/lagom-logo.svg" alt="Lagom Naturals"/>
-      </Link>
+      <Link className="mobile-reference-header__brand" to="/" aria-label="Lagom Naturals home" onClick={()=>setMenuOpen(false)}><img src="/lagom-logo.svg" alt="Lagom Naturals"/></Link>
       <div className="mobile-reference-header__tools">
         {!isDetail&&<Link to="/shop" aria-label="Search"><Search/></Link>}
         <Link className="mobile-reference-cart" to="/cart" aria-label={`Cart, ${count} items`}><ShoppingBag/>{count>0&&<b>{count}</b>}</Link>
@@ -96,6 +99,7 @@ export default function MobileReferenceChrome(){
 
     {menuVisible&&<div className={`mobile-reference-menu-backdrop${menuOpen?' is-open':''}`} onClick={()=>setMenuOpen(false)}>
       <aside id="mobile-reference-menu" className="mobile-reference-menu" role="dialog" aria-modal="true" aria-label="Site navigation" onClick={e=>e.stopPropagation()}>
+        <DrawerTop label="Menu" onClose={()=>setMenuOpen(false)}/>
         <nav>
           {drawerItems.map(([label,to])=>to==='account'
             ? <button key={label} type="button" className="mobile-reference-menu__link" onClick={openAccount}><span>{label}</span><ChevronRight/></button>
@@ -112,12 +116,8 @@ export default function MobileReferenceChrome(){
 
     <div className={`mobile-account-backdrop${accountOpen?' is-open':''}`} aria-hidden={!accountOpen} onClick={()=>setAccountOpen(false)}>
       <aside className="mobile-account-drawer" role="dialog" aria-modal="true" aria-label="Account" onClick={e=>e.stopPropagation()}>
-        <div className="mobile-account-drawer__top">
-          <span>ACCOUNT</span>
-          <button type="button" aria-label="Close account" onClick={()=>setAccountOpen(false)}><X/></button>
-        </div>
+        <DrawerTop label="Account" onClose={()=>setAccountOpen(false)}/>
         <div className="mobile-account-welcome">
-          <img src="/lagom-logo-icon.svg" alt="" aria-hidden="true"/>
           <span><p>Welcome to</p><h2>Lagom</h2></span>
         </div>
         <div className="mobile-account-rows">
@@ -130,18 +130,8 @@ export default function MobileReferenceChrome(){
     </div>
 
     {isRecipes&&<main className="mobile-recipes-page">
-      <section className="mobile-recipes-hero">
-        <div className="mobile-recipes-copy">
-          <p>RECIPES &amp; RITUALS</p>
-          <h1>Simple<br/>Moments.<br/><em>Elevated.</em></h1>
-          <span>Drink recipes, pairing ideas, and lifestyle inspiration for a more balanced you.</span>
-        </div>
-        <div className="mobile-recipes-image" style={{backgroundImage:`url(${mobileHero})`}}><b>Good Drinks<br/>Brighter Days.</b></div>
-      </section>
-      <article className="mobile-recipe-card">
-        <div className="mobile-recipe-card__media" style={{backgroundImage:`url(${mobileHero})`}}/>
-        <div><h2>The Blush Spritz</h2><p>A light, refreshing mocktail and a touch of lemon.</p><b>VIEW RECIPE →</b></div>
-      </article>
+      <section className="mobile-recipes-hero"><div className="mobile-recipes-copy"><p>RECIPES &amp; RITUALS</p><h1>Simple<br/>Moments.<br/><em>Elevated.</em></h1><span>Drink recipes, pairing ideas, and lifestyle inspiration for a more balanced you.</span></div><div className="mobile-recipes-image" style={{backgroundImage:`url(${mobileHero})`}}><b>Good Drinks<br/>Brighter Days.</b></div></section>
+      <article className="mobile-recipe-card"><div className="mobile-recipe-card__media" style={{backgroundImage:`url(${mobileHero})`}}/><div><h2>The Blush Spritz</h2><p>A light, refreshing mocktail and a touch of lemon.</p><b>VIEW RECIPE →</b></div></article>
       <div className="mobile-recipe-dots"><span>‹</span><i/><i className="is-active"/><i/><i/><span>›</span></div>
     </main>}
   </>
