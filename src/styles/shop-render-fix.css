@@ -23,9 +23,7 @@
 
 /* Mobile storefront cards */
 @media (max-width: 699px) {
-  .shop-page {
-    padding-inline: clamp(10px, 3.55vw, 15px);
-  }
+  .shop-page { padding-inline: clamp(10px, 3.55vw, 15px); }
 
   .shop-page .product-grid.listing-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -33,10 +31,7 @@
     align-items: stretch;
   }
 
-  .shop-page .product-grid.listing-grid > * {
-    height: 100%;
-    container-type: inline-size;
-  }
+  .shop-page .product-grid.listing-grid > * { height: 100%; container-type: inline-size; }
 
   .shop-page .product-card {
     width: 100%;
@@ -66,51 +61,33 @@
   }
 
   .shop-page .product-media > a {
-    width: 100%;
-    height: 100%;
-    min-width: 0;
-    min-height: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
+    width: 100%; height: 100%; min-width: 0; min-height: 0;
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
   }
 
   .shop-page .product-media > a > img,
   .shop-page .product-media img {
     display: block;
-    width: 100%;
-    height: 100%;
-    max-width: 100%;
-    max-height: 100%;
-    margin: auto;
-    padding: 0;
+    width: 100%; height: 100%; max-width: 100%; max-height: 100%;
+    margin: auto; padding: 0;
     object-fit: contain !important;
     object-position: 50% 50% !important;
     transform: none;
   }
 
   .shop-page .heart-btn {
-    top: 8px;
-    right: 8px;
-    width: clamp(32px, 9vw, 38px);
-    height: clamp(32px, 9vw, 38px);
+    top: 8px; right: 8px;
+    width: clamp(32px, 9vw, 38px); height: clamp(32px, 9vw, 38px);
     border: 1px solid rgba(22, 26, 22, .08);
     background: rgba(255, 255, 255, .96);
     box-shadow: 0 1px 4px rgba(0,0,0,.04);
   }
-
-  .shop-page .heart-btn svg {
-    width: clamp(16px, 4.5vw, 19px);
-    height: clamp(16px, 4.5vw, 19px);
-  }
+  .shop-page .heart-btn svg { width: clamp(16px, 4.5vw, 19px); height: clamp(16px, 4.5vw, 19px); }
 
   .shop-page .product-copy {
     min-height: 0;
     padding: clamp(10px, 3vw, 13px) clamp(9px, 3vw, 13px) clamp(10px, 3vw, 13px);
-    display: flex;
-    flex: 1;
-    flex-direction: column;
+    display: flex; flex: 1; flex-direction: column;
   }
 
   .shop-page .product-copy > p {
@@ -129,36 +106,26 @@
     text-wrap: balance;
   }
 
-  .shop-page .product-copy small {
-    min-height: 0;
-    margin-top: 6px;
-    font-size: clamp(9.5px, 2.5vw, 10.75px);
-    line-height: 1.3;
-  }
-
-  /* The product name already communicates flavor. On cards, reserve the facts row
-     for decision-useful format information instead of repeating that flavor. */
+  /* Product name already carries flavor. The compact facts line is reserved for
+     potency + physical format: “10 mg THC / can · 12 fl oz”. The current JSX
+     still emits flavor first, volume second and potency third, so presentation
+     deliberately suppresses the redundant first value and reorders the rest. */
   .shop-page .product-facts {
+    min-height: 1.35em;
+    margin-top: 7px;
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    column-gap: 0;
-    row-gap: 2px;
+    gap: 0;
+    color: #5d655f;
+    font-size: clamp(9.5px, 2.5vw, 10.75px);
+    line-height: 1.3;
+    font-weight: 600;
   }
-
-  .shop-page .product-facts > span:first-child {
-    display: none;
-  }
-
-  .shop-page .product-facts > span:nth-child(3) {
-    order: 1;
-  }
-
-  .shop-page .product-facts > span:nth-child(2) {
-    order: 2;
-  }
-
-  .shop-page .product-facts > span:not(:first-child):not(:last-child)::after {
+  .shop-page .product-facts > span:first-child { display: none; }
+  .shop-page .product-facts > span:nth-child(3) { order: 1; }
+  .shop-page .product-facts > span:nth-child(2) { order: 2; }
+  .shop-page .product-facts > span:nth-child(3)::after {
     content: " · ";
     white-space: pre;
   }
@@ -179,46 +146,27 @@
   }
 
   .shop-page .variant-trigger {
-    width: 100%;
-    min-width: 0;
-    min-height: 44px;
-    height: clamp(44px, 12vw, 48px);
+    width: 100%; min-width: 0; min-height: 44px; height: clamp(44px, 12vw, 48px);
     padding-inline: clamp(9px, 2.8vw, 12px) !important;
     border-radius: 7px;
     font-size: clamp(10px, 2.8vw, 11.5px);
   }
 
-  /* Add-to-cart stays visually compact but now meets a proper mobile touch target. */
   .shop-page .add-square {
-    width: clamp(44px, 12vw, 48px);
-    min-width: 44px;
-    height: clamp(44px, 12vw, 48px);
-    min-height: 44px;
-    padding: 0;
-    display: grid;
-    place-items: center;
-    border: 0;
-    border-radius: 7px;
-    background: #111;
-    color: #fff;
-    font-size: 0;
-    line-height: 0;
+    width: clamp(44px, 12vw, 48px); min-width: 44px;
+    height: clamp(44px, 12vw, 48px); min-height: 44px;
+    padding: 0; display: grid; place-items: center;
+    border: 0; border-radius: 7px;
+    background: #111; color: #fff;
+    font-size: 0; line-height: 0;
   }
-
   .shop-page .add-square svg {
-    display: block;
-    width: clamp(18px, 5vw, 21px);
-    height: clamp(18px, 5vw, 21px);
-    margin: 0;
-    stroke-width: 2;
+    display: block; width: clamp(18px, 5vw, 21px); height: clamp(18px, 5vw, 21px);
+    margin: 0; stroke-width: 2;
   }
-
-  .shop-page .variant-menu {
-    min-width: min(165px, calc(100vw - 24px));
-  }
+  .shop-page .variant-menu { min-width: min(165px, calc(100vw - 24px)); }
 }
 
-/* Container-aware refinement keeps the two-up grid readable on narrow cards. */
 @container (max-width: 165px) {
   .shop-page .product-copy h3 { font-size: 13.5px; }
   .shop-page .product-copy { padding-inline: 9px; }
@@ -226,27 +174,15 @@
   .shop-page .variant-trigger { font-size: 10px; }
 }
 
-/* Narrow phones retain two-up merchandising without clipping the product stage. */
 @media (max-width: 380px) {
-  .shop-page {
-    padding-inline: 10px;
-  }
-
-  .shop-page .product-grid.listing-grid {
-    gap: 7px;
-  }
-
+  .shop-page { padding-inline: 10px; }
+  .shop-page .product-grid.listing-grid { gap: 7px; }
   .shop-page .product-media,
-  .shop-page .listing-grid .product-media {
-    padding: 9px 7px;
-  }
+  .shop-page .listing-grid .product-media { padding: 9px 7px; }
 }
 
 @media (min-width: 700px) and (max-width: 899px) {
-  .shop-page .product-grid.listing-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
-  }
+  .shop-page .product-grid.listing-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 }
 
 @media (min-width: 900px) {
@@ -255,14 +191,9 @@
     gap: clamp(20px, 1.75vw, 28px);
     align-items: stretch;
   }
-
-  .shop-page .product-grid.listing-grid > * {
-    height: 100%;
-  }
+  .shop-page .product-grid.listing-grid > * { height: 100%; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .shop-page .product-grid.listing-grid > * {
-    transition: none !important;
-  }
+  .shop-page .product-grid.listing-grid > * { transition: none !important; }
 }
