@@ -1,106 +1,26 @@
-/* Product merchandising integrity layer.
-   Loaded after legacy/catalog compatibility CSS so verified commerce data has one
-   authoritative presentation contract across mobile and desktop. */
+/* Product merchandising integrity layer. Loaded last so current commerce UI wins. */
 
-/* Review UI remains available for a real review provider. Never manufacture stars.
-   A connected review component should set data-review-count and render its verified
-   rating only when count > 0. Empty state stays compact and text-only. */
-.review-line,
-.pdp .review-line,
-.product-card .review-line {
-  display: flex !important;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 6px;
-  min-height: 16px;
-  margin: 6px 0 0;
-  color: #68706a;
-  font: 500 11px/1.25 var(--font-ui);
-}
-.review-line[data-review-count="0"] .stars,
-.review-line[data-review-count="0"] [data-review-stars],
-.review-line[data-review-count="0"] .rating-value {
-  display: none !important;
-}
-.review-line[data-review-count="0"] .review-empty::before {
-  content: "No reviews";
-}
-.review-line[data-review-count]:not([data-review-count="0"]) .review-empty {
-  display: none !important;
-}
+/* Reviews: zero state is text-only. Verified provider content remains supported when
+   data-review-count is greater than zero. */
+.review-line,.pdp .review-line,.product-card .review-line{display:flex!important;align-items:center!important;gap:6px!important;min-height:0!important;margin:7px 0 0!important;color:#68706a!important;font:500 12px/1.25 var(--font-ui)!important}
+.review-line[data-review-count="0"]>*{display:none!important}
+.review-line[data-review-count="0"]::after{content:"No reviews";display:block;color:#68706a}
+.review-line[data-review-count]:not([data-review-count="0"])::after{content:none}
+.product-card .product-copy:not(:has(>.review-line))::before,.pdp-copy:not(:has(>.review-line))::before{content:"No reviews";color:#68706a;font:500 11px/1.25 var(--font-ui);order:2;margin-top:7px}
 
-/* Until a verified provider mounts a review-line, expose a truthful neutral empty
-   state. :has() automatically removes this fallback the moment live review markup
-   is present, so provider data always wins and is never duplicated. */
-.product-card .product-copy:not(:has(> .review-line))::before,
-.pdp-copy:not(:has(> .review-line))::before {
-  content: "No reviews";
-  color: #68706a;
-  font: 500 11px/1.25 var(--font-ui);
-}
-.product-card .product-copy:not(:has(> .review-line))::before {
-  order: 2;
-  margin-top: 6px;
-}
+/* Keep price as its own row. Strip any legacy decorative review pseudo content. */
+.pdp-copy>p:first-child{order:0}.pdp-copy>h1{order:1}.pdp-copy>.review-line{order:2}
+.pdp-copy>h2{display:block!important;width:max-content!important;order:3!important;margin:12px 0 0!important;color:#111713!important;font-variant-numeric:tabular-nums}
+.pdp-copy>h2::before,.pdp-copy>h2::after{content:none!important;display:none!important}
+.pdp-copy>.meta-pills{order:4}.pdp-copy>.pdp-desc{order:5}.pdp-copy>div:not(.meta-pills):not(.pdp-details):not(.review-line){order:6}.pdp .qty-row{order:7}.pdp .primary-bar{order:8}.pdp .pdp-details{order:9}
 
-/* PDP commerce hierarchy: brand -> product name -> reviews -> price -> verified facts. */
-.pdp-copy > p:first-child { order: 0; }
-.pdp-copy > h1 { order: 1; }
-.pdp-copy > .review-line { order: 2; }
-.pdp-copy:not(:has(> .review-line))::before {
-  order: 2;
-  margin-top: 8px;
-}
-.pdp-copy > h2 {
-  order: 3;
-  margin-top: clamp(10px, 2.8vw, 14px);
-  font-variant-numeric: tabular-nums;
-}
-.pdp-copy > .meta-pills {
-  order: 4;
-  margin-top: clamp(12px, 3vw, 16px);
-}
-.pdp-copy > .pdp-desc { order: 5; }
-.pdp-copy > div:not(.meta-pills):not(.pdp-details):not(.review-line) { order: 6; }
-.pdp .qty-row { order: 7; }
-.pdp .primary-bar { order: 8; }
-.pdp .pdp-details { order: 9; }
+/* Product type is redundant. Replace heavy chips with a quiet inline specification row. */
+.pdp .meta-pills{display:flex!important;flex-wrap:wrap!important;align-items:center!important;gap:0!important;margin:14px 0 0!important;padding:0!important;color:#59615c}
+.pdp .meta-pills>span{min-height:0!important;padding:0!important;display:inline!important;color:inherit!important;background:transparent!important;border:0!important;border-radius:0!important;font:650 13px/1.4 var(--font-primary)!important}
+.pdp .meta-pills>span:first-child{display:none!important}
+.pdp .meta-pills>span:not(:first-child):not(:last-child)::after{content:" · ";white-space:pre;color:#9a9f9b}
 
-/* Product/category context already communicates that this is a THC seltzer.
-   Hide the redundant type pill and keep only decision-useful verified attributes. */
-.pdp .meta-pills {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-}
-.pdp .meta-pills > span:first-child {
-  display: none !important;
-}
+/* Catalog cards: remove redundant flavor; potency first, then package size. */
+.shop-page .product-facts>span:first-child{display:none!important}.shop-page .product-facts>span:nth-child(3){order:1}.shop-page .product-facts>span:nth-child(2){order:2}.shop-page .product-facts>span:nth-child(3)::after{content:" · ";white-space:pre}
 
-/* Current catalog ProductCard still emits flavor first, volume second and potency
-   third. Product names already communicate flavor, so suppress that redundant value
-   and present the remaining verified seltzer facts potency-first. */
-.shop-page .product-facts > span:first-child { display: none !important; }
-.shop-page .product-facts > span:nth-child(3) { order: 1; }
-.shop-page .product-facts > span:nth-child(2) { order: 2; }
-.shop-page .product-facts > span:nth-child(3)::after {
-  content: " · ";
-  white-space: pre;
-}
-
-@media (max-width: 699px) {
-  .product-card .review-line,
-  .product-card .product-copy:not(:has(> .review-line))::before {
-    min-height: 14px;
-    margin-top: 5px;
-    font-size: clamp(9.5px, 2.5vw, 10.5px);
-  }
-  .pdp-copy > .review-line,
-  .pdp-copy:not(:has(> .review-line))::before {
-    margin-top: 8px;
-    font-size: 12px;
-  }
-  .pdp-copy > h2 { margin-top: 10px; }
-  .pdp .meta-pills { margin-top: 14px; }
-}
+@media(max-width:699px){.product-card .review-line,.product-card .product-copy:not(:has(>.review-line))::before{font-size:10.5px!important;margin-top:5px!important}.pdp-copy>.review-line,.pdp-copy:not(:has(>.review-line))::before{margin-top:8px!important;font-size:12px!important}.pdp-copy>h2{margin-top:11px!important}.pdp .meta-pills{margin-top:13px!important}.pdp .meta-pills>span{font-size:12.5px!important}}
