@@ -10,7 +10,7 @@
     "dev": "vite",
     "build": "node scripts/build-pages.mjs",
     "build:pages": "node scripts/build-pages.mjs",
-    "build:strict": "cross-env BUILD_STRICT=1 node scripts/build-pages.mjs",
+    "build:strict": "node scripts/build-pages.mjs --strict",
     "check": "vite build --emptyOutDir",
     "audit:assets": "node scripts/audit-source-assets.mjs",
     "audit:build": "node scripts/validate-build.mjs docs",
