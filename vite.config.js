@@ -2,7 +2,11 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { fileURLToPath, URL } from 'node:url'
 
+const configuredBase = process.env.GITHUB_PAGES_BASE || (process.env.NODE_ENV === 'production' ? '/lagom-naturals/' : '/')
+const base = configuredBase === '/' ? '/' : `/${configuredBase.replace(/^\/+|\/+$/g, '')}/`
+
 export default defineConfig({
+  base,
   plugins: [react()],
   resolve: {
     alias: {
@@ -15,7 +19,10 @@ export default defineConfig({
     sourcemap: false,
     cssCodeSplit: true,
     minify: 'esbuild',
-    chunkSizeWarningLimit: 600,
+    reportCompressedSize: true,
+    chunkSizeWarningLimit: 300,
+    assetsInlineLimit: 4096,
+    modulePreload: { polyfill: false },
     rollupOptions: {
       output: {
         manualChunks(id) {
