@@ -1,5 +1,8 @@
 /* Product merchandising integrity layer. Loaded last so current commerce UI wins. */
 
+/* Favorites/saved-product UI is intentionally not part of the storefront. */
+.heart-btn{display:none!important}
+
 /* Reviews: zero state is text-only. Verified provider content remains supported when
    data-review-count is greater than zero. */
 .review-line,.pdp .review-line,.product-card .review-line{display:flex!important;align-items:center!important;gap:6px!important;min-height:0!important;margin:7px 0 0!important;color:#68706a!important;font:500 12px/1.25 var(--font-ui)!important}
@@ -7,20 +10,7 @@
 .review-line[data-review-count="0"]::after{content:"No reviews";display:block;color:#68706a}
 .review-line[data-review-count]:not([data-review-count="0"])::after{content:none}
 .product-card .product-copy:not(:has(>.review-line))::before,.pdp-copy:not(:has(>.review-line))::before{content:"No reviews";color:#68706a;font:500 11px/1.25 var(--font-ui);order:2;margin-top:7px}
-
-/* Keep price as its own row. Strip any legacy decorative review pseudo content. */
-.pdp-copy>p:first-child{order:0}.pdp-copy>h1{order:1}.pdp-copy>.review-line{order:2}
-.pdp-copy>h2{display:block!important;width:max-content!important;order:3!important;margin:12px 0 0!important;color:#111713!important;font-variant-numeric:tabular-nums}
-.pdp-copy>h2::before,.pdp-copy>h2::after{content:none!important;display:none!important}
-.pdp-copy>.meta-pills{order:4}.pdp-copy>.pdp-desc{order:5}.pdp-copy>div:not(.meta-pills):not(.pdp-details):not(.review-line){order:6}.pdp .qty-row{order:7}.pdp .primary-bar{order:8}.pdp .pdp-details{order:9}
-
-/* Product type is redundant. Replace heavy chips with a quiet inline specification row. */
-.pdp .meta-pills{display:flex!important;flex-wrap:wrap!important;align-items:center!important;gap:0!important;margin:14px 0 0!important;padding:0!important;color:#59615c}
-.pdp .meta-pills>span{min-height:0!important;padding:0!important;display:inline!important;color:inherit!important;background:transparent!important;border:0!important;border-radius:0!important;font:650 13px/1.4 var(--font-primary)!important}
-.pdp .meta-pills>span:first-child{display:none!important}
-.pdp .meta-pills>span:not(:first-child):not(:last-child)::after{content:" · ";white-space:pre;color:#9a9f9b}
-
-/* Catalog cards: remove redundant flavor; potency first, then package size. */
+.pdp-copy>p:first-child{order:0}.pdp-copy>h1{order:1}.pdp-copy>.review-line{order:2}.pdp-copy>h2{display:block!important;width:max-content!important;order:3!important;margin:12px 0 0!important;color:#111713!important;font-variant-numeric:tabular-nums}.pdp-copy>h2::before,.pdp-copy>h2::after{content:none!important;display:none!important}.pdp-copy>.meta-pills{order:4}.pdp-copy>.pdp-desc{order:5}.pdp-copy>div:not(.meta-pills):not(.pdp-details):not(.review-line){order:6}.pdp .qty-row{order:7}.pdp .primary-bar{order:8}.pdp .pdp-details{order:9}
+.pdp .meta-pills{display:flex!important;flex-wrap:wrap!important;align-items:center!important;gap:0!important;margin:14px 0 0!important;padding:0!important;color:#59615c}.pdp .meta-pills>span{min-height:0!important;padding:0!important;display:inline!important;color:inherit!important;background:transparent!important;border:0!important;border-radius:0!important;font:650 13px/1.4 var(--font-primary)!important}.pdp .meta-pills>span:first-child{display:none!important}.pdp .meta-pills>span:not(:first-child):not(:last-child)::after{content:" · ";white-space:pre;color:#9a9f9b}
 .shop-page .product-facts>span:first-child{display:none!important}.shop-page .product-facts>span:nth-child(3){order:1}.shop-page .product-facts>span:nth-child(2){order:2}.shop-page .product-facts>span:nth-child(3)::after{content:" · ";white-space:pre}
-
 @media(max-width:699px){.product-card .review-line,.product-card .product-copy:not(:has(>.review-line))::before{font-size:10.5px!important;margin-top:5px!important}.pdp-copy>.review-line,.pdp-copy:not(:has(>.review-line))::before{margin-top:8px!important;font-size:12px!important}.pdp-copy>h2{margin-top:11px!important}.pdp .meta-pills{margin-top:13px!important}.pdp .meta-pills>span{font-size:12.5px!important}}
