@@ -1,0 +1,35 @@
+name: Geocode supplier locations
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/geocode-stores.mjs'
+      - '.github/workflows/geocode-stores.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  geocode:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.19.0'
+      - name: Resolve and cross-check store coordinates
+        run: node scripts/geocode-stores.mjs
+      - name: Commit verified coordinate dataset
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/store-geocodes.json src/data/store-geocode-report.json
+          if git diff --cached --quiet; then
+            echo "No coordinate changes."
+          else
+            git commit -m "Generate supplier coordinate dataset"
+            git push
+          fi
