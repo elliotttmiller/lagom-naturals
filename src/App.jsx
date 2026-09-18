@@ -1100,9 +1100,9 @@ function AboutPage() {
           <div className="story-origin__visual">
             <figure className="story-origin__figure">
               <StoryPicture
-                desktopWebp={storyJustEnoughDesktopWebp}
-                mobileWebp={storyJustEnoughMobileWebp}
-                alt="Sunset over a rocky Minnesota lakeshore"
+                desktopWebp={storyCheersDesktopWebp}
+                mobileWebp={storyCheersMobileWebp}
+                alt="Friends sharing Lagom seltzers outdoors"
               />
             </figure>
             <aside className="story-origin__rail" aria-label="Our philosophy">
@@ -1114,9 +1114,9 @@ function AboutPage() {
         <section className="story-life" id="philosophy">
           <figure>
             <StoryPicture
-              desktopWebp={storyCheersDesktopWebp}
-              mobileWebp={storyCheersMobileWebp}
-              alt="Friends sharing Lagom seltzers outdoors"
+              desktopWebp={storyJustEnoughDesktopWebp}
+              mobileWebp={storyJustEnoughMobileWebp}
+              alt="Sunset over a rocky Minnesota lakeshore"
             />
           </figure>
           <div className="story-life__copy">
