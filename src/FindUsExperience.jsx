@@ -35,6 +35,7 @@ const SHOPS=[
 
 const mapsEmbed=shop=>`https://www.google.com/maps?q=${encodeURIComponent(shop.address)}&output=embed`
 const mapsDirections=shop=>`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(shop.address)}`
+const mapsPlace=shop=>`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(shop.address)}`
 const phoneLabel=p=>p?`(${p.slice(-10,-7)}) ${p.slice(-7,-4)}-${p.slice(-4)}`:''
 const initials=name=>name.replace(/[^A-Za-z0-9 ]/g,'').split(/\s+/).filter(Boolean).slice(0,2).map(word=>word[0]).join('').toUpperCase()
 const logoFor=shop=>{if(!shop.website)return '';try{return `https://www.google.com/s2/favicons?domain_url=${encodeURIComponent(new URL(shop.website).origin)}&sz=128`}catch{return ''}}
@@ -42,6 +43,13 @@ const logoFor=shop=>{if(!shop.website)return '';try{return `https://www.google.c
 function SearchIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.2 4.2"/></svg>}
 function PinIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.4 6-11a6 6 0 1 0-12 0c0 5.6 6 11 6 11Z"/><circle cx="12" cy="10" r="2"/></svg>}
 function ArrowIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M14 7l5 5-5 5"/></svg>}
+function ExternalIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 5h5v5M19 5l-8 8"/><path d="M18 13v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>}
+
+function BrandMapPin(){
+  return <span className="find-map-brand-pin" aria-hidden="true">
+    <span><img src="/lagom-logo-icon-white.svg" alt=""/></span>
+  </span>
+}
 
 function RetailerMark({shop}){
   const src=logoFor(shop);const [failed,setFailed]=React.useState(false)
@@ -63,16 +71,29 @@ export default function FindUsExperience(){
   const {pathname}=useLocation();const [query,setQuery]=React.useState('');const [selected,setSelected]=React.useState(SHOPS[0])
   if(pathname!=='/visit')return null
   const q=query.trim().toLowerCase();const visible=q?SHOPS.filter(s=>`${s.name} ${s.address}`.toLowerCase().includes(q)):SHOPS
-  const choose=shop=>{setSelected(shop);if(window.innerWidth<900)document.querySelector('.find-map-pane')?.scrollIntoView({behavior:'smooth',block:'start'})}
+  const choose=shop=>{setSelected(shop);if(window.innerWidth<900)document.querySelector('.find-map-pane')?.scrollIntoView({behavior:'smooth',block:'center'})}
   return <section className="find-experience" aria-labelledby="find-title">
-    <div className="find-mobile-visual" aria-hidden="true"><img src={storefrontMobile} alt=""/></div>
+    <div className="find-mobile-hero">
+      <img src={storefrontMobile} alt="Lagom Naturals storefront district"/>
+      <div className="find-mobile-hero__shade" aria-hidden="true"/>
+      <div className="find-mobile-hero__copy">
+        <h1 id="find-title">Find<br/>Lagom<br/>Near You</h1>
+        <p>GREAT FLAVORS.<br/>REAL PLACES.<br/>HIGHER DAYS AHEAD.</p>
+        <span aria-hidden="true"/>
+      </div>
+    </div>
     <div className="find-shell">
       <aside className="find-sidebar">
         <div className="find-intro">
           <p className="find-eyebrow">FIND US</p>
-          <h1 id="find-title">Find Lagom<br/>Near You</h1>
+          <h1>Find Lagom<br/>Near You</h1>
         </div>
-        <label className="find-search"><span className="sr-only">Search locations</span><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Enter your city, ZIP, or shop name"/><SearchIcon/></label>
+        <label className="find-search">
+          <span className="sr-only">Search locations</span>
+          <span className="find-search__pin" aria-hidden="true"><PinIcon/></span>
+          <input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Enter your city, ZIP, or shop name"/>
+          <SearchIcon/>
+        </label>
         <div className="find-result-meta"><span>{visible.length} locations</span><span>Minnesota + Wisconsin</span></div>
         <div className="find-location-list" aria-live="polite">
           {visible.map(shop=><LocationRow key={shop.id} shop={shop} selected={selected.id===shop.id} onSelect={choose}/>)}
@@ -81,6 +102,8 @@ export default function FindUsExperience(){
       </aside>
       <div className="find-map-pane">
         <iframe key={selected.id} title={`Map — ${selected.name}`} src={mapsEmbed(selected)} loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen/>
+        <a className="find-map-open" href={mapsPlace(selected)} target="_blank" rel="noreferrer">Open in Maps <ExternalIcon/></a>
+        <BrandMapPin/>
         <article className="find-map-popover">
           <div className="find-map-popover__identity"><RetailerMark shop={selected}/><span><small>SELECTED LOCATION</small><strong>{selected.name}</strong></span></div>
           <address>{selected.street}<br/>{selected.city}, {selected.state} {selected.zip}</address>
