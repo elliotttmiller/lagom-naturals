@@ -33,7 +33,7 @@ const SHOPS=[
 ['Westwood Liquor','2304 Louisiana Ave S','St Louis Park','MN','55426','+19525447878','']
 ].map(([name,street,city,state,zip,phone,website],i)=>({id:i+1,name,street,city,state,zip,phone,website,address:`${street}, ${city}, ${state} ${zip}`}))
 
-const mapsEmbed=shop=>`https://maps.google.com/maps?hl=en&z=14&q=${encodeURIComponent(shop.address)}&output=embed`
+const osmEmbed=({lat,lon})=>{const y=Number(lat),x=Number(lon),dy=.018,dx=.028;return `https://www.openstreetmap.org/export/embed.html?bbox=${x-dx}%2C${y-dy}%2C${x+dx}%2C${y+dy}&layer=mapnik`}
 const mapsDirections=shop=>`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(shop.address)}`
 const mapsPlace=shop=>`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(shop.address)}`
 const phoneLabel=p=>p?`(${p.slice(-10,-7)}) ${p.slice(-7,-4)}-${p.slice(-4)}`:''
@@ -47,7 +47,7 @@ function ExternalIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path
 
 function BrandMapPin(){
   return <span className="find-map-brand-pin" aria-hidden="true">
-    <span><img src="/lagom-logo-icon-white.svg" alt=""/></span>
+    <span><img src={`${import.meta.env.BASE_URL}lagom-logo-icon-white.svg`} alt=""/></span>
   </span>
 }
 
@@ -68,7 +68,8 @@ function LocationRow({shop,selected,onSelect}){
 }
 
 export default function FindUsExperience(){
-  const {pathname}=useLocation();const [query,setQuery]=React.useState('');const [selected,setSelected]=React.useState(SHOPS[0])
+  const {pathname}=useLocation();const [query,setQuery]=React.useState('');const [selected,setSelected]=React.useState(SHOPS[0]);const [mapPoint,setMapPoint]=React.useState(null);const [mapStatus,setMapStatus]=React.useState('loading')
+  React.useEffect(()=>{let live=true;const controller=new AbortController();setMapStatus('loading');setMapPoint(null);fetch(`https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=us&q=${encodeURIComponent(selected.address)}`,{signal:controller.signal,headers:{Accept:'application/json'}}).then(r=>{if(!r.ok)throw new Error('geocode');return r.json()}).then(rows=>{if(!live)return;if(rows?.[0]?.lat&&rows?.[0]?.lon){setMapPoint({lat:rows[0].lat,lon:rows[0].lon});setMapStatus('ready')}else setMapStatus('error')}).catch(e=>{if(live&&e.name!=='AbortError')setMapStatus('error')});return()=>{live=false;controller.abort()}},[selected.address])
   if(pathname!=='/visit')return null
   const q=query.trim().toLowerCase();const visible=q?SHOPS.filter(s=>`${s.name} ${s.address}`.toLowerCase().includes(q)):SHOPS
   const choose=shop=>{setSelected(shop);if(window.innerWidth<900)document.querySelector('.find-map-pane')?.scrollIntoView({behavior:'smooth',block:'center'})}
@@ -101,7 +102,7 @@ export default function FindUsExperience(){
         </div>
       </aside>
       <div className="find-map-pane">
-        <iframe key={selected.id} title={`Map — ${selected.name}`} src={mapsEmbed(selected)} loading="eager" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen/>
+        {mapPoint?<iframe key={selected.id} title={`Interactive map — ${selected.name}`} src={osmEmbed(mapPoint)} loading="eager" referrerPolicy="strict-origin-when-cross-origin"/>:<div className="find-map-state" role="status">{mapStatus==='error'?'Map unavailable — select a location or open directions.':'Loading map…'}</div>}
         <a className="find-map-open" href={mapsPlace(selected)} target="_blank" rel="noreferrer">Open in Maps <ExternalIcon/></a>
         <BrandMapPin/>
         <article className="find-map-popover">
