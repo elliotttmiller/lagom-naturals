@@ -1142,6 +1142,11 @@ function AboutPage() {
             <span><span className="story-eye" aria-hidden="true">◉</span><b>A MORE<br />BALANCED YOU</b></span>
           </div>
         </section>
+        <section className="story-closing-reference" aria-labelledby="lagom-way-title">
+          <p>THE LAGOM WAY</p>
+          <h2 id="lagom-way-title">Premium Ingredients.<br />A Brighter Tomorrow.</h2>
+          <i aria-hidden="true" />
+        </section>
       </main>
     </Shell>
   );
