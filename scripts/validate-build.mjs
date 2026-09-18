@@ -56,7 +56,7 @@ const index = await readFile(join(root, 'index.html'), 'utf8')
 for (const marker of ['property="og:image"', 'name="twitter:card"', '<meta name="description"', '<link rel="canonical"']) {
   if (!index.includes(marker)) violations.push(`index.html is missing required metadata: ${marker}`)
 }
-if (/src="\/lagom-|href="\/lagom-/.test(index)) violations.push('index.html contains a root-relative Lagom public asset that will break on repository-scoped Pages')
+if (/(?:src|href)="\/(?!lagom-naturals\/)(?:lagom-)/.test(index)) violations.push('index.html contains a root-relative Lagom public asset that will break on repository-scoped Pages')
 
 console.log(`\nProduction build audit: ${files.length} files, ${(totalBytes / MB).toFixed(2)} MB total`)
 if (opportunities.length) {

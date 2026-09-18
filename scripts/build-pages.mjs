@@ -46,6 +46,7 @@ async function normalizeLegacyPublicUrls(directory) {
     const normalized = source
       .replace(/(?<![A-Za-z0-9/_-])\/lagom-logo\.svg/g, `${base}lagom-logo.svg`)
       .replace(/(?<![A-Za-z0-9/_-])\/lagom-logo-icon\.svg/g, `${base}lagom-logo-icon.svg`)
+      .replace(/(?<![A-Za-z0-9/_-])\/lagom-logo-icon-white\.svg/g, `${base}lagom-logo-icon-white.svg`)
     if (normalized !== source) await writeFile(filePath, normalized)
   }
 }
