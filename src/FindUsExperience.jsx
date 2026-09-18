@@ -1,6 +1,6 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
-import storefrontMobile from '@/assets/mobile/main-store.webp'
+import findUsHero from '@/assets/mobile/find-us-hero.png'
 
 const SHOPS=[
 ['Barstock Liquors','31 E Main St','Crosby','MN','56441','+12185453004','http://www.barstockliquors.com/'],
@@ -74,7 +74,7 @@ export default function FindUsExperience(){
   const choose=shop=>{setSelected(shop);if(window.innerWidth<900)document.querySelector('.find-map-pane')?.scrollIntoView({behavior:'smooth',block:'center'})}
   return <section className="find-experience" aria-labelledby="find-title">
     <div className="find-mobile-hero">
-      <img src={storefrontMobile} alt="Lagom Naturals storefront district"/>
+      <img src={findUsHero} alt="Lagom Naturals storefront district"/>
       <div className="find-mobile-hero__shade" aria-hidden="true"/>
       <div className="find-mobile-hero__copy">
         <h1 id="find-title">Find<br/>Lagom<br/>Near You</h1>
