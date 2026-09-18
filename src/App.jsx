@@ -46,17 +46,11 @@ import HamburgerToggle from "./HamburgerToggle";
 import storefront from "@/assets/store/storefront-day.webp";
 import hospitality from "@/assets/store/extra-store2.webp";
 import storyHeroDesktopWebp from "@/assets/our-story/hero-desktop.webp";
-import storyHeroDesktopPng from "@/assets/our-story/hero-desktop.png";
 import storyHeroMobileWebp from "@/assets/our-story/hero-mobile.webp";
-import storyHeroMobilePng from "@/assets/our-story/hero-mobile.png";
 import storyJustEnoughDesktopWebp from "@/assets/our-story/just-enough-desktop.webp";
-import storyJustEnoughDesktopPng from "@/assets/our-story/just-enough-desktop.png";
 import storyJustEnoughMobileWebp from "@/assets/our-story/just-enough-mobile.webp";
-import storyJustEnoughMobilePng from "@/assets/our-story/just-enough-mobile.png";
 import storyCheersDesktopWebp from "@/assets/our-story/cheers-desktop.webp";
-import storyCheersDesktopPng from "@/assets/our-story/cheers-desktop.png";
 import storyCheersMobileWebp from "@/assets/our-story/cheers-mobile.webp";
-import storyCheersMobilePng from "@/assets/our-story/cheers-mobile.png";
 
 const MENU_DURATION = 600,
   MENU_EASE = [0.4, 0, 0.2, 1];
@@ -1057,14 +1051,12 @@ function VisitPage() {
     </Shell>
   );
 }
-function StoryPicture({ desktopWebp, desktopPng, mobileWebp, mobilePng, alt = "", className = "", eager = false }) {
+function StoryPicture({ desktopWebp, mobileWebp, alt = "", className = "", eager = false }) {
   return (
     <picture className={className}>
       <source media="(max-width: 699px)" srcSet={mobileWebp} type="image/webp" />
-      <source media="(max-width: 699px)" srcSet={mobilePng} type="image/png" />
-      <source srcSet={desktopWebp} type="image/webp" />
       <img
-        src={desktopPng}
+        src={desktopWebp}
         alt={alt}
         loading={eager ? "eager" : "lazy"}
         fetchPriority={eager ? "high" : "auto"}
@@ -1082,9 +1074,7 @@ function AboutPage() {
           <StoryPicture
             className="story-hero__picture"
             desktopWebp={storyHeroDesktopWebp}
-            desktopPng={storyHeroDesktopPng}
             mobileWebp={storyHeroMobileWebp}
-            mobilePng={storyHeroMobilePng}
             eager
           />
           <div className="story-hero__shade" aria-hidden="true" />
@@ -1111,9 +1101,7 @@ function AboutPage() {
             <figure className="story-origin__figure">
               <StoryPicture
                 desktopWebp={storyJustEnoughDesktopWebp}
-                desktopPng={storyJustEnoughDesktopPng}
                 mobileWebp={storyJustEnoughMobileWebp}
-                mobilePng={storyJustEnoughMobilePng}
                 alt="Sunset over a rocky Minnesota lakeshore"
               />
             </figure>
@@ -1127,9 +1115,7 @@ function AboutPage() {
           <figure>
             <StoryPicture
               desktopWebp={storyCheersDesktopWebp}
-              desktopPng={storyCheersDesktopPng}
               mobileWebp={storyCheersMobileWebp}
-              mobilePng={storyCheersMobilePng}
               alt="Friends sharing Lagom seltzers outdoors"
             />
           </figure>
