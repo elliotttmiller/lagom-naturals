@@ -1048,47 +1048,52 @@ function VisitPage() {
 function AboutPage() {
   return (
     <Shell>
-      <main className="about-page">
-        <section className="about-hero">
-          <div className="about-hero__copy">
-            <p>OUR STORY</p>
-            <h1>Just the right amount.</h1>
-            <div className="about-hero__intro">
-              <p>The Swedish idea behind our name is simple: <em>lagom</em> means neither too much nor too little—just right.</p>
-              <p>Founded by four friends and rooted in Minneapolis’ North Loop, Lagom Naturals began with a shared belief that thoughtfully made THC products should feel considered, approachable, and made for real life.</p>
-            </div>
+      <main className="about-page about-story-page">
+        <section className="story-hero" aria-labelledby="story-title">
+          <img className="story-hero__image" src={hospitality} alt="" />
+          <div className="story-hero__shade" aria-hidden="true" />
+          <div className="story-hero__content">
+            <p className="story-kicker">OUR STORY</p>
+            <h1 id="story-title">A More<br />Balanced You</h1>
+            <p className="story-hero__lede">Thoughtfully crafted THC seltzers for life’s<br className="story-desktop-break" /> good moments — and everything in between.</p>
+            <a className="story-pill story-pill--light" href="#our-story">OUR STORY <span aria-hidden="true">↓</span></a>
           </div>
-          <div className="about-hero__media"><img src={hospitality} alt="Lagom Naturals in a considered social setting" /></div>
-        </section>
-        <Reveal className="about-origin">
-          <div className="about-origin__heading"><span>ROOTED IN MINNEAPOLIS</span><h2>Built from a shared vision.</h2></div>
-          <div className="about-story__body">
-            <p>Our story began in Minnesota with four friends and a belief that high-quality THC products could be made with greater intention, transparency, and care.</p>
-            <p>That North Loop perspective still shapes how we approach the work: stay close to community, keep the experience approachable, and make every choice feel considered.</p>
-          </div>
-        </Reveal>
-        <figure className="about-image">
-          <img src={storefront} alt="Lagom Naturals storefront in Minneapolis" />
-          <figcaption><span>MINNEAPOLIS, MINNESOTA</span><span>OUR ROOTS</span></figcaption>
-        </figure>
-        <section className="about-values" aria-labelledby="about-values-title">
-          <div className="about-values__intro">
-            <p>WHAT GUIDES US</p>
-            <h2 id="about-values-title">Made with intention.</h2>
-            <p>Principles that keep the brand grounded as Lagom grows.</p>
-          </div>
-          <div className="about-values__list">
-            <article><span>01</span><div><h3>Quality without shortcuts</h3><p>Thoughtfully crafted products and high standards remain central to every experience carrying the Lagom name.</p></div></article>
-            <article><span>02</span><div><h3>Transparency by design</h3><p>Clear, useful information should make every product easier to understand and every choice more confident.</p></div></article>
-            <article><span>03</span><div><h3>Innovation with purpose</h3><p>New ideas matter when they make the product, the experience, or the way people connect meaningfully better.</p></div></article>
-            <article><span>04</span><div><h3>Community first</h3><p>Local relationships, inclusivity, and a genuine sense of belonging are part of how Lagom was built.</p></div></article>
-            <article><span>05</span><div><h3>Growing thoughtfully</h3><p>Minnesota is home. Expansion into neighboring states and beyond should remain measured, intentional, and true to our roots.</p></div></article>
+          <div className="story-hero__proof" aria-label="Lagom values">
+            <span>REAL INGREDIENTS</span><i aria-hidden="true" /><span>REAL MOMENTS</span><i aria-hidden="true" /><span>A BRIGHTER TOMORROW</span>
           </div>
         </section>
-        <section className="about-closing" aria-label="The meaning of Lagom">
-          <p>LAGOM / LAH-GOM</p>
-          <h2>Neither too much<br />nor too little.</h2>
-          <em>Just right.</em>
+
+        <section className="story-origin" id="our-story">
+          <div className="story-origin__copy">
+            <p className="story-kicker story-kicker--dark">OUR STORY</p>
+            <h2>It Started With<br />a Simple Idea</h2>
+            <p>Founded by four friends and rooted in Minneapolis’ North Loop, Lagom Naturals began with a shared belief that thoughtfully made THC products should feel considered, approachable, and made for real life.</p>
+            <p>The Swedish idea behind our name is simple: <em>lagom</em> means neither too much nor too little — just right.</p>
+            <a className="story-pill story-pill--dark" href="#philosophy">OUR PHILOSOPHY <span aria-hidden="true">→</span></a>
+          </div>
+          <div className="story-origin__visual">
+            <figure className="story-origin__figure">
+              <img src={storefront} alt="Lagom Naturals roots in Minnesota" loading="lazy" decoding="async" />
+              <span className="story-origin__script" aria-hidden="true">Just<br />Enough</span>
+            </figure>
+            <aside className="story-origin__rail" aria-label="Our philosophy">
+              <span>BETTER<br />INGREDIENTS</span><i /><span>BRIGHTER<br />MOMENTS</span><i /><span>BALANCED<br />LIVING</span><i />
+            </aside>
+          </div>
+        </section>
+
+        <section className="story-life" id="philosophy">
+          <figure><img src={hospitality} alt="Lagom THC seltzers shared in a social setting" loading="lazy" decoding="async" /></figure>
+          <div className="story-life__copy">
+            <p className="story-kicker story-kicker--dark">MORE THAN A BEVERAGE</p>
+            <h2>Built For Real Life</h2>
+            <p>We believe balance leads to better days. That’s why Lagom is more than a drink — it’s a mindset, a community, and a commitment to thoughtful experiences.</p>
+          </div>
+          <div className="story-life__principles" aria-label="Lagom product principles">
+            <span><Leaf aria-hidden="true" /><b>PREMIUM<br />INGREDIENTS</b></span>
+            <span><span className="story-sun" aria-hidden="true">☼</span><b>THOUGHTFUL<br />DOSING</b></span>
+            <span><span className="story-eye" aria-hidden="true">◉</span><b>A MORE<br />BALANCED YOU</b></span>
+          </div>
         </section>
       </main>
     </Shell>
