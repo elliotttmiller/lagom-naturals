@@ -1226,3 +1226,47 @@ p { letter-spacing: -.008em }
 .story-origin__figure{height:320px}
 }
 
+
+
+/* Our Story desktop composition corrections */
+@media(min-width:900px){
+  /* Escape the shared desktop page gutter so the hero behaves like Home. */
+  .about-story-page .story-hero{
+    width:100vw;
+    max-width:none;
+    margin-left:calc(50% - 50vw);
+    margin-right:calc(50% - 50vw);
+    height:clamp(610px,43vw,760px);
+  }
+  .about-story-page .story-hero__picture,
+  .about-story-page .story-hero__picture img{
+    width:100%;
+    height:100%;
+  }
+  .about-story-page .story-hero__picture img{
+    object-fit:cover;
+    object-position:center center;
+  }
+
+  /* Cheers now carries the primary editorial story image slot. */
+  .story-origin__figure{
+    height:clamp(320px,22.5vw,390px);
+    border-radius:0;
+    background:#ece8df;
+  }
+  .story-origin__figure img{
+    object-fit:cover;
+    object-position:center 48%;
+  }
+
+  /* Just Enough moves to the lower lifestyle band and gets a wider,
+     calmer crop rather than the previous tight social-photo treatment. */
+  .story-life>figure{
+    height:clamp(300px,22vw,370px);
+    background:#e8e1d5;
+  }
+  .story-life>figure img{
+    object-fit:cover;
+    object-position:center 52%;
+  }
+}
