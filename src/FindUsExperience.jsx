@@ -33,7 +33,7 @@ const SHOPS=[
 ['Westwood Liquor','2304 Louisiana Ave S','St Louis Park','MN','55426','+19525447878','']
 ].map(([name,street,city,state,zip,phone,website],i)=>({id:i+1,name,street,city,state,zip,phone,website,address:`${street}, ${city}, ${state} ${zip}`}))
 
-const mapsEmbed=shop=>`https://www.google.com/maps?q=${encodeURIComponent(shop.address)}&output=embed`
+const mapsEmbed=shop=>`https://maps.google.com/maps?hl=en&z=14&q=${encodeURIComponent(shop.address)}&output=embed`
 const mapsDirections=shop=>`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(shop.address)}`
 const mapsPlace=shop=>`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(shop.address)}`
 const phoneLabel=p=>p?`(${p.slice(-10,-7)}) ${p.slice(-7,-4)}-${p.slice(-4)}`:''
@@ -101,7 +101,7 @@ export default function FindUsExperience(){
         </div>
       </aside>
       <div className="find-map-pane">
-        <iframe key={selected.id} title={`Map — ${selected.name}`} src={mapsEmbed(selected)} loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen/>
+        <iframe key={selected.id} title={`Map — ${selected.name}`} src={mapsEmbed(selected)} loading="eager" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen/>
         <a className="find-map-open" href={mapsPlace(selected)} target="_blank" rel="noreferrer">Open in Maps <ExternalIcon/></a>
         <BrandMapPin/>
         <article className="find-map-popover">
