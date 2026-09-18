@@ -33,7 +33,6 @@ const SHOPS=[
 ['Westwood Liquor','2304 Louisiana Ave S','St Louis Park','MN','55426','+19525447878','']
 ].map(([name,street,city,state,zip,phone,website],i)=>({id:i+1,name,street,city,state,zip,phone,website,address:`${street}, ${city}, ${state} ${zip}`}))
 
-const osmEmbed=({lat,lon})=>{const y=Number(lat),x=Number(lon),dy=.018,dx=.028;return `https://www.openstreetmap.org/export/embed.html?bbox=${x-dx}%2C${y-dy}%2C${x+dx}%2C${y+dy}&layer=mapnik`}
 const mapsDirections=shop=>`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(shop.address)}`
 const mapsPlace=shop=>`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(shop.address)}`
 const phoneLabel=p=>p?`(${p.slice(-10,-7)}) ${p.slice(-7,-4)}-${p.slice(-4)}`:''
@@ -45,10 +44,82 @@ function PinIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M
 function ArrowIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M14 7l5 5-5 5"/></svg>}
 function ExternalIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 5h5v5M19 5l-8 8"/><path d="M18 13v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>}
 
-function BrandMapPin(){
-  return <span className="find-map-brand-pin" aria-hidden="true">
-    <span><img src={`${import.meta.env.BASE_URL}lagom-logo-icon-white.svg`} alt=""/></span>
-  </span>
+let leafletPromise
+function loadLeaflet(){
+  if(typeof window==='undefined') return Promise.reject(new Error('Leaflet requires a browser'))
+  if(window.L) return Promise.resolve(window.L)
+  if(leafletPromise) return leafletPromise
+  leafletPromise=new Promise((resolve,reject)=>{
+    if(!document.querySelector('link[data-lagom-leaflet]')){
+      const link=document.createElement('link')
+      link.rel='stylesheet'
+      link.href='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css'
+      link.dataset.lagomLeaflet='true'
+      document.head.appendChild(link)
+    }
+    const existing=document.querySelector('script[data-lagom-leaflet]')
+    if(existing){
+      existing.addEventListener('load',()=>resolve(window.L),{once:true})
+      existing.addEventListener('error',()=>reject(new Error('Unable to load map library')),{once:true})
+      return
+    }
+    const script=document.createElement('script')
+    script.src='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js'
+    script.async=true
+    script.dataset.lagomLeaflet='true'
+    script.onload=()=>resolve(window.L)
+    script.onerror=()=>reject(new Error('Unable to load map library'))
+    document.head.appendChild(script)
+  })
+  return leafletPromise
+}
+
+function InteractiveStoreMap({point,shop}){
+  const containerRef=React.useRef(null)
+  const mapRef=React.useRef(null)
+  const markerRef=React.useRef(null)
+  const [status,setStatus]=React.useState('loading')
+  React.useEffect(()=>{
+    if(!point||!containerRef.current)return
+    let cancelled=false
+    loadLeaflet().then(L=>{
+      if(cancelled||!containerRef.current)return
+      const latLng=[Number(point.lat),Number(point.lon)]
+      if(!mapRef.current){
+        const map=L.map(containerRef.current,{
+          zoomControl:false,
+          attributionControl:true,
+          scrollWheelZoom:false,
+          tap:true,
+        })
+        L.control.zoom({position:'topright'}).addTo(map)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+          maxZoom:19,
+          attribution:'&copy; OpenStreetMap contributors',
+        }).addTo(map)
+        mapRef.current=map
+      }
+      const map=mapRef.current
+      const iconUrl=`${import.meta.env.BASE_URL}lagom-logo-icon-white.svg`
+      const icon=L.divIcon({
+        className:'lagom-leaflet-pin',
+        html:`<span class="lagom-leaflet-pin__disc"><img src="${iconUrl}" alt=""></span><span class="lagom-leaflet-pin__tip"></span>`,
+        iconSize:[58,68],
+        iconAnchor:[29,64],
+      })
+      if(markerRef.current) markerRef.current.setLatLng(latLng).setIcon(icon)
+      else markerRef.current=L.marker(latLng,{icon,keyboard:false,title:shop.name}).addTo(map)
+      map.setView(latLng,14,{animate:false})
+      requestAnimationFrame(()=>map.invalidateSize())
+      setStatus('ready')
+    }).catch(()=>{if(!cancelled)setStatus('error')})
+    return()=>{cancelled=true}
+  },[point,shop.name])
+  React.useEffect(()=>()=>{if(mapRef.current){mapRef.current.remove();mapRef.current=null}},[])
+  return <>
+    <div ref={containerRef} className="find-leaflet-map" aria-label={`Interactive map showing ${shop.name}`}/>
+    {status!=='ready'&&<div className="find-map-state" role="status">{status==='error'?'Map unavailable — select a location or open directions.':'Loading map…'}</div>}
+  </>
 }
 
 function RetailerMark({shop}){
@@ -102,9 +173,8 @@ export default function FindUsExperience(){
         </div>
       </aside>
       <div className="find-map-pane">
-        {mapPoint?<iframe key={selected.id} title={`Interactive map — ${selected.name}`} src={osmEmbed(mapPoint)} loading="eager" referrerPolicy="strict-origin-when-cross-origin"/>:<div className="find-map-state" role="status">{mapStatus==='error'?'Map unavailable — select a location or open directions.':'Loading map…'}</div>}
+        {mapPoint?<InteractiveStoreMap point={mapPoint} shop={selected}/>:<div className="find-map-state" role="status">{mapStatus==='error'?'Map unavailable — select a location or open directions.':'Loading map…'}</div>}
         <a className="find-map-open" href={mapsPlace(selected)} target="_blank" rel="noreferrer">Open in Maps <ExternalIcon/></a>
-        <BrandMapPin/>
         <article className="find-map-popover">
           <div className="find-map-popover__identity"><RetailerMark shop={selected}/><span><small>SELECTED LOCATION</small><strong>{selected.name}</strong></span></div>
           <address>{selected.street}<br/>{selected.city}, {selected.state} {selected.zip}</address>
