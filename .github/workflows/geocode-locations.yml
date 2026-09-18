@@ -10,76 +10,17 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Resolve supplier coordinates
-        shell: bash
-        run: |
-          node <<'NODE'
-          const locations = [
-            [1,'Barstock Liquors','31 E Main St, Crosby, MN 56441'],
-            [2,'Central Avenue Liquors','2538 Central Ave NE, Minneapolis, MN 55418'],
-            [3,'Eden Prairie Liquors — 78th Street','16508 W 78th St, Eden Prairie, MN 55346'],
-            [4,'Eden Prairie Liquors — Den Road','8018 Den Rd, Eden Prairie, MN 55344'],
-            [5,'First Grand Avenue Liquor Store','918 Grand Ave, St Paul, MN 55105'],
-            [6,'Hemp House Uptown','719 W 26th St, Minneapolis, MN 55405'],
-            [7,'Hemp House Northeast','501 1st Ave NE Suite 130, Minneapolis, MN 55413'],
-            [8,'Hemp House Downtown','1313 Chestnut Ave, Minneapolis, MN 55403'],
-            [9,'Hemp House Richfield','6015 Lyndale Ave S, Minneapolis, MN 55419'],
-            [10,'Hemp House St Paul','1995 Burns Ave, St Paul, MN 55119'],
-            [11,'Hopkins Liquor Store','712 11th Ave S, Hopkins, MN 55343'],
-            [12,'Itasca Wine and Spirits','706 N 1st St Suite 100, Minneapolis, MN 55401'],
-            [13,'Liquor Boy Wine and Spirits','5620 Cedar Lk Rd S, St Louis Park, MN 55416'],
-            [14,'Long Lake Orono Smoke Shop','1865 Wayzata Blvd Unit 112, Long Lake, MN 55356'],
-            [15,"Mac's Liquor",'8600 Excelsior Blvd, Hopkins, MN 55343'],
-            [16,"Nolo's Kitchen & Bar",'515 N Washington Ave #100, Minneapolis, MN 55401'],
-            [17,'Park Tavern','3401 Louisiana Ave S, St Louis Park, MN 55426'],
-            [18,'Plymouth Liquors','11000 Hwy 55, Plymouth, MN 55441'],
-            [19,'St Louis Park Liquor','6316 Minnetonka Blvd, St Louis Park, MN 55416'],
-            [20,'The 701 Salon','701 N 3rd St #210, Minneapolis, MN 55401'],
-            [21,'The Basement Bar','511 N Washington Ave, Minneapolis, MN 55401'],
-            [22,'The Loop Minneapolis','606 N Washington Ave #100, Minneapolis, MN 55401'],
-            [23,'TXT Wine and Spirits','700 W Broadway, Minneapolis, MN 55411'],
-            [24,'Vicksburg Liquors','1115 Vicksburg Ln N, Plymouth, MN 55447'],
-            [25,'Vikings Golf Course','282 E Balsam St, Strum, WI 54770'],
-            [26,'Vinifera Wine and Ales','1400 County Rd 101, Plymouth, MN 55447'],
-            [27,'Wayzata Smoke Shop & Vape','1310 Wayzata Blvd, Wayzata, MN 55391'],
-            [28,'Westwood Liquor','2304 Louisiana Ave S, St Louis Park, MN 55426'],
-          ];
-          const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-          const out=[];
-          for (const [id,name,address] of locations) {
-            const url=new URL('https://nominatim.openstreetmap.org/search');
-            url.searchParams.set('format','jsonv2');
-            url.searchParams.set('limit','3');
-            url.searchParams.set('countrycodes','us');
-            url.searchParams.set('addressdetails','1');
-            url.searchParams.set('q',address);
-            let rows=[];
-            try {
-              const r=await fetch(url,{headers:{
-                'User-Agent':'LagomNaturalsStoreLocator/1.0 (supplier-coordinate-verification)',
-                'Accept':'application/json'
-              }});
-              if(!r.ok) throw new Error('HTTP '+r.status);
-              rows=await r.json();
-            } catch (e) {
-              console.log('ERROR',id,name,address,String(e));
-              out.push({id,name,address,error:String(e)});
-              await sleep(1200);
-              continue;
-            }
-            const row=rows[0];
-            const result=row?{
-              id,name,address,
-              latitude:Number(row.lat),
-              longitude:Number(row.lon),
-              displayName:row.display_name,
-              type:row.type,
-              category:row.category,
-              importance:row.importance
-            }:{id,name,address,error:'NO_MATCH'};
-            out.push(result);
-            console.log('RESULT',JSON.stringify(result));
-            await sleep(1200);
-          }
-          console.log('FINAL_COORDS_JSON='+JSON.stringify(out));
-          NODE
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.19.0'
+      - name: Resolve and cross-check supplier coordinates
+        run: node scripts/geocode-stores.mjs
+      - name: Upload coordinate verification
+        uses: actions/upload-artifact@v4
+        with:
+          name: supplier-coordinate-verification
+          path: |
+            src/data/store-geocodes.json
+            src/data/store-geocode-report.json
+          if-no-files-found: error
