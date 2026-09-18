@@ -74,23 +74,35 @@ function loadLeaflet(){
   return leafletPromise
 }
 
-function InteractiveStoreMap({point,shop}){
+function markerIcon(L,selected=false){
+  const iconUrl=`${import.meta.env.BASE_URL}lagom-logo-icon-white.svg`
+  return L.divIcon({
+    className:`lagom-leaflet-pin${selected?' is-selected':''}`,
+    html:`<span class="lagom-leaflet-pin__disc"><img src="${iconUrl}" alt=""></span><span class="lagom-leaflet-pin__tip"></span>`,
+    iconSize:selected?[58,68]:[46,56],
+    iconAnchor:selected?[29,64]:[23,53],
+  })
+}
+
+function InteractiveStoreMap({points,selected,onSelect}){
   const containerRef=React.useRef(null)
   const mapRef=React.useRef(null)
-  const markerRef=React.useRef(null)
+  const markersRef=React.useRef(new Map())
+  const selectedIdRef=React.useRef(null)
   const [status,setStatus]=React.useState('loading')
+
   React.useEffect(()=>{
-    if(!point||!containerRef.current)return
+    if(!containerRef.current)return
     let cancelled=false
     loadLeaflet().then(L=>{
       if(cancelled||!containerRef.current)return
-      const latLng=[Number(point.lat),Number(point.lon)]
       if(!mapRef.current){
         const map=L.map(containerRef.current,{
           zoomControl:false,
           attributionControl:true,
           scrollWheelZoom:false,
           tap:true,
+          zoomSnap:.5,
         })
         L.control.zoom({position:'topright'}).addTo(map)
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
@@ -99,25 +111,63 @@ function InteractiveStoreMap({point,shop}){
         }).addTo(map)
         mapRef.current=map
       }
-      const map=mapRef.current
-      const iconUrl=`${import.meta.env.BASE_URL}lagom-logo-icon-white.svg`
-      const icon=L.divIcon({
-        className:'lagom-leaflet-pin',
-        html:`<span class="lagom-leaflet-pin__disc"><img src="${iconUrl}" alt=""></span><span class="lagom-leaflet-pin__tip"></span>`,
-        iconSize:[58,68],
-        iconAnchor:[29,64],
-      })
-      if(markerRef.current) markerRef.current.setLatLng(latLng).setIcon(icon)
-      else markerRef.current=L.marker(latLng,{icon,keyboard:false,title:shop.name}).addTo(map)
-      map.setView(latLng,14,{animate:false})
-      requestAnimationFrame(()=>map.invalidateSize())
       setStatus('ready')
+      requestAnimationFrame(()=>mapRef.current?.invalidateSize())
     }).catch(()=>{if(!cancelled)setStatus('error')})
     return()=>{cancelled=true}
-  },[point,shop.name])
-  React.useEffect(()=>()=>{if(mapRef.current){mapRef.current.remove();mapRef.current=null}},[])
+  },[])
+
+  React.useEffect(()=>{
+    const map=mapRef.current
+    const L=window.L
+    if(!map||!L)return
+
+    const activeIds=new Set()
+    points.forEach(({shop,lat,lon})=>{
+      activeIds.add(shop.id)
+      const latLng=[Number(lat),Number(lon)]
+      const isSelected=shop.id===selected.id
+      let marker=markersRef.current.get(shop.id)
+      if(!marker){
+        marker=L.marker(latLng,{
+          icon:markerIcon(L,isSelected),
+          keyboard:true,
+          title:shop.name,
+          riseOnHover:true,
+          zIndexOffset:isSelected?1000:0,
+        }).addTo(map)
+        marker.on('click',()=>onSelect(shop))
+        marker.bindTooltip(shop.name,{
+          direction:'top',
+          offset:[0,isSelected?-60:-48],
+          className:'lagom-map-tooltip',
+          opacity:.96,
+        })
+        markersRef.current.set(shop.id,marker)
+      }else{
+        marker.setLatLng(latLng)
+        marker.setIcon(markerIcon(L,isSelected))
+        marker.setZIndexOffset(isSelected?1000:0)
+      }
+    })
+
+    markersRef.current.forEach((marker,id)=>{
+      if(!activeIds.has(id)){map.removeLayer(marker);markersRef.current.delete(id)}
+    })
+
+    const selectedPoint=points.find(p=>p.shop.id===selected.id)
+    if(selectedPoint&&selectedIdRef.current!==selected.id){
+      selectedIdRef.current=selected.id
+      map.setView([Number(selectedPoint.lat),Number(selectedPoint.lon)],14,{animate:true})
+    }else if(!map.getCenter()&&points.length){
+      map.setView([Number(points[0].lat),Number(points[0].lon)],13,{animate:false})
+    }
+  },[points,selected,onSelect])
+
+  React.useEffect(()=>()=>{if(mapRef.current){mapRef.current.remove();mapRef.current=null;markersRef.current.clear()}},[])
+
   return <>
-    <div ref={containerRef} className="find-leaflet-map" aria-label={`Interactive map showing ${shop.name}`}/>
+    <div ref={containerRef} className="find-leaflet-map" aria-label={`Interactive map showing ${points.length} Lagom locations`}/>
     {status!=='ready'&&<div className="find-map-state" role="status">{status==='error'?'Map unavailable — select a location or open directions.':'Loading map…'}</div>}
   </>
 }
@@ -138,12 +188,63 @@ function LocationRow({shop,selected,onSelect}){
   </article>
 }
 
+const GEO_CACHE_KEY='lagom-store-coordinates-v1'
+const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms))
+
 export default function FindUsExperience(){
-  const {pathname}=useLocation();const [query,setQuery]=React.useState('');const [selected,setSelected]=React.useState(SHOPS[0]);const [mapPoint,setMapPoint]=React.useState(null);const [mapStatus,setMapStatus]=React.useState('loading')
-  React.useEffect(()=>{let live=true;const controller=new AbortController();setMapStatus('loading');setMapPoint(null);fetch(`https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=us&q=${encodeURIComponent(selected.address)}`,{signal:controller.signal,headers:{Accept:'application/json'}}).then(r=>{if(!r.ok)throw new Error('geocode');return r.json()}).then(rows=>{if(!live)return;if(rows?.[0]?.lat&&rows?.[0]?.lon){setMapPoint({lat:rows[0].lat,lon:rows[0].lon});setMapStatus('ready')}else setMapStatus('error')}).catch(e=>{if(live&&e.name!=='AbortError')setMapStatus('error')});return()=>{live=false;controller.abort()}},[selected.address])
+  const {pathname}=useLocation()
+  const [query,setQuery]=React.useState('')
+  const [selected,setSelected]=React.useState(SHOPS[0])
+  const [pointsById,setPointsById]=React.useState({})
+  const [mapStatus,setMapStatus]=React.useState('loading')
+
+  React.useEffect(()=>{
+    let cancelled=false
+    const controller=new AbortController()
+    let cached={}
+    try{cached=JSON.parse(localStorage.getItem(GEO_CACHE_KEY)||'{}')}catch{}
+    if(Object.keys(cached).length)setPointsById(cached)
+
+    const queue=[SHOPS[0],...SHOPS.slice(1)].filter(shop=>!cached[shop.id])
+    const geocode=async shop=>{
+      const response=await fetch(`https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=us&q=${encodeURIComponent(shop.address)}`,{
+        signal:controller.signal,
+        headers:{Accept:'application/json'},
+      })
+      if(!response.ok)throw new Error('geocode')
+      const rows=await response.json()
+      const row=rows?.[0]
+      if(!row?.lat||!row?.lon)return null
+      return {lat:row.lat,lon:row.lon}
+    }
+
+    ;(async()=>{
+      setMapStatus(Object.keys(cached).length?'ready':'loading')
+      for(const shop of queue){
+        if(cancelled)break
+        try{
+          const point=await geocode(shop)
+          if(point&&!cancelled){
+            cached={...cached,[shop.id]:point}
+            setPointsById(cached)
+            setMapStatus('ready')
+            try{localStorage.setItem(GEO_CACHE_KEY,JSON.stringify(cached))}catch{}
+          }
+        }catch(error){
+          if(error.name==='AbortError')break
+        }
+        if(!cancelled)await wait(1100)
+      }
+      if(!cancelled&&Object.keys(cached).length===0)setMapStatus('error')
+    })()
+
+    return()=>{cancelled=true;controller.abort()}
+  },[])
   if(pathname!=='/visit')return null
-  const q=query.trim().toLowerCase();const visible=q?SHOPS.filter(s=>`${s.name} ${s.address}`.toLowerCase().includes(q)):SHOPS
-  const choose=shop=>{setSelected(shop);if(window.innerWidth<900)document.querySelector('.find-map-pane')?.scrollIntoView({behavior:'smooth',block:'center'})}
+  const q=query.trim().toLowerCase()
+  const visible=q?SHOPS.filter(s=>`${s.name} ${s.address}`.toLowerCase().includes(q)):SHOPS
+  const mapPoints=SHOPS.flatMap(shop=>pointsById[shop.id]?[{shop,...pointsById[shop.id]}]:[])
+  const choose=React.useCallback(shop=>{setSelected(shop);if(window.innerWidth<900)document.querySelector('.find-map-pane')?.scrollIntoView({behavior:'smooth',block:'center'})},[])
   return <section className="find-experience" aria-labelledby="find-title">
     <div className="find-mobile-hero">
       <img src={findUsHero} alt="Lagom Naturals storefront district"/>
@@ -173,7 +274,7 @@ export default function FindUsExperience(){
         </div>
       </aside>
       <div className="find-map-pane">
-        {mapPoint?<InteractiveStoreMap point={mapPoint} shop={selected}/>:<div className="find-map-state" role="status">{mapStatus==='error'?'Map unavailable — select a location or open directions.':'Loading map…'}</div>}
+        {mapPoints.length?<InteractiveStoreMap points={mapPoints} selected={selected} onSelect={choose}/>:<div className="find-map-state" role="status">{mapStatus==='error'?'Map unavailable — select a location or open directions.':'Loading map locations…'}</div>}
         <a className="find-map-open" href={mapsPlace(selected)} target="_blank" rel="noreferrer">Open in Maps <ExternalIcon/></a>
         <article className="find-map-popover">
           <div className="find-map-popover__identity"><RetailerMark shop={selected}/><span><small>SELECTED LOCATION</small><strong>{selected.name}</strong></span></div>
