@@ -45,6 +45,18 @@ import { products, merch, categoryCards, categoryImages } from "./catalogData";
 import HamburgerToggle from "./HamburgerToggle";
 import storefront from "@/assets/store/storefront-day.webp";
 import hospitality from "@/assets/store/extra-store2.webp";
+import storyHeroDesktopWebp from "@/assets/our-story/hero-desktop.webp";
+import storyHeroDesktopPng from "@/assets/our-story/hero-desktop.png";
+import storyHeroMobileWebp from "@/assets/our-story/hero-mobile.webp";
+import storyHeroMobilePng from "@/assets/our-story/hero-mobile.png";
+import storyJustEnoughDesktopWebp from "@/assets/our-story/just-enough-desktop.webp";
+import storyJustEnoughDesktopPng from "@/assets/our-story/just-enough-desktop.png";
+import storyJustEnoughMobileWebp from "@/assets/our-story/just-enough-mobile.webp";
+import storyJustEnoughMobilePng from "@/assets/our-story/just-enough-mobile.png";
+import storyCheersDesktopWebp from "@/assets/our-story/cheers-desktop.webp";
+import storyCheersDesktopPng from "@/assets/our-story/cheers-desktop.png";
+import storyCheersMobileWebp from "@/assets/our-story/cheers-mobile.webp";
+import storyCheersMobilePng from "@/assets/our-story/cheers-mobile.png";
 
 const MENU_DURATION = 600,
   MENU_EASE = [0.4, 0, 0.2, 1];
@@ -1045,12 +1057,36 @@ function VisitPage() {
     </Shell>
   );
 }
+function StoryPicture({ desktopWebp, desktopPng, mobileWebp, mobilePng, alt = "", className = "", eager = false }) {
+  return (
+    <picture className={className}>
+      <source media="(max-width: 699px)" srcSet={mobileWebp} type="image/webp" />
+      <source media="(max-width: 699px)" srcSet={mobilePng} type="image/png" />
+      <source srcSet={desktopWebp} type="image/webp" />
+      <img
+        src={desktopPng}
+        alt={alt}
+        loading={eager ? "eager" : "lazy"}
+        fetchPriority={eager ? "high" : "auto"}
+        decoding="async"
+      />
+    </picture>
+  );
+}
+
 function AboutPage() {
   return (
     <Shell>
       <main className="about-page about-story-page">
         <section className="story-hero" aria-labelledby="story-title">
-          <img className="story-hero__image" src={hospitality} alt="" />
+          <StoryPicture
+            className="story-hero__picture"
+            desktopWebp={storyHeroDesktopWebp}
+            desktopPng={storyHeroDesktopPng}
+            mobileWebp={storyHeroMobileWebp}
+            mobilePng={storyHeroMobilePng}
+            eager
+          />
           <div className="story-hero__shade" aria-hidden="true" />
           <div className="story-hero__content">
             <p className="story-kicker">OUR STORY</p>
@@ -1073,8 +1109,13 @@ function AboutPage() {
           </div>
           <div className="story-origin__visual">
             <figure className="story-origin__figure">
-              <img src={storefront} alt="Lagom Naturals roots in Minnesota" loading="lazy" decoding="async" />
-              <span className="story-origin__script" aria-hidden="true">Just<br />Enough</span>
+              <StoryPicture
+                desktopWebp={storyJustEnoughDesktopWebp}
+                desktopPng={storyJustEnoughDesktopPng}
+                mobileWebp={storyJustEnoughMobileWebp}
+                mobilePng={storyJustEnoughMobilePng}
+                alt="Sunset over a rocky Minnesota lakeshore"
+              />
             </figure>
             <aside className="story-origin__rail" aria-label="Our philosophy">
               <span>BETTER<br />INGREDIENTS</span><i /><span>BRIGHTER<br />MOMENTS</span><i /><span>BALANCED<br />LIVING</span><i />
@@ -1083,7 +1124,15 @@ function AboutPage() {
         </section>
 
         <section className="story-life" id="philosophy">
-          <figure><img src={hospitality} alt="Lagom THC seltzers shared in a social setting" loading="lazy" decoding="async" /></figure>
+          <figure>
+            <StoryPicture
+              desktopWebp={storyCheersDesktopWebp}
+              desktopPng={storyCheersDesktopPng}
+              mobileWebp={storyCheersMobileWebp}
+              mobilePng={storyCheersMobilePng}
+              alt="Friends sharing Lagom seltzers outdoors"
+            />
+          </figure>
           <div className="story-life__copy">
             <p className="story-kicker story-kicker--dark">MORE THAN A BEVERAGE</p>
             <h2>Built For Real Life</h2>
