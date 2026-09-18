@@ -19,8 +19,18 @@ import peachMidnightDrift from "@/assets/products/enhanced/Peach-Photoroom-midni
 import pinkLemonadeMidnightDrift from "@/assets/products/enhanced/Pink-Lemonade-midnight-drift.png";
 import strawberryMidnightDrift from "@/assets/products/enhanced/Strawberry-midnight-drift.png";
 
-import hoodie from "@/assets/merch/Lagom-Mainstreet-Hooded-Sweatshirt-900x900.png";
-import crewneck from "@/assets/merch/Lagom-Midweight-Crewneck-Sweatshirt-Front-900x900.png";
+import capFront from "@/assets/merch/Lagom-Black-Logo-Cap-Front-1122x1402.png";
+import capBack from "@/assets/merch/Lagom-Black-Logo-Cap-Back-1122x1402.png";
+import capThreeQuarterOne from "@/assets/merch/Lagom-Black-Logo-Cap-Front-Three-Quarter-01-1122x1402.png";
+import capThreeQuarterTwo from "@/assets/merch/Lagom-Black-Logo-Cap-Front-Three-Quarter-02-1122x1402.png";
+import teeFront from "@/assets/merch/Lagom-Black-Logo-Tee-Front-1122x1402.png";
+import teeBack from "@/assets/merch/Lagom-Black-Logo-Tee-Back-1122x1402.png";
+import teeThreeQuarterOne from "@/assets/merch/Lagom-Black-Logo-Tee-Front-Three-Quarter-01-1122x1402.png";
+import teeThreeQuarterTwo from "@/assets/merch/Lagom-Black-Logo-Tee-Front-Three-Quarter-02-1122x1402.png";
+import hoodieFront from "@/assets/merch/Lagom-Mainstreet-Hooded-Sweatshirt-Black-Front-1254x1254.png";
+import hoodieBack from "@/assets/merch/Lagom-Mainstreet-Hooded-Sweatshirt-Black-Back-1254x1254.png";
+import hoodieFolded from "@/assets/merch/Lagom-Mainstreet-Hooded-Sweatshirt-Black-Folded-1254x1254.png";
+import hoodieThreeQuarter from "@/assets/merch/Lagom-Mainstreet-Hooded-Sweatshirt-Black-Front-Three-Quarter-1254x1254.png";
 import seltzersThumbnail from "@/assets/seltzers-thumbnail.webp";
 import gummiesThumbnail from "@/assets/gummies-thumbnail.webp";
 
@@ -300,20 +310,48 @@ export const products = [
 
 export const merch = [
   {
+    id: "black-logo-cap",
+    name: "Black Logo Cap",
+    price: null,
+    type: "Caps",
+    color: "Black",
+    image: capFront,
+    gallery: [
+      { src: capFront, label: "Front", alt: "Black Lagom logo cap, front view" },
+      { src: capBack, label: "Back", alt: "Black Lagom logo cap, back view" },
+      { src: capThreeQuarterOne, label: "Three-quarter view", alt: "Black Lagom logo cap, three-quarter front view" },
+      { src: capThreeQuarterTwo, label: "Detail view", alt: "Black Lagom logo cap, alternate three-quarter front view" },
+    ],
+  },
+  {
+    id: "black-logo-tee",
+    name: "Black Logo Tee",
+    price: null,
+    type: "T-Shirts",
+    color: "Black",
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    image: teeFront,
+    gallery: [
+      { src: teeFront, label: "Front", alt: "Black Lagom logo tee, front view" },
+      { src: teeBack, label: "Back", alt: "Black Lagom logo tee, back view" },
+      { src: teeThreeQuarterOne, label: "Three-quarter view", alt: "Black Lagom logo tee, three-quarter front view" },
+      { src: teeThreeQuarterTwo, label: "Detail view", alt: "Black Lagom logo tee, alternate three-quarter front view" },
+    ],
+  },
+  {
     id: "mainstreet-hoodie",
     name: "Mainstreet Hooded Sweatshirt",
     price: 68,
     type: "Hoodies",
     color: "Black",
-    image: hoodie,
-  },
-  {
-    id: "midweight-crewneck",
-    name: "Midweight Crewneck Sweatshirt",
-    price: 58,
-    type: "Crewnecks",
-    color: "Sand",
-    image: crewneck,
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    image: hoodieFront,
+    gallery: [
+      { src: hoodieFront, label: "Front", alt: "Black Lagom Mainstreet hooded sweatshirt, front view" },
+      { src: hoodieBack, label: "Back", alt: "Black Lagom Mainstreet hooded sweatshirt, back view" },
+      { src: hoodieThreeQuarter, label: "Three-quarter view", alt: "Black Lagom Mainstreet hooded sweatshirt, three-quarter front view" },
+      { src: hoodieFolded, label: "Folded view", alt: "Black Lagom Mainstreet hooded sweatshirt, folded view" },
+    ],
   },
 ];
 

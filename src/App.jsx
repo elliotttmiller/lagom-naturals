@@ -570,11 +570,9 @@ function MerchCard({ item }) {
         <div className="merch-copy">
           <p>Lagom Naturals</p>
           <h3>{item.name}</h3>
-          <b>${item.price.toFixed(2)}</b>
+          <b>{item.price == null ? "Pricing coming soon" : `$${item.price.toFixed(2)}`}</b>
           <div className="swatches" aria-hidden="true">
-            <i />
-            <i />
-            <i />
+            <i style={{ backgroundColor: "#111" }} />
           </div>
         </div>
       </Link>
@@ -814,6 +812,7 @@ function ProductPage() {
       <m.div className="pdp" style={{ "--accent": product.accent }}>
         <m.div className="pdp-media">
           <m.img
+            key={selected.image || product.image}
             layoutId={`catalog-image-${product.id}`}
             src={selected.image || product.image}
             alt={`${product.name} THC seltzer can`}
@@ -821,10 +820,23 @@ function ProductPage() {
             decoding="async"
             transition={motionTokens.springSoft}
           />
-          <div className="pdp-dots">
-            <i className="active" />
-          </div>
         </m.div>
+        {variants.length > 1 && (
+          <div className="product-gallery" aria-label={`${product.name} product images`}>
+            {variants.map((variant) => (
+              <button
+                type="button"
+                key={variant.id}
+                className={variant.id === selected.id ? "active" : ""}
+                onClick={() => setSelectedId(variant.id)}
+                aria-label={`Show ${variant.label.toLowerCase()} image`}
+                aria-pressed={variant.id === selected.id}
+              >
+                <img src={variant.image || product.image} alt="" loading="lazy" decoding="async" />
+              </button>
+            ))}
+          </div>
+        )}
         <m.div
           className="pdp-copy"
           initial="hidden"
@@ -1194,6 +1206,16 @@ function MerchDetailPage() {
   const { add } = useCart();
   const [size, setSize] = useState("M");
   const [qty, setQty] = useState(1);
+  const gallery = item?.gallery?.length
+    ? item.gallery
+    : item
+      ? [{ src: item.image, label: "Product view", alt: item.name }]
+      : [];
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  useEffect(() => {
+    setActiveImageIndex(0);
+    setSize(item?.sizes?.includes("M") ? "M" : item?.sizes?.[0] ?? null);
+  }, [item?.id]);
   if (!item)
     return (
       <Shell detail>
@@ -1207,17 +1229,37 @@ function MerchDetailPage() {
         </div>
       </Shell>
     );
+  const activeImage = gallery[activeImageIndex] ?? gallery[0];
+  const hasPrice = Number.isFinite(item.price);
+  const hasSizes = item.sizes?.length > 0;
   return (
     <Shell detail>
       <m.div className="merch-detail">
-        <m.div className="merch-detail-media">
-          <m.img
-            layoutId={`catalog-image-${item.id}`}
-            src={item.image}
-            alt={item.name}
-            transition={motionTokens.springSoft}
-          />
-        </m.div>
+        <div className="merch-detail-visual">
+          <m.div className="merch-detail-media" aria-live="polite">
+            <m.img
+              key={activeImage.src}
+              layoutId={activeImageIndex === 0 ? `catalog-image-${item.id}` : undefined}
+              src={activeImage.src}
+              alt={activeImage.alt}
+              transition={motionTokens.springSoft}
+            />
+          </m.div>
+          <m.div variants={motionVariants.item} className="merch-gallery" aria-label="Product images">
+            {gallery.map((image, index) => (
+              <button
+                type="button"
+                key={image.src}
+                className={activeImageIndex === index ? "active" : ""}
+                onClick={() => setActiveImageIndex(index)}
+                aria-label={`Show ${image.label.toLowerCase()}`}
+                aria-pressed={activeImageIndex === index}
+              >
+                <img src={image.src} alt="" loading={index === 0 ? "eager" : "lazy"} decoding="async" />
+              </button>
+            ))}
+          </m.div>
+        </div>
         <m.div
           initial="hidden"
           animate="visible"
@@ -1225,20 +1267,19 @@ function MerchDetailPage() {
         >
           <m.p variants={motionVariants.item}>Lagom Naturals</m.p>
           <m.h1 variants={motionVariants.item}>{item.name}</m.h1>
-          <m.h2 variants={motionVariants.item}>${item.price.toFixed(2)}</m.h2>
+          <m.h2 variants={motionVariants.item}>
+            {hasPrice ? `$${item.price.toFixed(2)}` : "Pricing coming soon"}
+          </m.h2>
           <m.div variants={motionVariants.item} className="option-line">
             <b>Color: {item.color}</b>
             <div className="swatches large">
-              <i />
-              <i />
-              <i />
-              <i />
+              <i style={{ backgroundColor: "#111" }} />
             </div>
           </m.div>
-          <m.div variants={motionVariants.item}>
+          {hasSizes && <m.div variants={motionVariants.item}>
             <b className="option-label">Size</b>
             <div className="size-row apparel">
-              {["S", "M", "L", "XL", "XXL"].map((option) => (
+              {item.sizes.map((option) => (
                 <button
                   type="button"
                   key={option}
@@ -1249,6 +1290,8 @@ function MerchDetailPage() {
                 </button>
               ))}
             </div>
+          </m.div>}
+          {hasPrice ? <m.div variants={motionVariants.item}>
             <div className="qty-row">
               <b>Quantity</b>
               <div>
@@ -1291,8 +1334,8 @@ function MerchDetailPage() {
                     ...item,
                     brand: "Lagom Naturals",
                     category: "Merch",
-                    weight: `${size} · ${item.color}`,
-                    cartKey: `${item.id}:${size}:${item.color}`,
+                    weight: [size, item.color].filter(Boolean).join(" · "),
+                    cartKey: `${item.id}:${size ?? "standard"}:${item.color}`,
                   },
                   qty,
                 )
@@ -1300,7 +1343,9 @@ function MerchDetailPage() {
             >
               ADD TO CART
             </m.button>
-          </m.div>
+          </m.div> : <m.p variants={motionVariants.item} className="merch-unavailable">
+            Price and purchase availability have not been provided for this item.
+          </m.p>}
           {["Product Details", "Materials", "Fit", "Care", "Shipping / Pickup"].map(
             (label) => (
               <m.div variants={motionVariants.item} className="detail-row" key={label}>

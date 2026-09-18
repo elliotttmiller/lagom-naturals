@@ -6,11 +6,12 @@
   .pdp-media{
     position:relative!important;isolation:isolate!important;width:100%!important;
     height:clamp(390px,56svh,560px)!important;min-height:390px!important;max-height:560px!important;
-    padding:0!important;border:0!important;border-radius:0!important;background:#f6f4ef!important;overflow:hidden!important
+    padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;overflow:hidden!important
   }
-  .pdp-media img{display:block!important;width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;object-fit:cover!important;object-position:center!important;background:#fff!important}
+  .pdp-media img{display:block!important;width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;object-fit:cover!important;object-position:center!important;background:transparent!important}
   .pdp-dots{position:absolute!important;left:0!important;right:0!important;bottom:12px!important;display:flex!important;justify-content:center!important;gap:6px!important}
   .pdp-dots i{width:6px!important;height:6px!important;border-radius:50%!important;background:rgba(17,17,17,.25)!important}.pdp-dots i.active{background:#111!important}
+  .product-gallery{display:flex!important;gap:8px!important;overflow-x:auto!important;margin:10px var(--m-gutter) 0!important;padding:2px!important;-webkit-overflow-scrolling:touch}.product-gallery button{display:grid!important;flex:0 0 68px!important;gap:4px!important;padding:4px!important;border:1px solid var(--m-line)!important;border-radius:7px!important;background:#fff!important;color:var(--m-muted)!important;font:750 8px/1.1 var(--m-font-body)!important;text-align:left!important}.product-gallery button.active{border-color:#111!important;color:#111!important;box-shadow:0 0 0 1px #111!important}.product-gallery button:focus-visible{outline:2px solid #111!important;outline-offset:2px!important}.product-gallery img{display:block!important;width:58px!important;height:58px!important;object-fit:cover!important}
 
   .pdp-copy{padding:22px var(--m-gutter) 0!important;background:#fff!important}
   .pdp-copy>p:first-child{display:block!important;margin:0 0 7px!important;color:var(--m-muted)!important;font:700 13px/1.2 var(--m-font-body)!important}
