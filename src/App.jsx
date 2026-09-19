@@ -8,7 +8,6 @@ import {
   Link,
   Route,
   Routes,
-  useParams,
   useSearchParams,
 } from "react-router-dom";
 import {
@@ -18,7 +17,6 @@ import {
   Flower2,
   Heart,
   Leaf,
-  Minus,
   Plus,
   Search,
   Store,
