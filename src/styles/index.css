@@ -3,8 +3,6 @@
 @import './mobile.css';
 @import '../storefront-footer-template.css';
 @import './desktop.css';
-@import './desktop-cart.css';
-@import './desktop-checkout.css';
 @import './age-gate.css';
 @import './shop-render-fix.css';
 @import '../home-hero-carousel.css';
