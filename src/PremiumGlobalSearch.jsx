@@ -72,6 +72,11 @@ export default function PremiumGlobalSearch(){
   },[open])
 
   useEffect(()=>{
+    document.body.classList.toggle('global-search-open',open)
+    return()=>document.body.classList.remove('global-search-open')
+  },[open])
+
+  useEffect(()=>{
     document.querySelectorAll('a[aria-label^="Search"],button[aria-label^="Search"]').forEach(trigger=>{
       trigger.setAttribute('aria-expanded',open?'true':'false')
       trigger.setAttribute('aria-controls','global-search-surface')
