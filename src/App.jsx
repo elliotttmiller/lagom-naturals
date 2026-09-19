@@ -262,9 +262,16 @@ function Header({ detail = false }) {
             </div>
           </nav>
           <div className="header-tools">
-            <Link className="icon-btn" to="/shop" aria-label="Search drinks">
+            <button
+              type="button"
+              className="icon-btn"
+              aria-label="Search drinks"
+              aria-controls="global-search-surface"
+              aria-expanded="false"
+              onClick={() => window.dispatchEvent(new CustomEvent("lagom:open-global-search"))}
+            >
               <Search />
-            </Link>
+            </button>
             <Link className="icon-btn header-account" to="/account" aria-label="Account">
               <User />
             </Link>

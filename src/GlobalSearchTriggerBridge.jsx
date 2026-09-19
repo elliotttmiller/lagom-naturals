@@ -1,6 +1,6 @@
 import {useEffect} from 'react'
 
-const SEARCH_SELECTOR='a[aria-label^="Search"],button[aria-label^="Search"]'
+const SEARCH_SELECTOR='a[aria-label="Search"]'
 
 export default function GlobalSearchTriggerBridge(){
   useEffect(()=>{
