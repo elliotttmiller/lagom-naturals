@@ -33,6 +33,7 @@ import {
   gummyCollections,
 } from "./catalogData";
 import Shell from "@/storefront/StorefrontShell";
+import HomeHero from "@/HomeHeroPortal";
 import CatalogProductCard from "@/storefront/CatalogProductCard";
 import ResponsiveImage from "@/storefront/ResponsiveImage";
 import {
@@ -263,7 +264,7 @@ function ProductCard({ product }) {
 function HomePage() {
   return (
     <Shell>
-      <section className="beverage-hero" aria-label="Featured Lagom Naturals products" />
+      <section className="beverage-hero" aria-label="Featured Lagom Naturals products"><HomeHero /></section>
       <section className="lineup">
         <Reveal className="section-head">
           <div>

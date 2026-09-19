@@ -1,6 +1,5 @@
-import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { createPortal } from "react-dom";
-import { Link, useLocation } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { m, Presence, motionTokens, useReducedMotion } from "./motionSystem";
 
@@ -104,8 +103,4 @@ function HeroCarousel() {
   </div>;
 }
 
-export default function HomeHeroPortal(){
-  const location=useLocation();const[target,setTarget]=useState(null);const isHome=location.pathname==='/';
-  useLayoutEffect(()=>{if(!isHome){setTarget(null);return undefined}let frame=0;const resolveTarget=()=>{const node=document.querySelector('.beverage-hero');if(node)setTarget(node);else frame=window.requestAnimationFrame(resolveTarget)};resolveTarget();return()=>window.cancelAnimationFrame(frame)},[isHome,location.key]);
-  return useMemo(()=>!isHome||!target?null:createPortal(<HeroCarousel/>,target),[isHome,target]);
-}
+export default function HomeHero(){return <HeroCarousel/>}

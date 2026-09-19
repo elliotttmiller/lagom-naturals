@@ -61,6 +61,27 @@
   }
 }
 
+/* Shop card details should read as one compact merchandising stack.  The
+   shared two-line title reservation is useful in dense grids elsewhere, but
+   leaves an artificial gap above the price for one-line Shop product names. */
+@media(min-width:900px){
+  .shop-page .product-card .unified-product-card__copy{
+    min-height:0;
+  }
+  .shop-page .product-card .unified-product-card__copy h3{
+    min-height:0;
+  }
+  .shop-page .product-card .unified-product-card__copy>b{
+    margin-top:10px;
+  }
+  .shop-page .product-card .unified-product-card__meta{
+    margin-top:6px;
+  }
+  .shop-page .product-card .card-actions{
+    padding-top:14px;
+  }
+}
+
 @media(prefers-reduced-motion:reduce){
   .unified-product-card,.unified-product-card__media img{transition:none!important}
   .unified-product-card:hover .unified-product-card__media img{transform:none!important}

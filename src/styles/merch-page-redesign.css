@@ -16,7 +16,8 @@
   .merch-detail .merch-gallery{gap:10px!important}
   .merch-detail .merch-gallery button{border:1px solid #e0dfda!important;border-radius:10px!important;background:#fff!important}
   .merch-detail .merch-gallery button.active{border-color:#121310!important;box-shadow:0 0 0 1px #121310!important}
-  .merch-detail .merch-gallery img{padding:0!important;object-fit:cover!important}
+  .merch-detail .merch-gallery picture,.merch-detail .merch-gallery img{display:block!important;inline-size:100%!important;block-size:100%!important}
+  .merch-detail .merch-gallery img{margin:0!important;padding:5px!important;object-fit:contain!important;object-position:center!important}
 
   .merch-detail .merch-detail-copy{max-width:560px!important;padding-top:22px!important}
   .merch-detail .merch-brand{display:block!important;inline-size:124px!important;block-size:auto!important;margin:0 0 18px!important;object-fit:contain!important;object-position:left center!important}

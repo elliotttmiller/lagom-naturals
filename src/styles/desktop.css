@@ -219,3 +219,11 @@
   .beverage-hero__copy{width:min(620px,38vw)}.beverage-hero h1{font-size:clamp(88px,6.4vw,124px)}
   .product-copy h3,.merch-card h3{font-size:19px}.product-copy>b,.merch-card>b,.merch-card a>b{font-size:19px}
 }
+
+/* Shop uses the storefront's true white canvas, matching the product and merch routes. */
+@media (min-width:900px){
+  body:has(.shop-page),
+  .app-shell:has(.shop-page),
+  .app-shell:has(.shop-page)>main,
+  .shop-page{background:#fff!important}
+}
