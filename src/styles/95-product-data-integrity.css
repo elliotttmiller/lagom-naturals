@@ -56,7 +56,16 @@
     overflow:hidden!important;
     background:transparent!important;
   }
-  .editorial-page .merch-grid .merch-media>img{
+  .editorial-page .merch-grid .merch-media>a,
+  .editorial-page .merch-grid .merch-media picture{
+    display:grid!important;
+    place-items:center!important;
+    inline-size:100%!important;
+    block-size:100%!important;
+    min-inline-size:0!important;
+    min-block-size:0!important;
+  }
+  .editorial-page .merch-grid .merch-media img{
     display:block!important;
     inline-size:100%!important;
     block-size:100%!important;
