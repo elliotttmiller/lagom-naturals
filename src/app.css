@@ -1604,3 +1604,6 @@ p { letter-spacing: -.008em }
   padding-left:18px;
 }
 .merch-detail-section__content li+li{margin-top:6px}
+
+/* Route-level code-split fallback: preserves layout without a blank content flash. */
+.route-chunk-fallback{min-height:42vh;display:grid;place-items:center;padding:32px;color:var(--muted);font:600 12px/1.2 var(--font-ui);letter-spacing:.02em}
