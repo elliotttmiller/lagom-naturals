@@ -17,6 +17,11 @@ const budgets = {
   '.avif': 1.2 * MB,
 }
 
+const routeBudgets = {
+  initialJs: 600 * KB,
+  initialCss: 400 * KB,
+}
+
 const optimizationTargets = {
   '.png': 750 * KB,
   '.jpg': 500 * KB,
@@ -61,6 +66,43 @@ if (!index.includes('data-seo-fallback="true"') || !/<h1[>\s]/.test(index)) viol
 if (!index.includes('https://lagomnaturals.com/')) violations.push('index.html canonical origin is not the production Lagom domain')
 const sitemap = await readFile(join(root, 'sitemap.xml'), 'utf8')
 if (!sitemap.includes('<urlset') || !sitemap.includes('https://lagomnaturals.com/shop')) violations.push('sitemap.xml is missing expected indexable routes')
+const manifest = JSON.parse(await readFile(join(root, '.vite', 'manifest.json'), 'utf8'))
+const entry = Object.values(manifest).find(item => item.isEntry && item.src === 'src/main.jsx')
+if (!entry) {
+  violations.push('Vite manifest is missing the src/main.jsx entry')
+} else {
+  const seen = new Set()
+  const css = new Set()
+  const visit = item => {
+    if (!item || seen.has(item.file)) return
+    seen.add(item.file)
+    for (const stylesheet of item.css || []) css.add(stylesheet)
+    for (const imported of item.imports || []) visit(manifest[imported])
+  }
+  visit(entry)
+  const initialJsBytes = [...seen].reduce((sum, name) => {
+    const file = files.find(candidate => relative(root, candidate).replaceAll('\\', '/') === name)
+    return sum + (file ? (await stat(file)).size : 0)
+  }, 0)
+  const initialCssBytes = [...css].reduce((sum, name) => {
+    const file = files.find(candidate => relative(root, candidate).replaceAll('\\', '/') === name)
+    return sum + (file ? (await stat(file)).size : 0)
+  }, 0)
+  console.log(`Initial route budget: JS ${(initialJsBytes / KB).toFixed(0)} KB / ${routeBudgets.initialJs / KB} KB; CSS ${(initialCssBytes / KB).toFixed(0)} KB / ${routeBudgets.initialCss / KB} KB`)
+  if (initialJsBytes > routeBudgets.initialJs) violations.push(`Initial static JS graph ${(initialJsBytes / KB).toFixed(0)} KB exceeds ${routeBudgets.initialJs / KB} KB budget`)
+  if (initialCssBytes > routeBudgets.initialCss) violations.push(`Initial CSS graph ${(initialCssBytes / KB).toFixed(0)} KB exceeds ${routeBudgets.initialCss / KB} KB budget`)
+}
+
+if (!index.includes('rel="preload" as="image"') || !index.includes('fetchpriority="high"')) violations.push('Homepage initial HTML is missing a high-priority responsive image preload')
+if (!index.includes('application/ld+json') || !index.includes('"Organization"')) violations.push('Homepage initial HTML is missing Organization/WebSite JSON-LD')
+
+const productHtmlPath = files.find(file => relative(root, file).replaceAll('\\', '/').startsWith('product/') && relative(root, file).replaceAll('\\', '/').endsWith('/index.html'))
+if (productHtmlPath) {
+  const productHtml = await readFile(productHtmlPath, 'utf8')
+  if (!productHtml.includes('"@type":"Product"')) violations.push('Generated product page is missing Product JSON-LD')
+  if (!productHtml.includes('"@type":"BreadcrumbList"')) violations.push('Generated product page is missing BreadcrumbList JSON-LD')
+}
+
 const robots = await readFile(join(root, 'robots.txt'), 'utf8')
 if (!robots.includes('Sitemap: https://lagomnaturals.com/sitemap.xml')) violations.push('robots.txt does not advertise the production sitemap')
 for (const route of ['shop','visit','about','learn','merch']) {
