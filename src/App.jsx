@@ -1324,6 +1324,7 @@ function MerchDetailPage() {
           </m.div>
         </div>
         <m.div
+          className="merch-detail-copy"
           initial="hidden"
           animate="visible"
           variants={motionVariants.stagger}

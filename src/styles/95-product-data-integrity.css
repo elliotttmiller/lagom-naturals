@@ -24,6 +24,25 @@
    the image aspect ratio; a square intrinsic stage keeps caps and apparel
    centered, complete, and visually consistent. Mobile has its own card rules. */
 @media(min-width:900px){
+  /* Desktop merch PDP — editorial merchandise gallery with a composed purchase
+     column. This is intentionally an open layout: one media canvas, one
+     compact rail, and clear commerce controls rather than nested product cards. */
+  .merch-detail{
+    width:min(1500px,calc(100% - 2 * clamp(36px,5vw,96px)))!important;
+    margin:0 auto!important;
+    padding:clamp(48px,5.4vw,92px) 0 clamp(80px,8vw,140px)!important;
+    grid-template-columns:minmax(0,1.16fr) minmax(420px,.84fr)!important;
+    gap:clamp(56px,7.2vw,128px)!important;
+    align-items:start!important;
+    background:transparent!important;
+  }
+  .merch-detail .merch-detail-visual{
+    display:grid!important;
+    grid-template-columns:78px minmax(0,1fr)!important;
+    grid-template-rows:minmax(0,1fr)!important;
+    gap:18px!important;
+    inline-size:100%!important;
+  }
   .editorial-page .merch-grid .merch-media{
     position:relative!important;
     display:grid!important;
@@ -66,8 +85,10 @@
     display:grid!important;
     place-items:center!important;
     inline-size:100%!important;
-    block-size:min(640px,calc(100svh - var(--desktop-header-h, 88px) - var(--desktop-announcement-h, 0px) - 148px))!important;
-    min-block-size:420px!important;
+    grid-column:2!important;
+    grid-row:1!important;
+    block-size:min(720px,calc(100svh - var(--desktop-header-h, 88px) - var(--desktop-announcement-h, 0px) - 112px))!important;
+    min-block-size:500px!important;
     margin:0!important;
     padding:0!important;
     overflow:hidden!important;
@@ -87,24 +108,51 @@
     padding:0!important;
     object-fit:cover!important;
     object-position:center!important;
-    transform:scale(1.035)!important;
+    transform:scale(1.02)!important;
     transform-origin:center!important;
   }
   .merch-detail .merch-gallery{
+    grid-column:1!important;
+    grid-row:1!important;
     display:flex!important;
-    align-items:center!important;
-    gap:10px!important;
-    min-height:88px!important;
+    flex-direction:column!important;
+    align-items:stretch!important;
+    align-self:start!important;
+    gap:12px!important;
+    min-height:0!important;
+    max-block-size:100%!important;
     margin:0!important;
-    padding:12px 0 0!important;
-    overflow-x:auto!important;
-    overscroll-behavior-inline:contain!important;
-    scroll-padding-inline:2px!important;
+    padding:0!important;
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+    overscroll-behavior-block:contain!important;
+    scroll-padding-block:2px!important;
     background:transparent!important;
     -webkit-overflow-scrolling:touch!important;
   }
-  .merch-detail .merch-gallery button{flex:0 0 72px!important;inline-size:72px!important;block-size:72px!important;padding:0!important;overflow:hidden!important}
+  .merch-detail .merch-gallery button{flex:0 0 78px!important;inline-size:78px!important;block-size:78px!important;padding:0!important;overflow:hidden!important;border:1px solid transparent!important;border-radius:0!important;background:#fff!important;box-shadow:none!important}
+  .merch-detail .merch-gallery button.active{border-color:#171a17!important;box-shadow:0 0 0 1px #171a17!important}
   .merch-detail .merch-gallery img{display:block!important;inline-size:100%!important;block-size:100%!important;margin:0!important;padding:0!important;object-fit:cover!important;object-position:center!important}
+  .merch-detail .merch-detail-copy{width:100%!important;max-width:580px!important;padding:clamp(8px,1vw,18px) 0 0!important}
+  .merch-detail .merch-detail-copy>p:first-child{margin:0 0 18px!important;color:#77786f!important;font:650 13px/1 var(--font-ui)!important;letter-spacing:.01em!important}
+  .merch-detail .merch-detail-copy h1{max-width:760px!important;margin:0!important;color:#10120f!important;font:500 clamp(54px,4.6vw,84px)/.89 var(--font-display)!important;letter-spacing:-.062em!important;text-wrap:balance!important}
+  .merch-detail .merch-detail-copy h2{margin:24px 0 48px!important;color:#11130f!important;font:800 clamp(30px,2.35vw,40px)/1 var(--font-ui)!important;letter-spacing:-.045em!important}
+  .merch-detail .merch-detail-copy .option-line{display:flex!important;align-items:center!important;gap:13px!important;margin:0 0 42px!important;padding:0!important}
+  .merch-detail .merch-detail-copy .option-line>b{font:700 14px/1.2 var(--font-ui)!important}
+  .merch-detail .merch-detail-copy .swatches.large{display:flex!important;gap:0!important;margin:0!important;padding:0!important}
+  .merch-detail .merch-detail-copy .swatches.large i{inline-size:28px!important;block-size:28px!important;border:2px solid #fff!important;box-shadow:0 0 0 1px #1b1d1a!important}
+  .merch-detail .merch-detail-copy .option-label{margin:0 0 12px!important;font:700 13px/1 var(--font-ui)!important;letter-spacing:.02em!important}
+  .merch-detail .merch-detail-copy .size-row.apparel{max-width:none!important;gap:8px!important;margin:0 0 32px!important}
+  .merch-detail .merch-detail-copy .size-row.apparel button{min-height:52px!important;border:1px solid #d7d5ce!important;border-radius:0!important;background:transparent!important;font:750 13px/1 var(--font-ui)!important}
+  .merch-detail .merch-detail-copy .size-row.apparel button.active{border-color:#121410!important;background:#121410!important;color:#fff!important}
+  .merch-detail .merch-detail-copy .qty-row{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:24px!important;margin:0 0 24px!important;padding-top:4px!important}
+  .merch-detail .merch-detail-copy .qty-row>b{font:700 14px/1 var(--font-ui)!important}
+  .merch-detail .merch-detail-copy .qty-row>div{border:1px solid #d7d5ce!important;border-radius:0!important;background:#fff!important}
+  .merch-detail .merch-detail-copy .qty-row button,.merch-detail .merch-detail-copy .qty-row span{height:54px!important;background:#fff!important;font:700 15px/1 var(--font-ui)!important}
+  .merch-detail .merch-detail-copy .primary-bar{min-height:62px!important;margin:0!important;border-radius:0!important;background:#121410!important;font:800 13px/1 var(--font-ui)!important;letter-spacing:.06em!important;transition:background-color 180ms ease,transform 180ms ease!important}
+  .merch-detail .merch-detail-copy .primary-bar:hover{background:#29463a!important}
+  .merch-detail .merch-detail-copy .detail-row{min-height:68px!important;border-top:1px solid #d8d5cc!important;color:#151712!important;font:700 14px/1 var(--font-ui)!important}
+  .merch-detail .merch-detail-copy .detail-row:last-child{border-bottom:1px solid #d8d5cc!important}
 }
 
 /* Mobile beverage PDPs use the same full-frame media contract. This intentionally
