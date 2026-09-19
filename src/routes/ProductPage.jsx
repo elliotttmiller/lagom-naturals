@@ -8,6 +8,9 @@ import {configuredProduct,productVariants,useCart} from '@/storefront/Storefront
 import useSwipeGallery from '@/storefront/useSwipeGallery'
 import ResponsiveImage from '@/storefront/ResponsiveImage'
 import '@/styles/mobile/50-pdp.css'
+import '@/styles/product-page-redesign.css'
+
+const brandLogo = `${import.meta.env.BASE_URL}lagom-logo.svg`
 
 function EmptyState({title="Nothing here yet.",body="Check back soon for updated availability.",to="/shop",action="Browse products"}){return <m.div className="empty-state" initial="hidden" animate="visible" variants={motionVariants.softScale}><h2>{title}</h2><p>{body}</p>{to&&<Link className="primary-bar" to={to}>{action}</Link>}</m.div>}
 
@@ -80,23 +83,23 @@ function ProductPage() {
           animate="visible"
           variants={motionVariants.stagger}
         >
-          <m.p variants={motionVariants.item}>
-            {product.brand}
-          </m.p>
-          <m.h1 variants={motionVariants.item}>{product.name}</m.h1>
-          <m.h2 variants={motionVariants.item}>${selected.price.toFixed(2)}</m.h2>
-          <m.div variants={motionVariants.item} className="meta-pills">
-            <span>{product.type}</span>
-            {product.thcMgPerCan && <span>{product.thcMgPerCan} mg THC per can</span>}
-            {product.canVolume && <span>{product.canVolume}</span>}
-            {product.sugar && <span>{product.sugar}</span>}
+          <m.div variants={motionVariants.item} className="pdp-product-heading">
+            <img className="pdp-brand" src={brandLogo} alt={product.brand || 'Lagom Naturals'} width="2048" height="682" />
+            <h1>{product.name}</h1>
+            <p className="review-line">No reviews yet</p>
+            <h2>${selected.price.toFixed(2)}</h2>
+            <div className="pdp-facts" aria-label="Product facts">
+              {product.thcMgPerCan && <span>{product.thcMgPerCan} mg THC per can</span>}
+              {product.canVolume && <span>{product.canVolume}</span>}
+              {product.sugar && <span>{product.sugar}</span>}
+            </div>
           </m.div>
           <m.p variants={motionVariants.item} className="pdp-desc">
             {product.category === "Seltzers"
               ? "Bright, sparkling, and designed around a more considered pace. Each current Lagom can shows 10 mg THC, 12 fl oz, zero sugar, and zero carbs."
               : "Lagom gummies are shown from the current product image source. Potency, ingredients, and batch details are not connected in the current catalog data."}
           </m.p>
-          <m.div variants={motionVariants.item}>
+          <m.div variants={motionVariants.item} className="pdp-purchase">
             <label>Pack Size</label>
             <div className="size-row">
               {variants.map((variant) => (

@@ -9,6 +9,9 @@ import useSwipeGallery from '@/storefront/useSwipeGallery'
 import CatalogProductCard from '@/storefront/CatalogProductCard'
 import ResponsiveImage from '@/storefront/ResponsiveImage'
 import '@/styles/mobile/70-editorial.css'
+import '@/styles/merch-page-redesign.css'
+
+const brandLogo = `${import.meta.env.BASE_URL}lagom-logo.svg`
 
 function EmptyState({title="Nothing here yet.",body="Check back soon for updated availability.",to="/shop",action="Browse products"}){return <m.div className="empty-state" initial="hidden" animate="visible" variants={motionVariants.softScale}><h2>{title}</h2><p>{body}</p>{to&&<Link className="primary-bar" to={to}>{action}</Link>}</m.div>}
 
@@ -23,7 +26,6 @@ function MerchPage() {
   return (
     <Shell>
       <div className="editorial-page">
-        <p>LAGOM GOODS</p>
         <h1>Things to wear between plans.</h1>
         <Stagger className="merch-grid">
           {merch.map((item) => (
@@ -115,7 +117,7 @@ function MerchDetailPage() {
           animate="visible"
           variants={motionVariants.stagger}
         >
-          <m.p variants={motionVariants.item}>Lagom Naturals</m.p>
+          <m.img variants={motionVariants.item} className="merch-brand" src={brandLogo} alt="Lagom Naturals" width="2048" height="682" />
           <m.h1 variants={motionVariants.item}>{item.name}</m.h1>
           <m.h2 variants={motionVariants.item}>
             {hasPrice ? `$${item.price.toFixed(2)}` : "Pricing coming soon"}

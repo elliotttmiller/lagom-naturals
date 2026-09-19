@@ -7,9 +7,10 @@
   --color-line-strong:#c9c2b6;
   --color-accent:#0f513d;
 
-  /* Brand type package: editorial serif + rounded primary sans + utility sans. */
+  /* Brand type package: editorial serif + crisp contemporary sans.
+     Nunito remains available for legacy content but is no longer the global voice. */
   --font-display:"Playfair Display",Georgia,serif;
-  --font-primary:"Nunito","Avenir Next","Segoe UI",sans-serif;
+  --font-primary:"Manrope","Avenir Next","Segoe UI",sans-serif;
   --font-ui:"Manrope","Avenir Next","Segoe UI",sans-serif;
   --font-body:var(--font-primary);
   --font-utility:var(--font-ui);
