@@ -24,7 +24,7 @@ function facts(product){
   return [product.flavor,product.productLine,product.weight].filter(Boolean)
 }
 
-export default function PremiumGlobalSearch(){
+export default function PremiumGlobalSearch({openRequest=0}){
   const[open,setOpen]=useState(false)
   const[query,setQuery]=useState('')
   const[headerGeometry,setHeaderGeometry]=useState({top:0,height:72})
@@ -41,6 +41,7 @@ export default function PremiumGlobalSearch(){
   const transition=reduceMotion?{duration:0}:{duration:motionTokens.duration.base,ease:motionTokens.easeSoft}
 
   const close=()=>setOpen(false)
+  useEffect(()=>{if(openRequest>0)setOpen(true)},[openRequest])
   useEffect(()=>{
     const onOpen=()=>{returnFocusRef.current=document.activeElement;setOpen(true)}
     const onClose=()=>setOpen(false)
