@@ -269,29 +269,6 @@ function ProductCard({ product }) {
     </m.article>
   );
 }
-function EmptyState({
-  title = "Nothing here yet.",
-  body = "Check back soon for updated availability.",
-  to = "/shop",
-  action = "Browse products",
-}) {
-  return (
-    <m.div
-      className="empty-state"
-      initial="hidden"
-      animate="visible"
-      variants={motionVariants.softScale}
-    >
-      <h2>{title}</h2>
-      <p>{body}</p>
-      {to && (
-        <Link className="primary-bar" to={to}>
-          {action}
-        </Link>
-      )}
-    </m.div>
-  );
-}
 function HomePage() {
   return (
     <Shell>
