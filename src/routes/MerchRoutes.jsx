@@ -5,6 +5,7 @@ import {m,Presence,Stagger,StaggerItem,motionTokens,motionVariants} from '@/moti
 import {merch} from '@/catalogData'
 import Shell from '@/storefront/StorefrontShell'
 import {useCart} from '@/storefront/StorefrontContext'
+import useSwipeGallery from '@/storefront/useSwipeGallery'
 
 function EmptyState({title="Nothing here yet.",body="Check back soon for updated availability.",to="/shop",action="Browse products"}){return <m.div className="empty-state" initial="hidden" animate="visible" variants={motionVariants.softScale}><h2>{title}</h2><p>{body}</p>{to&&<Link className="primary-bar" to={to}>{action}</Link>}</m.div>}
 
@@ -71,6 +72,11 @@ function MerchDetailPage() {
       ? [{ src: item.image, label: "Product view", alt: item.name }]
       : [];
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const swipeHandlers = useSwipeGallery({
+    activeIndex: activeImageIndex,
+    itemCount: gallery.length,
+    onIndexChange: setActiveImageIndex,
+  });
   useEffect(() => {
     setActiveImageIndex(0);
     setSize(item?.sizes?.includes("M") ? "M" : item?.sizes?.[0] ?? null);
@@ -95,7 +101,13 @@ function MerchDetailPage() {
     <Shell detail>
       <m.div className="merch-detail">
         <div className="merch-detail-visual">
-          <m.div className="merch-detail-media" aria-live="polite">
+          <m.div
+            className="merch-detail-media"
+            aria-label={`${item.name} image ${activeImageIndex + 1} of ${gallery.length}`}
+            aria-live="polite"
+            aria-roledescription="carousel"
+            {...swipeHandlers}
+          >
             <m.img
               key={activeImage.src}
               layoutId={activeImageIndex === 0 ? `catalog-image-${item.id}` : undefined}
@@ -152,12 +164,13 @@ function MerchDetailPage() {
             </div>
           </m.div>}
           {hasPrice ? <m.div variants={motionVariants.item}>
-            <div className="qty-row">
+            <div className="qty-row merch-quantity">
               <b>Quantity</b>
-              <div>
+              <div role="group" aria-label="Product quantity">
               <m.button
                 type="button"
                 aria-label="Decrease quantity"
+                disabled={qty <= 1}
                 whileTap={{ scale: 0.88 }}
                 onClick={() => setQty(Math.max(1, qty - 1))}
               >
@@ -166,6 +179,8 @@ function MerchDetailPage() {
               <Presence mode="popLayout">
                 <m.span
                   key={qty}
+                  aria-live="polite"
+                  aria-atomic="true"
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -5 }}

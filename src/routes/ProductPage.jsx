@@ -5,6 +5,7 @@ import {m,Presence,motionTokens,motionVariants} from '@/motionSystem'
 import {products} from '@/catalogData'
 import Shell from '@/storefront/StorefrontShell'
 import {configuredProduct,productVariants,useCart} from '@/storefront/StorefrontContext'
+import useSwipeGallery from '@/storefront/useSwipeGallery'
 
 function EmptyState({title="Nothing here yet.",body="Check back soon for updated availability.",to="/shop",action="Browse products"}){return <m.div className="empty-state" initial="hidden" animate="visible" variants={motionVariants.softScale}><h2>{title}</h2><p>{body}</p>{to&&<Link className="primary-bar" to={to}>{action}</Link>}</m.div>}
 
@@ -15,6 +16,12 @@ function ProductPage() {
     product = products.find((p) => p.id === id);
   const variants = useMemo(() => (product ? productVariants(product) : []), [product]);
   const [selectedId, setSelectedId] = useState(variants[0]?.id);
+  const selectedIndex = Math.max(0, variants.findIndex((variant) => variant.id === selectedId));
+  const swipeHandlers = useSwipeGallery({
+    activeIndex: selectedIndex,
+    itemCount: variants.length,
+    onIndexChange: (index) => setSelectedId(variants[index]?.id),
+  });
   useEffect(() => {
     setSelectedId(variants[0]?.id);
   }, [product?.id, variants]);
@@ -34,6 +41,10 @@ function ProductPage() {
         <m.div
           className="pdp-media"
           style={{ "--pdp-image": `url("${selected.image || product.image}")` }}
+          aria-label={`${product.name} image ${selectedIndex + 1} of ${variants.length}`}
+          aria-live="polite"
+          aria-roledescription="carousel"
+          {...swipeHandlers}
         >
           <m.img
             key={selected.image || product.image}
