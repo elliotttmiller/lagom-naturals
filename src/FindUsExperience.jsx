@@ -269,10 +269,6 @@ export default function FindUsExperience(){
   const {pathname}=useLocation()
   const [query,setQuery]=React.useState('')
   const [selected,setSelected]=React.useState(SHOPS[0])
-  if(pathname!=='/visit')return null
-  const q=query.trim().toLowerCase()
-  const visible=q?SHOPS.filter(s=>`${s.name} ${s.address}`.toLowerCase().includes(q)):SHOPS
-  const mapPoints=MAP_POINTS
   const choose=React.useCallback(shop=>{setSelected(shop);if(window.innerWidth<900)document.querySelector('.find-map-pane')?.scrollIntoView({behavior:'smooth',block:'center'})},[])
   const scrollLocationRail=React.useCallback(event=>{
     if(window.innerWidth<900||!event.deltaY)return
@@ -281,6 +277,10 @@ export default function FindUsExperience(){
     rail.scrollTop+=event.deltaY
     event.preventDefault()
   },[])
+  if(pathname!=='/visit')return null
+  const q=query.trim().toLowerCase()
+  const visible=q?SHOPS.filter(s=>`${s.name} ${s.address}`.toLowerCase().includes(q)):SHOPS
+  const mapPoints=MAP_POINTS
   return <section className="find-experience" aria-labelledby="find-title">
     <div className="find-mobile-hero">
       <img src={findUsHero} alt="Lagom Naturals storefront district"/>
