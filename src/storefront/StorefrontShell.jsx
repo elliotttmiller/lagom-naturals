@@ -5,10 +5,13 @@ import HamburgerToggle from '@/HamburgerToggle'
 import {m,motionTokens,motionVariants} from '@/motionSystem'
 import {useCart} from './StorefrontContext'
 
+const PUBLIC_BASE=import.meta.env.BASE_URL
+const publicAsset=name=>`${PUBLIC_BASE}${name.replace(/^\//,'')}`
+
 const MENU_DURATION=600
 const MENU_EASE=[0.4,0,0.2,1]
 
-function Logo({onClick,className=''}){return <Link to="/" className={`brand ${className}`} onClick={onClick}><img src="/lagom-logo.svg" alt="Lagom Naturals"/></Link>}
+function Logo({onClick,className=''}){return <Link to="/" className={`brand ${className}`} onClick={onClick}><img src={publicAsset("lagom-logo.svg")} alt="Lagom Naturals"/></Link>}
 
 function Header({detail=false}){
   const{count}=useCart()
