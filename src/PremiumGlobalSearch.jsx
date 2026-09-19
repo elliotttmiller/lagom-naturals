@@ -159,9 +159,11 @@ export default function PremiumGlobalSearch({openRequest=0,initialTrigger=null})
             onClick={()=>goProduct(product.id)}
           >
             <span className="global-search__result-media"><img src={product.image} alt=""/></span>
-            <span className="global-search__result-copy"><small>{product.category}</small><strong>{product.name}</strong><span>{facts(product).join(' · ')}</span></span>
-            {price(product)&&<span className="global-search__result-price">{price(product)}</span>}
-            <ChevronRight aria-hidden="true"/>
+            <span className="global-search__result-body">
+              <span className="global-search__result-copy"><small>{product.category}</small><strong>{product.name}</strong><span>{facts(product).join(' · ')}</span></span>
+              {price(product)&&<span className="global-search__result-price">{price(product)}</span>}
+            </span>
+            <span className="global-search__result-action" aria-hidden="true"><ChevronRight/></span>
           </m.button>)}</m.div>:<m.div id="global-search-results" className="global-search__empty" key="empty" role="status" aria-live="polite"><strong>No matching products</strong><p>Try another flavor, product, category, or potency.</p></m.div>}</Presence>
         </>}
       </div>

@@ -647,12 +647,15 @@ body:has(.find-experience) .route-stage .find-page,body:has(.find-experience) .v
 }
 @media(max-width:899px){
   .find-map-pane{
-    width:calc(100% - 40px);
-    max-width:760px;
+    width:100%;
+    max-width:none;
     aspect-ratio:auto;
-    height:clamp(320px,88vw,460px)!important;
-    min-height:320px;
-    margin-inline:auto!important;
+    height:clamp(440px,125vw,620px)!important;
+    min-height:440px;
+    margin-inline:0!important;
+    border-left:0;
+    border-right:0;
+    border-radius:0;
   }
   .find-map-pane iframe{display:none!important}
   .find-map-pane::after{z-index:500;pointer-events:none}
@@ -661,16 +664,16 @@ body:has(.find-experience) .route-stage .find-page,body:has(.find-experience) .v
 }
 @media(max-width:600px){
   .find-map-pane{
-    width:calc(100% - 40px);
-    height:clamp(330px,92vw,430px)!important;
-    min-height:330px;
+    width:100%;
+    height:clamp(440px,125vw,560px)!important;
+    min-height:440px;
   }
 }
 @media(max-width:420px){
   .find-map-pane{
-    width:calc(100% - 32px);
-    height:clamp(320px,96vw,390px)!important;
-    min-height:320px;
+    width:100%;
+    height:clamp(440px,125vw,525px)!important;
+    min-height:440px;
   }
   .find-leaflet-map .leaflet-control-zoom a{
     width:40px;
