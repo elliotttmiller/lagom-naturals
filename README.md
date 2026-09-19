@@ -17,7 +17,6 @@ The site implements a complete customer-facing page library inspired by the supp
 - Mobile navigation and desktop navigation systems
 
 Lagom is positioned throughout as a **dispensary / retailer first**, not as a single-product cannabis brand.
-
 ## Stack
 - React
 - React Router
