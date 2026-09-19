@@ -15,12 +15,8 @@ import {
 import {
   ArrowRight,
   ChevronDown,
-  Droplet,
-  Flower2,
   Heart,
-  Leaf,
   Plus,
-  Store,
 } from "lucide-react";
 import {
   m,
@@ -274,67 +270,7 @@ function ProductCard({ product }) {
 function HomePage() {
   return (
     <Shell>
-      <section className="beverage-hero">
-        <div className="beverage-hero__copy">
-          <m.h1
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={motionTokens.springSoft}
-          >
-            Find your
-            <br />
-            <em>just right.</em>
-          </m.h1>
-          <m.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-            Crisp, zero-sugar THC seltzers for a more measured social ritual.
-          </m.p>
-          <m.div
-            className="hero-actions"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
-            <Link to="/shop">
-              SHOP THE DRINKS <ArrowRight />
-            </Link>
-            <Link to="/about">OUR STORY</Link>
-          </m.div>
-        </div>
-        <div className="beverage-hero__proof" aria-label="Product highlights">
-          <span>
-            <Heart aria-hidden="true" />
-            ZERO<br />SUGAR
-          </span>
-          <span>
-            <Leaf aria-hidden="true" />
-            REAL<br />FLAVOR
-          </span>
-          <span>
-            <Flower2 aria-hidden="true" />
-            10MG<br />THC
-          </span>
-          <span>
-            <Droplet aria-hidden="true" />
-            GOOD<br />VIBES
-          </span>
-        </div>
-        <m.div
-          className="beverage-hero__cans"
-          initial={{ opacity: 0, scale: 0.97 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.68, ease: motionTokens.ease }}
-        >
-          {products.map((p, i) => (
-            <img
-              key={p.id}
-              src={p.image}
-              alt=""
-              aria-hidden="true"
-              style={{ "--i": i, "--accent": p.accent }}
-            />
-          ))}
-        </m.div>
-        <p className="beverage-hero__note">10 mg THC per can · 12 fl oz</p>
-      </section>
+      <section className="beverage-hero" aria-label="Featured Lagom Naturals products" />
       <section className="lineup">
         <Reveal className="section-head">
           <div>
