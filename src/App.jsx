@@ -41,7 +41,13 @@ import {
   motionTokens,
   motionVariants,
 } from "./motionSystem";
-import { products, merch, categoryCards, categoryImages } from "./catalogData";
+import {
+  products,
+  merch,
+  categoryCards,
+  categoryImages,
+  gummyCollections,
+} from "./catalogData";
 import HamburgerToggle from "./HamburgerToggle";
 import storefront from "@/assets/store/storefront-day.webp";
 import hospitality from "@/assets/store/extra-store2.webp";
@@ -710,18 +716,33 @@ function HomePage() {
 function ShopPage() {
   const [params, setParams] = useSearchParams(),
     [query, setQuery] = useState("");
-  const category = params.get("category") || "All",
-    categories = ["All", "Seltzers", "Gummies"];
+  const requestedCategory = params.get("category") || "All";
+  const requestedCollection = params.get("collection") || "All";
+  const categories = ["All", "Seltzers", "Gummies"];
+  const category = categories.includes(requestedCategory) ? requestedCategory : "All";
+  const collection = gummyCollections.some(({ name }) => name === requestedCollection)
+    ? requestedCollection
+    : "All";
+  const showGummyCollections = category === "Gummies";
+  const updateFilters = (nextCategory, nextCollection = "All") => {
+    const next = new URLSearchParams();
+    if (nextCategory !== "All") next.set("category", nextCategory);
+    if (nextCategory === "Gummies" && nextCollection !== "All") {
+      next.set("collection", nextCollection);
+    }
+    setParams(next);
+  };
   const visible = useMemo(
     () =>
       products.filter(
         (p) =>
           (category === "All" || p.category === category) &&
-          `${p.name} ${p.flavor} ${p.category}`
+          (collection === "All" || p.productLine === collection) &&
+          `${p.name} ${p.flavor} ${p.category} ${p.productLine || ""}`
             .toLowerCase()
             .includes(query.toLowerCase()),
       ),
-    [category, query],
+    [category, collection, query],
   );
   return (
     <Shell>
@@ -733,8 +754,8 @@ function ShopPage() {
               type="search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search by drink or flavor"
-              aria-label="Search drinks"
+              placeholder="Search seltzers, gummies, or flavor"
+              aria-label="Search products"
             />
           </label>
         </Reveal>
@@ -755,9 +776,11 @@ function ShopPage() {
             title={
               query.trim()
                 ? `Search Results (${visible.length})`
-                : category === "All"
-                  ? "Featured Products"
-                  : category
+                : collection !== "All"
+                  ? `${collection} Gummies`
+                  : category === "All"
+                    ? "Featured Products"
+                    : category
             }
           />
           <div className="chips" aria-label="Filter by category">
@@ -766,12 +789,36 @@ function ShopPage() {
                 type="button"
                 key={f}
                 className={category === f ? "active" : ""}
-                onClick={() => setParams(f === "All" ? {} : { category: f })}
+                onClick={() => updateFilters(f)}
               >
                 {f}
               </button>
             ))}
           </div>
+          {showGummyCollections && (
+            <div className="collection-filter" aria-labelledby="gummy-collection-filter-label">
+              <span id="gummy-collection-filter-label">Gummy collection</span>
+              <div className="chips collection-chips" aria-label="Filter gummies by collection">
+                <button
+                  type="button"
+                  className={collection === "All" ? "active" : ""}
+                  onClick={() => updateFilters("Gummies")}
+                >
+                  All gummies
+                </button>
+                {gummyCollections.map(({ name }) => (
+                  <button
+                    type="button"
+                    key={name}
+                    className={collection === name ? "active" : ""}
+                    onClick={() => updateFilters("Gummies", name)}
+                  >
+                    {name}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </Reveal>
         <Stagger className="product-grid listing-grid">
           {visible.map((p) => (
@@ -781,7 +828,7 @@ function ShopPage() {
           ))}
         </Stagger>
         {!visible.length && (
-          <p className="empty-copy">No drinks match that search.</p>
+          <p className="empty-copy">No products match those filters.</p>
         )}
       </div>
     </Shell>

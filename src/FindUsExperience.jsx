@@ -3,35 +3,37 @@ import { useLocation } from 'react-router-dom'
 import findUsHero from '@/assets/mobile/find-us-hero.png'
 
 const SHOPS=[
-['Barstock Liquors','31 E Main St','Crosby','MN','56441','+12185453004','http://www.barstockliquors.com/'],
-['Central Avenue Liquors','2538 Central Ave NE','Minneapolis','MN','55418','+16127813424','http://www.central-liquor.com/'],
-['Eden Prairie Liquors — 78th Street','16508 W 78th St','Eden Prairie','MN','55346','+19529498423','http://www.edenprairie.org/epliquor'],
-['Eden Prairie Liquors — Den Road','8018 Den Rd','Eden Prairie','MN','55344','+19529498302','http://www.edenprairie.org/epliquor'],
-['First Grand Avenue Liquor Store','918 Grand Ave','St Paul','MN','55105','+16512277039','http://www.1stgrandaveliquors.com/'],
-['Hemp House','719 W 26th St','Minneapolis','MN','55405','+16123536081','https://hemphouse.co/'],
-['Hemp House','501 1st Ave NE Suite 130','Minneapolis','MN','55413','+16123159454','https://hemphouse.co/'],
-['Hemp House','1313 Chestnut Ave','Minneapolis','MN','55403','+16123536081','https://hemphouse.co/'],
-['Hemp House','6015 Lyndale Ave S','Minneapolis','MN','55419','+16123542167','https://hemphouse.co/'],
-['Hemp House','1995 Burns Ave','St Paul','MN','55119','+16514934257','https://hemphouse.co/'],
-['Hopkins Liquor Store','712 11th Ave S','Hopkins','MN','55343','+19529388277','https://hopkinsliquor.gotoliquorstore.com/'],
-['Itasca Wine and Spirits','706 N 1st St Suite 100','Minneapolis','MN','55401','+16122132975',''],
-['Liquor Boy Wine and Spirits','5620 Cedar Lk Rd S','St Louis Park','MN','55416','+19525122200','http://www.liquor-boy.com/'],
-['Long Lake Orono Smoke Shop','1865 Wayzata Blvd Unit 112','Long Lake','MN','55356','+17632731879',''],
-["Mac's Liquor",'8600 Excelsior Blvd','Hopkins','MN','55343','+19529359291','http://www.macsliq.com/'],
-["Nolo's Kitchen & Bar",'515 N Washington Ave #100','Minneapolis','MN','55401','+16128006033','http://noloskitchen.com/'],
-['Park Tavern','3401 Louisiana Ave S','St Louis Park','MN','55426','+19529296810','https://www.parktavern.net/'],
-['Plymouth Liquors','11000 Hwy 55','Plymouth','MN','55441','+17635450771','http://www.liquorbarrel.com/'],
-['St Louis Park Liquor','6316 Minnetonka Blvd','St Louis Park','MN','55416','+19524263650',''],
-['The 701 Salon','701 N 3rd St #210','Minneapolis','MN','55401','+16124615525',''],
-['The Basement Bar','511 N Washington Ave','Minneapolis','MN','55401','+16128006033','https://www.basementbarmpls.com/'],
-['The Loop Minneapolis','606 N Washington Ave #100','Minneapolis','MN','55401','+16123400010','http://theloopmpls.com/'],
-['TXT Wine and Spirits','700 W Broadway','Minneapolis','MN','55411','',''],
-['Vicksburg Liquors','1115 Vicksburg Ln N','Plymouth','MN','55447','+17634761483','https://vicksburgliquor.com/'],
-['Vikings Golf Course','282 E Balsam St','Strum','WI','54770','+17156953306',''],
-['Vinifera Wine and Ales','1400 County Rd 101','Plymouth','MN','55447','+17634730008','http://www.viniferawinesandales.com/'],
-['Wayzata Smoke Shop & Vape','1310 Wayzata Blvd','Wayzata','MN','55391','+19522294452',''],
-['Westwood Liquor','2304 Louisiana Ave S','St Louis Park','MN','55426','+19525447878','']
-].map(([name,street,city,state,zip,phone,website],i)=>({id:i+1,name,street,city,state,zip,phone,website,address:`${street}, ${city}, ${state} ${zip}`}))
+// Address-point matches verified 2026-09-18. Six decimals are retained for map rendering;
+// the actual ground accuracy is that of the geocoder's underlying address point.
+['Barstock Liquors','31 E Main St','Crosby','MN','56441','+12185453004','http://www.barstockliquors.com/',46.482740,-93.950839],
+['Central Avenue Liquors','2538 Central Ave NE','Minneapolis','MN','55418','+16127813424','http://www.central-liquor.com/',45.014605,-93.247881],
+['Eden Prairie Liquors — 78th Street','16508 W 78th St','Eden Prairie','MN','55346','+19529498423','http://www.edenprairie.org/epliquor',44.863449,-93.487569],
+['Eden Prairie Liquors — Den Road','8018 Den Rd','Eden Prairie','MN','55344','+19529498302','http://www.edenprairie.org/epliquor',44.858370,-93.423836],
+['First Grand Avenue Liquor Store','918 Grand Ave','St Paul','MN','55105','+16512277039','http://www.1stgrandaveliquors.com/',44.939856,-93.138802],
+['Hemp House','719 W 26th St','Minneapolis','MN','55405','+16123536081','https://hemphouse.co/',44.955490,-93.288605],
+['Hemp House','501 1st Ave NE Suite 130','Minneapolis','MN','55413','+16123159454','https://hemphouse.co/',44.990342,-93.254163],
+['Hemp House','1313 Chestnut Ave','Minneapolis','MN','55403','+16123536081','https://hemphouse.co/',44.976459,-93.283706],
+['Hemp House','6015 Lyndale Ave S','Minneapolis','MN','55419','+16123542167','https://hemphouse.co/',44.893849,-93.287628],
+['Hemp House','1995 Burns Ave','St Paul','MN','55119','+16514934257','https://hemphouse.co/',44.948957,-93.016116],
+['Hopkins Liquor Store','712 11th Ave S','Hopkins','MN','55343','+19529388277','https://hopkinsliquor.gotoliquorstore.com/',44.912788,-93.414974],
+['Itasca Wine and Spirits','706 N 1st St Suite 100','Minneapolis','MN','55401','+16122132975','',44.989862,-93.274589],
+['Liquor Boy Wine and Spirits','5620 Cedar Lk Rd S','St Louis Park','MN','55416','+19525122200','http://www.liquor-boy.com/',44.964078,-93.350631],
+['Long Lake Orono Smoke Shop','1865 Wayzata Blvd Unit 112','Long Lake','MN','55356','+17632731879','',44.985523,-93.572352],
+["Mac's Liquor",'8600 Excelsior Blvd','Hopkins','MN','55343','+19529359291','http://www.macsliq.com/',44.925636,-93.388560],
+["Nolo's Kitchen & Bar",'515 N Washington Ave #100','Minneapolis','MN','55401','+16128006033','http://noloskitchen.com/',44.986187,-93.275582],
+['Park Tavern','3401 Louisiana Ave S','St Louis Park','MN','55426','+19529296810','https://www.parktavern.net/',44.941248,-93.369830],
+['Plymouth Liquors','11000 Hwy 55','Plymouth','MN','55441','+17635450771','http://www.liquorbarrel.com/',44.988782,-93.419788],
+['St Louis Park Liquor','6316 Minnetonka Blvd','St Louis Park','MN','55416','+19524263650','',44.949929,-93.360077],
+['The 701 Salon','701 N 3rd St #210','Minneapolis','MN','55401','+16124615525','',44.993566,-93.282702],
+['The Basement Bar','511 N Washington Ave','Minneapolis','MN','55401','+16128006033','https://www.basementbarmpls.com/',44.986289,-93.275112],
+['The Loop Minneapolis','606 N Washington Ave #100','Minneapolis','MN','55401','+16123400010','http://theloopmpls.com/',44.987447,-93.275893],
+['TXT Wine and Spirits','700 W Broadway','Minneapolis','MN','55411','','',44.999850,-93.288346],
+['Vicksburg Liquors','1115 Vicksburg Ln N','Plymouth','MN','55447','+17634761483','https://vicksburgliquor.com/',44.991236,-93.482240],
+['Vikings Golf Course','282 E Balsam St','Strum','WI','54770','+17156953306','',44.556528,-91.390251],
+['Vinifera Wine and Ales','1400 County Rd 101','Plymouth','MN','55447','+17634730008','http://www.viniferawinesandales.com/',44.994159,-93.501218],
+['Wayzata Smoke Shop & Vape','1310 Wayzata Blvd','Wayzata','MN','55391','+19522294452','',44.970666,-93.481092],
+['Westwood Liquor','2304 Louisiana Ave S','St Louis Park','MN','55426','+19525447878','',44.959249,-93.371822]
+].map(([name,street,city,state,zip,phone,website,latitude,longitude],i)=>({id:i+1,name,street,city,state,zip,phone,website,latitude,longitude,address:`${street}, ${city}, ${state} ${zip}`}))
 
 const mapsDirections=shop=>`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(shop.address)}`
 const mapsPlace=shop=>`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(shop.address)}`
@@ -89,6 +91,7 @@ function InteractiveStoreMap({points,selected,onSelect}){
   const mapRef=React.useRef(null)
   const markersRef=React.useRef(new Map())
   const selectedIdRef=React.useRef(null)
+  const hasFitBoundsRef=React.useRef(false)
   const [status,setStatus]=React.useState('loading')
 
   React.useEffect(()=>{
@@ -155,14 +158,22 @@ function InteractiveStoreMap({points,selected,onSelect}){
       if(!activeIds.has(id)){map.removeLayer(marker);markersRef.current.delete(id)}
     })
 
+    if(!hasFitBoundsRef.current&&points.length){
+      map.fitBounds(L.latLngBounds(points.map(({lat,lon})=>[Number(lat),Number(lon)])),{
+        padding:[44,44],
+        maxZoom:11,
+        animate:false,
+      })
+      hasFitBoundsRef.current=true
+      selectedIdRef.current=selected.id
+    }
+
     const selectedPoint=points.find(p=>p.shop.id===selected.id)
     if(selectedPoint&&selectedIdRef.current!==selected.id){
       selectedIdRef.current=selected.id
       map.setView([Number(selectedPoint.lat),Number(selectedPoint.lon)],14,{animate:true})
-    }else if(!map.getCenter()&&points.length){
-      map.setView([Number(points[0].lat),Number(points[0].lon)],13,{animate:false})
     }
-  },[points,selected,onSelect])
+  },[points,selected,onSelect,status])
 
   React.useEffect(()=>()=>{if(mapRef.current){mapRef.current.remove();mapRef.current=null;markersRef.current.clear()}},[])
 
@@ -188,62 +199,14 @@ function LocationRow({shop,selected,onSelect}){
   </article>
 }
 
-const GEO_CACHE_KEY='lagom-store-coordinates-v1'
-const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms))
-
 export default function FindUsExperience(){
   const {pathname}=useLocation()
   const [query,setQuery]=React.useState('')
   const [selected,setSelected]=React.useState(SHOPS[0])
-  const [pointsById,setPointsById]=React.useState({})
-  const [mapStatus,setMapStatus]=React.useState('loading')
-
-  React.useEffect(()=>{
-    let cancelled=false
-    const controller=new AbortController()
-    let cached={}
-    try{cached=JSON.parse(localStorage.getItem(GEO_CACHE_KEY)||'{}')}catch{}
-    if(Object.keys(cached).length)setPointsById(cached)
-
-    const queue=[SHOPS[0],...SHOPS.slice(1)].filter(shop=>!cached[shop.id])
-    const geocode=async shop=>{
-      const response=await fetch(`https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=us&q=${encodeURIComponent(shop.address)}`,{
-        signal:controller.signal,
-        headers:{Accept:'application/json'},
-      })
-      if(!response.ok)throw new Error('geocode')
-      const rows=await response.json()
-      const row=rows?.[0]
-      if(!row?.lat||!row?.lon)return null
-      return {lat:row.lat,lon:row.lon}
-    }
-
-    ;(async()=>{
-      setMapStatus(Object.keys(cached).length?'ready':'loading')
-      for(const shop of queue){
-        if(cancelled)break
-        try{
-          const point=await geocode(shop)
-          if(point&&!cancelled){
-            cached={...cached,[shop.id]:point}
-            setPointsById(cached)
-            setMapStatus('ready')
-            try{localStorage.setItem(GEO_CACHE_KEY,JSON.stringify(cached))}catch{}
-          }
-        }catch(error){
-          if(error.name==='AbortError')break
-        }
-        if(!cancelled)await wait(1100)
-      }
-      if(!cancelled&&Object.keys(cached).length===0)setMapStatus('error')
-    })()
-
-    return()=>{cancelled=true;controller.abort()}
-  },[])
   if(pathname!=='/visit')return null
   const q=query.trim().toLowerCase()
   const visible=q?SHOPS.filter(s=>`${s.name} ${s.address}`.toLowerCase().includes(q)):SHOPS
-  const mapPoints=SHOPS.flatMap(shop=>pointsById[shop.id]?[{shop,...pointsById[shop.id]}]:[])
+  const mapPoints=SHOPS.map(shop=>({shop,lat:shop.latitude,lon:shop.longitude}))
   const choose=React.useCallback(shop=>{setSelected(shop);if(window.innerWidth<900)document.querySelector('.find-map-pane')?.scrollIntoView({behavior:'smooth',block:'center'})},[])
   return <section className="find-experience" aria-labelledby="find-title">
     <div className="find-mobile-hero">
@@ -274,7 +237,7 @@ export default function FindUsExperience(){
         </div>
       </aside>
       <div className="find-map-pane">
-        {mapPoints.length?<InteractiveStoreMap points={mapPoints} selected={selected} onSelect={choose}/>:<div className="find-map-state" role="status">{mapStatus==='error'?'Map unavailable — select a location or open directions.':'Loading map locations…'}</div>}
+        <InteractiveStoreMap points={mapPoints} selected={selected} onSelect={choose}/>
         <a className="find-map-open" href={mapsPlace(selected)} target="_blank" rel="noreferrer">Open in Maps <ExternalIcon/></a>
         <article className="find-map-popover">
           <div className="find-map-popover__identity"><RetailerMark shop={selected}/><span><small>SELECTED LOCATION</small><strong>{selected.name}</strong></span></div>

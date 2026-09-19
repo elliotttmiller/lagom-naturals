@@ -146,6 +146,7 @@
   .category-card{min-height:220px;padding:20px;border:1px solid var(--color-line);border-radius:var(--desktop-radius);background:#fff}
   .category-card img{width:100%;height:165px;object-fit:contain}
   .chips{display:flex;gap:9px;flex-wrap:wrap;margin:0 0 36px}.chips button{min-height:42px;padding:0 18px;border:1px solid var(--color-line-strong);border-radius:999px;background:transparent;font:700 12px/1 var(--font-ui)}.chips button.active{background:#111;color:#fff;border-color:#111}
+  .collection-filter{margin:-14px 0 36px}.collection-filter>span{display:block;margin-bottom:10px;color:var(--color-text-muted);font:700 11px/1 var(--font-ui);letter-spacing:.08em;text-transform:uppercase}.collection-chips{margin:0}.collection-chips button{background:#fff}
 
   /* PDP */
   .pdp{width:100%;margin:0;padding:clamp(40px,4vw,72px) clamp(28px,3.5vw,72px) var(--desktop-section);display:grid;grid-template-columns:minmax(0,1.08fr) minmax(420px,.92fr);grid-template-areas:"media copy" "gallery copy";gap:clamp(12px,1.4vw,20px) clamp(40px,4vw,80px);align-items:start}

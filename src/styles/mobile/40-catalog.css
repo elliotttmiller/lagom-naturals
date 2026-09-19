@@ -10,6 +10,7 @@
   .shop-page .chips::-webkit-scrollbar,.listing-page .chips::-webkit-scrollbar{display:none}
   .shop-page .chips button,.listing-page .chips button{min-width:max-content!important;min-height:44px!important;padding:0 20px!important;border:1px solid transparent!important;border-radius:999px!important;background:transparent!important;color:#171815!important;font:800 14px/1 var(--m-font-body)!important}
   .shop-page .chips button.active,.listing-page .chips button.active{background:#111!important;color:#fff!important}
+  .shop-page .collection-filter{margin:-10px 0 26px}.shop-page .collection-filter>span{display:block;margin:0 0 8px;color:var(--m-muted);font:800 11px/1 var(--m-font-body);letter-spacing:.08em;text-transform:uppercase}.shop-page .collection-chips{margin:0!important}
 
   /* Two-up is the mobile source of truth. Never fall back to stacked full-width cards. */
   .shop-page .product-grid,.listing-page .product-grid{width:100%!important;margin:0!important;padding:0!important;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px 10px!important;align-items:stretch!important;overflow:visible!important}

@@ -359,6 +359,11 @@ export const categoryCards = [
   ["Seltzers", "Seltzers", "Sparkling THC seltzers"],
   ["Gummies", "Gummies", "THC gummy collection"],
 ];
+export const gummyCollections = [
+  { name: "Classic" },
+  { name: "Organic" },
+  { name: "Midnight Drift" },
+];
 export const categoryImages = {
   Seltzers: seltzersThumbnail,
   Gummies: gummiesThumbnail,
