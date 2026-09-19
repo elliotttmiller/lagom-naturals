@@ -18,7 +18,6 @@ import {
   Heart,
   Leaf,
   Plus,
-  Search,
   Store,
 } from "lucide-react";
 import {
@@ -375,8 +374,7 @@ function HomePage() {
   );
 }
 function ShopPage() {
-  const [params, setParams] = useSearchParams(),
-    [query, setQuery] = useState("");
+  const [params, setParams] = useSearchParams();
   const requestedCategory = params.get("category") || "All";
   const requestedCollection = params.get("collection") || "All";
   const categories = ["All", "Seltzers", "Gummies"];
@@ -398,29 +396,18 @@ function ShopPage() {
       products.filter(
         (p) =>
           (category === "All" || p.category === category) &&
-          (collection === "All" || p.productLine === collection) &&
-          `${p.name} ${p.flavor} ${p.category} ${p.productLine || ""}`
-            .toLowerCase()
-            .includes(query.toLowerCase()),
+          (collection === "All" || p.productLine === collection),
       ),
-    [category, collection, query],
+    [category, collection],
   );
   return (
     <Shell>
       <div className="shop-page">
-        <Reveal>
-          <label className="shop-search">
-            <Search />
-            <input
-              type="search"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search seltzers, gummies, or flavor"
-              aria-label="Search products"
-            />
-          </label>
+        <Reveal className="shop-intro">
+          <h1>Shop</h1>
+          <p>Premium THC beverages and gummies for every occasion.</p>
         </Reveal>
-        {!query.trim() && category === "All" && (
+        {category === "All" && (
           <Stagger className="category-grid">
             {categoryCards.map(([name, label, description]) => (
               <CategoryCard
@@ -432,29 +419,31 @@ function ShopPage() {
             ))}
           </Stagger>
         )}
-        <Reveal>
-          <SectionTitle
-            title={
-              query.trim()
-                ? `Search Results (${visible.length})`
-                : collection !== "All"
+        <Reveal className="shop-catalog">
+          <div className="shop-catalog__toolbar">
+            <div className="shop-catalog__heading">
+              <h2>
+                {collection !== "All"
                   ? `${collection} Gummies`
                   : category === "All"
-                    ? "Featured Products"
-                    : category
-            }
-          />
-          <div className="chips" aria-label="Filter by category">
-            {categories.map((f) => (
-              <button
-                type="button"
-                key={f}
-                className={category === f ? "active" : ""}
-                onClick={() => updateFilters(f)}
-              >
-                {f}
-              </button>
-            ))}
+                    ? "All products"
+                    : category}
+              </h2>
+              <span>{visible.length} {visible.length === 1 ? "product" : "products"}</span>
+            </div>
+            <div className="chips" aria-label="Filter by category">
+              {categories.map((f) => (
+                <button
+                  type="button"
+                  key={f}
+                  className={category === f ? "active" : ""}
+                  aria-pressed={category === f}
+                  onClick={() => updateFilters(f)}
+                >
+                  {f}
+                </button>
+              ))}
+            </div>
           </div>
           {showGummyCollections && (
             <div className="collection-filter" aria-labelledby="gummy-collection-filter-label">

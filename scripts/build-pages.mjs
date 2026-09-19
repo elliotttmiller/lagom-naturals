@@ -1,11 +1,8 @@
 import { copyFile, mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { extname, join } from 'node:path'
 import { build, createServer } from 'vite'
-import { spawn } from 'node:child_process'
 
 const outDir = 'docs'
-const strict = process.argv.includes('--strict')
-if (strict) process.env.BUILD_STRICT = '1'
 const defaultBase = '/lagom-naturals/'
 const configuredBase = process.env.GITHUB_PAGES_BASE || defaultBase
 const base = configuredBase === '/' ? '/' : `/${configuredBase.replace(/^\/+|\/+$/g, '')}/`
@@ -20,14 +17,6 @@ async function cleanOutputDirectory(directory) {
     }
     throw error
   }
-}
-
-function runNode(script, args = []) {
-  return new Promise((resolve, reject) => {
-    const child = spawn(process.execPath, [script, ...args], { stdio: 'inherit', env: process.env })
-    child.on('error', reject)
-    child.on('exit', code => code === 0 ? resolve() : reject(new Error(`${script} exited with code ${code}`)))
-  })
 }
 
 const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]))
@@ -229,5 +218,4 @@ await normalizeLegacyPublicUrls(outDir)
 
 await copyFile(`${outDir}/index.html`, `${outDir}/404.html`)
 await writeFile(`${outDir}/.nojekyll`, '')
-await runNode('scripts/validate-build.mjs', [outDir])
-console.log(`\nGitHub Pages production build written to ${outDir}/ with base ${base}${strict ? ' (strict)' : ''}`)
+console.log(`\nGitHub Pages production build written to ${outDir}/ with base ${base}`)

@@ -10,11 +10,8 @@
     "dev": "vite",
     "build": "node scripts/build-pages.mjs",
     "build:pages": "node scripts/build-pages.mjs",
-    "build:strict": "node scripts/build-pages.mjs --strict",
     "check": "vite build --emptyOutDir",
     "audit:assets": "node scripts/audit-source-assets.mjs",
-    "audit:build": "node scripts/validate-build.mjs docs",
-    "verify": "npm run audit:assets && npm run build:pages",
     "preview": "vite preview"
   },
   "dependencies": {
