@@ -283,13 +283,6 @@ export default function FindUsExperience(){
     setFocusRequest(request=>request+1)
     if(window.innerWidth<900)document.querySelector('.find-map-pane')?.scrollIntoView({behavior:'smooth',block:'center'})
   },[])
-  const scrollLocationRail=React.useCallback(event=>{
-    if(window.innerWidth<900||!event.deltaY)return
-    const rail=event.currentTarget.closest('.find-sidebar')
-    if(!rail)return
-    rail.scrollTop+=event.deltaY
-    event.preventDefault()
-  },[])
   if(pathname!=='/visit')return null
   const q=query.trim().toLowerCase()
   const visible=q?SHOPS.filter(s=>`${s.name} ${s.address}`.toLowerCase().includes(q)):SHOPS
@@ -317,7 +310,7 @@ export default function FindUsExperience(){
           <SearchIcon/>
         </label>
         <div className="find-result-meta"><span>{visible.length} locations</span><span>Minnesota + Wisconsin</span></div>
-        <div className="find-location-list" aria-live="polite" onWheel={scrollLocationRail}>
+        <div className="find-location-list" aria-live="polite">
           {visible.map(shop=><LocationRow key={shop.id} shop={shop} selected={selected.id===shop.id} onSelect={choose}/>)}
           {!visible.length&&<div className="find-empty"><strong>No locations found.</strong><button type="button" onClick={()=>setQuery('')}>Clear search</button></div>}
         </div>

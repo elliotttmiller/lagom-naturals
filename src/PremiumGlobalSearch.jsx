@@ -1,7 +1,7 @@
-import {useDeferredValue,useEffect,useMemo,useRef,useState} from 'react'
+import {useDeferredValue,useEffect,useLayoutEffect,useMemo,useRef,useState} from 'react'
 import {ArrowRight,ChevronRight,Search,X} from 'lucide-react'
-import {useLocation,useNavigate} from 'react-router-dom'
-import {categoryCards,categoryImages,products} from './catalogData'
+import {Link,useLocation,useNavigate} from 'react-router-dom'
+import {products} from './catalogData'
 import {Presence,m,motionTokens,useReducedMotion} from './motionSystem'
 
 const normalize=value=>String(value??'').trim().toLocaleLowerCase()
@@ -13,8 +13,7 @@ const searchableText=product=>[
   ...(product.variants||[]).flatMap(variant=>[variant.label,variant.detail])
 ].filter(Boolean).join(' ').toLocaleLowerCase()
 
-const catalogTerms=products.flatMap(product=>[product.flavor,product.category,product.productLine]).filter(Boolean)
-const POPULAR=[...new Set(catalogTerms)].slice(0,6)
+const POPULAR=[...new Set(products.flatMap(product=>[product.flavor,product.category,product.productLine]).filter(Boolean))].slice(0,6)
 
 function price(product){
   const value=product.price??product.variants?.[0]?.price
@@ -28,8 +27,8 @@ function facts(product){
 export default function PremiumGlobalSearch(){
   const[open,setOpen]=useState(false)
   const[query,setQuery]=useState('')
+  const[headerGeometry,setHeaderGeometry]=useState({top:0,height:72})
   const inputRef=useRef(null)
-  const dialogRef=useRef(null)
   const returnFocusRef=useRef(null)
   const location=useLocation()
   const navigate=useNavigate()
@@ -37,7 +36,7 @@ export default function PremiumGlobalSearch(){
   const deferredQuery=useDeferredValue(query)
   const normalized=normalize(deferredQuery)
   const searching=normalized.length>0
-  const results=useMemo(()=>normalized?products.filter(product=>searchableText(product).includes(normalized)):products,[normalized])
+  const results=useMemo(()=>normalized?products.filter(product=>searchableText(product).includes(normalized)):[],[normalized])
   const topResults=results.slice(0,6)
   const transition=reduceMotion?{duration:0}:{duration:motionTokens.duration.base,ease:motionTokens.easeSoft}
 
@@ -53,45 +52,113 @@ export default function PremiumGlobalSearch(){
   },[])
 
   useEffect(()=>{if(open)setOpen(false)},[location.pathname,location.search])
+  useLayoutEffect(()=>{
+    if(!open)return
+    let frame
+    const measure=()=>{
+      window.cancelAnimationFrame(frame)
+      frame=window.requestAnimationFrame(()=>{
+        const trigger=returnFocusRef.current instanceof Element?returnFocusRef.current:null
+        const header=trigger?.closest('.site-header,.mobile-reference-header,.account-site-header')
+          ||document.querySelector(window.innerWidth<900?'.mobile-reference-header':'.site-header,.account-site-header')
+        const rect=header?.getBoundingClientRect()
+        if(rect)setHeaderGeometry({top:Math.max(0,Math.round(rect.top)),height:Math.round(rect.height)})
+      })
+    }
+    measure()
+    window.addEventListener('resize',measure,{passive:true})
+    window.addEventListener('scroll',measure,{passive:true})
+    return()=>{window.cancelAnimationFrame(frame);window.removeEventListener('resize',measure);window.removeEventListener('scroll',measure)}
+  },[open])
+
   useEffect(()=>{
-    document.body.classList.toggle('global-search-open',open)
     document.querySelectorAll('a[aria-label^="Search"],button[aria-label^="Search"]').forEach(trigger=>{
       trigger.setAttribute('aria-expanded',open?'true':'false')
       trigger.setAttribute('aria-controls','global-search-surface')
     })
     if(!open)return
-    const timer=window.setTimeout(()=>inputRef.current?.focus({preventScroll:true}),80)
-    const onKeyDown=event=>{
-      if(event.key==='Escape'){event.preventDefault();close();return}
-      if(event.key!=='Tab')return
-      const focusable=[...dialogRef.current?.querySelectorAll('button:not([disabled]),input:not([disabled]),a[href]')||[]]
-      if(!focusable.length)return
-      const first=focusable[0],last=focusable[focusable.length-1]
-      if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus()}
-      else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus()}
-    }
+    const timer=window.setTimeout(()=>inputRef.current?.focus({preventScroll:true}),60)
+    const onKeyDown=event=>{if(event.key==='Escape'){event.preventDefault();close()}}
     document.addEventListener('keydown',onKeyDown)
-    return()=>{window.clearTimeout(timer);document.removeEventListener('keydown',onKeyDown);document.body.classList.remove('global-search-open');window.setTimeout(()=>returnFocusRef.current?.focus?.({preventScroll:true}),0)}
+    return()=>{
+      window.clearTimeout(timer)
+      document.removeEventListener('keydown',onKeyDown)
+      window.setTimeout(()=>returnFocusRef.current?.focus?.({preventScroll:true}),0)
+    }
   },[open])
 
-  const goProduct=id=>navigate(`/product/${id}`)
-  const goCategory=name=>navigate(`/shop?category=${encodeURIComponent(name)}`)
-  const goAll=()=>navigate(searching?`/shop?search=${encodeURIComponent(query.trim())}`:'/shop')
-  if(!open)return null
+  const goProduct=id=>{close();navigate(`/product/${id}`)}
+  const goAll=()=>{close();navigate(searching?`/shop?search=${encodeURIComponent(query.trim())}`:'/shop')}
+  const submit=event=>{event.preventDefault();if(searching)goAll()}
 
-  return <m.div className="global-search-backdrop" role="presentation" initial={reduceMotion?false:{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} transition={transition} onPointerDown={event=>{if(event.target===event.currentTarget)close()}}>
-    <m.section ref={dialogRef} id="global-search-surface" className={`global-search${searching?' global-search--searching':''}`} role="dialog" aria-modal="true" aria-labelledby="global-search-title" initial={reduceMotion?false:{opacity:0,x:28,scale:.99}} animate={{opacity:1,x:0,scale:1}} transition={transition}>
-      <div className="global-search__head"><div><h1 id="global-search-title">Search</h1><p>Search the current Lagom product catalog.</p></div><button type="button" className="global-search__close" onClick={close} aria-label="Close search"><X/></button></div>
-      <label className="global-search__input-wrap"><Search aria-hidden="true"/><input ref={inputRef} type="search" value={query} onChange={event=>setQuery(event.target.value)} placeholder="Search flavor, product, category, or potency" aria-label="Search Lagom products" autoComplete="off" autoCorrect="off" spellCheck="false"/>{query?<button type="button" onClick={()=>{setQuery('');inputRef.current?.focus()}} aria-label="Clear search"><X/></button>:<span/>}</label>
-      <m.div className="global-search__live-content" layout transition={transition}>
-        {!searching&&<section className="global-search__section global-search__popular"><div className="global-search__section-head"><h2>Popular searches</h2></div><div className="global-search__chips">{POPULAR.map(term=><button type="button" key={term} onClick={()=>setQuery(term)}>{term}</button>)}</div></section>}
-        {!searching&&<section className="global-search__section"><div className="global-search__section-head"><h2>Browse by category</h2></div><div className="global-search__categories">{categoryCards.map(([name,label])=><button type="button" key={name} onClick={()=>goCategory(name)}><span>{categoryImages[name]&&<img src={categoryImages[name]} alt="" loading="lazy"/>}</span><b>{label}</b></button>)}</div></section>}
-        <m.section layout className="global-search__section global-search__results" transition={transition}>
-          <div className="global-search__section-head"><h2>{searching?`${results.length} ${results.length===1?'result':'results'}`:'Featured products'}</h2>{searching&&results.length>6&&<button type="button" onClick={goAll}>View all <ArrowRight/></button>}</div>
-          <Presence mode="popLayout" initial={false}>{topResults.length?<m.div key="results" className="global-search__result-list" aria-live="polite">{topResults.map((product,index)=><m.article layout className="global-search__result" key={product.id} initial={reduceMotion?false:{opacity:0,y:7}} animate={{opacity:1,y:0}} transition={reduceMotion?{duration:0}:{duration:.22,delay:Math.min(index*.025,.1)}}><button type="button" className="global-search__result-main" onClick={()=>goProduct(product.id)}><span className="global-search__result-media"><img src={product.image} alt=""/></span><span className="global-search__result-copy"><small>{product.category}</small><strong>{product.name}</strong><span>{facts(product).join(' · ')}</span></span>{price(product)&&<span className="global-search__result-price">{price(product)}</span>}<ChevronRight className="global-search__result-arrow" aria-hidden="true"/></button></m.article>)}</m.div>:<m.div key="empty" className="global-search__empty" role="status" aria-live="polite"><strong>No matching products</strong><p>Try a flavor, product name, category, or potency shown in the current catalog.</p></m.div>}</Presence>
-        </m.section>
-        {searching&&results.length>0&&<m.button layout type="button" className="global-search__all" onClick={goAll}><Search/>View all results for “{query.trim()}”<ChevronRight/></m.button>}
-      </m.div>
+  return <Presence>{open&&<m.div
+    className="global-search-layer"
+    style={{'--search-header-top':`${headerGeometry.top}px`,'--search-header-height':`${headerGeometry.height}px`}}
+    initial={reduceMotion?false:{opacity:0}}
+    animate={{opacity:1}}
+    exit={{opacity:0}}
+    transition={transition}
+    onPointerDown={event=>{if(event.target===event.currentTarget)close()}}
+  >
+    <m.section
+      id="global-search-surface"
+      className={`global-search${searching?' global-search--searching':''}`}
+      role="search"
+      aria-label="Search Lagom products"
+      initial={reduceMotion?false:{y:-10}}
+      animate={{y:0}}
+      exit={reduceMotion?undefined:{y:-8}}
+      transition={transition}
+    >
+      <div className="global-search__bar">
+        <Link className="global-search__brand" to="/" aria-label="Lagom Naturals home" onClick={close}><img src={`${import.meta.env.BASE_URL}lagom-logo.svg`} alt="Lagom Naturals"/></Link>
+        <form className="global-search__form" onSubmit={submit}>
+          <Search aria-hidden="true"/>
+          <input
+            ref={inputRef}
+            type="search"
+            role="combobox"
+            aria-autocomplete="list"
+            aria-expanded={searching}
+            aria-controls="global-search-results"
+            value={query}
+            onChange={event=>setQuery(event.target.value)}
+            placeholder="Search drinks, gummies, flavors, or potency"
+            aria-label="Search Lagom products"
+            autoComplete="off"
+            autoCorrect="off"
+            spellCheck="false"
+          />
+          {query&&<button type="button" className="global-search__clear" onClick={()=>{setQuery('');inputRef.current?.focus()}} aria-label="Clear search"><X/></button>}
+        </form>
+        <button type="button" className="global-search__close" onClick={close} aria-label="Close search"><X/><span>Close</span></button>
+      </div>
+
+      <div className="global-search__panel">
+        {!searching?<div className="global-search__suggestions">
+          <span>Popular searches</span>
+          <div className="global-search__chips">{POPULAR.map(term=><button type="button" key={term} onClick={()=>setQuery(term)}>{term}</button>)}</div>
+        </div>:<>
+          <div className="global-search__summary"><span aria-live="polite">{results.length} {results.length===1?'match':'matches'}</span>{results.length>6&&<button type="button" onClick={goAll}>View all results <ArrowRight/></button>}</div>
+          <Presence mode="popLayout" initial={false}>{topResults.length?<m.div id="global-search-results" role="listbox" className="global-search__result-list" key="results">{topResults.map((product,index)=><m.button
+            layout
+            type="button"
+            role="option"
+            aria-selected="false"
+            className="global-search__result"
+            key={product.id}
+            initial={reduceMotion?false:{opacity:0,y:6}}
+            animate={{opacity:1,y:0}}
+            transition={reduceMotion?{duration:0}:{duration:.18,delay:Math.min(index*.02,.08)}}
+            onClick={()=>goProduct(product.id)}
+          >
+            <span className="global-search__result-media"><img src={product.image} alt=""/></span>
+            <span className="global-search__result-copy"><small>{product.category}</small><strong>{product.name}</strong><span>{facts(product).join(' · ')}</span></span>
+            {price(product)&&<span className="global-search__result-price">{price(product)}</span>}
+            <ChevronRight aria-hidden="true"/>
+          </m.button>):null}</m.div>:<m.div id="global-search-results" className="global-search__empty" key="empty" role="status" aria-live="polite"><strong>No matching products</strong><p>Try another flavor, product, category, or potency.</p></m.div>}</Presence>
+        </>}
+      </div>
     </m.section>
-  </m.div>
+  </m.div>}</Presence>
 }
