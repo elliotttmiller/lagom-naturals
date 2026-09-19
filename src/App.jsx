@@ -857,7 +857,10 @@ function ProductPage() {
   return (
     <Shell detail>
       <m.div className="pdp" style={{ "--accent": product.accent }}>
-        <m.div className="pdp-media">
+        <m.div
+          className="pdp-media"
+          style={{ "--pdp-image": `url("${selected.image || product.image}")` }}
+        >
           <m.img
             key={selected.image || product.image}
             layoutId={`catalog-image-${product.id}`}
