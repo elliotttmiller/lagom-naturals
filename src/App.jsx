@@ -163,7 +163,7 @@ function ProductCard({ product }) {
   const facts = productCardFacts(product);
   return (
     <m.article
-      className={`product-card ${variantOpen ? "is-variant-open" : ""}`}
+      className={`catalog-card product-card ${variantOpen ? "is-variant-open" : ""}`}
       variants={motionVariants.item}
       layout="position"
       whileHover={{ y: -4 }}
@@ -171,7 +171,7 @@ function ProductCard({ product }) {
       transition={motionTokens.springSoft}
       style={{ "--accent": product.accent }}
     >
-      <div className="product-media">
+      <div className="catalog-card__media product-media">
         <Link to={`/product/${product.id}`} aria-label={`View ${product.name}`}>
           <m.img
             layoutId={`catalog-image-${product.id}`}

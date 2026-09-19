@@ -245,3 +245,55 @@
   .pdp .product-gallery img{display:block!important;width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;padding:0!important;object-fit:cover!important;object-position:center!important}
 }
 @media(max-width:699px){.product-card .review-line,.product-card .product-copy:not(:has(>.review-line))::before{font-size:10.5px!important;margin-top:5px!important}.pdp-copy>.review-line,.pdp-copy:not(:has(>.review-line))::before{margin-top:8px!important;font-size:12px!important}.pdp-copy>h2{margin-top:11px!important}.pdp .meta-pills{margin-top:13px!important}.pdp .meta-pills>span{font-size:12.5px!important}}
+
+/* Shared storefront card media contract. Homepage, shop/listing, and merch use
+   one square source-aware image bay instead of route-specific padding/crops. */
+@media(max-width:899px){
+  .catalog-card__media{
+    position:relative!important;
+    display:grid!important;
+    place-items:center!important;
+    width:100%!important;
+    height:auto!important;
+    aspect-ratio:1/1!important;
+    padding:0!important;
+    overflow:hidden!important;
+    border-radius:11px 11px 0 0!important;
+    background:#fff!important;
+  }
+  .catalog-card__media>a{
+    display:grid!important;
+    place-items:center!important;
+    width:100%!important;
+    height:100%!important;
+    overflow:hidden!important;
+  }
+  .catalog-card__media img{
+    display:block!important;
+    width:100%!important;
+    height:100%!important;
+    max-width:100%!important;
+    max-height:100%!important;
+    margin:0!important;
+    padding:0!important;
+    object-fit:contain!important;
+    object-position:center!important;
+    background:#fff!important;
+    transform:none!important;
+  }
+}
+
+@media(min-width:900px){
+  .catalog-card__media{
+    width:100%!important;
+    height:auto!important;
+    aspect-ratio:1/1!important;
+    padding:0!important;
+    display:grid!important;
+    place-items:center!important;
+    overflow:hidden!important;
+    background:#fff!important;
+  }
+  .catalog-card__media>a{display:grid!important;place-items:center!important;width:100%!important;height:100%!important;overflow:hidden!important}
+  .catalog-card__media img{display:block!important;width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important;margin:0!important;padding:0!important;object-fit:contain!important;object-position:center!important;transform:none!important}
+}

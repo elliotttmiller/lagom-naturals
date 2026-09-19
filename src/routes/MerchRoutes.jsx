@@ -11,14 +11,14 @@ function EmptyState({title="Nothing here yet.",body="Check back soon for updated
 function MerchCard({ item }) {
   return (
     <m.div
-      className="merch-card"
+      className="catalog-card merch-card"
       layout
       whileHover={{ y: -4 }}
       whileTap={{ scale: 0.992 }}
       transition={motionTokens.springSoft}
     >
       <Link to={`/merch/${item.id}`}>
-        <div className="merch-media">
+        <div className="catalog-card__media merch-media">
           <m.img
             layoutId={`catalog-image-${item.id}`}
             src={item.image}
