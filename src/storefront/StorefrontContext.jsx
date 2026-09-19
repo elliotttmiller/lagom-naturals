@@ -36,7 +36,7 @@ function readCart(){
 
 export function CartProvider({children}){
   const[items,setItems]=useState(readCart)
-  useEffect(()=>{try{localStorage.setItem(CART_KEY,JSON.stringify(items))}catch{}},[items])
+  useEffect(()=>{try{localStorage.setItem(CART_KEY,JSON.stringify(items))}catch{};window.dispatchEvent(new CustomEvent('lagom:cart-updated',{detail:{count:items.reduce((sum,item)=>sum+item.qty,0)}}))},[items])
   const add=(item,quantity=1)=>setItems(current=>{
     const key=item.cartKey||item.id
     const existing=current.find(entry=>entry.cartKey===key)
