@@ -231,14 +231,12 @@
   .merch-detail .merch-gallery button:focus-visible{outline:2px solid #171a17!important;outline-offset:2px!important}
   .merch-detail .merch-gallery img{display:block!important;inline-size:100%!important;block-size:100%!important;margin:0!important;padding:0!important;object-fit:cover!important;object-position:center!important}
 
-  /* Mobile product gallery stage. The source image is never altered: it is
-     overscanned inside a square viewer so its raster boundary is outside the
-     visible frame, while the same source provides a quiet edge-to-edge ambient
-     backdrop below it. */
+  /* Mobile product gallery stage. Product media keeps its native square frame
+     and remains centered without crop or synthetic zoom. */
   .pdp .pdp-media{position:relative!important;display:grid!important;place-items:center!important;inline-size:100vw!important;max-inline-size:100vw!important;height:auto!important;min-height:0!important;max-height:none!important;margin-inline:calc(50% - 50vw)!important;aspect-ratio:1/1!important;isolation:isolate!important;overflow:hidden!important;border:0!important;border-radius:0!important;background:color-mix(in srgb,var(--accent,#c8cbc4) 18%,#f4f3ef)!important}
   .pdp .pdp-media::before{content:"";position:absolute;z-index:-2;inset:-28px;background:var(--pdp-image) center/cover no-repeat;filter:blur(24px) saturate(.76) brightness(.96);opacity:.55;transform:scale(1.1)}
   .pdp .pdp-media::after{content:"";position:absolute;z-index:-1;inset:0;background:radial-gradient(circle at center,transparent 42%,rgba(255,255,255,.12) 100%);pointer-events:none}
-  .pdp .pdp-media>img{position:relative!important;z-index:0!important;display:block!important;width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;margin:0!important;padding:0!important;object-fit:cover!important;object-position:center center!important;transform:scale(1.055)!important;transform-origin:center!important;will-change:transform}
+  .pdp .pdp-media>img{position:relative!important;z-index:0!important;display:block!important;width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;max-width:100%!important;max-height:100%!important;margin:0!important;padding:0!important;object-fit:contain!important;object-position:center center!important;transform:none!important;image-rendering:auto!important}
   .pdp .product-gallery{display:flex!important;align-items:center!important;gap:9px!important;min-height:78px!important;margin:0!important;padding:10px var(--m-gutter)!important;background:#fff!important;border-bottom:1px solid rgba(18,22,18,.08)!important;scroll-padding-inline:var(--m-gutter)!important}
   .pdp .product-gallery button{position:relative!important;display:block!important;flex:0 0 58px!important;width:58px!important;height:58px!important;padding:0!important;overflow:hidden!important;border:1px solid rgba(18,22,18,.12)!important;border-radius:9px!important;background:#f4f3ef!important;box-shadow:none!important}
   .pdp .product-gallery button::after{content:"";position:absolute;inset:0;border:2px solid transparent;border-radius:inherit;pointer-events:none}
