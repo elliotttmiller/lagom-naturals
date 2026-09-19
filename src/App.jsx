@@ -8,6 +8,8 @@ import {
   Link,
   Route,
   Routes,
+  useLocation,
+  useNavigate,
   useSearchParams,
 } from "react-router-dom";
 import {
@@ -75,7 +77,8 @@ function SectionTitle({ title, to = "/shop" }) {
 }
 function CategoryCard({ name, label, description }) {
   const img = categoryImages[name];
-  const to = `/shop?category=${encodeURIComponent(name)}`;
+  const categoryPath = name === "Seltzers" ? "/shop/seltzers" : name === "Gummies" ? "/shop/gummies" : "/shop";
+  const to = categoryPath;
   return (
     <m.div
       className="motion-card-shell"
@@ -363,8 +366,16 @@ function HomePage() {
   );
 }
 function ShopPage() {
-  const [params, setParams] = useSearchParams();
-  const requestedCategory = params.get("category") || "All";
+  const [params] = useSearchParams();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const pathCategory =
+    location.pathname === "/shop/seltzers"
+      ? "Seltzers"
+      : location.pathname === "/shop/gummies"
+        ? "Gummies"
+        : null;
+  const requestedCategory = pathCategory || params.get("category") || "All";
   const requestedCollection = params.get("collection") || "All";
   const categories = ["All", "Seltzers", "Gummies"];
   const category = categories.includes(requestedCategory) ? requestedCategory : "All";
@@ -374,11 +385,17 @@ function ShopPage() {
   const showGummyCollections = category === "Gummies";
   const updateFilters = (nextCategory, nextCollection = "All") => {
     const next = new URLSearchParams();
-    if (nextCategory !== "All") next.set("category", nextCategory);
+    const pathname =
+      nextCategory === "Seltzers"
+        ? "/shop/seltzers"
+        : nextCategory === "Gummies"
+          ? "/shop/gummies"
+          : "/shop";
     if (nextCategory === "Gummies" && nextCollection !== "All") {
       next.set("collection", nextCollection);
     }
-    setParams(next);
+    const query = next.toString();
+    navigate(query ? `${pathname}?${query}` : pathname);
   };
   const visible = useMemo(
     () =>
@@ -489,6 +506,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/shop" element={<ShopPage />} />
+        <Route path="/shop/seltzers" element={<ShopPage />} />
+        <Route path="/shop/gummies" element={<ShopPage />} />
         <Route path="/product/:id" element={<React.Suspense fallback={<RouteChunkFallback/>}><ProductPage /></React.Suspense>} />
         <Route path="/visit" element={<React.Suspense fallback={<RouteChunkFallback/>}><VisitPage /></React.Suspense>} />
         <Route path="/about" element={<React.Suspense fallback={<RouteChunkFallback/>}><AboutPage /></React.Suspense>} />
