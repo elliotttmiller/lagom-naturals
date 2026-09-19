@@ -32,6 +32,20 @@ function runNode(script, args = []) {
 
 const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]))
 const canonicalFor = pathname => `${siteOrigin}${pathname === '/' ? '/' : pathname.replace(/\/$/, '')}`
+const jsonLdMarkup = data => {
+  const json = JSON.stringify(data).replace(/</g, '\\u003c')
+  return `<script type="application/ld+json">${json}</script>`
+}
+const breadcrumbSchema = items => ({
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((item, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: item.name,
+    item: canonicalFor(item.pathname),
+  })),
+})
 
 function injectHead(html, { title, description, pathname, noindex = false, headExtra = '' }) {
   const canonical = canonicalFor(pathname)
@@ -100,8 +114,13 @@ try {
   await vite.close()
 }
 
+const homeSchema = jsonLdMarkup([
+  {'@context':'https://schema.org','@type':'Organization',name:'Lagom Naturals',url:canonicalFor('/')},
+  {'@context':'https://schema.org','@type':'WebSite',name:'Lagom Naturals',url:canonicalFor('/')},
+])
+
 const staticRoutes = [
-  { pathname: '/', title: 'Lagom Naturals | Premium THC Seltzer', h1: 'Find your just right.', description: 'Premium hemp-derived THC seltzers made for considered adult occasions.', headExtra: heroPreloads },
+  { pathname: '/', title: 'Lagom Naturals | Premium THC Seltzer', h1: 'Find your just right.', description: 'Premium hemp-derived THC seltzers made for considered adult occasions.', headExtra: `${heroPreloads}${homeSchema}` },
   { pathname: '/shop', title: 'Shop THC Seltzers & Gummies | Lagom Naturals', h1: 'Shop Lagom Naturals', description: 'Explore Lagom Naturals THC seltzers and gummy collections by flavor and format.' },
   { pathname: '/merch', title: 'Apparel & Merch | Lagom Naturals', h1: 'Apparel & Merch', description: 'Shop Lagom Naturals apparel and merchandise.' },
   { pathname: '/visit', title: 'Find Us | Lagom Naturals', h1: 'Find Lagom Near You', description: 'Find retailers and venues carrying Lagom Naturals.', extra: shops.length ? `<ul>${shops.map(shop => `<li><strong>${escapeHtml(shop.name)}</strong> — ${escapeHtml(shop.address)}</li>`).join('')}</ul>` : '' },
@@ -123,20 +142,62 @@ const productRoutes = products.map(product => {
     isSeltzer ? product.carbs : null,
   ].filter(Boolean)
   const description = facts.length ? `${product.name} — ${facts.join(' · ')}.` : `${product.name} from Lagom Naturals.`
+  const pathname = `/product/${encodeURIComponent(product.id)}`
+  const productSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    description,
+    category: product.category,
+    brand: {'@type':'Brand',name:product.brand || 'Lagom Naturals'},
+  }
+  if (!product.mock && Number.isFinite(Number(product.price))) {
+    productSchema.offers = {
+      '@type': 'Offer',
+      url: canonicalFor(pathname),
+      priceCurrency: 'USD',
+      price: Number(product.price).toFixed(2),
+    }
+  }
   return {
-    pathname: `/product/${encodeURIComponent(product.id)}`,
+    pathname,
     title: `${product.name} | Lagom Naturals`,
     h1: product.name,
     description,
+    headExtra: `${jsonLdMarkup(productSchema)}${jsonLdMarkup(breadcrumbSchema([
+      {name:'Home',pathname:'/'},
+      {name:'Shop',pathname:'/shop'},
+      {name:product.name,pathname},
+    ]))}`,
   }
 })
 
-const merchRoutes = merch.map(item => ({
-  pathname: `/merch/${encodeURIComponent(item.id)}`,
-  title: `${item.name} | Lagom Naturals`,
-  h1: item.name,
-  description: item.description || `Review ${item.name} details and availability from Lagom Naturals.`,
-}))
+const merchRoutes = merch.map(item => {
+  const pathname = `/merch/${encodeURIComponent(item.id)}`
+  const description = item.description || `Review ${item.name} details and availability from Lagom Naturals.`
+  const schema = {
+    '@context':'https://schema.org',
+    '@type':'Product',
+    name:item.name,
+    description,
+    brand:{'@type':'Brand',name:'Lagom Naturals'},
+    category:'Apparel',
+  }
+  if (Number.isFinite(Number(item.price))) {
+    schema.offers = {'@type':'Offer',url:canonicalFor(pathname),priceCurrency:'USD',price:Number(item.price).toFixed(2)}
+  }
+  return {
+    pathname,
+    title: `${item.name} | Lagom Naturals`,
+    h1:item.name,
+    description,
+    headExtra:`${jsonLdMarkup(schema)}${jsonLdMarkup(breadcrumbSchema([
+      {name:'Home',pathname:'/'},
+      {name:'Merch',pathname:'/merch'},
+      {name:item.name,pathname},
+    ]))}`,
+  }
+})
 
 const template = await readFile(join(outDir, 'index.html'), 'utf8')
 const routes = [...staticRoutes, ...productRoutes, ...merchRoutes]
