@@ -2,8 +2,11 @@ import React from 'react'
 import {Link,useLocation} from 'react-router-dom'
 import {ArrowRight,Leaf,MapPin,ShoppingBag,UsersRound} from 'lucide-react'
 import {m,motionTokens,motionVariants,useReducedMotion} from './motionSystem'
-import mainStore2 from '@/assets/store/main-store2.webp'
-import extraStore2 from '@/assets/store/extra-store2.webp'
+import {responsiveImages} from '@/generated/responsiveImages'
+import ResponsiveImage from '@/storefront/ResponsiveImage'
+
+const mainStore2=responsiveImages.store['main-store2'].src
+const extraStore2=responsiveImages.store['extra-store2'].src
 
 const values=[
   {icon:Leaf,label:'Curated Brands'},
@@ -19,15 +22,11 @@ export default function MobileAboutExperience(){
 
   return <main className="mobile-about" aria-label="About Lagom Naturals">
     <section className="mobile-about__hero">
-      <m.img
-        src={mainStore2}
-        alt="Inside Lagom Naturals in Minneapolis"
-        fetchPriority="high"
-        decoding="async"
+      <m.div className="mobile-about__hero-media"
         initial={reduceMotion?false:{scale:1.035,opacity:.96}}
         animate={{scale:1,opacity:1}}
         transition={{duration:reduceMotion?0:.8,ease:motionTokens.easeSoft}}
-      />
+      ><ResponsiveImage src={mainStore2} alt="Inside Lagom Naturals in Minneapolis" sizes="100vw" fetchPriority="high" loading="eager" decoding="async"/></m.div>
       <div className="mobile-about__hero-shade"/>
       <m.div className="mobile-about__hero-copy" initial="hidden" animate="visible" variants={motionVariants.stagger}>
         <m.p variants={motionVariants.item} className="mobile-about__eyebrow">OUR STORY <i/></m.p>
@@ -62,7 +61,7 @@ export default function MobileAboutExperience(){
         <m.p variants={motionVariants.item}>A welcoming, modern environment designed for discovery, comfort, and straightforward shopping.</m.p>
       </m.div>
       <m.div className="mobile-about__space-media" initial={reduceMotion?false:{opacity:0,y:16}} whileInView={{opacity:1,y:0}} viewport={{once:true,amount:.18}} transition={{duration:reduceMotion?0:motionTokens.duration.slow,ease:motionTokens.easeSoft}}>
-        <img src={extraStore2} alt="Lagom Naturals retail interior" loading="lazy" decoding="async"/>
+        <ResponsiveImage src={extraStore2} alt="Lagom Naturals retail interior" sizes="100vw" loading="lazy" decoding="async"/>
       </m.div>
     </section>
 

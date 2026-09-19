@@ -1,4 +1,4 @@
-import { mkdir, readdir, writeFile } from 'node:fs/promises'
+import { access, mkdir, readdir, writeFile } from 'node:fs/promises'
 import { basename, extname, join, relative, resolve } from 'node:path'
 import sharp from 'sharp'
 
@@ -12,6 +12,8 @@ const groups = [
   { name: 'heroMobile', directory: 'src/assets/mobile', files: ['hero.webp', 'gummies-hero.webp', 'midnight-gummies-hero.webp', 'organic-gummies-hero.webp'], widths: [480, 800] },
   { name: 'heroDesktop', directory: 'src/assets/desktop', files: ['hero.webp', 'gummies-hero.webp', 'midnight-gummies-hero.webp', 'organic-gummies-hero.webp'], widths: [960, 1600] },
   { name: 'findUs', directory: 'src/assets/mobile', files: ['find-us-hero.png'], widths: [480, 960] },
+  { name: 'store', directory: 'src/assets/store', widths: [480, 960] },
+  { name: 'storeDesktop', directory: 'src/assets/desktop', files: ['storefront.webp'], widths: [960, 1600] },
   { name: 'categories', directory: 'src/assets', files: ['seltzers-thumbnail.webp', 'gummies-thumbnail.webp'], widths: [320, 640] },
 ]
 
@@ -35,9 +37,12 @@ for (const group of groups) {
     for (const width of group.widths) {
       for (const format of ['avif', 'webp']) {
         const output = join(outputDirectory, `${key}-${width}.${format}`)
-        const pipeline = sharp(source).rotate().resize({ width, withoutEnlargement: true })
-        if (format === 'avif') await pipeline.avif({ quality: 58, effort: 2, chromaSubsampling: '4:4:4' }).toFile(output)
-        else await pipeline.webp({ quality: 76, effort: 4, smartSubsample: true }).toFile(output)
+        const exists = await access(output).then(() => true).catch(() => false)
+        if (!exists) {
+          const pipeline = sharp(source).rotate().resize({ width, withoutEnlargement: true })
+          if (format === 'avif') await pipeline.avif({ quality: 58, effort: 2, chromaSubsampling: '4:4:4' }).toFile(output)
+          else await pipeline.webp({ quality: 76, effort: 4, smartSubsample: true }).toFile(output)
+        }
         variants.push({ width, format, output })
       }
     }
@@ -56,5 +61,5 @@ for (const group of groups) {
 }
 
 await mkdir(join(root, 'src', 'generated'), { recursive: true })
-await writeFile(modulePath, `${moduleImports.join('\n')}\n\nexport const responsiveImages={${moduleGroups.join(',')}};\n`, 'utf8')
+await writeFile(modulePath, `${moduleImports.join('\n')}\n\nexport const responsiveImages={${moduleGroups.join(',')}};\nexport const responsiveImageBySrc=new Map(Object.values(responsiveImages).flatMap(group=>Object.values(group)).map(media=>[media.src,media]));\n`, 'utf8')
 console.log(`Optimized storefront imagery written to ${relative(root, outputRoot)}.`)

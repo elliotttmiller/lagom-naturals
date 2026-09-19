@@ -6,6 +6,7 @@ import {products} from '@/catalogData'
 import Shell from '@/storefront/StorefrontShell'
 import {configuredProduct,productVariants,useCart} from '@/storefront/StorefrontContext'
 import useSwipeGallery from '@/storefront/useSwipeGallery'
+import ResponsiveImage from '@/storefront/ResponsiveImage'
 
 function EmptyState({title="Nothing here yet.",body="Check back soon for updated availability.",to="/shop",action="Browse products"}){return <m.div className="empty-state" initial="hidden" animate="visible" variants={motionVariants.softScale}><h2>{title}</h2><p>{body}</p>{to&&<Link className="primary-bar" to={to}>{action}</Link>}</m.div>}
 
@@ -46,14 +47,14 @@ function ProductPage() {
           aria-roledescription="carousel"
           {...swipeHandlers}
         >
-          <m.img
+          <ResponsiveImage
             key={selected.image || product.image}
-            layoutId={`catalog-image-${product.id}`}
             src={selected.image || product.image}
             alt={`${product.name} THC seltzer can`}
+            sizes="(max-width: 899px) 100vw, 50vw"
+            loading="eager"
             fetchPriority="high"
             decoding="async"
-            transition={motionTokens.springSoft}
           />
         </m.div>
         {variants.length > 1 && (
@@ -67,7 +68,7 @@ function ProductPage() {
                 aria-label={`Show ${variant.label.toLowerCase()} image`}
                 aria-pressed={variant.id === selected.id}
               >
-                <img src={variant.image || product.image} alt="" loading="lazy" decoding="async" />
+                <ResponsiveImage src={variant.image || product.image} alt="" sizes="96px" loading="lazy" decoding="async" />
               </button>
             ))}
           </div>

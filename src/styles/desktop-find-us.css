@@ -39,7 +39,7 @@
     flex:0 0 auto;
     margin:0 calc(var(--find-side-pad) * -1);
     border-bottom:1px solid var(--find-line);
-    background:url('../assets/desktop/storefront.webp') 58% 34% / cover no-repeat;
+    background:url('../assets/optimized/storeDesktop/storefront-1600.webp') 58% 34% / cover no-repeat;
   }
 
   .find-intro{

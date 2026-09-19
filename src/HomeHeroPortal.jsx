@@ -4,20 +4,16 @@ import { Link, useLocation } from "react-router-dom";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { m, Presence, motionTokens, useReducedMotion } from "./motionSystem";
 
-import mobileSeltzer from "@/assets/mobile/hero.webp";
-import mobileGummies from "@/assets/mobile/gummies-hero.webp";
-import mobileMidnight from "@/assets/mobile/midnight-gummies-hero.webp";
-import mobileOrganic from "@/assets/mobile/organic-gummies-hero.webp";
-import desktopSeltzer from "@/assets/desktop/hero.webp";
-import desktopGummies from "@/assets/desktop/gummies-hero.webp";
-import desktopMidnight from "@/assets/desktop/midnight-gummies-hero.webp";
-import desktopOrganic from "@/assets/desktop/organic-gummies-hero.webp";
+import { responsiveImages } from "@/generated/responsiveImages";
+
+const mobileHero = responsiveImages.heroMobile;
+const desktopHero = responsiveImages.heroDesktop;
 
 const SLIDES = [
-  {id:"seltzer",eyebrow:"LAGOM THC SELTZER",title:"Find your just right.",body:"Crisp, zero-sugar THC seltzers made for a more measured social ritual.",primary:"SHOP SELTZERS",primaryTo:"/shop/seltzers",secondary:"OUR STORY",secondaryTo:"/about",mobile:mobileSeltzer,desktop:desktopSeltzer,position:"center center"},
-  {id:"gummies",eyebrow:"LAGOM GUMMIES",title:"A softer way to settle in.",body:"Thoughtfully made THC gummies for nights that call for less noise and more ease.",primary:"SHOP GUMMIES",primaryTo:"/shop/gummies",secondary:"EXPLORE ALL",secondaryTo:"/shop",mobile:mobileGummies,desktop:desktopGummies,position:"center center"},
-  {id:"organic",eyebrow:"ORGANIC GUMMIES",title:"Keep the ritual simple.",body:"Organic gummies designed around an intentional, uncomplicated adult experience.",primary:"DISCOVER ORGANIC",primaryTo:"/shop/gummies?collection=Organic",secondary:"LEARN MORE",secondaryTo:"/learn",mobile:mobileOrganic,desktop:desktopOrganic,position:"center center"},
-  {id:"midnight",eyebrow:"MIDNIGHT GUMMIES",title:"For the quieter hours.",body:"A night-minded gummy ritual for winding down, switching off, and letting the evening land.",primary:"SHOP MIDNIGHT",primaryTo:"/shop/gummies?collection=Midnight%20Drift",secondary:"THC, EXPLAINED",secondaryTo:"/learn",mobile:mobileMidnight,desktop:desktopMidnight,position:"center center"},
+  {id:"seltzer",eyebrow:"LAGOM THC SELTZER",title:"Find your just right.",body:"Crisp, zero-sugar THC seltzers made for a more measured social ritual.",primary:"SHOP SELTZERS",primaryTo:"/shop/seltzers",secondary:"OUR STORY",secondaryTo:"/about",mobile:mobileHero.hero,desktop:desktopHero.hero,position:"center center"},
+  {id:"gummies",eyebrow:"LAGOM GUMMIES",title:"A softer way to settle in.",body:"Thoughtfully made THC gummies for nights that call for less noise and more ease.",primary:"SHOP GUMMIES",primaryTo:"/shop/gummies",secondary:"EXPLORE ALL",secondaryTo:"/shop",mobile:mobileHero["gummies-hero"],desktop:desktopHero["gummies-hero"],position:"center center"},
+  {id:"organic",eyebrow:"ORGANIC GUMMIES",title:"Keep the ritual simple.",body:"Organic gummies designed around an intentional, uncomplicated adult experience.",primary:"DISCOVER ORGANIC",primaryTo:"/shop/gummies?collection=Organic",secondary:"LEARN MORE",secondaryTo:"/learn",mobile:mobileHero["organic-gummies-hero"],desktop:desktopHero["organic-gummies-hero"],position:"center center"},
+  {id:"midnight",eyebrow:"MIDNIGHT GUMMIES",title:"For the quieter hours.",body:"A night-minded gummy ritual for winding down, switching off, and letting the evening land.",primary:"SHOP MIDNIGHT",primaryTo:"/shop/gummies?collection=Midnight%20Drift",secondary:"THC, EXPLAINED",secondaryTo:"/learn",mobile:mobileHero["midnight-gummies-hero"],desktop:desktopHero["midnight-gummies-hero"],position:"center center"},
 ];
 
 const AUTOPLAY_MS = 6500;
@@ -83,8 +79,11 @@ function HeroCarousel() {
           animate={{opacity:1,scale:1,x:0}}
           exit={reduceMotion?undefined:{opacity:0,scale:1.006,x:exitX}}
           transition={transition}>
-          <source media="(max-width: 699px)" srcSet={slide.mobile}/>
-          <img src={slide.desktop} alt="" loading="eager" fetchPriority={active===0?'high':'auto'} decoding="async" style={{objectPosition:slide.position}}/>
+          <source media="(max-width: 699px)" type="image/avif" srcSet={slide.mobile.avifSrcSet} sizes="100vw"/>
+          <source media="(max-width: 699px)" type="image/webp" srcSet={slide.mobile.webpSrcSet} sizes="100vw"/>
+          <source type="image/avif" srcSet={slide.desktop.avifSrcSet} sizes="100vw"/>
+          <source type="image/webp" srcSet={slide.desktop.webpSrcSet} sizes="100vw"/>
+          <img src={slide.desktop.src} alt="" loading={active===0?'eager':'lazy'} fetchPriority={active===0?'high':'low'} decoding="async" width="1600" height="900" style={{objectPosition:slide.position}}/>
         </m.picture>
       </Presence>
     </div>

@@ -2,6 +2,7 @@ import React from "react";
 import { Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { m, motionTokens } from "@/motionSystem";
+import ResponsiveImage from "@/storefront/ResponsiveImage";
 
 export default function CatalogProductCard({
   id,
@@ -28,13 +29,12 @@ export default function CatalogProductCard({
     >
       <div className={`catalog-card__media unified-product-card__media ${mediaClassName}`.trim()}>
         <Link to={to} aria-label={`View ${name}`}>
-          <m.img
-            layoutId={`catalog-image-${id}`}
+          <ResponsiveImage
             src={image}
             alt={imageAlt || name}
+            sizes="(max-width: 899px) 50vw, 25vw"
             loading="lazy"
             decoding="async"
-            transition={motionTokens.springSoft}
           />
         </Link>
         <m.button type="button" whileTap={{ scale: 0.82 }} className="heart-btn" aria-label={`Save ${name}`}>

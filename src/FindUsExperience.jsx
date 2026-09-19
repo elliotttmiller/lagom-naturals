@@ -1,6 +1,6 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
-import findUsHero from '@/assets/mobile/find-us-hero.png'
+import { responsiveImages } from '@/generated/responsiveImages'
 import './styles/find-us.css'
 import './styles/desktop-find-us.css'
 
@@ -292,7 +292,11 @@ export default function FindUsExperience(){
   return <section className="find-experience" aria-labelledby="find-title">
     <h1 className="sr-only" id="find-title">Find Lagom Near You</h1>
     <div className="find-mobile-hero">
-      <img src={findUsHero} alt="Lagom Naturals storefront district"/>
+      <picture>
+        <source type="image/avif" srcSet={responsiveImages.findUs['find-us-hero'].avifSrcSet} sizes="100vw"/>
+        <source type="image/webp" srcSet={responsiveImages.findUs['find-us-hero'].webpSrcSet} sizes="100vw"/>
+        <img src={responsiveImages.findUs['find-us-hero'].src} alt="Lagom Naturals storefront district" loading="eager" decoding="async"/>
+      </picture>
       <div className="find-mobile-hero__shade" aria-hidden="true"/>
       <div className="find-mobile-hero__copy">
         <div className="find-mobile-hero__title" aria-hidden="true">Find<br/>Lagom<br/>Near You</div>

@@ -1,6 +1,9 @@
 import Shell from '@/storefront/StorefrontShell'
 import {MapPin} from 'lucide-react'
-import storefront from '@/assets/store/storefront-day.webp'
+import {responsiveImages} from '@/generated/responsiveImages'
+import ResponsiveImage from '@/storefront/ResponsiveImage'
+
+const storefront=responsiveImages.store['storefront-day'].src
 
 export default function VisitPage(){
   return <Shell>
@@ -15,7 +18,7 @@ export default function VisitPage(){
         </form>
         <div className="availability-empty"><MapPin/><h2>Retail locator coming soon.</h2><p>We’ll show confirmed retailers here when distribution data is available.</p></div>
       </div>
-      <img src={storefront} alt="Lagom Naturals storefront in Minneapolis"/>
+      <ResponsiveImage src={storefront} alt="Lagom Naturals storefront in Minneapolis" sizes="(max-width: 899px) 100vw, 50vw" loading="lazy" decoding="async"/>
     </section>
   </Shell>
 }

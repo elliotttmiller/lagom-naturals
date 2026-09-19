@@ -34,6 +34,7 @@ import {
 } from "./catalogData";
 import Shell from "@/storefront/StorefrontShell";
 import CatalogProductCard from "@/storefront/CatalogProductCard";
+import ResponsiveImage from "@/storefront/ResponsiveImage";
 import {
   CartProvider,
   configuredProduct,
@@ -107,13 +108,12 @@ function CategoryCard({ name, label, description }) {
       >
         {img ? (
           <span className="category-card__media">
-            <m.img
+            <ResponsiveImage
               src={img}
               alt=""
+              sizes="(max-width: 899px) 50vw, 33vw"
               loading="lazy"
               decoding="async"
-              whileHover={{ scale: 1.025 }}
-              transition={motionTokens.springSoft}
             />
           </span>
         ) : (
@@ -273,7 +273,7 @@ function HomePage() {
           <ArrowLink to="/shop">View all drinks</ArrowLink>
         </Reveal>
         <Stagger className="drink-grid">
-          {products.map((p) => (
+          {products.slice(0, 4).map((p) => (
             <StaggerItem key={p.id}>
               <ProductCard product={p} />
             </StaggerItem>

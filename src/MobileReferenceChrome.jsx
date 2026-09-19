@@ -2,7 +2,9 @@ import React from 'react'
 import {Link,useLocation,useNavigate} from 'react-router-dom'
 import {ShoppingBag,Search,User,ChevronRight,PackageCheck,Gift,Settings,Bell,CircleHelp,X} from 'lucide-react'
 import HamburgerToggle from './HamburgerToggle'
-import mobileHero from '@/assets/mobile/hero.webp'
+import {responsiveImages} from '@/generated/responsiveImages'
+
+const mobileHero=responsiveImages.heroMobile.hero.src
 
 const drawerItems=[['Shop','/shop'],['Merch','/merch'],['Find Us','/visit'],['Our Story','/about'],['Account','account'],['FAQ','/learn'],['Contact Us','/visit']]
 const socialLinks=[['Instagram','https://www.instagram.com/lagomnaturalsmn?stkn=MXc1cnEyY2s2OTh2aQ==',InstagramIcon],['X','https://x.com/lagomnaturalsmn?s=21&t=o19JKEqucRv55S5u6wBKXQ',XSocialIcon],['Facebook','https://www.facebook.com/share/19fFEcDKpR/?mibextid=wwXIfr',FacebookIcon]]

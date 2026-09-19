@@ -7,6 +7,7 @@ import Shell from '@/storefront/StorefrontShell'
 import {useCart} from '@/storefront/StorefrontContext'
 import useSwipeGallery from '@/storefront/useSwipeGallery'
 import CatalogProductCard from '@/storefront/CatalogProductCard'
+import ResponsiveImage from '@/storefront/ResponsiveImage'
 
 function EmptyState({title="Nothing here yet.",body="Check back soon for updated availability.",to="/shop",action="Browse products"}){return <m.div className="empty-state" initial="hidden" animate="visible" variants={motionVariants.softScale}><h2>{title}</h2><p>{body}</p>{to&&<Link className="primary-bar" to={to}>{action}</Link>}</m.div>}
 
@@ -82,12 +83,14 @@ function MerchDetailPage() {
             aria-roledescription="carousel"
             {...swipeHandlers}
           >
-            <m.img
+            <ResponsiveImage
               key={activeImage.src}
-              layoutId={activeImageIndex === 0 ? `catalog-image-${item.id}` : undefined}
               src={activeImage.src}
               alt={activeImage.alt}
-              transition={motionTokens.springSoft}
+              sizes="(max-width: 899px) 100vw, 50vw"
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
             />
           </m.div>
           <m.div variants={motionVariants.item} className="merch-gallery" aria-label="Product images">
@@ -100,7 +103,7 @@ function MerchDetailPage() {
                 aria-label={`Show ${image.label.toLowerCase()}`}
                 aria-pressed={activeImageIndex === index}
               >
-                <img src={image.src} alt="" loading={index === 0 ? "eager" : "lazy"} decoding="async" />
+                <ResponsiveImage src={image.src} alt="" sizes="96px" loading={index === 0 ? "eager" : "lazy"} decoding="async" />
               </button>
             ))}
           </m.div>

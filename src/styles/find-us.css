@@ -46,11 +46,13 @@ body:has(.find-experience) .route-stage .find-page,body:has(.find-experience) .v
     background:#283126;
     isolation:isolate;
   }
-  .find-mobile-hero>img{
+  .find-mobile-hero>picture,.find-mobile-hero>picture>img{
     position:absolute;
     inset:0;
     width:100%;
     height:100%;
+  }
+  .find-mobile-hero>picture>img{
     object-fit:cover;
     object-position:50% 44%;
     transform:scale(1.012);
@@ -346,7 +348,7 @@ body:has(.find-experience) .route-stage .find-page,body:has(.find-experience) .v
     max-height:none;
     background:#1e281f;
   }
-  .find-mobile-hero>img{
+  .find-mobile-hero>picture>img{
     width:100%;
     height:100%;
     object-fit:cover;
