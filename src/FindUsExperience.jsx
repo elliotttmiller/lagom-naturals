@@ -290,11 +290,12 @@ export default function FindUsExperience(){
   const visible=q?SHOPS.filter(s=>`${s.name} ${s.address}`.toLowerCase().includes(q)):SHOPS
   const mapPoints=MAP_POINTS
   return <section className="find-experience" aria-labelledby="find-title">
+    <h1 className="sr-only" id="find-title">Find Lagom Near You</h1>
     <div className="find-mobile-hero">
       <img src={findUsHero} alt="Lagom Naturals storefront district"/>
       <div className="find-mobile-hero__shade" aria-hidden="true"/>
       <div className="find-mobile-hero__copy">
-        <h1 id="find-title">Find<br/>Lagom<br/>Near You</h1>
+        <div className="find-mobile-hero__title" aria-hidden="true">Find<br/>Lagom<br/>Near You</div>
         <p>GREAT FLAVORS.<br/>REAL PLACES.<br/>HIGHER DAYS AHEAD.</p>
         <span aria-hidden="true"/>
       </div>
@@ -303,7 +304,7 @@ export default function FindUsExperience(){
       <aside className="find-sidebar">
         <div className="find-intro">
           <p className="find-eyebrow">FIND US</p>
-          <h1>Find Lagom<br/>Near You</h1>
+          <h2>Find Lagom<br/>Near You</h2>
         </div>
         <label className="find-search">
           <span className="sr-only">Search locations</span>
