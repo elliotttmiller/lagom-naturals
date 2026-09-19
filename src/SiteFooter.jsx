@@ -15,7 +15,7 @@ export default function SiteFooter(){
           <span className="site-footer__social" role="img" aria-label="X"><XIcon/></span>
         </div>
       </div>
-      <nav className="site-footer__group" aria-label="Shop"><h4>Shop</h4><Link to="/shop">All Products</Link><Link to="/shop?category=Seltzers">Drinks</Link><Link to="/shop?category=Gummies">Gummies</Link></nav>
+      <nav className="site-footer__group" aria-label="Shop"><h4>Shop</h4><Link to="/shop">All Products</Link><Link to="/shop/seltzers">Drinks</Link><Link to="/shop/gummies">Gummies</Link></nav>
       <nav className="site-footer__group" aria-label="Explore"><h4>Explore</h4><Link to="/visit">Find Us</Link><Link to="/about">Our Story</Link><Link to="/merch">Merch</Link></nav>
       <nav className="site-footer__group" aria-label="Help"><h4>Help</h4><Link to="/account">Account</Link><Link to="/learn">FAQ</Link><Link to="/visit">Contact Us</Link></nav>
       <div className="site-footer__bottom">

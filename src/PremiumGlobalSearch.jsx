@@ -3,6 +3,7 @@ import {ArrowRight,ChevronRight,Search,X} from 'lucide-react'
 import {Link,useLocation,useNavigate} from 'react-router-dom'
 import {products} from './catalogData'
 import {Presence,m,motionTokens,useReducedMotion} from './motionSystem'
+import './global-search.css'
 
 const normalize=value=>String(value??'').trim().toLocaleLowerCase()
 const searchableText=product=>[

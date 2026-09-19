@@ -4,6 +4,8 @@ import {ArrowLeft,ArrowRight,ChevronRight,Minus,Plus,Store} from 'lucide-react'
 import {m,Presence,Reveal,motionTokens,motionVariants} from '@/motionSystem'
 import Shell from '@/storefront/StorefrontShell'
 import {useCart} from '@/storefront/StorefrontContext'
+import '@/styles/desktop-cart.css'
+import '@/styles/desktop-checkout.css'
 
 function EmptyState({title="Nothing here yet.",body="Check back soon for updated availability.",to="/shop",action="Browse products"}){return <m.div className="empty-state" initial="hidden" animate="visible" variants={motionVariants.softScale}><h2>{title}</h2><p>{body}</p>{to&&<Link className="primary-bar" to={to}>{action}</Link>}</m.div>}
 

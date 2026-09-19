@@ -108,10 +108,21 @@ const homeSchema = jsonLdMarkup([
   {'@context':'https://schema.org','@type':'WebSite',name:'Lagom Naturals',url:canonicalFor('/')},
 ])
 
+const categoryProductLinks = category => {
+  const items = products.filter(product => product.category === category)
+  if (!items.length) return ''
+  return `<ul>${items.map(product => `<li><a href="${base}product/${encodeURIComponent(product.id)}/">${escapeHtml(product.name)}</a></li>`).join('')}</ul>`
+}
+const merchProductLinks = () => merch.length
+  ? `<ul>${merch.map(item => `<li><a href="${base}merch/${encodeURIComponent(item.id)}/">${escapeHtml(item.name)}</a></li>`).join('')}</ul>`
+  : ''
+
 const staticRoutes = [
   { pathname: '/', title: 'Lagom Naturals | Premium THC Seltzer', h1: 'Find your just right.', description: 'Premium hemp-derived THC seltzers made for considered adult occasions.', headExtra: `${heroPreloads}${homeSchema}` },
-  { pathname: '/shop', title: 'Shop THC Seltzers & Gummies | Lagom Naturals', h1: 'Shop Lagom Naturals', description: 'Explore Lagom Naturals THC seltzers and gummy collections by flavor and format.' },
-  { pathname: '/merch', title: 'Apparel & Merch | Lagom Naturals', h1: 'Apparel & Merch', description: 'Shop Lagom Naturals apparel and merchandise.' },
+  { pathname: '/shop', title: 'Shop THC Seltzers & Gummies | Lagom Naturals', h1: 'Shop Lagom Naturals', description: 'Explore Lagom Naturals THC seltzers and gummy collections by flavor and format.', extra: `${categoryProductLinks('Seltzers')}${categoryProductLinks('Gummies')}` },
+  { pathname: '/shop/seltzers', title: 'THC Seltzers | Lagom Naturals', h1: 'THC Seltzers', description: 'Explore Lagom Naturals hemp-derived THC seltzers by flavor and pack format.', extra: categoryProductLinks('Seltzers'), headExtra: jsonLdMarkup(breadcrumbSchema([{name:'Home',pathname:'/'},{name:'Shop',pathname:'/shop'},{name:'THC Seltzers',pathname:'/shop/seltzers'}])) },
+  { pathname: '/shop/gummies', title: 'THC Gummies | Lagom Naturals', h1: 'THC Gummies', description: 'Explore Lagom Naturals THC gummy collections by flavor and collection.', extra: categoryProductLinks('Gummies'), headExtra: jsonLdMarkup(breadcrumbSchema([{name:'Home',pathname:'/'},{name:'Shop',pathname:'/shop'},{name:'THC Gummies',pathname:'/shop/gummies'}])) },
+  { pathname: '/merch', title: 'Apparel & Merch | Lagom Naturals', h1: 'Apparel & Merch', description: 'Shop Lagom Naturals apparel and merchandise.', extra: merchProductLinks() },
   { pathname: '/visit', title: 'Find Us | Lagom Naturals', h1: 'Find Lagom Near You', description: 'Find retailers and venues carrying Lagom Naturals.', extra: shops.length ? `<ul>${shops.map(shop => `<li><strong>${escapeHtml(shop.name)}</strong> — ${escapeHtml(shop.address)}</li>`).join('')}</ul>` : '' },
   { pathname: '/about', title: 'Our Story | Lagom Naturals', h1: 'A More Balanced You', description: 'The idea of balance behind Lagom Naturals.' },
   { pathname: '/learn', title: 'THC, Explained | Lagom Naturals', h1: 'THC, Explained', description: 'Clear guidance for enjoying Lagom THC seltzer responsibly.' },

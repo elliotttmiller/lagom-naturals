@@ -8,17 +8,15 @@ import {
   Link,
   Route,
   Routes,
+  useLocation,
+  useNavigate,
   useSearchParams,
 } from "react-router-dom";
 import {
   ArrowRight,
   ChevronDown,
-  Droplet,
-  Flower2,
   Heart,
-  Leaf,
   Plus,
-  Store,
 } from "lucide-react";
 import {
   m,
@@ -75,7 +73,8 @@ function SectionTitle({ title, to = "/shop" }) {
 }
 function CategoryCard({ name, label, description }) {
   const img = categoryImages[name];
-  const to = `/shop?category=${encodeURIComponent(name)}`;
+  const categoryPath = name === "Seltzers" ? "/shop/seltzers" : name === "Gummies" ? "/shop/gummies" : "/shop";
+  const to = categoryPath;
   return (
     <m.div
       className="motion-card-shell"
@@ -271,67 +270,7 @@ function ProductCard({ product }) {
 function HomePage() {
   return (
     <Shell>
-      <section className="beverage-hero">
-        <div className="beverage-hero__copy">
-          <m.h1
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={motionTokens.springSoft}
-          >
-            Find your
-            <br />
-            <em>just right.</em>
-          </m.h1>
-          <m.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-            Crisp, zero-sugar THC seltzers for a more measured social ritual.
-          </m.p>
-          <m.div
-            className="hero-actions"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
-            <Link to="/shop">
-              SHOP THE DRINKS <ArrowRight />
-            </Link>
-            <Link to="/about">OUR STORY</Link>
-          </m.div>
-        </div>
-        <div className="beverage-hero__proof" aria-label="Product highlights">
-          <span>
-            <Heart aria-hidden="true" />
-            ZERO<br />SUGAR
-          </span>
-          <span>
-            <Leaf aria-hidden="true" />
-            REAL<br />FLAVOR
-          </span>
-          <span>
-            <Flower2 aria-hidden="true" />
-            10MG<br />THC
-          </span>
-          <span>
-            <Droplet aria-hidden="true" />
-            GOOD<br />VIBES
-          </span>
-        </div>
-        <m.div
-          className="beverage-hero__cans"
-          initial={{ opacity: 0, scale: 0.97 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.68, ease: motionTokens.ease }}
-        >
-          {products.map((p, i) => (
-            <img
-              key={p.id}
-              src={p.image}
-              alt=""
-              aria-hidden="true"
-              style={{ "--i": i, "--accent": p.accent }}
-            />
-          ))}
-        </m.div>
-        <p className="beverage-hero__note">10 mg THC per can · 12 fl oz</p>
-      </section>
+      <section className="beverage-hero" aria-label="Featured Lagom Naturals products" />
       <section className="lineup">
         <Reveal className="section-head">
           <div>
@@ -363,8 +302,16 @@ function HomePage() {
   );
 }
 function ShopPage() {
-  const [params, setParams] = useSearchParams();
-  const requestedCategory = params.get("category") || "All";
+  const [params] = useSearchParams();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const pathCategory =
+    location.pathname === "/shop/seltzers"
+      ? "Seltzers"
+      : location.pathname === "/shop/gummies"
+        ? "Gummies"
+        : null;
+  const requestedCategory = pathCategory || params.get("category") || "All";
   const requestedCollection = params.get("collection") || "All";
   const categories = ["All", "Seltzers", "Gummies"];
   const category = categories.includes(requestedCategory) ? requestedCategory : "All";
@@ -374,11 +321,17 @@ function ShopPage() {
   const showGummyCollections = category === "Gummies";
   const updateFilters = (nextCategory, nextCollection = "All") => {
     const next = new URLSearchParams();
-    if (nextCategory !== "All") next.set("category", nextCategory);
+    const pathname =
+      nextCategory === "Seltzers"
+        ? "/shop/seltzers"
+        : nextCategory === "Gummies"
+          ? "/shop/gummies"
+          : "/shop";
     if (nextCategory === "Gummies" && nextCollection !== "All") {
       next.set("collection", nextCollection);
     }
-    setParams(next);
+    const query = next.toString();
+    navigate(query ? `${pathname}?${query}` : pathname);
   };
   const visible = useMemo(
     () =>
@@ -393,8 +346,14 @@ function ShopPage() {
     <Shell>
       <div className="shop-page">
         <Reveal className="shop-intro">
-          <h1>Shop</h1>
-          <p>Premium THC beverages and gummies for every occasion.</p>
+          <h1>{category === "Seltzers" ? "THC Seltzers" : category === "Gummies" ? "THC Gummies" : "Shop"}</h1>
+          <p>
+            {category === "Seltzers"
+              ? "Explore crisp, hemp-derived THC seltzers by flavor and pack format."
+              : category === "Gummies"
+                ? "Explore Lagom Naturals THC gummies by flavor and collection."
+                : "Premium THC beverages and gummies for every occasion."}
+          </p>
         </Reveal>
         {category === "All" && (
           <Stagger className="category-grid">
@@ -489,6 +448,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/shop" element={<ShopPage />} />
+        <Route path="/shop/seltzers" element={<ShopPage />} />
+        <Route path="/shop/gummies" element={<ShopPage />} />
         <Route path="/product/:id" element={<React.Suspense fallback={<RouteChunkFallback/>}><ProductPage /></React.Suspense>} />
         <Route path="/visit" element={<React.Suspense fallback={<RouteChunkFallback/>}><VisitPage /></React.Suspense>} />
         <Route path="/about" element={<React.Suspense fallback={<RouteChunkFallback/>}><AboutPage /></React.Suspense>} />
