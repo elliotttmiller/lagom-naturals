@@ -49,7 +49,7 @@
     padding:clamp(20px,2.6dvh,30px) 0 clamp(22px,2.6dvh,30px);
   }
   .find-eyebrow{margin:0 0 clamp(9px,1.3dvh,14px)}
-  .find-intro h1{
+  .find-intro h2{
     display:block;
     width:100%;
     max-width:590px;
@@ -117,7 +117,7 @@
   .find-sidebar{--find-side-pad:clamp(26px,3vw,36px)}
   .find-sidebar::before{height:clamp(240px,30dvh,340px)}
   .find-intro{padding:18px 0 20px}
-  .find-intro h1{font-size:clamp(44px,5vw,58px)}
+  .find-intro h2{font-size:clamp(44px,5vw,58px)}
   .find-intro>p:last-child{font-size:13px;margin:10px 0 13px}
   .find-search input{height:48px}
   .find-result-meta{padding:10px 2px 8px}
@@ -130,7 +130,7 @@
   .find-sidebar::before{height:clamp(210px,27dvh,250px)}
   .find-intro{padding:14px 0 16px}
   .find-eyebrow{margin-bottom:7px}
-  .find-intro h1{font-size:clamp(42px,3.75vw,58px);line-height:.9}
+  .find-intro h2{font-size:clamp(42px,3.75vw,58px);line-height:.9}
   .find-intro>p:last-child{margin:8px 0 10px;font-size:12px;line-height:1.35}
   .find-search input{height:44px;font-size:14px}
   .find-result-meta{padding:8px 2px 7px}
@@ -146,7 +146,7 @@
   .find-experience{overflow:visible}
   .find-shell{height:680px;min-height:0;overflow:hidden}
   .find-sidebar::before{height:200px}
-  .find-intro h1{font-size:40px}
+  .find-intro h2{font-size:40px}
 }
 
 @media (min-width:1500px){
@@ -195,7 +195,7 @@
     margin:0 0 8px;
     color:#fff;
   }
-  .find-intro h1{
+  .find-intro h2{
     max-width:9ch;
     color:#fff;
     font-size:clamp(48px,3.65vw,64px);
@@ -258,6 +258,6 @@
     padding-top:16px;
     padding-bottom:14px;
   }
-  .find-intro h1{font-size:clamp(42px,3.5vw,56px)}
+  .find-intro h2{font-size:clamp(42px,3.5vw,56px)}
   .find-location-row__main{min-height:66px}
 }
