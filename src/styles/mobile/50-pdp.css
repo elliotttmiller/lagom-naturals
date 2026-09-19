@@ -27,9 +27,10 @@
   .pdp-desc{max-width:680px!important;margin:17px 0 24px!important;color:#343632!important;font:600 var(--m-type-body)/1.5 var(--m-font-body)!important;letter-spacing:-.008em!important}
 
   .pdp-copy>div>label{display:block!important;margin:0 0 9px!important;font:800 13px/1 var(--m-font-body)!important}
-  .size-row:not(.apparel){display:grid!important;grid-template-columns:repeat(auto-fit,minmax(110px,1fr))!important;gap:9px!important;margin:0 0 18px!important}
-  .size-row:not(.apparel) button{min-height:54px!important;padding:8px 10px!important;display:grid!important;place-items:center!important;gap:2px!important;border:1px solid var(--m-line)!important;border-radius:9px!important;background:#fff!important;color:#111!important;font:800 13px/1.05 var(--m-font-body)!important}
-  .size-row:not(.apparel) button small{font:650 10px/1 var(--m-font-body)!important;color:#65665f!important}
+  .pdp-purchase .size-row:not(.apparel){display:grid!important;grid-template-columns:repeat(auto-fit,minmax(110px,1fr))!important;gap:9px!important;margin:0 0 18px!important}
+  .pdp-purchase .size-row:not(.apparel) button{box-sizing:border-box!important;min-height:54px!important;padding:8px 10px!important;display:grid!important;grid-template-rows:14px 12px!important;place-content:center!important;place-items:center!important;gap:3px!important;border:1px solid var(--m-line)!important;border-radius:9px!important;background:#fff!important;color:#111!important;font:800 13px/14px var(--m-font-body)!important;text-align:center!important}
+  .pdp-purchase .size-row:not(.apparel) button>span,.pdp-purchase .size-row:not(.apparel) button>small{display:block!important;min-width:0!important;margin:0!important;padding:0!important;text-align:center!important}
+  .pdp-purchase .size-row:not(.apparel) button small{font:650 10px/12px var(--m-font-body)!important;color:#65665f!important;font-variant-numeric:tabular-nums!important}
   .size-row:not(.apparel) button.active{background:#111!important;border-color:#111!important;color:#fff!important}.size-row:not(.apparel) button.active small{color:#fff!important;opacity:.78}
 
   .qty-row{display:grid!important;grid-template-columns:auto 1fr!important;align-items:center!important;gap:14px!important;margin:0 0 12px!important}
