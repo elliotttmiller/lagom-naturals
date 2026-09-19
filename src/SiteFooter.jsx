@@ -9,16 +9,16 @@ export default function SiteFooter(){
     <div className="site-footer__inner">
       <div className="site-footer__brand">
         <Link to="/" aria-label="Lagom Naturals home"><img src="/lagom-logo.svg" alt="Lagom Naturals"/></Link>
-      </div>
-      <nav className="site-footer__group" aria-label="Shop"><h4>Shop</h4><Link to="/shop">All Products</Link><Link to="/shop?category=Seltzers">Drinks</Link><Link to="/shop?category=Gummies">Gummies</Link></nav>
-      <nav className="site-footer__group" aria-label="Explore"><h4>Explore</h4><Link to="/visit">Find Us</Link><Link to="/about">Our Story</Link><Link to="/merch">Merch</Link></nav>
-      <nav className="site-footer__group" aria-label="Help"><h4>Help</h4><Link to="/account">Account</Link><Link to="/learn">FAQ</Link><Link to="/visit">Contact Us</Link></nav>
-      <div className="site-footer__bottom">
         <div className="site-footer__socials" aria-label="Lagom Naturals social media">
           <span className="site-footer__social" role="img" aria-label="Instagram"><InstagramIcon/></span>
           <span className="site-footer__social" role="img" aria-label="Facebook"><FacebookIcon/></span>
           <span className="site-footer__social" role="img" aria-label="X"><XIcon/></span>
         </div>
+      </div>
+      <nav className="site-footer__group" aria-label="Shop"><h4>Shop</h4><Link to="/shop">All Products</Link><Link to="/shop?category=Seltzers">Drinks</Link><Link to="/shop?category=Gummies">Gummies</Link></nav>
+      <nav className="site-footer__group" aria-label="Explore"><h4>Explore</h4><Link to="/visit">Find Us</Link><Link to="/about">Our Story</Link><Link to="/merch">Merch</Link></nav>
+      <nav className="site-footer__group" aria-label="Help"><h4>Help</h4><Link to="/account">Account</Link><Link to="/learn">FAQ</Link><Link to="/visit">Contact Us</Link></nav>
+      <div className="site-footer__bottom">
         <div className="site-footer__legal"><span>© 2026 Lagom Naturals</span><span>For adults 21+. Please enjoy responsibly.</span></div>
       </div>
     </div>

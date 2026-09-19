@@ -556,6 +556,8 @@ body:has(.find-experience) .route-stage .find-page,body:has(.find-experience) .v
 }
 .find-leaflet-map .leaflet-pane,
 .find-leaflet-map .leaflet-control{font-family:var(--font-primary)}
+.find-leaflet-map .leaflet-zoom-animated,
+.find-leaflet-map .leaflet-tile{backface-visibility:hidden;will-change:transform}
 .find-leaflet-map .leaflet-control-zoom{
   margin-top:14px;
   margin-right:14px;
@@ -617,14 +619,17 @@ body:has(.find-experience) .route-stage .find-page,body:has(.find-experience) .v
 }
 .lagom-leaflet-pin__disc img{
   display:block!important;
-  width:31px!important;
-  height:31px!important;
-  max-width:31px!important;
-  max-height:31px!important;
+  /* The approved icon's artwork sits lower than its 300 × 343 viewBox center.
+     Size the visible round mark to the disc's inner ring, then offset that
+     viewBox padding so the artwork—not the SVG box—is optically centered. */
+  width:42px!important;
+  height:42px!important;
+  max-width:42px!important;
+  max-height:42px!important;
   margin:0!important;
   object-fit:contain!important;
   object-position:center!important;
-  transform:none!important;
+  transform:translateY(-1.8px)!important;
 }
 .lagom-leaflet-pin__tip{
   position:absolute;
@@ -685,10 +690,11 @@ body:has(.find-experience) .route-stage .find-page,body:has(.find-experience) .v
     height:54px;
   }
   .lagom-leaflet-pin__disc img{
-    width:29px!important;
-    height:29px!important;
-    max-width:29px!important;
-    max-height:29px!important;
+    width:39px!important;
+    height:39px!important;
+    max-width:39px!important;
+    max-height:39px!important;
+    transform:translateY(-1.7px)!important;
   }
 }
 
@@ -709,10 +715,11 @@ body:has(.find-experience) .route-stage .find-page,body:has(.find-experience) .v
 }
 .lagom-leaflet-pin:not(.is-selected) .lagom-leaflet-pin__disc::after{inset:5px}
 .lagom-leaflet-pin:not(.is-selected) .lagom-leaflet-pin__disc img{
-  width:24px!important;
-  height:24px!important;
-  max-width:24px!important;
-  max-height:24px!important;
+  width:34px!important;
+  height:34px!important;
+  max-width:34px!important;
+  max-height:34px!important;
+  transform:translateY(-1.5px)!important;
 }
 .lagom-leaflet-pin:not(.is-selected) .lagom-leaflet-pin__tip{
   bottom:1px;
@@ -734,3 +741,57 @@ body:has(.find-experience) .route-stage .find-page,body:has(.find-experience) .v
   letter-spacing:.04em;
 }
 .lagom-map-tooltip::before{display:none!important}
+
+/* The location detail is a Leaflet popup, bound to its marker's LatLng. */
+.lagom-store-popup .leaflet-popup-content-wrapper{
+  overflow:hidden;
+  padding:0;
+  border:1px solid #d7d5ce;
+  border-radius:12px;
+  background:rgba(255,255,255,.98);
+  box-shadow:0 20px 52px rgba(20,25,20,.20);
+}
+.lagom-store-popup .leaflet-popup-content{
+  width:min(340px,calc(100vw - 64px))!important;
+  margin:0!important;
+}
+.lagom-store-popup .leaflet-popup-tip{background:rgba(255,255,255,.98)}
+.lagom-store-popup .leaflet-popup-close-button{
+  z-index:2;
+  width:36px!important;
+  height:36px!important;
+  padding:0!important;
+  color:#53574f!important;
+  font:400 24px/32px Arial,sans-serif!important;
+}
+.lagom-store-popup__content{padding:22px}
+.lagom-store-popup__identity{display:flex;align-items:center;gap:14px;padding:0 30px 17px 0;border-bottom:1px solid var(--find-line)}
+.lagom-store-popup__brand{display:flex;align-items:center;justify-content:center;width:54px;height:54px;flex:0 0 54px;overflow:hidden}
+.lagom-store-popup__brand img{display:block;max-width:52px;max-height:48px;width:auto;height:auto;object-fit:contain}
+.lagom-store-popup__brand b{display:grid;place-items:center;width:42px;height:42px;border:1px solid #cfd3cc;border-radius:50%;background:#fff;color:var(--find-accent);font:700 12px/1 var(--font-ui)}
+.lagom-store-popup__identity>span:last-child{display:grid;gap:7px;min-width:0}
+.lagom-store-popup__identity small{font:800 8px/1 var(--font-ui);letter-spacing:.16em;text-transform:uppercase;color:#7d817a}
+.lagom-store-popup__identity strong{font:700 19px/1.15 var(--font-primary);overflow-wrap:anywhere}
+.lagom-store-popup address{margin:17px 0;font:500 14px/1.55 var(--font-primary);font-style:normal;color:#565a53;overflow-wrap:anywhere}
+.lagom-store-popup__links{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:9px}
+.lagom-store-popup__links a{display:flex;align-items:center;justify-content:center;min-width:0;min-height:44px;padding:0 10px;border:1px solid #c9ccc5;color:var(--find-ink);font:800 9px/1 var(--font-ui);letter-spacing:.06em;text-align:center;text-decoration:none;text-transform:uppercase;overflow-wrap:anywhere}
+.lagom-store-popup__links .lagom-store-popup__directions{grid-column:1/-1;min-height:52px;border-color:var(--find-ink);background:var(--find-ink);color:#fff}
+@media(max-width:600px){
+  .lagom-store-popup .leaflet-popup-content{width:min(300px,calc(100vw - 56px))!important}
+  .lagom-store-popup__content{padding:17px}
+  .lagom-store-popup__identity{gap:11px;padding-bottom:13px}
+  .lagom-store-popup__brand{width:46px;height:46px;flex-basis:46px}
+  .lagom-store-popup__identity strong{font-size:16px}
+  .lagom-store-popup address{margin:13px 0;font-size:12px}
+  .lagom-store-popup__links a{min-height:40px;font-size:8px}
+  .lagom-store-popup__links .lagom-store-popup__directions{min-height:46px}
+}
+
+/* The compact map has no spare corner for zoom controls while a location panel
+   is open. Keep the panel unobstructed; closing it restores the controls. */
+@media(max-width:899px){
+  .find-leaflet-map:has(.lagom-store-popup) .leaflet-control-zoom{
+    opacity:0;
+    pointer-events:none;
+  }
+}

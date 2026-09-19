@@ -34,16 +34,30 @@ const SHOPS=[
 ['Wayzata Smoke Shop & Vape','1310 Wayzata Blvd','Wayzata','MN','55391','+19522294452','',44.970666,-93.481092],
 ['Westwood Liquor','2304 Louisiana Ave S','St Louis Park','MN','55426','+19525447878','',44.959249,-93.371822]
 ].map(([name,street,city,state,zip,phone,website,latitude,longitude],i)=>({id:i+1,name,street,city,state,zip,phone,website,latitude,longitude,address:`${street}, ${city}, ${state} ${zip}`}))
+const MAP_POINTS=SHOPS.map(shop=>({shop,lat:shop.latitude,lon:shop.longitude}))
 
 const mapsDirections=shop=>`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(shop.address)}`
 const mapsPlace=shop=>`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(shop.address)}`
 const phoneLabel=p=>p?`(${p.slice(-10,-7)}) ${p.slice(-7,-4)}-${p.slice(-4)}`:''
 const initials=name=>name.replace(/[^A-Za-z0-9 ]/g,'').split(/\s+/).filter(Boolean).slice(0,2).map(word=>word[0]).join('').toUpperCase()
 const logoFor=shop=>{if(!shop.website)return '';try{return `https://www.google.com/s2/favicons?domain_url=${encodeURIComponent(new URL(shop.website).origin)}&sz=128`}catch{return ''}}
+const escapeHtml=value=>String(value).replace(/[&<>'"]/g,character=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[character]))
+const popupMarkup=shop=>{
+  const logo=logoFor(shop)
+  const retailerMark=logo
+    ?`<img src="${escapeHtml(logo)}" alt="" />`
+    :`<b>${escapeHtml(initials(shop.name))}</b>`
+  const phone=shop.phone?`<a href="tel:${escapeHtml(shop.phone)}">${escapeHtml(phoneLabel(shop.phone))}</a>`:''
+  const website=shop.website?`<a href="${escapeHtml(shop.website)}" target="_blank" rel="noreferrer">Website ↗</a>`:''
+  return `<article class="lagom-store-popup__content">
+    <div class="lagom-store-popup__identity"><span class="lagom-store-popup__brand">${retailerMark}</span><span><small>Selected location</small><strong>${escapeHtml(shop.name)}</strong></span></div>
+    <address>${escapeHtml(shop.street)}<br>${escapeHtml(shop.city)}, ${escapeHtml(shop.state)} ${escapeHtml(shop.zip)}</address>
+    <div class="lagom-store-popup__links"><a class="lagom-store-popup__directions" href="${escapeHtml(mapsDirections(shop))}" target="_blank" rel="noreferrer">Get directions</a>${phone}${website}</div>
+  </article>`
+}
 
 function SearchIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.2 4.2"/></svg>}
 function PinIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.4 6-11a6 6 0 1 0-12 0c0 5.6 6 11 6 11Z"/><circle cx="12" cy="10" r="2"/></svg>}
-function ArrowIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M14 7l5 5-5 5"/></svg>}
 function ExternalIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 5h5v5M19 5l-8 8"/><path d="M18 13v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>}
 
 let leafletPromise
@@ -100,12 +114,18 @@ function InteractiveStoreMap({points,selected,onSelect}){
     loadLeaflet().then(L=>{
       if(cancelled||!containerRef.current)return
       if(!mapRef.current){
+        const supportsDesktopPointer=window.matchMedia?.('(hover: hover) and (pointer: fine)').matches
         const map=L.map(containerRef.current,{
           zoomControl:false,
           attributionControl:true,
-          scrollWheelZoom:false,
+          scrollWheelZoom:supportsDesktopPointer,
+          wheelPxPerZoomLevel:100,
+          wheelDebounceTime:40,
           tap:true,
-          zoomSnap:.5,
+          zoomSnap:.25,
+          zoomAnimation:true,
+          fadeAnimation:true,
+          markerZoomAnimation:true,
         })
         L.control.zoom({position:'topright'}).addTo(map)
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
@@ -124,6 +144,7 @@ function InteractiveStoreMap({points,selected,onSelect}){
     const map=mapRef.current
     const L=window.L
     if(!map||!L)return
+    let mobileFocusTimer
 
     const activeIds=new Set()
     points.forEach(({shop,lat,lon})=>{
@@ -140,6 +161,18 @@ function InteractiveStoreMap({points,selected,onSelect}){
           zIndexOffset:isSelected?1000:0,
         }).addTo(map)
         marker.on('click',()=>onSelect(shop))
+        marker.bindPopup(popupMarkup(shop),{
+          autoClose:true,
+          closeButton:true,
+          closeOnEscapeKey:true,
+          closeOnClick:false,
+          keepInView:true,
+          autoPanPaddingTopLeft:[16,16],
+          autoPanPaddingBottomRight:[16,48],
+          maxWidth:360,
+          offset:[0,-54],
+          className:'lagom-store-popup',
+        })
         marker.bindTooltip(shop.name,{
           direction:'top',
           offset:[0,isSelected?-60:-48],
@@ -158,21 +191,55 @@ function InteractiveStoreMap({points,selected,onSelect}){
       if(!activeIds.has(id)){map.removeLayer(marker);markersRef.current.delete(id)}
     })
 
-    if(!hasFitBoundsRef.current&&points.length){
+    const needsInitialFit=!hasFitBoundsRef.current&&points.length
+    if(needsInitialFit){
       map.fitBounds(L.latLngBounds(points.map(({lat,lon})=>[Number(lat),Number(lon)])),{
         padding:[44,44],
         maxZoom:11,
         animate:false,
       })
       hasFitBoundsRef.current=true
-      selectedIdRef.current=selected.id
     }
 
     const selectedPoint=points.find(p=>p.shop.id===selected.id)
     if(selectedPoint&&selectedIdRef.current!==selected.id){
       selectedIdRef.current=selected.id
-      map.setView([Number(selectedPoint.lat),Number(selectedPoint.lon)],14,{animate:true})
+      const latLng=[Number(selectedPoint.lat),Number(selectedPoint.lon)]
+      const marker=markersRef.current.get(selected.id)
+      const isMobile=window.matchMedia?.('(max-width: 899px)').matches
+
+      if(!needsInitialFit)map.setView(latLng,14,{animate:!isMobile,duration:.35})
+      if(!marker)return
+
+      if(!isMobile||needsInitialFit){
+        marker.openPopup()
+        return
+      }
+
+      // Mobile popups sit above their marker. Centering the marker therefore
+      // clips the detail panel at the top of the compact map. Wait until the
+      // popup has its real dimensions, then reserve a clear panel-sized area
+      // above it and place the selected pin in the lower map viewport.
+      const focusMobileSelection=()=>{
+        map.invalidateSize({animate:false,pan:false})
+        marker.openPopup()
+        requestAnimationFrame(()=>{
+          const popup=map.getContainer().querySelector('.lagom-store-popup')
+          const popupHeight=popup?.getBoundingClientRect().height??Math.round(map.getSize().y*.58)
+          const mapHeight=map.getSize().y
+          const desiredPinY=Math.min(
+            mapHeight-34,
+            Math.max(Math.round(mapHeight*.68),popupHeight+74),
+          )
+          const currentPinY=map.latLngToContainerPoint(latLng).y
+          const panY=Math.round(desiredPinY-currentPinY)
+          if(Math.abs(panY)>2)map.panBy([0,panY],{animate:true,duration:.35,easeLinearity:.25})
+        })
+      }
+
+      requestAnimationFrame(()=>{mobileFocusTimer=window.setTimeout(focusMobileSelection,32)})
     }
+    return()=>window.clearTimeout(mobileFocusTimer)
   },[points,selected,onSelect,status])
 
   React.useEffect(()=>()=>{if(mapRef.current){mapRef.current.remove();mapRef.current=null;markersRef.current.clear()}},[])
@@ -194,7 +261,6 @@ function LocationRow({shop,selected,onSelect}){
     <button type="button" className="find-location-row__main" onClick={()=>onSelect(shop)} aria-label={`Show ${shop.name} on map`}>
       <RetailerMark shop={shop}/>
       <span className="find-location-row__copy"><strong>{shop.name}</strong><small>{shop.city}, {shop.state} · {shop.zip}</small></span>
-      <ArrowIcon/>
     </button>
   </article>
 }
@@ -206,8 +272,15 @@ export default function FindUsExperience(){
   if(pathname!=='/visit')return null
   const q=query.trim().toLowerCase()
   const visible=q?SHOPS.filter(s=>`${s.name} ${s.address}`.toLowerCase().includes(q)):SHOPS
-  const mapPoints=SHOPS.map(shop=>({shop,lat:shop.latitude,lon:shop.longitude}))
+  const mapPoints=MAP_POINTS
   const choose=React.useCallback(shop=>{setSelected(shop);if(window.innerWidth<900)document.querySelector('.find-map-pane')?.scrollIntoView({behavior:'smooth',block:'center'})},[])
+  const scrollLocationRail=React.useCallback(event=>{
+    if(window.innerWidth<900||!event.deltaY)return
+    const rail=event.currentTarget.closest('.find-sidebar')
+    if(!rail)return
+    rail.scrollTop+=event.deltaY
+    event.preventDefault()
+  },[])
   return <section className="find-experience" aria-labelledby="find-title">
     <div className="find-mobile-hero">
       <img src={findUsHero} alt="Lagom Naturals storefront district"/>
@@ -231,7 +304,7 @@ export default function FindUsExperience(){
           <SearchIcon/>
         </label>
         <div className="find-result-meta"><span>{visible.length} locations</span><span>Minnesota + Wisconsin</span></div>
-        <div className="find-location-list" aria-live="polite">
+        <div className="find-location-list" aria-live="polite" onWheel={scrollLocationRail}>
           {visible.map(shop=><LocationRow key={shop.id} shop={shop} selected={selected.id===shop.id} onSelect={choose}/>)}
           {!visible.length&&<div className="find-empty"><strong>No locations found.</strong><button type="button" onClick={()=>setQuery('')}>Clear search</button></div>}
         </div>
@@ -239,15 +312,6 @@ export default function FindUsExperience(){
       <div className="find-map-pane">
         <InteractiveStoreMap points={mapPoints} selected={selected} onSelect={choose}/>
         <a className="find-map-open" href={mapsPlace(selected)} target="_blank" rel="noreferrer">Open in Maps <ExternalIcon/></a>
-        <article className="find-map-popover">
-          <div className="find-map-popover__identity"><RetailerMark shop={selected}/><span><small>SELECTED LOCATION</small><strong>{selected.name}</strong></span></div>
-          <address>{selected.street}<br/>{selected.city}, {selected.state} {selected.zip}</address>
-          <div className="find-map-popover__links">
-            <a className="find-directions" href={mapsDirections(selected)} target="_blank" rel="noreferrer"><PinIcon/>Get Directions</a>
-            {selected.phone&&<a href={`tel:${selected.phone}`}>{phoneLabel(selected.phone)}</a>}
-            {selected.website&&<a href={selected.website} target="_blank" rel="noreferrer">Website ↗</a>}
-          </div>
-        </article>
       </div>
     </div>
   </section>
