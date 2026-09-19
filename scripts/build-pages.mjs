@@ -57,7 +57,7 @@ function fallbackNav() {
 
 function fallbackMarkup(route) {
   const extra = route.extra || ''
-  return `<main class="seo-fallback" data-seo-fallback="true">${fallbackNav()}<h1>${escapeHtml(route.h1)}</h1><p>${escapeHtml(route.description)}</p>${extra}</main>`
+  return `<main class="seo-fallback" data-seo-fallback="true"><div class="seo-fallback__content">${fallbackNav()}<h1>${escapeHtml(route.h1)}</h1><p>${escapeHtml(route.description)}</p>${extra}</div></main>`
 }
 
 async function writeRoute(template, route) {

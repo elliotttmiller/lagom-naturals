@@ -1,45 +1,19 @@
 import React,{useEffect,useState} from 'react'
 import {Link,useParams} from 'react-router-dom'
-import {ChevronDown,Heart,Minus,Plus} from 'lucide-react'
+import {ChevronDown,Minus,Plus} from 'lucide-react'
 import {m,Presence,Stagger,StaggerItem,motionTokens,motionVariants} from '@/motionSystem'
 import {merch} from '@/catalogData'
 import Shell from '@/storefront/StorefrontShell'
 import {useCart} from '@/storefront/StorefrontContext'
 import useSwipeGallery from '@/storefront/useSwipeGallery'
+import CatalogProductCard from '@/storefront/CatalogProductCard'
 
 function EmptyState({title="Nothing here yet.",body="Check back soon for updated availability.",to="/shop",action="Browse products"}){return <m.div className="empty-state" initial="hidden" animate="visible" variants={motionVariants.softScale}><h2>{title}</h2><p>{body}</p>{to&&<Link className="primary-bar" to={to}>{action}</Link>}</m.div>}
 
 function MerchCard({ item }) {
+  const meta = [item.color, item.sizeType || (item.sizes?.length ? `${item.sizes[0]}–${item.sizes[item.sizes.length - 1]}` : null)].filter(Boolean).join(" · ");
   return (
-    <m.div
-      className="catalog-card merch-card"
-      layout
-      whileHover={{ y: -4 }}
-      whileTap={{ scale: 0.992 }}
-      transition={motionTokens.springSoft}
-    >
-      <Link to={`/merch/${item.id}`}>
-        <div className="catalog-card__media merch-media">
-          <m.img
-            layoutId={`catalog-image-${item.id}`}
-            src={item.image}
-            alt={item.name}
-            loading="lazy"
-            decoding="async"
-          />
-          <Heart />
-        </div>
-        <div className="merch-copy">
-          <p>Lagom Naturals</p>
-          <h3>{item.name}</h3>
-          <b>{Number.isFinite(item.price) ? `${item.price.toFixed(2)}` : "Pricing coming soon"}</b>
-          <small className="merch-card__meta">{[item.color, item.sizeType || (item.sizes?.length ? `${item.sizes[0]}–${item.sizes[item.sizes.length - 1]}` : null)].filter(Boolean).join(" · ")}</small>
-          <div className="swatches" aria-hidden="true">
-            <i style={{ backgroundColor: "#111" }} />
-          </div>
-        </div>
-      </Link>
-    </m.div>
+    <CatalogProductCard id={item.id} to={`/merch/${item.id}`} image={item.image} imageAlt={item.name} name={item.name} price={item.price} meta={meta} className="merch-card" mediaClassName="merch-media" copyClassName="merch-copy" motionProps={{ layout: true }} />
   );
 }
 

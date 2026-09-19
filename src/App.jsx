@@ -15,7 +15,6 @@ import {
 import {
   ArrowRight,
   ChevronDown,
-  Heart,
   Plus,
 } from "lucide-react";
 import {
@@ -34,6 +33,7 @@ import {
   gummyCollections,
 } from "./catalogData";
 import Shell from "@/storefront/StorefrontShell";
+import CatalogProductCard from "@/storefront/CatalogProductCard";
 import {
   CartProvider,
   configuredProduct,
@@ -41,17 +41,33 @@ import {
   useCart,
 } from "@/storefront/StorefrontContext";
 
-const VisitPage=React.lazy(()=>import("./routes/VisitPage"));
-const AboutPage=React.lazy(()=>import("./routes/AboutPage"));
-const LearnPage=React.lazy(()=>import("./routes/LearnPage"));
-const MerchPage=React.lazy(()=>import("./routes/MerchRoutes").then(module=>({default:module.MerchPage})));
-const MerchDetailPage=React.lazy(()=>import("./routes/MerchRoutes").then(module=>({default:module.MerchDetailPage})));
-const CartPage=React.lazy(()=>import("./routes/CommerceRoutes").then(module=>({default:module.CartPage})));
-const CheckoutPage=React.lazy(()=>import("./routes/CommerceRoutes").then(module=>({default:module.CheckoutPage})));
-const ProductPage=React.lazy(()=>import("./routes/ProductPage"));
+const loadVisitPage=()=>import("./routes/VisitPage");
+const loadAboutPage=()=>import("./routes/AboutPage");
+const loadLearnPage=()=>import("./routes/LearnPage");
+const loadMerchRoutes=()=>import("./routes/MerchRoutes");
+const loadCommerceRoutes=()=>import("./routes/CommerceRoutes");
+const loadProductPage=()=>import("./routes/ProductPage");
+const VisitPage=React.lazy(loadVisitPage);
+const AboutPage=React.lazy(loadAboutPage);
+const LearnPage=React.lazy(loadLearnPage);
+const MerchPage=React.lazy(()=>loadMerchRoutes().then(module=>({default:module.MerchPage})));
+const MerchDetailPage=React.lazy(()=>loadMerchRoutes().then(module=>({default:module.MerchDetailPage})));
+const CartPage=React.lazy(()=>loadCommerceRoutes().then(module=>({default:module.CartPage})));
+const CheckoutPage=React.lazy(()=>loadCommerceRoutes().then(module=>({default:module.CheckoutPage})));
+const ProductPage=React.lazy(loadProductPage);
+
+export function preloadStorefrontRoute(pathname){
+  if(pathname.startsWith('/product/'))return loadProductPage();
+  if(pathname==='/visit')return loadVisitPage();
+  if(pathname==='/about')return loadAboutPage();
+  if(pathname==='/learn')return loadLearnPage();
+  if(pathname==='/merch'||pathname.startsWith('/merch/'))return loadMerchRoutes();
+  if(pathname==='/cart'||pathname==='/checkout')return loadCommerceRoutes();
+  return Promise.resolve();
+}
 
 function RouteChunkFallback(){
-  return <Shell><div className="route-chunk-fallback" role="status" aria-live="polite" aria-busy="true"><span>Loading…</span></div></Shell>
+  return <Shell><div className="route-chunk-fallback" role="status" aria-live="polite" aria-busy="true"><span className="route-chunk-fallback__mark" aria-hidden="true"><i/></span><span className="sr-only">Loading page…</span></div></Shell>
 }
 function ArrowLink({ to, children }) {
   return (
@@ -161,46 +177,24 @@ function ProductCard({ product }) {
   const item = configuredProduct(product, selected);
   const facts = productCardFacts(product);
   return (
-    <m.article
-      className={`catalog-card product-card ${variantOpen ? "is-variant-open" : ""}`}
-      variants={motionVariants.item}
-      layout="position"
-      whileHover={{ y: -4 }}
-      whileTap={{ scale: 0.992 }}
-      transition={motionTokens.springSoft}
-      style={{ "--accent": product.accent }}
+    <CatalogProductCard
+      id={product.id}
+      to={`/product/${product.id}`}
+      image={selected.image || product.image}
+      imageAlt={`${product.name} ${product.type}`}
+      brand={product.brand}
+      name={product.name}
+      price={selected.price}
+      className={`product-card ${variantOpen ? "is-variant-open" : ""}`}
+      mediaClassName="product-media"
+      copyClassName="product-copy"
+      meta={(
+        <span className="product-facts" aria-label={facts.join(", ")}>
+          {facts.map((fact) => <span key={fact}>{fact}</span>)}
+        </span>
+      )}
+      motionProps={{ variants: motionVariants.item, layout: "position", style: { "--accent": product.accent } }}
     >
-      <div className="catalog-card__media product-media">
-        <Link to={`/product/${product.id}`} aria-label={`View ${product.name}`}>
-          <m.img
-            layoutId={`catalog-image-${product.id}`}
-            src={selected.image || product.image}
-            alt={`${product.name} ${product.type}`}
-            loading="lazy"
-            decoding="async"
-            transition={motionTokens.springSoft}
-          />
-        </Link>
-        <m.button
-          type="button"
-          whileTap={{ scale: 0.82 }}
-          className="heart-btn"
-          aria-label={`Save ${product.name}`}
-        >
-          <Heart />
-        </m.button>
-      </div>
-      <div className="product-copy">
-        <p>{product.brand}</p>
-        <h3>
-          <Link to={`/product/${product.id}`}>{product.name}</Link>
-        </h3>
-        <small className="product-facts" aria-label={facts.join(", ")}>
-          {facts.map((fact) => (
-            <span key={fact}>{fact}</span>
-          ))}
-        </small>
-        <b>${selected.price.toFixed(2)}</b>
         <div className="card-actions">
           <div className="variant-picker" ref={pickerRef}>
             <m.button
@@ -263,8 +257,7 @@ function ProductCard({ product }) {
             <Plus />
           </m.button>
         </div>
-      </div>
-    </m.article>
+    </CatalogProductCard>
   );
 }
 function HomePage() {

@@ -354,12 +354,12 @@ export const merch = [
     category: "Apparel",
     color: "Black",
     sizes: ["XS", "S", "M", "L", "XL", "2XL", "3XL"],
-    image: teeFront,
+    image: teeFoldedFront,
     gallery: [
+      { src: teeFoldedFront, label: "Folded view", alt: "Black Lagom Heavyweight Cotton Tee, folded front view" },
       { src: teeFront, label: "Front", alt: "Black Lagom Heavyweight Cotton Tee, front view" },
       { src: teeBack, label: "Back", alt: "Black Lagom Heavyweight Cotton Tee, back view" },
       { src: teeThreeQuarter, label: "Three-quarter view", alt: "Black Lagom Heavyweight Cotton Tee, three-quarter front view" },
-      { src: teeFoldedFront, label: "Folded view", alt: "Black Lagom Heavyweight Cotton Tee, folded front view" },
     ],
     description:
       "A heavyweight black cotton tee with a relaxed silhouette, wide rib collar, Lagom chest logo, and bird-and-water sleeve submark.",
@@ -398,11 +398,11 @@ export const merch = [
     category: "Apparel",
     color: "Black",
     sizes: ["S", "M", "L", "XL", "2XL", "3XL"],
-    image: hoodieFront,
+    image: hoodieFoldedFront,
     gallery: [
+      { src: hoodieFoldedFront, label: "Folded view", alt: "Black Lagom Mainstreet hooded sweatshirt, folded front view" },
       { src: hoodieFront, label: "Front", alt: "Black Lagom Mainstreet hooded sweatshirt, front view" },
       { src: hoodieBack, label: "Back", alt: "Black Lagom Mainstreet hooded sweatshirt, back view" },
-      { src: hoodieFoldedFront, label: "Folded view", alt: "Black Lagom Mainstreet hooded sweatshirt, folded front view" },
     ],
     description:
       "A premium heavyweight black fleece hoodie with an oversized drop-shoulder fit, minimalist Lagom chest branding, and a clean drawcord-free hood.",

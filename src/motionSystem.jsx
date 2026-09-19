@@ -1,5 +1,5 @@
 import React from 'react'
-import { AnimatePresence, LayoutGroup, LazyMotion, MotionConfig, domAnimation, m, useAnimationControls, useReducedMotion } from 'motion/react'
+import { AnimatePresence, LayoutGroup, LazyMotion, MotionConfig, domAnimation, m, useReducedMotion } from 'motion/react'
 
 export const motionTokens={
   ease:[.22,1,.36,1],
@@ -41,24 +41,17 @@ export function AppMotionProvider({children}){
 
 export function RouteMotion({routeKey,navigationType='PUSH',children}){
   const reduceMotion=useReducedMotion()
-  const controls=useAnimationControls()
-
-  React.useLayoutEffect(()=>{
-    if(reduceMotion){
-      controls.set({opacity:1})
-      return
-    }
-
-    const returning=navigationType==='POP'
-    controls.set({opacity:returning?.985:.965})
-    const frame=requestAnimationFrame(()=>controls.start({
-      opacity:1,
-      transition:{duration:returning?motionTokens.duration.base:motionTokens.duration.slow,ease:motionTokens.easeSoft},
-    }))
-    return()=>cancelAnimationFrame(frame)
-  },[controls,navigationType,reduceMotion,routeKey])
-
-  return <m.div className="route-stage" initial={false} animate={controls} style={{transform:'none',filter:'none'}}>{children}</m.div>
+  const returning=navigationType==='POP'
+  return <AnimatePresence mode="wait" initial={false}>
+    <m.div
+      key={routeKey}
+      className="route-stage"
+      initial={reduceMotion?false:{opacity:0}}
+      animate={{opacity:1,transition:{duration:returning?motionTokens.duration.base:motionTokens.duration.slow,ease:motionTokens.easeSoft}}}
+      exit={reduceMotion?{opacity:1}:{opacity:0,transition:{duration:motionTokens.duration.fast,ease:motionTokens.ease}}}
+      style={{transform:'none',filter:'none'}}
+    >{children}</m.div>
+  </AnimatePresence>
 }
 
 export function Reveal({children,className,delay=0,amount=.14,once=true,...props}){
