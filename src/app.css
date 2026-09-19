@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Nunito:wght@400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap');
-
 /* ─── TOKENS ─────────────────────────────────────────────────────────────── */
 :root {
   --font-primary: 'Nunito', ui-rounded, 'SF Pro Rounded', 'Segoe UI', sans-serif;
