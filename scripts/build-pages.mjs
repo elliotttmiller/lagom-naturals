@@ -33,7 +33,7 @@ function runNode(script, args = []) {
 const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]))
 const canonicalFor = pathname => `${siteOrigin}${pathname === '/' ? '/' : pathname.replace(/\/$/, '')}`
 
-function injectHead(html, { title, description, pathname, noindex = false }) {
+function injectHead(html, { title, description, pathname, noindex = false, headExtra = '' }) {
   const canonical = canonicalFor(pathname)
   return html
     .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(title)}</title>`)
@@ -45,6 +45,7 @@ function injectHead(html, { title, description, pathname, noindex = false }) {
     .replace(/<meta property="og:description" content="[^"]*"\s*\/>/, `<meta property="og:description" content="${escapeHtml(description)}" />`)
     .replace(/<meta name="twitter:title" content="[^"]*"\s*\/>/, `<meta name="twitter:title" content="${escapeHtml(title)}" />`)
     .replace(/<meta name="twitter:description" content="[^"]*"\s*\/>/, `<meta name="twitter:description" content="${escapeHtml(description)}" />`)
+    .replace('</head>', `${headExtra}</head>`)
 }
 
 function fallbackNav() {
@@ -71,6 +72,20 @@ await cleanOutputDirectory(outDir)
 await mkdir(outDir, { recursive: true })
 await build({ base, build: { outDir, emptyOutDir: false } })
 
+let heroPreloads = ''
+try {
+  const manifest = JSON.parse(await readFile(join(outDir, '.vite', 'manifest.json'), 'utf8'))
+  const findAsset = suffix => Object.entries(manifest).find(([key]) => key.endsWith(suffix))?.[1]?.file
+  const mobileHero = findAsset('src/assets/mobile/hero.webp') || findAsset('assets/mobile/hero.webp')
+  const desktopHero = findAsset('src/assets/desktop/hero.webp') || findAsset('assets/desktop/hero.webp')
+  const tags = []
+  if (mobileHero) tags.push(`<link rel="preload" as="image" href="${base}${mobileHero}" media="(max-width: 699px)" fetchpriority="high" />`)
+  if (desktopHero) tags.push(`<link rel="preload" as="image" href="${base}${desktopHero}" media="(min-width: 700px)" fetchpriority="high" />`)
+  heroPreloads = tags.join('')
+} catch {
+  console.warn('Unable to resolve hero preload assets from Vite manifest.')
+}
+
 const vite = await createServer({ server: { middlewareMode: true }, appType: 'custom', base, logLevel: 'error' })
 let products = []
 let merch = []
@@ -86,7 +101,7 @@ try {
 }
 
 const staticRoutes = [
-  { pathname: '/', title: 'Lagom Naturals | Premium THC Seltzer', h1: 'Find your just right.', description: 'Premium hemp-derived THC seltzers made for considered adult occasions.' },
+  { pathname: '/', title: 'Lagom Naturals | Premium THC Seltzer', h1: 'Find your just right.', description: 'Premium hemp-derived THC seltzers made for considered adult occasions.', headExtra: heroPreloads },
   { pathname: '/shop', title: 'Shop THC Seltzers & Gummies | Lagom Naturals', h1: 'Shop Lagom Naturals', description: 'Explore Lagom Naturals THC seltzers and gummy collections by flavor and format.' },
   { pathname: '/merch', title: 'Apparel & Merch | Lagom Naturals', h1: 'Apparel & Merch', description: 'Shop Lagom Naturals apparel and merchandise.' },
   { pathname: '/visit', title: 'Find Us | Lagom Naturals', h1: 'Find Lagom Near You', description: 'Find retailers and venues carrying Lagom Naturals.', extra: shops.length ? `<ul>${shops.map(shop => `<li><strong>${escapeHtml(shop.name)}</strong> — ${escapeHtml(shop.address)}</li>`).join('')}</ul>` : '' },
