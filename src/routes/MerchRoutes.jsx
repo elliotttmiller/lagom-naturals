@@ -1,6 +1,6 @@
 import React,{useEffect,useState} from 'react'
 import {Link,useParams} from 'react-router-dom'
-import {Heart,Minus,Plus} from 'lucide-react'
+import {ChevronDown,Heart,Minus,Plus} from 'lucide-react'
 import {m,Presence,Stagger,StaggerItem,motionTokens,motionVariants} from '@/motionSystem'
 import {merch} from '@/catalogData'
 import Shell from '@/storefront/StorefrontShell'
