@@ -18,7 +18,7 @@
 /* Merch PDP gallery: legacy image padding made every active product view render
    inset from its stage. The image itself owns the full media frame at every
    breakpoint, with a centered cover crop for consistent product scale. */
-.merch-detail-media>img{display:block!important;width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;margin:0!important;padding:0!important;object-fit:cover!important;object-position:center!important}
+.merch-detail-media>img{display:block!important;width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;max-width:100%!important;max-height:100%!important;margin:0!important;padding:clamp(10px,2.5%,24px)!important;object-fit:contain!important;object-position:center!important}
 
 /* Desktop merch cards deliberately contain their source imagery. The legacy
    fixed-height stage made wide desktop cards crop at different points based on
@@ -52,9 +52,9 @@
     block-size:auto!important;
     min-block-size:0!important;
     aspect-ratio:1/1!important;
-    padding:clamp(18px,2.25vw,34px)!important;
+    padding:clamp(10px,1.25vw,18px)!important;
     overflow:hidden!important;
-    background:#f7f6f3!important;
+    background:#fff!important;
   }
   .editorial-page .merch-grid .merch-media>img{
     display:block!important;
@@ -65,7 +65,7 @@
     max-inline-size:100%!important;
     max-block-size:100%!important;
     margin:0!important;
-    padding:0!important;
+    padding:clamp(14px,2.5%,28px)!important;
     object-fit:contain!important;
     object-position:center!important;
     transform:none!important;
@@ -107,9 +107,9 @@
     max-block-size:none!important;
     margin:0!important;
     padding:0!important;
-    object-fit:cover!important;
+    object-fit:contain!important;
     object-position:center!important;
-    transform:scale(1.02)!important;
+    transform:none!important;
     transform-origin:center!important;
   }
   .merch-detail .merch-gallery{
@@ -133,7 +133,7 @@
   }
   .merch-detail .merch-gallery button{flex:0 0 78px!important;inline-size:78px!important;block-size:78px!important;padding:0!important;overflow:hidden!important;border:1px solid transparent!important;border-radius:0!important;background:#fff!important;box-shadow:none!important}
   .merch-detail .merch-gallery button.active{border-color:#171a17!important;box-shadow:0 0 0 1px #171a17!important}
-  .merch-detail .merch-gallery img{display:block!important;inline-size:100%!important;block-size:100%!important;margin:0!important;padding:0!important;object-fit:cover!important;object-position:center!important}
+  .merch-detail .merch-gallery img{display:block!important;inline-size:100%!important;block-size:100%!important;margin:0!important;padding:6px!important;object-fit:contain!important;object-position:center!important}
   .merch-detail .merch-detail-copy{width:100%!important;max-width:580px!important;padding:clamp(8px,1vw,18px) 0 0!important}
   .merch-detail .merch-detail-copy>p:first-child{margin:0 0 18px!important;color:#77786f!important;font:650 13px/1 var(--font-ui)!important;letter-spacing:.01em!important}
   .merch-detail .merch-detail-copy h1{max-width:760px!important;margin:0!important;color:#10120f!important;font:500 clamp(54px,4.6vw,84px)/.89 var(--font-display)!important;letter-spacing:-.062em!important;text-wrap:balance!important}
@@ -185,7 +185,7 @@
     overflow:hidden!important;
     border:0!important;
     border-radius:0!important;
-    background:#f7f6f3!important;
+    background:#fff!important;
   }
   .merch-detail .merch-detail-media>img{
     display:block!important;
@@ -196,8 +196,8 @@
     max-inline-size:none!important;
     max-block-size:none!important;
     margin:0!important;
-    padding:0!important;
-    object-fit:cover!important;
+    padding:clamp(10px,3%,18px)!important;
+    object-fit:contain!important;
     object-position:center!important;
   }
   .merch-detail .merch-gallery{
@@ -224,12 +224,12 @@
     overflow:hidden!important;
     border:1px solid rgba(18,22,18,.13)!important;
     border-radius:9px!important;
-    background:#f7f6f3!important;
+    background:#fff!important;
     box-shadow:none!important;
   }
   .merch-detail .merch-gallery button.active{border-color:#171a17!important;box-shadow:0 0 0 1px #171a17!important}
   .merch-detail .merch-gallery button:focus-visible{outline:2px solid #171a17!important;outline-offset:2px!important}
-  .merch-detail .merch-gallery img{display:block!important;inline-size:100%!important;block-size:100%!important;margin:0!important;padding:0!important;object-fit:cover!important;object-position:center!important}
+  .merch-detail .merch-gallery img{display:block!important;inline-size:100%!important;block-size:100%!important;margin:0!important;padding:5px!important;object-fit:contain!important;object-position:center!important}
 
   /* Mobile product gallery stage. Product media keeps its native square frame
      and remains centered without crop or synthetic zoom. */

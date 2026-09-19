@@ -19,18 +19,17 @@ import peachMidnightDrift from "@/assets/products/enhanced/Peach-Photoroom-midni
 import pinkLemonadeMidnightDrift from "@/assets/products/enhanced/Pink-Lemonade-midnight-drift.png";
 import strawberryMidnightDrift from "@/assets/products/enhanced/Strawberry-midnight-drift.png";
 
-import capFront from "@/assets/merch/Lagom-Black-Logo-Cap-Front-1122x1402.png";
-import capBack from "@/assets/merch/Lagom-Black-Logo-Cap-Back-1122x1402.png";
-import capThreeQuarterOne from "@/assets/merch/Lagom-Black-Logo-Cap-Front-Three-Quarter-01-1122x1402.png";
-import capThreeQuarterTwo from "@/assets/merch/Lagom-Black-Logo-Cap-Front-Three-Quarter-02-1122x1402.png";
-import teeFront from "@/assets/merch/Lagom-Black-Logo-Tee-Front-1122x1402.png";
-import teeBack from "@/assets/merch/Lagom-Black-Logo-Tee-Back-1122x1402.png";
-import teeThreeQuarterOne from "@/assets/merch/Lagom-Black-Logo-Tee-Front-Three-Quarter-01-1122x1402.png";
-import teeThreeQuarterTwo from "@/assets/merch/Lagom-Black-Logo-Tee-Front-Three-Quarter-02-1122x1402.png";
-import hoodieFront from "@/assets/merch/Lagom-Mainstreet-Hooded-Sweatshirt-Black-Front-1254x1254.png";
-import hoodieBack from "@/assets/merch/Lagom-Mainstreet-Hooded-Sweatshirt-Black-Back-1254x1254.png";
-import hoodieFolded from "@/assets/merch/Lagom-Mainstreet-Hooded-Sweatshirt-Black-Folded-1254x1254.png";
-import hoodieThreeQuarter from "@/assets/merch/Lagom-Mainstreet-Hooded-Sweatshirt-Black-Front-Three-Quarter-1254x1254.png";
+import capFront from "@/assets/merch/lagom-throwback-loon-cap-front.webp";
+import capBack from "@/assets/merch/lagom-throwback-loon-cap-back.webp";
+import capThreeQuarterLeft from "@/assets/merch/lagom-throwback-loon-cap-front-three-quarter-left.webp";
+import capThreeQuarterRight from "@/assets/merch/lagom-throwback-loon-cap-front-three-quarter-right.webp";
+import teeFront from "@/assets/merch/lagom-black-logo-tee-front.webp";
+import teeBack from "@/assets/merch/lagom-black-logo-tee-back.webp";
+import teeThreeQuarter from "@/assets/merch/lagom-black-logo-tee-front-three-quarter.webp";
+import teeFoldedFront from "@/assets/merch/lagom-black-logo-tee-folded-front.webp";
+import hoodieFront from "@/assets/merch/lagom-mainstreet-hooded-sweatshirt-front.webp";
+import hoodieBack from "@/assets/merch/lagom-mainstreet-hooded-sweatshirt-back.webp";
+import hoodieFoldedFront from "@/assets/merch/lagom-mainstreet-hooded-sweatshirt-folded-front.webp";
 import seltzersThumbnail from "@/assets/seltzers-thumbnail.webp";
 import gummiesThumbnail from "@/assets/gummies-thumbnail.webp";
 
@@ -321,8 +320,8 @@ export const merch = [
     gallery: [
       { src: capFront, label: "Front", alt: "Black Lagom Throwback Loon mid profile cap, front view" },
       { src: capBack, label: "Back", alt: "Black Lagom Throwback Loon mid profile cap, back view" },
-      { src: capThreeQuarterOne, label: "Three-quarter view", alt: "Black Lagom Throwback Loon mid profile cap, three-quarter front view" },
-      { src: capThreeQuarterTwo, label: "Detail view", alt: "Black Lagom Throwback Loon mid profile cap, alternate three-quarter front view" },
+      { src: capThreeQuarterLeft, label: "Left three-quarter view", alt: "Black Lagom Throwback Loon mid profile cap, left three-quarter front view" },
+      { src: capThreeQuarterRight, label: "Right three-quarter view", alt: "Black Lagom Throwback Loon mid profile cap, right three-quarter front view" },
     ],
     description:
       "A structured five-panel cap with a clean mid-profile shape, slightly curved brim, adjustable closure, and embroidered Lagom Loon & Water submark.",
@@ -359,8 +358,8 @@ export const merch = [
     gallery: [
       { src: teeFront, label: "Front", alt: "Black Lagom Heavyweight Cotton Tee, front view" },
       { src: teeBack, label: "Back", alt: "Black Lagom Heavyweight Cotton Tee, back view" },
-      { src: teeThreeQuarterOne, label: "Three-quarter view", alt: "Black Lagom Heavyweight Cotton Tee, three-quarter front view" },
-      { src: teeThreeQuarterTwo, label: "Detail view", alt: "Black Lagom Heavyweight Cotton Tee, alternate three-quarter front view" },
+      { src: teeThreeQuarter, label: "Three-quarter view", alt: "Black Lagom Heavyweight Cotton Tee, three-quarter front view" },
+      { src: teeFoldedFront, label: "Folded view", alt: "Black Lagom Heavyweight Cotton Tee, folded front view" },
     ],
     description:
       "A heavyweight black cotton tee with a relaxed silhouette, wide rib collar, Lagom chest logo, and bird-and-water sleeve submark.",
@@ -403,8 +402,7 @@ export const merch = [
     gallery: [
       { src: hoodieFront, label: "Front", alt: "Black Lagom Mainstreet hooded sweatshirt, front view" },
       { src: hoodieBack, label: "Back", alt: "Black Lagom Mainstreet hooded sweatshirt, back view" },
-      { src: hoodieThreeQuarter, label: "Three-quarter view", alt: "Black Lagom Mainstreet hooded sweatshirt, three-quarter front view" },
-      { src: hoodieFolded, label: "Folded view", alt: "Black Lagom Mainstreet hooded sweatshirt, folded view" },
+      { src: hoodieFoldedFront, label: "Folded view", alt: "Black Lagom Mainstreet hooded sweatshirt, folded front view" },
     ],
     description:
       "A premium heavyweight black fleece hoodie with an oversized drop-shoulder fit, minimalist Lagom chest branding, and a clean drawcord-free hood.",
