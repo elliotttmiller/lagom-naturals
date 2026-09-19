@@ -576,7 +576,8 @@ function MerchCard({ item }) {
         <div className="merch-copy">
           <p>Lagom Naturals</p>
           <h3>{item.name}</h3>
-          <b>{item.price == null ? "Pricing coming soon" : `$${item.price.toFixed(2)}`}</b>
+          <b>{`${item.price.toFixed(2)}`}</b>
+          <small className="merch-card__meta">{[item.color, item.sizeType || (item.sizes?.length ? `${item.sizes[0]}–${item.sizes[item.sizes.length - 1]}` : null)].filter(Boolean).join(" · ")}</small>
           <div className="swatches" aria-hidden="true">
             <i style={{ backgroundColor: "#111" }} />
           </div>
@@ -1401,14 +1402,42 @@ function MerchDetailPage() {
           </m.div> : <m.p variants={motionVariants.item} className="merch-unavailable">
             Price and purchase availability have not been provided for this item.
           </m.p>}
-          {["Product Details", "Materials", "Fit", "Care", "Shipping / Pickup"].map(
-            (label) => (
-              <m.div variants={motionVariants.item} className="detail-row" key={label}>
-                <span>{label}</span>
-                <ChevronDown />
-              </m.div>
-            ),
-          )}
+          {[
+            {
+              label: "Product Details",
+              body: item.description,
+              items: item.construction,
+            },
+            {
+              label: "Materials",
+              items: item.materials,
+            },
+            {
+              label: "Fit",
+              items: item.fit,
+            },
+            {
+              label: "Manufacturing",
+              items: item.manufacturing,
+            },
+          ]
+            .filter((section) => section.body || section.items?.length)
+            .map((section) => (
+              <m.details variants={motionVariants.item} className="merch-detail-section" key={section.label}>
+                <summary>
+                  <span>{section.label}</span>
+                  <ChevronDown aria-hidden="true" />
+                </summary>
+                <div className="merch-detail-section__content">
+                  {section.body && <p>{section.body}</p>}
+                  {section.items?.length > 0 && (
+                    <ul>
+                      {section.items.map((detail) => <li key={detail}>{detail}</li>)}
+                    </ul>
+                  )}
+                </div>
+              </m.details>
+            ))}
         </m.div>
       </m.div>
     </Shell>
