@@ -48,7 +48,7 @@ for (const file of files) {
   if (optimizationTargets[ext] && info.size > optimizationTargets[ext]) opportunities.push(`${name}: ${(info.size / KB).toFixed(0)} KB`)
 }
 
-for (const required of ['index.html', '404.html', '.nojekyll']) {
+for (const required of ['index.html', '404.html', '.nojekyll', 'robots.txt', 'sitemap.xml', 'shop/index.html', 'visit/index.html', 'about/index.html', 'learn/index.html', 'merch/index.html']) {
   if (!files.some(file => relative(root, file).replaceAll('\\', '/') === required)) violations.push(`Missing required GitHub Pages artifact: ${required}`)
 }
 
@@ -57,6 +57,17 @@ for (const marker of ['property="og:image"', 'name="twitter:card"', '<meta name=
   if (!index.includes(marker)) violations.push(`index.html is missing required metadata: ${marker}`)
 }
 if (/(?:src|href)="\/(?!lagom-naturals\/)(?:lagom-)/.test(index)) violations.push('index.html contains a root-relative Lagom public asset that will break on repository-scoped Pages')
+if (!index.includes('data-seo-fallback="true"') || !/<h1[>\s]/.test(index)) violations.push('index.html is missing crawlable initial HTML with an H1')
+if (!index.includes('https://lagomnaturals.com/')) violations.push('index.html canonical origin is not the production Lagom domain')
+const sitemap = await readFile(join(root, 'sitemap.xml'), 'utf8')
+if (!sitemap.includes('<urlset') || !sitemap.includes('https://lagomnaturals.com/shop')) violations.push('sitemap.xml is missing expected indexable routes')
+const robots = await readFile(join(root, 'robots.txt'), 'utf8')
+if (!robots.includes('Sitemap: https://lagomnaturals.com/sitemap.xml')) violations.push('robots.txt does not advertise the production sitemap')
+for (const route of ['shop','visit','about','learn','merch']) {
+  const routeHtml = await readFile(join(root, route, 'index.html'), 'utf8')
+  if (!/<h1[>\s]/.test(routeHtml)) violations.push(`${route}/index.html is missing an H1 in initial HTML`)
+  if (!routeHtml.includes(`https://lagomnaturals.com/${route}`)) violations.push(`${route}/index.html is missing its production canonical`)
+}
 
 console.log(`\nProduction build audit: ${files.length} files, ${(totalBytes / MB).toFixed(2)} MB total`)
 if (opportunities.length) {
