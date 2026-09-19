@@ -2,7 +2,7 @@ import React from 'react'
 import { useLocation } from 'react-router-dom'
 import findUsHero from '@/assets/mobile/find-us-hero.png'
 
-const SHOPS=[
+export const SHOPS=[
 // Address-point matches verified 2026-09-18. Six decimals are retained for map rendering;
 // the actual ground accuracy is that of the geocoder's underlying address point.
 ['Barstock Liquors','31 E Main St','Crosby','MN','56441','+12185453004','http://www.barstockliquors.com/',46.482740,-93.950839],
