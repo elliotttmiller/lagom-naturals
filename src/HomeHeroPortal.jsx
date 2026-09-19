@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { m, Presence, motionTokens, useReducedMotion } from "./motionSystem";
 
 import { responsiveImages } from "@/generated/responsiveImages";
@@ -9,10 +9,10 @@ const mobileHero = responsiveImages.heroMobile;
 const desktopHero = responsiveImages.heroDesktop;
 
 const SLIDES = [
-  {id:"seltzer",eyebrow:"LAGOM THC SELTZER",title:"Find your just right.",body:"Crisp, zero-sugar THC seltzers made for a more measured social ritual.",primary:"SHOP SELTZERS",primaryTo:"/shop/seltzers",secondary:"OUR STORY",secondaryTo:"/about",mobile:mobileHero.hero,desktop:desktopHero.hero,position:"center center"},
-  {id:"gummies",eyebrow:"LAGOM GUMMIES",title:"A softer way to settle in.",body:"Thoughtfully made THC gummies for nights that call for less noise and more ease.",primary:"SHOP GUMMIES",primaryTo:"/shop/gummies",secondary:"EXPLORE ALL",secondaryTo:"/shop",mobile:mobileHero["gummies-hero"],desktop:desktopHero["gummies-hero"],position:"center center"},
-  {id:"organic",eyebrow:"ORGANIC GUMMIES",title:"Keep the ritual simple.",body:"Organic gummies designed around an intentional, uncomplicated adult experience.",primary:"DISCOVER ORGANIC",primaryTo:"/shop/gummies?collection=Organic",secondary:"LEARN MORE",secondaryTo:"/learn",mobile:mobileHero["organic-gummies-hero"],desktop:desktopHero["organic-gummies-hero"],position:"center center"},
-  {id:"midnight",eyebrow:"MIDNIGHT GUMMIES",title:"For the quieter hours.",body:"A night-minded gummy ritual for winding down, switching off, and letting the evening land.",primary:"SHOP MIDNIGHT",primaryTo:"/shop/gummies?collection=Midnight%20Drift",secondary:"THC, EXPLAINED",secondaryTo:"/learn",mobile:mobileHero["midnight-gummies-hero"],desktop:desktopHero["midnight-gummies-hero"],position:"center center"},
+  {id:"seltzer",eyebrow:"LAGOM THC SELTZER",title:"Find your just right.",body:"Crisp, zero-sugar THC seltzers made for a more measured social ritual.",primary:"SHOP ALL PRODUCTS",primaryTo:"/shop",secondary:"OUR STORY",secondaryTo:"/about",mobile:mobileHero.hero,desktop:desktopHero.hero,position:"center center"},
+  {id:"gummies",eyebrow:"LAGOM GUMMIES",title:"A softer way to settle in.",body:"Thoughtfully made THC gummies for nights that call for less noise and more ease.",primary:"SHOP ALL PRODUCTS",primaryTo:"/shop",secondary:"EXPLORE ALL",secondaryTo:"/shop",mobile:mobileHero["gummies-hero"],desktop:desktopHero["gummies-hero"],position:"center center"},
+  {id:"organic",eyebrow:"ORGANIC GUMMIES",title:"Keep the ritual simple.",body:"Organic gummies designed around an intentional, uncomplicated adult experience.",primary:"SHOP ALL PRODUCTS",primaryTo:"/shop",secondary:"LEARN MORE",secondaryTo:"/learn",mobile:mobileHero["organic-gummies-hero"],desktop:desktopHero["organic-gummies-hero"],position:"center center"},
+  {id:"midnight",eyebrow:"MIDNIGHT GUMMIES",title:"For the quieter hours.",body:"A night-minded gummy ritual for winding down, switching off, and letting the evening land.",primary:"SHOP ALL PRODUCTS",primaryTo:"/shop",secondary:"THC, EXPLAINED",secondaryTo:"/learn",mobile:mobileHero["midnight-gummies-hero"],desktop:desktopHero["midnight-gummies-hero"],position:"center center"},
 ];
 
 const AUTOPLAY_MS = 6500;
@@ -35,7 +35,6 @@ function HeroCarousel() {
     return()=>window.clearInterval(timer);
   },[paused,reduceMotion,swiping]);
 
-  const go=(amount)=>{setDirection(amount>0?1:-1);setActive(current=>(current+amount+SLIDES.length)%SLIDES.length)};
   const select=index=>{setDirection(index>=active?1:-1);setActive(index)};
 
   const onPointerDown=event=>{
@@ -96,9 +95,7 @@ function HeroCarousel() {
       </Presence>
     </div>
     <div className="home-hero-carousel__controls">
-      <div className="home-hero-carousel__arrows"><button type="button" onClick={()=>go(-1)} aria-label="Previous hero slide"><ArrowLeft aria-hidden="true"/></button><button type="button" onClick={()=>go(1)} aria-label="Next hero slide"><ArrowRight aria-hidden="true"/></button></div>
-      <div className="home-hero-carousel__pagination" role="tablist" aria-label="Choose featured slide">{SLIDES.map((item,index)=><button key={item.id} type="button" role="tab" aria-selected={index===active} aria-label={`Show slide ${index+1}: ${item.eyebrow}`} className={index===active?'is-active':''} onClick={()=>select(index)}><span>{String(index+1).padStart(2,'0')}</span><i aria-hidden="true"><b/></i></button>)}</div>
-      <span className="home-hero-carousel__count" aria-hidden="true">{String(active+1).padStart(2,'0')} / {String(SLIDES.length).padStart(2,'0')}</span>
+      <div className="home-hero-carousel__pagination" role="tablist" aria-label="Choose featured slide">{SLIDES.map((item,index)=><button key={item.id} type="button" role="tab" aria-selected={index===active} aria-label={`Show slide ${index+1}: ${item.eyebrow}`} className={index===active?'is-active':''} onClick={()=>select(index)}><span className="sr-only">{String(index+1).padStart(2,'0')}</span><i aria-hidden="true"><b/></i></button>)}</div>
     </div>
   </div>;
 }

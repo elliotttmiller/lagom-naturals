@@ -5,3 +5,146 @@
 @media(max-width:699px){.beverage-hero{min-height:610px;height:min(78svh,700px)}.home-hero-carousel__picture img{object-position:center center!important}.home-hero-carousel__veil{background:linear-gradient(180deg,rgba(5,8,6,.02) 0%,rgba(5,8,6,.04) 42%,rgba(5,8,6,.52) 66%,rgba(5,8,6,.90) 100%)}.home-hero-carousel__content{padding:40px max(18px,env(safe-area-inset-left)) 104px max(18px,env(safe-area-inset-right))}.home-hero-carousel__copy{width:100%;max-width:370px}.home-hero-carousel__eyebrow{margin-bottom:9px;font-size:8.5px;letter-spacing:.16em}.home-hero-carousel h1{max-width:340px;font-size:clamp(43px,12.3vw,57px);line-height:.91}.home-hero-carousel__body{max-width:335px;margin-top:13px;font-size:12px;line-height:1.43}.home-hero-carousel__actions{display:flex;width:auto;gap:8px;margin-top:17px}.home-hero-carousel__actions a{min-height:40px;padding:0 14px;border-color:rgba(255,255,255,.46);border-radius:999px;font-size:7.75px;letter-spacing:.055em;white-space:nowrap;box-shadow:0 7px 24px rgba(0,0,0,.12)}.home-hero-carousel__primary{gap:7px}.home-hero-carousel__primary svg{width:11px;height:11px}.home-hero-carousel__secondary{background:rgba(10,12,10,.22);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}.home-hero-carousel__controls{left:50%;right:auto;bottom:max(18px,env(safe-area-inset-bottom));display:block;width:auto;padding:0;transform:translateX(-50%);border:0;border-radius:0;background:transparent;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}.home-hero-carousel__arrows{display:none}.home-hero-carousel__pagination{display:flex;align-items:center;justify-content:center;gap:7px;width:auto;min-width:0}.home-hero-carousel__pagination button{display:grid;place-items:center;width:20px;height:20px;min-height:0;padding:0;gap:0;border-radius:50%;color:transparent;text-align:center;touch-action:manipulation}.home-hero-carousel__pagination span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}.home-hero-carousel__pagination i{display:block;width:5px;height:5px;overflow:visible;border-radius:999px;background:rgba(255,255,255,.48);box-shadow:0 1px 5px rgba(0,0,0,.22);transition:width .32s cubic-bezier(.22,1,.36,1),background-color .24s ease,opacity .24s ease}.home-hero-carousel__pagination b{display:none}.home-hero-carousel__pagination button.is-active i{width:20px;background:rgba(255,255,255,.96)}.home-hero-carousel__count{display:none}.home-hero-carousel[data-swiping="true"] .home-hero-carousel__copy,.home-hero-carousel[data-swiping="true"] .home-hero-carousel__controls{pointer-events:none}.home-hero-carousel[data-swiping="true"] .home-hero-carousel__veil{opacity:.92}}
 @media(max-width:380px){.beverage-hero{min-height:575px;height:74svh}.home-hero-carousel__content{padding-bottom:98px}.home-hero-carousel h1{font-size:43px}.home-hero-carousel__body{max-width:310px;font-size:11.5px}.home-hero-carousel__actions a{padding-inline:12px}.home-hero-carousel__pagination{gap:5px}}
 @media(prefers-reduced-motion:reduce){.home-hero-carousel *,.home-hero-carousel *::before,.home-hero-carousel *::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important}.home-hero-carousel__pagination button.is-active b{transition:none!important}.home-hero-carousel__media{transform:none!important}}
+
+/* Preserve the approved image-led hero while unifying desktop controls with
+   the storefront's softly rounded component geometry. */
+@media(min-width:900px){
+  .home-hero-carousel__actions{gap:12px;margin-top:32px}
+  .home-hero-carousel__actions a{min-height:54px;padding-inline:clamp(19px,1.65vw,28px);border-radius:10px;font-size:10px;letter-spacing:.075em;box-shadow:0 10px 26px rgba(0,0,0,.13)}
+  .home-hero-carousel__primary{min-width:190px}
+  .home-hero-carousel__secondary{min-width:128px;background:rgba(9,12,10,.28);border-color:rgba(255,255,255,.7)!important}
+  .home-hero-carousel__controls{grid-template-columns:auto minmax(300px,720px) auto;align-items:center;gap:16px}
+  .home-hero-carousel__arrows{gap:9px}
+  .home-hero-carousel__arrows button{width:46px;height:46px;border-radius:12px;border-color:rgba(255,255,255,.38);background:rgba(8,11,9,.34);box-shadow:0 8px 20px rgba(0,0,0,.15)}
+  .home-hero-carousel__pagination{gap:12px;width:100%;padding:11px 14px 10px;border:1px solid rgba(255,255,255,.2);border-radius:12px;background:rgba(8,11,9,.3);box-shadow:0 10px 26px rgba(0,0,0,.14);backdrop-filter:blur(12px) saturate(1.08);-webkit-backdrop-filter:blur(12px) saturate(1.08)}
+  .home-hero-carousel__pagination button{gap:8px}
+  .home-hero-carousel__pagination i{height:3px;border-radius:999px;background:rgba(255,255,255,.2)}
+  .home-hero-carousel__pagination b{border-radius:inherit}
+  .home-hero-carousel__count{min-width:58px;padding:12px 13px;border:1px solid rgba(255,255,255,.22);border-radius:10px;background:rgba(8,11,9,.3);box-shadow:0 8px 20px rgba(0,0,0,.13);text-align:center;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+}
+
+/* One compact gallery rail replaces the separate visual control treatments.
+   The slide tabs remain keyboard-operable; their duplicated number labels are
+   now available to assistive technology rather than repeated on screen. */
+@media(min-width:900px){
+  .home-hero-carousel__controls{
+    right:auto;
+    width:min(610px,calc(100% - 2 * clamp(34px,6vw,96px)));
+    min-height:62px;
+    padding:8px;
+    border:1px solid rgba(255,255,255,.2);
+    border-radius:14px;
+    background:rgba(7,10,8,.42);
+    box-shadow:0 16px 36px rgba(0,0,0,.2);
+    backdrop-filter:blur(16px) saturate(1.1);
+    -webkit-backdrop-filter:blur(16px) saturate(1.1);
+  }
+  .home-hero-carousel__arrows{gap:4px}
+  .home-hero-carousel__arrows button{
+    width:44px;
+    height:44px;
+    border:0;
+    border-radius:9px;
+    background:transparent;
+    box-shadow:none;
+  }
+  .home-hero-carousel__pagination{
+    gap:7px;
+    padding:0 8px;
+    border:0;
+    border-radius:0;
+    background:transparent;
+    box-shadow:none;
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
+  }
+  .home-hero-carousel__pagination button{
+    position:relative;
+    display:block;
+    min-height:44px;
+    padding:20px 0;
+  }
+  .home-hero-carousel__pagination span{
+    position:absolute;
+    width:1px;
+    height:1px;
+    padding:0;
+    margin:-1px;
+    overflow:hidden;
+    clip:rect(0,0,0,0);
+    white-space:nowrap;
+    border:0;
+  }
+  .home-hero-carousel__pagination i{height:3px}
+  .home-hero-carousel__count{
+    min-width:58px;
+    padding:0 11px;
+    border:0;
+    border-left:1px solid rgba(255,255,255,.18);
+    border-radius:0;
+    background:transparent;
+    box-shadow:none;
+    line-height:44px;
+  }
+  @media(hover:hover) and (pointer:fine){
+    .home-hero-carousel__arrows button:hover{background:rgba(255,255,255,.12);border-color:transparent;transform:none}
+  }
+}
+
+/* Desktop gallery navigation intentionally stays out of the hero's way: one
+   centered line per actual slide, with the active line expanding on change. */
+@media(min-width:900px){
+  .home-hero-carousel__controls{
+    left:50%;
+    right:auto;
+    bottom:clamp(26px,3.2vw,46px);
+    display:block;
+    width:auto;
+    min-height:0;
+    padding:0;
+    border:0;
+    border-radius:0;
+    background:transparent;
+    box-shadow:none;
+    transform:translateX(-50%);
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
+  }
+  .home-hero-carousel__pagination{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    width:auto;
+    padding:0;
+    border:0;
+    border-radius:0;
+    background:transparent;
+    box-shadow:none;
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
+  }
+  .home-hero-carousel__pagination button{
+    display:block;
+    flex:0 0 52px;
+    min-height:30px;
+    padding:13px 0;
+    transition:flex-basis .38s cubic-bezier(.22,1,.36,1);
+  }
+  .home-hero-carousel__pagination button.is-active{
+    flex-basis:82px;
+  }
+  .home-hero-carousel__pagination i{
+    height:2px;
+    border-radius:999px;
+    background:rgba(255,255,255,.44);
+    box-shadow:0 1px 8px rgba(0,0,0,.2);
+    transition:background-color .25s ease;
+  }
+  .home-hero-carousel__pagination button.is-active i{
+    background:rgba(255,255,255,.95);
+  }
+  .home-hero-carousel__pagination b{
+    background:#fff;
+  }
+}

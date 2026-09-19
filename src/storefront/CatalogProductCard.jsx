@@ -10,6 +10,7 @@ export default function CatalogProductCard({
   image,
   imageAlt,
   brand = "Lagom Naturals",
+  contextLabel,
   name,
   price,
   className = "",
@@ -17,6 +18,8 @@ export default function CatalogProductCard({
   copyClassName = "",
   children,
   meta,
+  metaBeforePrice = false,
+  reviewStatus = "No reviews",
   motionProps = {},
 }) {
   return (
@@ -42,10 +45,18 @@ export default function CatalogProductCard({
         </m.button>
       </div>
       <div className={`unified-product-card__copy ${copyClassName}`.trim()}>
-        <p>{brand}</p>
-        <h3><Link to={to}>{name}</Link></h3>
+        {contextLabel ? (
+          <span className="unified-product-card__context">{contextLabel}</span>
+        ) : (
+          <p>{brand}</p>
+        )}
+        <div className="unified-product-card__title-row">
+          <h3><Link to={to}>{name}</Link></h3>
+          {reviewStatus ? <span className="review-line product-card__review">{reviewStatus}</span> : null}
+        </div>
+        {metaBeforePrice && meta ? <small className="unified-product-card__meta">{meta}</small> : null}
         <b>{Number.isFinite(price) ? `$${price.toFixed(2)}` : "Pricing coming soon"}</b>
-        {meta ? <small className="unified-product-card__meta">{meta}</small> : null}
+        {!metaBeforePrice && meta ? <small className="unified-product-card__meta">{meta}</small> : null}
         {children}
       </div>
     </m.article>

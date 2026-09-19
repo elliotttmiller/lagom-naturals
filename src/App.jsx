@@ -134,6 +134,8 @@ function CategoryCard({ name, label, description }) {
   );
 }
 function productCardFacts(product) {
+  if (product.category === "Gummies") return [];
+
   const facts = [];
 
   if (product.flavor) facts.push(product.flavor);
@@ -177,6 +179,8 @@ function ProductCard({ product }) {
   }, [variantOpen]);
   const item = configuredProduct(product, selected);
   const facts = productCardFacts(product);
+  const collectionLabel = product.category === "Gummies" ? product.productLine : null;
+  const hasVariantPicker = product.category !== "Gummies" && variants.length > 1;
   return (
     <CatalogProductCard
       id={product.id}
@@ -184,20 +188,22 @@ function ProductCard({ product }) {
       image={selected.image || product.image}
       imageAlt={`${product.name} ${product.type}`}
       brand={product.brand}
+      contextLabel={collectionLabel}
       name={product.name}
       price={selected.price}
-      className={`product-card ${variantOpen ? "is-variant-open" : ""}`}
+      className={`product-card ${product.category === "Gummies" ? "product-card--gummy" : ""} ${variantOpen ? "is-variant-open" : ""}`}
       mediaClassName="product-media"
       copyClassName="product-copy"
-      meta={(
+      metaBeforePrice={product.category === "Seltzers"}
+      meta={facts.length ? (
         <span className="product-facts" aria-label={facts.join(", ")}>
           {facts.map((fact) => <span key={fact}>{fact}</span>)}
         </span>
-      )}
+      ) : null}
       motionProps={{ variants: motionVariants.item, layout: "position", style: { "--accent": product.accent } }}
     >
-        <div className="card-actions">
-          <div className="variant-picker" ref={pickerRef}>
+        <div className={`card-actions ${hasVariantPicker ? "" : "card-actions--single"}`.trim()}>
+          {hasVariantPicker ? <div className="variant-picker" ref={pickerRef}>
             <m.button
               type="button"
               className="variant-trigger"
@@ -247,7 +253,7 @@ function ProductCard({ product }) {
                 </m.div>
               )}
             </Presence>
-          </div>
+          </div> : null}
           <m.button
             type="button"
             whileTap={{ scale: 0.86 }}
@@ -256,6 +262,7 @@ function ProductCard({ product }) {
             aria-label={`Add ${product.name}, ${selected.label}`}
           >
             <Plus />
+            {!hasVariantPicker ? <span className="add-square__label">Add to cart</span> : null}
           </m.button>
         </div>
     </CatalogProductCard>
