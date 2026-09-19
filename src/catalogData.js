@@ -311,40 +311,94 @@ export const products = [
 export const merch = [
   {
     id: "black-logo-cap",
-    name: "Black Logo Cap",
-    price: null,
+    name: "Throwback Loon Mid Profile Cap",
+    price: 32.99,
     type: "Caps",
+    category: "Apparel",
     color: "Black",
+    sizeType: "Adjustable",
     image: capFront,
     gallery: [
-      { src: capFront, label: "Front", alt: "Black Lagom logo cap, front view" },
-      { src: capBack, label: "Back", alt: "Black Lagom logo cap, back view" },
-      { src: capThreeQuarterOne, label: "Three-quarter view", alt: "Black Lagom logo cap, three-quarter front view" },
-      { src: capThreeQuarterTwo, label: "Detail view", alt: "Black Lagom logo cap, alternate three-quarter front view" },
+      { src: capFront, label: "Front", alt: "Black Lagom Throwback Loon mid profile cap, front view" },
+      { src: capBack, label: "Back", alt: "Black Lagom Throwback Loon mid profile cap, back view" },
+      { src: capThreeQuarterOne, label: "Three-quarter view", alt: "Black Lagom Throwback Loon mid profile cap, three-quarter front view" },
+      { src: capThreeQuarterTwo, label: "Detail view", alt: "Black Lagom Throwback Loon mid profile cap, alternate three-quarter front view" },
     ],
+    description:
+      "A structured five-panel cap with a clean mid-profile shape, slightly curved brim, adjustable closure, and embroidered Lagom Loon & Water submark.",
+    materials: [
+      "Lightweight, breathable fabric",
+    ],
+    fit: [
+      "Mid-profile five-panel construction",
+      "Adjustable strap for a customizable fit",
+      "Slightly curved brim",
+    ],
+    construction: [
+      "Structured yet relaxed silhouette",
+      "Embroidered Loon & Water submark on the front",
+    ],
+    manufacturing: [
+      "Lagom describes the cap as designed for durability and long-lasting wear.",
+    ],
+    source: {
+      url: "https://lagomnaturals.com/product/throwback-loon-mid-profile-cap/",
+      verifiedAt: "2026-09-19",
+      authority: "Lagom Naturals first-party product page",
+    },
   },
   {
     id: "black-logo-tee",
-    name: "Black Logo Tee",
-    price: null,
+    name: "Heavyweight Cotton Tee",
+    price: 19.99,
     type: "T-Shirts",
+    category: "Apparel",
     color: "Black",
-    sizes: ["S", "M", "L", "XL", "XXL"],
+    sizes: ["XS", "S", "M", "L", "XL", "2XL", "3XL"],
     image: teeFront,
     gallery: [
-      { src: teeFront, label: "Front", alt: "Black Lagom logo tee, front view" },
-      { src: teeBack, label: "Back", alt: "Black Lagom logo tee, back view" },
-      { src: teeThreeQuarterOne, label: "Three-quarter view", alt: "Black Lagom logo tee, three-quarter front view" },
-      { src: teeThreeQuarterTwo, label: "Detail view", alt: "Black Lagom logo tee, alternate three-quarter front view" },
+      { src: teeFront, label: "Front", alt: "Black Lagom Heavyweight Cotton Tee, front view" },
+      { src: teeBack, label: "Back", alt: "Black Lagom Heavyweight Cotton Tee, back view" },
+      { src: teeThreeQuarterOne, label: "Three-quarter view", alt: "Black Lagom Heavyweight Cotton Tee, three-quarter front view" },
+      { src: teeThreeQuarterTwo, label: "Detail view", alt: "Black Lagom Heavyweight Cotton Tee, alternate three-quarter front view" },
     ],
+    description:
+      "A heavyweight black cotton tee with a relaxed silhouette, wide rib collar, Lagom chest logo, and bird-and-water sleeve submark.",
+    materials: [
+      "100% heavyweight cotton",
+      "OEKO-TEX certified low-impact dyes",
+    ],
+    fit: [
+      "Relaxed fit",
+      "Wide rib collar",
+      "Available in XS through 3XL",
+    ],
+    construction: [
+      "Taped neck and shoulders",
+      "Tear-away label",
+      "Lagom logo on the chest",
+      "Bird & Water submark on the sleeve",
+    ],
+    manufacturing: [
+      "U.S. Cotton Trust Protocol member product",
+      "Made in a WRAP-certified facility",
+      "Produced under Fair Labor Association guidelines",
+      "Lagom states the product meets Higg Index Level 2 or above sustainability standards",
+    ],
+    source: {
+      url: "https://lagomnaturals.com/product/lagom-shirt-black/",
+      verifiedAt: "2026-09-19",
+      authority: "Lagom Naturals first-party product page",
+    },
   },
   {
     id: "mainstreet-hoodie",
     name: "Mainstreet Hooded Sweatshirt",
-    price: 68,
+    price: 44.99,
     type: "Hoodies",
+    category: "Apparel",
     color: "Black",
-    sizes: ["S", "M", "L", "XL", "XXL"],
+    sizes: ["S", "M", "L", "XL", "2XL", "3XL"],
     image: hoodieFront,
     gallery: [
       { src: hoodieFront, label: "Front", alt: "Black Lagom Mainstreet hooded sweatshirt, front view" },
@@ -352,6 +406,33 @@ export const merch = [
       { src: hoodieThreeQuarter, label: "Three-quarter view", alt: "Black Lagom Mainstreet hooded sweatshirt, three-quarter front view" },
       { src: hoodieFolded, label: "Folded view", alt: "Black Lagom Mainstreet hooded sweatshirt, folded view" },
     ],
+    description:
+      "A premium heavyweight black fleece hoodie with an oversized drop-shoulder fit, minimalist Lagom chest branding, and a clean drawcord-free hood.",
+    materials: [
+      "12.5 oz/yd² (420 gsm) heavyweight fleece",
+      "75% ring-spun cotton / 25% polyester",
+      "100% cotton face yarns on solid colors",
+      "100% cotton 1×1 ribbing at cuffs and waistband",
+    ],
+    fit: [
+      "Oversized fit",
+      "Drop shoulder",
+      "Available in S through 3XL",
+    ],
+    construction: [
+      "Double-layer single-piece hood",
+      "No drawcord",
+      "Blindstitch sewing",
+      "Tear-away label; woven label on Pigment Black",
+    ],
+    manufacturing: [
+      "Made in a WRAP-certified facility according to Lagom's current product page",
+    ],
+    source: {
+      url: "https://lagomnaturals.com/product/lagom-mainstreet-hooded-sweatshirt/",
+      verifiedAt: "2026-09-19",
+      authority: "Lagom Naturals first-party product page",
+    },
   },
 ];
 
