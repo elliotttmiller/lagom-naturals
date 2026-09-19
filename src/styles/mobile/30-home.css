@@ -33,7 +33,7 @@
   .beverage-hero__proof svg{width:clamp(40px,10.5vw,58px)!important;height:clamp(40px,10.5vw,58px)!important;padding:9px!important;border:1.5px solid rgba(255,255,255,.9)!important;border-radius:50%!important;background:rgba(255,255,255,.04)!important;box-shadow:0 7px 20px rgba(0,0,0,.1)!important;stroke-width:1.55!important;backdrop-filter:blur(5px)!important;-webkit-backdrop-filter:blur(5px)!important}
   .beverage-hero__proof::after{content:'';position:absolute;left:50%;bottom:-19px;width:39px;height:7px;transform:translateX(-50%);background:radial-gradient(circle at 3.5px 3.5px,#fff 0 3px,transparent 3.4px),radial-gradient(circle at 19.5px 3.5px,rgba(255,255,255,.45) 0 3px,transparent 3.4px),radial-gradient(circle at 35.5px 3.5px,rgba(255,255,255,.45) 0 3px,transparent 3.4px);pointer-events:none}
 
-  .intro-band,.education-split,.occasion,.find-band{display:none!important}
+  .intro-band,.education-split,.find-band{display:none!important}
 
   /* Homepage lineup is primary catalog content. Keep the product rail immediately
      paintable on mobile instead of allowing viewport-stagger state to reserve a

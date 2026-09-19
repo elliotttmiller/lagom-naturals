@@ -148,7 +148,6 @@ body {
 }
 .intro-band > p,
 .section-head > div > p,
-.occasion div > p,
 .find-band div > p,
 .shop-intro > p,
 .story-hero > p,
@@ -258,34 +257,6 @@ body {
 .education-split > div:last-child > p:last-of-type {
   font-size: 17px;
   line-height: 1.7;
-}
-.occasion {
-  position: relative;
-  height: 760px;
-  color: white;
-  overflow: hidden;
-}
-.occasion > img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: saturate(0.65) brightness(0.65);
-}
-.occasion > div {
-  position: absolute;
-  left: 7vw;
-  bottom: 7vw;
-  max-width: 620px;
-}
-.occasion h2 {
-  color: white;
-  font-size: clamp(48px, 6vw, 84px);
-  line-height: 0.95;
-  margin: 15px 0;
-}
-.occasion div > p:last-child {
-  font-size: 18px;
-  line-height: 1.6;
 }
 .find-band {
   padding: 8vw 7vw;
@@ -787,14 +758,6 @@ body {
   }
   .education-split > div:last-child {
     padding: 65px 22px;
-  }
-  .occasion {
-    height: 650px;
-  }
-  .occasion > div {
-    left: 22px;
-    right: 22px;
-    bottom: 55px;
   }
   .find-band {
     grid-template-columns: 1fr;

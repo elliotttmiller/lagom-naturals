@@ -348,17 +348,6 @@ function HomePage() {
           ))}
         </Stagger>
       </section>
-      <section className="occasion">
-        <img src={hospitality} alt="A warm, contemporary hospitality setting" />
-        <Reveal>
-          <p>THE OCCASION</p>
-          <h2>Made for the space between plans.</h2>
-          <p>
-            A zero-alcohol option for dinners, listening sessions, long
-            conversations, and wherever the evening settles in.
-          </p>
-        </Reveal>
-      </section>
       <Reveal className="find-band">
         <div>
           <p>FIND LAGOM</p>
