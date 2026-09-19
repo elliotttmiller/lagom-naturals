@@ -100,7 +100,7 @@ function markerIcon(L,selected=false){
   })
 }
 
-function InteractiveStoreMap({points,selected,onSelect}){
+function InteractiveStoreMap({points,selected,onSelect,focusRequest}){
   const containerRef=React.useRef(null)
   const mapRef=React.useRef(null)
   const markersRef=React.useRef(new Map())
@@ -144,7 +144,8 @@ function InteractiveStoreMap({points,selected,onSelect}){
     const map=mapRef.current
     const L=window.L
     if(!map||!L)return
-    let mobileFocusTimer
+    let focusFrame
+    let measureFrame
 
     const activeIds=new Set()
     points.forEach(({shop,lat,lon})=>{
@@ -162,13 +163,11 @@ function InteractiveStoreMap({points,selected,onSelect}){
         }).addTo(map)
         marker.on('click',()=>onSelect(shop))
         marker.bindPopup(popupMarkup(shop),{
+          autoPan:false,
           autoClose:true,
           closeButton:true,
           closeOnEscapeKey:true,
           closeOnClick:false,
-          keepInView:true,
-          autoPanPaddingTopLeft:[16,16],
-          autoPanPaddingBottomRight:[16,48],
           maxWidth:360,
           offset:[0,-54],
           className:'lagom-store-popup',
@@ -202,45 +201,54 @@ function InteractiveStoreMap({points,selected,onSelect}){
     }
 
     const selectedPoint=points.find(p=>p.shop.id===selected.id)
-    if(selectedPoint&&selectedIdRef.current!==selected.id){
+    if(selectedPoint&&(selectedIdRef.current!==selected.id||focusRequest>0)){
       selectedIdRef.current=selected.id
       const latLng=[Number(selectedPoint.lat),Number(selectedPoint.lon)]
       const marker=markersRef.current.get(selected.id)
       const isMobile=window.matchMedia?.('(max-width: 899px)').matches
+      const reduceMotion=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
 
-      if(!needsInitialFit)map.setView(latLng,14,{animate:!isMobile,duration:.35})
       if(!marker)return
 
-      if(!isMobile||needsInitialFit){
+      if(needsInitialFit&&focusRequest===0){
         marker.openPopup()
         return
       }
 
-      // Mobile popups sit above their marker. Centering the marker therefore
-      // clips the detail panel at the top of the compact map. Wait until the
-      // popup has its real dimensions, then reserve a clear panel-sized area
-      // above it and place the selected pin in the lower map viewport.
-      const focusMobileSelection=()=>{
+      // Center the complete rendered selection (detail card plus pin), rather
+      // than the marker coordinate alone. The measured footprint naturally
+      // adapts to desktop and mobile popup sizes without device-specific offsets.
+      const focusSelection=()=>{
         map.invalidateSize({animate:false,pan:false})
+        map.setView(latLng,14,{animate:false})
         marker.openPopup()
-        requestAnimationFrame(()=>{
-          const popup=map.getContainer().querySelector('.lagom-store-popup')
-          const popupHeight=popup?.getBoundingClientRect().height??Math.round(map.getSize().y*.58)
-          const mapHeight=map.getSize().y
-          const desiredPinY=Math.min(
-            mapHeight-34,
-            Math.max(Math.round(mapHeight*.68),popupHeight+74),
-          )
-          const currentPinY=map.latLngToContainerPoint(latLng).y
-          const panY=Math.round(desiredPinY-currentPinY)
-          if(Math.abs(panY)>2)map.panBy([0,panY],{animate:true,duration:.35,easeLinearity:.25})
+        measureFrame=requestAnimationFrame(()=>{
+          const containerRect=map.getContainer().getBoundingClientRect()
+          const popupRect=marker.getPopup()?.getElement()?.getBoundingClientRect()
+          const markerRect=marker.getElement()?.getBoundingClientRect()
+          if(!popupRect||!markerRect)return
+
+          const selectionCenterX=(Math.min(popupRect.left,markerRect.left)+Math.max(popupRect.right,markerRect.right))/2
+          const selectionCenterY=(Math.min(popupRect.top,markerRect.top)+Math.max(popupRect.bottom,markerRect.bottom))/2
+          const viewportCenterX=containerRect.left+(containerRect.width/2)
+          const viewportCenterY=containerRect.top+(containerRect.height/2)
+          const offset=[
+            Math.round(selectionCenterX-viewportCenterX),
+            Math.round(selectionCenterY-viewportCenterY),
+          ]
+          if(Math.abs(offset[0])>2||Math.abs(offset[1])>2){
+            map.panBy(offset,{animate:!reduceMotion,duration:isMobile ? .28 : .36,easeLinearity:.25})
+          }
         })
       }
 
-      requestAnimationFrame(()=>{mobileFocusTimer=window.setTimeout(focusMobileSelection,32)})
+      focusFrame=requestAnimationFrame(focusSelection)
     }
-    return()=>window.clearTimeout(mobileFocusTimer)
-  },[points,selected,onSelect,status])
+    return()=>{
+      window.cancelAnimationFrame(focusFrame)
+      window.cancelAnimationFrame(measureFrame)
+    }
+  },[points,selected,onSelect,status,focusRequest])
 
   React.useEffect(()=>()=>{if(mapRef.current){mapRef.current.remove();mapRef.current=null;markersRef.current.clear()}},[])
 
@@ -269,7 +277,12 @@ export default function FindUsExperience(){
   const {pathname}=useLocation()
   const [query,setQuery]=React.useState('')
   const [selected,setSelected]=React.useState(SHOPS[0])
-  const choose=React.useCallback(shop=>{setSelected(shop);if(window.innerWidth<900)document.querySelector('.find-map-pane')?.scrollIntoView({behavior:'smooth',block:'center'})},[])
+  const [focusRequest,setFocusRequest]=React.useState(0)
+  const choose=React.useCallback(shop=>{
+    setSelected(shop)
+    setFocusRequest(request=>request+1)
+    if(window.innerWidth<900)document.querySelector('.find-map-pane')?.scrollIntoView({behavior:'smooth',block:'center'})
+  },[])
   const scrollLocationRail=React.useCallback(event=>{
     if(window.innerWidth<900||!event.deltaY)return
     const rail=event.currentTarget.closest('.find-sidebar')
@@ -310,7 +323,7 @@ export default function FindUsExperience(){
         </div>
       </aside>
       <div className="find-map-pane">
-        <InteractiveStoreMap points={mapPoints} selected={selected} onSelect={choose}/>
+        <InteractiveStoreMap points={mapPoints} selected={selected} onSelect={choose} focusRequest={focusRequest}/>
         <a className="find-map-open" href={mapsPlace(selected)} target="_blank" rel="noreferrer">Open in Maps <ExternalIcon/></a>
       </div>
     </div>
