@@ -19,6 +19,39 @@
    breakpoint, with a centered cover crop for consistent product scale. */
 .merch-detail-media>img{display:block!important;width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;margin:0!important;padding:0!important;object-fit:cover!important;object-position:center!important}
 
+/* Desktop merch cards deliberately contain their source imagery. The legacy
+   fixed-height stage made wide desktop cards crop at different points based on
+   the image aspect ratio; a square intrinsic stage keeps caps and apparel
+   centered, complete, and visually consistent. Mobile has its own card rules. */
+@media(min-width:900px){
+  .editorial-page .merch-grid .merch-media{
+    position:relative!important;
+    display:grid!important;
+    place-items:center!important;
+    inline-size:100%!important;
+    block-size:auto!important;
+    min-block-size:0!important;
+    aspect-ratio:1/1!important;
+    padding:clamp(18px,2.25vw,34px)!important;
+    overflow:hidden!important;
+    background:#f7f6f3!important;
+  }
+  .editorial-page .merch-grid .merch-media>img{
+    display:block!important;
+    inline-size:100%!important;
+    block-size:100%!important;
+    min-inline-size:0!important;
+    min-block-size:0!important;
+    max-inline-size:100%!important;
+    max-block-size:100%!important;
+    margin:0!important;
+    padding:0!important;
+    object-fit:contain!important;
+    object-position:center!important;
+    transform:none!important;
+  }
+}
+
 /* Mobile beverage PDPs use the same full-frame media contract. This intentionally
    supersedes the legacy contain rule, which left product art inset or mis-scaled
    depending on each source image's native aspect ratio. */
