@@ -6,6 +6,7 @@ import storyJustEnoughDesktopWebp from '@/assets/our-story/just-enough-desktop.w
 import storyJustEnoughMobileWebp from '@/assets/our-story/just-enough-mobile.webp'
 import storyCheersDesktopWebp from '@/assets/our-story/cheers-desktop.webp'
 import storyCheersMobileWebp from '@/assets/our-story/cheers-mobile.webp'
+import '@/styles/mobile/70-editorial.css'
 
 function StoryPicture({desktopWebp,mobileWebp,alt='',className='',eager=false}){
   return <picture className={className}><source media="(max-width: 699px)" srcSet={mobileWebp} type="image/webp"/><img src={desktopWebp} alt={alt} loading={eager?'eager':'lazy'} fetchPriority={eager?'high':'auto'} decoding="async"/></picture>

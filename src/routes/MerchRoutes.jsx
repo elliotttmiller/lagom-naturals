@@ -8,6 +8,7 @@ import {useCart} from '@/storefront/StorefrontContext'
 import useSwipeGallery from '@/storefront/useSwipeGallery'
 import CatalogProductCard from '@/storefront/CatalogProductCard'
 import ResponsiveImage from '@/storefront/ResponsiveImage'
+import '@/styles/mobile/70-editorial.css'
 
 function EmptyState({title="Nothing here yet.",body="Check back soon for updated availability.",to="/shop",action="Browse products"}){return <m.div className="empty-state" initial="hidden" animate="visible" variants={motionVariants.softScale}><h2>{title}</h2><p>{body}</p>{to&&<Link className="primary-bar" to={to}>{action}</Link>}</m.div>}
 

@@ -1,4 +1,5 @@
 import Shell from '@/storefront/StorefrontShell'
+import '@/styles/mobile/70-editorial.css'
 
 export default function LearnPage(){
   return <Shell>
