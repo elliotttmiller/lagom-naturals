@@ -23,6 +23,77 @@
    supersedes the legacy contain rule, which left product art inset or mis-scaled
    depending on each source image's native aspect ratio. */
 @media(max-width:899px){
+  /* Merch detail uses a visual wrapper around the main stage and thumbnail rail.
+     Keep that wrapper edge-to-edge; only its controls and the adjacent product
+     information receive gutters. This prevents apparel imagery from inheriting
+     content padding or desktop gallery geometry on phones. */
+  .merch-detail .merch-detail-visual{
+    inline-size:100vw!important;
+    max-inline-size:100vw!important;
+    margin-inline:calc(50% - 50vw)!important;
+    padding:0!important;
+    background:#fff!important;
+  }
+  .merch-detail .merch-detail-media{
+    position:relative!important;
+    display:grid!important;
+    place-items:center!important;
+    inline-size:100%!important;
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+    margin:0!important;
+    padding:0!important;
+    aspect-ratio:1/1!important;
+    overflow:hidden!important;
+    border:0!important;
+    border-radius:0!important;
+    background:#f7f6f3!important;
+  }
+  .merch-detail .merch-detail-media>img{
+    display:block!important;
+    inline-size:100%!important;
+    block-size:100%!important;
+    min-inline-size:0!important;
+    min-block-size:0!important;
+    max-inline-size:none!important;
+    max-block-size:none!important;
+    margin:0!important;
+    padding:0!important;
+    object-fit:cover!important;
+    object-position:center!important;
+  }
+  .merch-detail .merch-gallery{
+    display:flex!important;
+    align-items:center!important;
+    gap:9px!important;
+    inline-size:100%!important;
+    min-height:84px!important;
+    margin:0!important;
+    padding:10px var(--m-gutter) 16px!important;
+    overflow-x:auto!important;
+    overscroll-behavior-inline:contain!important;
+    scroll-padding-inline:var(--m-gutter)!important;
+    background:#fff!important;
+    -webkit-overflow-scrolling:touch!important;
+  }
+  .merch-detail .merch-gallery button{
+    position:relative!important;
+    display:block!important;
+    flex:0 0 62px!important;
+    inline-size:62px!important;
+    block-size:62px!important;
+    padding:0!important;
+    overflow:hidden!important;
+    border:1px solid rgba(18,22,18,.13)!important;
+    border-radius:9px!important;
+    background:#f7f6f3!important;
+    box-shadow:none!important;
+  }
+  .merch-detail .merch-gallery button.active{border-color:#171a17!important;box-shadow:0 0 0 1px #171a17!important}
+  .merch-detail .merch-gallery button:focus-visible{outline:2px solid #171a17!important;outline-offset:2px!important}
+  .merch-detail .merch-gallery img{display:block!important;inline-size:100%!important;block-size:100%!important;margin:0!important;padding:0!important;object-fit:cover!important;object-position:center!important}
+
   /* Mobile product gallery stage. The source image is never altered: it is
      overscanned inside a square viewer so its raster boundary is outside the
      visible frame, while the same source provides a quiet edge-to-edge ambient
