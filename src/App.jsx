@@ -346,8 +346,14 @@ function ShopPage() {
     <Shell>
       <div className="shop-page">
         <Reveal className="shop-intro">
-          <h1>Shop</h1>
-          <p>Premium THC beverages and gummies for every occasion.</p>
+          <h1>{category === "Seltzers" ? "THC Seltzers" : category === "Gummies" ? "THC Gummies" : "Shop"}</h1>
+          <p>
+            {category === "Seltzers"
+              ? "Explore crisp, hemp-derived THC seltzers by flavor and pack format."
+              : category === "Gummies"
+                ? "Explore Lagom Naturals THC gummies by flavor and collection."
+                : "Premium THC beverages and gummies for every occasion."}
+          </p>
         </Reveal>
         {category === "All" && (
           <Stagger className="category-grid">
