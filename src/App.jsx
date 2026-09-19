@@ -1,17 +1,12 @@
 import React, {
-  createContext,
-  useContext,
   useEffect,
   useMemo,
-  useRef,
   useState,
 } from "react";
 import {
   Link,
-  NavLink,
   Route,
   Routes,
-  useNavigate,
   useParams,
   useSearchParams,
 } from "react-router-dom";
@@ -24,13 +19,10 @@ import {
   Flower2,
   Heart,
   Leaf,
-  MapPin,
   Minus,
   Plus,
   Search,
-  ShoppingBag,
   Store,
-  User,
 } from "lucide-react";
 import {
   m,
@@ -48,305 +40,18 @@ import {
   categoryImages,
   gummyCollections,
 } from "./catalogData";
-import HamburgerToggle from "./HamburgerToggle";
-import storefront from "@/assets/store/storefront-day.webp";
-import hospitality from "@/assets/store/extra-store2.webp";
-import storyHeroDesktopWebp from "@/assets/our-story/hero-desktop.webp";
-import storyHeroMobileWebp from "@/assets/our-story/hero-mobile.webp";
-import storyJustEnoughDesktopWebp from "@/assets/our-story/just-enough-desktop.webp";
-import storyJustEnoughMobileWebp from "@/assets/our-story/just-enough-mobile.webp";
-import storyCheersDesktopWebp from "@/assets/our-story/cheers-desktop.webp";
-import storyCheersMobileWebp from "@/assets/our-story/cheers-mobile.webp";
+import Shell from "@/storefront/StorefrontShell";
+import {
+  CartProvider,
+  configuredProduct,
+  productVariants,
+  useCart,
+} from "@/storefront/StorefrontContext";
 
-const MENU_DURATION = 600,
-  MENU_EASE = [0.4, 0, 0.2, 1];
-const CART_KEY = "lagom-beverage-cart-v1";
-const DRINK_PACKS = [
-  {
-    id: "single",
-    label: "Single",
-    detail: "Single 12 fl oz can",
-    price: 6.99,
-  },
-  { id: "4-pack", label: "4-pack", detail: "Four 12 fl oz cans", price: 19.99 },
-];
-const productVariants = (product) =>
-  product.variants?.length
-    ? product.variants
-    : product.category === "Seltzers"
-      ? DRINK_PACKS.map((pack) => ({
-          id: pack.id,
-          label: pack.label,
-          detail: pack.detail,
-          price: pack.price,
-          image: product.image,
-        }))
-      : [
-          {
-            id: "default",
-            label: product.weight || "Each",
-            detail: product.weight || "Single item",
-            price: product.price,
-            image: product.image,
-          },
-        ];
-const configuredProduct = (product, variant) => ({
-  ...product,
-  brand: product.brand || "Lagom Naturals",
-  category: product.category || "Beverages",
-  variantId: variant.id,
-  weight: variant.detail || variant.label,
-  pack: variant.label,
-  price: variant.price,
-  image: variant.image || product.image,
-  cartKey: `${product.id}:${variant.id}`,
-});
-const CartContext = createContext(null);
-const useCart = () => useContext(CartContext);
-function readCart() {
-  try {
-    const saved = JSON.parse(localStorage.getItem(CART_KEY) || "[]");
-    return Array.isArray(saved) ? saved : [];
-  } catch {
-    return [];
-  }
-}
-function CartProvider({ children }) {
-  const [items, setItems] = useState(readCart);
-  useEffect(() => {
-    try {
-      localStorage.setItem(CART_KEY, JSON.stringify(items));
-    } catch {}
-  }, [items]);
-  const add = (item, quantity = 1) =>
-    setItems((current) => {
-      const key = item.cartKey || item.id;
-      const existing = current.find((entry) => entry.cartKey === key);
-      return existing
-        ? current.map((entry) =>
-            entry.cartKey === key
-              ? { ...entry, qty: entry.qty + quantity }
-              : entry,
-          )
-        : [...current, { ...item, cartKey: key, qty: quantity }];
-    });
-  const change = (key, qty) =>
-    setItems((current) =>
-      qty < 1
-        ? current.filter((item) => item.cartKey !== key)
-        : current.map((item) =>
-            item.cartKey === key ? { ...item, qty } : item,
-          ),
-    );
-  const remove = (key) =>
-    setItems((current) => current.filter((item) => item.cartKey !== key));
-  const count = items.reduce((sum, item) => sum + item.qty, 0);
-  const subtotal = items.reduce((sum, item) => sum + item.price * item.qty, 0);
-  return (
-    <CartContext.Provider
-      value={{ items, add, change, remove, count, subtotal }}
-    >
-      {children}
-    </CartContext.Provider>
-  );
-}
-function Logo({ onClick, className = "" }) {
-  return (
-    <Link to="/" className={`brand ${className}`} onClick={onClick}>
-      <img src="/lagom-logo.svg" alt="Lagom Naturals" />
-    </Link>
-  );
-}
-function Header({ detail = false }) {
-  const { count } = useCart();
-  const [open, setOpen] = useState(false),
-    [visible, setVisible] = useState(false);
-  const nav = useNavigate(),
-    drawerRef = useRef(null),
-    closeRef = useRef(null),
-    timerRef = useRef(null);
-  const close = () => {
-    setOpen(false);
-    clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(() => setVisible(false), MENU_DURATION);
-  };
-  const toggle = (next) => {
-    if (next) {
-      clearTimeout(timerRef.current);
-      setVisible(true);
-      requestAnimationFrame(() => setOpen(true));
-    } else close();
-  };
-  useEffect(() => () => clearTimeout(timerRef.current), []);
-  useEffect(() => {
-    if (!visible) return;
-    const previous = document.activeElement,
-      overflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    requestAnimationFrame(() => closeRef.current?.focus());
-    const key = (e) => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        close();
-        return;
-      }
-      if (e.key !== "Tab") return;
-      const list = drawerRef.current?.querySelectorAll(
-        "a[href],button:not([disabled])",
-      );
-      if (!list?.length) return;
-      const first = list[0],
-        last = list[list.length - 1];
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
-      }
-    };
-    document.addEventListener("keydown", key);
-    return () => {
-      document.removeEventListener("keydown", key);
-      document.body.style.overflow = overflow;
-      previous?.focus?.();
-    };
-  }, [visible]);
-  const links = [
-    ["Shop", "/shop"],
-    ["Merch", "/merch"],
-    ["Find Us", "/visit"],
-    ["Our Story", "/about"],
-  ];
-  return (
-    <>
-      <m.header
-        className={`site-header ${detail ? "site-header--commerce" : ""}`}
-        layout="position"
-      >
-        <div className="header-inner">
-          {detail ? (
-            <m.button
-              type="button"
-              className="icon-btn"
-              whileTap={{ scale: 0.9 }}
-              onClick={() => nav(-1)}
-              aria-label="Back"
-            >
-              <ArrowLeft />
-            </m.button>
-          ) : (
-            <HamburgerToggle
-              checked={open}
-              onChange={toggle}
-              controls="site-navigation-drawer"
-              label={open ? "Close menu" : "Open menu"}
-            />
-          )}
-          <Logo className="header-mobile-brand" />
-          <nav className="desktop-nav" aria-label="Primary navigation">
-            <div className="desktop-nav__group desktop-nav__group--left">
-              {links.slice(0, 2).map(([label, to]) => (
-                <NavLink key={label} to={to}>
-                  {label}
-                </NavLink>
-              ))}
-            </div>
-            <Logo className="desktop-nav__brand" />
-            <div className="desktop-nav__group desktop-nav__group--right">
-              {links.slice(2).map(([label, to]) => (
-                <NavLink key={label} to={to}>
-                  {label}
-                </NavLink>
-              ))}
-            </div>
-          </nav>
-          <div className="header-tools">
-            <button
-              type="button"
-              className="icon-btn"
-              aria-label="Search drinks"
-              aria-controls="global-search-surface"
-              aria-expanded="false"
-              onClick={() => window.dispatchEvent(new CustomEvent("lagom:open-global-search"))}
-            >
-              <Search />
-            </button>
-            <Link className="icon-btn header-account" to="/account" aria-label="Account">
-              <User />
-            </Link>
-            <Link
-              className="icon-btn cart-icon"
-              to="/cart"
-              aria-label={`Cart, ${count} items`}
-            >
-              <ShoppingBag />
-              {count > 0 && <b>{count}</b>}
-            </Link>
-          </div>
-        </div>
-      </m.header>
-      {visible && (
-        <m.div
-          className="drawer-bg"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: open ? 1 : 0 }}
-          transition={{ duration: 0.6, ease: MENU_EASE }}
-          onClick={close}
-        >
-          <m.aside
-            ref={drawerRef}
-            id="site-navigation-drawer"
-            className="drawer"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Site navigation"
-            initial={{ x: "-102%" }}
-            animate={{ x: open ? 0 : "-102%" }}
-            transition={{ duration: 0.6, ease: MENU_EASE }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="drawer-top">
-              <Logo onClick={close} />
-              <HamburgerToggle
-                ref={closeRef}
-                checked={open}
-                onChange={toggle}
-                controls="site-navigation-drawer"
-                label="Close menu"
-              />
-            </div>
-            <m.nav
-              initial="hidden"
-              animate={open ? "visible" : "hidden"}
-              variants={motionVariants.stagger}
-            >
-              {links.map(([label, to]) => (
-                <m.div key={label} variants={motionVariants.item}>
-                  <Link to={to} onClick={close}>
-                    {label}
-                    <ChevronRight />
-                  </Link>
-                </m.div>
-              ))}
-            </m.nav>
-          </m.aside>
-        </m.div>
-      )}
-    </>
-  );
-}
-function Shell({ children, detail = false }) {
-  return (
-    <div className="app-shell">
-      <div className="announcement">
-        HEMP-DERIVED THC · FOR ADULTS 21+ · ENJOY RESPONSIBLY
-      </div>
-      <Header detail={detail} />
-      <main>{children}</main>
-    </div>
-  );
-}
+const VisitPage=React.lazy(()=>import("./routes/VisitPage"));
+const AboutPage=React.lazy(()=>import("./routes/AboutPage"));
+const LearnPage=React.lazy(()=>import("./routes/LearnPage"));
+
 function ArrowLink({ to, children }) {
   return (
     <Link className="text-link" to={to}>
@@ -1089,163 +794,6 @@ function ProductDetailsAccordion({ product, selected }) {
     </m.div>
   );
 }
-function VisitPage() {
-  return (
-    <Shell>
-      <section className="find-page">
-        <div>
-          <p>FIND LAGOM</p>
-          <h1>Out in the world.</h1>
-          <p>
-            Verified retailer data has not been connected yet. Availability
-            varies; contact retailers before making a trip.
-          </p>
-          <form onSubmit={(e) => e.preventDefault()}>
-            <label htmlFor="location">ZIP or city</label>
-            <div>
-              <input id="location" placeholder="Minneapolis, MN" />
-              <button type="submit">SEARCH</button>
-            </div>
-          </form>
-          <div className="availability-empty">
-            <MapPin />
-            <h2>Retail locator coming soon.</h2>
-            <p>
-              We’ll show confirmed retailers here when distribution data is
-              available.
-            </p>
-          </div>
-        </div>
-        <img src={storefront} alt="Lagom Naturals storefront in Minneapolis" />
-      </section>
-    </Shell>
-  );
-}
-function StoryPicture({ desktopWebp, mobileWebp, alt = "", className = "", eager = false }) {
-  return (
-    <picture className={className}>
-      <source media="(max-width: 699px)" srcSet={mobileWebp} type="image/webp" />
-      <img
-        src={desktopWebp}
-        alt={alt}
-        loading={eager ? "eager" : "lazy"}
-        fetchPriority={eager ? "high" : "auto"}
-        decoding="async"
-      />
-    </picture>
-  );
-}
-
-function AboutPage() {
-  return (
-    <Shell>
-      <main className="about-page about-story-page">
-        <section className="story-hero" aria-labelledby="story-title">
-          <StoryPicture
-            className="story-hero__picture"
-            desktopWebp={storyHeroDesktopWebp}
-            mobileWebp={storyHeroMobileWebp}
-            eager
-          />
-          <div className="story-hero__shade" aria-hidden="true" />
-          <div className="story-hero__content">
-            <p className="story-kicker">OUR STORY</p>
-            <h1 id="story-title">A More<br />Balanced You</h1>
-            <p className="story-hero__lede">Thoughtfully crafted THC seltzers for life’s<br className="story-desktop-break" /> good moments — and everything in between.</p>
-            <a className="story-pill story-pill--light" href="#our-story">OUR STORY <span aria-hidden="true">↓</span></a>
-          </div>
-          <div className="story-hero__proof" aria-label="Lagom values">
-            <span>REAL INGREDIENTS</span><i aria-hidden="true" /><span>REAL MOMENTS</span><i aria-hidden="true" /><span>A BRIGHTER TOMORROW</span>
-          </div>
-        </section>
-
-        <section className="story-origin" id="our-story">
-          <div className="story-origin__copy">
-            <p className="story-kicker story-kicker--dark">OUR STORY</p>
-            <h2>It Started With<br />a Simple Idea</h2>
-            <p>Founded by four friends and rooted in Minneapolis’ North Loop, Lagom Naturals began with a shared belief that thoughtfully made THC products should feel considered, approachable, and made for real life.</p>
-            <p>The Swedish idea behind our name is simple: <em>lagom</em> means neither too much nor too little — just right.</p>
-            <a className="story-pill story-pill--dark" href="#philosophy">OUR PHILOSOPHY <span aria-hidden="true">→</span></a>
-          </div>
-          <div className="story-origin__visual">
-            <figure className="story-origin__figure">
-              <StoryPicture
-                desktopWebp={storyCheersDesktopWebp}
-                mobileWebp={storyCheersMobileWebp}
-                alt="Friends sharing Lagom seltzers outdoors"
-              />
-            </figure>
-            <aside className="story-origin__rail" aria-label="Our philosophy">
-              <span>BETTER<br />INGREDIENTS</span><i /><span>BRIGHTER<br />MOMENTS</span><i /><span>BALANCED<br />LIVING</span><i />
-            </aside>
-          </div>
-        </section>
-
-        <section className="story-life" id="philosophy">
-          <figure>
-            <StoryPicture
-              desktopWebp={storyJustEnoughDesktopWebp}
-              mobileWebp={storyJustEnoughMobileWebp}
-              alt="Sunset over a rocky Minnesota lakeshore"
-            />
-          </figure>
-          <div className="story-life__copy">
-            <p className="story-kicker story-kicker--dark">MORE THAN A BEVERAGE</p>
-            <h2>Built For Real Life</h2>
-            <p>We believe balance leads to better days. That’s why Lagom is more than a drink — it’s a mindset, a community, and a commitment to thoughtful experiences.</p>
-          </div>
-          <div className="story-life__principles" aria-label="Lagom product principles">
-            <span><Leaf aria-hidden="true" /><b>PREMIUM<br />INGREDIENTS</b></span>
-            <span><span className="story-sun" aria-hidden="true">☼</span><b>THOUGHTFUL<br />DOSING</b></span>
-            <span><span className="story-eye" aria-hidden="true">◉</span><b>A MORE<br />BALANCED YOU</b></span>
-          </div>
-        </section>
-        <section className="story-closing-reference" aria-labelledby="lagom-way-title">
-          <p>THE LAGOM WAY</p>
-          <h2 id="lagom-way-title">Premium Ingredients.<br />A Brighter Tomorrow.</h2>
-          <i aria-hidden="true" />
-        </section>
-      </main>
-    </Shell>
-  );
-}
-function LearnPage() {
-  return (
-    <Shell>
-      <div className="editorial-page">
-        <p>THC, EXPLAINED</p>
-        <h1>A considered place to start.</h1>
-        <section>
-          <h2>What is a THC beverage?</h2>
-          <p>
-            Lagom is a sparkling beverage infused with hemp-derived THC. It
-            contains no alcohol. Individual experiences with THC vary.
-          </p>
-        </section>
-        <section>
-          <h2>Read the can</h2>
-          <p>
-            Every current Lagom can image states 10 mg THC per can and 12 fl oz
-            (355 mL). A verified serving size is not available in the current
-            source, so this site does not infer one.
-          </p>
-        </section>
-        <section id="responsible-use">
-          <h2>Take your time</h2>
-          <p>
-            If you are unfamiliar with THC, begin with a lower serving and allow
-            adequate time before consuming more. Effects vary based on the
-            individual, dose, food intake, and other factors.
-          </p>
-          <p>
-            Do not drive or operate machinery after consuming THC. Keep products
-            away from children and pets. Follow local law and product labeling.
-          </p>
-        </section>
-      </div>
-    </Shell>
-  );
-}
 function MerchPage() {
   return (
     <Shell>
@@ -1782,9 +1330,9 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/shop" element={<ShopPage />} />
         <Route path="/product/:id" element={<ProductPage />} />
-        <Route path="/visit" element={<VisitPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/learn" element={<LearnPage />} />
+        <Route path="/visit" element={<React.Suspense fallback={null}><VisitPage /></React.Suspense>} />
+        <Route path="/about" element={<React.Suspense fallback={null}><AboutPage /></React.Suspense>} />
+        <Route path="/learn" element={<React.Suspense fallback={null}><LearnPage /></React.Suspense>} />
         <Route path="/merch" element={<MerchPage />} />
         <Route path="/merch/:id" element={<MerchDetailPage />} />
         <Route path="/cart" element={<CartPage />} />
