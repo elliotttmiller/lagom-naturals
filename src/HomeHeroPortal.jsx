@@ -14,10 +14,10 @@ import desktopMidnight from "@/assets/desktop/midnight-gummies-hero.webp";
 import desktopOrganic from "@/assets/desktop/organic-gummies-hero.webp";
 
 const SLIDES = [
-  {id:"seltzer",eyebrow:"LAGOM THC SELTZER",title:"Find your just right.",body:"Crisp, zero-sugar THC seltzers made for a more measured social ritual.",primary:"SHOP SELTZERS",primaryTo:"/shop?category=Seltzers",secondary:"OUR STORY",secondaryTo:"/about",mobile:mobileSeltzer,desktop:desktopSeltzer,position:"center center"},
-  {id:"gummies",eyebrow:"LAGOM GUMMIES",title:"A softer way to settle in.",body:"Thoughtfully made THC gummies for nights that call for less noise and more ease.",primary:"SHOP GUMMIES",primaryTo:"/shop?category=Gummies",secondary:"EXPLORE ALL",secondaryTo:"/shop",mobile:mobileGummies,desktop:desktopGummies,position:"center center"},
-  {id:"organic",eyebrow:"ORGANIC GUMMIES",title:"Keep the ritual simple.",body:"Organic gummies designed around an intentional, uncomplicated adult experience.",primary:"DISCOVER ORGANIC",primaryTo:"/shop?category=Gummies&collection=Organic",secondary:"LEARN MORE",secondaryTo:"/learn",mobile:mobileOrganic,desktop:desktopOrganic,position:"center center"},
-  {id:"midnight",eyebrow:"MIDNIGHT GUMMIES",title:"For the quieter hours.",body:"A night-minded gummy ritual for winding down, switching off, and letting the evening land.",primary:"SHOP MIDNIGHT",primaryTo:"/shop?category=Gummies&collection=Midnight%20Drift",secondary:"THC, EXPLAINED",secondaryTo:"/learn",mobile:mobileMidnight,desktop:desktopMidnight,position:"center center"},
+  {id:"seltzer",eyebrow:"LAGOM THC SELTZER",title:"Find your just right.",body:"Crisp, zero-sugar THC seltzers made for a more measured social ritual.",primary:"SHOP SELTZERS",primaryTo:"/shop/seltzers",secondary:"OUR STORY",secondaryTo:"/about",mobile:mobileSeltzer,desktop:desktopSeltzer,position:"center center"},
+  {id:"gummies",eyebrow:"LAGOM GUMMIES",title:"A softer way to settle in.",body:"Thoughtfully made THC gummies for nights that call for less noise and more ease.",primary:"SHOP GUMMIES",primaryTo:"/shop/gummies",secondary:"EXPLORE ALL",secondaryTo:"/shop",mobile:mobileGummies,desktop:desktopGummies,position:"center center"},
+  {id:"organic",eyebrow:"ORGANIC GUMMIES",title:"Keep the ritual simple.",body:"Organic gummies designed around an intentional, uncomplicated adult experience.",primary:"DISCOVER ORGANIC",primaryTo:"/shop/gummies?collection=Organic",secondary:"LEARN MORE",secondaryTo:"/learn",mobile:mobileOrganic,desktop:desktopOrganic,position:"center center"},
+  {id:"midnight",eyebrow:"MIDNIGHT GUMMIES",title:"For the quieter hours.",body:"A night-minded gummy ritual for winding down, switching off, and letting the evening land.",primary:"SHOP MIDNIGHT",primaryTo:"/shop/gummies?collection=Midnight%20Drift",secondary:"THC, EXPLAINED",secondaryTo:"/learn",mobile:mobileMidnight,desktop:desktopMidnight,position:"center center"},
 ];
 
 const AUTOPLAY_MS = 6500;
@@ -84,7 +84,7 @@ function HeroCarousel() {
           exit={reduceMotion?undefined:{opacity:0,scale:1.006,x:exitX}}
           transition={transition}>
           <source media="(max-width: 699px)" srcSet={slide.mobile}/>
-          <img src={slide.desktop} alt="" fetchPriority={active===0?'high':'auto'} decoding="async" style={{objectPosition:slide.position}}/>
+          <img src={slide.desktop} alt="" loading="eager" fetchPriority={active===0?'high':'auto'} decoding="async" style={{objectPosition:slide.position}}/>
         </m.picture>
       </Presence>
     </div>
