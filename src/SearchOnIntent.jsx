@@ -1,18 +1,30 @@
 import React from 'react'
 
-const loadSearch=()=>import('./PremiumGlobalSearch')
+let searchModulePromise
+const loadSearch=()=>{
+  if(!searchModulePromise){
+    searchModulePromise=import('./PremiumGlobalSearch').catch(error=>{
+      searchModulePromise=undefined
+      throw error
+    })
+  }
+  return searchModulePromise
+}
 const LazySearch=React.lazy(loadSearch)
 const SEARCH_SELECTOR='a[aria-label^="Search"],button[aria-label^="Search"]'
 
 export default function SearchOnIntent(){
   const[mounted,setMounted]=React.useState(false)
   const[openRequest,setOpenRequest]=React.useState(0)
+  const[trigger,setTrigger]=React.useState(null)
 
   React.useEffect(()=>{
     const warm=event=>{
-      if(event.target.closest?.(SEARCH_SELECTOR))loadSearch()
+      if(event.target.closest?.(SEARCH_SELECTOR))void loadSearch().catch(()=>{})
     }
-    const open=()=>{
+    const open=event=>{
+      const active=document.activeElement instanceof HTMLElement?document.activeElement:null
+      setTrigger(active?.matches?.(SEARCH_SELECTOR)?active:null)
       setMounted(true)
       setOpenRequest(value=>value+1)
     }
@@ -27,5 +39,5 @@ export default function SearchOnIntent(){
   },[])
 
   if(!mounted)return null
-  return <React.Suspense fallback={null}><LazySearch openRequest={openRequest}/></React.Suspense>
+  return <React.Suspense fallback={null}><LazySearch openRequest={openRequest} initialTrigger={trigger}/></React.Suspense>
 }
