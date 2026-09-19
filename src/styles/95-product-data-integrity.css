@@ -50,6 +50,61 @@
     object-position:center!important;
     transform:none!important;
   }
+
+  /* Keep the complete merch gallery together while product information scrolls.
+     The former sticky main image left its thumbnail rail behind in document
+     flow, so the selected view and its controls separated during scrolling. */
+  .merch-detail .merch-detail-visual{
+    position:sticky!important;
+    top:calc(var(--desktop-header-h, 88px) + var(--desktop-announcement-h, 0px) + 22px)!important;
+    align-self:start!important;
+    min-width:0!important;
+  }
+  .merch-detail .merch-detail-media{
+    position:relative!important;
+    top:auto!important;
+    display:grid!important;
+    place-items:center!important;
+    inline-size:100%!important;
+    block-size:min(640px,calc(100svh - var(--desktop-header-h, 88px) - var(--desktop-announcement-h, 0px) - 148px))!important;
+    min-block-size:420px!important;
+    margin:0!important;
+    padding:0!important;
+    overflow:hidden!important;
+    border:0!important;
+    border-radius:0!important;
+    background:#fff!important;
+  }
+  .merch-detail .merch-detail-media>img{
+    display:block!important;
+    inline-size:100%!important;
+    block-size:100%!important;
+    min-inline-size:0!important;
+    min-block-size:0!important;
+    max-inline-size:none!important;
+    max-block-size:none!important;
+    margin:0!important;
+    padding:0!important;
+    object-fit:cover!important;
+    object-position:center!important;
+    transform:scale(1.035)!important;
+    transform-origin:center!important;
+  }
+  .merch-detail .merch-gallery{
+    display:flex!important;
+    align-items:center!important;
+    gap:10px!important;
+    min-height:88px!important;
+    margin:0!important;
+    padding:12px 0 0!important;
+    overflow-x:auto!important;
+    overscroll-behavior-inline:contain!important;
+    scroll-padding-inline:2px!important;
+    background:transparent!important;
+    -webkit-overflow-scrolling:touch!important;
+  }
+  .merch-detail .merch-gallery button{flex:0 0 72px!important;inline-size:72px!important;block-size:72px!important;padding:0!important;overflow:hidden!important}
+  .merch-detail .merch-gallery img{display:block!important;inline-size:100%!important;block-size:100%!important;margin:0!important;padding:0!important;object-fit:cover!important;object-position:center!important}
 }
 
 /* Mobile beverage PDPs use the same full-frame media contract. This intentionally
