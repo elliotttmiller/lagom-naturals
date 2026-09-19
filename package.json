@@ -11,6 +11,7 @@
     "build": "node scripts/build-pages.mjs",
     "build:pages": "node scripts/build-pages.mjs",
     "check": "vite build --emptyOutDir",
+    "images:optimize": "node scripts/optimize-storefront-images.mjs",
     "audit:assets": "node scripts/audit-source-assets.mjs",
     "preview": "vite preview"
   },
@@ -24,6 +25,7 @@
   "devDependencies": {
     "@vitejs/plugin-react": "6.1.1",
     "esbuild": "^0.28.2",
+    "sharp": "^0.34.5",
     "vite": "8.2.2"
   }
 }
