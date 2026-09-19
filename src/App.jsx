@@ -12,10 +12,8 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import {
-  ArrowLeft,
   ArrowRight,
   ChevronDown,
-  ChevronRight,
   Droplet,
   Flower2,
   Heart,
