@@ -18,6 +18,8 @@ const SITE_ORIGIN=(import.meta.env.VITE_SITE_ORIGIN||'https://lagomnaturals.com'
 const routeMeta={
   '/':{title:'Lagom Naturals | Premium THC Seltzer',label:'Home',description:'Premium hemp-derived THC seltzers made for considered adult occasions.'},
   '/shop':{title:'Shop THC Seltzers & Gummies | Lagom Naturals',label:'Shop',description:'Explore Lagom Naturals THC seltzers and gummy collections by flavor and format.'},
+  '/shop/seltzers':{title:'THC Seltzers | Lagom Naturals',label:'THC Seltzers',description:'Explore Lagom Naturals hemp-derived THC seltzers by flavor and pack format.'},
+  '/shop/gummies':{title:'THC Gummies | Lagom Naturals',label:'THC Gummies',description:'Explore Lagom Naturals THC gummy collections by flavor and collection.'},
   '/merch':{title:'Apparel & Merch | Lagom Naturals',label:'Apparel and merch',description:'Shop Lagom Naturals apparel and merchandise.'},
   '/cart':{title:'Your Cart | Lagom Naturals',label:'Cart',description:'Review your Lagom Naturals drinks and apparel.'},
   '/checkout':{title:'Checkout | Lagom Naturals',label:'Checkout',description:'Enter fulfillment details and review your Lagom Naturals order.'},
