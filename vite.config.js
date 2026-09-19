@@ -20,6 +20,7 @@ export default defineConfig({
     cssCodeSplit: true,
     minify: 'esbuild',
     reportCompressedSize: true,
+    manifest: true,
     chunkSizeWarningLimit: 300,
     assetsInlineLimit: 4096,
     modulePreload: { polyfill: false },
