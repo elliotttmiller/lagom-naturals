@@ -53,6 +53,9 @@ const VisitPage=React.lazy(()=>import("./routes/VisitPage"));
 const AboutPage=React.lazy(()=>import("./routes/AboutPage"));
 const LearnPage=React.lazy(()=>import("./routes/LearnPage"));
 
+function RouteChunkFallback(){
+  return <Shell><div className="route-chunk-fallback" role="status" aria-live="polite" aria-busy="true"><span>Loading…</span></div></Shell>
+}
 function ArrowLink({ to, children }) {
   return (
     <Link className="text-link" to={to}>
@@ -1331,9 +1334,9 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/shop" element={<ShopPage />} />
         <Route path="/product/:id" element={<ProductPage />} />
-        <Route path="/visit" element={<React.Suspense fallback={null}><VisitPage /></React.Suspense>} />
-        <Route path="/about" element={<React.Suspense fallback={null}><AboutPage /></React.Suspense>} />
-        <Route path="/learn" element={<React.Suspense fallback={null}><LearnPage /></React.Suspense>} />
+        <Route path="/visit" element={<React.Suspense fallback={<RouteChunkFallback/>}><VisitPage /></React.Suspense>} />
+        <Route path="/about" element={<React.Suspense fallback={<RouteChunkFallback/>}><AboutPage /></React.Suspense>} />
+        <Route path="/learn" element={<React.Suspense fallback={<RouteChunkFallback/>}><LearnPage /></React.Suspense>} />
         <Route path="/merch" element={<MerchPage />} />
         <Route path="/merch/:id" element={<MerchDetailPage />} />
         <Route path="/cart" element={<CartPage />} />
