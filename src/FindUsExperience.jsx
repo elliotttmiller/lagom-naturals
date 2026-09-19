@@ -1,6 +1,8 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
 import findUsHero from '@/assets/mobile/find-us-hero.png'
+import './styles/find-us.css'
+import './styles/desktop-find-us.css'
 
 export const SHOPS=[
 // Address-point matches verified 2026-09-18. Six decimals are retained for map rendering;
