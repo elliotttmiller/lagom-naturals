@@ -117,15 +117,15 @@ body.age-gate-open{
 }
 
 .age-gate__enter{
-  border:1px solid rgba(255,255,255,.96)!important;
-  background:rgba(248,244,234,.94)!important;
-  color:#171916!important;
+  border:1px solid rgba(255,255,255,.62)!important;
+  background:linear-gradient(135deg,rgba(255,255,255,.30),rgba(255,255,255,.16))!important;
+  color:#fff!important;
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,1),
-    inset 0 -10px 24px rgba(188,169,134,.07),
-    0 7px 25px rgba(0,0,0,.20)!important;
-  -webkit-backdrop-filter:blur(16px) saturate(1.06)!important;
-  backdrop-filter:blur(16px) saturate(1.06)!important;
+    inset 0 1px 0 rgba(255,255,255,.48),
+    inset 0 -1px 0 rgba(255,255,255,.08),
+    0 10px 30px rgba(0,0,0,.16)!important;
+  -webkit-backdrop-filter:blur(22px) saturate(1.24) brightness(1.05)!important;
+  backdrop-filter:blur(22px) saturate(1.24) brightness(1.05)!important;
 }
 
 .age-gate__enter::after{
@@ -134,8 +134,10 @@ body.age-gate-open{
   inset:1px;
   pointer-events:none;
   border-radius:12px;
-  box-shadow:inset 0 0 0 1px rgba(77,68,53,.06);
-  background:linear-gradient(180deg,rgba(255,255,255,.30),rgba(255,255,255,0) 62%);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.10);
+  background:
+    radial-gradient(circle at 18% 0%,rgba(255,255,255,.26),transparent 42%),
+    linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,0) 68%);
 }
 
 .age-gate__arrow{
@@ -147,7 +149,7 @@ body.age-gate-open{
   place-items:center;
   width:28px;
   height:28px;
-  color:#1c201b;
+  color:#fff;
   font:400 27px/1 Arial,sans-serif!important;
   letter-spacing:0!important;
   transform:translateY(-50%);
@@ -156,17 +158,19 @@ body.age-gate-open{
 .age-gate__exit{
   min-height:60px!important;
   margin-top:12px!important;
-  border:1px solid rgba(255,255,255,.78)!important;
-  background:rgba(16,20,16,.14)!important;
-  color:rgba(255,255,255,.92)!important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.055),0 8px 24px rgba(0,0,0,.10)!important;
-  -webkit-backdrop-filter:blur(12px)!important;
-  backdrop-filter:blur(12px)!important;
+  border:1px solid rgba(255,255,255,.38)!important;
+  background:linear-gradient(135deg,rgba(255,255,255,.13),rgba(255,255,255,.055))!important;
+  color:rgba(255,255,255,.94)!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.18),
+    0 8px 24px rgba(0,0,0,.10)!important;
+  -webkit-backdrop-filter:blur(18px) saturate(1.16)!important;
+  backdrop-filter:blur(18px) saturate(1.16)!important;
 }
 
 .age-gate__panel button:hover{transform:translateY(-1px)!important}
-.age-gate__enter:hover{background:rgba(255,252,244,.98)!important}
-.age-gate__exit:hover{background:rgba(255,255,255,.075)!important;border-color:#fff!important;color:#fff!important}
+.age-gate__enter:hover{background:linear-gradient(135deg,rgba(255,255,255,.38),rgba(255,255,255,.21))!important}
+.age-gate__exit:hover{background:linear-gradient(135deg,rgba(255,255,255,.18),rgba(255,255,255,.09))!important;border-color:rgba(255,255,255,.58)!important;color:#fff!important}
 .age-gate__panel button:active{transform:translateY(0) scale(.993)!important}
 .age-gate__panel button:focus-visible{outline:2px solid #fff!important;outline-offset:4px!important}
 
