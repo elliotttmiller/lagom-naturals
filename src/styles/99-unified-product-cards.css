@@ -253,54 +253,102 @@
 }
 
 
-/* Mobile shop media bays are true image windows, not padded canvases.
-   Seltzer photography fills the bay edge-to-edge; gummy pack shots retain a
-   contained treatment without exposing square picture/image edges. */
+
+/* Mobile product media contract.
+   The media bay is the viewport. ResponsiveImage's <picture> and <img> are
+   absolutely pinned inside it so the product image cannot render as a second
+   inset rectangle above the card surface. */
 @media(max-width:899px){
-  .shop-page .product-card .unified-product-card__media{
+  .shop-page .product-card .unified-product-card__media,
+  .listing-page .product-card .unified-product-card__media{
+    position:relative!important;
+    isolation:isolate!important;
+    width:100%!important;
+    height:auto!important;
+    aspect-ratio:1/1.06!important;
+    margin:0!important;
     padding:0!important;
+    border:0!important;
+    border-bottom:1px solid rgba(31,35,31,.10)!important;
     border-radius:11px 11px 0 0!important;
-    overflow:hidden!important;
     background:#f4f3ef!important;
-  }
-  .shop-page .product-card .unified-product-card__media>a{
-    display:block!important;
-    width:100%!important;
-    height:100%!important;
     overflow:hidden!important;
+  }
+
+  .shop-page .product-card .unified-product-card__media>a,
+  .listing-page .product-card .unified-product-card__media>a{
+    position:absolute!important;
+    inset:0!important;
+    z-index:0!important;
+    display:block!important;
+    width:auto!important;
+    height:auto!important;
+    min-width:0!important;
+    min-height:0!important;
+    margin:0!important;
+    padding:0!important;
+    border:0!important;
     border-radius:inherit!important;
+    overflow:hidden!important;
     background:inherit!important;
   }
-  .shop-page .product-card .unified-product-card__media picture{
+
+  .shop-page .product-card .unified-product-card__media>a>picture,
+  .listing-page .product-card .unified-product-card__media>a>picture{
+    position:absolute!important;
+    inset:0!important;
     display:block!important;
-    width:100%!important;
-    height:100%!important;
-    overflow:hidden!important;
+    width:auto!important;
+    height:auto!important;
+    margin:0!important;
+    padding:0!important;
+    border:0!important;
     border-radius:inherit!important;
+    overflow:hidden!important;
     background:inherit!important;
   }
-  .shop-page .product-card .unified-product-card__media picture>img,
-  .shop-page .product-card .unified-product-card__media>a>img{
+
+  .shop-page .product-card .unified-product-card__media>a>picture>img,
+  .listing-page .product-card .unified-product-card__media>a>picture>img,
+  .shop-page .product-card .unified-product-card__media>a>img,
+  .listing-page .product-card .unified-product-card__media>a>img{
+    position:absolute!important;
+    inset:0!important;
     display:block!important;
     width:100%!important;
     height:100%!important;
+    min-width:100%!important;
+    min-height:100%!important;
     max-width:none!important;
     max-height:none!important;
     margin:0!important;
     padding:0!important;
-    border-radius:inherit!important;
+    border:0!important;
+    border-radius:0!important;
     object-fit:cover!important;
     object-position:center!important;
     background:transparent!important;
     transform:none!important;
   }
 
-  .shop-page .product-card--gummy .unified-product-card__media{
-    padding:10px!important;
+  .shop-page .product-card .heart-btn,
+  .listing-page .product-card .heart-btn{
+    z-index:3!important;
+  }
+
+  /* Packaged gummies are product cutouts rather than lifestyle photography.
+     They remain contained, but the picture itself still occupies the full bay. */
+  .shop-page .product-card--gummy .unified-product-card__media,
+  .listing-page .product-card--gummy .unified-product-card__media{
     background:#fff!important;
   }
-  .shop-page .product-card--gummy .unified-product-card__media picture>img,
-  .shop-page .product-card--gummy .unified-product-card__media>a>img{
+  .shop-page .product-card--gummy .unified-product-card__media>a>picture,
+  .listing-page .product-card--gummy .unified-product-card__media>a>picture{
+    inset:10px!important;
+    border-radius:8px!important;
+  }
+  .shop-page .product-card--gummy .unified-product-card__media>a>picture>img,
+  .listing-page .product-card--gummy .unified-product-card__media>a>picture>img{
     object-fit:contain!important;
     background:#fff!important;
   }
