@@ -18,7 +18,7 @@ function EmptyState({title="Nothing here yet.",body="Check back soon for updated
 function MerchCard({ item }) {
   const meta = [item.color, item.sizeType || (item.sizes?.length ? `${item.sizes[0]}–${item.sizes[item.sizes.length - 1]}` : null)].filter(Boolean).join(" · ");
   return (
-    <CatalogProductCard id={item.id} to={`/merch/${item.id}`} image={item.image} imageAlt={item.name} name={item.name} price={item.price} meta={meta} className="merch-card" mediaClassName="merch-media" copyClassName="merch-copy" motionProps={{ layout: true }} />
+    <CatalogProductCard id={item.id} to={`/merch/${item.id}`} image={item.image} imageAlt={item.name} name={item.name} price={item.price} meta={meta} className="merch-card merch-card--liquid-glass" mediaClassName="merch-media" copyClassName="merch-copy" presentation="liquidGlass" ctaLabel="View" motionProps={{ layout: true }} />
   );
 }
 
