@@ -15,6 +15,9 @@ import {
 import {
   ArrowRight,
   ChevronDown,
+  Leaf,
+  Package,
+  Sparkles,
   Plus,
 } from "lucide-react";
 import {
@@ -36,6 +39,7 @@ import Shell from "@/storefront/StorefrontShell";
 import HomeHero from "@/HomeHeroPortal";
 import CatalogProductCard from "@/storefront/CatalogProductCard";
 import ResponsiveImage from "@/storefront/ResponsiveImage";
+import { responsiveImages } from "@/generated/responsiveImages";
 import {
   CartProvider,
   configuredProduct,
@@ -358,6 +362,91 @@ function ShopProductCard({ product }) {
   );
 }
 
+
+const CATEGORY_HERO_MEDIA = {
+  Seltzers: {
+    desktop: responsiveImages.heroDesktop.hero,
+    mobile: responsiveImages.heroMobile.hero,
+    eyebrow: "GOOD DAYS IN BALANCE",
+    title: "THC Seltzers",
+    description: "Crisp, hemp-derived THC seltzers by flavor and pack format. Each current Lagom can contains 10 mg THC in a 12 fl oz serving.",
+    note: "FLAVOR · BALANCE · RITUAL",
+    features: [
+      { icon: Leaf, label: "HEMP-DERIVED THC" },
+      { icon: Sparkles, label: "ZERO SUGAR · ZERO CARBS" },
+      { icon: Package, label: "SINGLE CANS · 4-PACKS" },
+    ],
+  },
+  Gummies: {
+    desktop: responsiveImages.heroDesktop["gummies-hero"],
+    mobile: responsiveImages.heroMobile["gummies-hero"],
+    eyebrow: "GOOD PLANTS · CONSIDERED FORMATS",
+    title: "THC Gummies",
+    description: "Explore Lagom THC gummies across Classic, Organic, and Midnight Drift collections, with flavor-led formats and clearly labeled cannabinoid content.",
+    note: "THREE COLLECTIONS · MULTIPLE FLAVORS",
+    features: [
+      { icon: Leaf, label: "HEMP-DERIVED THC" },
+      { icon: Sparkles, label: "5 MG THC PER GUMMY" },
+      { icon: Package, label: "10-PIECE POUCHES" },
+    ],
+  },
+};
+
+function CategoryShopHero({ category }) {
+  const config = CATEGORY_HERO_MEDIA[category];
+  if (!config) return null;
+  const { desktop, mobile } = config;
+
+  return (
+    <Reveal className={`category-shop-hero category-shop-hero--${category.toLowerCase()}`}>
+      <div className="category-shop-hero__copy">
+        <div className="category-shop-hero__eyebrow">
+          <span aria-hidden="true" />
+          <p>{config.eyebrow}</p>
+          <span aria-hidden="true" />
+        </div>
+        <h1>{config.title}</h1>
+        <p className="category-shop-hero__description">{config.description}</p>
+        <div className="category-shop-hero__features" aria-label={`${category} highlights`}>
+          {config.features.map(({ icon: Icon, label }) => (
+            <div className="category-shop-hero__feature" key={label}>
+              <span className="category-shop-hero__feature-icon" aria-hidden="true"><Icon /></span>
+              <span>{label}</span>
+            </div>
+          ))}
+        </div>
+        <a className="category-shop-hero__cta" href="#shop-products">
+          <span>Explore {category}</span>
+          <ArrowRight aria-hidden="true" />
+        </a>
+      </div>
+
+      <div className="category-shop-hero__visual">
+        <picture>
+          {desktop.avifSrcSet ? <source media="(min-width: 700px)" type="image/avif" srcSet={desktop.avifSrcSet} /> : null}
+          {desktop.webpSrcSet ? <source media="(min-width: 700px)" type="image/webp" srcSet={desktop.webpSrcSet} /> : null}
+          {mobile.avifSrcSet ? <source media="(max-width: 699px)" type="image/avif" srcSet={mobile.avifSrcSet} /> : null}
+          {mobile.webpSrcSet ? <source media="(max-width: 699px)" type="image/webp" srcSet={mobile.webpSrcSet} /> : null}
+          <img
+            src={desktop.src}
+            alt={category === "Seltzers"
+              ? "Lagom THC seltzer cans arranged in a bright outdoor lifestyle setting"
+              : "Lagom THC gummy products arranged in a bright outdoor lifestyle setting"}
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
+          />
+        </picture>
+        <div className="category-shop-hero__visual-shade" aria-hidden="true" />
+        <div className="category-shop-hero__note" aria-hidden="true">
+          <span>{config.note}</span>
+          <i />
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
 function HomePage() {
   return (
     <Shell>
@@ -436,26 +525,22 @@ function ShopPage() {
   return (
     <Shell>
       <div className="shop-page shop-page--reference">
-        <Reveal className="shop-intro">
-          <div className="shop-intro__copy">
-            <h1>{category === "Seltzers" ? "THC Seltzers" : category === "Gummies" ? "THC Gummies" : "Shop"}</h1>
-            <p>
-              {category === "Seltzers"
-                ? "Explore crisp, hemp-derived THC seltzers by flavor and pack format."
-                : category === "Gummies"
-                  ? "Explore Lagom Naturals THC gummies by flavor and collection."
-                  : "Premium THC beverages and gummies for every occasion."}
-            </p>
-          </div>
-          {category === "All" && (
+        {category === "All" ? (
+          <Reveal className="shop-intro">
+            <div className="shop-intro__copy">
+              <h1>Shop</h1>
+              <p>Premium THC beverages and gummies for every occasion.</p>
+            </div>
             <div className="shop-intro__aside" aria-hidden="true">
               <span>Good</span>
               <span>Things</span>
               <span>In Balance</span>
               <i />
             </div>
-          )}
-        </Reveal>
+          </Reveal>
+        ) : (
+          <CategoryShopHero category={category} />
+        )}
         {category === "All" && (
           <Stagger className="category-grid">
             {categoryCards.map(([name, label, description]) => (
@@ -468,7 +553,7 @@ function ShopPage() {
             ))}
           </Stagger>
         )}
-        <Reveal className="shop-catalog">
+        <Reveal className="shop-catalog" id="shop-products">
           <div className="shop-catalog__toolbar">
             <div className="shop-catalog__heading">
               <h2>
