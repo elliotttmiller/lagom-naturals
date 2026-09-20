@@ -1042,74 +1042,77 @@
 }
 
 
-/* Mobile variant popover anchoring correction.
-   The selector menu belongs to the picker, not the clipped diagonal glass
-   plane. Open directly below its trigger and keep it within the card width. */
+/* Compact iOS-style variant popover.
+   This is intentionally a contextual menu attached to the selector — not a
+   bottom sheet. It opens upward because the selector lives at the card edge. */
 @media(max-width:699px){
   .liquid-glass-product-card.product-card--shop-reference.is-variant-open{
     overflow:visible!important;
-    z-index:20!important;
-  }
-
-  .liquid-glass-product-card .shop-card-variant-picker{
-    position:relative!important;
-    z-index:12!important;
-  }
-
-  .liquid-glass-product-card .shop-card-variant-menu{
-    position:absolute!important;
-    top:calc(100% + 6px)!important;
-    bottom:auto!important;
-    left:0!important;
-    right:auto!important;
-    width:100%!important;
-    min-width:100%!important;
-    max-width:100%!important;
-    margin:0!important;
-    transform-origin:top center!important;
-    overflow:hidden!important;
     z-index:30!important;
   }
 
-  .liquid-glass-product-card .shop-card-variant-menu button{
-    min-height:42px!important;
-  }
-}
-
-
-/* Mobile variant menu containment.
-   Keep the popover inside the card: the bottom-row trigger opens upward into
-   the glass/media area. The card itself remains clipped, so the menu cannot
-   disappear behind the following grid row or escape the rounded card. */
-@media(max-width:699px){
-  .liquid-glass-product-card.product-card--shop-reference.is-variant-open{
-    overflow:hidden!important;
-    z-index:20!important;
+  .liquid-glass-product-card.product-card--shop-reference.is-variant-open .liquid-glass-product-card__glass,
+  .liquid-glass-product-card.product-card--shop-reference.is-variant-open .liquid-glass-product-card__content,
+  .liquid-glass-product-card.product-card--shop-reference.is-variant-open .liquid-glass-product-card__footer{
+    overflow:visible!important;
   }
 
   .liquid-glass-product-card .shop-card-variant-picker{
     position:relative!important;
-    z-index:40!important;
+    z-index:50!important;
     overflow:visible!important;
   }
 
   .liquid-glass-product-card .shop-card-variant-menu{
     position:absolute!important;
-    top:auto!important;
-    bottom:calc(100% + 6px)!important;
-    left:0!important;
-    right:auto!important;
-    width:100%!important;
-    min-width:100%!important;
-    max-width:100%!important;
-    max-height:none!important;
+    inset:auto auto calc(100% + 8px) 0!important;
+    width:clamp(142px,100%,174px)!important;
+    min-width:142px!important;
+    max-width:174px!important;
     margin:0!important;
+    padding:5px!important;
+    border:1px solid rgba(255,255,255,.34)!important;
+    border-radius:15px!important;
     overflow:hidden!important;
-    transform-origin:bottom center!important;
-    z-index:50!important;
+    background:rgba(39,40,37,.82)!important;
+    box-shadow:0 10px 30px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.2)!important;
+    -webkit-backdrop-filter:blur(22px) saturate(1.8)!important;
+    backdrop-filter:blur(22px) saturate(1.8)!important;
+    transform-origin:bottom left!important;
+    z-index:60!important;
   }
 
   .liquid-glass-product-card .shop-card-variant-menu button{
-    min-height:40px!important;
+    width:100%!important;
+    min-height:38px!important;
+    padding:7px 9px!important;
+    border:0!important;
+    border-radius:10px!important;
+    background:transparent!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:space-between!important;
+    gap:8px!important;
+    color:#fff!important;
+    font-size:12px!important;
+    line-height:1.15!important;
+    white-space:nowrap!important;
+  }
+
+  .liquid-glass-product-card .shop-card-variant-menu button+button{
+    border-top:1px solid rgba(255,255,255,.12)!important;
+    border-top-left-radius:0!important;
+    border-top-right-radius:0!important;
+  }
+
+  .liquid-glass-product-card .shop-card-variant-menu button.active{
+    background:rgba(255,255,255,.12)!important;
+  }
+
+  .liquid-glass-product-card .shop-card-variant-menu button b{
+    flex:0 0 auto!important;
+    font-size:12px!important;
+    font-weight:650!important;
+    color:rgba(255,255,255,.92)!important;
   }
 }
