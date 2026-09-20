@@ -19,7 +19,7 @@ export default function CatalogProductCard({
   children,
   meta,
   metaBeforePrice = false,
-  reviewStatus = "No reviews",
+  reviewStatus = null,
   motionProps = {},
 }) {
   return (
