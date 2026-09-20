@@ -487,3 +487,89 @@
     transform:none!important;
   }
 }
+
+
+/* Mobile image-preservation refinement.
+   Keep the Liquid Glass language, but treat the glass as a lower information
+   shelf with only a shallow overlap into the photography. This preserves the
+   product as the primary visual instead of covering half of it. */
+@media(max-width:699px){
+  .liquid-glass-product-card{
+    aspect-ratio:.70/1!important;
+    background:#ece8df!important;
+  }
+
+  .liquid-glass-product-card__shot{
+    height:68%!important;
+    bottom:auto!important;
+    border-radius:inherit!important;
+    background:#ece8df!important;
+  }
+
+  .liquid-glass-product-card__media-link,
+  .liquid-glass-product-card__shot picture{
+    height:100%!important;
+  }
+
+  .liquid-glass-product-card__shot img{
+    object-position:center center!important;
+  }
+
+  .liquid-glass-product-card__glass{
+    top:auto!important;
+    bottom:0!important;
+    min-height:43%!important;
+    clip-path:polygon(0 14%,100% 0,100% 100%,0 100%)!important;
+    background:color-mix(in oklab,rgba(25,29,24,.80) 50%,transparent)!important;
+    -webkit-backdrop-filter:blur(16px) saturate(1.65) brightness(.92)!important;
+    backdrop-filter:blur(16px) saturate(1.65) brightness(.92)!important;
+  }
+
+  .liquid-glass-product-card__content{
+    padding:15% 11px 11px!important;
+  }
+
+  /* Merch and pouch imagery should be fully readable as a product silhouette.
+     Constrain the asset to the image stage rather than allowing the lower glass
+     shelf to obscure the garment or package. */
+  .liquid-glass-product-card.merch-card .liquid-glass-product-card__shot,
+  .liquid-glass-product-card.product-card--gummy .liquid-glass-product-card__shot{
+    height:66%!important;
+    background:#f1eee7!important;
+  }
+
+  .liquid-glass-product-card.merch-card .liquid-glass-product-card__shot img,
+  .liquid-glass-product-card.product-card--gummy .liquid-glass-product-card__shot img{
+    inset:4% 4% 2%!important;
+    width:92%!important;
+    height:94%!important;
+    padding:0!important;
+    object-fit:contain!important;
+    object-position:center bottom!important;
+  }
+
+  .merch-card--liquid-glass{
+    aspect-ratio:.72/1!important;
+  }
+
+  .merch-card--liquid-glass .liquid-glass-product-card__glass{
+    min-height:41%!important;
+    clip-path:polygon(0 15%,100% 0,100% 100%,0 100%)!important;
+  }
+
+  .merch-card--liquid-glass .liquid-glass-product-card__content{
+    padding-top:15%!important;
+  }
+}
+
+/* Slightly wider phones get enough room to make the glass shelf even shallower
+   while maintaining the current two-column card grid. */
+@media(min-width:390px) and (max-width:699px){
+  .liquid-glass-product-card__glass{
+    min-height:41%!important;
+  }
+
+  .merch-card--liquid-glass .liquid-glass-product-card__glass{
+    min-height:39%!important;
+  }
+}
