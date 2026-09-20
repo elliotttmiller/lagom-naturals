@@ -76,7 +76,7 @@
 
 .liquid-glass-product-card.product-card--gummy .liquid-glass-product-card__shot img,
 .liquid-glass-product-card.merch-card .liquid-glass-product-card__shot img{
-  padding:8%!important;
+  padding:3%!important;
   object-fit:contain!important;
 }
 
@@ -113,7 +113,7 @@
   left:0!important;
   right:0!important;
   bottom:0!important;
-  min-height:55%!important;
+  min-height:46%!important;
   padding:0!important;
   overflow:hidden!important;
   isolation:isolate!important;
@@ -371,7 +371,7 @@
   }
 
   .liquid-glass-product-card__glass{
-    min-height:58%!important;
+    min-height:50%!important;
     clip-path:polygon(0 18%,100% 0,100% 100%,0 100%)!important;
   }
 
@@ -423,7 +423,7 @@
   }
 
   .merch-card--liquid-glass .liquid-glass-product-card__glass{
-    min-height:48%!important;
+    min-height:44%!important;
   }
 }
 
@@ -454,11 +454,16 @@
 
 @media(min-width:900px){
   .liquid-glass-product-card{
+    aspect-ratio:2/3!important;
     border-radius:26px!important;
   }
 
   .liquid-glass-product-card__glass{
-    min-height:52%!important;
+    min-height:40%!important;
+  }
+
+  .merch-card--liquid-glass .liquid-glass-product-card__glass{
+    min-height:40%!important;
   }
 
   .liquid-glass-product-card__content{

@@ -98,73 +98,61 @@ body.age-gate-open{
   text-shadow:0 2px 5px rgba(0,0,0,.78),0 1px 16px rgba(0,0,0,.50);
 }
 
-.age-gate__panel button{
-  position:relative!important;
-  width:min(100%,560px)!important;
-  min-height:68px!important;
+.age-gate__actions{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:10px;
+  width:min(100%,360px);
+}
+
+/* The confirmation gate uses the homepage action component classes, but sits
+   outside the hero tree. Establish its glass surfaces here so generic button
+   rules cannot flatten either action into an opaque fill. */
+.age-gate__actions .home-hero-carousel__primary,
+.age-gate__actions .home-hero-carousel__secondary{
+  width:100%!important;
+  min-height:54px!important;
   margin:0!important;
-  padding:0 28px!important;
-  display:flex!important;
+  padding:0 20px!important;
+  appearance:none!important;
+  display:inline-flex!important;
   align-items:center!important;
   justify-content:center!important;
-  overflow:hidden!important;
-  border-radius:999px!important;
-  font:800 12px/1 var(--font-ui,var(--sans,sans-serif))!important;
-  letter-spacing:.20em!important;
-  text-transform:uppercase!important;
-  transform:translateZ(0);
-  transition:transform .22s ease,background-color .22s ease,color .22s ease,border-color .22s ease,box-shadow .22s ease!important;
-}
-
-.age-gate__enter{
-  border:1px solid rgba(255,255,255,.46)!important;
-  background:rgba(255,255,255,.14)!important;
+  gap:14px!important;
+  border-radius:10px!important;
   color:#fff!important;
-  box-shadow:0 7px 24px rgba(0,0,0,.12)!important;
-  -webkit-backdrop-filter:blur(14px)!important;
-  backdrop-filter:blur(14px)!important;
+  font:800 10px/1 var(--font-ui,var(--sans,sans-serif))!important;
+  letter-spacing:.075em!important;
+  text-transform:uppercase!important;
+  box-shadow:0 10px 26px rgba(0,0,0,.16),inset 0 1px 0 rgba(255,255,255,.16)!important;
+  -webkit-backdrop-filter:blur(16px) saturate(1.12)!important;
+  backdrop-filter:blur(16px) saturate(1.12)!important;
 }
 
-.age-gate__enter::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  border-radius:inherit;
-  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,0));
+.age-gate__actions .home-hero-carousel__primary{
+  border:1px solid rgba(255,255,255,.76)!important;
+  background:linear-gradient(135deg,rgba(255,255,255,.20),rgba(255,255,255,.075) 58%,rgba(255,255,255,.14))!important;
 }
 
-.age-gate__arrow{
-  position:absolute;
-  right:25px;
-  top:50%;
-  z-index:1;
-  display:grid;
-  place-items:center;
-  width:28px;
-  height:28px;
-  color:#fff;
-  font:400 27px/1 Arial,sans-serif!important;
-  letter-spacing:0!important;
-  transform:translateY(-50%);
+.age-gate__actions .home-hero-carousel__secondary{
+  border:1px solid rgba(255,255,255,.52)!important;
+  background:linear-gradient(135deg,rgba(10,13,10,.27),rgba(10,13,10,.09) 58%,rgba(255,255,255,.065))!important;
 }
 
-.age-gate__exit{
-  min-height:60px!important;
-  margin-top:12px!important;
-  border:1px solid rgba(255,255,255,.46)!important;
-  background:rgba(10,12,10,.22)!important;
-  color:rgba(255,255,255,.96)!important;
-  box-shadow:0 7px 24px rgba(0,0,0,.12)!important;
-  -webkit-backdrop-filter:blur(14px)!important;
-  backdrop-filter:blur(14px)!important;
+.age-gate__actions .home-hero-carousel__primary svg{
+  width:16px!important;
+  height:16px!important;
+  flex:0 0 16px!important;
+  stroke-width:1.8!important;
+  transform:none!important;
 }
 
-.age-gate__panel button:hover{transform:translateY(-1px)!important}
-.age-gate__enter:hover{background:rgba(255,255,255,.20)!important;border-color:rgba(255,255,255,.72)!important}
-.age-gate__exit:hover{background:rgba(255,255,255,.12)!important;border-color:#fff!important;color:#fff!important}
-.age-gate__panel button:active{transform:translateY(0) scale(.993)!important}
-.age-gate__panel button:focus-visible{outline:2px solid #fff!important;outline-offset:4px!important}
+.age-gate__actions .home-hero-carousel__primary:focus-visible,
+.age-gate__actions .home-hero-carousel__secondary:focus-visible{
+  outline:2px solid #fff!important;
+  outline-offset:3px!important;
+}
 
 /* Phone reference: the composition is keyed to viewport height so the logo,
    four-can hero, copy and both actions retain the same vertical rhythm. */
@@ -225,30 +213,7 @@ body.age-gate-open{
     line-height:1.46!important;
   }
 
-  .age-gate__panel button{
-    width:100%!important;
-    min-height:clamp(66px,8.7vh,76px)!important;
-    padding-inline:24px!important;
-    border-radius:999px!important;
-    font-size:clamp(11px,3vw,13px)!important;
-    letter-spacing:.20em!important;
-  }
-
-  .age-gate__enter{
-    min-height:clamp(68px,9vh,78px)!important;
-  }
-
-  .age-gate__enter::after{border-radius:inherit!important}
-
-  .age-gate__exit{
-    min-height:clamp(58px,7.7vh,68px)!important;
-    margin-top:11px!important;
-  }
-
-  .age-gate__arrow{
-    right:22px!important;
-    font-size:26px!important;
-  }
+  .age-gate__actions{width:100%;}
 }
 
 /* Short phones need a denser text stack, but never the compressed/tall
@@ -280,15 +245,6 @@ body.age-gate-open{
     line-height:1.4!important;
   }
 
-  .age-gate__panel button,
-  .age-gate__enter{
-    min-height:58px!important;
-  }
-
-  .age-gate__exit{
-    min-height:54px!important;
-    margin-top:8px!important;
-  }
 }
 
 @media(max-width:380px){
@@ -313,17 +269,4 @@ body.age-gate-open{
   }
 }
 
-@media(min-width:700px){
-  .age-gate__panel{
-    justify-content:center!important;
-  }
-
-  .age-gate__enter,
-  .age-gate__exit{
-    width:min(100%,560px)!important;
-  }
-}
-
-@media(prefers-reduced-motion:reduce){
-  .age-gate__panel button{transition:none!important}
-}
+@media(min-width:700px){.age-gate__panel{justify-content:center!important}}

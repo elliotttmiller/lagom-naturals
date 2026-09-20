@@ -332,6 +332,7 @@ function ShopProductCard({ product }) {
       className={`product-card product-card--shop-reference ${product.category === "Gummies" ? "product-card--gummy" : ""} ${variantOpen ? "is-variant-open" : ""}`}
       mediaClassName="product-media"
       copyClassName="product-copy"
+      presentation="liquidGlass"
       metaBeforePrice
       meta={facts.length ? (
         <span className="product-facts" aria-label={facts.join(", ")}>
