@@ -199,6 +199,7 @@ function ProductCard({ product }) {
           {facts.map((fact) => <span key={fact}>{fact}</span>)}
         </span>
       ) : null}
+      presentation="liquidGlass"
       motionProps={{ variants: motionVariants.item, layout: "position", style: { "--accent": product.accent } }}
     >
         <div className={`card-actions ${hasVariantPicker ? "" : "card-actions--single"}`.trim()}>
