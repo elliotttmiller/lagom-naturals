@@ -115,7 +115,10 @@
     max-inline-size:none!important;
     max-block-size:none!important;
     margin:0!important;
-    padding:0!important;
+    /* Preserve a small, even safety area for tightly framed apparel sources.
+       The prior zero inset let the lower hem meet and slightly clip at the
+       viewport boundary despite the centered contain fit. */
+    padding:clamp(16px,2.2%,28px)!important;
     object-fit:contain!important;
     object-position:center!important;
     transform:none!important;

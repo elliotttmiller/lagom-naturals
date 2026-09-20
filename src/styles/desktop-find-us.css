@@ -238,11 +238,13 @@
   .find-location-row.is-selected{background:transparent}
   .find-location-row.is-selected .find-location-row__main{
     border-color:#1c3026;
-    background:#1c3026;
+    /* Override the shared translucent row surface: it otherwise leaves the
+       selected state with white type over a light card. */
+    background:#1c3026!important;
     box-shadow:0 10px 22px rgba(18,31,24,.17);
-    color:#fff;
+    color:#fff!important;
   }
-  .find-location-row.is-selected .find-location-row__copy small{color:rgba(255,255,255,.72)}
+  .find-location-row.is-selected .find-location-row__copy small{color:rgba(255,255,255,.82)!important}
   .find-location-row__copy{gap:6px}
   .find-location-row__copy strong{font-size:15px}
   .find-location-row__copy small{font-size:12px}

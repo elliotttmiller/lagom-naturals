@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowRight, Heart } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { m, motionTokens } from "@/motionSystem";
 import ResponsiveImage from "@/storefront/ResponsiveImage";
@@ -43,14 +43,6 @@ export default function CatalogProductCard({
               decoding="async"
             />
           </Link>
-          <m.button
-            type="button"
-            whileTap={{ scale: 0.82 }}
-            className="heart-btn liquid-glass-product-card__heart"
-            aria-label={`Save ${name}`}
-          >
-            <Heart />
-          </m.button>
         </div>
 
         <div className="liquid-glass-product-card__glass">
@@ -100,9 +92,6 @@ export default function CatalogProductCard({
             decoding="async"
           />
         </Link>
-        <m.button type="button" whileTap={{ scale: 0.82 }} className="heart-btn" aria-label={`Save ${name}`}>
-          <Heart />
-        </m.button>
       </div>
       <div className={`unified-product-card__copy ${copyClassName}`.trim()}>
         {contextLabel ? (

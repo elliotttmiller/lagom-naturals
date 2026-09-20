@@ -28,16 +28,11 @@
 
 /* Shared neutral glass material. */
 :where(
-  .icon-btn,
+  .icon-btn:not(.site-header .icon-btn),
   .heart-btn,
   .mobile-drawer-top>button,
-  .mobile-reference-header__left,
-  .mobile-reference-header__tools>a,
   .account-site-tools>a,
   .account-page-head>button,
-  .global-search__clear,
-  .global-search__close,
-  .global-search__result-action,
   .home-hero-carousel__arrows button,
   .product-gallery button,
   .cart-qty button,
@@ -55,15 +50,11 @@
 
 /* Rounded icon/action controls. */
 :where(
-  .icon-btn,
+  .icon-btn:not(.site-header .icon-btn),
   .heart-btn,
   .mobile-drawer-top>button,
-  .mobile-reference-header__left,
-  .mobile-reference-header__tools>a,
   .account-site-tools>a,
   .account-page-head>button,
-  .global-search__clear,
-  .global-search__result-action,
   .home-hero-carousel__arrows button,
   .cart-qty button,
   .qty-row button,
@@ -79,7 +70,6 @@
   .variant-trigger,
   .size-row button,
   .shop-card-variant-trigger,
-  .global-search__chips button,
   .story-pill,
   .find-map-open,
   .pickup-row button,
@@ -94,6 +84,15 @@
   -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-saturate))!important;
   backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-saturate))!important;
   transition:var(--glass-transition)!important;
+}
+
+/* The About origin CTA sits on a light editorial surface and needs its
+   intended dark fill; the generic translucent pill treatment erases it. */
+.about-story-page .story-origin__copy .story-pill--dark{
+  border-color:#101010!important;
+  background:#101010!important;
+  color:#fff!important;
+  box-shadow:0 8px 18px rgba(16,16,16,.12)!important;
 }
 
 /* Active/selected chips retain hierarchy while remaining translucent. */
@@ -153,7 +152,6 @@
 
 /* Search/filter fields become frosted surfaces instead of flat white boxes. */
 :where(
-  .global-search__form,
   .shop-search,
   .find-search,
   .checkout-page input,
@@ -172,9 +170,7 @@
 :where(
   .variant-menu,
   .shop-card-variant-menu,
-  .mobile-sort-menu,
-  .global-search__result,
-  .global-search__empty
+  .mobile-sort-menu
 ){
   border:1px solid var(--glass-border-soft)!important;
   background:rgba(250,250,247,.82)!important;
@@ -237,15 +233,6 @@
   border-radius:var(--glass-radius-sm)!important;
 }
 
-/* Header glass is shared across standard, mobile-reference and account shells. */
-:where(.site-header,.mobile-reference-header,.account-site-header){
-  background:rgba(255,255,255,.76)!important;
-  border-bottom:1px solid rgba(31,36,32,.10)!important;
-  box-shadow:0 6px 24px rgba(20,24,20,.045)!important;
-  -webkit-backdrop-filter:blur(20px) saturate(1.22)!important;
-  backdrop-filter:blur(20px) saturate(1.22)!important;
-}
-
 /* Drawer and search backdrop/panels use the same material vocabulary. */
 :where(.drawer,.mobile-reference-menu){
   border-right:1px solid var(--glass-border-soft)!important;
@@ -253,15 +240,6 @@
   box-shadow:24px 0 70px rgba(15,22,18,.14)!important;
   -webkit-backdrop-filter:blur(24px) saturate(1.18)!important;
   backdrop-filter:blur(24px) saturate(1.18)!important;
-}
-
-.global-search{
-  background:rgba(248,248,244,.82)!important;
-  -webkit-backdrop-filter:blur(24px) saturate(1.18)!important;
-  backdrop-filter:blur(24px) saturate(1.18)!important;
-}
-.global-search__panel{
-  background:transparent!important;
 }
 
 /* Find-us list and map action controls. */
@@ -286,15 +264,11 @@
 /* Subtle hover/press response for fine pointers. */
 @media(hover:hover) and (pointer:fine){
   :where(
-    .icon-btn,
+    .icon-btn:not(.site-header .icon-btn),
     .heart-btn,
     .mobile-drawer-top>button,
-    .mobile-reference-header__left,
-    .mobile-reference-header__tools>a,
     .account-site-tools>a,
     .account-page-head>button,
-    .global-search__clear,
-    .global-search__result-action,
     .home-hero-carousel__arrows button,
     .product-gallery button,
     .chips button,
@@ -340,8 +314,8 @@
 /* Reduce GPU/compositing work when blur is unsupported. */
 @supports not ((backdrop-filter:blur(2px)) or (-webkit-backdrop-filter:blur(2px))){
   :where(
-    .icon-btn,.heart-btn,.primary-bar,.linkbar,.story-pill,.variant-trigger,
-    .size-row button,.chips button,.filter-row button,.global-search__form,
+    .icon-btn:not(.site-header .icon-btn),.heart-btn,.primary-bar,.linkbar,.story-pill,.variant-trigger,
+    .size-row button,.chips button,.filter-row button,
     .empty-state,.pickup-row,.checkout-section,.account-hub-row,.find-location-row
   ){
     background:rgba(248,248,244,.96)!important;
@@ -358,7 +332,6 @@
 
 /* Header/menu toggles and circular visual affordances. */
 :where(
-  .hamburger,
   .category-card__action,
   .shop-category-card__action,
   .mobile-sort-menu__check
@@ -371,7 +344,7 @@
   transition:var(--glass-transition)!important;
 }
 
-:where(.hamburger,.category-card__action,.shop-category-card__action){
+:where(.category-card__action,.shop-category-card__action){
   border-radius:var(--glass-pill)!important;
 }
 
@@ -515,31 +488,9 @@
   backdrop-filter:blur(14px) saturate(1.18)!important;
 }
 
-/* Keep the mobile header hamburger visually lightweight but no longer flat. */
-@media(max-width:899px){
-  .hamburger{
-    background:rgba(255,255,255,.30)!important;
-    border-color:rgba(25,30,26,.07)!important;
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.34)!important;
-  }
-
-  /* Search overlay should remain translucent instead of returning to opaque white. */
-  .global-search-layer{
-    background:rgba(244,246,242,.36)!important;
-    -webkit-backdrop-filter:blur(14px) saturate(1.06)!important;
-    backdrop-filter:blur(14px) saturate(1.06)!important;
-  }
-  .global-search__bar{
-    background:rgba(255,255,255,.62)!important;
-    -webkit-backdrop-filter:blur(18px) saturate(1.10)!important;
-    backdrop-filter:blur(18px) saturate(1.10)!important;
-  }
-}
-
 /* Hover refinement for newly covered controls. */
 @media(hover:hover) and (pointer:fine){
   :where(
-    .hamburger,
     .category-card__action,
     .shop-category-card__action,
     .drawer nav a,

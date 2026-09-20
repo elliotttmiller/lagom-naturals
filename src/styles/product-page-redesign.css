@@ -62,6 +62,34 @@
   .pdp .pdp-purchase .size-row{grid-template-columns:repeat(2,minmax(0,1fr))!important;max-inline-size:100%!important}
   .pdp .pdp-purchase .qty-row{display:flex!important;align-items:center!important;justify-content:space-between!important}
   .pdp .pdp-purchase .primary-bar{inline-size:100%!important}
+  /* The shared glass layer presents these as cards. Give the card content a
+     single, deliberate inset instead of leaving the heading and expanded
+     content flush against the frame. */
+  .pdp .pdp-details{border-top:0!important}
+  .pdp .pdp-detail-item{
+    margin-top:10px!important;
+    border:1px solid var(--pdp-line)!important;
+    border-radius:12px!important;
+    background:var(--pdp-surface)!important;
+    box-shadow:0 8px 22px rgba(17,18,15,.045)!important;
+  }
+  .pdp .pdp-detail-trigger{
+    min-block-size:64px!important;
+    padding-inline:20px!important;
+  }
+  .pdp .pdp-detail-panel>div{
+    padding:0 20px 24px!important;
+  }
+  .pdp .pdp-detail-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:18px clamp(24px,3vw,40px)!important;
+  }
+  .pdp .pdp-detail-panel p{max-inline-size:62ch;margin:0!important;color:#363832!important}
+}
+
+.pdp .pdp-detail-trigger:focus-visible{
+  outline:2px solid var(--pdp-ink)!important;
+  outline-offset:-3px!important;
 }
 
 @media(prefers-reduced-motion:reduce){.pdp .pdp-purchase .size-row button{transition:none!important}}

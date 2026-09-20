@@ -360,7 +360,7 @@ function ShopProductCard({ product }) {
           onClick={() => add(item)}
           aria-label={`Add ${product.name}, ${selected.label} to cart`}
         >
-          <span>Add to cart</span><Plus aria-hidden="true" />
+          <span>Add to cart</span>
         </m.button>
       </div>
     </CatalogProductCard>

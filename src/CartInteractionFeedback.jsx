@@ -3,7 +3,7 @@ import{Link}from'react-router-dom'
 import'./add-to-cart-button.css'
 import'./cart-feedback-toast.css'
 
-const SELECTOR='.add-square, .shop-card-add, .pdp .primary-bar'
+const SELECTOR='.add-square, .pdp .primary-bar'
 const CART_KEY='lagom-beverage-cart-v1'
 const feedbackTimers=new WeakMap()
 const lockedControls=new WeakMap()
