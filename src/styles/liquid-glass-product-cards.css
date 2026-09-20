@@ -1014,3 +1014,29 @@
 .liquid-glass-product-card__brand{
   display:none!important;
 }
+
+
+/* Refined translucent footer treatment.
+   Keep text/controls legible while allowing more product photography and
+   packaging-led color to read through the lower glass plane. */
+.liquid-glass-product-card__glass{
+  background:color-mix(in oklab,rgba(24,29,24,.68) 38%,transparent)!important;
+  -webkit-backdrop-filter:blur(17px) saturate(1.58) brightness(.96)!important;
+  backdrop-filter:blur(17px) saturate(1.58) brightness(.96)!important;
+}
+
+.merch-card--liquid-glass .liquid-glass-product-card__glass{
+  background:color-mix(in oklab,rgba(27,30,26,.68) 38%,transparent)!important;
+}
+
+@media(max-width:699px){
+  .liquid-glass-product-card:not(.merch-card) .liquid-glass-product-card__glass{
+    background:color-mix(in oklab,rgba(24,29,24,.68) 38%,transparent)!important;
+    -webkit-backdrop-filter:blur(17px) saturate(1.58) brightness(.96)!important;
+    backdrop-filter:blur(17px) saturate(1.58) brightness(.96)!important;
+  }
+
+  .merch-card--liquid-glass .liquid-glass-product-card__glass{
+    background:color-mix(in oklab,rgba(27,30,26,.68) 38%,transparent)!important;
+  }
+}
