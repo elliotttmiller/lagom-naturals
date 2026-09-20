@@ -351,3 +351,208 @@
     color:#fff!important;
   }
 }
+
+
+/* Expanded audit coverage: legacy controls and route-specific components that
+   previously retained flat fills after the first global pass. */
+
+/* Header/menu toggles and circular visual affordances. */
+:where(
+  .hamburger,
+  .category-card__action,
+  .shop-category-card__action,
+  .mobile-sort-menu__check
+){
+  border:1px solid var(--glass-border-soft)!important;
+  background:var(--glass-light)!important;
+  box-shadow:var(--glass-inset),var(--glass-shadow)!important;
+  -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-saturate))!important;
+  backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-saturate))!important;
+  transition:var(--glass-transition)!important;
+}
+
+:where(.hamburger,.category-card__action,.shop-category-card__action){
+  border-radius:var(--glass-pill)!important;
+}
+
+/* Mobile sort options: glass sheet rows rather than flat list items. */
+.mobile-sort-menu>button:not(.mobile-sort-scrim){
+  margin:6px!important;
+  width:calc(100% - 12px)!important;
+  min-height:50px!important;
+  padding-inline:14px!important;
+  border:1px solid transparent!important;
+  border-radius:var(--glass-radius-md)!important;
+  background:rgba(255,255,255,.10)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.10)!important;
+  -webkit-backdrop-filter:blur(10px) saturate(1.08)!important;
+  backdrop-filter:blur(10px) saturate(1.08)!important;
+}
+.mobile-sort-menu>button+button{
+  border-top-color:transparent!important;
+}
+.mobile-sort-menu>button.is-selected{
+  border-color:rgba(49,87,70,.18)!important;
+  background:rgba(237,245,241,.54)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.42),0 8px 20px rgba(18,40,29,.07)!important;
+}
+
+/* Drawer navigation becomes a stack of subtle frosted rows. */
+:where(.drawer nav a,.mobile-reference-menu nav a,.mobile-reference-menu__links a){
+  margin:4px 0!important;
+  padding-inline:14px!important;
+  border:1px solid rgba(25,30,26,.08)!important;
+  border-radius:var(--glass-radius-md)!important;
+  background:rgba(255,255,255,.30)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.32)!important;
+  -webkit-backdrop-filter:blur(12px) saturate(1.10)!important;
+  backdrop-filter:blur(12px) saturate(1.10)!important;
+  transition:var(--glass-transition)!important;
+}
+
+/* PDP / merch selectors and quantity controls. */
+.size-row.apparel button{
+  border-radius:var(--glass-radius-md)!important;
+  background:rgba(255,255,255,.52)!important;
+}
+.size-row.apparel button.active{
+  border-color:rgba(255,255,255,.18)!important;
+  background:linear-gradient(135deg,rgba(15,18,15,.92),rgba(24,29,24,.76))!important;
+  color:#fff!important;
+}
+.merch-detail .merch-quantity>div{
+  border:1px solid var(--glass-border-dark)!important;
+  border-radius:var(--glass-pill)!important;
+  background:rgba(255,255,255,.54)!important;
+  box-shadow:var(--glass-inset),var(--glass-shadow)!important;
+  -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(1.12)!important;
+  backdrop-filter:blur(var(--glass-blur)) saturate(1.12)!important;
+}
+.merch-detail .merch-quantity button,
+.merch-detail .merch-quantity span{
+  background:transparent!important;
+}
+.merch-detail .merch-quantity span{
+  border-inline-color:rgba(30,34,30,.08)!important;
+}
+
+/* Cart and checkout panels/actions. */
+:where(
+  .cart-row,
+  .method-card,
+  .pickup-card,
+  .checkout-summary__item
+){
+  border:1px solid var(--glass-border-dark)!important;
+  border-radius:var(--glass-radius-lg)!important;
+  background:rgba(255,255,255,.56)!important;
+  box-shadow:var(--glass-inset),var(--glass-shadow)!important;
+  -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(1.12)!important;
+  backdrop-filter:blur(var(--glass-blur)) saturate(1.12)!important;
+}
+
+:where(
+  .checkout-review-actions>button:not(.primary-bar),
+  .pickup-card>a,
+  .checkout-summary__heading>a
+){
+  border:1px solid var(--glass-border-dark)!important;
+  border-radius:var(--glass-pill)!important;
+  background:rgba(255,255,255,.52)!important;
+  box-shadow:var(--glass-inset),var(--glass-shadow)!important;
+  -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(1.12)!important;
+  backdrop-filter:blur(var(--glass-blur)) saturate(1.12)!important;
+  transition:var(--glass-transition)!important;
+}
+
+/* Legacy Find-Us form/button path. */
+.find-page form>div{
+  border:1px solid var(--glass-border-dark)!important;
+  border-radius:var(--glass-radius-md)!important;
+  background:rgba(255,255,255,.56)!important;
+  box-shadow:var(--glass-inset),var(--glass-shadow)!important;
+  -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(1.12)!important;
+  backdrop-filter:blur(var(--glass-blur)) saturate(1.12)!important;
+}
+.find-page form input{
+  background:transparent!important;
+}
+.find-page form button{
+  margin:5px!important;
+  border:1px solid rgba(255,255,255,.18)!important;
+  border-radius:var(--glass-pill)!important;
+  background:linear-gradient(135deg,rgba(15,18,15,.92),rgba(24,29,24,.76))!important;
+  color:#fff!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14)!important;
+}
+
+/* Account toggles and emblem surfaces. */
+.account-hub__mark{
+  border:1px solid var(--glass-border-dark)!important;
+  background:rgba(255,255,255,.44)!important;
+  box-shadow:var(--glass-inset),var(--glass-shadow)!important;
+  -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(1.12)!important;
+  backdrop-filter:blur(var(--glass-blur)) saturate(1.12)!important;
+}
+.account-notifications i{
+  border:1px solid rgba(25,30,26,.10)!important;
+  background:rgba(255,255,255,.46)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.38),0 4px 12px rgba(17,20,17,.08)!important;
+  -webkit-backdrop-filter:blur(10px)!important;
+  backdrop-filter:blur(10px)!important;
+}
+.account-notifications input:checked+i{
+  border-color:rgba(19,70,53,.28)!important;
+  background:rgba(23,74,58,.82)!important;
+}
+
+/* Glass card action bubbles remain consistent with the rest of the system. */
+:where(.category-card__action,.shop-category-card__action){
+  background:rgba(255,255,255,.72)!important;
+  color:#151713!important;
+  border-color:rgba(255,255,255,.54)!important;
+  -webkit-backdrop-filter:blur(14px) saturate(1.18)!important;
+  backdrop-filter:blur(14px) saturate(1.18)!important;
+}
+
+/* Keep the mobile header hamburger visually lightweight but no longer flat. */
+@media(max-width:899px){
+  .hamburger{
+    background:rgba(255,255,255,.30)!important;
+    border-color:rgba(25,30,26,.07)!important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.34)!important;
+  }
+
+  /* Search overlay should remain translucent instead of returning to opaque white. */
+  .global-search-layer{
+    background:rgba(244,246,242,.36)!important;
+    -webkit-backdrop-filter:blur(14px) saturate(1.06)!important;
+    backdrop-filter:blur(14px) saturate(1.06)!important;
+  }
+  .global-search__bar{
+    background:rgba(255,255,255,.62)!important;
+    -webkit-backdrop-filter:blur(18px) saturate(1.10)!important;
+    backdrop-filter:blur(18px) saturate(1.10)!important;
+  }
+}
+
+/* Hover refinement for newly covered controls. */
+@media(hover:hover) and (pointer:fine){
+  :where(
+    .hamburger,
+    .category-card__action,
+    .shop-category-card__action,
+    .drawer nav a,
+    .mobile-reference-menu nav a,
+    .mobile-sort-menu>button:not(.mobile-sort-scrim),
+    .checkout-review-actions>button:not(.primary-bar),
+    .pickup-card>a,
+    .checkout-summary__heading>a,
+    .size-row.apparel button
+  ):hover{
+    transform:translateY(-1px)!important;
+    border-color:rgba(255,255,255,.56)!important;
+    background:rgba(255,255,255,.30)!important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.44),0 14px 30px rgba(14,18,14,.11)!important;
+  }
+}
