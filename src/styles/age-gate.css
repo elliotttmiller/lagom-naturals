@@ -76,7 +76,7 @@ body.age-gate-open{
   font:800 clamp(10px,.8vw,13px)/1 var(--font-ui,var(--sans,sans-serif))!important;
   letter-spacing:.34em!important;
   text-transform:uppercase!important;
-  text-shadow:0 1px 16px rgba(0,0,0,.24);
+  text-shadow:0 2px 5px rgba(0,0,0,.72),0 1px 18px rgba(0,0,0,.48);
 }
 
 .age-gate__panel h1{
@@ -86,7 +86,7 @@ body.age-gate-open{
   font:400 clamp(64px,7vw,108px)/.89 var(--font-display,var(--serif,Georgia,serif))!important;
   letter-spacing:-.058em!important;
   text-wrap:balance;
-  text-shadow:0 2px 24px rgba(0,0,0,.15);
+  text-shadow:0 3px 8px rgba(0,0,0,.72),0 2px 28px rgba(0,0,0,.46);
 }
 
 .age-gate__panel>p:not(.age-gate__eyebrow){
@@ -95,7 +95,7 @@ body.age-gate-open{
   color:var(--gate-muted)!important;
   font:500 clamp(15px,1.1vw,18px)/1.52 var(--font-primary,var(--sans,sans-serif))!important;
   letter-spacing:-.008em!important;
-  text-shadow:0 1px 12px rgba(0,0,0,.2);
+  text-shadow:0 2px 5px rgba(0,0,0,.78),0 1px 16px rgba(0,0,0,.50);
 }
 
 .age-gate__panel button{
