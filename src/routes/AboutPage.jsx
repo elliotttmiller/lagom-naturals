@@ -17,7 +17,7 @@ export default function AboutPage(){
     <section className="story-hero" aria-labelledby="story-title">
       <StoryPicture className="story-hero__picture" desktopWebp={storyHeroDesktopWebp} mobileWebp={storyHeroMobileWebp} eager/>
       <div className="story-hero__shade" aria-hidden="true"/>
-      <div className="story-hero__content"><p className="story-kicker">OUR STORY</p><h1 id="story-title">A More<br/>Balanced You</h1><p className="story-hero__lede">Thoughtfully crafted THC seltzers for life’s<br className="story-desktop-break"/> good moments — and everything in between.</p><a className="story-pill story-pill--light" href="#our-story">OUR STORY <span aria-hidden="true">↓</span></a></div>
+      <div className="story-hero__content"><p className="story-kicker">OUR STORY</p><h1 id="story-title">Just Right for<br/>Right Now</h1><p className="story-hero__lede">Thoughtfully crafted THC seltzers and gummies for easygoing evenings,<br className="story-desktop-break"/> shared tables, and everything in between.</p><a className="story-pill story-pill--light" href="#our-story">MEET LAGOM <span aria-hidden="true">↓</span></a></div>
       <div className="story-hero__proof" aria-label="Lagom values"><span>REAL INGREDIENTS</span><i aria-hidden="true"/><span>REAL MOMENTS</span><i aria-hidden="true"/><span>A BRIGHTER TOMORROW</span></div>
     </section>
     <section className="story-origin" id="our-story">

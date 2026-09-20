@@ -12,6 +12,7 @@
   box-shadow:0 1px 2px rgba(20,24,20,.03),0 10px 30px rgba(20,24,20,.035);
   transition:border-color 180ms ease,box-shadow 180ms ease;
 }
+
 .unified-product-card:hover{border-color:rgba(31,35,31,.2);box-shadow:0 2px 4px rgba(20,24,20,.04),0 18px 42px rgba(20,24,20,.075)}
 .unified-product-card__media{position:relative;display:grid;place-items:center;width:100%;aspect-ratio:1/1.02;border:0;border-bottom:1px solid rgba(31,35,31,.1);border-radius:15px 15px 0 0;background:#fff;overflow:hidden}
 .unified-product-card__media>a{display:grid;place-items:center;width:100%;height:100%;overflow:hidden;background:#fff}
@@ -1244,4 +1245,54 @@
   .shop-page--reference .shop-card-add{
     height:46px!important;
   }
+}
+
+/* This is deliberately last: shop photography is the full-bleed media bay on
+   every breakpoint, rather than contained artwork inside an inset frame. */
+.shop-page--reference .product-card--shop-reference .unified-product-card__media{
+  width:100%!important;
+  margin:0!important;
+  padding:0!important;
+  border-radius:inherit!important;
+  border-bottom:1px solid rgba(39,35,30,.10)!important;
+}
+.shop-page--reference .product-card--shop-reference .unified-product-card__media>a,
+.shop-page--reference .product-card--shop-reference .unified-product-card__media>a>picture,
+.shop-page--reference .product-card--shop-reference .unified-product-card__media img{
+  width:100%!important;height:100%!important;margin:0!important;padding:0!important;
+}
+.shop-page--reference .product-card--shop-reference .unified-product-card__media img,
+.shop-page--reference .product-card--shop-reference.product-card--gummy .unified-product-card__media img{
+  max-width:none!important;max-height:none!important;object-fit:cover!important;object-position:center!important;
+}
+.shop-page--reference .shop-card-commerce{grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr)!important}
+.shop-page--reference .shop-card-commerce--single{grid-template-columns:minmax(0,1fr)!important}
+.shop-page--reference .shop-card-variant-picker{min-width:0!important;height:42px!important}
+.shop-page--reference .shop-card-variant-trigger{width:100%!important;height:100%!important;min-height:42px!important;padding:0 12px!important;border:1px solid rgba(36,32,28,.18)!important;border-radius:999px!important;background:#fbfaf7!important;color:#1a1916!important;font:750 clamp(10px,2.75vw,12px)/1 var(--font-primary)!important}
+.shop-page--reference .shop-card-variant-menu{z-index:210!important;top:auto!important;bottom:calc(100% + 8px)!important;transform-origin:bottom center!important}
+.shop-page--reference .shop-card-add{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;padding:0 13px!important;font-weight:800!important}
+.shop-page--reference .shop-card-add svg{width:15px!important;height:15px!important;flex:0 0 15px!important;stroke-width:2.25!important}
+.shop-page--reference .shop-card-add:focus-visible,.shop-page--reference .shop-card-variant-trigger:focus-visible{outline:2px solid #315f52!important;outline-offset:2px!important}
+@media (min-width:700px){.shop-page--reference .shop-card-variant-picker,.shop-page--reference .shop-card-variant-trigger{height:46px!important;min-height:46px!important}}
+@media (max-width:380px){.shop-page--reference .shop-card-variant-picker,.shop-page--reference .shop-card-variant-trigger{height:40px!important;min-height:40px!important}}
+
+/* Legacy category-card rules style every nested span as a white tile.  These
+   cards are layered editorial links, so only their circular arrow is filled. */
+.shop-page--reference .shop-category-card__media,
+.shop-page--reference .shop-category-card__shade,
+.shop-page--reference .shop-category-card__content,
+.shop-page--reference .shop-category-card__copy,
+.shop-page--reference .shop-category-card__eyebrow{
+  background:transparent!important;
+}
+.shop-page--reference .shop-category-card__media{display:block!important}
+.shop-page--reference .shop-category-card__shade{display:block!important}
+.shop-page--reference .shop-category-card__content{display:flex!important}
+.shop-page--reference .shop-category-card__copy{display:block!important}
+.shop-page--reference .shop-category-card__eyebrow{display:block!important}
+.shop-page--reference .shop-category-card__action{
+  display:grid!important;
+  flex:0 0 auto!important;
+  place-items:center!important;
+  background:rgba(255,255,255,.96)!important;
 }

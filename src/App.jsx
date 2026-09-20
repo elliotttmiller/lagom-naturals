@@ -289,14 +289,34 @@ function shopProductCardFacts(product) {
 function ShopProductCard({ product }) {
   const { add } = useCart();
   const variants = useMemo(() => productVariants(product), [product]);
-  const selected = variants[0];
+  const [selectedId, setSelectedId] = useState(variants[0]?.id);
+  const [variantOpen, setVariantOpen] = useState(false);
+  const pickerRef = useRef(null);
+  const selected = variants.find((variant) => variant.id === selectedId) || variants[0];
   const item = configuredProduct(product, selected);
-  const [quantity, setQuantity] = useState(1);
   const facts = shopProductCardFacts(product);
+  const hasVariantPicker = product.category === "Seltzers" && variants.length > 1;
 
   useEffect(() => {
-    setQuantity(1);
-  }, [product.id]);
+    setSelectedId(variants[0]?.id);
+    setVariantOpen(false);
+  }, [product.id, variants]);
+
+  useEffect(() => {
+    if (!variantOpen) return undefined;
+    const close = (event) => {
+      if (!pickerRef.current?.contains(event.target)) setVariantOpen(false);
+    };
+    const key = (event) => {
+      if (event.key === "Escape") setVariantOpen(false);
+    };
+    document.addEventListener("pointerdown", close);
+    document.addEventListener("keydown", key);
+    return () => {
+      document.removeEventListener("pointerdown", close);
+      document.removeEventListener("keydown", key);
+    };
+  }, [variantOpen]);
 
   return (
     <CatalogProductCard
@@ -308,7 +328,7 @@ function ShopProductCard({ product }) {
       contextLabel={null}
       name={product.name}
       price={selected.price}
-      className={`product-card product-card--shop-reference ${product.category === "Gummies" ? "product-card--gummy" : ""}`}
+      className={`product-card product-card--shop-reference ${product.category === "Gummies" ? "product-card--gummy" : ""} ${variantOpen ? "is-variant-open" : ""}`}
       mediaClassName="product-media"
       copyClassName="product-copy"
       metaBeforePrice
@@ -319,32 +339,26 @@ function ShopProductCard({ product }) {
       ) : null}
       motionProps={{ variants: motionVariants.item, layout: "position", style: { "--accent": product.accent } }}
     >
-      <div className="shop-card-commerce">
-        <div className="shop-card-qty" aria-label={`Quantity for ${product.name}`}>
-          <button
-            type="button"
-            onClick={() => setQuantity((current) => Math.max(1, current - 1))}
-            aria-label={`Decrease ${product.name} quantity`}
-          >
-            <span aria-hidden="true">−</span>
-          </button>
-          <span aria-live="polite">{quantity}</span>
-          <button
-            type="button"
-            onClick={() => setQuantity((current) => Math.min(99, current + 1))}
-            aria-label={`Increase ${product.name} quantity`}
-          >
-            <span aria-hidden="true">+</span>
-          </button>
-        </div>
+      <div className={`shop-card-commerce ${hasVariantPicker ? "shop-card-commerce--variant" : "shop-card-commerce--single"}`.trim()}>
+        {hasVariantPicker ? <div className="variant-picker shop-card-variant-picker" ref={pickerRef}>
+          <m.button type="button" className="variant-trigger shop-card-variant-trigger" whileTap={{ scale: 0.985 }} aria-haspopup="listbox" aria-expanded={variantOpen} onClick={() => setVariantOpen((open) => !open)}>
+            <span>{selected.label}</span>
+            <m.span animate={{ rotate: variantOpen ? 180 : 0 }} transition={motionTokens.springSnappy} aria-hidden="true"><ChevronDown /></m.span>
+          </m.button>
+          <Presence>
+            {variantOpen ? <m.div className="variant-menu shop-card-variant-menu" role="listbox" aria-label={`${product.name} size options`} initial={{ opacity: 0, y: -6, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -4, scale: 0.985 }} transition={{ duration: motionTokens.duration.fast, ease: motionTokens.ease }}>
+              {variants.map((variant) => <button type="button" key={variant.id} role="option" aria-selected={variant.id === selected.id} className={variant.id === selected.id ? "active" : ""} onClick={() => { setSelectedId(variant.id); setVariantOpen(false); }}><span>{variant.label}</span><b>${variant.price.toFixed(2)}</b></button>)}
+            </m.div> : null}
+          </Presence>
+        </div> : null}
         <m.button
           type="button"
           whileTap={{ scale: 0.985 }}
           className="shop-card-add"
-          onClick={() => add(item, quantity)}
-          aria-label={`Add ${quantity} ${product.name} ${selected.label} to cart`}
+          onClick={() => add(item)}
+          aria-label={`Add ${product.name}, ${selected.label} to cart`}
         >
-          Add to cart
+          <span>Add to cart</span><Plus aria-hidden="true" />
         </m.button>
       </div>
     </CatalogProductCard>
