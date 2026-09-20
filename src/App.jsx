@@ -141,12 +141,9 @@ function CategoryCard({ name, label, description }) {
 }
 function productCardFacts(product) {
   if (product.category === "Gummies" || product.category === "Seltzers") return [];
-
   const facts = [];
-
   if (product.productLine && product.productLine !== "Classic") facts.push(product.productLine);
   if (product.weight) facts.push(product.weight);
-
   if (facts.length < 2 && product.type) facts.push(product.type);
   return [...new Set(facts.filter(Boolean))];
 }
@@ -158,140 +155,9 @@ function ProductCard({ product }) {
   const [variantOpen, setVariantOpen] = useState(false);
   const pickerRef = useRef(null);
   const selected = variants.find((variant) => variant.id === selectedId) || variants[0];
-  useEffect(() => {
-    setSelectedId(variants[0]?.id);
-  }, [product.id, variants]);
-  useEffect(() => {
-    if (!variantOpen) return;
-    const close = (event) => {
-      if (!pickerRef.current?.contains(event.target)) setVariantOpen(false);
-    };
-    const key = (event) => {
-      if (event.key === "Escape") setVariantOpen(false);
-    };
-    document.addEventListener("pointerdown", close);
-    document.addEventListener("keydown", key);
-    return () => {
-      document.removeEventListener("pointerdown", close);
-      document.removeEventListener("keydown", key);
-    };
-  }, [variantOpen]);
   const item = configuredProduct(product, selected);
   const facts = productCardFacts(product);
-  const collectionLabel = product.category === "Gummies" ? product.productLine : null;
-  const hasVariantPicker = product.category !== "Gummies" && variants.length > 1;
-  return (
-    <CatalogProductCard
-      id={product.id}
-      to={`/product/${product.id}`}
-      image={selected.image || product.image}
-      imageAlt={`${product.name} ${product.type}`}
-      brand={product.brand}
-      contextLabel={collectionLabel}
-      name={product.name}
-      price={selected.price}
-      className={`product-card ${product.category === "Gummies" ? "product-card--gummy" : ""} ${variantOpen ? "is-variant-open" : ""}`}
-      mediaClassName="product-media"
-      copyClassName="product-copy"
-      metaBeforePrice={product.category === "Seltzers"}
-      meta={facts.length ? (
-        <span className="product-facts" aria-label={facts.join(", ")}>
-          {facts.map((fact) => <span key={fact}>{fact}</span>)}
-        </span>
-      ) : null}
-      presentation="liquidGlass"
-      motionProps={{ variants: motionVariants.item, layout: "position", style: { "--accent": product.accent } }}
-    >
-        <div className={`card-actions ${hasVariantPicker ? "" : "card-actions--single"}`.trim()}>
-          {hasVariantPicker ? <div className="variant-picker" ref={pickerRef}>
-            <m.button
-              type="button"
-              className="variant-trigger"
-              whileTap={{ scale: 0.985 }}
-              aria-haspopup="listbox"
-              aria-expanded={variantOpen}
-              onClick={() => setVariantOpen((open) => !open)}
-            >
-              <span>{selected.label}</span>
-              <m.span
-                animate={{ rotate: variantOpen ? 180 : 0 }}
-                transition={motionTokens.springSnappy}
-              >
-                <ChevronDown />
-              </m.span>
-            </m.button>
-            <Presence>
-              {variantOpen && (
-                <m.div
-                  className="variant-menu"
-                  role="listbox"
-                  aria-label={`${product.name} pack size`}
-                  initial={{ opacity: 0, y: -6, scale: 0.98 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -4, scale: 0.985 }}
-                  transition={{
-                    duration: motionTokens.duration.fast,
-                    ease: motionTokens.ease,
-                  }}
-                >
-                  {variants.map((variant) => (
-                    <button
-                      type="button"
-                      key={variant.id}
-                      role="option"
-                      aria-selected={variant.id === selected.id}
-                      className={variant.id === selected.id ? "active" : ""}
-                      onClick={() => {
-                        setSelectedId(variant.id);
-                        setVariantOpen(false);
-                      }}
-                    >
-                      <span>{variant.label}</span>
-                      <b>${variant.price.toFixed(2)}</b>
-                    </button>
-                  ))}
-                </m.div>
-              )}
-            </Presence>
-          </div> : null}
-          <m.button
-            type="button"
-            whileTap={{ scale: 0.86 }}
-            className="add-square"
-            onClick={() => add(item)}
-            aria-label={`Add ${product.name}, ${selected.label}`}
-          >
-            <Plus />
-            {!hasVariantPicker ? <span className="add-square__label">Add to cart</span> : null}
-          </m.button>
-        </div>
-    </CatalogProductCard>
-  );
-}
-
-function shopProductCardFacts(product) {
-  if (product.category === "Seltzers") {
-    return [];
-  }
-  if (product.category === "Gummies") {
-    return [
-      "THC Gummies",
-      product.thcMgPerPiece ? `${product.thcMgPerPiece} mg THC` : null,
-      product.piecesPerPackage ? `${product.piecesPerPackage} pieces` : null,
-    ].filter(Boolean);
-  }
-  return [product.type, product.weight].filter(Boolean);
-}
-
-function ShopProductCard({ product }) {
-  const { add } = useCart();
-  const variants = useMemo(() => productVariants(product), [product]);
-  const [selectedId, setSelectedId] = useState(variants[0]?.id);
-  const [variantOpen, setVariantOpen] = useState(false);
-  const pickerRef = useRef(null);
-  const selected = variants.find((variant) => variant.id === selectedId) || variants[0];
-  const item = configuredProduct(product, selected);
-  const facts = shopProductCardFacts(product);
+  const contextLabel = product.category === "Gummies" ? product.productLine : null;
   const hasVariantPicker = product.category === "Seltzers" && variants.length > 1;
 
   useEffect(() => {
@@ -321,8 +187,7 @@ function ShopProductCard({ product }) {
       to={`/product/${product.id}`}
       image={selected.image || product.image}
       imageAlt={`${product.name} ${product.type}`}
-      brand={product.brand}
-      contextLabel={null}
+      contextLabel={contextLabel}
       name={product.name}
       price={selected.price}
       className={`product-card product-card--shop-reference ${product.category === "Gummies" ? "product-card--gummy" : ""} ${variantOpen ? "is-variant-open" : ""}`}
@@ -350,21 +215,13 @@ function ShopProductCard({ product }) {
             </m.div> : null}
           </Presence>
         </div> : null}
-        <m.button
-          type="button"
-          whileTap={{ scale: 0.985 }}
-          className="shop-card-add"
-          onClick={() => add(item)}
-          aria-label={`Add ${product.name}, ${selected.label} to cart`}
-        >
+        <m.button type="button" whileTap={{ scale: 0.94 }} className="shop-card-add" onClick={() => add(item)} aria-label={`Add ${product.name}, ${selected.label} to cart`}>
           <ShoppingCart className="shop-card-add__icon" aria-hidden="true" />
-          <span className="shop-card-add__label">Add to cart</span>
         </m.button>
       </div>
     </CatalogProductCard>
   );
 }
-
 
 const CATEGORY_HERO_MEDIA = {
   Seltzers: {
@@ -610,7 +467,7 @@ function ShopPage() {
         <Stagger className="product-grid listing-grid">
           {visible.map((p) => (
             <StaggerItem key={p.id}>
-              <ShopProductCard product={p} />
+              <ProductCard product={p} />
             </StaggerItem>
           ))}
         </Stagger>
