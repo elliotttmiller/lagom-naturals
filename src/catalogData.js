@@ -534,8 +534,8 @@ export const merch = [
 ];
 
 export const categoryCards = [
-  ["Seltzers", "Seltzers", "Sparkling THC seltzers"],
-  ["Gummies", "Gummies", "THC gummy collection"],
+  ["Seltzers", "Seltzers", "Sparkling THC seltzers for brighter moments."],
+  ["Gummies", "Gummies", "Premium THC gummies for everyday balance."],
 ];
 export const gummyCollections = [
   { name: "Classic" },
