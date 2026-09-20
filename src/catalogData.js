@@ -35,7 +35,75 @@ const hoodieFoldedFront = merchMedia["lagom-mainstreet-hooded-sweatshirt-folded-
 const seltzersThumbnail = responsiveImages.categories["seltzers-thumbnail"].src;
 const gummiesThumbnail = responsiveImages.categories["gummies-thumbnail"].src;
 
-const GUMMY_PREVIEW_PRICE = 24.99;
+const GUMMY_LINE_DATA = {
+  Classic: {
+    price: 19.99,
+    collectionName: "The Drip By Lagom",
+    thcMgPerPiece: 5,
+    thcMgPerPackage: 50,
+    piecesPerPackage: 10,
+    strainType: "Hybrid",
+    description:
+      "A 10-piece pouch of Lagom THC gummies made with hemp-derived Delta-9 THC and offered in bold fruit-forward flavors. Each gummy contains 5 mg THC, for 50 mg THC per pouch.",
+    productDetails: [
+      "10 gummies per pouch",
+      "5 mg THC per gummy",
+      "50 mg THC per pouch",
+      "Hemp-derived Delta-9 THC",
+      "Georgia Pie featured in the current Lagom product description",
+      "Hybrid",
+    ],
+    testingAndPackaging: [
+      "Third-party tested",
+      "Certified child-resistant packaging",
+    ],
+    sourceUrl: "https://lagomnaturals.com/product/the-drip-by-lagom-2/",
+  },
+  Organic: {
+    price: 24.99,
+    collectionName: "Organic Collection",
+    thcMgPerPiece: 5,
+    thcMgPerPackage: 50,
+    piecesPerPackage: 10,
+    strainType: "Hybrid",
+    description:
+      "A 10-piece pouch from Lagom's Organic Collection, made with live resin and 5 mg THC per gummy. Each pouch contains 50 mg THC total and is offered in a rotating selection of fruit-inspired flavors.",
+    productDetails: [
+      "10 gummies per pouch",
+      "5 mg THC per gummy",
+      "50 mg THC per pouch",
+      "Live resin",
+      "Hybrid",
+    ],
+    testingAndPackaging: [
+      "Third-party tested",
+      "Certified child-resistant packaging",
+    ],
+    sourceUrl: "https://lagomnaturals.com/product/lagom-naturals-organic/",
+  },
+  "Midnight Drift": {
+    price: 24.99,
+    collectionName: "Midnight Drift Collection",
+    thcMgPerPiece: 5,
+    cbdMgPerPiece: 20,
+    piecesPerPackage: 10,
+    strainType: "Indica",
+    description:
+      "A 10-piece THC + CBD gummy pouch from Lagom's Midnight Drift Collection. Each gummy contains 5 mg THC and 20 mg CBD and is made with live resin.",
+    productDetails: [
+      "10 gummies per pouch",
+      "5 mg THC per gummy",
+      "20 mg CBD per gummy",
+      "Live resin",
+      "Indica",
+    ],
+    testingAndPackaging: [
+      "Third-party tested",
+      "Certified child-resistant packaging",
+    ],
+    sourceUrl: "https://lagomnaturals.com/product/lagom-midnight-drift-collection/",
+  },
+};
 
 const gummyCatalog = [
   {
@@ -139,44 +207,85 @@ const gummyCatalog = [
   },
 ];
 
-const gummyProducts = gummyCatalog.map((gummy) => ({
-  id: gummy.id,
-  brand: "Lagom Naturals",
-  name: gummy.name,
-  price: GUMMY_PREVIEW_PRICE,
-  flavor: gummy.flavor,
-  flavorFamily: "Gummies",
-  category: "Gummies",
-  productLine: gummy.productLine,
-  type:
-    gummy.productLine === "Classic"
-      ? "THC gummies"
-      : `${gummy.productLine} THC gummies`,
-  strength: "THC gummies",
-  weight: gummy.packageLabel,
-  image: gummy.image,
-  imageAlt: `${gummy.name} ${gummy.productLine === "Classic" ? "" : `${gummy.productLine} `}gummy pouch`.trim(),
-  variants: [
-    {
-      id: "pouch",
-      label: gummy.packageLabel,
-      detail: gummy.packageDetail,
-      price: GUMMY_PREVIEW_PRICE,
-      image: gummy.image,
+const gummyProducts = gummyCatalog.map((gummy) => {
+  const line = GUMMY_LINE_DATA[gummy.productLine];
+  return {
+    id: gummy.id,
+    brand: "Lagom Naturals",
+    name: gummy.name,
+    price: line.price,
+    flavor: gummy.flavor,
+    flavorFamily: "Gummies",
+    category: "Gummies",
+    productLine: gummy.productLine,
+    collectionName: line.collectionName,
+    type:
+      gummy.productLine === "Classic"
+        ? "THC gummies"
+        : gummy.productLine === "Midnight Drift"
+          ? "THC + CBD gummies"
+          : `${gummy.productLine} THC gummies`,
+    strength: line.cbdMgPerPiece
+      ? `${line.thcMgPerPiece} mg THC + ${line.cbdMgPerPiece} mg CBD per gummy`
+      : `${line.thcMgPerPiece} mg THC per gummy`,
+    weight: gummy.packageLabel,
+    piecesPerPackage: line.piecesPerPackage,
+    thcMgPerPiece: line.thcMgPerPiece,
+    thcMgPerPackage: line.thcMgPerPackage ?? null,
+    cbdMgPerPiece: line.cbdMgPerPiece ?? null,
+    strainType: line.strainType,
+    description: line.description,
+    productDetails: line.productDetails,
+    testingAndPackaging: line.testingAndPackaging,
+    image: gummy.image,
+    imageAlt: `${gummy.name} ${gummy.productLine === "Classic" ? "" : `${gummy.productLine} `}gummy pouch`.trim(),
+    variants: [
+      {
+        id: "pouch",
+        label: gummy.packageLabel,
+        detail: gummy.packageDetail,
+        price: line.price,
+        image: gummy.image,
+      },
+    ],
+    accent:
+      gummy.productLine === "Midnight Drift"
+        ? "#191b25"
+        : gummy.productLine === "Organic"
+          ? "#3d6b45"
+          : "#0f513d",
+    source: {
+      url: line.sourceUrl,
+      verifiedAt: "2026-09-19",
+      authority: "Lagom Naturals first-party product page",
     },
-  ],
-  accent:
-    gummy.productLine === "Midnight Drift"
-      ? "#191b25"
-      : gummy.productLine === "Organic"
-        ? "#3d6b45"
-        : "#0f513d",
-  preview: true,
-  mock: true,
-}));
+  };
+});
 
-// Product facts below are limited to approved product photography and current preview catalog conventions.
-// Gummy pricing/package metadata remains preview-only until verified commerce data is connected.
+const SELTZER_COMMON = {
+  category: "Seltzers",
+  type: "THC infused seltzer",
+  thcMgPerCan: 10,
+  canVolume: "12 fl oz (355 mL)",
+  calories: "Zero calories",
+  sugar: "Zero sugar",
+  carbs: "Zero carbs",
+  dietary: ["Gluten-free", "Vegan", "Non-GMO"],
+  formulationHighlights: [
+    "Hydrating electrolytes",
+    "Sweetened with monk fruit",
+    "No artificial flavors",
+  ],
+  nutritionFacts: ["Zero calories", "Zero sugar", "Zero carbs"],
+  responsibleUse:
+    "Each can contains 10 mg THC. If you are new to THC or prefer a lower amount, consume less than a full can and allow adequate time before consuming more. Do not drive or operate machinery after consuming THC. Keep away from children and pets.",
+  source: {
+    url: "https://lagomnaturals.com/product/premium-thc-infused-seltzer/",
+    verifiedAt: "2026-09-19",
+    authority: "Lagom Naturals first-party product page",
+  },
+};
+
 export const products = [
   {
     id: "24k-lemonade",
@@ -186,11 +295,8 @@ export const products = [
     flavor: "Lemonade",
     flavorFamily: "Citrus",
     category: "Seltzers",
-    type: "THC infused seltzer",
-    thcMgPerCan: 10,
-    canVolume: "12 fl oz (355 mL)",
-    sugar: "Zero sugar",
-    carbs: "Zero carbs",
+    ...SELTZER_COMMON,
+    description: "A lightly sparkling THC seltzer built around Sicilian lemon and juicy tangerine, with a crisp citrus profile and clean mineral finish. Each 12 fl oz can contains 10 mg THC with zero sugar, zero carbs, and zero calories.",
     image: lemonade,
     variants: [
       {
@@ -218,11 +324,8 @@ export const products = [
     flavor: "Blackberry",
     flavorFamily: "Berry",
     category: "Seltzers",
-    type: "THC infused seltzer",
-    thcMgPerCan: 10,
-    canVolume: "12 fl oz (355 mL)",
-    sugar: "Zero sugar",
-    carbs: "Zero carbs",
+    ...SELTZER_COMMON,
+    description: "A blackberry-flavored THC seltzer with a clean, sparkling finish. Each 12 fl oz can contains 10 mg THC with zero sugar, zero carbs, and zero calories.",
     image: blackberry,
     variants: [
       {
@@ -250,11 +353,8 @@ export const products = [
     flavor: "Strawberry + lime",
     flavorFamily: "Fruit + citrus",
     category: "Seltzers",
-    type: "THC infused seltzer",
-    thcMgPerCan: 10,
-    canVolume: "12 fl oz (355 mL)",
-    sugar: "Zero sugar",
-    carbs: "Zero carbs",
+    ...SELTZER_COMMON,
+    description: "A strawberry-and-lime THC seltzer pairing ripe fruit flavor with a bright citrus edge and sparkling finish. Each 12 fl oz can contains 10 mg THC with zero sugar, zero carbs, and zero calories.",
     image: strawberryLime,
     variants: [
       {
@@ -282,11 +382,8 @@ export const products = [
     flavor: "Watermelon",
     flavorFamily: "Melon",
     category: "Seltzers",
-    type: "THC infused seltzer",
-    thcMgPerCan: 10,
-    canVolume: "12 fl oz (355 mL)",
-    sugar: "Zero sugar",
-    carbs: "Zero carbs",
+    ...SELTZER_COMMON,
+    description: "A watermelon-flavored THC seltzer with a light, sparkling profile designed for crisp refreshment. Each 12 fl oz can contains 10 mg THC with zero sugar, zero carbs, and zero calories.",
     image: watermelon,
     variants: [
       {
