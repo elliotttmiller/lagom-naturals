@@ -9,7 +9,6 @@ export default function CatalogProductCard({
   to,
   image,
   imageAlt,
-  brand = "Lagom Naturals",
   contextLabel,
   name,
   price,
@@ -48,11 +47,7 @@ export default function CatalogProductCard({
 
         <div className="liquid-glass-product-card__glass">
           <div className="liquid-glass-product-card__content">
-            {contextLabel ? (
-              <span className="liquid-glass-product-card__context">{contextLabel}</span>
-            ) : (
-              <p className="liquid-glass-product-card__brand">{brand}</p>
-            )}
+            {contextLabel ? <span className="liquid-glass-product-card__context">{contextLabel}</span> : null}
             <h3 className="liquid-glass-product-card__name">
               <Link to={to}>{name}</Link>
             </h3>
@@ -99,11 +94,7 @@ export default function CatalogProductCard({
         </Link>
       </div>
       <div className={`unified-product-card__copy ${copyClassName}`.trim()}>
-        {contextLabel ? (
-          <span className="unified-product-card__context">{contextLabel}</span>
-        ) : (
-          <p>{brand}</p>
-        )}
+        {contextLabel ? <span className="unified-product-card__context">{contextLabel}</span> : null}
         <div className="unified-product-card__title-row">
           <h3><Link to={to}>{name}</Link></h3>
           {reviewStatus ? <span className="review-line product-card__review">{reviewStatus}</span> : null}
