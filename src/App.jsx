@@ -329,6 +329,7 @@ function ShopProductCard({ product }) {
       mediaClassName="product-media"
       copyClassName="product-copy"
       presentation="liquidGlass"
+      showPrice={!hasVariantPicker}
       metaBeforePrice
       meta={facts.length ? (
         <span className="product-facts" aria-label={facts.join(", ")}>
