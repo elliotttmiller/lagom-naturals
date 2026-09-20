@@ -765,3 +765,114 @@
     font-size:10px!important;
   }
 }
+
+
+/* Mobile product-image visibility refinement.
+   The glass information shelf now occupies only the lower portion of the card,
+   with a shallow diagonal overlap so photography remains the dominant visual. */
+@media(max-width:699px){
+  .liquid-glass-product-card:not(.merch-card){
+    aspect-ratio:.76/1!important;
+  }
+
+  .liquid-glass-product-card:not(.merch-card) .liquid-glass-product-card__shot{
+    inset:0!important;
+    width:100%!important;
+    height:100%!important;
+    background:#ece8df!important;
+  }
+
+  .liquid-glass-product-card:not(.merch-card) .liquid-glass-product-card__shot img{
+    inset:0!important;
+    width:100%!important;
+    height:100%!important;
+    min-width:100%!important;
+    min-height:100%!important;
+    padding:0!important;
+    object-fit:cover!important;
+    object-position:center!important;
+  }
+
+  .liquid-glass-product-card:not(.merch-card) .liquid-glass-product-card__glass{
+    top:auto!important;
+    bottom:0!important;
+    min-height:39%!important;
+    height:39%!important;
+    clip-path:polygon(0 12%,100% 0,100% 100%,0 100%)!important;
+    background:color-mix(in oklab,rgba(24,29,24,.78) 43%,transparent)!important;
+    -webkit-backdrop-filter:blur(16px) saturate(1.62) brightness(.94)!important;
+    backdrop-filter:blur(16px) saturate(1.62) brightness(.94)!important;
+  }
+
+  .liquid-glass-product-card:not(.merch-card) .liquid-glass-product-card__content{
+    min-height:100%!important;
+    padding:12% 11px 10px!important;
+    justify-content:flex-end!important;
+  }
+
+  .liquid-glass-product-card:not(.merch-card) .liquid-glass-product-card__brand{
+    margin-bottom:4px!important;
+  }
+
+  .liquid-glass-product-card:not(.merch-card) .liquid-glass-product-card__name{
+    font-size:clamp(17px,4.8vw,22px)!important;
+    line-height:.96!important;
+  }
+
+  .liquid-glass-product-card:not(.merch-card) .liquid-glass-product-card__meta{
+    margin-top:5px!important;
+    font-size:8.5px!important;
+    line-height:1.24!important;
+  }
+
+  .liquid-glass-product-card:not(.merch-card) .liquid-glass-product-card__row{
+    margin-top:6px!important;
+  }
+
+  .liquid-glass-product-card:not(.merch-card) .liquid-glass-product-card__price{
+    font-size:16px!important;
+  }
+
+  .liquid-glass-product-card:not(.merch-card) .liquid-glass-product-card__footer{
+    margin-top:6px!important;
+    padding-top:6px!important;
+  }
+
+  /* Variant menus may extend above the shelf without forcing the shelf itself
+     to become taller and obscure the product photograph. */
+  .liquid-glass-product-card:not(.merch-card).is-variant-open{
+    overflow:visible!important;
+  }
+
+  .liquid-glass-product-card:not(.merch-card).is-variant-open .liquid-glass-product-card__shot,
+  .liquid-glass-product-card:not(.merch-card).is-variant-open .liquid-glass-product-card__glass{
+    border-radius:18px!important;
+  }
+}
+
+@media(min-width:390px) and (max-width:699px){
+  .liquid-glass-product-card:not(.merch-card){
+    aspect-ratio:.78/1!important;
+  }
+
+  .liquid-glass-product-card:not(.merch-card) .liquid-glass-product-card__glass{
+    min-height:37.5%!important;
+    height:37.5%!important;
+  }
+
+  .liquid-glass-product-card:not(.merch-card) .liquid-glass-product-card__content{
+    padding-top:11%!important;
+  }
+}
+
+@media(max-width:380px){
+  .liquid-glass-product-card:not(.merch-card){
+    aspect-ratio:.73/1!important;
+  }
+
+  .liquid-glass-product-card:not(.merch-card) .liquid-glass-product-card__glass{
+    min-height:40%!important;
+    height:40%!important;
+    clip-path:polygon(0 11%,100% 0,100% 100%,0 100%)!important;
+  }
+}
