@@ -87,7 +87,6 @@ function ProductPage() {
             <img className="pdp-brand" src={brandLogo} alt={product.brand || 'Lagom Naturals'} width="2048" height="682" />
             <h1>{product.name}</h1>
             <p className="review-line">No reviews yet</p>
-            <h2>${selected.price.toFixed(2)}</h2>
             <div className="pdp-facts" aria-label="Product facts">
               {product.thcMgPerCan && <span>{product.thcMgPerCan} mg THC per can</span>}
               {product.canVolume && <span>{product.canVolume}</span>}
