@@ -353,3 +353,68 @@
     background:#fff!important;
   }
 }
+
+
+/* Mobile Shop cards use the same composed media-bay geometry as merch cards:
+   the image stage is inset from the outer card and owns its own rounded clipping.
+   Product photography fills that stage, rather than defining the card edge. */
+@media(max-width:899px){
+  .shop-page .product-card.unified-product-card,
+  .listing-page .product-card.unified-product-card{
+    overflow:hidden!important;
+    border-radius:14px!important;
+    background:#fff!important;
+  }
+
+  .shop-page .product-card .unified-product-card__media,
+  .listing-page .product-card .unified-product-card__media{
+    width:calc(100% - 20px)!important;
+    aspect-ratio:1/1.06!important;
+    margin:10px 10px 0!important;
+    padding:0!important;
+    border:0!important;
+    border-radius:12px!important;
+    background:#f4f2ed!important;
+    overflow:hidden!important;
+  }
+
+  .shop-page .product-card .unified-product-card__media>a,
+  .listing-page .product-card .unified-product-card__media>a,
+  .shop-page .product-card .unified-product-card__media>a>picture,
+  .listing-page .product-card .unified-product-card__media>a>picture{
+    border-radius:inherit!important;
+    overflow:hidden!important;
+  }
+
+  .shop-page .product-card .unified-product-card__media>a>picture>img,
+  .listing-page .product-card .unified-product-card__media>a>picture>img,
+  .shop-page .product-card .unified-product-card__media>a>img,
+  .listing-page .product-card .unified-product-card__media>a>img{
+    border-radius:inherit!important;
+    object-fit:cover!important;
+    object-position:center!important;
+  }
+
+  .shop-page .product-card--gummy .unified-product-card__media,
+  .listing-page .product-card--gummy .unified-product-card__media{
+    background:#f4f2ed!important;
+  }
+
+  .shop-page .product-card--gummy .unified-product-card__media>a>picture,
+  .listing-page .product-card--gummy .unified-product-card__media>a>picture{
+    inset:0!important;
+    border-radius:inherit!important;
+  }
+
+  .shop-page .product-card--gummy .unified-product-card__media>a>picture>img,
+  .listing-page .product-card--gummy .unified-product-card__media>a>picture>img{
+    padding:10px!important;
+    object-fit:contain!important;
+    background:transparent!important;
+  }
+
+  .shop-page .product-card .unified-product-card__copy,
+  .listing-page .product-card .unified-product-card__copy{
+    padding-top:12px!important;
+  }
+}
