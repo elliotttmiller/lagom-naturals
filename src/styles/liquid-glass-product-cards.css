@@ -532,14 +532,12 @@
   /* Merch and pouch imagery should be fully readable as a product silhouette.
      Constrain the asset to the image stage rather than allowing the lower glass
      shelf to obscure the garment or package. */
-  .liquid-glass-product-card.merch-card .liquid-glass-product-card__shot,
-  .liquid-glass-product-card.product-card--gummy .liquid-glass-product-card__shot{
+  .liquid-glass-product-card.merch-card .liquid-glass-product-card__shot{
     height:66%!important;
     background:#f1eee7!important;
   }
 
-  .liquid-glass-product-card.merch-card .liquid-glass-product-card__shot img,
-  .liquid-glass-product-card.product-card--gummy .liquid-glass-product-card__shot img{
+  .liquid-glass-product-card.merch-card .liquid-glass-product-card__shot img{
     inset:4% 4% 2%!important;
     width:92%!important;
     height:94%!important;
@@ -572,4 +570,22 @@
   .merch-card--liquid-glass .liquid-glass-product-card__glass{
     min-height:39%!important;
   }
+}
+
+
+/* Non-merch products always render full-bleed.
+   Gummies and beverages use the photographic/card bay as a true edge-to-edge
+   viewport; only apparel/merch assets retain contained product-cutout treatment. */
+.liquid-glass-product-card:not(.merch-card) .liquid-glass-product-card__shot{
+  background:#ece8df!important;
+}
+.liquid-glass-product-card:not(.merch-card) .liquid-glass-product-card__shot img{
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  min-width:100%!important;
+  min-height:100%!important;
+  padding:0!important;
+  object-fit:cover!important;
+  object-position:center!important;
 }
