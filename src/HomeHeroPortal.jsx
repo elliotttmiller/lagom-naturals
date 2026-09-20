@@ -26,6 +26,7 @@ function HeroCarousel() {
   const [swiping,setSwiping]=useState(false);
   const [direction,setDirection]=useState(1);
   const gesture=useRef(null);
+  const suppressClick=useRef(false);
   const reduceMotion=useReducedMotion();
   const slide=SLIDES[active];
 
@@ -36,19 +37,32 @@ function HeroCarousel() {
   },[paused,reduceMotion,swiping]);
 
   const select=index=>{setDirection(index>=active?1:-1);setActive(index)};
+  const go=step=>{
+    setDirection(step);
+    setActive(current=>(current+step+SLIDES.length)%SLIDES.length);
+  };
 
   const onPointerDown=event=>{
     if(event.pointerType==='mouse')return;
     gesture.current={id:event.pointerId,x:event.clientX,y:event.clientY,time:performance.now(),axis:null};
-    setPaused(true);setSwiping(true);setDragX(0);
+    suppressClick.current=false;
+    event.currentTarget.setPointerCapture?.(event.pointerId);
+    setPaused(true);setDragX(0);
   };
   const onPointerMove=event=>{
     const g=gesture.current;
     if(!g||g.id!==event.pointerId)return;
     const dx=event.clientX-g.x,dy=event.clientY-g.y;
-    if(!g.axis&&Math.hypot(dx,dy)>8)g.axis=Math.abs(dx)>Math.abs(dy)*1.15?'x':'y';
+    if(!g.axis&&Math.hypot(dx,dy)>8){
+      g.axis=Math.abs(dx)>Math.abs(dy)*1.15?'x':'y';
+      if(g.axis==='x')setSwiping(true);
+    }
     if(g.axis==='y'){setDragX(0);return;}
-    if(g.axis==='x')setDragX(Math.max(-110,Math.min(110,dx*.72)));
+    if(g.axis==='x'){
+      event.preventDefault();
+      suppressClick.current=true;
+      setDragX(Math.max(-118,Math.min(118,dx*.78)));
+    }
   };
   const finishSwipe=event=>{
     const g=gesture.current;
@@ -57,9 +71,19 @@ function HeroCarousel() {
     const elapsed=Math.max(1,performance.now()-g.time);
     const velocity=Math.abs(dx)/elapsed;
     if(g.axis==='x'&&(Math.abs(dx)>=SWIPE_THRESHOLD||velocity>=SWIPE_VELOCITY))go(dx<0?1:-1);
+    if(event.currentTarget.hasPointerCapture?.(event.pointerId))event.currentTarget.releasePointerCapture?.(event.pointerId);
     gesture.current=null;setDragX(0);setSwiping(false);setPaused(false);
   };
-  const cancelSwipe=()=>{gesture.current=null;setDragX(0);setSwiping(false);setPaused(false)};
+  const cancelSwipe=event=>{
+    if(event?.currentTarget?.hasPointerCapture?.(event.pointerId))event.currentTarget.releasePointerCapture?.(event.pointerId);
+    gesture.current=null;setDragX(0);setSwiping(false);setPaused(false);
+  };
+  const onClickCapture=event=>{
+    if(!suppressClick.current)return;
+    event.preventDefault();
+    event.stopPropagation();
+    suppressClick.current=false;
+  };
 
   const transition=reduceMotion?{duration:0}:{duration:.68,ease:motionTokens.ease};
   const enterX=reduceMotion?0:direction*34;
@@ -67,6 +91,7 @@ function HeroCarousel() {
 
   return <div className="home-hero-carousel" data-swiping={swiping?'true':'false'}
     onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={finishSwipe} onPointerCancel={cancelSwipe}
+    onClickCapture={onClickCapture}
     onMouseEnter={()=>setPaused(true)} onMouseLeave={()=>setPaused(false)}
     onFocusCapture={()=>setPaused(true)} onBlurCapture={event=>{if(!event.currentTarget.contains(event.relatedTarget))setPaused(false)}}
     aria-roledescription="carousel" aria-label="Lagom Naturals featured products">
