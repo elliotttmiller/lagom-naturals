@@ -88,7 +88,7 @@ function CartPage() {
                 ))}
               </Presence>
             </m.div>
-            <Reveal>
+            <Reveal className="cart-page__checkout">
               <textarea aria-label="Order note" placeholder="Add a note (optional)" />
               <m.div className="totals" layout>
                 <p>

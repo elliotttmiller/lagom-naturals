@@ -1061,42 +1061,46 @@
 
   .shop-page--reference .shop-intro{
     display:grid!important;
-    grid-template-columns:minmax(0,1fr) auto!important;
-    align-items:start!important;
-    gap:40px!important;
-    margin-bottom:38px!important;
+    grid-template-columns:minmax(0,1fr) minmax(240px,.4fr)!important;
+    align-items:end!important;
+    gap:clamp(48px,8vw,136px)!important;
+    margin-bottom:clamp(42px,4vw,64px)!important;
+    padding-bottom:clamp(30px,2.8vw,46px)!important;
+    border-bottom:1px solid rgba(48,43,37,.18)!important;
   }
 
   .shop-page--reference .shop-intro h1{
     margin:0!important;
-    font:500 clamp(72px,7vw,112px)/.88 var(--font-display)!important;
+    font:500 clamp(68px,5.7vw,96px)/.9 var(--font-display)!important;
     letter-spacing:-.06em!important;
   }
 
   .shop-page--reference .shop-intro p{
-    max-width:660px!important;
-    margin:16px 0 0!important;
+    max-width:500px!important;
+    margin:18px 0 0!important;
     color:#48453f!important;
-    font:500 clamp(16px,1.35vw,20px)/1.45 var(--font-primary)!important;
-    letter-spacing:.14em!important;
+    font:500 clamp(16px,1.2vw,19px)/1.5 var(--font-primary)!important;
+    letter-spacing:-.01em!important;
   }
 
   .shop-page--reference .shop-intro__aside{
     display:flex!important;
     flex-direction:column!important;
-    align-items:flex-end!important;
-    gap:6px!important;
-    padding-top:12px!important;
+    align-items:flex-start!important;
+    justify-self:end!important;
+    gap:8px!important;
+    padding:8px 0 8px 28px!important;
+    border-left:1px solid rgba(48,43,37,.24)!important;
     color:#756f67!important;
     font:750 11px/1.25 var(--font-ui)!important;
-    letter-spacing:.23em!important;
+    letter-spacing:.17em!important;
     text-transform:uppercase!important;
   }
 
   .shop-page--reference .shop-intro__aside i{
-    width:36px!important;
+    width:42px!important;
     height:1px!important;
-    margin-top:7px!important;
+    margin-top:9px!important;
     background:#9b948b!important;
   }
 

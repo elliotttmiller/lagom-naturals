@@ -348,7 +348,7 @@ export const products = [
   {
     id: "strawberry-lime-fusion",
     brand: "Lagom Naturals",
-    name: "Strawberry Lime Fusion",
+    name: "Strawberry Lime",
     price: 6.99,
     flavor: "Strawberry + lime",
     flavorFamily: "Fruit + citrus",
@@ -377,7 +377,7 @@ export const products = [
   {
     id: "watermelon-refresher",
     brand: "Lagom Naturals",
-    name: "Watermelon Refresher",
+    name: "Watermelon",
     price: 6.99,
     flavor: "Watermelon",
     flavorFamily: "Melon",

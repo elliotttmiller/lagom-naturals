@@ -135,17 +135,12 @@ function CategoryCard({ name, label, description }) {
   );
 }
 function productCardFacts(product) {
-  if (product.category === "Gummies") return [];
+  if (product.category === "Gummies" || product.category === "Seltzers") return [];
 
   const facts = [];
 
-  if (product.category === "Seltzers") {
-    if (product.thcMgPerCan) facts.push(`${product.thcMgPerCan} mg THC / can`);
-    if (product.canVolume) facts.push(product.canVolume.replace(/\s*\([^)]*\)$/, ""));
-  } else {
-    if (product.productLine && product.productLine !== "Classic") facts.push(product.productLine);
-    if (product.weight) facts.push(product.weight);
-  }
+  if (product.productLine && product.productLine !== "Classic") facts.push(product.productLine);
+  if (product.weight) facts.push(product.weight);
 
   if (facts.length < 2 && product.type) facts.push(product.type);
   return [...new Set(facts.filter(Boolean))];
@@ -271,11 +266,7 @@ function ProductCard({ product }) {
 
 function shopProductCardFacts(product) {
   if (product.category === "Seltzers") {
-    return [
-      "THC Seltzer",
-      product.thcMgPerCan ? `${product.thcMgPerCan} mg THC` : null,
-      product.sugar || null,
-    ].filter(Boolean);
+    return [];
   }
   if (product.category === "Gummies") {
     return [
