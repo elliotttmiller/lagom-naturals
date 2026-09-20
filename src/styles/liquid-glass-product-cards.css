@@ -896,3 +896,66 @@
     padding-top:5px!important;
   }
 }
+
+
+/* Mobile card containment correction.
+   Keep the photography dominant, but reserve enough internal glass height for
+   the complete title + commerce control stack. Nothing is allowed to fall
+   below the clipped card boundary. */
+@media(max-width:699px){
+  .liquid-glass-product-card.product-card--shop-reference{
+    aspect-ratio:.70/1!important;
+    overflow:hidden!important;
+  }
+
+  .liquid-glass-product-card.product-card--shop-reference .liquid-glass-product-card__glass,
+  .liquid-glass-product-card.product-card--shop-reference:has(.shop-card-commerce--variant) .liquid-glass-product-card__glass{
+    min-height:43%!important;
+    height:43%!important;
+    clip-path:polygon(0 11%,100% 0,100% 100%,0 100%)!important;
+    overflow:visible!important;
+  }
+
+  .liquid-glass-product-card.product-card--shop-reference .liquid-glass-product-card__content,
+  .liquid-glass-product-card.product-card--shop-reference:has(.shop-card-commerce--variant) .liquid-glass-product-card__content{
+    height:100%!important;
+    min-height:0!important;
+    padding:11% 11px 10px!important;
+    justify-content:flex-end!important;
+  }
+
+  .liquid-glass-product-card.product-card--shop-reference .liquid-glass-product-card__footer{
+    flex:0 0 auto!important;
+    width:100%!important;
+    margin-top:7px!important;
+    padding-top:0!important;
+  }
+
+  .liquid-glass-product-card.product-card--shop-reference .shop-card-commerce{
+    width:100%!important;
+    min-height:44px!important;
+  }
+
+  .liquid-glass-product-card.product-card--shop-reference .shop-card-variant-trigger,
+  .liquid-glass-product-card.product-card--shop-reference .shop-card-add{
+    height:44px!important;
+    min-height:44px!important;
+  }
+
+  /* Merch listing cards intentionally keep only brand, name, price and View. */
+  .merch-card--liquid-glass .liquid-glass-product-card__meta{
+    display:none!important;
+  }
+}
+
+@media(max-width:380px){
+  .liquid-glass-product-card.product-card--shop-reference{
+    aspect-ratio:.67/1!important;
+  }
+
+  .liquid-glass-product-card.product-card--shop-reference .liquid-glass-product-card__glass,
+  .liquid-glass-product-card.product-card--shop-reference:has(.shop-card-commerce--variant) .liquid-glass-product-card__glass{
+    min-height:45%!important;
+    height:45%!important;
+  }
+}
