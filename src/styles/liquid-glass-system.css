@@ -133,9 +133,9 @@
   transition:var(--glass-transition)!important;
 }
 
-/* The homepage secondary CTA is the canonical dark glass button. */
-.home-hero-carousel__secondary,
-.age-gate__panel button{
+/* The homepage secondary CTA is the canonical dark glass button.
+   The age gate owns a dedicated mockup-matched glass system in age-gate.css. */
+.home-hero-carousel__secondary{
   border:1px solid rgba(255,255,255,.46)!important;
   border-radius:var(--glass-pill)!important;
   background:rgba(10,12,10,.22)!important;
@@ -144,10 +144,6 @@
   -webkit-backdrop-filter:blur(14px) saturate(1.08)!important;
   backdrop-filter:blur(14px) saturate(1.08)!important;
   transition:var(--glass-transition)!important;
-}
-
-.age-gate__enter{
-  background:rgba(255,255,255,.14)!important;
 }
 
 /* Search/filter fields become frosted surfaces instead of flat white boxes. */
