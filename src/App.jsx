@@ -17,6 +17,7 @@ import {
   ChevronDown,
   Leaf,
   Package,
+  ShoppingCart,
   Sparkles,
   Plus,
 } from "lucide-react";
@@ -355,7 +356,8 @@ function ShopProductCard({ product }) {
           onClick={() => add(item)}
           aria-label={`Add ${product.name}, ${selected.label} to cart`}
         >
-          <span>Add to cart</span>
+          <ShoppingCart className="shop-card-add__icon" aria-hidden="true" />
+          <span className="shop-card-add__label">Add to cart</span>
         </m.button>
       </div>
     </CatalogProductCard>
