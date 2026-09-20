@@ -609,3 +609,70 @@
     box-shadow:inset 0 1px 0 rgba(255,255,255,.90),0 12px 28px rgba(0,0,0,.15)!important;
   }
 }
+
+
+/* Global non-merch product-media contract.
+   Product photography is always edge-to-edge. Merch is the sole exception
+   because apparel/cap cutouts require contained framing to preserve silhouette. */
+:where(
+  .product-card:not(.merch-card) .product-media,
+  .product-card:not(.merch-card) .unified-product-card__media,
+  .pdp .pdp-media
+){
+  padding:0!important;
+  overflow:hidden!important;
+}
+
+:where(
+  .product-card:not(.merch-card) .product-media>a,
+  .product-card:not(.merch-card) .product-media picture,
+  .product-card:not(.merch-card) .unified-product-card__media>a,
+  .product-card:not(.merch-card) .unified-product-card__media picture,
+  .pdp .pdp-media>picture
+){
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  margin:0!important;
+  padding:0!important;
+  overflow:hidden!important;
+}
+
+:where(
+  .product-card:not(.merch-card) .product-media img,
+  .product-card:not(.merch-card) .unified-product-card__media img,
+  .pdp .pdp-media img,
+  .pdp .pdp-media>picture>img
+){
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  min-width:100%!important;
+  min-height:100%!important;
+  max-width:none!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:0!important;
+  object-fit:cover!important;
+  object-position:center!important;
+  background:transparent!important;
+}
+
+/* Gallery thumbnails for non-merch products follow the same photographic rule. */
+.pdp .product-gallery img{
+  width:100%!important;
+  height:100%!important;
+  padding:0!important;
+  object-fit:cover!important;
+  object-position:center!important;
+}
+
+/* Merch remains deliberately contained. */
+:where(
+  .merch-card .merch-media img,
+  .merch-card .liquid-glass-product-card__shot img,
+  .merch-detail-media img,
+  .merch-gallery img
+){
+  object-fit:contain!important;
+}
