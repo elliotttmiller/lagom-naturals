@@ -138,11 +138,9 @@ function productCardFacts(product) {
 
   const facts = [];
 
-  if (product.flavor) facts.push(product.flavor);
-
   if (product.category === "Seltzers") {
-    if (product.canVolume) facts.push(product.canVolume.replace(/\s*\([^)]*\)$/, ""));
     if (product.thcMgPerCan) facts.push(`${product.thcMgPerCan} mg THC / can`);
+    if (product.canVolume) facts.push(product.canVolume.replace(/\s*\([^)]*\)$/, ""));
   } else {
     if (product.productLine && product.productLine !== "Classic") facts.push(product.productLine);
     if (product.weight) facts.push(product.weight);
