@@ -366,7 +366,7 @@ function HomePage() {
         <Stagger className="drink-grid">
           {products.slice(0, 4).map((p) => (
             <StaggerItem key={p.id}>
-              <ShopProductCard product={p} />
+              <ProductCard product={p} />
             </StaggerItem>
           ))}
         </Stagger>
@@ -515,7 +515,7 @@ function ShopPage() {
         <Stagger className="product-grid listing-grid">
           {visible.map((p) => (
             <StaggerItem key={p.id}>
-              <ProductCard product={p} />
+              <ShopProductCard product={p} />
             </StaggerItem>
           ))}
         </Stagger>
