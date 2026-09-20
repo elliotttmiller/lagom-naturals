@@ -54,10 +54,12 @@ export default function CatalogProductCard({
           <h3><Link to={to}>{name}</Link></h3>
           {reviewStatus ? <span className="review-line product-card__review">{reviewStatus}</span> : null}
         </div>
-        {metaBeforePrice && meta ? <small className="unified-product-card__meta">{meta}</small> : null}
-        <b>{Number.isFinite(price) ? `$${price.toFixed(2)}` : "Pricing coming soon"}</b>
-        {!metaBeforePrice && meta ? <small className="unified-product-card__meta">{meta}</small> : null}
-        {children}
+        <div className="unified-product-card__pricing">
+          {metaBeforePrice && meta ? <small className="unified-product-card__meta">{meta}</small> : null}
+          <b>{Number.isFinite(price) ? `$${price.toFixed(2)}` : "Pricing coming soon"}</b>
+          {!metaBeforePrice && meta ? <small className="unified-product-card__meta">{meta}</small> : null}
+        </div>
+        {children ? <div className="unified-product-card__footer">{children}</div> : null}
       </div>
     </m.article>
   );

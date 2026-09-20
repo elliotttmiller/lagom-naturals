@@ -151,3 +151,103 @@
 .pdp-media>picture,.merch-detail-media>picture{display:block;width:100%;height:100%}
 .pdp-media>picture>img,.merch-detail-media>picture>img{display:block;width:100%;height:100%;object-fit:contain;object-position:center}
 .product-gallery picture,.merch-gallery picture{display:contents}
+
+/* Shared product-card footer.  This is intentionally a commerce footer, not a
+   food-template promo strip: real product facts lead into the current price,
+   then the existing variant picker and cart action stay together in one clear
+   purchase zone.  Promotions, ratings, and compare-at prices remain absent
+   until supplied by the catalog. */
+.unified-product-card__pricing{
+  display:flex;
+  min-width:0;
+  flex-direction:column;
+  gap:0;
+}
+.unified-product-card__pricing>b{
+  display:block;
+  margin-top:10px;
+  color:#101310;
+  font:800 22px/1 var(--font-ui);
+  font-variant-numeric:tabular-nums;
+  letter-spacing:-.035em;
+}
+.unified-product-card__pricing .unified-product-card__meta{
+  order:-1;
+  margin:8px 0 0;
+  color:#667069;
+  font:650 11px/1.35 var(--font-ui);
+}
+.unified-product-card__pricing .unified-product-card__meta+.unified-product-card__meta{margin-top:7px}
+.unified-product-card__footer{
+  margin-top:auto;
+  padding-top:16px;
+  border-top:1px solid rgba(20,25,20,.1);
+}
+.unified-product-card__footer .card-actions{
+  margin-top:0;
+  padding-top:0;
+}
+.unified-product-card .card-actions{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 50px;
+  align-items:stretch;
+  gap:10px;
+}
+.unified-product-card .variant-trigger{
+  min-height:50px;
+  border:1px solid rgba(20,25,20,.16);
+  border-radius:12px;
+  background:#fff;
+  color:#1b211c;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
+  transition:border-color 180ms ease,background 180ms ease;
+}
+.unified-product-card .variant-trigger:hover{border-color:rgba(20,25,20,.32);background:#fcfcfa}
+.unified-product-card .add-square{
+  width:50px;
+  height:50px;
+  min-height:50px;
+  border:1px solid #121512;
+  border-radius:12px;
+  background:#121512;
+  color:#fff;
+  box-shadow:0 8px 18px rgba(16,21,17,.14);
+  transition:background 180ms ease,box-shadow 180ms ease,transform 180ms ease;
+}
+.unified-product-card .add-square:hover{background:#29352d;box-shadow:0 10px 22px rgba(16,21,17,.2)}
+.unified-product-card .add-square:focus-visible,
+.unified-product-card .variant-trigger:focus-visible{outline:3px solid color-mix(in srgb,var(--accent,#315f52) 46%,#fff);outline-offset:2px}
+.unified-product-card .card-actions--single{grid-template-columns:1fr}
+.unified-product-card .card-actions--single .add-square{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  font:800 11px/1 var(--font-ui);
+  letter-spacing:.045em;
+  text-transform:uppercase;
+}
+.unified-product-card .card-actions--single .add-square__label{display:block}
+.unified-product-card.merch-card .unified-product-card__pricing{margin-top:auto;padding-top:14px;border-top:1px solid rgba(20,25,20,.1)}
+.unified-product-card.merch-card .unified-product-card__pricing>b{margin-top:0}
+
+@media(min-width:900px){
+  .lineup .unified-product-card__copy,
+  .shop-page .unified-product-card__copy{padding:18px 20px 20px}
+  .lineup .unified-product-card__pricing>b,
+  .shop-page .unified-product-card__pricing>b{margin-top:9px}
+  .shop-page .product-card .unified-product-card__footer{margin-top:15px;padding-top:14px}
+  .shop-page .product-card--gummy .unified-product-card__footer{margin-top:14px}
+}
+
+@media(max-width:899px){
+  .unified-product-card__pricing>b{margin-top:8px;font:850 17px/1 var(--m-font-body)}
+  .unified-product-card__pricing .unified-product-card__meta{margin-top:6px;font:650 10px/1.3 var(--m-font-body)}
+  .unified-product-card__footer{margin-top:12px;padding-top:11px}
+  .unified-product-card .card-actions{grid-template-columns:minmax(0,1fr) 42px;gap:7px}
+  .unified-product-card .variant-trigger{min-height:42px;border-radius:9px}
+  .unified-product-card .add-square{width:42px;height:42px;min-height:42px;border-radius:9px}
+  .unified-product-card .card-actions--single .add-square{width:100%;font-size:10px}
+  .unified-product-card.merch-card .unified-product-card__pricing{margin-top:12px;padding-top:11px}
+}

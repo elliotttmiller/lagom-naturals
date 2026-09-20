@@ -1,0 +1,57 @@
+/* Shared motion finish: modest travel, longer settling, and one easing family
+   keep the storefront fluid without adding layout or image instability. */
+:root{
+  --ease:cubic-bezier(.22,.82,.28,1);
+  --ease-soft:cubic-bezier(.18,.92,.26,1);
+  --ease-exit:cubic-bezier(.42,0,.22,1);
+  --motion-ease:var(--ease);
+  --motion-ease-soft:var(--ease-soft);
+  --ease-out:var(--ease);
+  --motion-fast:220ms;
+  --motion-base:380ms;
+  --motion-slow:580ms;
+  --lagom-motion-emphasized:560ms var(--ease-soft);
+  --lagom-motion-standard:380ms var(--ease);
+  --lagom-motion-quick:220ms var(--ease);
+}
+
+.route-stage{will-change:opacity}
+
+.unified-product-card,
+.category-card,
+.merch-card,
+.global-search__result,
+.global-search__form,
+.global-search__chips button,
+.chips button{
+  transition-duration:var(--motion-base)!important;
+  transition-timing-function:var(--ease)!important;
+}
+
+.unified-product-card__media img,
+.merch-media img,
+.product-media img{
+  transition-duration:var(--motion-slow)!important;
+  transition-timing-function:var(--ease-soft)!important;
+}
+
+.unified-product-card .variant-trigger,
+.unified-product-card .add-square,
+.home-hero-carousel__actions a,
+.home-hero-carousel__primary svg,
+.home-hero-carousel__pagination i,
+.home-hero-carousel__pagination b{
+  transition-timing-function:var(--ease-soft)!important;
+}
+
+.global-search__result-action,
+.global-search__clear,
+.global-search__close,
+.icon-btn,
+.heart-btn{
+  transition:transform var(--motion-fast) var(--ease),background-color var(--motion-fast) var(--ease),border-color var(--motion-fast) var(--ease),color var(--motion-fast) var(--ease),box-shadow var(--motion-base) var(--ease);
+}
+
+.route-chunk-fallback__mark>i::after{animation-duration:1.1s}
+
+@media(prefers-reduced-motion:reduce){.route-stage{will-change:auto}}
