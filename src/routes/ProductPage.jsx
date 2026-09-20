@@ -86,17 +86,17 @@ function ProductPage() {
           <m.div variants={motionVariants.item} className="pdp-product-heading">
             <img className="pdp-brand" src={brandLogo} alt={product.brand || 'Lagom Naturals'} width="2048" height="682" />
             <h1>{product.name}</h1>
-            <p className="review-line">No reviews yet</p>
             <div className="pdp-facts" aria-label="Product facts">
               {product.thcMgPerCan && <span>{product.thcMgPerCan} mg THC per can</span>}
+              {product.thcMgPerPiece && <span>{product.thcMgPerPiece} mg THC per gummy</span>}
+              {product.cbdMgPerPiece && <span>{product.cbdMgPerPiece} mg CBD per gummy</span>}
               {product.canVolume && <span>{product.canVolume}</span>}
+              {product.piecesPerPackage && <span>{product.piecesPerPackage} gummies</span>}
               {product.sugar && <span>{product.sugar}</span>}
             </div>
           </m.div>
           <m.p variants={motionVariants.item} className="pdp-desc">
-            {product.category === "Seltzers"
-              ? "Bright, sparkling, and designed around a more considered pace. Each current Lagom can shows 10 mg THC, 12 fl oz, zero sugar, and zero carbs."
-              : "Lagom gummies are shown from the current product image source. Potency, ingredients, and batch details are not connected in the current catalog data."}
+            {product.description}
           </m.p>
           <m.div variants={motionVariants.item} className="pdp-purchase">
             <label>Pack Size</label>
@@ -162,6 +162,8 @@ function ProductPage() {
 }
 function ProductDetailsAccordion({ product, selected }) {
   const [open, setOpen] = useState("details");
+  const isSeltzer = product.category === "Seltzers";
+
   const rows = [
     {
       id: "details",
@@ -174,7 +176,7 @@ function ProductDetailsAccordion({ product, selected }) {
           </span>
           <span>
             <b>Category</b>
-            <small>THC Beverages</small>
+            <small>{isSeltzer ? "THC Beverages" : "THC Gummies"}</small>
           </span>
           <span>
             <b>Format</b>
@@ -184,6 +186,24 @@ function ProductDetailsAccordion({ product, selected }) {
             <b>Package Size</b>
             <small>{selected.detail || selected.label}</small>
           </span>
+          {product.flavor && (
+            <span>
+              <b>Flavor</b>
+              <small>{product.flavor}</small>
+            </span>
+          )}
+          {product.collectionName && (
+            <span>
+              <b>Collection</b>
+              <small>{product.collectionName}</small>
+            </span>
+          )}
+          {product.strainType && (
+            <span>
+              <b>Type</b>
+              <small>{product.strainType}</small>
+            </span>
+          )}
         </div>
       ),
     },
@@ -191,24 +211,67 @@ function ProductDetailsAccordion({ product, selected }) {
       id: "potency",
       label: "Potency & Cannabinoids",
       content: (
-        <p>
-          {product.thcMgPerCan
-            ? `${product.thcMgPerCan} mg THC per can.`
-            : "Potency details are not connected in the current catalog data."}
-        </p>
+        <div className="pdp-detail-grid">
+          {product.thcMgPerCan && (
+            <span>
+              <b>THC</b>
+              <small>{product.thcMgPerCan} mg per can</small>
+            </span>
+          )}
+          {product.thcMgPerPiece && (
+            <span>
+              <b>THC</b>
+              <small>{product.thcMgPerPiece} mg per gummy</small>
+            </span>
+          )}
+          {product.thcMgPerPackage && (
+            <span>
+              <b>Total THC</b>
+              <small>{product.thcMgPerPackage} mg per pouch</small>
+            </span>
+          )}
+          {product.cbdMgPerPiece && (
+            <span>
+              <b>CBD</b>
+              <small>{product.cbdMgPerPiece} mg per gummy</small>
+            </span>
+          )}
+        </div>
       ),
     },
-    {
+    isSeltzer && {
       id: "nutrition",
-      label: "Nutrition",
+      label: "Nutrition & Dietary",
       content: (
-        <p>
-          {product.sugar && product.carbs
-            ? `Current product imagery states ${product.sugar.toLowerCase()} and ${product.carbs.toLowerCase()}. `
-            : ""}
-          Full ingredients and nutrition facts are not connected in the current
-          product source.
-        </p>
+        <div className="pdp-detail-copy">
+          <ul>
+            {product.nutritionFacts?.map((fact) => <li key={fact}>{fact}</li>)}
+            {product.dietary?.map((fact) => <li key={fact}>{fact}</li>)}
+            {product.formulationHighlights?.map((fact) => <li key={fact}>{fact}</li>)}
+          </ul>
+        </div>
+      ),
+    },
+    !isSeltzer && product.productDetails?.length > 0 && {
+      id: "gummy-facts",
+      label: "Gummy Details",
+      content: (
+        <div className="pdp-detail-copy">
+          <ul>
+            {product.productDetails.map((fact) => <li key={fact}>{fact}</li>)}
+          </ul>
+        </div>
+      ),
+    },
+    !isSeltzer && product.testingAndPackaging?.length > 0 && {
+      id: "testing",
+      label: "Testing & Packaging",
+      content: (
+        <div className="pdp-detail-copy">
+          <ul>
+            {product.testingAndPackaging.map((fact) => <li key={fact}>{fact}</li>)}
+          </ul>
+        </div>
       ),
     },
     {
@@ -216,13 +279,15 @@ function ProductDetailsAccordion({ product, selected }) {
       label: "Responsible Use",
       content: (
         <p>
-          Start with a lower serving if you are unfamiliar with THC. Allow
-          adequate time before consuming more. Do not drive or operate
-          machinery. Keep away from children and pets.
+          {product.responsibleUse ||
+            (product.thcMgPerPiece
+              ? `Each gummy contains ${product.thcMgPerPiece} mg THC. If you are new to THC or prefer a lower amount, start with less and allow adequate time before consuming more. Do not drive or operate machinery after consuming THC. Keep away from children and pets.`
+              : "Use responsibly. Do not drive or operate machinery after consuming THC. Keep away from children and pets.")}
         </p>
       ),
     },
-  ];
+  ].filter(Boolean);
+
   return (
     <m.div className="pdp-details" variants={motionVariants.item}>
       {rows.map((row) => {
@@ -270,5 +335,4 @@ function ProductDetailsAccordion({ product, selected }) {
     </m.div>
   );
 }
-
 export default ProductPage
