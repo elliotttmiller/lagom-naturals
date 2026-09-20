@@ -23,6 +23,7 @@ export default function CatalogProductCard({
   motionProps = {},
   presentation = "standard",
   ctaLabel = "View",
+  showPrice = true,
 }) {
   if (presentation === "liquidGlass") {
     return (
@@ -56,17 +57,21 @@ export default function CatalogProductCard({
               <Link to={to}>{name}</Link>
             </h3>
             {meta ? <div className="liquid-glass-product-card__meta">{meta}</div> : null}
-            <div className="liquid-glass-product-card__row">
-              <b className="liquid-glass-product-card__price">
-                {Number.isFinite(price) ? `$${price.toFixed(2)}` : "Pricing coming soon"}
-              </b>
-              {!children ? (
-                <Link className="liquid-glass-product-card__cta" to={to}>
-                  <span>{ctaLabel}</span>
-                  <ArrowRight aria-hidden="true" />
-                </Link>
-              ) : null}
-            </div>
+            {(showPrice || !children) ? (
+              <div className="liquid-glass-product-card__row">
+                {showPrice ? (
+                  <b className="liquid-glass-product-card__price">
+                    {Number.isFinite(price) ? `${price.toFixed(2)}` : "Pricing coming soon"}
+                  </b>
+                ) : null}
+                {!children ? (
+                  <Link className="liquid-glass-product-card__cta" to={to}>
+                    <span>{ctaLabel}</span>
+                    <ArrowRight aria-hidden="true" />
+                  </Link>
+                ) : null}
+              </div>
+            ) : null}
             {children ? <div className="liquid-glass-product-card__footer">{children}</div> : null}
           </div>
         </div>
@@ -105,7 +110,7 @@ export default function CatalogProductCard({
         </div>
         <div className="unified-product-card__pricing">
           {metaBeforePrice && meta ? <small className="unified-product-card__meta">{meta}</small> : null}
-          <b>{Number.isFinite(price) ? `$${price.toFixed(2)}` : "Pricing coming soon"}</b>
+          {showPrice ? <b>{Number.isFinite(price) ? `${price.toFixed(2)}` : "Pricing coming soon"}</b> : null}
           {!metaBeforePrice && meta ? <small className="unified-product-card__meta">{meta}</small> : null}
         </div>
         {children ? <div className="unified-product-card__footer">{children}</div> : null}
