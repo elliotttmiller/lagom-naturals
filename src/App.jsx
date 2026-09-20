@@ -92,7 +92,6 @@ function SectionTitle({ title, to = "/shop" }) {
 function CategoryCard({ name, label, description }) {
   const img = categoryImages[name];
   const categoryPath = name === "Seltzers" ? "/shop/seltzers" : name === "Gummies" ? "/shop/gummies" : "/shop";
-  const to = categoryPath;
   return (
     <m.div
       className="motion-card-shell"
@@ -103,29 +102,31 @@ function CategoryCard({ name, label, description }) {
       transition={motionTokens.spring}
     >
       <Link
-        className={`category-card${img ? " has-image" : ""}`}
-        to={to}
-        aria-label={`Shop ${label}`}
+        className={`category-card shop-category-card${img ? " has-image" : ""}`}
+        to={categoryPath}
+        aria-label={`Explore ${label}`}
       >
         {img ? (
-          <span className="category-card__media">
+          <span className="category-card__media shop-category-card__media">
             <ResponsiveImage
               src={img}
               alt=""
               sizes="(max-width: 899px) 50vw, 33vw"
-              loading="lazy"
+              loading="eager"
               decoding="async"
             />
           </span>
         ) : (
           <div className="category-symbol">{label.slice(0, 2).toUpperCase()}</div>
         )}
-        <span className="category-card__content">
-          <span className="category-card__copy">
+        <span className="shop-category-card__shade" aria-hidden="true" />
+        <span className="category-card__content shop-category-card__content">
+          <span className="category-card__copy shop-category-card__copy">
+            <span className="shop-category-card__eyebrow">Explore</span>
             <strong>{label}</strong>
             <small>{description}</small>
           </span>
-          <span className="category-card__action" aria-hidden="true">
+          <span className="category-card__action shop-category-card__action" aria-hidden="true">
             <ArrowRight />
           </span>
         </span>
@@ -266,6 +267,90 @@ function ProductCard({ product }) {
     </CatalogProductCard>
   );
 }
+
+function shopProductCardFacts(product) {
+  if (product.category === "Seltzers") {
+    return [
+      "THC Seltzer",
+      product.thcMgPerCan ? `${product.thcMgPerCan} mg THC` : null,
+      product.sugar || null,
+    ].filter(Boolean);
+  }
+  if (product.category === "Gummies") {
+    return [
+      "THC Gummies",
+      product.thcMgPerPiece ? `${product.thcMgPerPiece} mg THC` : null,
+      product.piecesPerPackage ? `${product.piecesPerPackage} pieces` : null,
+    ].filter(Boolean);
+  }
+  return [product.type, product.weight].filter(Boolean);
+}
+
+function ShopProductCard({ product }) {
+  const { add } = useCart();
+  const variants = useMemo(() => productVariants(product), [product]);
+  const selected = variants[0];
+  const item = configuredProduct(product, selected);
+  const [quantity, setQuantity] = useState(1);
+  const facts = shopProductCardFacts(product);
+
+  useEffect(() => {
+    setQuantity(1);
+  }, [product.id]);
+
+  return (
+    <CatalogProductCard
+      id={product.id}
+      to={`/product/${product.id}`}
+      image={selected.image || product.image}
+      imageAlt={`${product.name} ${product.type}`}
+      brand={product.brand}
+      contextLabel={null}
+      name={product.name}
+      price={selected.price}
+      className={`product-card product-card--shop-reference ${product.category === "Gummies" ? "product-card--gummy" : ""}`}
+      mediaClassName="product-media"
+      copyClassName="product-copy"
+      metaBeforePrice
+      meta={facts.length ? (
+        <span className="product-facts" aria-label={facts.join(", ")}>
+          {facts.map((fact) => <span key={fact}>{fact}</span>)}
+        </span>
+      ) : null}
+      motionProps={{ variants: motionVariants.item, layout: "position", style: { "--accent": product.accent } }}
+    >
+      <div className="shop-card-commerce">
+        <div className="shop-card-qty" aria-label={`Quantity for ${product.name}`}>
+          <button
+            type="button"
+            onClick={() => setQuantity((current) => Math.max(1, current - 1))}
+            aria-label={`Decrease ${product.name} quantity`}
+          >
+            <span aria-hidden="true">−</span>
+          </button>
+          <span aria-live="polite">{quantity}</span>
+          <button
+            type="button"
+            onClick={() => setQuantity((current) => Math.min(99, current + 1))}
+            aria-label={`Increase ${product.name} quantity`}
+          >
+            <span aria-hidden="true">+</span>
+          </button>
+        </div>
+        <m.button
+          type="button"
+          whileTap={{ scale: 0.985 }}
+          className="shop-card-add"
+          onClick={() => add(item, quantity)}
+          aria-label={`Add ${quantity} ${product.name} ${selected.label} to cart`}
+        >
+          Add to cart
+        </m.button>
+      </div>
+    </CatalogProductCard>
+  );
+}
+
 function HomePage() {
   return (
     <Shell>
@@ -281,7 +366,7 @@ function HomePage() {
         <Stagger className="drink-grid">
           {products.slice(0, 4).map((p) => (
             <StaggerItem key={p.id}>
-              <ProductCard product={p} />
+              <ShopProductCard product={p} />
             </StaggerItem>
           ))}
         </Stagger>
@@ -343,16 +428,26 @@ function ShopPage() {
   );
   return (
     <Shell>
-      <div className="shop-page">
+      <div className="shop-page shop-page--reference">
         <Reveal className="shop-intro">
-          <h1>{category === "Seltzers" ? "THC Seltzers" : category === "Gummies" ? "THC Gummies" : "Shop"}</h1>
-          <p>
-            {category === "Seltzers"
-              ? "Explore crisp, hemp-derived THC seltzers by flavor and pack format."
-              : category === "Gummies"
-                ? "Explore Lagom Naturals THC gummies by flavor and collection."
-                : "Premium THC beverages and gummies for every occasion."}
-          </p>
+          <div className="shop-intro__copy">
+            <h1>{category === "Seltzers" ? "THC Seltzers" : category === "Gummies" ? "THC Gummies" : "Shop"}</h1>
+            <p>
+              {category === "Seltzers"
+                ? "Explore crisp, hemp-derived THC seltzers by flavor and pack format."
+                : category === "Gummies"
+                  ? "Explore Lagom Naturals THC gummies by flavor and collection."
+                  : "Premium THC beverages and gummies for every occasion."}
+            </p>
+          </div>
+          {category === "All" && (
+            <div className="shop-intro__aside" aria-hidden="true">
+              <span>Good</span>
+              <span>Things</span>
+              <span>In Balance</span>
+              <i />
+            </div>
+          )}
         </Reveal>
         {category === "All" && (
           <Stagger className="category-grid">
