@@ -1040,3 +1040,38 @@
     background:color-mix(in oklab,rgba(27,30,26,.68) 38%,transparent)!important;
   }
 }
+
+
+/* Mobile variant popover anchoring correction.
+   The selector menu belongs to the picker, not the clipped diagonal glass
+   plane. Open directly below its trigger and keep it within the card width. */
+@media(max-width:699px){
+  .liquid-glass-product-card.product-card--shop-reference.is-variant-open{
+    overflow:visible!important;
+    z-index:20!important;
+  }
+
+  .liquid-glass-product-card .shop-card-variant-picker{
+    position:relative!important;
+    z-index:12!important;
+  }
+
+  .liquid-glass-product-card .shop-card-variant-menu{
+    position:absolute!important;
+    top:calc(100% + 6px)!important;
+    bottom:auto!important;
+    left:0!important;
+    right:auto!important;
+    width:100%!important;
+    min-width:100%!important;
+    max-width:100%!important;
+    margin:0!important;
+    transform-origin:top center!important;
+    overflow:hidden!important;
+    z-index:30!important;
+  }
+
+  .liquid-glass-product-card .shop-card-variant-menu button{
+    min-height:42px!important;
+  }
+}
