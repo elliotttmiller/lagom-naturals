@@ -82,30 +82,100 @@ body.age-gate-open{overflow:hidden!important}
   letter-spacing:-.01em;
 }
 .age-gate__panel button{
-  width:min(100%,360px)!important;
-  min-height:58px!important;
-  border-radius:2px!important;
-  border:1px solid #f7f4ec!important;
-  padding:0 24px!important;
+  position:relative!important;
+  isolation:isolate!important;
+  width:min(100%,380px)!important;
+  min-height:60px!important;
+  overflow:hidden!important;
+  border-radius:18px!important;
+  padding:0 26px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  border:1px solid rgba(255,255,255,.26)!important;
   font:800 11px/1 var(--font-ui,var(--sans,sans-serif))!important;
   letter-spacing:.13em!important;
   text-transform:uppercase;
-  transition:background-color .22s ease,color .22s ease,border-color .22s ease,transform .22s ease!important;
+  -webkit-backdrop-filter:blur(18px) saturate(1.18)!important;
+  backdrop-filter:blur(18px) saturate(1.18)!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.22),
+    0 14px 34px rgba(0,0,0,.18)!important;
+  transform:translateZ(0);
+  transition:
+    transform .22s cubic-bezier(.22,1,.36,1),
+    border-color .22s ease,
+    background-color .22s ease,
+    box-shadow .22s ease,
+    color .22s ease!important;
+}
+.age-gate__panel button::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-2;
+  pointer-events:none;
+  border-radius:inherit;
+}
+.age-gate__panel button::after{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  inset:1px;
+  border-radius:calc(18px - 1px);
+  pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.025) 46%,rgba(255,255,255,0));
+  opacity:.9;
 }
 .age-gate__panel button:not(.age-gate__exit){
-  background:#f7f4ec!important;
-  color:#11140f!important;
+  border-color:rgba(255,255,255,.42)!important;
+  background:rgba(247,244,236,.16)!important;
+  color:#fff!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.34),
+    inset 0 -1px 0 rgba(255,255,255,.05),
+    0 16px 38px rgba(0,0,0,.22)!important;
 }
-.age-gate__panel button:not(.age-gate__exit):hover{background:#fff!important;transform:translateY(-1px)}
-.age-gate__panel button:focus-visible{outline:3px solid #fff!important;outline-offset:4px!important}
+.age-gate__panel button:not(.age-gate__exit)::before{
+  background:
+    radial-gradient(circle at 18% 0%,rgba(255,255,255,.25),transparent 42%),
+    linear-gradient(135deg,rgba(255,255,255,.13),rgba(255,255,255,.035));
+}
+.age-gate__panel button:not(.age-gate__exit):hover{
+  transform:translateY(-2px)!important;
+  border-color:rgba(255,255,255,.62)!important;
+  background:rgba(247,244,236,.22)!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.42),
+    0 20px 42px rgba(0,0,0,.24)!important;
+}
+.age-gate__panel button:not(.age-gate__exit):active{
+  transform:translateY(0) scale(.985)!important;
+}
+.age-gate__panel button:focus-visible{
+  outline:2px solid rgba(255,255,255,.96)!important;
+  outline-offset:4px!important;
+}
 .age-gate__exit{
-  min-height:48px!important;
+  min-height:54px!important;
   margin-top:10px!important;
-  border-color:transparent!important;
-  background:transparent!important;
-  color:rgba(247,244,236,.74)!important;
+  border-color:rgba(255,255,255,.14)!important;
+  background:rgba(15,19,15,.18)!important;
+  color:rgba(247,244,236,.78)!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.08),
+    0 10px 26px rgba(0,0,0,.12)!important;
 }
-.age-gate__exit:hover{color:#fff!important;background:rgba(255,255,255,.08)!important}
+.age-gate__exit::before{
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.012));
+}
+.age-gate__exit:hover{
+  color:#fff!important;
+  border-color:rgba(255,255,255,.28)!important;
+  background:rgba(255,255,255,.08)!important;
+  transform:translateY(-1px)!important;
+}
+.age-gate__exit:active{transform:translateY(0) scale(.99)!important}
 
 @media(max-width:699px){
   .age-gate{min-height:100dvh!important}
@@ -133,8 +203,16 @@ body.age-gate-open{overflow:hidden!important}
   .age-gate__eyebrow{margin-bottom:14px!important;font-size:10px!important}
   .age-gate__panel h1{max-width:330px;font-size:clamp(48px,15vw,68px)!important;line-height:.91!important}
   .age-gate__panel>p:not(.age-gate__eyebrow){max-width:350px!important;margin:18px 0 24px!important;font-size:14px!important;line-height:1.5!important}
-  .age-gate__panel button{width:100%!important;min-height:56px!important}
-  .age-gate__exit{min-height:46px!important}
+  .age-gate__panel button{
+    width:100%!important;
+    min-height:58px!important;
+    border-radius:17px!important;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.2),
+      0 12px 28px rgba(0,0,0,.2)!important;
+  }
+  .age-gate__panel button::after{border-radius:16px!important}
+  .age-gate__exit{min-height:52px!important}
 }
 
 @media(max-width:380px){
