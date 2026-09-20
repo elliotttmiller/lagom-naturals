@@ -876,3 +876,23 @@
     clip-path:polygon(0 11%,100% 0,100% 100%,0 100%)!important;
   }
 }
+
+
+/* Variant cards without a standalone price can use a shallower glass shelf.
+   Pack pricing remains available in the Single / 4-pack selector menu. */
+@media(max-width:699px){
+  .liquid-glass-product-card.product-card--shop-reference:has(.shop-card-commerce--variant) .liquid-glass-product-card__glass{
+    min-height:35.5%!important;
+    height:35.5%!important;
+    clip-path:polygon(0 11%,100% 0,100% 100%,0 100%)!important;
+  }
+
+  .liquid-glass-product-card.product-card--shop-reference:has(.shop-card-commerce--variant) .liquid-glass-product-card__content{
+    padding-top:10%!important;
+  }
+
+  .liquid-glass-product-card.product-card--shop-reference:has(.shop-card-commerce--variant) .liquid-glass-product-card__footer{
+    margin-top:5px!important;
+    padding-top:5px!important;
+  }
+}
