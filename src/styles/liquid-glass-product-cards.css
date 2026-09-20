@@ -622,3 +622,146 @@
   object-fit:cover!important;
   object-position:center!important;
 }
+
+
+/* Mobile commerce controls: full labels + icon-only cart.
+   Preserve the glass treatment while giving the variant selector the horizontal
+   space needed to render “Single” and “4-pack” without truncation. */
+.shop-card-add__icon{
+  display:none!important;
+}
+
+@media(max-width:699px){
+  .liquid-glass-product-card .shop-card-commerce--variant{
+    grid-template-columns:minmax(0,1fr) 48px!important;
+    gap:8px!important;
+    align-items:stretch!important;
+  }
+
+  .liquid-glass-product-card .shop-card-commerce--single{
+    grid-template-columns:48px!important;
+    justify-content:end!important;
+  }
+
+  .liquid-glass-product-card .shop-card-variant-picker{
+    width:100%!important;
+    min-width:0!important;
+  }
+
+  .liquid-glass-product-card .shop-card-variant-trigger{
+    width:100%!important;
+    min-width:0!important;
+    height:44px!important;
+    min-height:44px!important;
+    padding:0 32px 0 12px!important;
+    justify-content:flex-start!important;
+    text-align:left!important;
+    border-radius:12px!important;
+    font-size:10.5px!important;
+    letter-spacing:0!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+  }
+
+  .liquid-glass-product-card .shop-card-variant-trigger>span:first-child{
+    width:auto!important;
+    min-width:0!important;
+    padding:0!important;
+    overflow:visible!important;
+    text-overflow:clip!important;
+    white-space:nowrap!important;
+    text-align:left!important;
+  }
+
+  .liquid-glass-product-card .shop-card-variant-trigger>span:last-child{
+    right:10px!important;
+    width:16px!important;
+    height:16px!important;
+  }
+
+  .liquid-glass-product-card .shop-card-add{
+    width:48px!important;
+    min-width:48px!important;
+    max-width:48px!important;
+    height:44px!important;
+    min-height:44px!important;
+    padding:0!important;
+    display:grid!important;
+    place-items:center!important;
+    border-radius:12px!important;
+  }
+
+  .liquid-glass-product-card .shop-card-add__label{
+    display:none!important;
+  }
+
+  .liquid-glass-product-card .shop-card-add__icon{
+    display:block!important;
+    width:20px!important;
+    height:20px!important;
+    stroke-width:1.8!important;
+    color:currentColor!important;
+    stroke:currentColor!important;
+  }
+
+  .liquid-glass-product-card .shop-card-variant-menu{
+    left:0!important;
+    right:auto!important;
+    width:100%!important;
+    min-width:100%!important;
+    max-width:100%!important;
+    overflow:hidden!important;
+    border-radius:12px!important;
+  }
+
+  .liquid-glass-product-card .shop-card-variant-menu button{
+    width:100%!important;
+    min-height:46px!important;
+    padding:0 12px!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:space-between!important;
+    gap:12px!important;
+    font-size:10.5px!important;
+    white-space:nowrap!important;
+  }
+
+  .liquid-glass-product-card .shop-card-variant-menu button span{
+    min-width:0!important;
+    overflow:visible!important;
+    text-overflow:clip!important;
+    white-space:nowrap!important;
+  }
+
+  .liquid-glass-product-card .shop-card-variant-menu button b{
+    flex:0 0 auto!important;
+    white-space:nowrap!important;
+  }
+}
+
+@media(max-width:380px){
+  .liquid-glass-product-card .shop-card-commerce--variant{
+    grid-template-columns:minmax(0,1fr) 44px!important;
+    gap:6px!important;
+  }
+
+  .liquid-glass-product-card .shop-card-commerce--single{
+    grid-template-columns:44px!important;
+  }
+
+  .liquid-glass-product-card .shop-card-add{
+    width:44px!important;
+    min-width:44px!important;
+    max-width:44px!important;
+    height:42px!important;
+    min-height:42px!important;
+  }
+
+  .liquid-glass-product-card .shop-card-variant-trigger{
+    height:42px!important;
+    min-height:42px!important;
+    padding-left:10px!important;
+    padding-right:29px!important;
+    font-size:10px!important;
+  }
+}
