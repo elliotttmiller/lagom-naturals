@@ -17,8 +17,12 @@ const searchableText=product=>[
 const POPULAR=[...new Set(products.flatMap(product=>[product.flavor,product.category,product.productLine]).filter(Boolean))].slice(0,6)
 
 function price(product){
-  const value=product.price??product.variants?.[0]?.price
-  return Number.isFinite(Number(value))?`$${Number(value).toFixed(2)}`:null
+  const variants=Array.isArray(product.variants)?product.variants:[]
+  const single=variants.find(variant=>String(variant.label??'').toLocaleLowerCase().includes('single'))
+  const value=single?.price??product.price??variants[0]?.price
+  if(!Number.isFinite(Number(value)))return null
+  const formatted=`${Number(value).toFixed(2)}`
+  return variants.length>1?`Starting at ${formatted}`:formatted
 }
 function facts(product){
   if(product.category==='Seltzers')return [product.flavor,product.thcMgPerCan?`${product.thcMgPerCan} mg THC / can`:null,product.canVolume].filter(Boolean)
