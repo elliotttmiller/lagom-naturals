@@ -100,16 +100,6 @@ function CartPage() {
                   <b>${(subtotal * 0.08).toFixed(2)}</b>
                 </p>
               </m.div>
-              <div className="pickup-row">
-                <span>
-                  <b>Lagom online ordering</b>
-                  <small>
-                    Availability, eligibility, and fulfillment are confirmed
-                    before completion.
-                  </small>
-                </span>
-                <button type="button">Change</button>
-              </div>
               <m.div whileHover={{ y: -2 }} whileTap={motionTokens.tap}>
                 <Link className="primary-bar linkbar" to="/checkout">
                   CONTINUE
