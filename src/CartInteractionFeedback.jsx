@@ -3,7 +3,7 @@ import{Link}from'react-router-dom'
 import'./add-to-cart-button.css'
 import'./cart-feedback-toast.css'
 
-const SELECTOR='.add-square, .pdp .primary-bar'
+const SELECTOR='.add-square, .shop-card-add, .pdp .primary-bar'
 const CART_KEY='lagom-beverage-cart-v1'
 const feedbackTimers=new WeakMap()
 const lockedControls=new WeakMap()
@@ -14,9 +14,18 @@ function cartGlyph(){return '<svg class="lagom-atc__cart" viewBox="0 0 24 24" ar
 
 function ensureEnhanced(button){
   if(!(button instanceof HTMLButtonElement)||button.dataset.lagomAtcEnhanced==='true')return
-  const isCard=button.classList.contains('add-square')
-  const label=isCard?'Add to cart':(button.textContent?.trim()||'Add to Cart')
   button.dataset.lagomAtcEnhanced='true'
+
+  /* React-rendered AddToCartButton already owns the exact PDP animation markup.
+     Do not replace its children; the feedback controller only drives data-state. */
+  if(button.classList.contains('lagom-atc')){
+    if(!button.dataset.state)button.dataset.state='idle'
+    button.dataset.cartAction='add'
+    return
+  }
+
+  const isCard=button.classList.contains('add-square')||button.classList.contains('shop-card-add')
+  const label=isCard?'Add to cart':(button.textContent?.trim()||'Add to Cart')
   button.dataset.state='idle'
   button.dataset.cartAction='add'
   button.classList.add('lagom-atc',isCard?'lagom-atc--card':'lagom-atc--wide')
@@ -28,7 +37,10 @@ function productNameFor(trigger){
   const pdp=trigger.closest('.pdp')
   if(pdp){const title=pdp.querySelector('h1');if(title?.textContent?.trim())return title.textContent.trim()}
   const card=trigger.closest('.product-card')
-  if(card){const title=card.querySelector('.product-copy h3');if(title?.textContent?.trim())return title.textContent.trim()}
+  if(card){
+    const title=card.querySelector('.liquid-glass-product-card__name, .product-copy h3, h3')
+    if(title?.textContent?.trim())return title.textContent.trim()
+  }
   return'Product added successfully'
 }
 
