@@ -163,11 +163,19 @@ function useAnchoredVariantMenu(isOpen, triggerRef) {
       const trigger = triggerRef.current;
       if (!trigger) return;
       const rect = trigger.getBoundingClientRect();
-      const viewportPadding = 8;
-      const width = Math.min(rect.width, window.innerWidth - viewportPadding * 2);
+      const viewportPadding = 10;
+      const preferredWidth = 196;
+      const maxWidth = window.innerWidth - viewportPadding * 2;
+      const width = Math.min(Math.max(rect.width, preferredWidth), maxWidth);
+      const fitsToRight = rect.left + width <= window.innerWidth - viewportPadding;
+      const desiredLeft = fitsToRight ? rect.left : rect.right - width;
+      const left = Math.min(
+        Math.max(viewportPadding, desiredLeft),
+        window.innerWidth - width - viewportPadding,
+      );
       setPosition({
-        "--variant-menu-top": `${rect.bottom + viewportPadding}px`,
-        "--variant-menu-left": `${Math.min(Math.max(viewportPadding, rect.left), window.innerWidth - width - viewportPadding)}px`,
+        "--variant-menu-top": `${rect.bottom + 8}px`,
+        "--variant-menu-left": `${left}px`,
         "--variant-menu-width": `${width}px`,
       });
     };
