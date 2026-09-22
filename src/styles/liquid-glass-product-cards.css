@@ -1178,3 +1178,67 @@ body .shop-card-variant-menu--portal button b{
     color:rgba(255,255,255,.92)!important;
   }
 }
+
+
+/* Shared PDP add-to-cart feedback inside catalog cards.
+   Product cards use the exact spinner/check animation contract from the PDP
+   while retaining the compact translucent card-button geometry. */
+.liquid-glass-product-card .shop-card-add.lagom-atc{
+  --lagom-atc-height:44px;
+  --lagom-atc-padding:0;
+  --lagom-atc-radius:12px;
+  --lagom-atc-icon-size:20px;
+  width:48px!important;
+  min-width:48px!important;
+  max-width:48px!important;
+  height:44px!important;
+  min-height:44px!important;
+  padding:0!important;
+  border-radius:12px!important;
+  overflow:hidden!important;
+  color:#fff!important;
+  background:rgba(19,22,19,.22)!important;
+  border:1px solid rgba(255,255,255,.28)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 6px 16px rgba(0,0,0,.10)!important;
+  -webkit-backdrop-filter:blur(14px) saturate(1.35)!important;
+  backdrop-filter:blur(14px) saturate(1.35)!important;
+}
+
+.liquid-glass-product-card .shop-card-add.lagom-atc .lagom-atc__surface{
+  background:linear-gradient(135deg,rgba(19,22,19,.66),rgba(34,38,34,.48))!important;
+}
+
+.liquid-glass-product-card .shop-card-add.lagom-atc .lagom-atc__label{
+  display:none!important;
+}
+
+.liquid-glass-product-card .shop-card-add.lagom-atc .lagom-atc__content{
+  gap:0!important;
+}
+
+.liquid-glass-product-card .shop-card-add.lagom-atc[data-state="adding"],
+.liquid-glass-product-card .shop-card-add.lagom-atc[data-state="added"]{
+  border-color:rgba(255,255,255,.38)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 8px 20px rgba(0,0,0,.13)!important;
+}
+
+.liquid-glass-product-card .shop-card-add.lagom-atc .lagom-atc__spinner{
+  width:18px!important;
+  height:18px!important;
+  margin:-9px 0 0 -9px!important;
+}
+
+.liquid-glass-product-card .shop-card-add.lagom-atc .lagom-atc__success{
+  width:22px!important;
+  height:22px!important;
+}
+
+@media(max-width:380px){
+  .liquid-glass-product-card .shop-card-add.lagom-atc{
+    width:44px!important;
+    min-width:44px!important;
+    max-width:44px!important;
+    height:42px!important;
+    min-height:42px!important;
+  }
+}
