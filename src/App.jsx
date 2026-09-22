@@ -1,5 +1,6 @@
 import React, {
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -149,75 +150,61 @@ function productCardFacts(product) {
   return [...new Set(facts.filter(Boolean))];
 }
 
-function useMobileVariantPicker() {
-  const [isMobile, setIsMobile] = useState(() => (
-    typeof window !== "undefined" && window.matchMedia("(max-width: 699px)").matches
-  ));
+function useAnchoredVariantMenu(isOpen, triggerRef) {
+  const [position, setPosition] = useState(null);
 
-  useEffect(() => {
-    const query = window.matchMedia("(max-width: 699px)");
-    const update = () => setIsMobile(query.matches);
-    update();
-    query.addEventListener("change", update);
-    return () => query.removeEventListener("change", update);
-  }, []);
+  useLayoutEffect(() => {
+    if (!isOpen) {
+      setPosition(null);
+      return undefined;
+    }
 
-  return isMobile;
+    const updatePosition = () => {
+      const trigger = triggerRef.current;
+      if (!trigger) return;
+      const rect = trigger.getBoundingClientRect();
+      const viewportPadding = 8;
+      const width = Math.min(rect.width, window.innerWidth - viewportPadding * 2);
+      setPosition({
+        "--variant-menu-top": `${rect.bottom + viewportPadding}px`,
+        "--variant-menu-left": `${Math.min(Math.max(viewportPadding, rect.left), window.innerWidth - width - viewportPadding)}px`,
+        "--variant-menu-width": `${width}px`,
+      });
+    };
+
+    updatePosition();
+    window.addEventListener("resize", updatePosition);
+    window.addEventListener("scroll", updatePosition, true);
+    return () => {
+      window.removeEventListener("resize", updatePosition);
+      window.removeEventListener("scroll", updatePosition, true);
+    };
+  }, [isOpen, triggerRef]);
+
+  return position;
 }
 
-function MobileVariantSheet({ productName, variants, selectedId, onSelect, onDismiss }) {
-  const panelRef = useRef(null);
-
-  useEffect(() => {
-    const selectedOption = panelRef.current?.querySelector('[aria-selected="true"]');
-    selectedOption?.focus();
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
-  }, []);
-
-  if (typeof document === "undefined") return null;
+function AnchoredVariantMenu({ productName, variants, selectedId, onSelect, menuRef, position }) {
+  if (typeof document === "undefined" || !position) return null;
 
   return createPortal(
-    <div className="mobile-variant-sheet" role="presentation">
-      <button
-        type="button"
-        className="mobile-variant-sheet__backdrop"
-        aria-label="Close size options"
-        onClick={onDismiss}
-      />
-      <m.section
-        className="mobile-variant-sheet__panel"
-        role="dialog"
-        aria-modal="true"
-        aria-label={`${productName} size options`}
-        ref={panelRef}
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 16 }}
-        transition={motionTokens.springSoft}
-      >
-        <span className="mobile-variant-sheet__handle" aria-hidden="true" />
-        <p>Select size</p>
-        <strong>{productName}</strong>
-        <div role="listbox" aria-label={`${productName} size options`}>
-          {variants.map((variant) => (
-            <button
-              type="button"
-              key={variant.id}
-              role="option"
-              aria-selected={variant.id === selectedId}
-              onClick={() => onSelect(variant)}
-            >
-              <span>{variant.label}</span>
-              <b>${variant.price.toFixed(2)}</b>
-            </button>
-          ))}
-        </div>
-      </m.section>
-    </div>,
+    <m.div
+      ref={menuRef}
+      className="variant-menu shop-card-variant-menu shop-card-variant-menu--portal"
+      role="listbox"
+      aria-label={`${productName} size options`}
+      style={position}
+      initial={{ opacity: 0, y: -6, scale: 0.98 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: -4, scale: 0.98 }}
+      transition={{ duration: motionTokens.duration.fast, ease: motionTokens.ease }}
+    >
+      {variants.map((variant) => (
+        <button type="button" key={variant.id} role="option" aria-selected={variant.id === selectedId} className={variant.id === selectedId ? "active" : ""} onClick={() => onSelect(variant)}>
+          <span>{variant.label}</span><b>${variant.price.toFixed(2)}</b>
+        </button>
+      ))}
+    </m.div>,
     document.body,
   );
 }
@@ -229,13 +216,13 @@ function ProductCard({ product }) {
   const [variantOpen, setVariantOpen] = useState(false);
   const pickerRef = useRef(null);
   const triggerRef = useRef(null);
-  const hadMobilePickerOpenRef = useRef(false);
-  const isMobileVariantPicker = useMobileVariantPicker();
+  const menuRef = useRef(null);
   const selected = variants.find((variant) => variant.id === selectedId) || variants[0];
   const item = configuredProduct(product, selected);
   const facts = productCardFacts(product);
   const contextLabel = product.category === "Gummies" ? product.productLine : null;
   const hasVariantPicker = product.category === "Seltzers" && variants.length > 1;
+  const menuPosition = useAnchoredVariantMenu(variantOpen && hasVariantPicker, triggerRef);
 
   useEffect(() => {
     setSelectedId(variants[0]?.id);
@@ -244,15 +231,8 @@ function ProductCard({ product }) {
 
   useEffect(() => {
     if (!variantOpen) return undefined;
-    if (isMobileVariantPicker) {
-      const key = (event) => {
-        if (event.key === "Escape") setVariantOpen(false);
-      };
-      document.addEventListener("keydown", key);
-      return () => document.removeEventListener("keydown", key);
-    }
     const close = (event) => {
-      if (!pickerRef.current?.contains(event.target)) setVariantOpen(false);
+      if (!pickerRef.current?.contains(event.target) && !menuRef.current?.contains(event.target)) setVariantOpen(false);
     };
     const key = (event) => {
       if (event.key === "Escape") setVariantOpen(false);
@@ -263,18 +243,7 @@ function ProductCard({ product }) {
       document.removeEventListener("pointerdown", close);
       document.removeEventListener("keydown", key);
     };
-  }, [isMobileVariantPicker, variantOpen]);
-
-  useEffect(() => {
-    if (variantOpen && isMobileVariantPicker) {
-      hadMobilePickerOpenRef.current = true;
-      return;
-    }
-    if (!variantOpen && hadMobilePickerOpenRef.current) {
-      triggerRef.current?.focus();
-      hadMobilePickerOpenRef.current = false;
-    }
-  }, [isMobileVariantPicker, variantOpen]);
+  }, [variantOpen]);
 
   const selectVariant = (variant) => {
     setSelectedId(variant.id);
@@ -310,26 +279,13 @@ function ProductCard({ product }) {
             <m.span animate={{ rotate: variantOpen ? 180 : 0 }} transition={motionTokens.springSnappy} aria-hidden="true"><ChevronDown /></m.span>
           </m.button>
           <Presence>
-            {variantOpen && !isMobileVariantPicker ? <m.div className="variant-menu shop-card-variant-menu" role="listbox" aria-label={`${product.name} size options`} initial={{ opacity: 0, y: -6, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 0.985 }} exit={{ opacity: 0, y: -4, scale: 0.985 }} transition={{ duration: motionTokens.duration.fast, ease: motionTokens.ease }}>
-              {variants.map((variant) => <button type="button" key={variant.id} role="option" aria-selected={variant.id === selected.id} className={variant.id === selected.id ? "active" : ""} onClick={() => selectVariant(variant)}><span>{variant.label}</span><b>${variant.price.toFixed(2)}</b></button>)}
-            </m.div> : null}
+            {variantOpen ? <AnchoredVariantMenu productName={product.name} variants={variants} selectedId={selected.id} onSelect={selectVariant} menuRef={menuRef} position={menuPosition} /> : null}
           </Presence>
         </div> : null}
         <m.button type="button" whileTap={{ scale: 0.94 }} className="shop-card-add" onClick={() => add(item)} aria-label={`Add ${product.name}, ${selected.label} to cart`}>
           <ShoppingCart className="shop-card-add__icon" aria-hidden="true" />
         </m.button>
       </div>
-      <Presence>
-        {variantOpen && isMobileVariantPicker ? (
-          <MobileVariantSheet
-            productName={product.name}
-            variants={variants}
-            selectedId={selected.id}
-            onSelect={selectVariant}
-            onDismiss={() => setVariantOpen(false)}
-          />
-        ) : null}
-      </Presence>
     </CatalogProductCard>
   );
 }
