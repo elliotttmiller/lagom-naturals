@@ -19,7 +19,6 @@ import {
   ChevronDown,
   Leaf,
   Package,
-  ShoppingCart,
   Sparkles,
   Plus,
 } from "lucide-react";
@@ -41,6 +40,7 @@ import {
 import Shell from "@/storefront/StorefrontShell";
 import HomeHero from "@/HomeHeroPortal";
 import CatalogProductCard from "@/storefront/CatalogProductCard";
+import AddToCartButton from "@/AddToCartButton";
 import ResponsiveImage from "@/storefront/ResponsiveImage";
 import { responsiveImages } from "@/generated/responsiveImages";
 import {
@@ -282,9 +282,13 @@ function ProductCard({ product }) {
             {variantOpen ? <AnchoredVariantMenu productName={product.name} variants={variants} selectedId={selected.id} onSelect={selectVariant} menuRef={menuRef} position={menuPosition} /> : null}
           </Presence>
         </div> : null}
-        <m.button type="button" whileTap={{ scale: 0.94 }} className="shop-card-add" onClick={() => add(item)} aria-label={`Add ${product.name}, ${selected.label} to cart`}>
-          <ShoppingCart className="shop-card-add__icon" aria-hidden="true" />
-        </m.button>
+        <AddToCartButton
+          size="card"
+          className="shop-card-add"
+          productId={product.id}
+          onClick={() => add(item)}
+          aria-label={`Add ${product.name}, ${selected.label} to cart`}
+        />
       </div>
     </CatalogProductCard>
   );
