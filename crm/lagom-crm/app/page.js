@@ -626,7 +626,7 @@ function OverviewTab({prospects,user}){
 }
 
 /* ── Accounts Tab ─────────────────────────────────────────────────────────── */
-function AccountsTab({prospects,reload,user}){
+function AccountsTab({prospects,reload,user,go}){
   const isAdmin=user.role==='admin';
   const [search,setSearch]=useState('');
   const [fStatus,setFStatus]=useState('All');
@@ -634,6 +634,10 @@ function AccountsTab({prospects,reload,user}){
   const [fRep,setFRep]=useState('All');
   const [sel,setSel]=useState(null);
   const [acts,setActs]=useState([]);
+  const [sales,setSales]=useState(null);
+  const [placements,setPlacements]=useState([]);
+  const [accountInvoices,setAccountInvoices]=useState([]);
+  const [catalog,setCatalog]=useState([]);
   const [showAdd,setShowAdd]=useState(false);
   const [saving,setSaving]=useState(false);
   const blank={business_name:'',contact_name:'',phone:'',email:'',address:'',city:'',state:'MN',status:'New',priority:'Medium',assigned_to:'',notes:''};
@@ -651,9 +655,15 @@ function AccountsTab({prospects,reload,user}){
   }),[prospects,search,fStatus,fZone,fRep]);
 
   const openDetail=async p=>{
-    setSel(p);
-    const{data}=await supabase.from('sales_activities').select('*').eq('prospect_id',p.id).order('activity_date',{ascending:false});
-    setActs(data||[]);
+    setSel(p);setSales(null);setPlacements([]);setAccountInvoices([]);
+    const[{data:activity},{data:metric},{data:placed},{data:invs},{data:products}]=await Promise.all([
+      supabase.from('sales_activities').select('*').eq('prospect_id',p.id).order('activity_date',{ascending:false}),
+      supabase.from('crm_account_sales_metrics').select('*').eq('prospect_id',p.id).maybeSingle(),
+      supabase.from('crm_account_product_placements').select('*').eq('prospect_id',p.id).order('lifetime_revenue',{ascending:false}),
+      supabase.from('crm_invoice_rollup').select('*').eq('prospect_id',p.id).order('issued_at',{ascending:false}).limit(8),
+      supabase.from('products').select('id,name,sku,product_line,status').eq('status','Active').order('product_line').order('name'),
+    ]);
+    setActs(activity||[]);setSales(metric||null);setPlacements(placed||[]);setAccountInvoices(invs||[]);setCatalog(products||[]);
   };
 
   const updateField=async(id,field,val)=>{
@@ -776,6 +786,17 @@ function AccountsTab({prospects,reload,user}){
               </div>
             ))}
             {sel.notes&&<div style={{marginTop:12,padding:12,background:P.amberL,borderRadius:8,fontSize:12,color:P.amber,lineHeight:1.5}}>{sel.notes}</div>}
+            <div className="sep"/>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:8,marginBottom:10}}><div style={{fontWeight:800,fontSize:14}}>Account 360 · Sales</div><button className="btn btn-g btn-sm" onClick={()=>go&&go('sales')}>Open Sales</button></div>
+            <div className="g2" style={{marginBottom:14,gap:8}}>
+              {[['Lifetime Revenue',fmtFull$(sales?.lifetime_revenue||0),P.teal],['Lifetime Cases',Number(sales?.lifetime_cases||0).toFixed(Number(sales?.lifetime_cases||0)%1?1:0),P.plum],['Last Order',sales?.last_order_date?fmtDS(sales.last_order_date):'-',P.amber],['Balance Due',fmtFull$(sales?.balance_due||0),Number(sales?.balance_due||0)>0?P.rose:P.teal]].map(([l,v,c])=><div key={l} style={{padding:10,background:P.slateL,borderRadius:9}}><div style={{fontSize:9.5,color:P.t3,fontWeight:800,textTransform:'uppercase'}}>{l}</div><div style={{fontSize:14,fontWeight:900,color:c,marginTop:3}}>{v}</div></div>)}
+            </div>
+            <div style={{fontWeight:750,fontSize:12.5,marginBottom:7}}>Product Placement</div>
+            <div style={{border:'1px solid '+P.border,borderRadius:9,overflow:'hidden',marginBottom:14}}>
+              {catalog.length?catalog.map((prod,i)=>{const placed=placements.find(x=>x.product_id===prod.id||x.sku===prod.sku);return <div key={prod.id} style={{display:'flex',alignItems:'center',gap:8,padding:'8px 10px',borderBottom:i<catalog.length-1?'1px solid '+P.border:'none'}}><div style={{width:7,height:7,borderRadius:'50%',background:placed?P.teal:P.border,flexShrink:0}}/><div style={{flex:1,minWidth:0}}><div style={{fontSize:11.5,fontWeight:650,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{prod.name}</div>{placed&&<div style={{fontSize:10,color:P.t3}}>{Number(placed.lifetime_cases||0)} cases · last {fmtDS(placed.last_order_date)}</div>}</div><Badge label={placed?'Placed':'Opportunity'} color={placed?P.teal:P.t3}/></div>}):<div style={{fontSize:12,color:P.t3,padding:10}}>No catalog data</div>}
+            </div>
+            <div style={{fontWeight:750,fontSize:12.5,marginBottom:7}}>Recent Invoices</div>
+            {accountInvoices.length?accountInvoices.map(inv=><div key={inv.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:8,padding:'8px 0',borderBottom:'1px solid '+P.border}}><div><div style={{fontFamily:'monospace',fontSize:11,fontWeight:800,color:P.teal}}>{inv.invoice_number}</div><div style={{fontSize:10.5,color:P.t3}}>{fmtDS(inv.issued_at)} · {inv.sale_type||'Sale'}</div></div><div style={{textAlign:'right'}}><div style={{fontSize:12,fontWeight:800}}>{fmtFull$(inv.invoice_total)}</div>{Number(inv.balance_due||0)>0&&<div style={{fontSize:10,color:P.rose}}>{fmtFull$(inv.balance_due)} due</div>}</div></div>):<div style={{fontSize:12,color:P.t3,marginBottom:12}}>No sales history yet</div>}
             <div className="sep"/>
             <div style={{fontWeight:700,marginBottom:10,fontSize:14}}>Activity History</div>
             {acts.length?acts.map((a,i)=>(
