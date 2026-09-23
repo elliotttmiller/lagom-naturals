@@ -1433,13 +1433,14 @@ function OrdersTab({prospects,user}){
               sku:prod?.sku||null,
               product_name:prod?.name||item.product_name,
               description:prod?.description||null,
-              category:prod?.category||null,
+              category:prod?.depletion_category||prod?.category||null,
               cases_sold:cases,
               sale_price:Number(item.unit_price||0),
               revenue,
               cogs_per_case:cogs,
               total_cogs:cogs===null?null:cases*cogs,
               gross_profit:cogs===null?null:revenue-(cases*cogs),
+              cost_reference:prod?.cost_per_unit_reference??null,
             };
           });
           if(normalized.length)await supabase.from('invoice_items').insert(normalized);
