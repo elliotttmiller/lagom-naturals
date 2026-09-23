@@ -2,15 +2,18 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import SalesWorkspace from '../components/crm/SalesWorkspace';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
+import { createPreviewClient } from '../lib/previewClient';
 
 const IS_STATIC_PREVIEW = process.env.NEXT_PUBLIC_STATIC_PREVIEW === 'true';
 const APP_BASE_PATH = process.env.NEXT_PUBLIC_APP_BASE_PATH || '';
-const assetUrl = path => `${APP_BASE_PATH}${path.startsWith('/') ? path : `/${path}`}`;
+const assetUrl = path => `${APP_BASE_PATH}${path.startsWith("/") ? path : `/${path}` }`;
+
+const supabase = IS_STATIC_PREVIEW
+  ? createPreviewClient()
+  : createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    );
 
 /* ── Palette ──────────────────────────────────────────────────────────────── */
 const P = {
