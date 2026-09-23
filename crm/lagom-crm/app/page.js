@@ -40,7 +40,6 @@ const STATUSES = ['New','Contacted','Follow Up','Meeting Set','Proposal Sent','W
 const PRIORITIES = ['High','Medium','Low'];
 const ACT_TYPES = ['Call','Email','In-Person Visit','Demo','Follow-Up','Meeting','Proposal','Check-In'];
 const EVT_STATUSES = ['Upcoming','In Progress','Completed','Cancelled'];
-const REPS = ['Roman','Jess'];
 const ORD_STATUSES = ['Draft','Confirmed','Shipped','Delivered','Cancelled'];
 
 const SC = {
@@ -401,6 +400,7 @@ function InvestorDashboard({user,onLogout}){
   const [prospects,setProspects]=useState([]);
   const [orders,setOrders]=useState([]);
   const [products,setProducts]=useState([]);
+  const reps=useMemo(()=>[...new Set(prospects.map(p=>p.assigned_to).filter(Boolean))].sort(),[prospects]);
   const [loading,setLoading]=useState(true);
 
   useEffect(()=>{
@@ -800,7 +800,7 @@ function AccountsTab({prospects,reload,user,go}){
               </div>
               <div><label>Assigned To</label>
                 <select value={sel.assigned_to||''} onChange={e=>updateField(sel.id,'assigned_to',e.target.value)}>
-                  <option value="">Unassigned</option>{REPS.map(r=><option key={r}>{r}</option>)}
+                  <option value="">Unassigned</option>{reps.map(r=><option key={r}>{r}</option>)}
                 </select>
               </div>
             </div>
@@ -856,7 +856,7 @@ function AccountsTab({prospects,reload,user,go}){
               <div><label>Status</label><select value={newP.status} onChange={e=>setNewP(p=>({...p,status:e.target.value}))}>{STATUSES.map(s=><option key={s}>{s}</option>)}</select></div>
               <div><label>Priority</label><select value={newP.priority} onChange={e=>setNewP(p=>({...p,priority:e.target.value}))}>{PRIORITIES.map(s=><option key={s}>{s}</option>)}</select></div>
             </div>
-            <div><label>Assign To</label><select value={newP.assigned_to} onChange={e=>setNewP(p=>({...p,assigned_to:e.target.value}))}><option value="">Unassigned</option>{REPS.map(r=><option key={r}>{r}</option>)}</select></div>
+            <div><label>Assign To</label><select value={newP.assigned_to} onChange={e=>setNewP(p=>({...p,assigned_to:e.target.value}))}><option value="">Unassigned</option>{reps.map(r=><option key={r}>{r}</option>)}</select></div>
             <div><label>Notes</label><textarea rows={2} value={newP.notes} onChange={e=>setNewP(p=>({...p,notes:e.target.value}))}/></div>
             <div style={{display:'flex',gap:8,marginTop:4}}>
               <button className="btn btn-p" onClick={addProspect} disabled={saving||!newP.business_name.trim()}>{saving?<Spinner size={14}/>:'Add Account'}</button>
@@ -969,6 +969,7 @@ function PipelineTab({prospects,reload,user}){
 
 /* ── Territories Tab ──────────────────────────────────────────────────────── */
 function TerritoriesTab({prospects,reload}){
+  const reps=useMemo(()=>[...new Set(prospects.map(p=>p.assigned_to).filter(Boolean))].sort(),[prospects]);
   const [selZone,setSelZone]=useState('');
   const [assignRep,setAssignRep]=useState('');
   const [assigning,setAssigning]=useState(false);
@@ -1017,7 +1018,7 @@ function TerritoriesTab({prospects,reload}){
             <label>Rep</label>
             <select value={assignRep} onChange={e=>setAssignRep(e.target.value)}>
               <option value="">Select rep…</option>
-              {REPS.map(r=><option key={r}>{r}</option>)}
+              {reps.map(r=><option key={r}>{r}</option>)}
             </select>
           </div>
           <button className="btn btn-p" onClick={doAssign} disabled={!selZone||!assignRep||assigning}>
@@ -1669,7 +1670,7 @@ function OrdersTab({prospects,user}){
 }
 
 /* ── Events Tab ───────────────────────────────────────────────────────────── */
-function EventsTab(){
+function EventsTab({prospects}){
   const [events,setEvents]=useState([]);
   const [products,setProducts]=useState([]);
   const [loading,setLoading]=useState(true);
@@ -1742,7 +1743,7 @@ function EventsTab(){
             </div>
             <div><label>Venue</label><input value={form.venue} onChange={e=>setForm(f=>({...f,venue:e.target.value}))}/></div>
             <div className="frow">
-              <div><label>Rep</label><select value={form.rep} onChange={e=>setForm(f=>({...f,rep:e.target.value}))}><option value="">Select</option>{REPS.map(r=><option key={r}>{r}</option>)}</select></div>
+              <div><label>Rep</label><select value={form.rep} onChange={e=>setForm(f=>({...f,rep:e.target.value}))}><option value="">Select</option>{reps.map(r=><option key={r}>{r}</option>)}</select></div>
               <div><label>Status</label><select value={form.status} onChange={e=>setForm(f=>({...f,status:e.target.value}))}>{EVT_STATUSES.map(s=><option key={s}>{s}</option>)}</select></div>
             </div>
             <div>
@@ -1766,6 +1767,7 @@ function EventsTab(){
 /* ── Activity Tab ─────────────────────────────────────────────────────────── */
 function ActivityTab({prospects}){
   const [activities,setActivities]=useState([]);
+  const reps=useMemo(()=>[...new Set(prospects.map(p=>p.assigned_to).filter(Boolean))].sort(),[prospects]);
   const [loading,setLoading]=useState(true);
   const [showAdd,setShowAdd]=useState(false);
   const [saving,setSaving]=useState(false);
@@ -1840,7 +1842,7 @@ function ActivityTab({prospects}){
             </div>
             <div className="frow">
               <div><label>Type</label><select value={form.activity_type} onChange={e=>setForm(f=>({...f,activity_type:e.target.value}))}>{ACT_TYPES.map(t=><option key={t}>{t}</option>)}</select></div>
-              <div><label>Rep</label><select value={form.rep} onChange={e=>setForm(f=>({...f,rep:e.target.value}))}><option value="">Select</option>{REPS.map(r=><option key={r}>{r}</option>)}</select></div>
+              <div><label>Rep</label><select value={form.rep} onChange={e=>setForm(f=>({...f,rep:e.target.value}))}><option value="">Select</option>{reps.map(r=><option key={r}>{r}</option>)}</select></div>
             </div>
             <div><label>Date</label><input type="date" value={form.activity_date} onChange={e=>setForm(f=>({...f,activity_date:e.target.value}))}/></div>
             <div><label>Outcome</label><input value={form.outcome} onChange={e=>setForm(f=>({...f,outcome:e.target.value}))} placeholder="e.g. Positive, will follow up"/></div>
@@ -2393,6 +2395,7 @@ function SettingsTab(){
 
 /* ── Setup Tab (admin only) ───────────────────────────────────────────────── */
 function SetupTab({prospects,reload}){
+  const reps=useMemo(()=>[...new Set(prospects.map(p=>p.assigned_to).filter(Boolean))].sort(),[prospects]);
   const [section,setSection]=useState('geocode');
   const [selZone,setSelZone]=useState('');
   const [assignRep,setAssignRep]=useState('');
@@ -2612,7 +2615,7 @@ function SetupTab({prospects,reload}){
               <label>Assign to Rep</label>
               <select value={assignRep} onChange={e=>setAssignRep(e.target.value)}>
                 <option value="">Select rep…</option>
-                {REPS.map(r=><option key={r}>{r}</option>)}
+                {reps.map(r=><option key={r}>{r}</option>)}
               </select>
             </div>
             <button className="btn btn-p" onClick={doAssign} disabled={!selZone||!assignRep||assigning} style={{alignSelf:'flex-start'}}>
