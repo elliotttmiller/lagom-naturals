@@ -788,7 +788,7 @@ function AccountsTab({prospects,reload,user,go}){
             ))}
             {sel.notes&&<div style={{marginTop:12,padding:12,background:P.amberL,borderRadius:8,fontSize:12,color:P.amber,lineHeight:1.5}}>{sel.notes}</div>}
             <div className="sep"/>
-            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:8,marginBottom:10}}><div style={{fontWeight:800,fontSize:14}}>Account 360 · Sales</div><button className="btn btn-g btn-sm" onClick={()=>go&&go('sales')}>Open Sales</button></div>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:8,marginBottom:10}}><div style={{fontWeight:800,fontSize:14}}>Account 360 · Sales</div><button className="btn btn-g btn-sm" onClick={()=>go&&go('sales','transactions')}>Open Sales</button></div>
             <div className="g2" style={{marginBottom:14,gap:8}}>
               {[['Lifetime Revenue',fmtFull$(sales?.lifetime_revenue||0),P.teal],['Lifetime Cases',Number(sales?.lifetime_cases||0).toFixed(Number(sales?.lifetime_cases||0)%1?1:0),P.plum],['Last Order',sales?.last_order_date?fmtDS(sales.last_order_date):'-',P.amber],['Balance Due',fmtFull$(sales?.balance_due||0),Number(sales?.balance_due||0)>0?P.rose:P.teal]].map(([l,v,c])=><div key={l} style={{padding:10,background:P.slateL,borderRadius:9}}><div style={{fontSize:9.5,color:P.t3,fontWeight:800,textTransform:'uppercase'}}>{l}</div><div style={{fontSize:14,fontWeight:900,color:c,marginTop:3}}>{v}</div></div>)}
             </div>
@@ -2680,8 +2680,8 @@ function TodayTab({prospects,user,go}){
   const dueReorders=myReorders.filter(r=>['Due','Overdue'].includes(r.reorder_status)).sort((a,b)=>b.days_since_last_order-a.days_since_last_order);
   const actionableAR=myAR.filter(r=>r.is_overdue||(r.next_follow_up_date&&r.next_follow_up_date<=today)).sort((a,b)=>b.days_past_due-a.days_past_due);
   const nbas=[];
-  actionableAR.slice(0,2).forEach(i=>nbas.push({kind:'risk',icon:'$',title:i.account_name+' has '+fmtFull$(i.balance_due)+' outstanding',desc:i.is_overdue?i.days_past_due+' days past due':'Collection follow-up due today',cta:'Open AR',dest:'sales'}));
-  dueReorders.slice(0,3).forEach(r=>nbas.push({kind:r.reorder_status==='Overdue'?'risk':'warn',icon:'↻',title:r.account_name+' is ready for a reorder',desc:r.days_since_last_order+' days since last order'+(r.avg_reorder_days?' · '+r.avg_reorder_days+' day cadence':''),cta:'Open reorders',dest:'sales'}));
+  actionableAR.slice(0,2).forEach(i=>nbas.push({kind:'risk',icon:'$',title:i.account_name+' has '+fmtFull$(i.balance_due)+' outstanding',desc:i.is_overdue?i.days_past_due+' days past due':'Collection follow-up due today',cta:'Open AR',dest:'sales',subview:'ar'}));
+  dueReorders.slice(0,3).forEach(r=>nbas.push({kind:r.reorder_status==='Overdue'?'risk':'warn',icon:'↻',title:r.account_name+' is ready for a reorder',desc:r.days_since_last_order+' days since last order'+(r.avg_reorder_days?' · '+r.avg_reorder_days+' day cadence':''),cta:'Open reorders',dest:'sales',subview:'reorders'}));
   overdue.slice(0,Math.max(0,4-nbas.length)).forEach(p=>nbas.push({kind:'risk',icon:'!',title:`${p.business_name} needs a follow-up`,
     desc:`Overdue since ${fmtDS(p.next_follow_up)}${p.county?` · ${p.county} County`:p.city?` · ${p.city}`:''}`,cta:'Open account',dest:'accounts'}));
   dueToday.slice(0,3).forEach(p=>nbas.push({kind:'warn',icon:'↻',title:`${p.business_name} · due today`,
@@ -2729,7 +2729,7 @@ function TodayTab({prospects,user,go}){
         {nbas.map((n,i)=>{
           const s=kindStyle[n.kind];
           return(
-            <div key={i} className="card card-i" onClick={()=>go&&go(n.dest)}
+            <div key={i} className="card card-i" onClick={()=>go&&go(n.dest,n.subview)}
               style={{display:'flex',gap:12,alignItems:'flex-start',borderLeft:`3px solid ${s.bar}`,cursor:'pointer'}}>
               <div style={{width:36,height:36,borderRadius:10,background:s.bg,color:s.fg,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,fontWeight:900,fontSize:16}}>{n.icon}</div>
               <div style={{flex:1,minWidth:0}}>
@@ -2818,7 +2818,11 @@ function App({user,onLogout}){
 
   const visibleTabs=useMemo(()=>ALL_TABS.filter(t=>!t.adminOnly||isAdmin),[isAdmin]);
 
-  const tp={prospects,reload:loadProspects,user,go:setTab};
+  const go=(next,subview)=>{
+    if(subview&&next==='sales'){try{sessionStorage.setItem('lagom_sales_view',subview);}catch{}}
+    setTab(next);
+  };
+  const tp={prospects,reload:loadProspects,user,go};
 
   const renderTab=()=>{
     if(pLoading)return <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:16,padding:60}}><Spinner size={28}/><div style={{color:P.t3,fontSize:13}}>Loading CRM data…</div></div>;
