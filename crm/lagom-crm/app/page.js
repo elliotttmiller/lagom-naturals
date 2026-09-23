@@ -1961,7 +1961,7 @@ function InventoryTab({user}){
 
 /* ── Lagom AI Tab ─────────────────────────────────────────────────────────── */
 function LagomAITab({prospects,user}){
-  const [msgs,setMsgs]=useState([{role:'assistant',content:`Hi ${user.name}! I'm Lagom AI, your CRM co-pilot grounded in real account data.\n\nI have live context on ${prospects.length} Lagom Naturals accounts across the Twin Cities. Ask me about pipeline status, overdue follow-ups, territory performance, rep rankings, or sales strategy.`}]);
+  const [msgs,setMsgs]=useState([{role:'assistant',content:`Hi ${user.name}! I'm Lagom AI, your CRM co-pilot grounded in account and sales operations data.\n\nI have context on ${prospects.length} Lagom Naturals accounts across Minnesota. Ask me about pipeline status, follow-ups, territory coverage, rep activity, or commercial priorities.`}]);
   const [input,setInput]=useState('');
   const [loading,setLoading]=useState(false);
   const bottomRef=useRef(null);
@@ -2220,9 +2220,9 @@ function SettingsTab(){
           {[
             ['Company Name','Lagom Naturals'],
             ['Headquarters','707 N 3rd St, Minneapolis, MN 55401'],
-            ['Territory','Twin Cities Metro Area'],
-            ['Products','24K Lemonade, Watermelon Refresher, Blackberry Breeze, Strawberry Lime Fusion'],
-            ['Sales Reps','Roman (West Suburbs), Jessica (Minneapolis Metro)'],
+            ['Territory','Minnesota'],
+            ['Products','Managed through the CRM product catalog'],
+            ['Sales Team','Managed through CRM users and account assignments'],
           ].map(([k,v])=>(
             <div key={k} style={{marginBottom:14}}>
               <div style={{fontSize:11,fontWeight:700,color:P.t2,textTransform:'uppercase',letterSpacing:'.5px',marginBottom:4}}>{k}</div>
