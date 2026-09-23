@@ -17,13 +17,13 @@ const supabase = IS_STATIC_PREVIEW
 
 /* ── Palette ──────────────────────────────────────────────────────────────── */
 const P = {
-  bg:'#F6F8FB', white:'#FFFFFF', border:'#E7EBF1',
-  text:'#0E1726', t2:'#5B6676', t3:'#98A2B2',
-  teal:'#0F6E56', tealL:'#E6F4F0', tealM:'#1A8A6B',
-  amber:'#9A6A12', amberL:'#FBF1E0',
-  slate:'#0F172A', slateL:'#EEF2F7', nav:'#1E293B',
-  plum:'#6B3A7D', plumL:'#F2ECF7',
-  rose:'#B0413C', roseL:'#FBECEB',
+  bg:'#F4F5F2', white:'#FFFFFF', border:'#E1E5E0',
+  text:'#17201C', t2:'#5D6962', t3:'#8B958F',
+  teal:'#176B52', tealL:'#E9F3EE', tealM:'#218365',
+  amber:'#9A6B25', amberL:'#F8F0E3',
+  slate:'#1B2420', slateL:'#EEF1EE', nav:'#18231F',
+  plum:'#67516F', plumL:'#F0ECF2',
+  rose:'#A44943', roseL:'#F8ECEA',
 };
 
 /* ── Static credentials ───────────────────────────────────────────────────── */
@@ -43,12 +43,12 @@ const EVT_STATUSES = ['Upcoming','In Progress','Completed','Cancelled'];
 const ORD_STATUSES = ['Draft','Confirmed','Shipped','Delivered','Cancelled'];
 
 const SC = {
-  New:'#6366f1', Contacted:'#2563eb', 'Follow Up':'#d97706',
-  'Meeting Set':'#16a34a', 'Proposal Sent':'#8b5cf6',
-  Won:'#059669', Lost:'#dc2626', 'Not Interested':'#6b7280',
+  New:'#69766F', Contacted:'#4F6F8D', 'Follow Up':'#A6792E',
+  'Meeting Set':'#4F7F67', 'Proposal Sent':'#745F7D',
+  Won:'#176B52', Lost:'#A44943', 'Not Interested':'#7D8781',
 };
-const PC = { High:'#dc2626', Medium:'#d97706', Low:'#6b7280' };
-const OSC = { Draft:'#3A4A5C', Confirmed:'#0F6E56', Shipped:'#996B1D', Delivered:'#059669', Cancelled:'#9E3A3A' };
+const PC = { High:'#A44943', Medium:'#9A6B25', Low:'#69766F' };
+const OSC = { Draft:'#69766F', Confirmed:'#176B52', Shipped:'#9A6B25', Delivered:'#4F7F67', Cancelled:'#A44943' };
 
 const HQ = { lat:44.9863, lng:-93.2727 };
 
@@ -114,106 +114,7 @@ function downloadCSV(rows,filename='lagom-export.csv'){
 }
 
 /* ── Global Styles ────────────────────────────────────────────────────────── */
-function GlobalStyles(){
-  return(
-    <style>{`
-      *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-      html,body{height:100%;background:${P.bg};font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:${P.text};font-size:14px;overflow-x:hidden;max-width:100vw}
-      table{width:100%;border-collapse:collapse}
-      th{background:${P.slateL};color:${P.slate};font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;padding:10px 14px;text-align:left;white-space:nowrap;position:sticky;top:0;z-index:1}
-      td{padding:10px 14px;border-bottom:1px solid ${P.border};font-size:13px;vertical-align:middle}
-      tr:hover>td{background:#F6F4F0}
-      input,select,textarea{font-family:inherit;font-size:13px;padding:8px 12px;border:1.5px solid ${P.border};border-radius:8px;background:#fff;color:${P.text};outline:none;transition:border-color .15s;width:100%}
-      input:focus,select:focus,textarea:focus{border-color:${P.teal};box-shadow:0 0 0 3px ${P.tealL}}
-      button{cursor:pointer;font-family:inherit}
-      ::-webkit-scrollbar{width:5px;height:5px}
-      ::-webkit-scrollbar-track{background:transparent}
-      ::-webkit-scrollbar-thumb{background:#D0CCC4;border-radius:4px}
-      .layout{display:flex;height:100vh;overflow:hidden}
-      .sidebar{width:216px;flex-shrink:0;background:${P.nav};display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;z-index:10;transition:width .2s ease}
-      .main{flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden;background:${P.bg}}
-      .topbar{height:54px;border-bottom:1px solid ${P.border};background:${P.white};display:flex;align-items:center;padding:0 24px;gap:12px;flex-shrink:0}
-      .content{flex:1;overflow-y:auto;padding:24px}
-      .content-inner{max-width:1480px;margin:0 auto;width:100%}
-      .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-      .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-      .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-      .card{background:${P.white};border:1px solid ${P.border};border-radius:14px;padding:20px;box-shadow:0 1px 2px rgba(16,23,38,.04),0 4px 12px rgba(16,23,38,.03);transition:box-shadow .2s ease,transform .2s ease}
-      .card-i{cursor:pointer}
-      .card-i:hover{box-shadow:0 4px 16px rgba(16,23,38,.10),0 2px 6px rgba(16,23,38,.05);transform:translateY(-2px)}
-      .tnum{font-variant-numeric:tabular-nums;font-feature-settings:'tnum'}
-      @keyframes shimmer{0%{background-position:-400px 0}100%{background-position:400px 0}}
-      .skeleton{background:linear-gradient(90deg,${P.slateL} 25%,#F4F6FA 50%,${P.slateL} 75%);background-size:800px 100%;animation:shimmer 1.3s linear infinite;border-radius:8px}
-      .auth{display:flex;min-height:100dvh}
-      .auth-hero{flex:1;background:linear-gradient(155deg,#0F172A 0%,#13233B 55%,#0E3A2E 100%);color:#fff;padding:52px 56px;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;overflow:hidden}
-      .auth-glow{position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(26,138,107,.35),transparent 70%);top:-120px;right:-120px;pointer-events:none}
-      .auth-form{width:480px;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:32px;background:${P.bg}}
-      .auth-feat{display:flex;gap:13px;align-items:flex-start;margin-top:20px;max-width:460px}
-      @media(max-width:880px){
-        .auth{flex-direction:column}
-        .auth-hero{padding:34px 22px 26px}
-        .auth-form{width:100%;flex:1;padding:28px 18px 40px}
-        .auth-feat{margin-top:14px}
-        .auth-feat-extra{display:none}
-      }
-      .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;border:none;transition:opacity .15s;white-space:nowrap}
-      .btn:hover{opacity:.88}
-      .btn:active{transform:translateY(1px)}
-      .btn-p{background:${P.teal};color:#fff}
-      .btn-g{background:${P.white};border:1.5px solid ${P.border};color:${P.t2}}
-      .btn-a{background:${P.amberL};border:1.5px solid #D4952860;color:${P.amber}}
-      .btn-r{background:${P.roseL};border:1.5px solid #C0504060;color:${P.rose}}
-      .btn-sm{padding:5px 12px;font-size:12px;border-radius:7px}
-      .badge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap}
-      .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;display:flex;align-items:center;justify-content:center;padding:16px}
-      .modal{background:${P.white};border-radius:16px;padding:28px;max-width:540px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
-      .modal-wide{max-width:700px}
-      label{display:block;font-size:12px;font-weight:600;color:${P.t2};margin-bottom:4px}
-      .frow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-      .ovfl{overflow-x:auto;border-radius:12px;border:1.5px solid ${P.border}}
-      .sep{height:1px;background:${P.border};margin:16px 0}
-      .tab-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;gap:12px;flex-wrap:wrap}
-      .tab-h h2{font-size:21px;font-weight:900;letter-spacing:-.4px}
-      .tab-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-      .detail-panel{position:fixed;right:0;top:0;bottom:0;width:400px;background:${P.white};border-left:1.5px solid ${P.border};box-shadow:-4px 0 24px rgba(0,0,0,.08);z-index:200;display:flex;flex-direction:column;overflow:hidden}
-      .sales-invoice-line{display:grid;grid-template-columns:minmax(220px,1fr) 72px 100px 90px 32px;gap:6px;align-items:center;margin-bottom:6px}
-      .sales-line-total{font-size:12px;text-align:right;font-weight:800}
-      .sales-line-remove{border:none;background:transparent;font-size:19px;color:${P.t3};min-width:32px;min-height:32px}
-      .mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:${P.nav};z-index:200;border-top:1px solid rgba(255,255,255,.08)}
-      .hamburger{display:none;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;border:1.5px solid ${P.border};background:#fff;color:${P.text};font-size:17px;flex-shrink:0}
-      .drawer-ov{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:250}
-      .drawer{position:fixed;top:0;bottom:0;left:0;width:248px;max-width:84vw;background:${P.nav};z-index:260;display:flex;flex-direction:column;overflow-y:auto;animation:slideIn .2s ease}
-      @keyframes slideIn{from{transform:translateX(-100%)}to{transform:translateX(0)}}
-      @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-      .fade{animation:fadeIn .18s ease}
-      @keyframes spin{to{transform:rotate(360deg)}}
-      .spin{animation:spin .9s linear infinite}
-      @keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}
-      @media(max-width:1024px){.g4{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr}}
-      @media(max-width:768px){
-        .sidebar{display:none}
-        .hamburger{display:inline-flex}
-        .mob-nav{display:flex;justify-content:space-around;padding:8px 2px;padding-bottom:calc(8px + env(safe-area-inset-bottom))}
-        .content{padding:16px;padding-bottom:calc(78px + env(safe-area-inset-bottom))}
-        .g4,.g3{grid-template-columns:1fr 1fr}
-        .g2{grid-template-columns:1fr}
-        .topbar{padding-left:calc(14px + env(safe-area-inset-left));padding-right:calc(14px + env(safe-area-inset-right))}
-        .detail-panel{width:100%;left:0}
-        .hide-mob{display:none!important}
-        .frow{grid-template-columns:1fr}
-        .sales-invoice-line{grid-template-columns:minmax(0,1fr) 92px 40px;gap:8px;padding:10px 0;border-bottom:1px solid ${P.border}}
-        .sales-invoice-line>select{grid-column:1/-1;min-height:44px}
-        .sales-line-qty{grid-column:1;min-height:44px}
-        .sales-line-price{grid-column:2;min-height:44px}
-        .sales-line-total{grid-column:1/3;text-align:left;padding-left:2px;color:${P.teal}}
-        .sales-line-remove{grid-column:3;grid-row:2;min-height:44px;min-width:40px}
-        td,th{padding:8px 10px}
-      }
-      @media(max-width:380px){.g4,.g3{grid-template-columns:1fr}}
-      @media(max-width:480px){.g4,.g3{grid-template-columns:1fr}}
-    `}</style>
-  );
-}
+function GlobalStyles(){return <style>{"\n      *,*::before,*::after{box-sizing:border-box}\n      html,body{margin:0;min-height:100%;background:#F4F5F2;font-family:'DM Sans',Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#17201C;font-size:14px;overflow-x:hidden}\n      body{letter-spacing:-.01em}\n      button,input,select,textarea{font:inherit}\n      button{cursor:pointer}\n      button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid #176B52;outline-offset:2px}\n      a{color:inherit}\n      ::selection{background:#E9F3EE;color:#176B52}\n      ::-webkit-scrollbar{width:7px;height:7px}\n      ::-webkit-scrollbar-track{background:transparent}\n      ::-webkit-scrollbar-thumb{background:#C7CDC8;border-radius:999px}\n      ::-webkit-scrollbar-thumb:hover{background:#AEB7B0}\n      .layout{display:flex;height:100dvh;overflow:hidden;background:#F4F5F2}\n      .sidebar{width:236px;flex-shrink:0;background:#18231F;display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;z-index:20;transition:width .2s ease;border-right:1px solid rgba(255,255,255,.06)}\n      .main{flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden;background:#F4F5F2}\n      .topbar{height:64px;border-bottom:1px solid #E1E5E0;background:rgba(255,255,255,.9);backdrop-filter:blur(14px);display:flex;align-items:center;padding:0 28px;gap:14px;flex-shrink:0;position:relative;z-index:12}\n      .content{flex:1;overflow-y:auto;padding:28px}\n      .content-inner{max-width:1500px;margin:0 auto;width:100%}\n      .nav-group{padding:10px 10px 0}\n      .nav-group-label{padding:10px 10px 6px;color:rgba(255,255,255,.34);font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}\n      .nav-item{min-height:40px;border-radius:10px!important;border-left:0!important;margin:2px 0;padding:9px 10px!important}\n      .nav-item:hover{background:rgba(255,255,255,.06)!important;color:#fff!important}\n      .nav-item-active{background:rgba(89,184,143,.14)!important;color:#fff!important;box-shadow:inset 0 0 0 1px rgba(89,184,143,.12)}\n      .nav-item-active::before{content:'';position:absolute;left:0;top:10px;bottom:10px;width:2px;border-radius:2px;background:#62C39A}\n      .g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}\n      .g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}\n      .g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}\n      .card{background:#fff;border:1px solid #E1E5E0;border-radius:16px;padding:18px;box-shadow:0 1px 2px rgba(23,32,28,.025),0 8px 28px rgba(23,32,28,.035);transition:border-color .16s ease,box-shadow .16s ease,transform .16s ease}\n      .card-i{cursor:pointer}\n      .card-i:hover{border-color:#CCD3CD;box-shadow:0 1px 2px rgba(23,32,28,.03),0 12px 32px rgba(23,32,28,.07);transform:translateY(-1px)}\n      .tnum{font-variant-numeric:tabular-nums;font-feature-settings:'tnum'}\n      table{width:100%;border-collapse:separate;border-spacing:0}\n      th{background:#F7F8F6;color:#66716A;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.075em;padding:11px 14px;text-align:left;white-space:nowrap;position:sticky;top:0;z-index:1;border-bottom:1px solid #E1E5E0}\n      td{padding:12px 14px;border-bottom:1px solid #EBEEEA;font-size:12.5px;vertical-align:middle;background:#fff}\n      tbody tr:last-child td{border-bottom:0}\n      tbody tr:hover td{background:#FAFBF9}\n      .ovfl{overflow:auto;border-radius:14px;border:1px solid #E1E5E0;background:#fff;box-shadow:0 1px 2px rgba(23,32,28,.025)}\n      input,select,textarea{width:100%;min-height:40px;padding:9px 11px;border:1px solid #D9DEDA;border-radius:10px;background:#fff;color:#17201C;outline:none;transition:border-color .15s,box-shadow .15s,background .15s}\n      textarea{min-height:84px;resize:vertical}\n      input:hover,select:hover,textarea:hover{border-color:#C6CEC8}\n      input:focus,select:focus,textarea:focus{border-color:#176B52;box-shadow:0 0 0 3px rgba(23,107,82,.1)}\n      label{display:block;font-size:11px;font-weight:700;color:#5D6962;margin-bottom:6px}\n      .frow{display:grid;grid-template-columns:1fr 1fr;gap:12px}\n      .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:38px;padding:8px 14px;border-radius:10px;font-size:12.5px;font-weight:700;border:1px solid transparent;transition:background .15s,border-color .15s,box-shadow .15s,transform .08s;white-space:nowrap}\n      .btn:hover{opacity:1}\n      .btn:active{transform:translateY(1px)}\n      .btn:disabled{opacity:.46;cursor:not-allowed;transform:none}\n      .btn-p{background:#176B52;color:#fff;box-shadow:0 1px 2px rgba(23,107,82,.14)}\n      .btn-p:hover{background:#125C46}\n      .btn-g{background:#fff;border-color:#E1E5E0;color:#5D6962}\n      .btn-g:hover{background:#F7F8F6;border-color:#C8CEC9;color:#17201C}\n      .btn-a{background:#F8F0E3;border-color:#E9D8BA;color:#9A6B25}\n      .btn-r{background:#F8ECEA;border-color:#EECFCA;color:#A44943}\n      .btn-sm{min-height:34px;padding:6px 10px;font-size:11.5px;border-radius:9px}\n      .badge{display:inline-flex;align-items:center;min-height:23px;padding:3px 8px;border-radius:999px;font-size:10.5px;font-weight:750;white-space:nowrap;line-height:1}\n      .tab-h{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;gap:14px;flex-wrap:wrap}\n      .tab-h h2{margin:0;font-size:24px;font-weight:750;letter-spacing:-.035em;line-height:1.1}\n      .tab-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}\n      .section-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.09em;color:#8B958F}\n      .sep{height:1px;background:#E1E5E0;margin:18px 0}\n      .overlay{position:fixed;inset:0;background:rgba(20,29,25,.42);backdrop-filter:blur(3px);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px}\n      .modal{background:#fff;border:1px solid #E1E5E0;border-radius:18px;padding:22px;max-width:560px;width:100%;max-height:90dvh;overflow:auto;box-shadow:0 26px 80px rgba(17,25,21,.2)}\n      .modal-wide{max-width:760px}\n      .detail-panel{position:fixed;right:0;top:0;bottom:0;width:500px;max-width:96vw;background:#fff;border-left:1px solid #E1E5E0;box-shadow:-18px 0 52px rgba(17,25,21,.12);z-index:220;display:flex;flex-direction:column;overflow:hidden}\n      .detail-panel::before{content:'';position:absolute;inset:0 auto 0 0;width:1px;background:linear-gradient(180deg,transparent,rgba(23,107,82,.3),transparent)}\n      .today-hero{background:linear-gradient(145deg,#18231F 0%,#21342B 58%,#1C4434 100%);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:24px;color:#fff;margin-bottom:18px;position:relative;overflow:hidden;box-shadow:0 16px 38px rgba(24,35,31,.12)}\n      .today-hero::after{content:'';position:absolute;width:320px;height:320px;border-radius:50%;right:-120px;top:-150px;background:radial-gradient(circle,rgba(96,196,153,.2),transparent 70%)}\n      .today-stat{min-width:128px;flex:1;background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.1);border-radius:13px;padding:12px 13px;backdrop-filter:blur(5px)}\n      .sales-invoice-line{display:grid;grid-template-columns:minmax(220px,1fr) 72px 100px 90px 32px;gap:7px;align-items:center;margin-bottom:7px}\n      .sales-line-total{font-size:12px;text-align:right;font-weight:800}\n      .sales-line-remove{border:none;background:transparent;font-size:19px;color:#8B958F;min-width:32px;min-height:32px;border-radius:8px}\n      .sales-line-remove:hover{background:#EEF1EE;color:#17201C}\n      .auth{display:flex;min-height:100dvh;background:#F4F5F2}\n      .auth-hero{flex:1;background:linear-gradient(145deg,#17221E 0%,#1C3028 58%,#1A4A37 100%);color:#fff;padding:54px 58px;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;overflow:hidden}\n      .auth-glow{position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(73,176,133,.22),transparent 70%);top:-180px;right:-160px;pointer-events:none}\n      .auth-form{width:500px;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:36px;background:#F7F8F5}\n      .auth-feat{display:flex;gap:13px;align-items:flex-start;margin-top:20px;max-width:480px}\n      .mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(24,35,31,.96);backdrop-filter:blur(14px);z-index:200;border-top:1px solid rgba(255,255,255,.08)}\n      .hamburger{display:none;align-items:center;justify-content:center;width:40px;height:40px;border-radius:10px;border:1px solid #E1E5E0;background:#fff;color:#17201C;font-size:17px;flex-shrink:0}\n      .drawer-ov{position:fixed;inset:0;background:rgba(19,28,24,.42);backdrop-filter:blur(2px);z-index:250}\n      .drawer{position:fixed;top:0;bottom:0;left:0;width:280px;max-width:86vw;background:#18231F;z-index:260;display:flex;flex-direction:column;overflow-y:auto;animation:slideIn .18s ease;box-shadow:20px 0 50px rgba(0,0,0,.18)}\n      @keyframes slideIn{from{transform:translateX(-100%)}to{transform:translateX(0)}}\n      @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}\n      .fade{animation:fadeIn .16s ease}\n      @keyframes spin{to{transform:rotate(360deg)}}\n      .spin{animation:spin .9s linear infinite}\n      @keyframes shimmer{0%{background-position:-400px 0}100%{background-position:400px 0}}\n      .skeleton{background:linear-gradient(90deg,#EEF1EE 25%,#F7F8F6 50%,#EEF1EE 75%);background-size:800px 100%;animation:shimmer 1.3s linear infinite;border-radius:8px}\n      @media(max-width:1180px){.g4{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(2,minmax(0,1fr))}}\n      @media(max-width:900px){.auth{flex-direction:column}.auth-hero{padding:34px 24px 28px}.auth-form{width:100%;padding:28px 18px 40px}.auth-feat-extra{display:none}}\n      @media(max-width:768px){\n        .sidebar{display:none}.hamburger{display:inline-flex}\n        .mob-nav{display:flex;justify-content:space-around;padding:7px 4px;padding-bottom:calc(7px + env(safe-area-inset-bottom))}\n        .content{padding:16px 14px;padding-bottom:calc(80px + env(safe-area-inset-bottom))}\n        .content-inner{max-width:none}.topbar{height:58px;padding-left:calc(12px + env(safe-area-inset-left));padding-right:calc(12px + env(safe-area-inset-right))}\n        .g4,.g3,.g2{grid-template-columns:1fr}.card{padding:15px;border-radius:14px}.tab-h{margin-bottom:14px}.tab-h h2{font-size:21px}\n        .detail-panel{width:100%;max-width:none;left:0}.hide-mob{display:none!important}.frow{grid-template-columns:1fr}.btn{min-height:44px}.btn-sm{min-height:40px}\n        input,select,textarea{min-height:44px}.today-hero{padding:18px;border-radius:17px}.today-stat{min-width:calc(50% - 6px)}\n        .sales-invoice-line{grid-template-columns:minmax(0,1fr) 92px 40px;gap:8px;padding:10px 0;border-bottom:1px solid #E1E5E0}\n        .sales-invoice-line>select{grid-column:1/-1;min-height:44px}.sales-line-qty{grid-column:1;min-height:44px}.sales-line-price{grid-column:2;min-height:44px}\n        .sales-line-total{grid-column:1/3;text-align:left;padding-left:2px;color:#176B52}.sales-line-remove{grid-column:3;grid-row:2;min-height:44px;min-width:40px}\n        th,td{padding:10px 11px}\n      }\n      @media(max-width:430px){.g4,.g3{grid-template-columns:1fr}.today-stat{min-width:calc(50% - 6px)}}\n      @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}\n"}</style>;}
 
 /* ── Chart Canvas ─────────────────────────────────────────────────────────── */
 function ChartCanvas({type,data,options={},height=220}){
@@ -877,25 +778,17 @@ function PipelineTab({prospects,reload,user}){
 
   const statusCounts=useMemo(()=>{const c={};STATUSES.forEach(stage=>c[stage]=prospects.filter(p=>p.status===stage).length);return c;},[prospects]);
   const reps=useMemo(()=>[...new Set(prospects.map(p=>p.assigned_to).filter(Boolean))].sort(),[prospects]);
-
   const base=useMemo(()=>prospects.filter(p=>fRep==='All'||(p.assigned_to||'')===fRep),[prospects,fRep]);
   const filtered=useMemo(()=>base.filter(p=>fStatus==='All'||p.status===fStatus),[base,fStatus]);
-
   const updateStatus=async(id,status)=>{await supabase.from('prospects').update({status}).eq('id',id);reload();};
   const csvRows=filtered.map(p=>({Business:p.business_name,Status:p.status,Priority:p.priority,Rep:p.assigned_to,City:p.city,'Next Follow-Up':p.next_follow_up}));
 
   return(
     <div className="fade">
       <div className="tab-h">
-        <div>
-          <div className="section-label" style={{marginBottom:7}}>Opportunity management</div>
-          <h2>Pipeline</h2>
-          <div style={{fontSize:12,color:P.t3,marginTop:6}}>See stage health at a glance, keep follow-ups visible, and move opportunities forward with less table work.</div>
-        </div>
+        <div><div className="section-label" style={{marginBottom:7}}>Opportunity management</div><h2>Pipeline</h2><div style={{fontSize:12,color:P.t3,marginTop:6}}>See stage health at a glance, keep follow-ups visible, and move opportunities forward with less table work.</div></div>
         <div className="tab-actions">
-          <select value={fRep} onChange={e=>setFRep(e.target.value)} style={{width:142}}>
-            <option value="All">All reps</option>{reps.map(r=><option key={r}>{r}</option>)}
-          </select>
+          <select value={fRep} onChange={e=>setFRep(e.target.value)} style={{width:142}}><option value="All">All reps</option>{reps.map(r=><option key={r}>{r}</option>)}</select>
           <div style={{display:'inline-flex',padding:3,border:'1px solid '+P.border,borderRadius:10,background:'#F6F7F5',gap:2}}>
             {['board','list'].map(v=><button key={v} className="btn btn-sm" onClick={()=>setView(v)} style={{background:view===v?'#fff':'transparent',color:view===v?P.text:P.t2,border:'none',boxShadow:view===v?'0 1px 4px rgba(23,32,28,.08)':'none',textTransform:'capitalize'}}>{v}</button>)}
           </div>
@@ -905,12 +798,7 @@ function PipelineTab({prospects,reload,user}){
 
       <div className="card" style={{display:'flex',gap:7,marginBottom:16,flexWrap:'nowrap',overflowX:'auto',padding:10}}>
         <button onClick={()=>setFStatus('All')} className="btn btn-sm" style={{background:fStatus==='All'?P.slate:P.slateL,color:fStatus==='All'?'#fff':P.slate,border:'none'}}>All <span className="tnum">({base.length})</span></button>
-        {STATUSES.map(stage=>(
-          <button key={stage} onClick={()=>setFStatus(fStatus===stage?'All':stage)} className="btn btn-sm"
-            style={{background:fStatus===stage?SC[stage]:SC[stage]+'10',color:fStatus===stage?'#fff':SC[stage],border:'1px solid '+SC[stage]+'28'}}>
-            {stage} <span className="tnum">({base.filter(p=>p.status===stage).length})</span>
-          </button>
-        ))}
+        {STATUSES.map(stage=><button key={stage} onClick={()=>setFStatus(fStatus===stage?'All':stage)} className="btn btn-sm" style={{background:fStatus===stage?SC[stage]:SC[stage]+'10',color:fStatus===stage?'#fff':SC[stage],border:'1px solid '+SC[stage]+'28'}}>{stage} <span className="tnum">({base.filter(p=>p.status===stage).length})</span></button>)}
       </div>
 
       {view==='board'?(
@@ -932,9 +820,7 @@ function PipelineTab({prospects,reload,user}){
                       <Badge label={p.priority||'Medium'} color={PC[p.priority]||P.t3}/>
                       <span style={{fontSize:10.5,fontWeight:overdue?750:600,color:overdue?P.rose:P.t3}}>{p.next_follow_up?fmtDS(p.next_follow_up):'No follow-up'}</span>
                     </div>
-                    <select value={p.status} onChange={e=>updateStatus(p.id,e.target.value)} style={{marginTop:10,minHeight:34,fontSize:11.5,padding:'6px 8px'}}>
-                      {STATUSES.map(x=><option key={x}>{x}</option>)}
-                    </select>
+                    <select value={p.status} onChange={e=>updateStatus(p.id,e.target.value)} style={{marginTop:10,minHeight:34,fontSize:11.5,padding:'6px 8px'}}>{STATUSES.map(x=><option key={x}>{x}</option>)}</select>
                   </div>;
                 }):<div style={{padding:18,textAlign:'center',fontSize:11,color:P.t3,border:'1px dashed '+P.border,borderRadius:12}}>No accounts</div>}
               </div>
@@ -945,20 +831,12 @@ function PipelineTab({prospects,reload,user}){
         <div className="ovfl">
           <table>
             <thead><tr><th style={{width:'30%'}}>Business</th><th>Status</th><th className="hide-mob">Priority</th>{isAdmin&&<th>Rep</th>}<th className="hide-mob">City</th><th>Follow-Up</th><th style={{width:150}}>Move Stage</th></tr></thead>
-            <tbody>
-              {filtered.length?filtered.map(p=>{
-                const overdue=p.next_follow_up&&p.next_follow_up<todayStr();
-                return <tr key={p.id}>
-                  <td><div style={{fontWeight:700}}>{p.business_name}</div><div style={{fontSize:10.5,color:P.t3,marginTop:2}}>{p.city||''}</div></td>
-                  <td><Badge label={p.status} color={SC[p.status]}/></td>
-                  <td className="hide-mob"><Badge label={p.priority} color={PC[p.priority]}/></td>
-                  {isAdmin&&<td style={{fontSize:12}}>{p.assigned_to||'-'}</td>}
-                  <td className="hide-mob" style={{fontSize:12,color:P.t2}}>{p.city||'-'}</td>
-                  <td style={{fontSize:12,color:overdue?P.rose:P.text,fontWeight:overdue?750:500}}>{p.next_follow_up?fmtDS(p.next_follow_up):'-'}</td>
-                  <td><select value={p.status} style={{fontSize:11.5,minHeight:34,padding:'5px 8px'}} onChange={e=>updateStatus(p.id,e.target.value)}>{STATUSES.map(stage=><option key={stage}>{stage}</option>)}</select></td>
-                </tr>;
-              }):<tr><td colSpan={7}><Empty msg="No records match the current filters"/></td></tr>}
-            </tbody>
+            <tbody>{filtered.length?filtered.map(p=>{const overdue=p.next_follow_up&&p.next_follow_up<todayStr();return <tr key={p.id}>
+              <td><div style={{fontWeight:700}}>{p.business_name}</div><div style={{fontSize:10.5,color:P.t3,marginTop:2}}>{p.city||''}</div></td>
+              <td><Badge label={p.status} color={SC[p.status]}/></td><td className="hide-mob"><Badge label={p.priority} color={PC[p.priority]}/></td>{isAdmin&&<td style={{fontSize:12}}>{p.assigned_to||'-'}</td>}
+              <td className="hide-mob" style={{fontSize:12,color:P.t2}}>{p.city||'-'}</td><td style={{fontSize:12,color:overdue?P.rose:P.text,fontWeight:overdue?750:500}}>{p.next_follow_up?fmtDS(p.next_follow_up):'-'}</td>
+              <td><select value={p.status} style={{fontSize:11.5,minHeight:34,padding:'5px 8px'}} onChange={e=>updateStatus(p.id,e.target.value)}>{STATUSES.map(stage=><option key={stage}>{stage}</option>)}</select></td>
+            </tr>}):<tr><td colSpan={7}><Empty msg="No records match the current filters"/></td></tr>}</tbody>
           </table>
         </div>
       )}
