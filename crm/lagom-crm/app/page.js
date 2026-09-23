@@ -8,6 +8,10 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
 
+const IS_STATIC_PREVIEW = process.env.NEXT_PUBLIC_STATIC_PREVIEW === 'true';
+const APP_BASE_PATH = process.env.NEXT_PUBLIC_APP_BASE_PATH || '';
+const assetUrl = path => `${APP_BASE_PATH}${path.startsWith('/') ? path : `/${path}`}`;
+
 /* ── Palette ──────────────────────────────────────────────────────────────── */
 const P = {
   bg:'#F6F8FB', white:'#FFFFFF', border:'#E7EBF1',
@@ -329,7 +333,7 @@ function Login({onLogin}){
         <div className="auth-glow"/>
         <div style={{position:'relative',width:'100%',maxWidth:560}}>
           <div style={{display:'flex',alignItems:'center',gap:11,marginBottom:30}}>
-            <img src="/logo.png" alt="Lagom" style={{height:34}}/>
+            <img src={assetUrl("/logo.png")} alt="Lagom" style={{height:34}}/>
             <span style={{fontWeight:900,fontSize:17,letterSpacing:'-.3px'}}>Lagom CRM</span>
           </div>
           <h1 style={{fontSize:32,fontWeight:900,letterSpacing:'-.8px',lineHeight:1.12,maxWidth:520}}>The field sales CRM built for beverage brands.</h1>
@@ -413,7 +417,7 @@ function InvestorDashboard({user,onLogout}){
       <GlobalStyles/>
       <div style={{background:P.slate,padding:'0 28px',height:56,display:'flex',alignItems:'center',justifyContent:'space-between'}}>
         <div style={{display:'flex',alignItems:'center',gap:12}}>
-          <img src="/logo.png" alt="Lagom" style={{height:32,flexShrink:0}}/>
+          <img src={assetUrl("/logo.png")} alt="Lagom" style={{height:32,flexShrink:0}}/>
           <div>
             <div style={{fontWeight:900,fontSize:14,color:'#fff'}}>Lagom Naturals</div>
             <div style={{fontSize:10,color:'rgba(255,255,255,.45)'}}>Investor View · Read Only</div>
@@ -2111,6 +2115,12 @@ RULES (CRITICAL):
 
   const send=async()=>{
     const text=input.trim();if(!text||loading)return;
+    if(IS_STATIC_PREVIEW){
+      setInput('');
+      setMsgs(m=>[...m,{role:'user',content:text},{role:'assistant',content:'Lagom AI is disabled in the GitHub Pages development preview because it requires the server-side Anthropic API route. Use the production Next.js deployment to test AI responses.'}]);
+      inputRef.current?.focus();
+      return;
+    }
     setInput('');
     const newMsgs=[...msgs,{role:'user',content:text}];
     setMsgs(newMsgs);setLoading(true);
@@ -2142,7 +2152,7 @@ RULES (CRITICAL):
           <div style={{width:40,height:40,borderRadius:12,background:`linear-gradient(135deg,${P.teal},${P.plum})`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:20,boxShadow:`0 4px 12px ${P.teal}40`}}>✦</div>
           <div>
             <h2 style={{marginBottom:0}}>Lagom AI</h2>
-            <div style={{fontSize:11,color:P.t3,marginTop:1}}>Claude-powered · {prospects.length} accounts in context · data-grounded only</div>
+            <div style={{fontSize:11,color:P.t3,marginTop:1}}>{IS_STATIC_PREVIEW?'Static preview · AI server route disabled':'Claude-powered'} · {prospects.length} accounts in context · data-grounded only</div>
           </div>
         </div>
         <button className="btn btn-g btn-sm" onClick={()=>setMsgs([{role:'assistant',content:`Context refreshed: ${prospects.length} accounts loaded. What would you like to know?`}])}>Reset Chat</button>
@@ -2380,6 +2390,10 @@ function SetupTab({prospects,reload}){
   const [geoErr,setGeoErr]=useState('');
 
   const runGeocode=async()=>{
+    if(IS_STATIC_PREVIEW){
+      setGeoErr('Bulk geocoding is disabled in the GitHub Pages development preview because it requires the server-side Google Geocoding route. Existing stored coordinates and map views remain available.');
+      return;
+    }
     const todo=prospects.filter(p=>(!p.latitude||!p.longitude)&&p.address&&p.address!=='N/A');
     if(!todo.length){setGeoErr('All accounts with an address already have coordinates.');return;}
     setGeoErr('');setGeoRunning(true);
@@ -2889,7 +2903,7 @@ function App({user,onLogout}){
       <div className="sidebar" style={{width:collapsed?66:216}}>
         <div style={{padding:collapsed?'18px 0 14px':'18px 16px 14px',borderBottom:'1px solid rgba(255,255,255,.08)'}}>
           <div style={{display:'flex',alignItems:'center',gap:10,justifyContent:collapsed?'center':'flex-start'}}>
-            <img src="/logo.png" alt="Lagom" style={{height:34,flexShrink:0}}/>
+            <img src={assetUrl("/logo.png")} alt="Lagom" style={{height:34,flexShrink:0}}/>
             {!collapsed&&<div>
               <div style={{fontWeight:900,fontSize:14,color:'#fff',letterSpacing:'-.3px'}}>Lagom CRM</div>
               <div style={{fontSize:11,color:'rgba(255,255,255,.45)',letterSpacing:'.2px'}}>Minnesota Sales Operations</div>
@@ -2952,7 +2966,7 @@ function App({user,onLogout}){
           <div className="drawer">
             <div style={{padding:'18px 16px 14px',borderBottom:'1px solid rgba(255,255,255,.08)',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
               <div style={{display:'flex',alignItems:'center',gap:10}}>
-                <img src="/logo.png" alt="Lagom" style={{height:32,flexShrink:0}}/>
+                <img src={assetUrl("/logo.png")} alt="Lagom" style={{height:32,flexShrink:0}}/>
                 <div style={{fontWeight:900,fontSize:14,color:'#fff',letterSpacing:'-.3px'}}>Lagom CRM</div>
               </div>
               <button onClick={()=>setDrawerOpen(false)} aria-label="Close" style={{background:'none',border:'none',color:'rgba(255,255,255,.6)',fontSize:20,cursor:'pointer',lineHeight:1}}>×</button>
