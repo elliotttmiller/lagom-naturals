@@ -31,7 +31,6 @@ const CREDS = {
 /* ── CRM constants ────────────────────────────────────────────────────────── */
 const STATUSES = ['New','Contacted','Follow Up','Meeting Set','Proposal Sent','Won','Lost','Not Interested'];
 const PRIORITIES = ['High','Medium','Low'];
-const PRODUCTS = ['24K Lemonade','Watermelon Refresher','Blackberry Breeze','Strawberry Lime Fusion','Mixed Sampler','Full Line'];
 const ACT_TYPES = ['Call','Email','In-Person Visit','Demo','Follow-Up','Meeting','Proposal','Check-In'];
 const EVT_STATUSES = ['Upcoming','In Progress','Completed','Cancelled'];
 const REPS = ['Roman','Jess'];
@@ -376,15 +375,17 @@ function Login({onLogin}){
 function InvestorDashboard({user,onLogout}){
   const [prospects,setProspects]=useState([]);
   const [orders,setOrders]=useState([]);
+  const [products,setProducts]=useState([]);
   const [loading,setLoading]=useState(true);
 
   useEffect(()=>{
     async function load(){
-      const[{data:ps},{data:ords}]=await Promise.all([
+      const[{data:ps},{data:ords},{data:catalog}]=await Promise.all([
         supabase.from('prospects').select('status,assigned_to,city'),
         supabase.from('orders').select('status,total_amount,created_at'),
+        supabase.from('products').select('id,name,sku,product_line,status').eq('status','Active').order('product_line').order('name'),
       ]);
-      setProspects(ps||[]);setOrders(ords||[]);setLoading(false);
+      setProspects(ps||[]);setOrders(ords||[]);setProducts(catalog||[]);setLoading(false);
     }
     load();
   },[]);
@@ -441,10 +442,10 @@ function InvestorDashboard({user,onLogout}){
               </CardChart>
               <CardChart title="Products">
                 <div style={{display:'flex',flexDirection:'column',gap:10,paddingTop:8}}>
-                  {PRODUCTS.map(p=>(
-                    <div key={p} style={{display:'flex',alignItems:'center',gap:10}}>
+                  {products.map(p=>(
+                    <div key={p.id} style={{display:'flex',alignItems:'center',gap:10}}>
                       <div style={{width:8,height:8,borderRadius:'50%',background:P.teal,flexShrink:0}}/>
-                      <div style={{fontSize:13,fontWeight:500,flex:1}}>{p}</div>
+                      <div style={{fontSize:13,fontWeight:500,flex:1}}>{p.name}<div style={{fontSize:10,color:P.t3,marginTop:1}}>{p.sku||p.product_line||''}</div></div>
                     </div>
                   ))}
                 </div>
