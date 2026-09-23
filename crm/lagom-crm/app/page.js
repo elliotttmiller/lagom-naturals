@@ -874,82 +874,95 @@ function PipelineTab({prospects,reload,user}){
   const isAdmin=user.role==='admin';
   const [fStatus,setFStatus]=useState('All');
   const [fRep,setFRep]=useState('All');
+  const [view,setView]=useState('board');
 
-  const statusCounts=useMemo(()=>{const c={};STATUSES.forEach(s=>c[s]=prospects.filter(p=>p.status===s).length);return c;},[prospects]);
+  const statusCounts=useMemo(()=>{const c={};STATUSES.forEach(stage=>c[stage]=prospects.filter(p=>p.status===stage).length);return c;},[prospects]);
   const reps=useMemo(()=>[...new Set(prospects.map(p=>p.assigned_to).filter(Boolean))].sort(),[prospects]);
 
-  const filtered=useMemo(()=>prospects.filter(p=>{
-    if(fStatus!=='All'&&p.status!==fStatus)return false;
-    if(fRep!=='All'&&(p.assigned_to||'')!==fRep)return false;
-    return true;
-  }),[prospects,fStatus,fRep]);
+  const base=useMemo(()=>prospects.filter(p=>fRep==='All'||(p.assigned_to||'')===fRep),[prospects,fRep]);
+  const filtered=useMemo(()=>base.filter(p=>fStatus==='All'||p.status===fStatus),[base,fStatus]);
 
   const updateStatus=async(id,status)=>{await supabase.from('prospects').update({status}).eq('id',id);reload();};
-
   const csvRows=filtered.map(p=>({Business:p.business_name,Status:p.status,Priority:p.priority,Rep:p.assigned_to,City:p.city,'Next Follow-Up':p.next_follow_up}));
 
   return(
     <div className="fade">
       <div className="tab-h">
-        <div><div className="section-label" style={{marginBottom:7}}>Opportunity management</div><h2>Pipeline</h2><div style={{fontSize:12,color:P.t3,marginTop:6}}>Move accounts through the sales cycle and keep next actions visible.</div></div>
+        <div>
+          <div className="section-label" style={{marginBottom:7}}>Opportunity management</div>
+          <h2>Pipeline</h2>
+          <div style={{fontSize:12,color:P.t3,marginTop:6}}>See stage health at a glance, keep follow-ups visible, and move opportunities forward with less table work.</div>
+        </div>
         <div className="tab-actions">
-          <select value={fRep} onChange={e=>setFRep(e.target.value)} style={{width:134}}>
-            <option value="All">All Reps</option>{reps.map(r=><option key={r}>{r}</option>)}
+          <select value={fRep} onChange={e=>setFRep(e.target.value)} style={{width:142}}>
+            <option value="All">All reps</option>{reps.map(r=><option key={r}>{r}</option>)}
           </select>
-          <CSVBtn rows={csvRows} filename="lagom-pipeline.csv"/>
+          <div style={{display:'inline-flex',padding:3,border:'1px solid '+P.border,borderRadius:10,background:'#F6F7F5',gap:2}}>
+            {['board','list'].map(v=><button key={v} className="btn btn-sm" onClick={()=>setView(v)} style={{background:view===v?'#fff':'transparent',color:view===v?P.text:P.t2,border:'none',boxShadow:view===v?'0 1px 4px rgba(23,32,28,.08)':'none',textTransform:'capitalize'}}>{v}</button>)}
+          </div>
+          <CSVBtn rows={csvRows} filename="lagom-pipeline.csv" label="Export"/>
         </div>
       </div>
 
-      <div className="card" style={{display:'flex',gap:6,marginBottom:16,flexWrap:'nowrap',overflowX:'auto',padding:10}}>
-        <button onClick={()=>setFStatus('All')} className="btn btn-sm"
-          style={{background:fStatus==='All'?P.slate:P.slateL,color:fStatus==='All'?'#fff':P.slate,border:'none'}}>
-          All ({prospects.length})
-        </button>
-        {STATUSES.map(s=>(
-          <button key={s} onClick={()=>setFStatus(fStatus===s?'All':s)} className="btn btn-sm"
-            style={{background:fStatus===s?SC[s]:`${SC[s]}14`,color:fStatus===s?'#fff':SC[s],border:`1.5px solid ${SC[s]}40`}}>
-            {s} ({statusCounts[s]})
+      <div className="card" style={{display:'flex',gap:7,marginBottom:16,flexWrap:'nowrap',overflowX:'auto',padding:10}}>
+        <button onClick={()=>setFStatus('All')} className="btn btn-sm" style={{background:fStatus==='All'?P.slate:P.slateL,color:fStatus==='All'?'#fff':P.slate,border:'none'}}>All <span className="tnum">({base.length})</span></button>
+        {STATUSES.map(stage=>(
+          <button key={stage} onClick={()=>setFStatus(fStatus===stage?'All':stage)} className="btn btn-sm"
+            style={{background:fStatus===stage?SC[stage]:SC[stage]+'10',color:fStatus===stage?'#fff':SC[stage],border:'1px solid '+SC[stage]+'28'}}>
+            {stage} <span className="tnum">({base.filter(p=>p.status===stage).length})</span>
           </button>
         ))}
       </div>
 
-      <div className="card" style={{marginBottom:18}}>
-        <div className="section-label" style={{marginBottom:4}}>Stage distribution</div><div style={{fontWeight:800,fontSize:14,marginBottom:14}}>Pipeline funnel</div>
-        <ChartCanvas type="bar" height={140}
-          data={{labels:STATUSES,datasets:[{data:STATUSES.map(s=>statusCounts[s]),backgroundColor:Object.values(SC).map(c=>c+'CC'),borderRadius:6,borderSkipped:false}]}}
-          options={{plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{grid:{color:'#f0ece4'},ticks:{stepSize:1}}}}}
-        />
-      </div>
-
-      <div className="ovfl">
-        <table>
-          <thead><tr>
-            <th style={{width:'30%'}}>Business</th>
-            <th>Status</th>
-            <th className="hide-mob">Priority</th>
-            {isAdmin&&<th>Rep</th>}
-            <th className="hide-mob">City</th>
-            <th>Follow-Up</th>
-            <th style={{width:140}}>Move Stage</th>
-          </tr></thead>
-          <tbody>
-            {filtered.length?filtered.map(p=>{
-              const od=p.next_follow_up&&p.next_follow_up<todayStr();
-              return(
-                <tr key={p.id}>
-                  <td style={{fontWeight:600}}>{p.business_name}</td>
+      {view==='board'?(
+        <div style={{display:'grid',gridTemplateColumns:'repeat(8,minmax(230px,1fr))',gap:10,overflowX:'auto',paddingBottom:8}}>
+          {STATUSES.map(stage=>{
+            const rows=base.filter(p=>p.status===stage);
+            return <div key={stage} style={{minWidth:230}}>
+              <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:8,padding:'9px 10px',marginBottom:7}}>
+                <div style={{display:'flex',alignItems:'center',gap:7}}><span style={{width:8,height:8,borderRadius:'50%',background:SC[stage]}}/><span style={{fontSize:11.5,fontWeight:800}}>{stage}</span></div>
+                <span className="badge" style={{background:P.slateL,color:P.t2}}>{rows.length}</span>
+              </div>
+              <div style={{display:'flex',flexDirection:'column',gap:8}}>
+                {rows.length?rows.map(p=>{
+                  const overdue=p.next_follow_up&&p.next_follow_up<todayStr();
+                  return <div key={p.id} className="card" style={{padding:12,borderTop:'3px solid '+SC[stage]}}>
+                    <div style={{fontWeight:750,fontSize:12.5,lineHeight:1.3}}>{p.business_name}</div>
+                    <div style={{fontSize:10.5,color:P.t3,marginTop:4}}>{p.city||'No city'}{p.assigned_to?' · '+p.assigned_to:''}</div>
+                    <div style={{display:'flex',justifyContent:'space-between',gap:8,alignItems:'center',marginTop:10}}>
+                      <Badge label={p.priority||'Medium'} color={PC[p.priority]||P.t3}/>
+                      <span style={{fontSize:10.5,fontWeight:overdue?750:600,color:overdue?P.rose:P.t3}}>{p.next_follow_up?fmtDS(p.next_follow_up):'No follow-up'}</span>
+                    </div>
+                    <select value={p.status} onChange={e=>updateStatus(p.id,e.target.value)} style={{marginTop:10,minHeight:34,fontSize:11.5,padding:'6px 8px'}}>
+                      {STATUSES.map(x=><option key={x}>{x}</option>)}
+                    </select>
+                  </div>;
+                }):<div style={{padding:18,textAlign:'center',fontSize:11,color:P.t3,border:'1px dashed '+P.border,borderRadius:12}}>No accounts</div>}
+              </div>
+            </div>;
+          })}
+        </div>
+      ):(
+        <div className="ovfl">
+          <table>
+            <thead><tr><th style={{width:'30%'}}>Business</th><th>Status</th><th className="hide-mob">Priority</th>{isAdmin&&<th>Rep</th>}<th className="hide-mob">City</th><th>Follow-Up</th><th style={{width:150}}>Move Stage</th></tr></thead>
+            <tbody>
+              {filtered.length?filtered.map(p=>{
+                const overdue=p.next_follow_up&&p.next_follow_up<todayStr();
+                return <tr key={p.id}>
+                  <td><div style={{fontWeight:700}}>{p.business_name}</div><div style={{fontSize:10.5,color:P.t3,marginTop:2}}>{p.city||''}</div></td>
                   <td><Badge label={p.status} color={SC[p.status]}/></td>
                   <td className="hide-mob"><Badge label={p.priority} color={PC[p.priority]}/></td>
                   {isAdmin&&<td style={{fontSize:12}}>{p.assigned_to||'-'}</td>}
                   <td className="hide-mob" style={{fontSize:12,color:P.t2}}>{p.city||'-'}</td>
-                  <td style={{fontSize:12,color:od?P.rose:P.text,fontWeight:od?700:400}}>{p.next_follow_up?fmtDS(p.next_follow_up):'-'}</td>
-                  <td><select value={p.status} style={{fontSize:12,padding:'4px 8px',width:'auto'}} onChange={e=>updateStatus(p.id,e.target.value)}>{STATUSES.map(s=><option key={s}>{s}</option>)}</select></td>
-                </tr>
-              );
-            }):<tr><td colSpan={7}><Empty msg="No records"/></td></tr>}
-          </tbody>
-        </table>
-      </div>
+                  <td style={{fontSize:12,color:overdue?P.rose:P.text,fontWeight:overdue?750:500}}>{p.next_follow_up?fmtDS(p.next_follow_up):'-'}</td>
+                  <td><select value={p.status} style={{fontSize:11.5,minHeight:34,padding:'5px 8px'}} onChange={e=>updateStatus(p.id,e.target.value)}>{STATUSES.map(stage=><option key={stage}>{stage}</option>)}</select></td>
+                </tr>;
+              }):<tr><td colSpan={7}><Empty msg="No records match the current filters"/></td></tr>}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }
