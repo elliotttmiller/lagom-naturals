@@ -1787,89 +1787,70 @@ function ActivityTab({prospects}){
 }
 
 /* ── Commissions Tab ──────────────────────────────────────────────────────── */
-function CommissionsTab(){
-  const [comms,setComms]=useState([]);
+function CommissionsTab({user}){
+  const [rows,setRows]=useState([]);
   const [loading,setLoading]=useState(true);
+  const me=(user?.display_name||user?.name||'').trim();
+  const isAdmin=user?.role==='admin';
 
   useEffect(()=>{
-    async function load(){
-      const{data}=await supabase.from('commissions').select('*,crm_users(display_name)').order('created_at',{ascending:false});
-      setComms(data||[]);setLoading(false);
-    }
-    load();
+    supabase.from('crm_commission_eligible').select('*').order('commission_eligible_date',{ascending:false})
+      .then(({data})=>{setRows(data||[]);setLoading(false);});
   },[]);
 
+  const scoped=isAdmin?rows:rows.filter(r=>(r.rep_name||'').toLowerCase()===me.toLowerCase());
   const repTotals=useMemo(()=>{
     const m={};
-    comms.forEach(c=>{
-      const name=c.crm_users?.display_name||c.rep_name||'Unknown';
-      if(!m[name])m[name]={name,total:0,paid:0,pending:0,count:0};
-      m[name].total+=(c.amount||0);m[name].count++;
-      if(c.status==='paid')m[name].paid+=(c.amount||0);
-      else m[name].pending+=(c.amount||0);
+    scoped.forEach(r=>{
+      const name=r.rep_name||'Unassigned';
+      if(!m[name])m[name]={name,revenue:0,commission:0,count:0,configured:0};
+      m[name].revenue+=Number(r.paid_revenue||0);
+      m[name].commission+=Number(r.commission_amount||0);
+      m[name].count++;
+      if(r.commission_rate!==null&&r.commission_rate!==undefined)m[name].configured++;
     });
-    return Object.values(m).sort((a,b)=>b.total-a.total);
-  },[comms]);
+    return Object.values(m).sort((a,b)=>b.commission-a.commission);
+  },[scoped]);
 
-  const csvRows=comms.map(c=>({Rep:c.crm_users?.display_name||c.rep_name||'',Amount:c.amount,Status:c.status,'Order ID':c.order_id||'',Date:c.created_at?.split('T')[0]||''}));
+  const csvRows=scoped.map(r=>({Rep:r.rep_name,Invoice:r.invoice_number,Account:r.account_name,'Sale Type':r.sale_type,'Paid Revenue':r.paid_revenue,Rate:r.commission_rate??'',Commission:r.commission_amount,'Eligible Date':r.commission_eligible_date}));
 
   return(
     <div className="fade">
       <div className="tab-h">
-        <h2>Commissions</h2>
+        <div>
+          <h2>Commissions</h2>
+          <div style={{fontSize:12,color:P.t3,marginTop:3}}>Derived from fully paid invoices and each rep's configured new/reorder rate</div>
+        </div>
         <CSVBtn rows={csvRows} filename="lagom-commissions.csv"/>
       </div>
-
       {loading?<div style={{textAlign:'center',padding:40}}><Spinner/></div>:(
         <>
           <div className="g3" style={{marginBottom:18}}>
             {repTotals.length?repTotals.map(r=>(
-              <div key={r.name} className="card" style={{borderTop:`4px solid ${P.teal}`}}>
-                <div style={{fontWeight:800,fontSize:17,marginBottom:10}}>{r.name}</div>
-                <div style={{fontSize:28,fontWeight:900,color:P.teal,marginBottom:6}}>{fmtFull$(r.total)}</div>
-                <div style={{display:'flex',gap:14,fontSize:12}}>
-                  <span style={{color:'#059669',fontWeight:700}}>✓ {fmtFull$(r.paid)} paid</span>
-                  <span style={{color:P.amber,fontWeight:700}}>⏱ {fmtFull$(r.pending)} pending</span>
-                </div>
+              <div key={r.name} className="card" style={{borderTop:'4px solid '+P.teal}}>
+                <div style={{fontWeight:800,fontSize:17}}>{r.name}</div>
+                <div style={{fontSize:28,fontWeight:900,color:P.teal,marginTop:9}}>{fmtFull$(r.commission)}</div>
+                <div style={{fontSize:11.5,color:P.t2,marginTop:6}}>{fmtFull$(r.revenue)} paid revenue · {r.count} eligible invoice{r.count===1?'':'s'}</div>
+                {r.configured<r.count&&<div style={{fontSize:11,color:P.amber,fontWeight:700,marginTop:7}}>Commission rate not configured on {r.count-r.configured} invoice{r.count-r.configured===1?'':'s'}</div>}
               </div>
-            )):(
-              <div style={{gridColumn:'1/-1'}}>
-                <div className="card" style={{textAlign:'center',padding:'40px 20px'}}>
-                  <div style={{fontSize:32,marginBottom:12}}>$</div>
-                  <div style={{fontWeight:700,fontSize:15,marginBottom:6}}>No commission records yet</div>
-                  <div style={{color:P.t3,fontSize:13}}>Populate the <code style={{background:P.slateL,padding:'2px 6px',borderRadius:4}}>commissions</code> table in Supabase to see data here.</div>
-                </div>
-              </div>
-            )}
+            )):<div className="card" style={{gridColumn:'1/-1'}}><Empty msg="No fully paid commission-eligible invoices yet"/></div>}
           </div>
-
-          {repTotals.length>0&&(
-            <div className="card" style={{marginBottom:18}}>
-              <div style={{fontWeight:700,fontSize:14,marginBottom:14}}>Commission by Rep</div>
-              <ChartCanvas type="bar" height={160}
-                data={{labels:repTotals.map(r=>r.name),datasets:[{label:'Paid',data:repTotals.map(r=>r.paid),backgroundColor:P.teal+'CC',borderRadius:6},{label:'Pending',data:repTotals.map(r=>r.pending),backgroundColor:P.amber+'CC',borderRadius:6}]}}
-                options={{scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,ticks:{callback:v=>fmt$(v),font:{size:10}},grid:{color:'#f0ece4'}}}}}
-              />
-            </div>
-          )}
-
           <div className="ovfl">
             <table>
-              <thead><tr>
-                <th>Rep</th><th>Amount</th><th>Status</th>
-                <th className="hide-mob">Order ID</th>
-                <th className="hide-mob">Date</th>
-              </tr></thead>
+              <thead><tr><th>Rep</th><th>Invoice</th><th>Account</th><th>Type</th><th>Paid Revenue</th><th>Rate</th><th>Commission</th><th className="hide-mob">Eligible</th></tr></thead>
               <tbody>
-                {comms.length?comms.map(c=>(
-                  <tr key={c.id}>
-                    <td style={{fontWeight:600}}>{c.crm_users?.display_name||c.rep_name||'-'}</td>
-                    <td style={{fontWeight:700,color:P.teal}}>{fmtFull$(c.amount)}</td>
-                    <td><Badge label={c.status} color={c.status==='paid'?'#059669':P.amber}/></td>
-                    <td className="hide-mob" style={{fontSize:12,fontFamily:'monospace'}}>{c.order_id||'-'}</td>
-                    <td className="hide-mob" style={{fontSize:12}}>{c.created_at?fmtDS(c.created_at.split('T')[0]):'-'}</td>
+                {scoped.length?scoped.map(r=>(
+                  <tr key={r.invoice_id}>
+                    <td style={{fontWeight:700}}>{r.rep_name||'-'}</td>
+                    <td style={{fontFamily:'monospace',fontSize:11.5}}>{r.invoice_number}</td>
+                    <td>{r.account_name}</td>
+                    <td><Badge label={r.sale_type||'Sale'} color={r.sale_type==='New Placement'?P.plum:P.teal}/></td>
+                    <td style={{fontWeight:700}}>{fmtFull$(r.paid_revenue)}</td>
+                    <td>{r.commission_rate===null||r.commission_rate===undefined?<span style={{color:P.amber}}>Not set</span>:(Number(r.commission_rate)*100).toFixed(2)+'%'}</td>
+                    <td style={{fontWeight:900,color:P.teal}}>{fmtFull$(r.commission_amount)}</td>
+                    <td className="hide-mob">{fmtDS(r.commission_eligible_date)}</td>
                   </tr>
-                )):<tr><td colSpan={5}><Empty msg="No commission records"/></td></tr>}
+                )):<tr><td colSpan={8}><Empty msg="No commission-eligible invoices"/></td></tr>}
               </tbody>
             </table>
           </div>
