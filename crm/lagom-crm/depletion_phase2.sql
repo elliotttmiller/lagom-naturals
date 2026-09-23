@@ -172,7 +172,19 @@ CREATE INDEX IF NOT EXISTS crm_tasks_due_idx ON public.crm_tasks(status,due_date
 -- Commission configuration stays data-driven. No rates are fabricated.
 ALTER TABLE IF EXISTS public.crm_users
   ADD COLUMN IF NOT EXISTS new_commission_rate numeric(8,5),
-  ADD COLUMN IF NOT EXISTS reorder_commission_rate numeric(8,5);
+  ADD COLUMN IF NOT EXISTS reorder_commission_rate numeric(8,5),
+  ADD COLUMN IF NOT EXISTS mileage_rate numeric(12,4),
+  ADD COLUMN IF NOT EXISTS bonus_threshold numeric(12,2);
+
+-- Approved rep-sheet settings from the Phase 2 workbook.
+UPDATE public.crm_users SET new_commission_rate=0.20,reorder_commission_rate=0.10,mileage_rate=0.55
+WHERE lower(display_name)=lower('Roman');
+UPDATE public.crm_users SET new_commission_rate=0.12,reorder_commission_rate=0.05,mileage_rate=0.00,bonus_threshold=10000
+WHERE lower(display_name)=lower('Jess');
+UPDATE public.crm_users SET new_commission_rate=0.00,reorder_commission_rate=0.00,mileage_rate=0.00
+WHERE lower(display_name)=lower('Tito');
+UPDATE public.crm_users SET new_commission_rate=0.00,reorder_commission_rate=0.00,mileage_rate=0.00
+WHERE lower(display_name)=lower('Timmy');
 
 -- Collision-safe, year-aware invoice number generator.
 CREATE TABLE IF NOT EXISTS public.invoice_sequences (
