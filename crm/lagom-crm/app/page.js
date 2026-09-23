@@ -327,20 +327,21 @@ function InvestorDashboard({user,onLogout}){
   return(
     <div style={{minHeight:'100vh',background:P.bg}}>
       <GlobalStyles/>
-      <div style={{background:P.slate,padding:'0 28px',height:56,display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-        <div style={{display:'flex',alignItems:'center',gap:12}}>
-          <img src={assetUrl("/logo.png")} alt="Lagom" style={{height:32,flexShrink:0}}/>
+      <div style={{background:P.nav,padding:'0 28px',height:64,display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'1px solid rgba(255,255,255,.07)'}}>
+        <div style={{display:'flex',alignItems:'center',gap:11}}>
+          <div style={{width:38,height:38,borderRadius:12,background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.09)',display:'flex',alignItems:'center',justifyContent:'center'}}><img src={assetUrl("/logo.png")} alt="Lagom" style={{height:27,maxWidth:29,objectFit:'contain'}}/></div>
           <div>
-            <div style={{fontWeight:900,fontSize:14,color:'#fff'}}>Lagom Naturals</div>
-            <div style={{fontSize:10,color:'rgba(255,255,255,.45)'}}>Investor View · Read Only</div>
+            <div style={{fontWeight:800,fontSize:14,color:'#fff'}}>Lagom</div>
+            <div style={{fontSize:10.5,color:'rgba(255,255,255,.42)'}}>Read-only business view</div>
           </div>
         </div>
-        <button className="btn btn-sm" onClick={onLogout} style={{background:'rgba(255,255,255,.1)',border:'1px solid rgba(255,255,255,.15)',color:'rgba(255,255,255,.7)',fontSize:12}}>Sign Out</button>
+        <button className="btn btn-sm" onClick={onLogout} style={{background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.1)',color:'rgba(255,255,255,.72)'}}>Sign out</button>
       </div>
       <div style={{maxWidth:1100,margin:'0 auto',padding:28}}>
-        <div style={{marginBottom:24}}>
-          <h1 style={{fontSize:26,fontWeight:900,letterSpacing:'-.5px'}}>Business Overview</h1>
-          <div style={{color:P.t2,fontSize:13,marginTop:4}}>{new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'})}</div>
+        <div style={{marginBottom:22}}>
+          <div className="section-label" style={{marginBottom:7}}>Executive reporting</div>
+          <h1 style={{fontSize:28,fontWeight:780,letterSpacing:'-.045em'}}>Business overview</h1>
+          <div style={{color:P.t3,fontSize:12,marginTop:7}}>Read-only view of account growth, delivered revenue, pipeline distribution, and statewide coverage · {new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})}</div>
         </div>
         {loading?<div style={{textAlign:'center',padding:60}}><Spinner size={28}/></div>:(
           <>
@@ -351,21 +352,21 @@ function InvestorDashboard({user,onLogout}){
                 {label:'Revenue Delivered',value:fmt$(totalRev),sub:`${orders.filter(o=>o.status==='Delivered').length} orders`,c:P.plum},
                 {label:'Counties Covered',value:countyCount,sub:'across Minnesota',c:P.amber},
               ].map((k,i)=>(
-                <div key={i} className="card" style={{borderTop:`4px solid ${k.c}`}}>
-                  <div style={{fontSize:10,fontWeight:800,color:P.t2,textTransform:'uppercase',letterSpacing:'1px',marginBottom:10}}>{k.label}</div>
-                  <div style={{fontSize:32,fontWeight:900,color:k.c,lineHeight:1,marginBottom:6}}>{k.value}</div>
+                <div key={i} className="card">
+                  <div style={{display:'flex',alignItems:'center',gap:7,fontSize:10,fontWeight:800,color:P.t2,textTransform:'uppercase',letterSpacing:'.075em',marginBottom:12}}><span style={{width:7,height:7,borderRadius:'50%',background:k.c}}/>{k.label}</div>
+                  <div className="tnum" style={{fontSize:30,fontWeight:800,color:P.text,lineHeight:1,letterSpacing:'-.04em',marginBottom:8}}>{k.value}</div>
                   <div style={{fontSize:11,color:P.t3}}>{k.sub}</div>
                 </div>
               ))}
             </div>
             <div className="g2" style={{marginBottom:24}}>
-              <CardChart title="Pipeline by Stage">
+              <CardChart title="Pipeline composition">
                 <ChartCanvas type="doughnut" height={220}
                   data={{labels:STATUSES,datasets:[{data:statusDist,backgroundColor:Object.values(SC),borderWidth:2,borderColor:'#fff',hoverOffset:6}]}}
                   options={{cutout:'60%',plugins:{legend:{position:'right',labels:{font:{size:10},padding:8,boxWidth:8}}}}}
                 />
               </CardChart>
-              <CardChart title="Products">
+              <CardChart title="Active product catalog">
                 <div style={{display:'flex',flexDirection:'column',gap:10,paddingTop:8}}>
                   {products.map(p=>(
                     <div key={p.id} style={{display:'flex',alignItems:'center',gap:10}}>
@@ -377,7 +378,7 @@ function InvestorDashboard({user,onLogout}){
               </CardChart>
             </div>
             <div className="card">
-              <div style={{fontWeight:700,fontSize:14,marginBottom:12}}>Top Counties by Accounts</div>
+              <div style={{fontWeight:700,fontSize:14,marginBottom:12}}>Top counties by accounts</div>
               <ChartCanvas type="bar" height={160}
                 data={{labels:zoneData.map(z=>z.zone),datasets:[{label:'Total Accounts',data:zoneData.map(z=>z.count),backgroundColor:P.teal+'CC',borderRadius:6}]}}
                 options={{plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{grid:{color:'#f0ece4'},ticks:{stepSize:1}}}}}
