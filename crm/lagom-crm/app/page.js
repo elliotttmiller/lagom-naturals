@@ -1395,21 +1395,59 @@ function OrdersTab({prospects,user}){
           created_by:user.name,
         });
       }
-      // Generate invoice
+      // Generate normalized commercial invoice + line items
       const ord=orders.find(o=>o.id===ordId);
-      const dateStr=todayStr().replace(/-/g,'');
-      const seq=ordId.slice(0,4).toUpperCase();
-      const invNum=`LN-${dateStr}-${seq}`;
-      await supabase.from('invoices').insert({
-        order_id:ordId,
-        invoice_number:invNum,
-        status:'Unpaid',
-        amount_due:ord?.total_amount||0,
-        amount_paid:0,
-        issued_at:todayStr(),
-        due_date:addDays(todayStr(),30),
-      });
-      setActionMsg(`✓ Inventory depleted · Invoice ${invNum} generated`);
+      const {data:invNum,error:numErr}=await supabase.rpc('next_invoice_number');
+      if(numErr){
+        setActionMsg('Inventory depleted, but invoice generation needs depletion_phase2.sql');
+      }else{
+        const {count:priorCount}=await supabase.from('invoices').select('id',{count:'exact',head:true}).eq('prospect_id',ord?.prospect_id);
+        const saleType=(priorCount||0)>0?'Reorder':'New Placement';
+        const {data:invoice,error:invErr}=await supabase.from('invoices').insert({
+          order_id:ordId,
+          prospect_id:ord?.prospect_id||null,
+          account_name:ord?.account_name||null,
+          rep_name:ord?.created_by||user.name,
+          invoice_number:invNum,
+          sale_type:saleType,
+          status:'Unpaid',
+          subtotal:ord?.total_amount||0,
+          invoice_total:ord?.total_amount||0,
+          amount_due:ord?.total_amount||0,
+          amount_paid:0,
+          balance_due:ord?.total_amount||0,
+          collection_status:'Open',
+          issued_at:todayStr(),
+          due_date:addDays(todayStr(),30),
+          source:'orders',
+        }).select().single();
+        if(!invErr&&invoice){
+          const normalized=(items||[]).map(item=>{
+            const prod=products.find(p=>p.id===item.product_id)||products.find(p=>p.name===item.product_name);
+            const cogs=prod?.cogs_per_case===null||prod?.cogs_per_case===undefined?null:Number(prod.cogs_per_case);
+            const revenue=Number(item.total_price||0);
+            const cases=Number(item.quantity||0);
+            return {
+              invoice_id:invoice.id,
+              product_id:prod?.id||item.product_id||null,
+              sku:prod?.sku||null,
+              product_name:prod?.name||item.product_name,
+              description:prod?.description||null,
+              category:prod?.category||null,
+              cases_sold:cases,
+              sale_price:Number(item.unit_price||0),
+              revenue,
+              cogs_per_case:cogs,
+              total_cogs:cogs===null?null:cases*cogs,
+              gross_profit:cogs===null?null:revenue-(cases*cogs),
+            };
+          });
+          if(normalized.length)await supabase.from('invoice_items').insert(normalized);
+          setActionMsg('✓ Inventory depleted · Invoice '+invNum+' generated');
+        }else{
+          setActionMsg('Inventory depleted, but invoice generation failed');
+        }
+      }
       setTimeout(()=>setActionMsg(''),6000);
     }
     load();if(selOrder?.id===ordId){setSelOrder(o=>o?{...o,status:newStatus}:o);}
