@@ -170,6 +170,9 @@ function GlobalStyles(){
       .tab-h h2{font-size:21px;font-weight:900;letter-spacing:-.4px}
       .tab-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
       .detail-panel{position:fixed;right:0;top:0;bottom:0;width:400px;background:${P.white};border-left:1.5px solid ${P.border};box-shadow:-4px 0 24px rgba(0,0,0,.08);z-index:200;display:flex;flex-direction:column;overflow:hidden}
+      .sales-invoice-line{display:grid;grid-template-columns:minmax(220px,1fr) 72px 100px 90px 32px;gap:6px;align-items:center;margin-bottom:6px}
+      .sales-line-total{font-size:12px;text-align:right;font-weight:800}
+      .sales-line-remove{border:none;background:transparent;font-size:19px;color:${P.t3};min-width:32px;min-height:32px}
       .mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:${P.nav};z-index:200;border-top:1px solid rgba(255,255,255,.08)}
       .hamburger{display:none;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;border:1.5px solid ${P.border};background:#fff;color:${P.text};font-size:17px;flex-shrink:0}
       .drawer-ov{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:250}
@@ -192,6 +195,12 @@ function GlobalStyles(){
         .detail-panel{width:100%;left:0}
         .hide-mob{display:none!important}
         .frow{grid-template-columns:1fr}
+        .sales-invoice-line{grid-template-columns:minmax(0,1fr) 92px 40px;gap:8px;padding:10px 0;border-bottom:1px solid ${P.border}}
+        .sales-invoice-line>select{grid-column:1/-1;min-height:44px}
+        .sales-line-qty{grid-column:1;min-height:44px}
+        .sales-line-price{grid-column:2;min-height:44px}
+        .sales-line-total{grid-column:1/3;text-align:left;padding-left:2px;color:${P.teal}}
+        .sales-line-remove{grid-column:3;grid-row:2;min-height:44px;min-width:40px}
         td,th{padding:8px 10px}
       }
       @media(max-width:380px){.g4,.g3{grid-template-columns:1fr}}
