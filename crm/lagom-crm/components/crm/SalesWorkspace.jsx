@@ -108,7 +108,7 @@ export default function SalesWorkspace({supabase,prospects,user,go}){
   const [form,setForm]=useState({prospect_id:'',issued_at:today(),due_date:plusDays(today(),30),sale_type:'',rep_name:me,notes:'',amount_paid:0,payment_method:''});
   const [lines,setLines]=useState([{product_id:'',cases:1,price:''}]);
   const account=prospects.find(p=>p.id===form.prospect_id),prior=scoped.filter(i=>i.prospect_id===form.prospect_id&&i.status!=='Draft').length,saleType=form.sale_type||(prior?'Reorder':'New Placement');
-  const hydrated=lines.map(l=>{const p=products.find(x=>x.id===l.product_id),price=l.price===''?num(p?.retail_price||p?.wholesale_cost):num(l.price),cases=Math.max(0,num(l.cases)),cogs=num(p?.cogs_per_case||p?.wholesale_cost);return {...l,p,price,cases,revenue:cases*price,cogs,total_cogs:cases*cogs,gp:cases*price-cases*cogs}});
+  const hydrated=lines.map(l=>{const p=products.find(x=>x.id===l.product_id),price=l.price===''?num(p?.retail_price):num(l.price),cases=Math.max(0,num(l.cases)),hasCogs=p?.cogs_per_case!==null&&p?.cogs_per_case!==undefined,cogs=hasCogs?num(p.cogs_per_case):null;return {...l,p,price,cases,revenue:cases*price,cogs,total_cogs:cogs===null?null:cases*cogs,gp:cogs===null?null:cases*price-cases*cogs}});
   const total=hydrated.reduce((s,l)=>s+l.revenue,0);
 
   const createInvoice=async()=>{
