@@ -131,9 +131,15 @@ export default function SalesWorkspace({supabase,prospects,user,go}){
       const o=await supabase.from('orders').insert({prospect_id:account.id,account_name:account.business_name,status:'Confirmed',total_amount:total,notes:form.notes||null,created_by:repName}).select().single();if(o.error)throw o.error;
       const valid=hydrated.filter(l=>l.p&&l.cases>0);
       const oi=await supabase.from('order_items').insert(valid.map(l=>({order_id:o.data.id,product_id:l.p.id,product_name:l.p.name,quantity:l.cases,unit_price:l.price,total_price:l.revenue})));if(oi.error)throw oi.error;
+      for(const line of valid){
+        if(line.p.quantity===null||line.p.quantity===undefined)continue;
+        const before=num(line.p.quantity),after=Math.max(0,before-line.cases);
+        await supabase.from('products').update({quantity:after,updated_at:new Date().toISOString()}).eq('id',line.p.id);
+        await supabase.from('inventory_movements').insert({product_id:line.p.id,movement_type:'Order',quantity_change:-line.cases,quantity_before:before,quantity_after:after,order_id:o.data.id,notes:'Sales invoice '+String(nr.data),created_by:me});
+      }
       const paid=Math.min(num(form.amount_paid),total);
       const iv=await supabase.from('invoices').insert({order_id:o.data.id,prospect_id:account.id,account_name:account.business_name,rep_name:repName,invoice_number:nr.data,sale_type:saleType,status:paid>=total&&total>0?'Paid':paid>0?'Partial':'Unpaid',issued_at:form.issued_at,due_date:form.due_date,subtotal:total,invoice_total:total,amount_due:total,amount_paid:0,balance_due:total,collection_status:paid>=total&&total>0?'Closed':'Open',notes:form.notes||null,source:'crm'}).select().single();if(iv.error)throw iv.error;
-      const ii=await supabase.from('invoice_items').insert(valid.map(l=>({invoice_id:iv.data.id,product_id:l.p.id,sku:l.p.sku||null,product_name:l.p.name,description:l.p.description||null,category:l.p.category||null,cases_sold:l.cases,sale_price:l.price,revenue:l.revenue,cogs_per_case:l.cogs,total_cogs:l.total_cogs,gross_profit:l.gp})));if(ii.error)throw ii.error;
+      const ii=await supabase.from('invoice_items').insert(valid.map(l=>({invoice_id:iv.data.id,product_id:l.p.id,sku:l.p.sku||null,product_name:l.p.name,description:l.p.description||null,category:l.p.depletion_category||l.p.category||null,cases_sold:l.cases,sale_price:l.price,revenue:l.revenue,cogs_per_case:l.cogs,total_cogs:l.total_cogs,gross_profit:l.gp,cost_reference:l.p.cost_per_unit_reference??null})));if(ii.error)throw ii.error;
       if(paid>0){const pp=await supabase.from('payments').insert({invoice_id:iv.data.id,prospect_id:account.id,amount:paid,payment_date:form.issued_at,payment_method:form.payment_method||null,reference:'Initial payment',created_by:me,source:'crm'});if(pp.error)throw pp.error}
       setShowNew(false);setForm({prospect_id:'',issued_at:today(),due_date:plusDays(today(),30),sale_type:'',rep_name:me,notes:'',amount_paid:0,payment_method:''});setLines([{product_id:'',cases:1,price:''}]);setMessage('Invoice '+nr.data+' created and linked to the account and order workflow.');await load()
     }catch(e){alert('Could not create invoice: '+(e?.message||e))}finally{setSaving(false)}
