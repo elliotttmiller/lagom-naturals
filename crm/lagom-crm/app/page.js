@@ -2875,7 +2875,7 @@ function App({user,onLogout}){
     const showBadge=t.hasBadge&&overdueCnt>0;
     if(vertical){
       return(
-        <button onClick={()=>{setTab(t.id);setDrawerOpen(false);}} title={collapsed?t.label:undefined} style={{display:'flex',alignItems:'center',gap:collapsed?0:10,padding:collapsed?'11px 0':'10px 16px',width:'100%',background:active?'rgba(255,255,255,.13)':'transparent',border:'none',borderLeft:active?'3px solid #4ECFA8':'3px solid transparent',color:active?'#fff':'rgba(255,255,255,.6)',fontSize:13,fontWeight:active?700:500,cursor:'pointer',transition:'all .12s',textAlign:'left',letterSpacing:'-.1px',justifyContent:collapsed?'center':'flex-start',position:'relative',whiteSpace:'nowrap',overflow:'hidden'}}>
+        <button className={'nav-item'+(active?' nav-item-active':'')} onClick={()=>{setTab(t.id);setDrawerOpen(false);}} title={collapsed?t.label:undefined} style={{display:'flex',alignItems:'center',gap:collapsed?0:10,width:'100%',background:'transparent',border:'none',color:active?'#fff':'rgba(255,255,255,.62)',fontSize:12.5,fontWeight:active?750:550,cursor:'pointer',transition:'all .12s',textAlign:'left',letterSpacing:'-.1px',justifyContent:collapsed?'center':'flex-start',position:'relative',whiteSpace:'nowrap',overflow:'hidden'}}>
           <Icon name={t.id} size={collapsed?20:17} style={{opacity:active?1:.75}}/>
           {!collapsed&&t.label}
           {!collapsed&&showBadge&&<span style={{marginLeft:'auto',background:P.rose,color:'#fff',borderRadius:10,padding:'1px 6px',fontSize:10,fontWeight:900}}>{overdueCnt}</span>}
@@ -2901,17 +2901,26 @@ function App({user,onLogout}){
       <GlobalStyles/>
 
       <div className="sidebar" style={{width:collapsed?66:216}}>
-        <div style={{padding:collapsed?'18px 0 14px':'18px 16px 14px',borderBottom:'1px solid rgba(255,255,255,.08)'}}>
-          <div style={{display:'flex',alignItems:'center',gap:10,justifyContent:collapsed?'center':'flex-start'}}>
-            <img src={assetUrl("/logo.png")} alt="Lagom" style={{height:34,flexShrink:0}}/>
-            {!collapsed&&<div>
-              <div style={{fontWeight:900,fontSize:14,color:'#fff',letterSpacing:'-.3px'}}>Lagom CRM</div>
-              <div style={{fontSize:11,color:'rgba(255,255,255,.45)',letterSpacing:'.2px'}}>Minnesota Sales Operations</div>
+        <div style={{padding:collapsed?'18px 0 15px':'18px 16px 15px',borderBottom:'1px solid rgba(255,255,255,.07)'}}>
+          <div style={{display:'flex',alignItems:'center',gap:11,justifyContent:collapsed?'center':'flex-start'}}>
+            <div style={{width:38,height:38,borderRadius:12,background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.09)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
+              <img src={assetUrl("/logo.png")} alt="Lagom" style={{height:27,maxWidth:29,objectFit:'contain'}}/>
+            </div>
+            {!collapsed&&<div style={{minWidth:0}}>
+              <div style={{fontWeight:800,fontSize:14,color:'#fff',letterSpacing:'-.25px'}}>Lagom</div>
+              <div style={{fontSize:10.5,color:'rgba(255,255,255,.4)',letterSpacing:'.15px'}}>Sales Operations</div>
             </div>}
           </div>
         </div>
-        <nav style={{flex:1,padding:'8px 0'}}>
-          {visibleTabs.map(t=><NavBtn key={t.id} t={t} vertical collapsed={collapsed}/>)}
+        <nav style={{flex:1,padding:'4px 0 12px'}}>
+          {NAV_GROUPS.map(group=>{
+            const items=group.ids.map(id=>visibleTabs.find(t=>t.id===id)).filter(Boolean);
+            if(!items.length)return null;
+            return <div className="nav-group" key={group.label}>
+              {!collapsed&&<div className="nav-group-label">{group.label}</div>}
+              {items.map(t=><NavBtn key={t.id} t={t} vertical collapsed={collapsed}/>)}
+            </div>;
+          })}
         </nav>
         <button onClick={toggleCollapsed} title={collapsed?'Expand sidebar':'Collapse sidebar'} style={{display:'flex',alignItems:'center',justifyContent:collapsed?'center':'flex-start',gap:10,padding:collapsed?'10px 0':'10px 16px',width:'100%',background:'none',border:'none',borderTop:'1px solid rgba(255,255,255,.06)',color:'rgba(255,255,255,.45)',fontSize:12,fontWeight:600,cursor:'pointer'}}>
           <Icon name="chevron-left" size={18} style={{transform:collapsed?'rotate(180deg)':'none',transition:'transform .2s'}}/>
@@ -2940,13 +2949,20 @@ function App({user,onLogout}){
 
       <div className="main">
         <div className="topbar">
-          <button className="hamburger" onClick={()=>setDrawerOpen(true)} aria-label="Menu">☰</button>
-          <span style={{fontWeight:800,fontSize:15,color:P.text,display:'inline-flex',alignItems:'center',gap:8}}><Icon name={curTab?.id} size={18} style={{color:P.teal}}/> {curTab?.label}</span>
-          {pLoading&&<Spinner size={16}/>}
-          <div style={{marginLeft:'auto',display:'flex',alignItems:'center',gap:10}}>
-            {overdueCnt>0&&<div style={{background:P.roseL,color:P.rose,borderRadius:20,padding:'2px 10px',fontSize:11,fontWeight:700}}>{overdueCnt} overdue</div>}
-            <div style={{fontSize:11,color:P.t3}}>{prospects.length} accounts</div>
-            <div style={{width:8,height:8,borderRadius:'50%',background:P.teal,boxShadow:`0 0 6px ${P.teal}`}}/>
+          <button className="hamburger" onClick={()=>setDrawerOpen(true)} aria-label="Menu"><Icon name="menu" size={18}/></button>
+          <div style={{display:'flex',alignItems:'center',gap:10,minWidth:0}}>
+            <div style={{width:34,height:34,borderRadius:10,background:P.tealL,color:P.teal,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}><Icon name={curTab?.id} size={17}/></div>
+            <div style={{minWidth:0}}>
+              <div style={{fontWeight:800,fontSize:14.5,color:P.text,lineHeight:1.1}}>{curTab?.label}</div>
+              <div className="hide-mob" style={{fontSize:10.5,color:P.t3,marginTop:3}}>Lagom internal sales workspace</div>
+            </div>
+          </div>
+          {pLoading&&<Spinner size={15}/>}
+          <div style={{marginLeft:'auto',display:'flex',alignItems:'center',gap:8}}>
+            {IS_STATIC_PREVIEW&&<span className="badge" style={{background:P.amberL,color:P.amber,border:'1px solid #E9D8BA'}}>UI Preview</span>}
+            {overdueCnt>0&&<span className="badge" style={{background:P.roseL,color:P.rose,border:'1px solid #EECFCA'}}>{overdueCnt} overdue</span>}
+            <div className="hide-mob" style={{fontSize:11,color:P.t3,paddingLeft:4}}>{prospects.length} accounts</div>
+            <div style={{width:8,height:8,borderRadius:'50%',background:P.teal}}/>
           </div>
         </div>
         <div className="content"><div className="content-inner">{renderTab()}</div></div>
@@ -2971,8 +2987,15 @@ function App({user,onLogout}){
               </div>
               <button onClick={()=>setDrawerOpen(false)} aria-label="Close" style={{background:'none',border:'none',color:'rgba(255,255,255,.6)',fontSize:20,cursor:'pointer',lineHeight:1}}>×</button>
             </div>
-            <nav style={{flex:1,padding:'8px 0'}}>
-              {visibleTabs.map(t=><NavBtn key={t.id} t={t} vertical/>)}
+            <nav style={{flex:1,padding:'4px 0 12px'}}>
+              {NAV_GROUPS.map(group=>{
+                const items=group.ids.map(id=>visibleTabs.find(t=>t.id===id)).filter(Boolean);
+                if(!items.length)return null;
+                return <div className="nav-group" key={group.label}>
+                  <div className="nav-group-label">{group.label}</div>
+                  {items.map(t=><NavBtn key={t.id} t={t} vertical/>)}
+                </div>;
+              })}
             </nav>
             <div style={{padding:14,borderTop:'1px solid rgba(255,255,255,.08)'}}>
               <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:10}}>
