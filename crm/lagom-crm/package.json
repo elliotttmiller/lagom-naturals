@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "build:pages": "node scripts/build-github-pages.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.0",
