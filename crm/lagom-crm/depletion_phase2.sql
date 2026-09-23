@@ -254,19 +254,38 @@ LEFT JOIN public.orders o ON o.id=i.order_id;
 
 -- Account sales metrics, used by Account 360.
 CREATE OR REPLACE VIEW public.crm_account_sales_metrics AS
+WITH invoice_totals AS (
+  SELECT
+    r.prospect_id,
+    MAX(r.account_name) AS account_name,
+    COUNT(*) FILTER (WHERE r.status<>'Draft') AS invoice_count,
+    COALESCE(SUM(r.invoice_total) FILTER (WHERE r.status<>'Draft'),0) AS lifetime_revenue,
+    MAX(r.issued_at) FILTER (WHERE r.status<>'Draft') AS last_order_date,
+    COALESCE(AVG(r.invoice_total) FILTER (WHERE r.status<>'Draft'),0) AS avg_order_value,
+    COALESCE(SUM(r.balance_due),0) AS balance_due,
+    COUNT(*) FILTER (WHERE r.is_overdue) AS overdue_invoice_count
+  FROM public.crm_invoice_rollup r
+  GROUP BY r.prospect_id
+),
+case_totals AS (
+  SELECT i.prospect_id, COALESCE(SUM(ii.cases_sold),0) AS lifetime_cases
+  FROM public.invoices i
+  JOIN public.invoice_items ii ON ii.invoice_id=i.id
+  WHERE i.status<>'Draft'
+  GROUP BY i.prospect_id
+)
 SELECT
-  r.prospect_id,
-  MAX(r.account_name) AS account_name,
-  COUNT(*) FILTER (WHERE r.status<>'Draft') AS invoice_count,
-  COALESCE(SUM(r.invoice_total) FILTER (WHERE r.status<>'Draft'),0) AS lifetime_revenue,
-  COALESCE(SUM(ii.cases_sold),0) AS lifetime_cases,
-  MAX(r.issued_at) FILTER (WHERE r.status<>'Draft') AS last_order_date,
-  COALESCE(AVG(r.invoice_total) FILTER (WHERE r.status<>'Draft'),0) AS avg_order_value,
-  COALESCE(SUM(r.balance_due),0) AS balance_due,
-  COUNT(*) FILTER (WHERE r.is_overdue) AS overdue_invoice_count
-FROM public.crm_invoice_rollup r
-LEFT JOIN public.invoice_items ii ON ii.invoice_id=r.id
-GROUP BY r.prospect_id;
+  t.prospect_id,
+  t.account_name,
+  t.invoice_count,
+  t.lifetime_revenue,
+  COALESCE(c.lifetime_cases,0) AS lifetime_cases,
+  t.last_order_date,
+  t.avg_order_value,
+  t.balance_due,
+  t.overdue_invoice_count
+FROM invoice_totals t
+LEFT JOIN case_totals c ON c.prospect_id=t.prospect_id;
 
 -- Product placement/history at each account.
 CREATE OR REPLACE VIEW public.crm_account_product_placements AS
