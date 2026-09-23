@@ -20,14 +20,49 @@ ALTER TABLE IF EXISTS public.products
   ADD COLUMN IF NOT EXISTS description text,
   ADD COLUMN IF NOT EXISTS product_line text,
   ADD COLUMN IF NOT EXISTS flavor text,
-  ADD COLUMN IF NOT EXISTS cogs_per_case numeric(12,2);
+  ADD COLUMN IF NOT EXISTS cogs_per_case numeric(12,2),
+  ADD COLUMN IF NOT EXISTS cost_per_unit_reference numeric(12,2),
+  ADD COLUMN IF NOT EXISTS depletion_category text,
+  ADD COLUMN IF NOT EXISTS depletion_line text;
 
 CREATE UNIQUE INDEX IF NOT EXISTS products_sku_key ON public.products (sku) WHERE sku IS NOT NULL;
+
+-- Approved workbook Lookup sheet. These are depletion/accounting values and are
+-- intentionally separate from the existing wholesale_cost catalog field.
+WITH lookup(sku,cogs_per_case,cost_ref,depletion_category,depletion_line) AS (
+  VALUES
+    ('860012530502',72.00::numeric,3.00::numeric,'Seltzer','Seltzer'),
+    ('860012530540',72.00,3.00,'Seltzer','Seltzer'),
+    ('860012530564',72.00,3.00,'Seltzer','Seltzer'),
+    ('860012530526',72.00,3.00,'Seltzer','Seltzer'),
+    ('860012530588',72.00,3.00,'Seltzer','Seltzer'),
+    ('792671159896',80.00,8.00,'Gummy','Midnight Drift'),
+    ('792671159872',80.00,8.00,'Gummy','Midnight Drift'),
+    ('792671159902',80.00,8.00,'Gummy','Midnight Drift'),
+    ('792671159889',80.00,8.00,'Gummy','Midnight Drift'),
+    ('860012530533',81.00,8.10,'Gummy','Organic Line'),
+    ('860012530557',81.00,8.10,'Gummy','Organic Line'),
+    ('860012530571',81.00,8.10,'Gummy','Organic Line'),
+    ('860012530595',81.00,8.00,'Gummy','Organic Line'),
+    ('792671159919',70.00,7.00,'Gummy','The Drip'),
+    ('792671159926',70.00,7.00,'Gummy','The Drip'),
+    ('792671159933',70.00,7.00,'Gummy','The Drip'),
+    ('792671159940',70.00,7.00,'Gummy','The Drip')
+)
+UPDATE public.products p
+SET cogs_per_case=l.cogs_per_case,
+    cost_per_unit_reference=l.cost_ref,
+    depletion_category=l.depletion_category,
+    depletion_line=l.depletion_line
+FROM lookup l
+WHERE p.sku=l.sku;
 
 -- Existing invoices table is retained and expanded so Orders and Sales share one source.
 ALTER TABLE IF EXISTS public.invoices
   ADD COLUMN IF NOT EXISTS prospect_id uuid REFERENCES public.prospects(id),
   ADD COLUMN IF NOT EXISTS account_name text,
+  ADD COLUMN IF NOT EXISTS account_city text,
+  ADD COLUMN IF NOT EXISTS account_channel text,
   ADD COLUMN IF NOT EXISTS rep_name text,
   ADD COLUMN IF NOT EXISTS sale_type text,
   ADD COLUMN IF NOT EXISTS subtotal numeric(12,2) DEFAULT 0,
@@ -67,6 +102,7 @@ CREATE TABLE IF NOT EXISTS public.invoice_items (
   cogs_per_case numeric(12,2) DEFAULT 0,
   total_cogs numeric(12,2) DEFAULT 0,
   gross_profit numeric(12,2) DEFAULT 0,
+  cost_reference numeric(12,2),
   source_line_key text UNIQUE,
   created_at timestamptz DEFAULT now()
 );
@@ -245,9 +281,9 @@ SELECT
   i.next_follow_up_date,
   i.payment_date,
   i.commission_eligible_date,
-  p.city,
+  COALESCE(p.city,i.account_city) AS city,
   p.county,
-  p.channel
+  COALESCE(p.channel,i.account_channel) AS channel
 FROM public.invoices i
 LEFT JOIN public.prospects p ON p.id=i.prospect_id
 LEFT JOIN public.orders o ON o.id=i.order_id;
@@ -401,7 +437,7 @@ WHERE i.status='Paid' AND i.commission_eligible_date IS NOT NULL;
 -- ============================================================
 
 INSERT INTO public.invoices (
-  prospect_id, account_name, rep_name, invoice_number, sale_type, status,
+  prospect_id, account_name, account_city, account_channel, rep_name, invoice_number, sale_type, status,
   issued_at, due_date, subtotal, invoice_total, amount_due, amount_paid,
   balance_due, collection_status, payment_date, commission_eligible_date,
   source
@@ -409,13 +445,13 @@ INSERT INTO public.invoices (
 VALUES
 (
   (SELECT id FROM public.prospects WHERE lower(business_name)=lower('Wayzata Smoke Shop & Vape') ORDER BY created_at NULLS LAST LIMIT 1),
-  'Wayzata Smoke Shop & Vape','Tito','1088','Reorder','Paid',
+  'Wayzata Smoke Shop & Vape','Wayzata','Liquor Store','Tito','1088','Reorder','Paid',
   DATE '2026-02-11',DATE '2026-02-11',291.96,291.96,291.96,291.96,0,'Closed',
   DATE '2026-02-11',DATE '2026-02-11','approved_depletion_workbook'
 ),
 (
   (SELECT id FROM public.prospects WHERE lower(business_name)=lower('Long Lake Orono Smoke Shop') ORDER BY created_at NULLS LAST LIMIT 1),
-  'Long Lake Orono Smoke Shop','Tito','1089','Reorder','Paid',
+  'Long Lake Orono Smoke Shop','Long Lake','Liquor Store','Tito','1089','Reorder','Paid',
   DATE '2026-02-11',DATE '2026-02-11',291.96,291.96,291.96,291.96,0,'Closed',
   DATE '2026-02-11',DATE '2026-02-11','approved_depletion_workbook'
 )
@@ -449,11 +485,11 @@ WITH seed(line_key,invoice_number,sku,product_name,description,category,cases_so
 )
 INSERT INTO public.invoice_items (
   invoice_id,product_id,sku,product_name,description,category,cases_sold,sale_price,revenue,
-  cogs_per_case,total_cogs,gross_profit,source_line_key
+  cogs_per_case,total_cogs,gross_profit,cost_reference,source_line_key
 )
 SELECT
   i.id,p.id,s.sku,s.product_name,s.description,s.category,s.cases_sold,s.sale_price,s.revenue,
-  s.cogs,s.total_cogs,s.gross_profit,s.line_key
+  s.cogs,s.total_cogs,s.gross_profit,3.00,s.line_key
 FROM seed s
 JOIN public.invoices i ON i.invoice_number=s.invoice_number
 LEFT JOIN public.products p ON p.sku=s.sku
@@ -468,7 +504,19 @@ ON CONFLICT (source_line_key) DO UPDATE SET
   revenue=EXCLUDED.revenue,
   cogs_per_case=EXCLUDED.cogs_per_case,
   total_cogs=EXCLUDED.total_cogs,
-  gross_profit=EXCLUDED.gross_profit;
+  gross_profit=EXCLUDED.gross_profit,
+  cost_reference=EXCLUDED.cost_reference;
+
+-- Enrich matched CRM accounts without overwriting existing populated values.
+UPDATE public.prospects
+SET city=CASE WHEN COALESCE(city,'')='' THEN 'Wayzata' ELSE city END,
+    channel=CASE WHEN COALESCE(channel,'')='' THEN 'Liquor Store' ELSE channel END
+WHERE lower(business_name)=lower('Wayzata Smoke Shop & Vape');
+
+UPDATE public.prospects
+SET city=CASE WHEN COALESCE(city,'')='' THEN 'Long Lake' ELSE city END,
+    channel=CASE WHEN COALESCE(channel,'')='' THEN 'Liquor Store' ELSE channel END
+WHERE lower(business_name)=lower('Long Lake Orono Smoke Shop');
 
 -- Add payment rows only if they do not already exist for the workbook invoices.
 INSERT INTO public.payments (invoice_id,prospect_id,amount,payment_date,reference,created_by,source)
