@@ -2,9 +2,16 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import SalesWorkspace from '../components/crm/SalesWorkspace';
+import DepletionWorkspace from '../components/crm/DepletionWorkspace';
 import { createPreviewClient } from '../lib/previewClient';
 
-const IS_STATIC_PREVIEW = process.env.NEXT_PUBLIC_STATIC_PREVIEW === 'true';
+const HAS_SUPABASE_CONFIG = Boolean(
+  process.env.NEXT_PUBLIC_SUPABASE_URL &&
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+);
+const IS_STATIC_PREVIEW =
+  process.env.NEXT_PUBLIC_STATIC_PREVIEW === 'true' || !HAS_SUPABASE_CONFIG;
+const PREVIEW_USER = { name: 'Tito', role: 'admin', username: 'tito' };
 const APP_BASE_PATH = process.env.NEXT_PUBLIC_APP_BASE_PATH || '';
 const assetUrl = path => `${APP_BASE_PATH}${path.startsWith("/") ? path : `/${path}` }`;
 
@@ -77,6 +84,7 @@ const ALL_TABS = [
   { id:'routes',        label:'Routes',        icon:'→' },
   { id:'orders',        label:'Orders',        icon:'◧' },
   { id:'sales',         label:'Sales',         icon:'$' },
+  { id:'depletion',     label:'Depletion',     icon:'◈' },
   { id:'events',        label:'Events',        icon:'◆' },
   { id:'activity',      label:'Activity',      icon:'⚡' },
   { id:'commissions',   label:'Commissions',   icon:'$' },
@@ -84,6 +92,14 @@ const ALL_TABS = [
   { id:'lagom-ai',      label:'Lagom AI',      icon:'✦' },
   { id:'settings',      label:'Settings',      icon:'⚙', adminOnly:true },
   { id:'setup',         label:'Setup',         icon:'⊞', adminOnly:true },
+];
+
+const NAV_GROUPS = [
+  { label: 'Workspace', ids: ['today', 'overview'] },
+  { label: 'Accounts', ids: ['accounts', 'pipeline', 'territories', 'territory-map', 'routes'] },
+  { label: 'Sales', ids: ['orders', 'sales', 'depletion', 'activity', 'commissions', 'inventory'] },
+  { label: 'Tools', ids: ['events', 'lagom-ai'] },
+  { label: 'Admin', ids: ['settings', 'setup'] },
 ];
 
 /* ── Utilities ────────────────────────────────────────────────────────────── */
@@ -158,6 +174,7 @@ const ICON_PATHS={
   routes:<><circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M18 7v6a4 4 0 0 1-4 4H8"/><path d="M6 17V9"/></>,
   orders:<><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></>,
   sales:<><path d="M3 3h18v18H3z"/><path d="M7 15l3-3 3 2 4-5"/><path d="M7 7h4"/></>,
+  depletion:<><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4"/><path d="M9 12h6M9 16h4"/></>,
   events:<><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></>,
   activity:<><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></>,
   commissions:<><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></>,
@@ -2760,6 +2777,7 @@ function App({user,onLogout}){
       routes:          <RoutesTab {...tp}/>,
       orders:          <OrdersTab {...tp}/>,
       sales:           <SalesWorkspace supabase={supabase} {...tp}/>,
+      depletion:       <DepletionWorkspace supabase={supabase} prospects={prospects} user={user}/>,
       events:          <EventsTab {...tp}/>,
       activity:        <ActivityTab {...tp}/>,
       commissions:     <CommissionsTab {...tp}/>,
@@ -2917,8 +2935,9 @@ function App({user,onLogout}){
 
 /* ── Root ─────────────────────────────────────────────────────────────────── */
 export default function Page(){
-  const [user,setUser]=useState(null);
-  if(!user)return <Login onLogin={setUser}/>;
-  if(user.role==='investor')return <InvestorDashboard user={user} onLogout={()=>setUser(null)}/>;
-  return <App user={user} onLogout={()=>setUser(null)}/>;
+  const [user,setUser]=useState(IS_STATIC_PREVIEW ? PREVIEW_USER : null);
+  const activeUser=user||(IS_STATIC_PREVIEW?PREVIEW_USER:null);
+  if(!activeUser)return <Login onLogin={setUser}/>;
+  if(activeUser.role==='investor')return <InvestorDashboard user={activeUser} onLogout={()=>setUser(null)}/>;
+  return <App user={activeUser} onLogout={()=>setUser(null)}/>;
 }

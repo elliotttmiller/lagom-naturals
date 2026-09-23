@@ -3,6 +3,9 @@ const isGithubPages = process.env.GITHUB_PAGES === 'true';
 const pagesBasePath = process.env.GITHUB_PAGES_BASE_PATH || '/lagom-naturals/crm';
 
 const nextConfig = {
+  turbopack: {
+    root: __dirname,
+  },
   ...(isGithubPages ? {
     output: 'export',
     basePath: pagesBasePath,
