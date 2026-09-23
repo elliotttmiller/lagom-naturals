@@ -38,6 +38,25 @@ insights.
 After adding any env var, redeploy for it to take effect.
 
 ## Current state — DONE
+
+### Sales & Depletion operations (Phase 2 approved workbook)
+- New `Sales` workspace with Overview, Transactions, Reorders, AR, and Products.
+- Normalized `invoices` + `invoice_items` commercial model, individual `payments`,
+  collection activities, CRM tasks, product placements, reorder cadence, and product
+  performance views.
+- Approved workbook seed is in `depletion_phase2.sql`: invoices 1088/1089, 8 line
+  items, 8 cases, $583.92 revenue, $576.00 COGS, $7.92 gross profit.
+- Orders and Sales invoice creation now feed the same normalized commercial records.
+- Account 360 now shows sales history, lifetime metrics, AR, and SKU placement gaps.
+- Today and Routes consume reorder/AR signals.
+- Commissions derive from paid invoices and approved rep commission settings.
+- See `DEPLETION_OPERATIONS.md` for architecture, exact mapping, deployment order,
+  reconciliation totals, and manual verification checklist.
+- **Required deployment step:** run `depletion_phase2.sql` against the real Lagom CRM
+  Supabase database before deploying the application changes. This migration was not
+  applied during implementation because the connected Supabase workspace exposed only
+  an unrelated project named `Order Manager`.
+
 - Accounts, Activity, Inventory (17 products), Users management.
 - Collapsible desktop sidebar; desktop layout pass (content capped in `.content-inner`).
 - Custom domain + SSL.
@@ -51,8 +70,7 @@ After adding any env var, redeploy for it to take effect.
 1. **Activate Phase 4** (no code change): add the two Google env vars + redeploy; run
    `maps_setup.sql` (adds `latitude`/`longitude`/`county`); then Setup -> "Geocode all
    accounts" (~2,391 records). Verify match rate and that the map renders.
-2. **Phase 3 — Invoices** (not built). See `INVOICES_SPEC.md`. Tables already defined
-   in `supabase-setup.sql`.
+2. **Deploy Sales & Depletion migration:** run `depletion_phase2.sql` in the real Lagom CRM Supabase project, then reconcile the approved workbook totals in `DEPLETION_OPERATIONS.md`.
 3. **Verify `supabase-setup.sql` has been run** — tables `events`, `orders`,
    `order_items`, `invoices`, `inventory_movements`, `commissions`. Those tabs error or
    are empty if the script has not been run.
