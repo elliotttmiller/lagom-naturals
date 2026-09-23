@@ -335,12 +335,13 @@ function Login({onLogin}){
       <div className="auth-hero">
         <div className="auth-glow"/>
         <div style={{position:'relative',width:'100%',maxWidth:560}}>
-          <div style={{display:'flex',alignItems:'center',gap:11,marginBottom:30}}>
-            <img src={assetUrl("/logo.png")} alt="Lagom" style={{height:34}}/>
-            <span style={{fontWeight:900,fontSize:17,letterSpacing:'-.3px'}}>Lagom CRM</span>
+          <div style={{display:'flex',alignItems:'center',gap:11,marginBottom:32}}>
+            <div style={{width:42,height:42,borderRadius:13,background:'rgba(255,255,255,.07)',border:'1px solid rgba(255,255,255,.1)',display:'flex',alignItems:'center',justifyContent:'center'}}><img src={assetUrl("/logo.png")} alt="Lagom" style={{height:29,maxWidth:31,objectFit:'contain'}}/></div>
+            <div><div style={{fontWeight:800,fontSize:15,letterSpacing:'-.25px'}}>Lagom</div><div style={{fontSize:10.5,color:'rgba(255,255,255,.42)',marginTop:2}}>Sales Operations</div></div>
           </div>
-          <h1 style={{fontSize:32,fontWeight:900,letterSpacing:'-.8px',lineHeight:1.12,maxWidth:520}}>The field sales CRM built for beverage brands.</h1>
-          <p style={{color:'rgba(255,255,255,.6)',marginTop:14,fontSize:14,lineHeight:1.6,maxWidth:460}}>Less time fighting software, more time closing accounts. Built for reps in the field.</p>
+          <div style={{fontSize:10,color:'#8BD1B2',fontWeight:800,textTransform:'uppercase',letterSpacing:'.12em',marginBottom:10}}>Field-first operating system</div>
+          <h1 style={{fontSize:34,fontWeight:780,letterSpacing:'-.055em',lineHeight:1.08,maxWidth:520}}>Run wholesale sales with less friction and clearer next actions.</h1>
+          <p style={{color:'rgba(255,255,255,.6)',marginTop:15,fontSize:13.5,lineHeight:1.65,maxWidth:470}}>Accounts, routes, depletion, orders, receivables, product performance, and field activity in one focused workspace.</p>
           {[
             ['inventory','Placement Tracking','Placements auto-mark as orders are fulfilled as depletion data loads. A clearer view into inventory levels with less manual tracking.'],
             ['activity','Zero Data-Entry Friction','Log visits, update placements, and move on. Built so reps spend time closing deals, not fighting software.'],
@@ -364,9 +365,17 @@ function Login({onLogin}){
       <div className="auth-form">
         <div style={{width:'100%',maxWidth:360}}>
           <div style={{marginBottom:26}}>
-            <h2 style={{fontSize:23,fontWeight:900,color:P.text,letterSpacing:'-.5px'}}>Welcome back</h2>
-            <p style={{color:P.t2,marginTop:5,fontSize:13}}>Sign in to your sales workspace</p>
+            <div className="section-label" style={{marginBottom:7}}>Internal workspace</div>
+            <h2 style={{fontSize:25,fontWeight:780,color:P.text,letterSpacing:'-.04em'}}>Sign in</h2>
+            <p style={{color:P.t2,marginTop:7,fontSize:12.5,lineHeight:1.5}}>{IS_STATIC_PREVIEW?'Choose a preview role or use a demo login to review the CRM experience.':'Access the Lagom sales operations workspace.'}</p>
           </div>
+          {IS_STATIC_PREVIEW&&<div style={{padding:12,background:'#EEF3EF',border:'1px solid #DDE5DF',borderRadius:12,marginBottom:16}}>
+            <div style={{fontSize:10,fontWeight:800,textTransform:'uppercase',letterSpacing:'.08em',color:P.t3,marginBottom:8}}>Preview roles</div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:7}}>
+              <button type="button" className="btn btn-g" onClick={()=>onLogin({name:'Tito',role:'admin',username:'tito'})}>Owner / Admin</button>
+              <button type="button" className="btn btn-g" onClick={()=>onLogin({name:'Roman',role:'rep',username:'roman'})}>Field Rep</button>
+            </div>
+          </div>}
           <form onSubmit={submit}>
             <div style={{display:'flex',flexDirection:'column',gap:14}}>
               <div><label>Username</label><input value={u} onChange={e=>setU(e.target.value)} placeholder="Enter your username" autoFocus autoCapitalize="none"/></div>
@@ -377,10 +386,10 @@ function Login({onLogin}){
               </button>
             </div>
           </form>
-          <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:6,marginTop:16,color:P.t3,fontSize:11.5,fontWeight:600}}>
-            <Icon name="lock" size={12}/> Encrypted connection · Secure sign-in
+          <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:6,marginTop:16,color:P.t3,fontSize:11,fontWeight:650}}>
+            <Icon name="lock" size={12}/> {IS_STATIC_PREVIEW?'Frontend review environment':'Internal sales workspace'}
           </div>
-          <p style={{textAlign:'center',color:P.t3,fontSize:12,marginTop:10}}>Lagom Naturals · Twin Cities, MN</p>
+          <p style={{textAlign:'center',color:P.t3,fontSize:11.5,marginTop:10}}>Lagom Naturals · Minnesota</p>
         </div>
       </div>
     </div>
@@ -2267,8 +2276,8 @@ function SettingsTab(){
   return(
     <div className="fade">
       <div className="tab-h">
-        <h2>Settings</h2>
-        <div style={{display:'flex',gap:4}}>
+        <div><div className="section-label" style={{marginBottom:7}}>Workspace administration</div><h2>Settings</h2><div style={{fontSize:12,color:P.t3,marginTop:6}}>Manage users, roles, operating context, and CRM-level configuration.</div></div>
+        <div style={{display:'flex',gap:4,padding:4,border:'1px solid '+P.border,borderRadius:11,background:'#F6F7F5'}}>
           {SECTIONS.map(s=>(
             <button key={s.id} className="btn btn-sm" onClick={()=>setSection(s.id)}
               style={{background:section===s.id?P.slate:P.slateL,color:section===s.id?'#fff':P.slate,border:'none'}}>
@@ -2497,8 +2506,8 @@ function SetupTab({prospects,reload}){
   return(
     <div className="fade">
       <div className="tab-h">
-        <h2>Setup & Admin</h2>
-        <div style={{display:'flex',gap:4}}>
+        <div><div className="section-label" style={{marginBottom:7}}>Data operations</div><h2>Setup</h2><div style={{fontSize:12,color:P.t3,marginTop:6}}>Preview the future data onboarding, mapping, and bulk-management workflows.</div></div>
+        <div style={{display:'flex',gap:4,padding:4,border:'1px solid '+P.border,borderRadius:11,background:'#F6F7F5'}}>
           {SECTIONS.map(s=>(
             <button key={s.id} className="btn btn-sm" onClick={()=>setSection(s.id)}
               style={{background:section===s.id?P.slate:P.slateL,color:section===s.id?'#fff':P.slate,border:'none'}}>
