@@ -469,6 +469,8 @@ VALUES
 )
 ON CONFLICT (invoice_number) DO UPDATE SET
   account_name=EXCLUDED.account_name,
+  account_city=EXCLUDED.account_city,
+  account_channel=EXCLUDED.account_channel,
   rep_name=EXCLUDED.rep_name,
   sale_type=EXCLUDED.sale_type,
   status=EXCLUDED.status,
