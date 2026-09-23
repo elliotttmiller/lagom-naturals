@@ -400,7 +400,6 @@ function InvestorDashboard({user,onLogout}){
   const [prospects,setProspects]=useState([]);
   const [orders,setOrders]=useState([]);
   const [products,setProducts]=useState([]);
-  const reps=useMemo(()=>[...new Set(prospects.map(p=>p.assigned_to).filter(Boolean))].sort(),[prospects]);
   const [loading,setLoading]=useState(true);
 
   useEffect(()=>{
@@ -1673,6 +1672,7 @@ function OrdersTab({prospects,user}){
 function EventsTab({prospects}){
   const [events,setEvents]=useState([]);
   const [products,setProducts]=useState([]);
+  const reps=useMemo(()=>[...new Set(prospects.map(p=>p.assigned_to).filter(Boolean))].sort(),[prospects]);
   const [loading,setLoading]=useState(true);
   const [showAdd,setShowAdd]=useState(false);
   const [saving,setSaving]=useState(false);
