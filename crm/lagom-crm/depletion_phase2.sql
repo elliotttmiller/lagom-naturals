@@ -13,6 +13,36 @@ ALTER TABLE IF EXISTS public.prospects
   ADD COLUMN IF NOT EXISTS account_number text,
   ADD COLUMN IF NOT EXISTS channel text;
 
+-- Ensure the approved workbook accounts have CRM identities. Coordinates/address
+-- come from Lagom's existing store-location dataset in this repository.
+INSERT INTO public.prospects (business_name,address,city,state,zip,status,priority,assigned_to,latitude,longitude,channel)
+SELECT 'Wayzata Smoke Shop & Vape','1310 Wayzata Blvd','Wayzata','MN','55391','Won','Medium','Tito',44.970666,-93.481092,'Liquor Store'
+WHERE NOT EXISTS (SELECT 1 FROM public.prospects WHERE lower(business_name)=lower('Wayzata Smoke Shop & Vape'));
+
+INSERT INTO public.prospects (business_name,address,city,state,zip,status,priority,assigned_to,latitude,longitude,channel)
+SELECT 'Long Lake Orono Smoke Shop','1865 Wayzata Blvd Unit 112','Long Lake','MN','55356','Won','Medium','Tito',44.985523,-93.572352,'Liquor Store'
+WHERE NOT EXISTS (SELECT 1 FROM public.prospects WHERE lower(business_name)=lower('Long Lake Orono Smoke Shop'));
+
+UPDATE public.prospects
+SET address=CASE WHEN COALESCE(address,'')='' THEN '1310 Wayzata Blvd' ELSE address END,
+    city=CASE WHEN COALESCE(city,'')='' THEN 'Wayzata' ELSE city END,
+    state=CASE WHEN COALESCE(state,'')='' THEN 'MN' ELSE state END,
+    zip=CASE WHEN COALESCE(zip,'')='' THEN '55391' ELSE zip END,
+    latitude=COALESCE(latitude,44.970666),
+    longitude=COALESCE(longitude,-93.481092),
+    channel=CASE WHEN COALESCE(channel,'')='' THEN 'Liquor Store' ELSE channel END
+WHERE lower(business_name)=lower('Wayzata Smoke Shop & Vape');
+
+UPDATE public.prospects
+SET address=CASE WHEN COALESCE(address,'')='' THEN '1865 Wayzata Blvd Unit 112' ELSE address END,
+    city=CASE WHEN COALESCE(city,'')='' THEN 'Long Lake' ELSE city END,
+    state=CASE WHEN COALESCE(state,'')='' THEN 'MN' ELSE state END,
+    zip=CASE WHEN COALESCE(zip,'')='' THEN '55356' ELSE zip END,
+    latitude=COALESCE(latitude,44.985523),
+    longitude=COALESCE(longitude,-93.572352),
+    channel=CASE WHEN COALESCE(channel,'')='' THEN 'Liquor Store' ELSE channel END
+WHERE lower(business_name)=lower('Long Lake Orono Smoke Shop');
+
 -- Product catalog enrichment. Do not overwrite the existing wholesale_cost field:
 -- workbook COGS/Case is a separate accounting concept.
 ALTER TABLE IF EXISTS public.products
