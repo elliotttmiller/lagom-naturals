@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { createClient } from '@supabase/supabase-js';
+import SalesWorkspace from '../components/crm/SalesWorkspace';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -70,6 +71,7 @@ const ALL_TABS = [
   { id:'territory-map', label:'Territory Map', icon:'⊕' },
   { id:'routes',        label:'Routes',        icon:'→' },
   { id:'orders',        label:'Orders',        icon:'◧' },
+  { id:'sales',         label:'Sales',         icon:'$' },
   { id:'events',        label:'Events',        icon:'◆' },
   { id:'activity',      label:'Activity',      icon:'⚡' },
   { id:'commissions',   label:'Commissions',   icon:'$' },
@@ -240,6 +242,7 @@ const ICON_PATHS={
   'territory-map':<><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></>,
   routes:<><circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M18 7v6a4 4 0 0 1-4 4H8"/><path d="M6 17V9"/></>,
   orders:<><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></>,
+  sales:<><path d="M3 3h18v18H3z"/><path d="M7 15l3-3 3 2 4-5"/><path d="M7 7h4"/></>,
   events:<><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></>,
   activity:<><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></>,
   commissions:<><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></>,
@@ -2769,6 +2772,7 @@ function App({user,onLogout}){
       'territory-map': <TerritoryMapTab {...tp}/>,
       routes:          <RoutesTab {...tp}/>,
       orders:          <OrdersTab {...tp}/>,
+      sales:           <SalesWorkspace supabase={supabase} {...tp}/>,
       events:          <EventsTab {...tp}/>,
       activity:        <ActivityTab {...tp}/>,
       commissions:     <CommissionsTab {...tp}/>,
@@ -2816,7 +2820,7 @@ function App({user,onLogout}){
             <img src="/logo.png" alt="Lagom" style={{height:34,flexShrink:0}}/>
             {!collapsed&&<div>
               <div style={{fontWeight:900,fontSize:14,color:'#fff',letterSpacing:'-.3px'}}>Lagom CRM</div>
-              <div style={{fontSize:11,color:'rgba(255,255,255,.45)',letterSpacing:'.2px'}}>Twin Cities, MN</div>
+              <div style={{fontSize:11,color:'rgba(255,255,255,.45)',letterSpacing:'.2px'}}>Minnesota Sales Operations</div>
             </div>}
           </div>
         </div>
@@ -2863,7 +2867,7 @@ function App({user,onLogout}){
       </div>
 
       <div className="mob-nav">
-        {visibleTabs.slice(0,6).map(t=><NavBtn key={t.id} t={t}/>)}
+        {['today','accounts','routes','orders','sales'].map(id=>visibleTabs.find(t=>t.id===id)).filter(Boolean).map(t=><NavBtn key={t.id} t={t}/>)}
         <button onClick={()=>setDrawerOpen(true)} style={{display:'flex',flexDirection:'column',alignItems:'center',gap:2,padding:'6px 2px',background:'none',border:'none',color:'rgba(255,255,255,.5)',fontSize:12,flex:1,minWidth:0,cursor:'pointer'}}>
           <Icon name="menu" size={20}/>
           <span style={{fontSize:9,fontWeight:700}}>More</span>
