@@ -1207,9 +1207,14 @@ function TerritoryMapTab({prospects}){
 }
 
 /* ── Routes Tab ───────────────────────────────────────────────────────────── */
-function RoutesTab({prospects}){
+function RoutesTab({prospects,user}){
   const [route,setRoute]=useState([]);
   const [filter,setFilter]=useState('');
+  const [reorders,setReorders]=useState([]);
+  useEffect(()=>{let live=true;supabase.from('crm_reorder_opportunities').select('*').then(({data})=>{if(live)setReorders(data||[])});return()=>{live=false}},[]);
+  const me=(user?.display_name||user?.name||'').trim(),isAdmin=user?.role==='admin';
+  const scopedReorders=reorders.filter(r=>isAdmin||(r.rep_name||'').toLowerCase()===me.toLowerCase());
+  const dueIds=new Set(scopedReorders.filter(r=>['Due','Overdue','Due Soon'].includes(r.reorder_status)).map(r=>r.prospect_id));
 
   const geoProspects=useMemo(()=>
     prospects.filter(p=>p.latitude&&p.longitude)
@@ -1222,6 +1227,8 @@ function RoutesTab({prospects}){
   const toggleStop=id=>setRoute(r=>inRoute(id)?r.filter(x=>x!==id):[...r,id]);
 
   const routeStops=geoProspects.filter(p=>route.includes(p.id));
+  const dueGeo=geoProspects.filter(p=>dueIds.has(p.id));
+  const addDueReorders=()=>setRoute(r=>[...new Set([...r,...dueGeo.map(p=>p.id)])]);
   const totalDist=routeStops.reduce((s,p)=>s+p.dist,0);
   const filtered=geoProspects.filter(p=>!filter||`${p.business_name} ${p.city}`.toLowerCase().includes(filter.toLowerCase()));
 
@@ -1239,7 +1246,7 @@ function RoutesTab({prospects}){
 
       <div className="g2">
         <div className="card">
-          <div style={{fontWeight:700,fontSize:14,marginBottom:12}}>All Stops · Nearest First</div>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:8,marginBottom:12}}><div style={{fontWeight:700,fontSize:14}}>All Stops · Nearest First</div>{dueGeo.length>0&&<button className="btn btn-a btn-sm" onClick={addDueReorders}>+ {dueGeo.length} Reorders Due</button>}</div>
           <input value={filter} onChange={e=>setFilter(e.target.value)} placeholder="Filter accounts…" style={{marginBottom:12}}/>
           <div style={{maxHeight:460,overflowY:'auto',display:'flex',flexDirection:'column',gap:2}}>
             {filtered.map(p=>(
@@ -1250,9 +1257,9 @@ function RoutesTab({prospects}){
                 </div>
                 <div style={{flex:1,minWidth:0}}>
                   <div style={{fontWeight:600,fontSize:13,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{p.business_name}</div>
-                  <div style={{fontSize:11,color:P.t2}}>{p.city||'-'}</div>
+                  <div style={{fontSize:11,color:P.t2}}>{p.city||'-'}{dueIds.has(p.id)?' · reorder signal':''}</div>
                 </div>
-                <div style={{fontSize:12,fontWeight:700,color:P.teal,flexShrink:0}}>{p.dist.toFixed(1)} mi</div>
+                {dueIds.has(p.id)&&<Badge label="Reorder" color={P.amber}/>}<div style={{fontSize:12,fontWeight:700,color:P.teal,flexShrink:0}}>{p.dist.toFixed(1)} mi</div>
               </div>
             ))}
             {!filtered.length&&<Empty msg={geoProspects.length===0?'No geocoded accounts. Add latitude/longitude to prospects in Supabase.':'No matches'}/>}
@@ -2624,6 +2631,9 @@ function TodayTab({prospects,user,go}){
   const me=(user.display_name||user.name||'').trim();
   const firstName=me.split(' ')[0]||'there';
   const today=todayStr();
+  const [reorderSignals,setReorderSignals]=useState([]);
+  const [arSignals,setARSignals]=useState([]);
+  useEffect(()=>{let live=true;(async()=>{const[{data:r},{data:a}]=await Promise.all([supabase.from('crm_reorder_opportunities').select('*'),supabase.from('crm_invoice_rollup').select('*').gt('balance_due',0)]);if(live){setReorderSignals(r||[]);setARSignals(a||[])}})();return()=>{live=false}},[]);
 
   const mine=useMemo(()=>{
     if(isAdmin)return prospects;
@@ -2644,8 +2654,14 @@ function TodayTab({prospects,user,go}){
   const part=hour<12?'Good morning':hour<18?'Good afternoon':'Good evening';
   const dateStr=new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
 
+  const myReorders=reorderSignals.filter(r=>isAdmin||(r.rep_name||'').toLowerCase()===me.toLowerCase());
+  const myAR=arSignals.filter(r=>isAdmin||(r.rep_name||'').toLowerCase()===me.toLowerCase());
+  const dueReorders=myReorders.filter(r=>['Due','Overdue'].includes(r.reorder_status)).sort((a,b)=>b.days_since_last_order-a.days_since_last_order);
+  const actionableAR=myAR.filter(r=>r.is_overdue||(r.next_follow_up_date&&r.next_follow_up_date<=today)).sort((a,b)=>b.days_past_due-a.days_past_due);
   const nbas=[];
-  overdue.slice(0,4).forEach(p=>nbas.push({kind:'risk',icon:'!',title:`${p.business_name} needs a follow-up`,
+  actionableAR.slice(0,2).forEach(i=>nbas.push({kind:'risk',icon:'$',title:i.account_name+' has '+fmtFull$(i.balance_due)+' outstanding',desc:i.is_overdue?i.days_past_due+' days past due':'Collection follow-up due today',cta:'Open AR',dest:'sales'}));
+  dueReorders.slice(0,3).forEach(r=>nbas.push({kind:r.reorder_status==='Overdue'?'risk':'warn',icon:'↻',title:r.account_name+' is ready for a reorder',desc:r.days_since_last_order+' days since last order'+(r.avg_reorder_days?' · '+r.avg_reorder_days+' day cadence':''),cta:'Open reorders',dest:'sales'}));
+  overdue.slice(0,Math.max(0,4-nbas.length)).forEach(p=>nbas.push({kind:'risk',icon:'!',title:`${p.business_name} needs a follow-up`,
     desc:`Overdue since ${fmtDS(p.next_follow_up)}${p.county?` · ${p.county} County`:p.city?` · ${p.city}`:''}`,cta:'Open account',dest:'accounts'}));
   dueToday.slice(0,3).forEach(p=>nbas.push({kind:'warn',icon:'↻',title:`${p.business_name} · due today`,
     desc:`Scheduled follow-up${p.city?` · ${p.city}`:''}`,cta:'Log a visit',dest:'accounts'}));
@@ -2674,9 +2690,10 @@ function TodayTab({prospects,user,go}){
         <div style={{position:'relative'}}>
           <div style={{fontSize:12,color:'rgba(255,255,255,.6)',fontWeight:600}}>{dateStr} · {part}</div>
           <div style={{fontSize:23,fontWeight:900,letterSpacing:'-.4px',marginTop:2}}>Hey {firstName} 👋</div>
-          <div style={{display:'flex',gap:10,marginTop:16,maxWidth:520}}>
+          <div style={{display:'flex',gap:10,marginTop:16,maxWidth:680,flexWrap:'wrap'}}>
             <Stat n={dueToday.length} l="Due today"/>
             <Stat n={overdue.length} l="Overdue"/>
+            <Stat n={dueReorders.length} l="Reorders due"/>
             <Stat n={active.length} l={isAdmin?'Active accounts':'My active'}/>
           </div>
         </div>
