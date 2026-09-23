@@ -2723,32 +2723,34 @@ function TodayTab({prospects,user,go}){
     risk:{bar:P.rose,bg:P.roseL,fg:P.rose},
   };
   const Stat=({n,l})=>(
-    <div style={{flex:1,background:'rgba(255,255,255,.08)',border:'1px solid rgba(255,255,255,.12)',borderRadius:14,padding:'12px 14px'}}>
-      <div className="tnum" style={{fontSize:24,fontWeight:900,color:'#fff',lineHeight:1}}>{n}</div>
-      <div style={{fontSize:10,color:'rgba(255,255,255,.6)',fontWeight:700,textTransform:'uppercase',letterSpacing:'.4px',marginTop:4}}>{l}</div>
+    <div className="today-stat">
+      <div className="tnum" style={{fontSize:23,fontWeight:800,color:'#fff',lineHeight:1,letterSpacing:'-.04em'}}>{n}</div>
+      <div style={{fontSize:9.5,color:'rgba(255,255,255,.58)',fontWeight:750,textTransform:'uppercase',letterSpacing:'.07em',marginTop:6}}>{l}</div>
     </div>
   );
 
   return(
     <div className="fade">
-      {/* Hero */}
-      <div style={{background:'linear-gradient(150deg,#0F172A 0%,#13233B 55%,#0E3A2E 100%)',borderRadius:18,padding:'22px 24px',color:'#fff',marginBottom:18,position:'relative',overflow:'hidden'}}>
-        <div style={{position:'absolute',width:280,height:280,borderRadius:'50%',background:'radial-gradient(circle,rgba(26,138,107,.35),transparent 70%)',top:-120,right:-80,pointerEvents:'none'}}/>
-        <div style={{position:'relative'}}>
-          <div style={{fontSize:12,color:'rgba(255,255,255,.6)',fontWeight:600}}>{dateStr} · {part}</div>
-          <div style={{fontSize:23,fontWeight:900,letterSpacing:'-.4px',marginTop:2}}>Hey {firstName} 👋</div>
-          <div style={{display:'flex',gap:10,marginTop:16,maxWidth:680,flexWrap:'wrap'}}>
-            <Stat n={dueToday.length} l="Due today"/>
-            <Stat n={overdue.length} l="Overdue"/>
-            <Stat n={dueReorders.length} l="Reorders due"/>
-            <Stat n={active.length} l={isAdmin?'Active accounts':'My active'}/>
+      <div className="today-hero">
+        <div style={{position:'relative',zIndex:1,display:'flex',justifyContent:'space-between',gap:22,alignItems:'flex-start',flexWrap:'wrap'}}>
+          <div style={{minWidth:0,maxWidth:620}}>
+            <div style={{fontSize:10,color:'rgba(255,255,255,.5)',fontWeight:800,textTransform:'uppercase',letterSpacing:'.1em'}}>{dateStr}</div>
+            <div style={{fontSize:26,fontWeight:780,letterSpacing:'-.045em',marginTop:7}}>{part}, {firstName}</div>
+            <div style={{fontSize:12.5,color:'rgba(255,255,255,.63)',marginTop:7,lineHeight:1.5}}>Your priority account actions, commercial follow-ups, and field work are organized below.</div>
           </div>
+          <div style={{fontSize:10.5,fontWeight:750,color:'#91D8B8',background:'rgba(98,195,154,.1)',border:'1px solid rgba(98,195,154,.18)',padding:'6px 9px',borderRadius:999}}>Live workspace</div>
+        </div>
+        <div style={{position:'relative',zIndex:1,display:'flex',gap:9,marginTop:20,maxWidth:760,flexWrap:'wrap'}}>
+          <Stat n={dueToday.length} l="Due today"/>
+          <Stat n={overdue.length} l="Overdue"/>
+          <Stat n={dueReorders.length} l="Reorders due"/>
+          <Stat n={active.length} l={isAdmin?'Active accounts':'My active'}/>
         </div>
       </div>
 
       {/* Next best actions */}
       <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:10}}>
-        <div style={{fontSize:13,fontWeight:800,textTransform:'uppercase',letterSpacing:'.6px',color:P.t3}}>Do these first</div>
+        <div><div className="section-label">Priority queue</div><div style={{fontSize:15,fontWeight:800,marginTop:3}}>Do these first</div></div>
         <button className="btn btn-g btn-sm" onClick={()=>go&&go('accounts')}>All accounts →</button>
       </div>
       <div className="g2" style={{marginBottom:20}}>
@@ -2772,7 +2774,7 @@ function TodayTab({prospects,user,go}){
       <div className="g2">
         <div className="card">
           <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:12}}>
-            <div style={{fontWeight:800,fontSize:14}}>Nearest accounts · from HQ</div>
+            <div><div className="section-label">Field planning</div><div style={{fontWeight:800,fontSize:14,marginTop:3}}>Nearest accounts</div></div>
             <button className="btn btn-p btn-sm" onClick={()=>go&&go('routes')}>Build route →</button>
           </div>
           {geo.length?(
@@ -2798,7 +2800,7 @@ function TodayTab({prospects,user,go}){
         </div>
 
         <div className="card">
-          <div style={{fontWeight:800,fontSize:14,marginBottom:12}}>Jump back in</div>
+          <div className="section-label" style={{marginBottom:4}}>Workspace</div><div style={{fontWeight:800,fontSize:14,marginBottom:12}}>Jump back in</div>
           <div style={{display:'flex',flexDirection:'column',gap:8}}>
             {[
               ['territory-map','Territory Map','See your accounts across the state'],
