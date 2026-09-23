@@ -53,7 +53,8 @@ ALTER TABLE IF EXISTS public.products
   ADD COLUMN IF NOT EXISTS cogs_per_case numeric(12,2),
   ADD COLUMN IF NOT EXISTS cost_per_unit_reference numeric(12,2),
   ADD COLUMN IF NOT EXISTS depletion_category text,
-  ADD COLUMN IF NOT EXISTS depletion_line text;
+  ADD COLUMN IF NOT EXISTS depletion_line text,
+  ADD COLUMN IF NOT EXISTS updated_at timestamptz DEFAULT now();
 
 CREATE UNIQUE INDEX IF NOT EXISTS products_sku_key ON public.products (sku) WHERE sku IS NOT NULL;
 
@@ -166,6 +167,14 @@ CREATE TABLE IF NOT EXISTS public.payments (
 
 CREATE INDEX IF NOT EXISTS payments_invoice_id_idx ON public.payments(invoice_id);
 CREATE INDEX IF NOT EXISTS payments_prospect_id_idx ON public.payments(prospect_id);
+
+-- Enrich the existing inventory movement ledger used by the CRM. Existing columns
+-- remain compatible with the legacy Orders flow.
+ALTER TABLE IF EXISTS public.inventory_movements
+  ADD COLUMN IF NOT EXISTS movement_type text,
+  ADD COLUMN IF NOT EXISTS quantity_before numeric(12,2),
+  ADD COLUMN IF NOT EXISTS quantity_after numeric(12,2),
+  ADD COLUMN IF NOT EXISTS notes text;
 
 CREATE TABLE IF NOT EXISTS public.collection_activities (
   id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
