@@ -196,8 +196,8 @@ function view(name){
 }
 
 class Query {
-  constructor(table){this.table=table;this.filters=[];this.sorts=[];this.max=null;this.mode='select';this.payload=null;this.singleMode=false;this.maybe=false;}
-  select(){return this;}
+  constructor(table){this.table=table;this.filters=[];this.sorts=[];this.max=null;this.mode='select';this.payload=null;this.singleMode=false;this.maybe=false;this.countMode=false;this.head=false;}
+  select(_columns='*',options={}){this.countMode=Boolean(options?.count);this.head=Boolean(options?.head);return this;}
   eq(k,v){this.filters.push(r=>String(r?.[k]??'')===String(v??''));return this;}
   gt(k,v){this.filters.push(r=>Number(r?.[k]??0)>Number(v));return this;}
   order(k,opt={}){this.sorts.push([k,opt.ascending!==false]);return this;}
@@ -210,9 +210,27 @@ class Query {
   async exec(){
     const base=db[this.table]||[];
     if(this.mode==='insert'){
-      const rows=this.payload.map(x=>({...x,id:x.id||id(this.table.slice(0,3)),created_at:x.created_at||new Date().toISOString()}));
+      const rows=this.payload.map(x=>{
+        const row={...x,id:x.id||id(this.table.slice(0,3)),created_at:x.created_at||new Date().toISOString()};
+        if(this.table==='sales_activities'){
+          const account=db.prospects.find(p=>p.id===row.prospect_id);
+          const rep=db.crm_users.find(u=>(u.display_name||'').toLowerCase()===(row.rep||'').toLowerCase());
+          row.prospects={business_name:account?.business_name};
+          row.crm_users={display_name:rep?.display_name||row.rep};
+        }
+        return row;
+      });
       base.push(...rows);this.payload=rows;
-      const data=this.singleMode?rows[0]:rows;return {data,error:null};
+      if(this.table==='payments'){
+        rows.forEach(payment=>{
+          const inv=db.invoices.find(i=>i.id===payment.invoice_id);if(!inv)return;
+          const totalPaid=db.payments.filter(p=>p.invoice_id===inv.id).reduce((sum,p)=>sum+Number(p.amount||0),0);
+          inv.amount_paid=totalPaid;inv.balance_due=Math.max(0,Number(inv.invoice_total||inv.amount_due||0)-totalPaid);
+          inv.status=inv.balance_due<=0?'Paid':totalPaid>0?'Partial':'Unpaid';
+          if(inv.status==='Paid'){inv.payment_date=payment.payment_date;inv.commission_eligible_date=payment.payment_date;inv.collection_status='Closed';}
+        });
+      }
+      const data=this.singleMode?rows[0]:rows;return {data,error:null,count:rows.length};
     }
     let rows=[...view(this.table)];
     for(const fn of this.filters)rows=rows.filter(fn);
@@ -226,11 +244,13 @@ class Query {
     }
     for(const [k,asc] of this.sorts)rows.sort((a,b)=>{const av=a?.[k]??'',bv=b?.[k]??'';return av===bv?0:(av>bv?1:-1)*(asc?1:-1)});
     if(this.max!==null)rows=rows.slice(0,this.max);
+    const count=rows.length;
+    if(this.head)return {data:null,error:null,count};
     if(this.singleMode){
-      if(!rows.length&&!this.maybe)return {data:null,error:{message:'No rows found'}};
-      return {data:rows[0]||null,error:null};
+      if(!rows.length&&!this.maybe)return {data:null,error:{message:'No rows found'},count};
+      return {data:rows[0]||null,error:null,count};
     }
-    return {data:rows,error:null};
+    return {data:rows,error:null,count};
   }
   then(resolve,reject){return this.exec().then(resolve,reject);}
 }
