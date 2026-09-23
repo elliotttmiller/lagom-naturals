@@ -375,6 +375,7 @@ function Login({onLogin}){
 function InvestorDashboard({user,onLogout}){
   const [prospects,setProspects]=useState([]);
   const [orders,setOrders]=useState([]);
+  const [products,setProducts]=useState([]);
   const [loading,setLoading]=useState(true);
 
   useEffect(()=>{
@@ -440,10 +441,10 @@ function InvestorDashboard({user,onLogout}){
               </CardChart>
               <CardChart title="Products">
                 <div style={{display:'flex',flexDirection:'column',gap:10,paddingTop:8}}>
-                  {PRODUCTS.map(p=>(
-                    <div key={p} style={{display:'flex',alignItems:'center',gap:10}}>
+                  {products.map(p=>(
+                    <div key={p.id} style={{display:'flex',alignItems:'center',gap:10}}>
                       <div style={{width:8,height:8,borderRadius:'50%',background:P.teal,flexShrink:0}}/>
-                      <div style={{fontSize:13,fontWeight:500,flex:1}}>{p}</div>
+                      <div style={{fontSize:13,fontWeight:500,flex:1}}>{p.name}<div style={{fontSize:10,color:P.t3,marginTop:1}}>{p.sku||p.product_line||''}</div></div>
                     </div>
                   ))}
                 </div>
@@ -483,7 +484,7 @@ function OverviewTab({prospects,user}){
       (items||[]).forEach(it=>{const n=it.products?.name||'Unknown';sm[n]=(sm[n]||0)+(it.total_price||0);});
       setSkuData(Object.entries(sm).map(([l,v])=>({label:l,value:v})).sort((a,b)=>b.value-a.value).slice(0,6));
       const now=new Date(),cuts=Array.from({length:9},(_,i)=>{const d=new Date(now);d.setDate(d.getDate()-(8-i)*7);return d.toISOString();});
-      setWeeklyRev(cuts.slice(0,-1).map((_,i)=>os.filter(o=>o.created_at>=cuts[i]&&o.created_at<cuts[i+1]&&o.status!=='cancelled').reduce((s,o)=>s+(o.total_amount||0),0)));
+      setWeeklyRev(cuts.slice(0,-1).map((_,i)=>os.filter(o=>o.created_at>=cuts[i]&&o.created_at<cuts[i+1]&&o.status!=='Cancelled').reduce((s,o)=>s+(o.total_amount||0),0)));
       setActivities(acts||[]);setLoading(false);
     }
     load();
@@ -493,8 +494,8 @@ function OverviewTab({prospects,user}){
   const active=prospects.filter(p=>!['Won','Lost','Not Interested'].includes(p.status));
   const overdue=prospects.filter(p=>p.next_follow_up&&p.next_follow_up<todayStr());
   const dueToday=prospects.filter(p=>p.next_follow_up&&p.next_follow_up===todayStr());
-  const totalRev=orders.filter(o=>o.status!=='cancelled').reduce((s,o)=>s+(o.total_amount||0),0);
-  const activeOrds=orders.filter(o=>!['delivered','cancelled'].includes(o.status)).length;
+  const totalRev=orders.filter(o=>o.status!=='Cancelled').reduce((s,o)=>s+(o.total_amount||0),0);
+  const activeOrds=orders.filter(o=>!['Delivered','Cancelled'].includes(o.status)).length;
 
   const repLB=useMemo(()=>{
     const m={};
@@ -505,7 +506,7 @@ function OverviewTab({prospects,user}){
   const statusDist=STATUSES.map(s=>prospects.filter(p=>p.status===s).length);
   const kpis=[
     {label:'Total Accounts',value:prospects.length,sub:`${active.length} active pipeline`,accent:P.teal},
-    {label:'Total Revenue',value:fmt$(totalRev),sub:`${orders.filter(o=>o.status==='delivered').length} orders delivered`,accent:P.plum,big:true},
+    {label:'Total Revenue',value:fmt$(totalRev),sub:`${orders.filter(o=>o.status==='Delivered').length} orders delivered`,accent:P.plum,big:true},
     {label:'Win Rate',value:`${prospects.length?((won.length/prospects.length)*100).toFixed(1):0}%`,sub:`${won.length} accounts closed`,accent:P.amber},
     {label:'Open Orders',value:activeOrds||active.length,sub:overdue.length?`${overdue.length} follow-ups overdue`:'All on track',accent:overdue.length?P.rose:P.teal},
   ];
@@ -1297,15 +1298,16 @@ function OrdersTab({prospects,user}){
 
   const blankForm={prospect_id:'',account_name:'',notes:''};
   const [form,setForm]=useState(blankForm);
-  const [lines,setLines]=useState([{product_name:'',quantity:1,unit_price:0}]);
+  const [lines,setLines]=useState([{product_id:'',product_name:'',quantity:1,unit_price:''}]);
 
   const load=useCallback(async()=>{
     setLoading(true);
-    const[{data:ords},{data:invs}]=await Promise.all([
+    const[{data:ords},{data:invs},{data:catalog}]=await Promise.all([
       supabase.from('orders').select('*').order('created_at',{ascending:false}),
       supabase.from('invoices').select('*').order('created_at',{ascending:false}),
+      supabase.from('products').select('*').eq('status','Active').order('product_line').order('name'),
     ]);
-    setOrders(ords||[]);setInvoices(invs||[]);setLoading(false);
+    setOrders(ords||[]);setInvoices(invs||[]);setProducts(catalog||[]);setLoading(false);
   },[]);
 
   useEffect(()=>{load();},[load]);
@@ -1316,7 +1318,7 @@ function OrdersTab({prospects,user}){
     setOrderItems(data||[]);
   };
 
-  const addLine=()=>setLines(l=>[...l,{product_name:'',quantity:1,unit_price:0}]);
+  const addLine=()=>setLines(l=>[...l,{product_id:'',product_name:'',quantity:1,unit_price:''}]);
   const removeLine=i=>setLines(l=>l.filter((_,j)=>j!==i));
   const updateLine=(i,field,val)=>setLines(l=>l.map((x,j)=>j===i?{...x,[field]:val}:x));
   const lineTotal=lines.reduce((s,l)=>s+(Number(l.quantity||0)*Number(l.unit_price||0)),0);
@@ -1335,13 +1337,14 @@ function OrdersTab({prospects,user}){
     if(error){setSaving(false);return alert('Error: '+error.message);}
     const validLines=lines.filter(l=>l.product_name.trim()).map(l=>({
       order_id:ord.id,
+      product_id:l.product_id||null,
       product_name:l.product_name,
       quantity:Number(l.quantity)||1,
       unit_price:Number(l.unit_price)||0,
       total_price:(Number(l.quantity)||1)*(Number(l.unit_price)||0),
     }));
     await supabase.from('order_items').insert(validLines);
-    setSaving(false);setShowNew(false);setForm(blankForm);setLines([{product_name:'',quantity:1,unit_price:0}]);load();
+    setSaving(false);setShowNew(false);setForm(blankForm);setLines([{product_id:'',product_name:'',quantity:1,unit_price:''}]);load();
   };
 
   const updateOrderStatus=async(ordId,newStatus,oldStatus)=>{
@@ -1528,9 +1531,12 @@ function OrdersTab({prospects,user}){
               <div style={{fontWeight:700,fontSize:13,marginBottom:8}}>Line Items</div>
               {lines.map((ln,i)=>(
                 <div key={i} style={{display:'grid',gridTemplateColumns:'1fr 70px 90px 28px',gap:6,marginBottom:6,alignItems:'center'}}>
-                  <select value={ln.product_name} onChange={e=>updateLine(i,'product_name',e.target.value)} style={{fontSize:12}}>
+                  <select value={ln.product_id||''} onChange={e=>{
+                    const p=products.find(x=>x.id===e.target.value);
+                    setLines(ls=>ls.map((x,j)=>j===i?{...x,product_id:p?.id||'',product_name:p?.name||'',unit_price:p?.retail_price?Number(p.retail_price):''}:x));
+                  }} style={{fontSize:12}}>
                     <option value="">Select product…</option>
-                    {PRODUCTS.map(p=><option key={p}>{p}</option>)}
+                    {products.map(p=><option key={p.id} value={p.id}>{p.name}{p.sku?` · ${p.sku}`:''}</option>)}
                   </select>
                   <input type="number" min={1} value={ln.quantity} onChange={e=>updateLine(i,'quantity',e.target.value)} placeholder="Qty" style={{fontSize:12,textAlign:'center'}}/>
                   <input type="number" min={0} step={0.01} value={ln.unit_price} onChange={e=>updateLine(i,'unit_price',e.target.value)} placeholder="$/unit" style={{fontSize:12}}/>
@@ -3215,15 +3221,17 @@ function Login({onLogin}){
 function InvestorDashboard({user,onLogout}){
   const [prospects,setProspects]=useState([]);
   const [orders,setOrders]=useState([]);
+  const [products,setProducts]=useState([]);
   const [loading,setLoading]=useState(true);
 
   useEffect(()=>{
     async function load(){
-      const[{data:ps},{data:ords}]=await Promise.all([
+      const[{data:ps},{data:ords},{data:catalog}]=await Promise.all([
         supabase.from('prospects').select('status,assigned_to,city'),
         supabase.from('orders').select('status,total_amount,created_at'),
+        supabase.from('products').select('id,name,sku,product_line,status').eq('status','Active').order('product_line').order('name'),
       ]);
-      setProspects(ps||[]);setOrders(ords||[]);setLoading(false);
+      setProspects(ps||[]);setOrders(ords||[]);setProducts(catalog||[]);setLoading(false);
     }
     load();
   },[]);
@@ -3323,7 +3331,7 @@ function OverviewTab({prospects,user}){
       (items||[]).forEach(it=>{const n=it.products?.name||'Unknown';sm[n]=(sm[n]||0)+(it.total_price||0);});
       setSkuData(Object.entries(sm).map(([l,v])=>({label:l,value:v})).sort((a,b)=>b.value-a.value).slice(0,6));
       const now=new Date(),cuts=Array.from({length:9},(_,i)=>{const d=new Date(now);d.setDate(d.getDate()-(8-i)*7);return d.toISOString();});
-      setWeeklyRev(cuts.slice(0,-1).map((_,i)=>os.filter(o=>o.created_at>=cuts[i]&&o.created_at<cuts[i+1]&&o.status!=='cancelled').reduce((s,o)=>s+(o.total_amount||0),0)));
+      setWeeklyRev(cuts.slice(0,-1).map((_,i)=>os.filter(o=>o.created_at>=cuts[i]&&o.created_at<cuts[i+1]&&o.status!=='Cancelled').reduce((s,o)=>s+(o.total_amount||0),0)));
       setActivities(acts||[]);setLoading(false);
     }
     load();
@@ -3333,8 +3341,8 @@ function OverviewTab({prospects,user}){
   const active=prospects.filter(p=>!['Won','Lost','Not Interested'].includes(p.status));
   const overdue=prospects.filter(p=>p.next_follow_up&&p.next_follow_up<todayStr());
   const dueToday=prospects.filter(p=>p.next_follow_up&&p.next_follow_up===todayStr());
-  const totalRev=orders.filter(o=>o.status!=='cancelled').reduce((s,o)=>s+(o.total_amount||0),0);
-  const activeOrds=orders.filter(o=>!['delivered','cancelled'].includes(o.status)).length;
+  const totalRev=orders.filter(o=>o.status!=='Cancelled').reduce((s,o)=>s+(o.total_amount||0),0);
+  const activeOrds=orders.filter(o=>!['Delivered','Cancelled'].includes(o.status)).length;
 
   const repLB=useMemo(()=>{
     const m={};
@@ -3345,7 +3353,7 @@ function OverviewTab({prospects,user}){
   const statusDist=STATUSES.map(s=>prospects.filter(p=>p.status===s).length);
   const kpis=[
     {label:'Total Accounts',value:prospects.length,sub:`${active.length} active pipeline`,accent:P.teal},
-    {label:'Total Revenue',value:fmt$(totalRev),sub:`${orders.filter(o=>o.status==='delivered').length} orders delivered`,accent:P.plum,big:true},
+    {label:'Total Revenue',value:fmt$(totalRev),sub:`${orders.filter(o=>o.status==='Delivered').length} orders delivered`,accent:P.plum,big:true},
     {label:'Win Rate',value:`${prospects.length?((won.length/prospects.length)*100).toFixed(1):0}%`,sub:`${won.length} accounts closed`,accent:P.amber},
     {label:'Open Orders',value:activeOrds||active.length,sub:overdue.length?`${overdue.length} follow-ups overdue`:'All on track',accent:overdue.length?P.rose:P.teal},
   ];
