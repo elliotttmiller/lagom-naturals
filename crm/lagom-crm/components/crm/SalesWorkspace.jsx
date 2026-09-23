@@ -55,7 +55,7 @@ function InvoicePanel({invoice,items,payments,collections,onClose,onPay,onFollow
 }
 
 export default function SalesWorkspace({supabase,prospects,user,go}){
-  const [view,setView]=useState('overview');
+  const [view,setView]=useState(()=>{try{return sessionStorage.getItem('lagom_sales_view')||'overview'}catch{return 'overview'}});
   const [loading,setLoading]=useState(true);
   const [products,setProducts]=useState([]),[invoices,setInvoices]=useState([]),[items,setItems]=useState([]),[payments,setPayments]=useState([]),[collections,setCollections]=useState([]),[reorders,setReorders]=useState([]),[performance,setPerformance]=useState([]),[commissions,setCommissions]=useState([]);
   const [selected,setSelected]=useState(null),[search,setSearch]=useState(''),[status,setStatus]=useState('All'),[rep,setRep]=useState('All'),[message,setMessage]=useState('');
@@ -76,7 +76,7 @@ export default function SalesWorkspace({supabase,prospects,user,go}){
     ]);
     setProducts(q[0].data||[]);setInvoices(q[1].data||[]);setItems(q[2].data||[]);setPayments(q[3].data||[]);setCollections(q[4].data||[]);setReorders(q[5].data||[]);setPerformance(q[6].data||[]);setCommissions(q[7].data||[]);setLoading(false);
   },[supabase]);
-  useEffect(()=>{load()},[load]);
+  useEffect(()=>{load();try{sessionStorage.removeItem('lagom_sales_view')}catch{}},[load]);
 
   const scoped=useMemo(()=>isAdmin?invoices:invoices.filter(i=>(i.rep_name||'').toLowerCase()===me.toLowerCase()),[invoices,isAdmin,me]);
   const scopedPerformance=useMemo(()=>{
