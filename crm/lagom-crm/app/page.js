@@ -534,17 +534,18 @@ function OverviewTab({prospects,user}){
     <div className="fade">
       <div className="tab-h">
         <div>
-          <h2>Analytics Overview</h2>
-          <div style={{fontSize:12,color:P.t3,marginTop:3}}>{new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'})}</div>
+          <div className="section-label" style={{marginBottom:7}}>Business intelligence</div>
+          <h2>Performance overview</h2>
+          <div style={{fontSize:12,color:P.t3,marginTop:6}}>Company-wide pipeline, revenue, account health, and team activity · {new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})}</div>
         </div>
-        <div className="tab-actions"><CSVBtn rows={csvRows} filename="lagom-overview.csv"/></div>
+        <div className="tab-actions"><CSVBtn rows={csvRows} filename="lagom-overview.csv" label="Export report"/></div>
       </div>
 
       {dueToday.length>0&&(
-        <div style={{background:P.amberL,border:`1.5px solid ${P.amber}40`,borderRadius:12,padding:'14px 18px',marginBottom:16,display:'flex',gap:12,alignItems:'flex-start'}}>
-          <div style={{fontSize:18,flexShrink:0}}>📅</div>
+        <div style={{background:P.amberL,border:'1px solid #E9D8BA',borderRadius:14,padding:'13px 15px',marginBottom:12,display:'flex',gap:11,alignItems:'flex-start'}}>
+          <div style={{width:28,height:28,borderRadius:9,background:'#fff',border:'1px solid #E9D8BA',display:'flex',alignItems:'center',justifyContent:'center',color:P.amber,flexShrink:0,fontWeight:900}}>↻</div>
           <div style={{flex:1}}>
-            <div style={{fontWeight:700,color:P.amber,fontSize:13,marginBottom:6}}>Due Today: {dueToday.length} follow-up{dueToday.length>1?'s':''}</div>
+            <div style={{fontWeight:750,color:P.amber,fontSize:12.5,marginBottom:7}}>{dueToday.length} follow-up{dueToday.length>1?'s':''} due today</div>
             <div style={{display:'flex',flexWrap:'wrap',gap:6}}>
               {dueToday.map(p=>(
                 <span key={p.id} style={{background:'#fff',border:`1px solid ${P.amber}40`,borderRadius:6,padding:'3px 10px',fontSize:12,fontWeight:600}}>{p.business_name} <span style={{color:P.t2,fontWeight:400}}>· {p.assigned_to||'unassigned'}</span></span>
@@ -555,10 +556,10 @@ function OverviewTab({prospects,user}){
       )}
 
       {overdue.length>0&&(
-        <div style={{background:P.roseL,border:`1.5px solid ${P.rose}40`,borderRadius:12,padding:'14px 18px',marginBottom:16,display:'flex',gap:12,alignItems:'flex-start'}}>
-          <div style={{fontSize:18,flexShrink:0}}>⚠️</div>
+        <div style={{background:P.roseL,border:'1px solid #EECFCA',borderRadius:14,padding:'13px 15px',marginBottom:16,display:'flex',gap:11,alignItems:'flex-start'}}>
+          <div style={{width:28,height:28,borderRadius:9,background:'#fff',border:'1px solid #EECFCA',display:'flex',alignItems:'center',justifyContent:'center',color:P.rose,flexShrink:0,fontWeight:900}}>!</div>
           <div style={{flex:1}}>
-            <div style={{fontWeight:700,color:P.rose,fontSize:13,marginBottom:6}}>Overdue: {overdue.length} follow-up{overdue.length>1?'s':''} past due</div>
+            <div style={{fontWeight:750,color:P.rose,fontSize:12.5,marginBottom:7}}>{overdue.length} overdue follow-up{overdue.length>1?'s':''}</div>
             <div style={{display:'flex',flexWrap:'wrap',gap:6}}>
               {overdue.slice(0,12).map(p=>(
                 <span key={p.id} style={{background:'#fff',border:`1px solid ${P.rose}40`,borderRadius:6,padding:'3px 10px',fontSize:12,fontWeight:600}}>{p.business_name} <span style={{color:P.t2,fontWeight:400}}>· {fmtDS(p.next_follow_up)}</span></span>
@@ -571,23 +572,23 @@ function OverviewTab({prospects,user}){
 
       <div className="g4" style={{marginBottom:20}}>
         {kpis.map((k,i)=>(
-          <div key={i} className="card" style={{borderTop:`4px solid ${k.accent}`,position:'relative',overflow:'hidden'}}>
-            <div style={{fontSize:10,fontWeight:800,color:P.t2,textTransform:'uppercase',letterSpacing:'1px',marginBottom:10}}>{k.label}</div>
-            <div style={{fontSize:k.big?28:34,fontWeight:900,color:k.accent,lineHeight:1,letterSpacing:'-.5px',marginBottom:6}}>{k.value}</div>
-            <div style={{fontSize:11,color:P.t3}}>{k.sub}</div>
+          <div key={i} className="card" style={{position:'relative',overflow:'hidden'}}>
+            <div style={{display:'flex',alignItems:'center',gap:7,fontSize:10,fontWeight:800,color:P.t2,textTransform:'uppercase',letterSpacing:'.075em',marginBottom:12}}><span style={{width:7,height:7,borderRadius:'50%',background:k.accent,boxShadow:'0 0 0 4px '+k.accent+'12'}}/>{k.label}</div>
+            <div className="tnum" style={{fontSize:k.big?27:31,fontWeight:800,color:P.text,lineHeight:1,letterSpacing:'-.045em',marginBottom:8}}>{k.value}</div>
+            <div style={{fontSize:11,color:P.t3,lineHeight:1.4}}>{k.sub}</div>
           </div>
         ))}
       </div>
 
       <div className="g2" style={{marginBottom:20}}>
-        <CardChart title="Revenue by SKU" badge={`${skuData.length} products`}>
+        <CardChart title="Product revenue mix" badge={`${skuData.length} products`}>
           {loading?<div style={{height:210,display:'flex',alignItems:'center',justifyContent:'center'}}><Spinner/></div>
             :skuData.length?<ChartCanvas type="bar" height={210}
                 data={{labels:skuData.map(d=>d.label),datasets:[{label:'Revenue',data:skuData.map(d=>d.value),backgroundColor:[P.teal,P.amber,P.plum,P.rose,P.slate,'#059669'].map(c=>c+'CC'),borderRadius:6,borderSkipped:false}]}}
                 options={{indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{grid:{color:'#f0ece4'},ticks:{callback:v=>fmt$(v),font:{size:10}}},y:{grid:{display:false},ticks:{font:{size:10}}}}}}
               />:<Empty msg="No order data yet"/>}
         </CardChart>
-        <CardChart title="Pipeline by Status">
+        <CardChart title="Pipeline composition">
           <ChartCanvas type="doughnut" height={210}
             data={{labels:STATUSES,datasets:[{data:statusDist,backgroundColor:Object.values(SC),borderWidth:2,borderColor:'#fff',hoverOffset:6}]}}
             options={{cutout:'60%',plugins:{legend:{position:'right',labels:{font:{size:10},padding:8,boxWidth:8}}}}}
@@ -596,14 +597,14 @@ function OverviewTab({prospects,user}){
       </div>
 
       <div className="g2" style={{marginBottom:20}}>
-        <CardChart title="Revenue Over Time" badge="8 weeks">
+        <CardChart title="Revenue trend" badge="8 weeks">
           {loading?<div style={{height:180,display:'flex',alignItems:'center',justifyContent:'center'}}><Spinner/></div>
             :<ChartCanvas type="line" height={180}
                 data={{labels:['8w','7w','6w','5w','4w','3w','2w','Now'],datasets:[{label:'Revenue',data:weeklyRev,borderColor:P.teal,backgroundColor:P.teal+'18',tension:.4,fill:true,pointRadius:4,pointBackgroundColor:P.teal}]}}
                 options={{plugins:{legend:{display:false}},scales:{y:{ticks:{callback:v=>fmt$(v),font:{size:10}},grid:{color:'#f0ece4'}},x:{grid:{display:false},ticks:{font:{size:10}}}}}}
               />}
         </CardChart>
-        <CardChart title="Rep Leaderboard" badge={`${repLB.length} reps`}>
+        <CardChart title="Team performance" badge={`${repLB.length} reps`}>
           <div style={{display:'flex',flexDirection:'column',gap:14}}>
             {repLB.map((r,i)=>{
               const rate=r.total>0?(r.won/r.total)*100:0;
@@ -625,7 +626,7 @@ function OverviewTab({prospects,user}){
         </CardChart>
       </div>
 
-      <CardChart title="Recent Activity" badge="Latest 8">
+      <CardChart title="Recent account activity" badge="Latest 8">
         {loading?<div style={{display:'flex',justifyContent:'center',padding:24}}><Spinner/></div>
           :activities.length?activities.map((a,i)=>(
             <div key={i} style={{display:'flex',gap:12,padding:'10px 0',borderBottom:i<activities.length-1?`1px solid ${P.border}`:'none'}}>
