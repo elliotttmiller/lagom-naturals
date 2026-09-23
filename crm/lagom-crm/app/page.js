@@ -703,14 +703,14 @@ function AccountsTab({prospects,reload,user,go}){
   return(
     <div className="fade">
       <div className="tab-h">
-        <h2>Accounts <span style={{fontWeight:400,color:P.t2,fontSize:16}}>({filtered.length}/{prospects.length})</span></h2>
+        <div><div className="section-label" style={{marginBottom:7}}>Account management</div><h2>Accounts</h2><div style={{fontSize:12,color:P.t3,marginTop:6}}>{filtered.length} visible · {prospects.length} total accounts</div></div>
         <div className="tab-actions">
-          <CSVBtn rows={csvRows} filename="lagom-accounts.csv"/>
-          {isAdmin&&<button className="btn btn-p btn-sm" onClick={()=>setShowAdd(true)}>+ New Account</button>}
+          <CSVBtn rows={csvRows} filename="lagom-accounts.csv" label="Export"/>
+          {isAdmin&&<button className="btn btn-p" onClick={()=>setShowAdd(true)}>+ New Account</button>}
         </div>
       </div>
 
-      <div style={{display:'flex',gap:8,marginBottom:14,flexWrap:'wrap'}}>
+      <div className="card" style={{display:'flex',gap:8,marginBottom:14,flexWrap:'wrap',padding:12}}>
         <div style={{position:'relative',flex:'0 0 220px'}}>
           <span style={{position:'absolute',left:10,top:'50%',transform:'translateY(-50%)',color:P.t3,fontSize:15,pointerEvents:'none'}}>⌕</span>
           <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search name, city…" style={{paddingLeft:30}}/>
@@ -767,12 +767,14 @@ function AccountsTab({prospects,reload,user,go}){
 
       {sel&&(
         <div className="detail-panel fade">
-          <div style={{padding:'16px 20px',borderBottom:`1px solid ${P.border}`,display:'flex',justifyContent:'space-between',alignItems:'flex-start',flexShrink:0}}>
-            <div>
-              <div style={{fontWeight:800,fontSize:16}}>{sel.business_name}</div>
-              <div style={{fontSize:12,color:P.t2,marginTop:2}}>{[sel.city,sel.state,sel.county&&`${sel.county} County`].filter(Boolean).join(', ')}</div>
+          <div style={{padding:'18px 20px 16px',borderBottom:`1px solid ${P.border}`,display:'flex',justifyContent:'space-between',alignItems:'flex-start',gap:12,flexShrink:0}}>
+            <div style={{minWidth:0}}>
+              <div className="section-label" style={{marginBottom:5}}>Account 360</div>
+              <div style={{fontWeight:800,fontSize:18,letterSpacing:'-.025em'}}>{sel.business_name}</div>
+              <div style={{fontSize:11.5,color:P.t2,marginTop:5}}>{[sel.city,sel.state,sel.county&&`${sel.county} County`].filter(Boolean).join(' · ')}</div>
+              <div style={{display:'flex',gap:6,marginTop:9,flexWrap:'wrap'}}><Badge label={sel.status} color={SC[sel.status]}/><Badge label={sel.priority} color={PC[sel.priority]}/>{sel.assigned_to&&<Badge label={sel.assigned_to} color={P.teal}/>}</div>
             </div>
-            <button style={{background:'none',border:'none',fontSize:24,color:P.t3,lineHeight:1}} onClick={()=>setSel(null)}>×</button>
+            <button aria-label="Close account" style={{background:P.slateL,border:'none',width:34,height:34,borderRadius:10,fontSize:20,color:P.t2,lineHeight:1}} onClick={()=>setSel(null)}>×</button>
           </div>
           <div style={{padding:20,flex:1,overflowY:'auto'}}>
             <div style={{marginBottom:14}}>
@@ -880,7 +882,7 @@ function PipelineTab({prospects,reload,user}){
   return(
     <div className="fade">
       <div className="tab-h">
-        <h2>Pipeline</h2>
+        <div><div className="section-label" style={{marginBottom:7}}>Opportunity management</div><h2>Pipeline</h2><div style={{fontSize:12,color:P.t3,marginTop:6}}>Move accounts through the sales cycle and keep next actions visible.</div></div>
         <div className="tab-actions">
           <select value={fRep} onChange={e=>setFRep(e.target.value)} style={{width:134}}>
             <option value="All">All Reps</option>{reps.map(r=><option key={r}>{r}</option>)}
@@ -889,7 +891,7 @@ function PipelineTab({prospects,reload,user}){
         </div>
       </div>
 
-      <div style={{display:'flex',gap:6,marginBottom:18,flexWrap:'wrap'}}>
+      <div className="card" style={{display:'flex',gap:6,marginBottom:16,flexWrap:'nowrap',overflowX:'auto',padding:10}}>
         <button onClick={()=>setFStatus('All')} className="btn btn-sm"
           style={{background:fStatus==='All'?P.slate:P.slateL,color:fStatus==='All'?'#fff':P.slate,border:'none'}}>
           All ({prospects.length})
@@ -903,7 +905,7 @@ function PipelineTab({prospects,reload,user}){
       </div>
 
       <div className="card" style={{marginBottom:18}}>
-        <div style={{fontWeight:700,fontSize:14,marginBottom:12}}>Pipeline Funnel</div>
+        <div className="section-label" style={{marginBottom:4}}>Stage distribution</div><div style={{fontWeight:800,fontSize:14,marginBottom:14}}>Pipeline funnel</div>
         <ChartCanvas type="bar" height={140}
           data={{labels:STATUSES,datasets:[{data:STATUSES.map(s=>statusCounts[s]),backgroundColor:Object.values(SC).map(c=>c+'CC'),borderRadius:6,borderSkipped:false}]}}
           options={{plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{grid:{color:'#f0ece4'},ticks:{stepSize:1}}}}}
@@ -973,8 +975,8 @@ function TerritoriesTab({prospects,reload}){
   return(
     <div className="fade">
       <div className="tab-h">
-        <h2>Territories</h2>
-        <CSVBtn rows={csvRows} filename="lagom-territories.csv"/>
+        <div><div className="section-label" style={{marginBottom:7}}>Coverage management</div><h2>Territories</h2><div style={{fontSize:12,color:P.t3,marginTop:6}}>Understand county coverage, ownership, active pipeline, and account distribution.</div></div>
+        <CSVBtn rows={csvRows} filename="lagom-territories.csv" label="Export"/>
       </div>
 
       {msg&&<div style={{background:P.tealL,border:`1px solid ${P.teal}40`,color:P.teal,padding:'10px 14px',borderRadius:9,marginBottom:16,fontSize:13,fontWeight:600}}>{msg}</div>}
@@ -1129,10 +1131,8 @@ function TerritoryMapTab({prospects}){
     <div className="fade">
       <div className="tab-h">
         <div>
-          <h2>Territory Map</h2>
-          <div style={{fontSize:12,color:P.t3,marginTop:2}}>
-            {geoPs.length} geocoded · {prospects.length-geoPs.length} missing coordinates
-          </div>
+          <div className="section-label" style={{marginBottom:7}}>Geographic coverage</div><h2>Territory Map</h2>
+          <div style={{fontSize:12,color:P.t3,marginTop:6}}>{geoPs.length} mapped accounts · {prospects.length-geoPs.length} awaiting coordinates</div>
         </div>
         <div className="tab-actions">
           {geoPs.length===0&&<span style={{fontSize:12,color:P.t3}}>Add lat/lng in Setup tab</span>}
@@ -1256,8 +1256,8 @@ function RoutesTab({prospects,user}){
     <div className="fade">
       <div className="tab-h">
         <div>
-          <h2>Route Builder</h2>
-          <div style={{fontSize:12,color:P.t3,marginTop:2}}>Sorted by distance from 707 N 3rd St, Minneapolis</div>
+          <div className="section-label" style={{marginBottom:7}}>Field planning</div><h2>Route Builder</h2>
+          <div style={{fontSize:12,color:P.t3,marginTop:6}}>Build a focused stop list around account proximity and commercial priorities.</div>
         </div>
         <CSVBtn rows={csvRows} filename="lagom-route.csv"/>
       </div>
@@ -1297,12 +1297,12 @@ function RoutesTab({prospects,user}){
             <>
               <div style={{display:'flex',gap:12,marginBottom:16}}>
                 <div style={{flex:1,padding:'12px 16px',background:P.tealL,borderRadius:10,border:`1px solid ${P.teal}30`,textAlign:'center'}}>
-                  <div style={{fontSize:24,fontWeight:900,color:P.teal}}>{totalDist.toFixed(1)}</div>
-                  <div style={{fontSize:10,color:P.teal,fontWeight:700,textTransform:'uppercase',letterSpacing:'.5px'}}>Total Miles</div>
+                  <div style={{fontSize:24,fontWeight:850,color:P.teal}}>{totalDist.toFixed(1)}</div>
+                  <div style={{fontSize:10,color:P.teal,fontWeight:750,textTransform:'uppercase',letterSpacing:'.07em'}}>HQ distance sum</div>
                 </div>
                 <div style={{flex:1,padding:'12px 16px',background:P.amberL,borderRadius:10,border:`1px solid ${P.amber}30`,textAlign:'center'}}>
-                  <div style={{fontSize:24,fontWeight:900,color:P.amber}}>{Math.ceil(totalDist/25*60)}</div>
-                  <div style={{fontSize:10,color:P.amber,fontWeight:700,textTransform:'uppercase',letterSpacing:'.5px'}}>Est. Minutes</div>
+                  <div style={{fontSize:24,fontWeight:850,color:P.amber}}>{routeStops.length}</div>
+                  <div style={{fontSize:10,color:P.amber,fontWeight:750,textTransform:'uppercase',letterSpacing:'.07em'}}>Stops selected</div>
                 </div>
               </div>
               <div style={{display:'flex',flexDirection:'column',gap:6}}>
@@ -1478,10 +1478,10 @@ function OrdersTab({prospects,user}){
   return(
     <div className="fade">
       <div className="tab-h">
-        <h2>Orders</h2>
+        <div><div className="section-label" style={{marginBottom:7}}>Order workflow</div><h2>Orders</h2><div style={{fontSize:12,color:P.t3,marginTop:6}}>Create, confirm, fulfill, and hand orders into the commercial invoice workflow.</div></div>
         <div className="tab-actions">
-          <CSVBtn rows={csvRows} filename="lagom-orders.csv"/>
-          <button className="btn btn-p btn-sm" onClick={()=>setShowNew(true)}>+ New Order</button>
+          <CSVBtn rows={csvRows} filename="lagom-orders.csv" label="Export"/>
+          <button className="btn btn-p" onClick={()=>setShowNew(true)}>+ New Order</button>
         </div>
       </div>
 
@@ -1679,11 +1679,8 @@ function EventsTab(){
   return(
     <div className="fade">
       <div className="tab-h">
-        <h2>Events</h2>
-        <div className="tab-actions">
-          <CSVBtn rows={csvRows} filename="lagom-events.csv"/>
-          <button className="btn btn-p btn-sm" onClick={()=>setShowAdd(true)}>+ Add Event</button>
-        </div>
+        <div><div className="section-label" style={{marginBottom:7}}>Field activations</div><h2>Events</h2><div style={{fontSize:12,color:P.t3,marginTop:6}}>Plan tastings, retail activations, meetings, and product-focused field events.</div></div>
+        <div className="tab-actions"><CSVBtn rows={csvRows} filename="lagom-events.csv" label="Export"/><button className="btn btn-p" onClick={()=>setShowAdd(true)}>+ Add Event</button></div>
       </div>
 
       {loading?<div style={{textAlign:'center',padding:40}}><Spinner/></div>:(
@@ -1776,15 +1773,11 @@ function ActivityTab({prospects}){
   return(
     <div className="fade">
       <div className="tab-h">
-        <h2>Activity Log</h2>
+        <div><div className="section-label" style={{marginBottom:7}}>Account timeline</div><h2>Activity</h2><div style={{fontSize:12,color:P.t3,marginTop:6}}>A unified record of visits, calls, meetings, demos, and account follow-through.</div></div>
         <div className="tab-actions">
-          <button className="btn btn-g btn-sm" title="Voice memo: tap to record field notes (coming soon)"
-            style={{opacity:.65,cursor:'not-allowed'}}
-            onClick={()=>alert('Voice memo recording is coming soon!\n\nThis feature will let you record field notes by voice and auto-transcribe them into activities.')}>
-            🎤 Voice Memo
-          </button>
-          <CSVBtn rows={csvRows} filename="lagom-activity.csv"/>
-          <button className="btn btn-p btn-sm" onClick={()=>setShowAdd(true)}>+ Log Activity</button>
+          <button className="btn btn-g btn-sm" title="Voice notes are planned for the production workflow" style={{opacity:.55,cursor:'not-allowed'}}>Voice note</button>
+          <CSVBtn rows={csvRows} filename="lagom-activity.csv" label="Export"/>
+          <button className="btn btn-p" onClick={()=>setShowAdd(true)}>+ Log Activity</button>
         </div>
       </div>
 
@@ -1874,8 +1867,8 @@ function CommissionsTab({user}){
     <div className="fade">
       <div className="tab-h">
         <div>
-          <h2>Commissions</h2>
-          <div style={{fontSize:12,color:P.t3,marginTop:3}}>Derived from fully paid invoices and each rep's configured new/reorder rate</div>
+          <div className="section-label" style={{marginBottom:7}}>Rep compensation</div><h2>Commissions</h2>
+          <div style={{fontSize:12,color:P.t3,marginTop:6}}>Paid-invoice eligibility, configured rates, and rep earnings in one auditable view.</div>
         </div>
         <CSVBtn rows={csvRows} filename="lagom-commissions.csv"/>
       </div>
@@ -1883,7 +1876,7 @@ function CommissionsTab({user}){
         <>
           <div className="g3" style={{marginBottom:18}}>
             {repTotals.length?repTotals.map(r=>(
-              <div key={r.name} className="card" style={{borderTop:'4px solid '+P.teal}}>
+              <div key={r.name} className="card" style={{position:'relative',overflow:'hidden'}}>
                 <div style={{fontWeight:800,fontSize:17}}>{r.name}</div>
                 <div style={{fontSize:28,fontWeight:900,color:P.teal,marginTop:9}}>{fmtFull$(r.commission)}</div>
                 <div style={{fontSize:11.5,color:P.t2,marginTop:6}}>{fmtFull$(r.revenue)} paid revenue · {r.count} eligible invoice{r.count===1?'':'s'}</div>
@@ -1959,10 +1952,8 @@ function InventoryTab({user}){
   return(
     <div className="fade">
       <div className="tab-h">
-        <h2>Inventory</h2>
-        <div className="tab-actions">
-          <CSVBtn rows={csvRows} filename="lagom-inventory.csv"/>
-        </div>
+        <div><div className="section-label" style={{marginBottom:7}}>Product operations</div><h2>Inventory</h2><div style={{fontSize:12,color:P.t3,marginTop:6}}>Monitor active catalog stock, availability signals, and controlled quantity adjustments.</div></div>
+        <div className="tab-actions"><CSVBtn rows={csvRows} filename="lagom-inventory.csv" label="Export"/></div>
       </div>
 
       {/* Alerts */}
@@ -1972,14 +1963,14 @@ function InventoryTab({user}){
         return(
           <>
             {defItems.length>0&&<div style={{background:P.roseL,border:`1.5px solid ${P.rose}40`,borderRadius:12,padding:'12px 16px',marginBottom:12,display:'flex',gap:10,alignItems:'center'}}>
-              <span style={{fontSize:16}}>⚠️</span>
+              <div style={{width:28,height:28,borderRadius:9,background:'#fff',border:'1px solid #EECFCA',display:'flex',alignItems:'center',justifyContent:'center',color:P.rose,fontWeight:900}}>!</div>
               <div>
                 <div style={{fontWeight:700,color:P.rose,fontSize:13}}>Defective Products</div>
                 <div style={{fontSize:12,color:P.t2}}>{defItems.map(p=>p.name).join(', ')} · do not ship</div>
               </div>
             </div>}
             {lowItems.length>0&&<div style={{background:P.amberL,border:`1.5px solid ${P.amber}40`,borderRadius:12,padding:'12px 16px',marginBottom:12,display:'flex',gap:10,alignItems:'center'}}>
-              <span style={{fontSize:16}}>📦</span>
+              <div style={{width:28,height:28,borderRadius:9,background:'#fff',border:'1px solid #E9D8BA',display:'flex',alignItems:'center',justifyContent:'center',color:P.amber,fontWeight:900}}><Icon name="inventory" size={14}/></div>
               <div>
                 <div style={{fontWeight:700,color:P.amber,fontSize:13}}>Reorder Alert: {lowItems.length} product{lowItems.length>1?'s':''} below 50 units</div>
                 <div style={{fontSize:12,color:P.t2}}>{lowItems.map(p=>`${p.name} (${p.quantity||0})`).join(', ')}</div>
