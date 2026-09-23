@@ -1978,13 +1978,13 @@ function LagomAITab({prospects,user}){
     const repBreakdown=Object.entries(repMap).map(([r,v])=>`${r}: ${v.total} accounts, ${v.won} won (${v.total?((v.won/v.total)*100).toFixed(1):0}% win rate)`).join('\n');
     const overdueList=overdue.slice(0,15).map(p=>`- ${p.business_name} (${p.city||'?'}) overdue since ${p.next_follow_up}, rep: ${p.assigned_to||'unassigned'}`).join('\n');
     const statusBreakdown=STATUSES.map(s=>`- ${s}: ${prospects.filter(p=>p.status===s).length}`).join('\n');
-    return `You are Lagom AI, the intelligent CRM assistant for Lagom Naturals, a premium natural beverage company in the Twin Cities, Minnesota.
+    return `You are Lagom AI, the intelligent CRM assistant for Lagom Naturals, a premium beverage company operating across Minnesota.
 
 COMPANY:
-- Products: 24K Lemonade, Watermelon Refresher, Blackberry Breeze, Strawberry Lime Fusion, Mixed Sampler, Full Line
+- Product catalog: use live CRM product, inventory, and sales data when available
 - HQ: 707 N 3rd St, Minneapolis, MN
-- Sales territory: Twin Cities metro area
-- Reps: Roman (West Suburbs/Hopkins), Jess (Minneapolis metro)
+- Sales territory: Minnesota
+- Sales team: use live CRM assignments and user data supplied below
 
 LIVE CRM DATA (${new Date().toLocaleDateString()}):
 - Total accounts: ${prospects.length}
