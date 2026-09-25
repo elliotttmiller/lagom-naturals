@@ -161,53 +161,26 @@ function ProductPage() {
   );
 }
 function ProductDetailsAccordion({ product, selected }) {
-  const [open, setOpen] = useState("details");
+  const [open, setOpen] = useState("at-a-glance");
   const isSeltzer = product.category === "Seltzers";
+  const hasPotency = Boolean(product.thcMgPerCan || product.thcMgPerPiece || product.thcMgPerPackage || product.cbdMgPerPiece);
+  const hasNutrition = Boolean(product.nutritionFacts?.length || product.dietary?.length || product.formulationHighlights?.length);
+  const atAGlance = [
+    product.flavor && { label: "Flavor profile", value: product.flavor },
+    (selected.detail || selected.label) && { label: "Pack configuration", value: selected.detail || selected.label },
+  ].filter(Boolean);
 
   const rows = [
-    {
-      id: "details",
-      label: "Product Details",
+    atAGlance.length > 0 && {
+      id: "at-a-glance",
+      label: "At a glance",
       content: (
         <div className="pdp-detail-grid">
-          <span>
-            <b>Brand</b>
-            <small>{product.brand}</small>
-          </span>
-          <span>
-            <b>Category</b>
-            <small>{isSeltzer ? "THC Beverages" : "THC Gummies"}</small>
-          </span>
-          <span>
-            <b>Format</b>
-            <small>{product.type}</small>
-          </span>
-          <span>
-            <b>Package Size</b>
-            <small>{selected.detail || selected.label}</small>
-          </span>
-          {product.flavor && (
-            <span>
-              <b>Flavor</b>
-              <small>{product.flavor}</small>
-            </span>
-          )}
-          {product.collectionName && (
-            <span>
-              <b>Collection</b>
-              <small>{product.collectionName}</small>
-            </span>
-          )}
-          {product.strainType && (
-            <span>
-              <b>Type</b>
-              <small>{product.strainType}</small>
-            </span>
-          )}
+          {atAGlance.map((item) => <span key={item.label}><b>{item.label}</b><small>{item.value}</small></span>)}
         </div>
       ),
     },
-    {
+    hasPotency && {
       id: "potency",
       label: "Potency & Cannabinoids",
       content: (
@@ -239,7 +212,7 @@ function ProductDetailsAccordion({ product, selected }) {
         </div>
       ),
     },
-    isSeltzer && {
+    isSeltzer && hasNutrition && {
       id: "nutrition",
       label: "Nutrition & Dietary",
       content: (
