@@ -76,7 +76,7 @@ export default function SalesWorkspace({supabase,prospects,user,go}){
     ]);
     setProducts(q[0].data||[]);setInvoices(q[1].data||[]);setItems(q[2].data||[]);setPayments(q[3].data||[]);setCollections(q[4].data||[]);setReorders(q[5].data||[]);setPerformance(q[6].data||[]);setCommissions(q[7].data||[]);setLoading(false);
   },[supabase]);
-  useEffect(()=>{load();try{sessionStorage.removeItem('lagom_sales_view')}catch{}},[load]);
+  useEffect(()=>{load();try{if(sessionStorage.getItem('lagom_sales_new_invoice')==='1'){setShowNew(true);sessionStorage.removeItem('lagom_sales_new_invoice');}sessionStorage.removeItem('lagom_sales_view')}catch{}},[load]);
 
   const scoped=useMemo(()=>isAdmin?invoices:invoices.filter(i=>(i.rep_name||'').toLowerCase()===me.toLowerCase()),[invoices,isAdmin,me]);
   const scopedPerformance=useMemo(()=>{

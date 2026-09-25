@@ -1,5 +1,4 @@
 import React from "react";
-import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { m, motionTokens } from "@/motionSystem";
 import ResponsiveImage from "@/storefront/ResponsiveImage";
@@ -18,23 +17,26 @@ export default function CatalogProductCard({
   children,
   meta,
   metaBeforePrice = false,
-  reviewStatus = null,
+  reviewStatus = "No reviews",
   motionProps = {},
-  presentation = "standard",
   ctaLabel = "View",
   showPrice = true,
+  ribbonLabel = null,
+  compactPurchase = false,
 }) {
-  if (presentation === "liquidGlass") {
-    return (
-      <m.article
-        className={`catalog-card unified-product-card liquid-glass-product-card ${className}`.trim()}
-        whileHover={{ y: -4 }}
-        whileTap={{ scale: 0.994 }}
-        transition={motionTokens.springSoft}
-        {...motionProps}
-      >
-        <div className={`liquid-glass-product-card__shot ${mediaClassName}`.trim()}>
-          <Link className="liquid-glass-product-card__media-link" to={to} aria-label={`View ${name}`}>
+  return (
+    <m.article
+      className={`catalog-card cpc-13 ${className}`.trim()}
+      whileHover={{ y: -4 }}
+      whileTap={{ scale: 0.992 }}
+      transition={motionTokens.springSoft}
+      {...motionProps}
+    >
+      <div className="cpc-13__card">
+        {ribbonLabel ? <span className="cpc-13__ribbon">{ribbonLabel}</span> : null}
+        {contextLabel ? <span className="cpc-13__pill">{contextLabel}</span> : null}
+        <div className={`cpc-13__img ${mediaClassName}`.trim()}>
+          <Link to={to} aria-label={`View ${name}`}>
             <ResponsiveImage
               src={image}
               alt={imageAlt || name}
@@ -44,67 +46,19 @@ export default function CatalogProductCard({
             />
           </Link>
         </div>
-
-        <div className="liquid-glass-product-card__glass">
-          <div className="liquid-glass-product-card__content">
-            {contextLabel ? <span className="liquid-glass-product-card__context">{contextLabel}</span> : null}
-            <h3 className="liquid-glass-product-card__name">
-              <Link to={to}>{name}</Link>
-            </h3>
-            {meta ? <div className="liquid-glass-product-card__meta">{meta}</div> : null}
-            {(showPrice || !children) ? (
-              <div className="liquid-glass-product-card__row">
-                {showPrice ? (
-                  <b className="liquid-glass-product-card__price">
-                    {Number.isFinite(price) ? `${price.toFixed(2)}` : "Pricing coming soon"}
-                  </b>
-                ) : null}
-                {!children ? (
-                  <Link className="liquid-glass-product-card__cta" to={to}>
-                    <span>{ctaLabel}</span>
-                    <ArrowRight aria-hidden="true" />
-                  </Link>
-                ) : null}
-              </div>
-            ) : null}
-            {children ? <div className="liquid-glass-product-card__footer">{children}</div> : null}
-          </div>
+        <div className={`cpc-13__body ${copyClassName}`.trim()}>
+          <h3 className="cpc-13__name"><Link to={to}>{name}</Link></h3>
+          {reviewStatus ? <p className="cpc-13__rating">{reviewStatus}</p> : null}
+          {metaBeforePrice && meta ? <div className="cpc-13__meta">{meta}</div> : null}
+          {compactPurchase ? <div className="cpc-13__compact-purchase">
+            {showPrice ? <div className="cpc-13__prices"><span className="cpc-13__now">{Number.isFinite(price) ? `$${price.toFixed(2)}` : "Pricing coming soon"}</span></div> : null}
+            {children ? <div className="cpc-13__footer">{children}</div> : <Link className="cpc-13__cta" to={to}>{ctaLabel}</Link>}
+          </div> : <>
+            {showPrice ? <div className="cpc-13__prices"><span className="cpc-13__now">{Number.isFinite(price) ? `$${price.toFixed(2)}` : "Pricing coming soon"}</span></div> : null}
+            {!metaBeforePrice && meta ? <div className="cpc-13__meta">{meta}</div> : null}
+            {children ? <div className="cpc-13__footer">{children}</div> : <Link className="cpc-13__cta" to={to}>{ctaLabel}</Link>}
+          </>}
         </div>
-      </m.article>
-    );
-  }
-
-  return (
-    <m.article
-      className={`catalog-card unified-product-card ${className}`.trim()}
-      whileHover={{ y: -4 }}
-      whileTap={{ scale: 0.992 }}
-      transition={motionTokens.springSoft}
-      {...motionProps}
-    >
-      <div className={`catalog-card__media unified-product-card__media ${mediaClassName}`.trim()}>
-        <Link to={to} aria-label={`View ${name}`}>
-          <ResponsiveImage
-            src={image}
-            alt={imageAlt || name}
-            sizes="(max-width: 899px) 50vw, 25vw"
-            loading="lazy"
-            decoding="async"
-          />
-        </Link>
-      </div>
-      <div className={`unified-product-card__copy ${copyClassName}`.trim()}>
-        {contextLabel ? <span className="unified-product-card__context">{contextLabel}</span> : null}
-        <div className="unified-product-card__title-row">
-          <h3><Link to={to}>{name}</Link></h3>
-          {reviewStatus ? <span className="review-line product-card__review">{reviewStatus}</span> : null}
-        </div>
-        <div className="unified-product-card__pricing">
-          {metaBeforePrice && meta ? <small className="unified-product-card__meta">{meta}</small> : null}
-          {showPrice ? <b>{Number.isFinite(price) ? `${price.toFixed(2)}` : "Pricing coming soon"}</b> : null}
-          {!metaBeforePrice && meta ? <small className="unified-product-card__meta">{meta}</small> : null}
-        </div>
-        {children ? <div className="unified-product-card__footer">{children}</div> : null}
       </div>
     </m.article>
   );

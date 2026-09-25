@@ -253,7 +253,7 @@ function Login({onLogin}){
         <div className="auth-glow"/>
         <div style={{position:'relative',width:'100%',maxWidth:560}}>
           <div style={{display:'flex',alignItems:'center',gap:11,marginBottom:32}}>
-            <div style={{width:42,height:42,borderRadius:13,background:'rgba(255,255,255,.07)',border:'1px solid rgba(255,255,255,.1)',display:'flex',alignItems:'center',justifyContent:'center'}}><img src={assetUrl("/logo.png")} alt="Lagom" style={{height:29,maxWidth:31,objectFit:'contain'}}/></div>
+            <div style={{width:42,height:42,borderRadius:13,background:'rgba(255,255,255,.07)',border:'1px solid rgba(255,255,255,.1)',display:'flex',alignItems:'center',justifyContent:'center'}}><img src={assetUrl("/lagom-logo-icon-white.svg")} alt="Lagom Naturals" style={{height:25,width:25,objectFit:'contain'}}/></div>
             <div><div style={{fontWeight:800,fontSize:15,letterSpacing:'-.25px'}}>Lagom</div><div style={{fontSize:10.5,color:'rgba(255,255,255,.42)',marginTop:2}}>Sales Operations</div></div>
           </div>
           <div style={{fontSize:10,color:'#8BD1B2',fontWeight:800,textTransform:'uppercase',letterSpacing:'.12em',marginBottom:10}}>Field-first operating system</div>
@@ -2777,7 +2777,7 @@ function App({user,onLogout}){
       routes:          <RoutesTab {...tp}/>,
       orders:          <OrdersTab {...tp}/>,
       sales:           <SalesWorkspace supabase={supabase} {...tp}/>,
-      depletion:       <DepletionWorkspace supabase={supabase} prospects={prospects} user={user}/>,
+      depletion:       <DepletionWorkspace supabase={supabase} prospects={prospects} user={user} go={go}/>,
       events:          <EventsTab {...tp}/>,
       activity:        <ActivityTab {...tp}/>,
       commissions:     <CommissionsTab {...tp}/>,
@@ -2821,14 +2821,8 @@ function App({user,onLogout}){
 
       <div className="sidebar" style={{width:collapsed?66:216}}>
         <div style={{padding:collapsed?'18px 0 15px':'18px 16px 15px',borderBottom:'1px solid rgba(255,255,255,.07)'}}>
-          <div style={{display:'flex',alignItems:'center',gap:11,justifyContent:collapsed?'center':'flex-start'}}>
-            <div style={{width:38,height:38,borderRadius:12,background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.09)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
-              <img src={assetUrl("/logo.png")} alt="Lagom" style={{height:27,maxWidth:29,objectFit:'contain'}}/>
-            </div>
-            {!collapsed&&<div style={{minWidth:0}}>
-              <div style={{fontWeight:800,fontSize:14,color:'#fff',letterSpacing:'-.25px'}}>Lagom</div>
-              <div style={{fontSize:10.5,color:'rgba(255,255,255,.4)',letterSpacing:'.15px'}}>Sales Operations</div>
-            </div>}
+          <div style={{display:'flex',alignItems:'center',justifyContent:'center',minHeight:44}}>
+            <img src={assetUrl("/lagom-logo-white.svg")} alt="Lagom Naturals" style={{display:collapsed?'none':'block',width:132,height:'auto',maxWidth:'100%',objectFit:'contain'}}/>
           </div>
         </div>
         <nav style={{flex:1,padding:'4px 0 12px'}}>
@@ -2870,7 +2864,7 @@ function App({user,onLogout}){
         <div className="topbar">
           <button className="hamburger" onClick={()=>setDrawerOpen(true)} aria-label="Menu"><Icon name="menu" size={18}/></button>
           <div style={{display:'flex',alignItems:'center',gap:10,minWidth:0}}>
-            <div style={{width:34,height:34,borderRadius:10,background:P.tealL,color:P.teal,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}><Icon name={curTab?.id} size={17}/></div>
+            <div style={{width:34,height:34,borderRadius:10,background:P.tealL,color:P.teal,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}><img src={assetUrl("/lagom-logo-icon.svg")} alt="" aria-hidden="true" style={{height:19,width:19,objectFit:'contain'}}/></div>
             <div style={{minWidth:0}}>
               <div style={{fontWeight:800,fontSize:14.5,color:P.text,lineHeight:1.1}}>{curTab?.label}</div>
               <div className="hide-mob" style={{fontSize:10.5,color:P.t3,marginTop:3}}>Lagom internal sales workspace</div>
@@ -2901,8 +2895,8 @@ function App({user,onLogout}){
           <div className="drawer">
             <div style={{padding:'18px 16px 14px',borderBottom:'1px solid rgba(255,255,255,.08)',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
               <div style={{display:'flex',alignItems:'center',gap:10}}>
-                <img src={assetUrl("/logo.png")} alt="Lagom" style={{height:32,flexShrink:0}}/>
-                <div style={{fontWeight:900,fontSize:14,color:'#fff',letterSpacing:'-.3px'}}>Lagom CRM</div>
+                <img src={assetUrl("/lagom-logo-white.svg")} alt="Lagom Naturals" style={{height:28,width:126,objectFit:'contain',objectPosition:'left',flexShrink:0}}/>
+                <div style={{fontWeight:900,fontSize:14,color:'#fff',letterSpacing:'-.3px'}}>CRM</div>
               </div>
               <button onClick={()=>setDrawerOpen(false)} aria-label="Close" style={{background:'none',border:'none',color:'rgba(255,255,255,.6)',fontSize:20,cursor:'pointer',lineHeight:1}}>×</button>
             </div>

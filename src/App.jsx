@@ -150,7 +150,7 @@ function productCardFacts(product) {
   return [...new Set(facts.filter(Boolean))];
 }
 
-function useAnchoredVariantMenu(isOpen, triggerRef) {
+function useAnchoredVariantMenu(isOpen, triggerRef, optionCount) {
   const [position, setPosition] = useState(null);
 
   useLayoutEffect(() => {
@@ -166,6 +166,7 @@ function useAnchoredVariantMenu(isOpen, triggerRef) {
       const viewportPadding = 10;
       const preferredWidth = 196;
       const maxWidth = window.innerWidth - viewportPadding * 2;
+      const estimatedMenuHeight = Math.min(optionCount, 5) * 46 + 10;
       const width = Math.min(Math.max(rect.width, preferredWidth), maxWidth);
       const fitsToRight = rect.left + width <= window.innerWidth - viewportPadding;
       const desiredLeft = fitsToRight ? rect.left : rect.right - width;
@@ -173,10 +174,15 @@ function useAnchoredVariantMenu(isOpen, triggerRef) {
         Math.max(viewportPadding, desiredLeft),
         window.innerWidth - width - viewportPadding,
       );
+      const fitsBelow = rect.bottom + 8 + estimatedMenuHeight <= window.innerHeight - viewportPadding;
+      const top = fitsBelow || rect.top < estimatedMenuHeight + viewportPadding
+        ? rect.bottom + 8
+        : rect.top - estimatedMenuHeight - 8;
       setPosition({
-        "--variant-menu-top": `${rect.bottom + 8}px`,
+        "--variant-menu-top": `${top}px`,
         "--variant-menu-left": `${left}px`,
         "--variant-menu-width": `${width}px`,
+        "--variant-menu-origin": fitsBelow ? "top" : "bottom",
       });
     };
 
@@ -187,7 +193,7 @@ function useAnchoredVariantMenu(isOpen, triggerRef) {
       window.removeEventListener("resize", updatePosition);
       window.removeEventListener("scroll", updatePosition, true);
     };
-  }, [isOpen, triggerRef]);
+  }, [isOpen, optionCount, triggerRef]);
 
   return position;
 }
@@ -230,7 +236,7 @@ function ProductCard({ product }) {
   const facts = productCardFacts(product);
   const contextLabel = product.category === "Gummies" ? product.productLine : null;
   const hasVariantPicker = product.category === "Seltzers" && variants.length > 1;
-  const menuPosition = useAnchoredVariantMenu(variantOpen && hasVariantPicker, triggerRef);
+  const menuPosition = useAnchoredVariantMenu(variantOpen && hasVariantPicker, triggerRef, variants.length);
 
   useEffect(() => {
     setSelectedId(variants[0]?.id);
@@ -267,11 +273,11 @@ function ProductCard({ product }) {
       contextLabel={contextLabel}
       name={product.name}
       price={selected.price}
-      className={`product-card product-card--shop-reference ${product.category === "Gummies" ? "product-card--gummy" : ""} ${variantOpen ? "is-variant-open" : ""}`}
+      className={`product-card product-card--shop-reference ${product.category === "Gummies" ? "product-card--gummy" : ""} ${!hasVariantPicker ? "product-card--single-purchase" : ""} ${variantOpen ? "is-variant-open" : ""}`}
       mediaClassName="product-media"
       copyClassName="product-copy"
-      presentation="liquidGlass"
-      showPrice={!hasVariantPicker}
+      showPrice
+      compactPurchase={!hasVariantPicker}
       metaBeforePrice
       meta={facts.length ? (
         <span className="product-facts" aria-label={facts.join(", ")}>

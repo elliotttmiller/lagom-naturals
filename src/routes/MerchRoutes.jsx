@@ -6,8 +6,8 @@ import {merch} from '@/catalogData'
 import Shell from '@/storefront/StorefrontShell'
 import {useCart} from '@/storefront/StorefrontContext'
 import useSwipeGallery from '@/storefront/useSwipeGallery'
-import CatalogProductCard from '@/storefront/CatalogProductCard'
 import ResponsiveImage from '@/storefront/ResponsiveImage'
+import AddToCartButton from '@/AddToCartButton'
 import '@/styles/mobile/70-editorial.css'
 import '@/styles/merch-page-redesign.css'
 
@@ -16,8 +16,29 @@ const brandLogo = `${import.meta.env.BASE_URL}lagom-logo.svg`
 function EmptyState({title="Nothing here yet.",body="Check back soon for updated availability.",to="/shop",action="Browse products"}){return <m.div className="empty-state" initial="hidden" animate="visible" variants={motionVariants.softScale}><h2>{title}</h2><p>{body}</p>{to&&<Link className="primary-bar" to={to}>{action}</Link>}</m.div>}
 
 function MerchCard({ item }) {
+  const { add } = useCart();
+  const hasSizes = item.sizes?.length > 0;
+  const [selectedSize, setSelectedSize] = useState(item.sizes?.[0] ?? item.sizeType ?? null);
+  const hasPrice = Number.isFinite(item.price);
+  const colorValue = item.color?.toLowerCase() === 'black' ? '#171914' : '#6b6b66';
+
   return (
-    <CatalogProductCard id={item.id} to={`/merch/${item.id}`} image={item.image} imageAlt={item.name} name={item.name} price={item.price} className="merch-card merch-card--liquid-glass" mediaClassName="merch-media" copyClassName="merch-copy" presentation="liquidGlass" ctaLabel="View" motionProps={{ layout: true }} />
+    <m.article className="cpc-14 merch-card" layout>
+      <div className="cpc-14__card">
+        <Link className="cpc-14__media merch-media" to={`/merch/${item.id}`} aria-label={`View ${item.name}`}>
+          <ResponsiveImage src={item.image} alt={item.name} sizes="(max-width: 699px) 50vw, (max-width: 1100px) 33vw, 25vw" loading="lazy" decoding="async" />
+        </Link>
+        <div className="cpc-14__body merch-copy">
+          <h3 className="cpc-14__name"><Link to={`/merch/${item.id}`}>{item.name}</Link></h3>
+          {item.color ? <fieldset className="cpc-14__colors"><legend>Color</legend><span className="cpc-14__sw" style={{ '--sw': colorValue }} aria-label={item.color}><span /></span><span className="cpc-14__color-name">{item.color}</span></fieldset> : null}
+          {hasSizes ? <fieldset className="cpc-14__sizes"><legend>Size</legend><div className="cpc-14__size-list">{item.sizes.map((size) => <label className="cpc-14__size" key={size}><input type="radio" name={`${item.id}-size`} value={size} checked={selectedSize === size} onChange={() => setSelectedSize(size)} /><span>{size}</span></label>)}</div></fieldset> : null}
+          <div className="cpc-14__foot">
+            <p className="cpc-14__price">{hasPrice ? `$${item.price.toFixed(2)}` : 'Pricing coming soon'}</p>
+            {hasPrice ? <AddToCartButton size="default" className="cpc-14__cta" productId={item.id} onClick={() => add({ ...item, brand: 'Lagom Naturals', category: 'Merch', weight: [selectedSize, item.color].filter(Boolean).join(' · '), cartKey: `${item.id}:${selectedSize ?? 'standard'}:${item.color}` })} aria-label={`Add ${item.name}${selectedSize ? `, size ${selectedSize}` : ''} to cart`} /> : null}
+          </div>
+        </div>
+      </div>
+    </m.article>
   );
 }
 
