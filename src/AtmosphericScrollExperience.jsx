@@ -39,11 +39,15 @@ function useViewportMotionProfile() {
     const tablet = window.matchMedia("(max-width: 899px)");
     const update = () => setProfile(phone.matches ? "phone" : tablet.matches ? "tablet" : "desktop");
     update();
-    phone.addEventListener?.("change", update);
-    tablet.addEventListener?.("change", update);
+    if (phone.addEventListener) phone.addEventListener("change", update);
+    else phone.addListener?.(update);
+    if (tablet.addEventListener) tablet.addEventListener("change", update);
+    else tablet.addListener?.(update);
     return () => {
-      phone.removeEventListener?.("change", update);
-      tablet.removeEventListener?.("change", update);
+      if (phone.removeEventListener) phone.removeEventListener("change", update);
+      else phone.removeListener?.(update);
+      if (tablet.removeEventListener) tablet.removeEventListener("change", update);
+      else tablet.removeListener?.(update);
     };
   }, []);
 
