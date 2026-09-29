@@ -297,6 +297,7 @@ export function AtmosphericSectionNavigator({ activeScene, progress, onNavigate 
               <button
                 type="button"
                 className={active ? "is-active" : ""}
+                aria-label={`Go to ${scene.label} section`}
                 aria-current={active ? "location" : undefined}
                 onClick={() => onNavigate(scene.id)}
               >
