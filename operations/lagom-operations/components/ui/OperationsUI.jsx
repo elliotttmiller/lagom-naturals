@@ -20,10 +20,10 @@ export const shortDate=value=>{
 };
 
 export function PageTitle({title,eyebrow,children,actions}){
-  return <div className="lo-page-title-row">
+  return <div className={'lo-page-title-row'+(actions?' has-actions':'')}>
     <div className="lo-page-title-copy">
-      {eyebrow&&<div className="lo-page-eyebrow">{eyebrow}</div>}
       <h1>{title}</h1>
+      {eyebrow&&<div className="lo-page-eyebrow">{eyebrow}</div>}
       {children&&<div className="lo-page-subcopy">{children}</div>}
     </div>
     {actions&&<div className="lo-page-actions">{actions}</div>}
