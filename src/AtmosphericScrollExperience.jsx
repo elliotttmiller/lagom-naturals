@@ -20,8 +20,8 @@ const MOTION_PROFILES = {
     sectionSpring: { stiffness: 122, damping: 34, mass: 0.64, restDelta: 0.002 },
   },
   phone: {
-    globalSpring: { stiffness: 118, damping: 34, mass: 0.6, restDelta: 0.002 },
-    sectionSpring: { stiffness: 136, damping: 36, mass: 0.56, restDelta: 0.0025 },
+    globalSpring: { stiffness: 104, damping: 28, mass: 0.68, restDelta: 0.0015 },
+    sectionSpring: { stiffness: 118, damping: 30, mass: 0.62, restDelta: 0.002 },
   },
 };
 
@@ -126,12 +126,12 @@ export function useAtmosphericHomepageScroll(rootRef) {
       ? ["0vw", "-0.8vw", "-0.3vw", "-1.8vw", "-1.1vw", "-3vw", "-2.6vw"]
       : ["0vw", "-1.1vw", "-0.4vw", "-2.5vw", "-1.45vw", "-4.15vw", "-3.5vw"];
   const midYRange = isPhone
-    ? ["0px", "-10px", "-22px", "-36px", "-52px", "-68px", "-82px"]
+    ? ["0px", "-14px", "-32px", "-52px", "-74px", "-98px", "-122px"]
     : isTablet
       ? ["0vh", "-1.8vh", "-4.6vh", "-7.5vh", "-10.8vh", "-14.5vh", "-17vh"]
       : ["0vh", "-2.5vh", "-6.5vh", "-10.5vh", "-15vh", "-20vh", "-24vh"];
   const midScaleRange = isPhone
-    ? [1, 1.003, 1.006, 1.009, 1.012, 1.015, 1.018]
+    ? [1, 1.005, 1.01, 1.015, 1.021, 1.027, 1.032]
     : isTablet
       ? [1, 1.004, 1.008, 1.012, 1.016, 1.02, 1.023]
       : [1, 1.006, 1.012, 1.018, 1.021, 1.026, 1.03];
@@ -140,17 +140,17 @@ export function useAtmosphericHomepageScroll(rootRef) {
     : ["0deg", "-0.08deg", "0.05deg", "-0.14deg", "0.04deg", "-0.08deg", "0deg"];
 
   const nearXRange = isPhone
-    ? ["0vw", "0.45vw", "0.2vw", "1vw", "0.7vw", "1.7vw", "2vw"]
+    ? ["0vw", "0.7vw", "0.3vw", "1.6vw", "1.1vw", "2.6vw", "3vw"]
     : isTablet
       ? ["0vw", "1vw", "0.45vw", "2.5vw", "1.8vw", "4vw", "4.7vw"]
       : ["0vw", "1.4vw", "0.6vw", "3.6vw", "2.5vw", "5.8vw", "6.8vw"];
   const nearYRange = isPhone
-    ? ["0px", "-14px", "-30px", "-49px", "-68px", "-88px", "-108px"]
+    ? ["0px", "-20px", "-44px", "-70px", "-98px", "-128px", "-158px"]
     : isTablet
       ? ["0vh", "-3vh", "-7vh", "-12vh", "-18vh", "-24vh", "-30vh"]
       : ["0vh", "-4vh", "-10vh", "-17vh", "-25vh", "-34vh", "-43vh"];
   const nearScaleRange = isPhone
-    ? [1, 1.005, 1.011, 1.017, 1.023, 1.03, 1.035]
+    ? [1, 1.008, 1.016, 1.025, 1.034, 1.044, 1.052]
     : isTablet
       ? [1, 1.009, 1.018, 1.028, 1.037, 1.048, 1.055]
       : [1, 1.012, 1.028, 1.04, 1.052, 1.066, 1.078];
@@ -162,13 +162,13 @@ export function useAtmosphericHomepageScroll(rootRef) {
   const midY = useTransform(progress, windStops, midYRange);
   const midScale = useTransform(progress, windStops, midScaleRange);
   const midRotate = useTransform(progress, windStops, midRotateRange);
-  const midOpacity = useTransform(progress, windStops, isPhone ? [0.95, 0.98, 1, 0.98, 0.95, 0.98, 0.94] : [0.94, 0.98, 1, 0.96, 0.92, 0.97, 0.9]);
+  const midOpacity = useTransform(progress, windStops, isPhone ? [0.9, 0.97, 1, 0.96, 0.9, 0.97, 0.88] : [0.94, 0.98, 1, 0.96, 0.92, 0.97, 0.9]);
 
   const nearX = useTransform(progress, windStops, nearXRange);
   const nearY = useTransform(progress, windStops, nearYRange);
   const nearScale = useTransform(progress, windStops, nearScaleRange);
   const nearRotate = useTransform(progress, windStops, nearRotateRange);
-  const nearOpacity = useTransform(progress, windStops, isPhone ? [0.94, 0.98, 1, 0.99, 0.96, 0.99, 0.93] : [0.92, 0.97, 1, 0.98, 0.94, 0.99, 0.9]);
+  const nearOpacity = useTransform(progress, windStops, isPhone ? [0.88, 0.96, 1, 0.98, 0.91, 0.97, 0.86] : [0.92, 0.97, 1, 0.98, 0.94, 0.99, 0.9]);
 
   // Side fragments are not rendered on phones, but remain fully art-directed
   // on tablet and desktop.
@@ -253,7 +253,7 @@ export function AtmosphericSceneSection({ id, className, labelledBy, children })
     smoothProgress,
     [0, 0.24, 0.72, 1],
     isPhone
-      ? ["18px", "0px", "0px", "-12px"]
+      ? ["30px", "0px", "0px", "-20px"]
       : isTablet
         ? ["3vh", "0vh", "0vh", "-2.4vh"]
         : ["5vh", "0vh", "0vh", "-4vh"],
@@ -261,12 +261,12 @@ export function AtmosphericSceneSection({ id, className, labelledBy, children })
   const opacity = useTransform(
     smoothProgress,
     [0, 0.15, 0.3, 0.76, 0.94, 1],
-    isPhone ? [0.88, 0.96, 1, 1, 0.96, 0.9] : isTablet ? [0.8, 0.93, 1, 1, 0.94, 0.86] : [0.72, 0.9, 1, 1, 0.91, 0.8],
+    isPhone ? [0.72, 0.9, 1, 1, 0.9, 0.74] : isTablet ? [0.8, 0.93, 1, 1, 0.94, 0.86] : [0.72, 0.9, 1, 1, 0.91, 0.8],
   );
   const scale = useTransform(
     smoothProgress,
     [0, 0.3, 0.75, 1],
-    isPhone ? [0.998, 1, 1, 0.999] : isTablet ? [0.996, 1, 1, 0.998] : [0.993, 1, 1, 0.997],
+    isPhone ? [0.992, 1, 1, 0.995] : isTablet ? [0.996, 1, 1, 0.998] : [0.993, 1, 1, 0.997],
   );
 
   return (
