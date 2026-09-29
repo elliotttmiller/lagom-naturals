@@ -286,9 +286,9 @@ export function AtmosphericSceneSection({ id, className, labelledBy, children })
     [0.985, 1, 1, 1.012],
   );
 
-  // Every mobile scene owns one atmospheric cloud plane. This keeps visible
-  // parallax present throughout the page instead of concentrating two clouds
-  // at fixed percentages of the entire homepage.
+  // Every responsive scene owns an atmospheric cloud plane. This keeps visible
+  // parallax present throughout the page instead of concentrating the global
+  // cloud field in a few fixed positions.
   const sceneCloudX = useTransform(
     smoothProgress,
     [0, 0.34, 0.7, 1],
