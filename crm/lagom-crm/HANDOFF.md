@@ -73,6 +73,8 @@ The primary UI direction has changed from spreadsheet-style dashboards to a unif
 Implemented on the company-operations branch:
 
 - `CompanyOperationsWorkspace.jsx` now owns Company Dashboard, Depletion, AR, Reports, and Commissions.
+- `DepletionImportDialog.jsx` owns validated XLSX depletion import; `QualityCheckDialog.jsx` owns the live workbook-style reconciliation/QA workflow.
+- `company_operations_v1.sql` adds payment terms and invoice term ownership without inventing unverified term definitions.
 - `SalesWorkspace.jsx` is retained as the invoice/payment mutation workspace and is visually/operationally narrowed to Invoices.
 - `companyOperationsDomain.js` translates approved workbook formulas, aging, reconciliation, QA, and reporting semantics into deterministic application logic.
 - `companyOperationsData.js` centralizes commercial reads and Supabase realtime refresh.
@@ -88,7 +90,7 @@ The normalized Supabase model remains canonical. Do not add a two-way Google She
 1. **Activate Phase 4** (no code change): add the two Google env vars + redeploy; run
    `maps_setup.sql` (adds `latitude`/`longitude`/`county`); then Setup -> "Geocode all
    accounts" (~2,391 records). Verify match rate and that the map renders.
-2. **Deploy Sales & Depletion migration:** run `depletion_phase2.sql` in the real Lagom CRM Supabase project, then reconcile the approved workbook totals in `DEPLETION_OPERATIONS.md`.
+2. **Deploy Sales & Depletion migration:** run `depletion_phase2.sql` in the real Lagom CRM Supabase project, then run `company_operations_v1.sql`. Reconcile the approved workbook totals in `DEPLETION_OPERATIONS.md` before enabling normal commercial entry.
 3. **Verify `supabase-setup.sql` has been run** — tables `events`, `orders`,
    `order_items`, `invoices`, `inventory_movements`, `commissions`. Those tabs error or
    are empty if the script has not been run.
@@ -105,7 +107,7 @@ The normalized Supabase model remains canonical. Do not add a two-way Google She
   slow; could be batched.
 - **Restrict the Google key(s):** browser key -> HTTP referrers `crm.lagomnaturals.com/*`
   and `*.vercel.app/*`; server key -> Geocoding API only. Ideally two separate keys.
-- No automated tests/CI. Verification today is a manual esbuild parse + Vercel preview.
+- Company Operations has a deterministic workbook-baseline validation script (`npm run validate:operations`) and a PR validation workflow. GitHub Actions availability still depends on repository/account runner configuration.
 
 ## Conventions (see CLAUDE.md)
 - Check **375 / 768 / 1440px** before shipping any UI change. Keep content inside
