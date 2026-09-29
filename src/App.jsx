@@ -44,6 +44,10 @@ import CatalogProductCard from "@/storefront/CatalogProductCard";
 import AddToCartButton from "@/AddToCartButton";
 import ResponsiveImage from "@/storefront/ResponsiveImage";
 import { responsiveImages } from "@/generated/responsiveImages";
+import lemonadeHomePackshot from "./assets/products/24k-lemonade.webp";
+import blackberryHomePackshot from "./assets/products/blackberry-breeze.webp";
+import strawberryLimeHomePackshot from "./assets/products/strawberry-lime-fusion.webp";
+import watermelonHomePackshot from "./assets/products/watermelon-refresher.webp";
 import {
   CartProvider,
   configuredProduct,
@@ -398,20 +402,34 @@ const homeGummies = ["Organic", "Midnight Drift", "Classic"]
   .map((line) => products.find((product) => product.category === "Gummies" && product.productLine === line))
   .filter(Boolean);
 
+const HOME_FLAVOR_PACKSHOTS = {
+  "24k-lemonade": lemonadeHomePackshot,
+  "blackberry-breeze": blackberryHomePackshot,
+  "strawberry-lime-fusion": strawberryLimeHomePackshot,
+  "watermelon-refresher": watermelonHomePackshot,
+};
+
+const HOME_FLAVOR_DESCRIPTIONS = {
+  "24k-lemonade": "Sicilian lemon and juicy tangerine with a crisp, clean finish.",
+  "blackberry-breeze": "Blackberry flavor with a clean, sparkling finish.",
+  "strawberry-lime-fusion": "Ripe strawberry flavor with a bright lime edge.",
+  "watermelon-refresher": "Light watermelon flavor designed for crisp refreshment.",
+};
+
 function HomeProductCard({ product }) {
   const potency = product.category === "Seltzers"
     ? `${product.thcMgPerCan} MG THC · ${product.canVolume}`
     : product.strength;
+  const flavorDescription = HOME_FLAVOR_DESCRIPTIONS[product.id];
   return (
     <article className="sky-home-product" style={{ "--product-accent": product.accent }}>
       <Link className="sky-home-product__image" to={`/product/${product.id}`} aria-label={`View ${product.name}`}>
-        <img src={product.image} alt={`${product.name} ${product.type}`} loading="lazy" decoding="async" />
+        <img src={HOME_FLAVOR_PACKSHOTS[product.id] || product.image} alt={`${product.name} ${product.type}`} loading="lazy" decoding="async" />
       </Link>
       <div className="sky-home-product__copy">
-        <p className="sky-home-product__line">{product.productLine && product.productLine !== "Classic" ? product.productLine : product.flavor}</p>
         <h3><Link to={`/product/${product.id}`}>{product.name}</Link></h3>
-        <p className="sky-home-product__potency">{potency}</p>
-        <p className="sky-home-product__price">${product.price.toFixed(2)}</p>
+        {flavorDescription ? <p className="sky-home-product__description">{flavorDescription}</p> : <p className="sky-home-product__line">{product.productLine && product.productLine !== "Classic" ? product.productLine : product.flavor}</p>}
+        <p className="sky-home-product__facts"><span>${product.price.toFixed(2)}</span><span>{product.category === "Seltzers" ? `${product.thcMgPerCan} MG THC` : potency}</span></p>
         <Link className="sky-home-product__action" to={`/product/${product.id}`}>SHOP NOW <ArrowRight aria-hidden="true" /></Link>
       </div>
     </article>
@@ -419,9 +437,42 @@ function HomeProductCard({ product }) {
 }
 
 function HomePage() {
+  const homeRef = useRef(null);
+  const homeFrame = useRef(null);
+  useEffect(() => () => { if (homeFrame.current) cancelAnimationFrame(homeFrame.current); }, []);
+  const updateSky = (event) => {
+    if (event.pointerType !== "mouse" || !homeRef.current) return;
+    if (homeFrame.current) cancelAnimationFrame(homeFrame.current);
+    const x = Math.max(-1, Math.min(1, (event.clientX / window.innerWidth - .5) * 2));
+    const y = Math.max(-1, Math.min(1, (event.clientY / window.innerHeight - .5) * 2));
+    homeFrame.current = requestAnimationFrame(() => {
+      homeRef.current?.style.setProperty("--sky-pointer-x", `${x * 14}px`);
+      homeRef.current?.style.setProperty("--sky-pointer-y", `${y * 10}px`);
+      [["far", -2, -1], ["mid", -4, -2], ["near", -7, -3], ["left", -5, -2], ["right", -4, -2]].forEach(([layer, depthX, depthY]) => {
+        homeRef.current?.style.setProperty(`--sky-${layer}-x`, `${x * depthX}px`);
+        homeRef.current?.style.setProperty(`--sky-${layer}-y`, `${y * depthY}px`);
+      });
+    });
+  };
+  const resetSky = () => {
+    if (homeFrame.current) cancelAnimationFrame(homeFrame.current);
+    homeRef.current?.style.setProperty("--sky-pointer-x", "0px");
+    homeRef.current?.style.setProperty("--sky-pointer-y", "0px");
+    ["far", "mid", "near", "left", "right"].forEach((layer) => {
+      homeRef.current?.style.setProperty(`--sky-${layer}-x`, "0px");
+      homeRef.current?.style.setProperty(`--sky-${layer}-y`, "0px");
+    });
+  };
   return (
     <Shell>
-      <div className="sky-home">
+      <div className="sky-home" ref={homeRef} onPointerMove={updateSky} onPointerLeave={resetSky}>
+        <div className="sky-home__atmosphere" aria-hidden="true">
+          <span className="sky-home__cloud-depth sky-home__cloud-depth--far"><span className="sky-home__cloud sky-home__cloud--far" /></span>
+          <span className="sky-home__cloud-depth sky-home__cloud-depth--mid"><span className="sky-home__cloud sky-home__cloud--mid" /></span>
+          <span className="sky-home__cloud-depth sky-home__cloud-depth--near"><span className="sky-home__cloud sky-home__cloud--near" /></span>
+          <span className="sky-home__cloud-depth sky-home__cloud-depth--left"><span className="sky-home__cloud sky-home__cloud--left" /></span>
+          <span className="sky-home__cloud-depth sky-home__cloud-depth--right"><span className="sky-home__cloud sky-home__cloud--right" /></span>
+        </div>
         <section className="beverage-hero" aria-label="Featured Lagom Naturals products"><HomeHero /></section>
 
         <section className="sky-home__section sky-home__section--flavors" aria-labelledby="home-flavors-title">

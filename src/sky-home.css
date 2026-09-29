@@ -1,12 +1,67 @@
 .sky-home {
+  --sky-pointer-x: 0px;
+  --sky-pointer-y: 0px;
   position: relative;
   isolation: isolate;
   overflow: clip;
   background:
-    radial-gradient(ellipse at 46% 14%, rgba(255,255,255,.9), transparent 23%),
-    linear-gradient(180deg, #dfe9ec 0%, #eef4f3 24%, #e6f0ef 56%, #dbe9e8 100%);
+    radial-gradient(ellipse at 46% 14%, rgba(193,219,228,.24), transparent 34%),
+    linear-gradient(135deg, #e9f1f3 0%, #dfe9ec 48%, #eaf1f1 100%);
   color: var(--ink);
 }
+
+.sky-home .beverage-hero,
+.sky-home .legacy-sky-hero { background: transparent !important; }
+
+/* Keep the hero bright enough for copy, without bleaching the shared blue sky. */
+.sky-home .legacy-sky-hero__light {
+  inset: -12%;
+  opacity: .54 !important;
+  background:
+    radial-gradient(ellipse at 42% 43%, rgba(223,236,240,.24), rgba(223,236,240,0) 44%),
+    radial-gradient(ellipse at 78% 58%, rgba(177,211,223,.26), rgba(177,211,223,0) 54%);
+}
+
+/* The hero atmosphere is a foreground layer over the shared page sky.
+   Feather its lower edge so cloud density never ends on a horizontal seam. */
+.sky-home .legacy-sky-hero__atmosphere {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%);
+}
+
+/* Hero cloud lanes: deliberately separated so depth reads as a sky, not a stack. */
+.sky-home .legacy-sky-hero__cloud--far { top:-17%; left:-10%; width:max(78vw,1180px); height:min(43vw,510px); opacity:.27; background-image:url('./assets/atmosphere/natural-white-cumulus-cloud-floating-on-transparent-background-png.webp'); animation:lagom-sky-far-crossing 250s linear infinite normal -118s; }
+.sky-home .legacy-sky-hero__cloud--mid { top:1%; right:-10%; left:auto; width:clamp(470px,37vw,740px); height:clamp(255px,21vw,420px); opacity:.2; animation:lagom-sky-mid-crossing 210s linear infinite normal -56s; }
+.sky-home .legacy-sky-hero__cloud--near { right:-6%; bottom:-20%; width:clamp(690px,54vw,1040px); height:clamp(400px,34vw,650px); opacity:.29; animation:lagom-sky-near-crossing 200s linear infinite normal -142s; }
+.sky-home .legacy-sky-hero__cloud--left { left:-7%; bottom:4%; width:clamp(330px,26vw,510px); height:clamp(190px,15vw,300px); opacity:.16; animation:lagom-sky-left-crossing 230s linear infinite normal -96s; }
+.sky-home .legacy-sky-hero__cloud--right { top:37%; right:-5%; width:clamp(280px,22vw,440px); height:clamp(165px,13vw,260px); opacity:.15; animation:lagom-sky-right-crossing 245s linear infinite normal -148s; }
+.sky-home .legacy-sky-hero__cloud--horizon { display:none; }
+
+@keyframes hero-balanced-far { from { transform:translate3d(-4vw,-1vh,0); } to { transform:translate3d(4vw,1vh,0); } }
+@keyframes hero-balanced-mid { from { transform:translate3d(3vw,-1.4vh,0); } to { transform:translate3d(-3vw,1.4vh,0); } }
+@keyframes hero-balanced-near { from { transform:translate3d(4vw,-1.8vh,0); } to { transform:translate3d(-4vw,1.8vh,0); } }
+@keyframes hero-balanced-left { from { transform:translate3d(-3vw,1vh,0); } to { transform:translate3d(3vw,-1vh,0); } }
+@keyframes hero-balanced-right { from { transform:translate3d(2.5vw,-1vh,0); } to { transform:translate3d(-2.5vw,1vh,0); } }
+
+.sky-home__atmosphere { position:absolute; inset:0; z-index:0; overflow:hidden; pointer-events:none; }
+.sky-home__cloud { position:absolute; display:block; background-repeat:no-repeat; background-position:center; background-size:contain; will-change:transform; }
+.sky-home__cloud--far { top:25%; left:-19%; width:max(86vw,1080px); height:min(45vw,570px); opacity:.22; background-image:url('./assets/atmosphere/natural-white-cumulus-cloud-floating-on-transparent-background-png.webp'); animation:lagom-sky-far-crossing 250s linear infinite normal -118s; }
+.sky-home__cloud--mid { top:42%; right:-17%; width:clamp(700px,55vw,1100px); height:clamp(370px,31vw,620px); opacity:.26; background-image:url('./assets/atmosphere/cloud-mid-field.webp'); animation:lagom-sky-mid-crossing 210s linear infinite normal -56s; }
+.sky-home__cloud--near { top:63%; left:-16%; width:clamp(700px,57vw,1160px); height:clamp(400px,34vw,680px); opacity:.22; background-image:url('./assets/atmosphere/cloud-near-mass.webp'); animation:lagom-sky-near-crossing 200s linear infinite normal -142s; }
+.sky-home__cloud--left { top:76%; left:-8%; width:clamp(360px,30vw,610px); height:clamp(220px,18vw,370px); opacity:.19; background-image:url('./assets/atmosphere/cloud-left-fragment.webp'); animation:lagom-sky-left-crossing 230s linear infinite normal -96s; }
+.sky-home__cloud--right { top:87%; right:-10%; width:clamp(430px,34vw,690px); height:clamp(250px,20vw,410px); opacity:.2; background-image:url('./assets/atmosphere/cloud-right-fragment.webp'); animation:lagom-sky-right-crossing 245s linear infinite normal -148s; }
+
+/* Mirror the hero's depth wrappers, pointer response, and crossing timelines. */
+.sky-home__cloud-depth { position:absolute; inset:0; display:block; will-change:transform; transition:transform 900ms cubic-bezier(.22,1,.36,1); }
+.sky-home__cloud-depth--far { transform:translate3d(var(--sky-far-x,0px),var(--sky-far-y,0px),0); }
+.sky-home__cloud-depth--mid { transform:translate3d(var(--sky-mid-x,0px),var(--sky-mid-y,0px),0); }
+.sky-home__cloud-depth--near { transform:translate3d(var(--sky-near-x,0px),var(--sky-near-y,0px),0); }
+.sky-home__cloud-depth--left { transform:translate3d(var(--sky-left-x,0px),var(--sky-left-y,0px),0); }
+.sky-home__cloud-depth--right { transform:translate3d(var(--sky-right-x,0px),var(--sky-right-y,0px),0); }
+
+/* Superseded by the five hero-matched planes above. */
+.sky-home::before,
+.sky-home::after { display:none; }
 
 .sky-home::before,
 .sky-home::after {
@@ -15,14 +70,23 @@
   width: min(1050px, 78vw);
   height: 620px;
   background: center / contain no-repeat url('./assets/atmosphere/cloud-mid-field.webp');
-  opacity: .28;
+  opacity: .24;
   content: "";
   pointer-events: none;
+  will-change: transform;
+  animation: sky-home-cloud-drift 45s ease-in-out infinite alternate;
 }
 .sky-home::before { top: 28%; right: -19%; }
-.sky-home::after { bottom: 7%; left: -20%; opacity: .22; transform: scaleX(-1); }
+.sky-home::after { bottom: 7%; left: -20%; opacity: .2; animation-delay:-18s; }
+
+@keyframes sky-home-cloud-drift {
+  from { transform: translate3d(var(--sky-pointer-x), var(--sky-pointer-y), 0); }
+  to { transform: translate3d(calc(var(--sky-pointer-x) - 4vw), calc(var(--sky-pointer-y) + 1.5vh), 0); }
+}
 
 .sky-home__section {
+  position:relative;
+  z-index:1;
   width: min(100% - 32px, 1280px);
   margin-inline: auto;
   padding-block: clamp(4.5rem, 9vw, 8rem);
@@ -53,7 +117,7 @@
   align-items: end;
   justify-content: space-between;
   gap: 2rem;
-  margin-bottom: clamp(2rem, 4vw, 3.5rem);
+  margin-bottom: clamp(1.5rem, 2.4vw, 2.25rem);
 }
 
 .sky-home__outline-action,
@@ -88,51 +152,43 @@
 .sky-home__gummy-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(0.8rem, 2vw, 1.5rem);
+  gap: clamp(0.25rem, 1vw, .8rem);
 }
 
 .sky-home__gummy-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
 .sky-home-product {
   min-width: 0;
-  padding: .65rem;
-  border: 1px solid rgba(17,17,15,.1);
-  border-radius: 18px;
-  background: rgba(255,255,255,.42);
-  box-shadow: 0 16px 40px rgba(67,91,93,.06);
-  backdrop-filter: blur(8px);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  text-align: center;
 }
 
 .sky-home-product__image {
   display: grid;
   place-items: center;
-  aspect-ratio: 1 / 1.06;
-  overflow: hidden;
-  border-radius: 12px;
-  background: color-mix(in srgb, var(--product-accent, var(--green)) 8%, rgba(255,255,255,.88));
+  min-height: clamp(248px, 21vw, 300px);
+  overflow: visible;
 }
 
 .sky-home-product__image img {
-  width: 100%;
-  height: 100%;
+  width: 350px;
+  height: 350px;
+  max-width: none;
   object-fit: contain;
-  padding: clamp(0.7rem, 1.5vw, 1.25rem);
-  transition: transform 420ms var(--ease-out);
+  padding: 0;
+  filter: drop-shadow(0 18px 17px rgba(50,73,77,.14));
 }
 
-.sky-home-product__image:hover img,
-.sky-home-product__image:focus-visible img { transform: scale(1.035); }
-
-.sky-home-product__copy { padding: 1rem 0.1rem 0; }
-.sky-home-product__copy h3 { margin: 0; font-size: clamp(1.32rem, 2vw, 1.8rem); line-height: 1; }
-.sky-home-product__line { min-height: 0.86rem; margin-bottom: 0.45rem; }
-.sky-home-product__potency,
-.sky-home-product__price { margin: 0.55rem 0 0; font: 600 0.82rem/1.35 var(--font-ui); }
-.sky-home-product__potency { color: var(--muted); }
-.sky-home-product__price { color: var(--ink); }
-.sky-home-product__action { min-height: 42px; margin-top: 0.7rem; color: var(--green); }
+.sky-home-product__copy { padding: .2rem .1rem 0; }
+.sky-home-product__copy h3 { max-width:15ch; margin:0 auto; color:var(--product-accent, var(--green)); font:800 clamp(.9rem, 1.15vw, 1.08rem)/1.02 var(--font-ui); letter-spacing:-.035em; text-transform:uppercase; }
+.sky-home-product__line { min-height: 0.86rem; margin:.5rem 0 0; color:var(--product-accent, var(--green)); }
+.sky-home-product__description { max-width:25ch; min-height:2.7em; margin:.52rem auto 0; color:var(--ink-soft); font:500 clamp(.72rem,.83vw,.82rem)/1.28 var(--font-body); }
+.sky-home-product__facts { display:flex; justify-content:center; gap:.55rem; margin:.55rem 0 0; color:var(--ink); font:800 .72rem/1.25 var(--font-ui); }
+.sky-home-product__facts span + span { padding-left:.55rem; border-left:1px solid color-mix(in srgb, var(--ink) 45%, transparent); }
+.sky-home-product__action { min-height:32px; margin-top:.72rem; padding:0 .95rem; border-radius:999px; background:var(--product-accent, var(--green)); color:#fff; font-size:.64rem; }
 .sky-home-product__action:hover,
-.sky-home-product__action:focus-visible { transform: translateX(3px); }
+.sky-home-product__action:focus-visible { transform: translateY(-2px); filter:brightness(.94); }
 .sky-home-product__action svg,
 .sky-home__outline-action svg,
 .sky-home__primary-action svg { width: 1rem; height: 1rem; }
@@ -145,7 +201,7 @@
   align-items: end;
 }
 
-.sky-home__section--editorial { position:relative; width:min(100% - 32px, 1280px); padding:clamp(3rem,6vw,6rem); border:1px solid rgba(17,17,15,.1); border-radius:24px; background:rgba(255,255,255,.36); box-shadow:0 18px 48px rgba(67,91,93,.06); backdrop-filter:blur(10px); }
+.sky-home__section--editorial { position:relative; width:min(100% - 32px, 1280px); padding:clamp(4.5rem,9vw,8rem) 0; }
 .sky-home__body-copy { max-width: 48ch; margin: 1.5rem 0; color: var(--ink-soft); font-size: clamp(1rem, 1.45vw, 1.2rem); }
 .sky-home__editorial-note { display: grid; gap: 1rem; padding: 1.5rem 0; border-top: 1px solid color-mix(in srgb, var(--green) 35%, transparent); border-bottom: 1px solid color-mix(in srgb, var(--green) 35%, transparent); font: 400 clamp(1.7rem, 3vw, 2.75rem)/0.98 var(--font-display); color: var(--green); }
 .sky-home__editorial-note small { max-width:16ch; margin-top:1rem; color:var(--ink-soft); font:600 .7rem/1.35 var(--font-ui); letter-spacing:.12em; text-transform:uppercase; }
@@ -155,7 +211,7 @@
 .sky-home__primary-action:hover,
 .sky-home__primary-action:focus-visible { background: var(--green-strong); transform: translateY(-1px); }
 
-.sky-home__section--responsible { padding:clamp(3rem,6vw,6rem); border:1px solid rgba(17,17,15,.1); border-radius:24px; background:rgba(255,255,255,.36); box-shadow:0 18px 48px rgba(67,91,93,.06); backdrop-filter:blur(10px); }
+.sky-home__section--responsible { padding:clamp(4.5rem,9vw,8rem) 0; }
 .sky-home__responsible-list { display: grid; gap: 1rem; margin: 0; padding: 0; list-style: none; color: var(--ink-soft); }
 .sky-home__responsible-list li { padding: 1rem 0 1rem 1.5rem; border-bottom: 1px solid var(--line); position: relative; }
 .sky-home__responsible-list li::before { content: ""; position: absolute; left: 0; top: 1.48rem; width: 0.45rem; height: 0.45rem; border-radius: 50%; background: var(--green); }
@@ -168,13 +224,25 @@
   .sky-home__gummy-grid .sky-home-product:last-child { grid-column: 1 / -1; width: calc(50% - 0.4rem); }
   .sky-home__section--editorial,
   .sky-home__section--responsible { grid-template-columns: 1fr; gap: 2.5rem; }
-  .sky-home__section--editorial { width:calc(100% - 28px); padding-inline: 1.4rem; }
-  .sky-home__section--responsible { width:calc(100% - 28px); padding-inline: 1.4rem; }
+  .sky-home__section--editorial { width:calc(100% - 28px); padding-inline: 0; }
+  .sky-home__section--responsible { width:calc(100% - 28px); padding-inline: 0; }
+  .sky-home-product__image { min-height:clamp(205px,55vw,270px); }
+  .sky-home-product__image img { width:290px; height:290px; }
+  .sky-home-product__copy h3 { font-size:1rem; }
+  .sky-home-product__description { min-height:3.8em; font-size:.71rem; }
+  .sky-home__cloud--far { top:28%; left:-74%; width:200vw; opacity:.17; }
+  .sky-home__cloud--mid { top:54%; right:-78%; width:190vw; opacity:.17; }
+  .sky-home__cloud--near { top:72%; left:-83%; width:205vw; opacity:.15; }
+  .sky-home__cloud--left,
+  .sky-home__cloud--right { display:none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .sky-home__outline-action,
   .sky-home__primary-action,
-  .sky-home-product__action,
-  .sky-home-product__image img { transition: none; }
+  .sky-home-product__action { transition: none; }
+  .sky-home::before,
+  .sky-home::after,
+  .sky-home__cloud,
+  .sky-home__cloud-depth { animation: none; transition:none; transform: none; }
 }
