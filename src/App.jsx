@@ -458,7 +458,7 @@ function HomeProductCard({ product }) {
   return (
     <article className={`sky-home-product${isGummy ? " sky-home-product--gummy-packshot" : ""}`} style={{ "--product-accent": product.accent }}>
       <Link className="sky-home-product__image" to={`/product/${product.id}`} aria-label={`View ${product.name}`}>
-        <img src={homePackshot || product.image} alt={`${product.name} ${product.type}`} loading="lazy" decoding="async" />
+        <img src={homePackshot} alt={`${product.name} ${product.type}`} loading="lazy" decoding="async" />
       </Link>
       <div className="sky-home-product__copy">
         <h3><Link to={`/product/${product.id}`}>{product.name}</Link></h3>
