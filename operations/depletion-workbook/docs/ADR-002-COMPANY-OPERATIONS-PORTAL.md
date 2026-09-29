@@ -21,7 +21,7 @@ The existing CRM already has the normalized Supabase model for invoices, invoice
 
 ## Decision
 
-Use `crm/lagom-crm` as the primary Lagom Company Operations application.
+Use `operations/lagom-operations` as the primary Lagom Company Operations application.
 
 Supabase/Postgres is the canonical operational datastore for:
 
