@@ -22,6 +22,7 @@ import {
   Sparkles,
   Plus,
 } from "lucide-react";
+import "./sky-home.css";
 import {
   m,
   Presence,
@@ -392,26 +393,83 @@ function CategoryShopHero({ category }) {
   );
 }
 
+const homeSeltzers = products.filter((product) => product.category === "Seltzers").slice(0, 4);
+const homeGummies = ["Organic", "Midnight Drift", "Classic"]
+  .map((line) => products.find((product) => product.category === "Gummies" && product.productLine === line))
+  .filter(Boolean);
+
+function HomeProductCard({ product }) {
+  const potency = product.category === "Seltzers"
+    ? `${product.thcMgPerCan} MG THC · ${product.canVolume}`
+    : product.strength;
+  return (
+    <article className="sky-home-product" style={{ "--product-accent": product.accent }}>
+      <Link className="sky-home-product__image" to={`/product/${product.id}`} aria-label={`View ${product.name}`}>
+        <img src={product.image} alt={`${product.name} ${product.type}`} loading="lazy" decoding="async" />
+      </Link>
+      <div className="sky-home-product__copy">
+        <p className="sky-home-product__line">{product.productLine && product.productLine !== "Classic" ? product.productLine : product.flavor}</p>
+        <h3><Link to={`/product/${product.id}`}>{product.name}</Link></h3>
+        <p className="sky-home-product__potency">{potency}</p>
+        <p className="sky-home-product__price">${product.price.toFixed(2)}</p>
+        <Link className="sky-home-product__action" to={`/product/${product.id}`}>SHOP NOW <ArrowRight aria-hidden="true" /></Link>
+      </div>
+    </article>
+  );
+}
+
 function HomePage() {
   return (
     <Shell>
-      <section className="beverage-hero" aria-label="Featured Lagom Naturals products"><HomeHero /></section>
-      <section className="lineup">
-        <Reveal className="section-head">
-          <div>
-            <p>THE LINEUP</p>
-            <h2>Four ways to find your flavor.</h2>
+      <div className="sky-home">
+        <section className="beverage-hero" aria-label="Featured Lagom Naturals products"><HomeHero /></section>
+
+        <section className="sky-home__section sky-home__section--flavors" aria-labelledby="home-flavors-title">
+          <div className="sky-home__heading sky-home__heading--split">
+            <div><p>EXPLORE OUR FLAVORS</p><h2 id="home-flavors-title">A flavor for every vibe.</h2></div>
+            <Link className="sky-home__outline-action" to="/shop/seltzers">SHOP ALL SELTZERS <ArrowRight aria-hidden="true" /></Link>
           </div>
-          <ArrowLink to="/shop">View all drinks</ArrowLink>
-        </Reveal>
-        <Stagger className="drink-grid">
-          {products.slice(0, 4).map((p) => (
-            <StaggerItem key={p.id}>
-              <ProductCard product={p} />
-            </StaggerItem>
-          ))}
-        </Stagger>
-      </section>
+          <div className="sky-home__product-grid">
+            {homeSeltzers.map((product) => <HomeProductCard key={product.id} product={product} />)}
+          </div>
+        </section>
+
+        <section className="sky-home__section sky-home__section--editorial" aria-labelledby="home-craft-title">
+          <div className="sky-home__editorial-copy">
+            <p>PREMIUM BY NATURE</p>
+            <h2 id="home-craft-title">A smoother state of mind.</h2>
+            <p className="sky-home__body-copy">Thoughtfully made with clear serving information, bright flavor, and the details you need to choose your moment with confidence.</p>
+            <Link className="sky-home__outline-action" to="/learn">LEARN MORE <ArrowRight aria-hidden="true" /></Link>
+          </div>
+          <aside className="sky-home__editorial-note" aria-label="Lagom point of view"><span>Flavor first.</span><span>Balance always.</span></aside>
+        </section>
+
+        <section className="sky-home__section sky-home__section--gummies" aria-labelledby="home-gummies-title">
+          <div className="sky-home__heading">
+            <p>MEET THE GUMMIE LINE</p>
+            <h2 id="home-gummies-title">Real flavor. Considered formats.</h2>
+            <p className="sky-home__body-copy">Explore fruit-forward gummies across the Lagom collections, with cannabinoid content clearly labeled on every product.</p>
+          </div>
+          <div className="sky-home__gummy-grid">
+            {homeGummies.map((product) => <HomeProductCard key={product.id} product={product} />)}
+          </div>
+          <Link className="sky-home__primary-action" to="/shop/gummies">SHOP GUMMIES <ArrowRight aria-hidden="true" /></Link>
+        </section>
+
+        <section className="sky-home__section sky-home__section--responsible" aria-labelledby="home-responsible-title">
+          <div className="sky-home__responsible-copy">
+            <p>ENJOY RESPONSIBLY</p>
+            <h2 id="home-responsible-title">A better moment starts with balance.</h2>
+            <p className="sky-home__body-copy">Take your time, know your limits, and allow adequate time before consuming more. Individual experiences can vary.</p>
+            <Link className="sky-home__outline-action" to="/learn">THC, EXPLAINED <ArrowRight aria-hidden="true" /></Link>
+          </div>
+          <ul className="sky-home__responsible-list" aria-label="Responsible use reminders">
+            <li>Start with a lower serving if you are new to THC.</li>
+            <li>Do not drive or operate machinery after consuming THC.</li>
+            <li>Keep products away from children and pets.</li>
+          </ul>
+        </section>
+      </div>
     </Shell>
   );
 }

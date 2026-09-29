@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import TableSortController from '../ui/TableSortController';
 import {
   ChevronDown,
   CircleDollarSign,
@@ -71,6 +72,7 @@ export default function AppShell({
   const initials=display.split(/\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase()||'JD';
 
   return <div className="lo-app-shell">
+    <TableSortController/>
     <aside className="lo-sidebar">
       <div className="lo-brand">
         <img

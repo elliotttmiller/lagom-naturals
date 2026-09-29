@@ -1,87 +1,38 @@
 'use client';
 
-import {useMemo,useState} from 'react';
+import {useEffect,useMemo,useState} from 'react';
+import {BarChart3,ChevronRight,SlidersHorizontal} from 'lucide-react';
 import DepletionImportDialog from '../operations/DepletionImportDialog';
-import {
-  Button,FilterBar,ImportButton,MetricCard,PageTitle,Pagination,SearchBox,SelectField,StatusChip,displayInvoiceNumber,downloadCsv,money,number
-} from '../ui/OperationsUI';
+import {Button,FilterBar,ImportButton,MetricCard,PageTitle,Pagination,Panel,SearchBox,SelectField,StatusChip,displayInvoiceNumber,downloadCsv,money,number,shortDate} from '../ui/OperationsUI';
+import ResponsiveDetailDialog from '../ui/ResponsiveDetailDialog';
+
+function AccountVelocity({accounts,metric,setMetric}){
+  const [isReady,setIsReady]=useState(false);
+  useEffect(()=>{setIsReady(false);let revealFrame;const resetFrame=requestAnimationFrame(()=>{revealFrame=requestAnimationFrame(()=>setIsReady(true))});return()=>{cancelAnimationFrame(resetFrame);cancelAnimationFrame(revealFrame)}},[metric,accounts]);
+  const changeMetric=value=>{if(value===metric)return;setIsReady(false);setMetric(value)};
+  const max=Math.max(...accounts.map(a=>metric==='revenue'?a.revenue:metric==='events'?a.events:a.cases),1);
+  return <Panel title="Account Velocity" className="lo-depletion-velocity" action={<div className="lo-chart-toggle">{[['cases','Cases'],['revenue','Revenue'],['events','Depletions']].map(([value,label])=><button type="button" key={value} className={metric===value?'is-active':''} aria-pressed={metric===value} onClick={()=>changeMetric(value)}>{label}</button>)}</div>}>
+    {accounts.length?<div className={'lo-account-velocity-bars '+(isReady?'is-ready':'')}>{accounts.slice(0,7).map((account,index)=>{const value=metric==='revenue'?account.revenue:metric==='events'?account.events:account.cases;return <button type="button" key={account.name} className="lo-account-velocity-row" title={account.name} style={{'--lo-delay':(index*55)+'ms'}}><span>{account.name}</span><i><b style={{width:(value/max*100)+'%'}}/></i><strong>{metric==='revenue'?money(value):number(value)}</strong></button>})}</div>:<div className="lo-muted-block">No account depletion activity matches these filters.</div>}
+    <p className="lo-velocity-caption"><BarChart3 size={14}/> Ranked by {metric==='events'?'depletion events':metric} in the current selection.</p>
+  </Panel>;
+}
+
+function AccountActivity(){return null;}
+
+function AccountDetail({account,onClose}){
+  if(!account)return null;
+  return <ResponsiveDetailDialog className="lo-account-dialog" labelledBy="account-depletion-dialog-title" eyebrow="Selected account" title={account.name} onClose={onClose}><dl><div><dt>Rep</dt><dd>{account.rep||'—'}</dd></div><div><dt>Period cases</dt><dd>{number(account.cases)}</dd></div><div><dt>Period revenue</dt><dd>{money(account.revenue)}</dd></div><div><dt>Last depletion</dt><dd>{shortDate(account.lastDepletion)}</dd></div><div><dt>Depletion events</dt><dd>{number(account.events)}</dd></div></dl><div className="lo-account-dialog__columns"><div><h3>Product mix</h3>{account.products.map(product=><div className="lo-account-product-mix" key={product.name}><span>{product.name}</span><strong>{number(product.cases)} cases</strong></div>)}</div><div><h3>Depletion history</h3>{account.lines.slice(0,5).map(line=><div className="lo-account-history" key={line.id}><time>{shortDate(line.invoiceDate)}</time><span>{displayInvoiceNumber(line.invoiceNumber)}</span><strong>{number(line.casesSold)} cases</strong><b>{money(line.revenue)}</b></div>)}</div></div></ResponsiveDetailDialog>;
+}
 
 export default function DepletionPage({model,source,supabase,reload,onAddEntry}){
-  const [query,setQuery]=useState('');
-  const [rep,setRep]=useState('All');
-  const [line,setLine]=useState('All');
-  const [product,setProduct]=useState('All');
-  const [qa,setQa]=useState('All');
-  const [importOpen,setImportOpen]=useState(false);
-
-  const reps=[...new Set(model.lines.map(x=>x.rep).filter(Boolean))].sort();
-  const lines=[...new Set(model.lines.map(x=>x.productLine).filter(Boolean))].sort();
-  const products=[...new Set(model.lines.map(x=>x.product).filter(Boolean))].sort();
-
-  const rows=useMemo(()=>model.lines.filter(row=>{
-    const text=[row.invoiceNumber,row.account,row.product,row.sku].join(' ').toLowerCase();
-    const hasIssue=model.qualityIssues.some(issue=>issue.scope==='Depletion'&&String(issue.record||'').includes(row.invoiceNumber));
-    return (!query||text.includes(query.toLowerCase())) &&
-      (rep==='All'||row.rep===rep) &&
-      (line==='All'||row.productLine===line) &&
-      (product==='All'||row.product===product) &&
-      (qa==='All'||(qa==='Review'?hasIssue:!hasIssue));
-  }),[model,query,rep,line,product,qa]);
-
-  const revenue=rows.reduce((s,x)=>s+x.revenue,0);
-  const cases=rows.reduce((s,x)=>s+x.casesSold,0);
-  const issues=model.qualityIssues.filter(x=>x.scope==='Depletion').length;
-
-  return <div className="lo-page">
-    <PageTitle title="Depletion" eyebrow="PRODUCT-LEVEL SALES" actions={<>
-      <ImportButton onClick={()=>setImportOpen(true)}>Import</ImportButton>
-      <Button variant="primary" onClick={onAddEntry}>Add entry</Button>
-    </>}/>
-
-    <FilterBar>
-      <SearchBox value={query} onChange={setQuery} placeholder="Search invoices, accounts, products…"/>
-      <SelectField label="Rep" value={rep} onChange={setRep}><option>All</option>{reps.map(x=><option key={x}>{x}</option>)}</SelectField>
-      <SelectField label="Product line" value={line} onChange={setLine}><option>All</option>{lines.map(x=><option key={x}>{x}</option>)}</SelectField>
-      <SelectField label="Product" value={product} onChange={setProduct}><option>All</option>{products.map(x=><option key={x}>{x}</option>)}</SelectField>
-      <SelectField label="Date" value="This month"><option>This month</option></SelectField>
-      <SelectField label="QA status" value={qa} onChange={setQa}><option>All</option><option>Recorded</option><option>Review</option></SelectField>
-      <Button>Save view⌄</Button>
-    </FilterBar>
-
-    <div className="lo-metric-grid lo-metric-grid--four">
-      <MetricCard label="Records" value={rows.length} trend="—" trendDirection="flat" spark={rows.map((_,i)=>i+1)}/>
-      <MetricCard label="Revenue" value={money(revenue)} trend="—" trendDirection="flat" spark={rows.map((x,i)=>revenue?revenue*(i+1)/Math.max(rows.length,1):0)}/>
-      <MetricCard label="Cases" value={number(cases)} trend="—" trendDirection="flat" spark={rows.map((x,i)=>cases?cases*(i+1)/Math.max(rows.length,1):0)}/>
-      <MetricCard label="QA Issues" value={issues} trend="—" trendDirection={issues?'bad':'flat'} tone={issues?'red':'green'} spark={rows.map(()=>issues)}/>
-    </div>
-
-    <section className="lo-data-card">
-      <div className="lo-data-card-title"><h2>Depletion Ledger</h2><Button onClick={()=>downloadCsv('lagom-depletion.csv',rows.map(row=>({
-        'Invoice #':row.invoiceNumber,'Invoice Date':row.invoiceDate,Product:row.product,Cases:row.casesSold,
-        'Sale Price':row.salePrice,Revenue:row.revenue,SKU:row.sku,'Product Line':row.productLine,
-        COGS:row.totalCogs,'Gross Profit':row.grossProfit,Account:row.account,'Sales Rep':row.rep
-      })))}>Export⌄</Button></div>
-      <div className="lo-table-scroll">
-        <table className="lo-data-table">
-          <thead><tr><th>Invoice #</th><th>Invoice Date⌄</th><th>Product</th><th>Cases</th><th>Sale Price</th><th>Revenue</th><th>SKU</th><th>Product Line</th><th>COGS</th><th>Gross Profit</th><th>Account</th><th>Sales Rep</th><th>QA Status</th></tr></thead>
-          <tbody>{rows.map(row=>{
-            const hasIssue=model.qualityIssues.some(issue=>issue.scope==='Depletion'&&String(issue.record||'').includes(row.invoiceNumber));
-            return <tr key={row.id}>
-              <td><strong>{displayInvoiceNumber(row.invoiceNumber)}</strong></td><td>{row.invoiceDate||'—'}</td><td>{row.product}</td><td>{number(row.casesSold)}</td><td>{money(row.salePrice)}</td><td>{money(row.revenue)}</td><td>{row.sku||'—'}</td><td>{row.productLine||'—'}</td><td>{money(row.totalCogs)}</td><td className={row.grossProfit<0?'lo-danger-text':''}>{money(row.grossProfit)}</td><td>{row.account}</td><td>{row.rep}</td><td><StatusChip>{hasIssue?'Review':'Recorded'}</StatusChip></td>
-            </tr>;
-          })}</tbody>
-        </table>
-      </div>
-      <Pagination count={rows.length}/>
-    </section>
-
-    {importOpen&&<DepletionImportDialog
-      supabase={supabase}
-      invoices={source.invoices}
-      products={source.products}
-      existingLines={model.lines}
-      onClose={()=>setImportOpen(false)}
-      onImported={reload}
-    />}
-  </div>;
+  const [view,setView]=useState('accounts'); const [query,setQuery]=useState(''); const [rep,setRep]=useState('All'); const [line,setLine]=useState('All'); const [product,setProduct]=useState('All'); const [qa,setQa]=useState('All'); const [metric,setMetric]=useState('cases'); const [moreFilters,setMoreFilters]=useState(false); const [selectedAccount,setSelectedAccount]=useState(null); const [importOpen,setImportOpen]=useState(false);
+  useEffect(()=>{document.body.style.overflow='';return()=>{document.body.style.overflow=''}},[]);
+  const reps=[...new Set(model.lines.map(x=>x.rep).filter(Boolean))].sort(), lines=[...new Set(model.lines.map(x=>x.productLine).filter(Boolean))].sort(), products=[...new Set(model.lines.map(x=>x.product).filter(Boolean))].sort();
+  const hasIssue=row=>model.qualityIssues.some(issue=>issue.scope==='Depletion'&&String(issue.record||'').includes(row.invoiceNumber));
+  const rows=useMemo(()=>model.lines.filter(row=>{const text=[row.invoiceNumber,row.account,row.product,row.sku].join(' ').toLowerCase();return (!query||text.includes(query.toLowerCase()))&&(rep==='All'||row.rep===rep)&&(line==='All'||row.productLine===line)&&(product==='All'||row.product===product)&&(qa==='All'||(qa==='Review'?hasIssue(row):!hasIssue(row)));}),[model,query,rep,line,product,qa]);
+  const accounts=useMemo(()=>{const grouped=new Map();rows.forEach(row=>{const name=row.account||'Unassigned account',record=grouped.get(name)||{name,cases:0,revenue:0,events:new Set(),products:new Map(),reps:new Set(),lines:[],lastDepletion:null,hasIssue:false};record.cases+=Number(row.casesSold)||0;record.revenue+=Number(row.revenue)||0;if(row.invoiceNumber)record.events.add(row.invoiceNumber);if(row.rep)record.reps.add(row.rep);if(row.invoiceDate&&(!record.lastDepletion||row.invoiceDate>record.lastDepletion))record.lastDepletion=row.invoiceDate;record.hasIssue=record.hasIssue||hasIssue(row);const item=record.products.get(row.product)||{name:row.product||'Unmapped product',cases:0};item.cases+=Number(row.casesSold)||0;record.products.set(item.name,item);record.lines.push(row);grouped.set(name,record)});return [...grouped.values()].map(record=>({...record,events:record.events.size,rep:[...record.reps].join(', ')||'—',products:[...record.products.values()].sort((a,b)=>b.cases-a.cases),lines:record.lines.sort((a,b)=>String(b.invoiceDate||'').localeCompare(String(a.invoiceDate||'')))})).sort((a,b)=>b.cases-a.cases)},[rows,model.qualityIssues]);
+  const revenue=rows.reduce((sum,row)=>sum+(Number(row.revenue)||0),0), cases=rows.reduce((sum,row)=>sum+(Number(row.casesSold)||0),0), reviewAccounts=accounts.filter(a=>a.hasIssue).length, currentAccount=accounts.find(a=>a.name===selectedAccount)||null;
+  const exportAccounts=()=>downloadCsv('lagom-account-depletion.csv',accounts.map(a=>({Account:a.name,'Last Depletion':a.lastDepletion,Cases:a.cases,Revenue:a.revenue,'Depletion Events':a.events,'Product Mix':a.products.length,Rep:a.rep,'QA Review':a.hasIssue?'Review':'Recorded'})));
+  const transactions=<section className="lo-data-card"><div className="lo-data-card-title"><h2>Depletion Transactions</h2><Button onClick={()=>downloadCsv('lagom-depletion-transactions.csv',rows)}>Export</Button></div><div className="lo-table-scroll"><table className="lo-data-table"><thead><tr><th>Invoice #</th><th>Date</th><th>Account</th><th>Product</th><th>Cases</th><th>Revenue</th><th>COGS</th><th>Gross Profit</th><th>Rep</th><th>QA</th></tr></thead><tbody>{rows.map(row=><tr key={row.id}><td><strong>{displayInvoiceNumber(row.invoiceNumber)}</strong></td><td>{shortDate(row.invoiceDate)}</td><td>{row.account||'—'}</td><td>{row.product||'—'}</td><td>{number(row.casesSold)}</td><td>{money(row.revenue)}</td><td>{money(row.totalCogs)}</td><td className={row.grossProfit<0?'lo-danger-text':''}>{money(row.grossProfit)}</td><td>{row.rep||'—'}</td><td><StatusChip>{hasIssue(row)?'Review':'Recorded'}</StatusChip></td></tr>)}</tbody></table></div><Pagination count={rows.length}/></section>;
+  return <div className="lo-page lo-depletion-page"><PageTitle title="Depletion" eyebrow="ACCOUNT-LEVEL SALES MOVEMENT" actions={<><ImportButton onClick={()=>setImportOpen(true)}>Import</ImportButton><Button variant="primary" onClick={onAddEntry}>Add entry</Button></>}/><div className="lo-depletion-tabs" role="tablist"><button role="tab" aria-selected={view==='accounts'} className={view==='accounts'?'is-active':''} onClick={()=>setView('accounts')}>Accounts</button><button role="tab" aria-selected={view==='transactions'} className={view==='transactions'?'is-active':''} onClick={()=>setView('transactions')}>Transactions</button></div><FilterBar><SearchBox value={query} onChange={setQuery} placeholder="Search accounts..."/><SelectField label="Date" value="Current period"><option>Current period</option></SelectField><SelectField label="Rep" value={rep} onChange={setRep}><option>All</option>{reps.map(item=><option key={item}>{item}</option>)}</SelectField><SelectField label="Activity" value={qa} onChange={setQa}><option>All</option><option>Recorded</option><option>Review</option></SelectField><Button icon={SlidersHorizontal} onClick={()=>setMoreFilters(open=>!open)}>{moreFilters?'Hide filters':'More filters'}</Button></FilterBar>{moreFilters&&<div className="lo-depletion-more-filters"><SelectField label="Product line" value={line} onChange={setLine}><option>All</option>{lines.map(item=><option key={item}>{item}</option>)}</SelectField><SelectField label="Product" value={product} onChange={setProduct}><option>All</option>{products.map(item=><option key={item}>{item}</option>)}</SelectField><Button onClick={()=>{setLine('All');setProduct('All');setQa('All')}}>Clear filters</Button></div>}<div className="lo-metric-grid lo-metric-grid--five"><MetricCard label="Active Accounts" value={number(accounts.length)} trend="Current selection" trendDirection="flat" spark={accounts.map((_,index)=>index+1)}/><MetricCard label="Cases Depleted" value={number(cases)} trend="Current selection" trendDirection="flat" spark={accounts.map(a=>a.cases)}/><MetricCard label="Depletion Revenue" value={money(revenue)} trend="Current selection" trendDirection="flat" spark={accounts.map(a=>a.revenue)}/><MetricCard label="Cases / Account" value={number(accounts.length?cases/accounts.length:0)} trend="Current selection" trendDirection="flat" spark={accounts.map(a=>a.cases)}/><MetricCard label="Accounts Needing Attention" value={number(reviewAccounts)} trend="QA review" trendDirection={reviewAccounts?'bad':'flat'} tone={reviewAccounts?'red':'green'} spark={accounts.map(a=>a.hasIssue?1:0)}/></div>{view==='accounts'?<><div className="lo-depletion-insight-grid"><AccountVelocity accounts={accounts} metric={metric} setMetric={setMetric}/><AccountActivity accountCount={accounts.length} reviewCount={reviewAccounts}/></div><section className="lo-data-card lo-account-depletion-log"><div className="lo-data-card-title"><div><h2>Account Depletion Log</h2><p>Account-first depletion movement for the current selection.</p></div><Button onClick={exportAccounts}>Export</Button></div><div className="lo-table-scroll"><table className="lo-data-table"><thead><tr><th>Account</th><th>Last Depletion</th><th>Cases</th><th>Revenue</th><th>Events</th><th>Product Mix</th><th>Rep</th><th>Activity</th><th aria-label="Open detail"/></tr></thead><tbody>{accounts.map(account=><tr key={account.name} className={selectedAccount===account.name?'is-selected':''} onClick={()=>setSelectedAccount(account.name)}><td><strong>{account.name}</strong></td><td>{shortDate(account.lastDepletion)}</td><td>{number(account.cases)}</td><td>{money(account.revenue)}</td><td>{number(account.events)}</td><td>{number(account.products.length)} SKUs</td><td>{account.rep}</td><td><StatusChip>{account.hasIssue?'Review':'Recorded'}</StatusChip></td><td><button type="button" className="lo-row-disclosure" aria-label={'Open '+account.name+' depletion detail'}><ChevronRight size={17}/></button></td></tr>)}</tbody></table></div><Pagination count={accounts.length}/></section><AccountDetail account={currentAccount} onClose={()=>setSelectedAccount(null)}/></>:transactions}{importOpen&&<DepletionImportDialog supabase={supabase} invoices={source.invoices} products={source.products} existingLines={model.lines} onClose={()=>setImportOpen(false)} onImported={reload}/>}</div>;
 }

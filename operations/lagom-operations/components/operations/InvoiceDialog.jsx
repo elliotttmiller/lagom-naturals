@@ -2,6 +2,7 @@
 
 import {useMemo,useState} from 'react';
 import {Button,money} from '../ui/OperationsUI';
+import ResponsiveDetailDialog from '../ui/ResponsiveDetailDialog';
 
 const today=()=>new Date().toISOString().slice(0,10);
 const addDays=(value,days)=>{
@@ -111,9 +112,8 @@ export default function InvoiceDialog({supabase,source,user,onClose,onSaved}){
     }finally{setSaving(false)}
   };
 
-  return <div className="lo-modal-backdrop" onMouseDown={e=>e.target===e.currentTarget&&onClose?.()}>
-    <section className="lo-modal lo-invoice-modal" role="dialog" aria-modal="true" aria-labelledby="new-invoice-title">
-      <header className="lo-modal-head"><div><span className="lo-page-eyebrow">SALES OPERATIONS</span><h2 id="new-invoice-title">New invoice</h2><p>Create the invoice, linked product lines, and optional initial payment.</p></div><button onClick={onClose}>×</button></header>
+  return <ResponsiveDetailDialog className="lo-invoice-modal" labelledBy="new-invoice-title" eyebrow="Sales operations" title="New invoice" onClose={onClose}>
+      <p className="lo-detail-dialog__intro">Create the invoice, linked product lines, and optional initial payment.</p>
       {error&&<div className="lo-inline-error">{error}</div>}
       <div className="lo-form-grid">
         <label><span>Account *</span><select value={form.prospect_id} onChange={e=>setForm(x=>({...x,prospect_id:e.target.value,sale_type:''}))}><option value="">Select account…</option>{source.prospects.map(p=><option value={p.id} key={p.id}>{p.business_name}</option>)}</select></label>
@@ -142,6 +142,5 @@ export default function InvoiceDialog({supabase,source,user,onClose,onSaved}){
         <label className="is-full"><span>Notes</span><textarea rows="2" value={form.notes} onChange={e=>setForm(x=>({...x,notes:e.target.value}))}/></label>
       </div>
       <footer className="lo-modal-total"><div><span>TOTAL</span><strong>{money(total)}</strong></div><div><Button onClick={onClose}>Cancel</Button><Button variant="primary" disabled={saving||!account||total<=0} onClick={save}>{saving?'Saving…':'Create Invoice'}</Button></div></footer>
-    </section>
-  </div>;
+  </ResponsiveDetailDialog>;
 }

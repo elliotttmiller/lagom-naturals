@@ -2,6 +2,7 @@
 
 import {useMemo,useRef,useState} from 'react';
 import {displayInvoiceNumber} from '../ui/OperationsUI';
+import ResponsiveDetailDialog from '../ui/ResponsiveDetailDialog';
 
 const lower=value=>String(value||'').trim().toLowerCase();
 const num=value=>{
@@ -218,16 +219,8 @@ export default function DepletionImportDialog({
     }
   };
 
-  return <div className="ops-modal-backdrop" role="presentation" onMouseDown={event=>event.target===event.currentTarget&&onClose?.()}>
-    <section className="ops-modal ops-import-modal" role="dialog" aria-modal="true" aria-labelledby="depletion-import-title">
-      <header className="ops-modal-head">
-        <div>
-          <div className="ops-eyebrow">Commercial data</div>
-          <h2 id="depletion-import-title">Import depletion</h2>
-          <p>Import line-level product movement into existing invoices. Rows are validated before anything is written.</p>
-        </div>
-        <button type="button" className="ops-modal-close" onClick={onClose} aria-label="Close import dialog">×</button>
-      </header>
+  return <ResponsiveDetailDialog className="ops-import-modal" labelledBy="depletion-import-title" eyebrow="Commercial data" title="Import depletion" onClose={onClose}>
+      <p className="lo-detail-dialog__intro">Import line-level product movement into existing invoices. Rows are validated before anything is written.</p>
 
       <div className="ops-import-drop">
         <input ref={fileRef} type="file" accept=".xlsx" hidden onChange={event=>parseFile(event.target.files?.[0])}/>
@@ -268,6 +261,5 @@ export default function DepletionImportDialog({
           {saving?'Importing…':'Import '+ready.length+' valid row'+(ready.length===1?'':'s')}
         </button>
       </footer>
-    </section>
-  </div>;
+  </ResponsiveDetailDialog>;
 }
