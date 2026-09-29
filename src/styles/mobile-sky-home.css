@@ -3,10 +3,19 @@
 
 @media (max-width:899px){
   .sky-home{
+    --mobile-sky-top:#e8f1f3;
+    --mobile-sky-mid:#dfeaed;
+    --mobile-sky-low:#eaf2f2;
     width:100%;
     max-width:100vw;
     overflow-x:clip;
     touch-action:pan-y pinch-zoom;
+    background:
+      radial-gradient(ellipse 88% 28% at 50% 5%, rgba(255,255,255,.5), rgba(255,255,255,0) 72%),
+      radial-gradient(ellipse 72% 24% at 18% 28%, rgba(189,216,225,.22), rgba(189,216,225,0) 74%),
+      radial-gradient(ellipse 84% 30% at 82% 62%, rgba(200,223,229,.18), rgba(200,223,229,0) 76%),
+      linear-gradient(180deg,var(--mobile-sky-top) 0%,var(--mobile-sky-mid) 44%,var(--mobile-sky-low) 100%)!important;
+    background-attachment:scroll!important;
   }
 
   .sky-home[data-motion-profile="phone"] .atmospheric-scene-section{
@@ -314,6 +323,80 @@
     width:100%!important;
     min-height:max(660px,100svh)!important;
     overflow:hidden!important;
+    background:
+      radial-gradient(ellipse 78% 42% at 72% 18%,rgba(255,255,255,.38),transparent 72%),
+      radial-gradient(ellipse 88% 52% at 18% 72%,rgba(188,214,222,.16),transparent 76%)!important;
+  }
+
+  /* Mobile hero atmosphere: restore a deliberately sparse three-plane cloud
+     composition. The desktop assets are reused, but with phone-specific scale,
+     crop, opacity and motion so clouds read as atmosphere rather than oversized
+     transparent PNGs sliding across a narrow viewport. */
+  .sky-home .legacy-sky-hero__atmosphere{
+    inset:0!important;
+    overflow:hidden!important;
+    -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 78%,rgba(0,0,0,.82) 88%,transparent 100%)!important;
+    mask-image:linear-gradient(to bottom,#000 0%,#000 78%,rgba(0,0,0,.82) 88%,transparent 100%)!important;
+  }
+  .sky-home .legacy-sky-hero__light{
+    display:block!important;
+    inset:-12% -24%!important;
+    opacity:.58!important;
+    background:
+      radial-gradient(ellipse at 38% 30%,rgba(255,255,255,.52),rgba(255,255,255,0) 46%),
+      radial-gradient(ellipse at 78% 62%,rgba(177,211,223,.2),rgba(177,211,223,0) 58%)!important;
+    animation:mobile-sky-light-breathe 26s ease-in-out infinite alternate!important;
+  }
+
+  .sky-home .legacy-sky-hero__cloud-depth--mid,
+  .sky-home .legacy-sky-hero__cloud-depth--near,
+  .sky-home .legacy-sky-hero__cloud-depth--right{
+    display:block!important;
+    inset:0!important;
+    transition:none!important;
+    transform:none!important;
+  }
+  .sky-home .legacy-sky-hero__cloud-depth--left,
+  .sky-home .legacy-sky-hero__cloud-depth--horizon{
+    display:none!important;
+  }
+
+  .sky-home .legacy-sky-hero__cloud--mid{
+    display:block!important;
+    top:-5%!important;
+    right:-58%!important;
+    left:auto!important;
+    width:142vw!important;
+    height:72vw!important;
+    max-width:none!important;
+    opacity:.18!important;
+    background-position:center!important;
+    animation:mobile-hero-cloud-mid 74s cubic-bezier(.37,0,.63,1) infinite alternate -18s!important;
+    filter:brightness(1.01) contrast(.96);
+  }
+  .sky-home .legacy-sky-hero__cloud--right{
+    display:block!important;
+    top:26%!important;
+    right:-33%!important;
+    left:auto!important;
+    width:78vw!important;
+    height:44vw!important;
+    max-width:none!important;
+    opacity:.11!important;
+    animation:mobile-hero-cloud-right 92s cubic-bezier(.37,0,.63,1) infinite alternate -41s!important;
+    filter:brightness(1.02) contrast(.94);
+  }
+  .sky-home .legacy-sky-hero__cloud--near{
+    display:block!important;
+    right:auto!important;
+    bottom:-19%!important;
+    left:-62%!important;
+    width:156vw!important;
+    height:86vw!important;
+    max-width:none!important;
+    opacity:.16!important;
+    animation:mobile-hero-cloud-near 68s cubic-bezier(.37,0,.63,1) infinite alternate -27s!important;
+    filter:brightness(1.01) contrast(.95);
   }
 
   .sky-home .legacy-sky-hero__content{
@@ -502,9 +585,34 @@
   }
 }
 
+@keyframes mobile-sky-light-breathe{
+  from{transform:translate3d(-1.5vw,-4px,0) scale(1)}
+  to{transform:translate3d(2vw,5px,0) scale(1.025)}
+}
+@keyframes mobile-hero-cloud-mid{
+  0%{transform:translate3d(2vw,-4px,0) scale(1.01) rotate(-.04deg)}
+  48%{transform:translate3d(-3.5vw,3px,0) scale(1.025) rotate(.03deg)}
+  100%{transform:translate3d(-7vw,-2px,0) scale(1.015) rotate(-.02deg)}
+}
+@keyframes mobile-hero-cloud-right{
+  0%{transform:translate3d(2vw,1px,0) scale(1)}
+  52%{transform:translate3d(-2vw,-4px,0) scale(1.018)}
+  100%{transform:translate3d(-5vw,2px,0) scale(1.008)}
+}
+@keyframes mobile-hero-cloud-near{
+  0%{transform:translate3d(-1vw,4px,0) scale(1.015) rotate(.03deg)}
+  50%{transform:translate3d(4vw,-4px,0) scale(1.035) rotate(-.03deg)}
+  100%{transform:translate3d(8vw,1px,0) scale(1.022) rotate(.02deg)}
+}
+
 @media (prefers-reduced-motion:reduce) and (max-width:899px){
   .mobile-reference-header.is-home{
     transition-duration:1ms!important;
+  }
+  .sky-home .legacy-sky-hero__light,
+  .sky-home .legacy-sky-hero__cloud{
+    animation:none!important;
+    transform:none!important;
   }
 }
 
