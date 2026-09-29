@@ -16,6 +16,7 @@ export default function CommissionsPage({model,reps=[]}){
   const newRate=Number(repConfig.new_commission_rate||0);
   const reorderRate=Number(repConfig.reorder_commission_rate||0);
   const bonusThreshold=Number(repConfig.bonus_threshold||0);
+  const bonusNeedsReview=Boolean(bonusThreshold&&eligibleRevenue>=bonusThreshold);
 
   return <div className="lo-page">
     <PageTitle title="Commissions" eyebrow="SALES COMPENSATION"/>
@@ -40,7 +41,7 @@ export default function CommissionsPage({model,reps=[]}){
         <div><span>Eligible Invoice Count ⓘ</span><strong>{rows.length}</strong><small>in period</small></div>
         <div><span>Bonus Threshold ⓘ</span><strong>{bonusThreshold?money(bonusThreshold):'—'}</strong><small>{bonusThreshold?'eligible revenue':'not configured'}</small></div>
         <div><span>Bonus Rule / Status ⓘ</span><strong>{bonusThreshold&&eligibleRevenue>=bonusThreshold?'Review':'No Bonus'}</strong><small>{bonusThreshold?'Threshold '+(eligibleRevenue>=bonusThreshold?'reached':'not met'):'No approved rule'}</small></div>
-        <div><span>QA State ⓘ</span><strong className="lo-ready"><i>✓</i> Ready</strong><small>All clear</small></div>
+        <div><span>QA State ⓘ</span><strong className={bonusNeedsReview?'lo-review':'lo-ready'}><i>{bonusNeedsReview?'!':'✓'}</i> {bonusNeedsReview?'Review':'Ready'}</strong><small>{bonusNeedsReview?'Bonus semantics require review':'All clear'}</small></div>
       </div>
     </Panel>
 
