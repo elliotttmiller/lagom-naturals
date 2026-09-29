@@ -54,6 +54,28 @@ export default function InvoiceDialog({supabase,source,user,onClose,onSaved}){
       })));
       if(orderItems?.error)throw orderItems.error;
 
+      for(const item of valid){
+        if(item.product.quantity===null||item.product.quantity===undefined)continue;
+        const before=num(item.product.quantity);
+        const after=Math.max(0,before-item.cases);
+        const stockUpdate=await supabase.from('products').update({
+          quantity:after,
+          updated_at:new Date().toISOString(),
+        }).eq('id',item.product.id);
+        if(stockUpdate?.error)throw stockUpdate.error;
+        const movement=await supabase.from('inventory_movements').insert({
+          product_id:item.product.id,
+          movement_type:'Order',
+          quantity_change:-item.cases,
+          quantity_before:before,
+          quantity_after:after,
+          order_id:order.data.id,
+          notes:'Sales invoice '+String(invoiceNumber),
+          created_by:repName,
+        });
+        if(movement?.error)throw movement.error;
+      }
+
       const invoice=await supabase.from('invoices').insert({
         order_id:order.data.id,prospect_id:account.id,account_name:account.business_name,
         rep_name:repName,invoice_number:invoiceNumber,sale_type:saleType,status:'Unpaid',
