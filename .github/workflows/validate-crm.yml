@@ -28,6 +28,10 @@ jobs:
         working-directory: crm/lagom-crm
         run: npm ci
 
+      - name: Validate operations reconciliation
+        working-directory: crm/lagom-crm
+        run: npm run validate:operations
+
       - name: Build static CRM preview
         working-directory: crm/lagom-crm
         run: npm run build:pages
