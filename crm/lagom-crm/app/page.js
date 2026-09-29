@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import SalesWorkspace from '../components/crm/SalesWorkspace';
-import DepletionWorkspace from '../components/crm/DepletionWorkspace';
+import CompanyOperationsWorkspace from '../components/operations/CompanyOperationsWorkspace';
 import { createPreviewClient } from '../lib/previewClient';
 
 const HAS_SUPABASE_CONFIG = Boolean(
@@ -75,30 +75,33 @@ function countiesByCount(prospects){
 const HAS_GMAPS_KEY = typeof process!=='undefined' && !!process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
 const ALL_TABS = [
-  { id:'today',         label:'Today',         icon:'⌂' },
-  { id:'overview',      label:'Overview',      icon:'◈' },
-  { id:'accounts',      label:'Accounts',      icon:'◉', hasBadge:true },
-  { id:'pipeline',      label:'Pipeline',      icon:'▲' },
-  { id:'territories',   label:'Territories',   icon:'◎' },
-  { id:'territory-map', label:'Territory Map', icon:'⊕' },
-  { id:'routes',        label:'Routes',        icon:'→' },
-  { id:'orders',        label:'Orders',        icon:'◧' },
-  { id:'sales',         label:'Sales',         icon:'$' },
-  { id:'depletion',     label:'Depletion',     icon:'◈' },
-  { id:'events',        label:'Events',        icon:'◆' },
-  { id:'activity',      label:'Activity',      icon:'⚡' },
-  { id:'commissions',   label:'Commissions',   icon:'$' },
-  { id:'inventory',     label:'Inventory',     icon:'▣' },
-  { id:'lagom-ai',      label:'Lagom AI',      icon:'✦' },
-  { id:'settings',      label:'Settings',      icon:'⚙', adminOnly:true },
-  { id:'setup',         label:'Setup',         icon:'⊞', adminOnly:true },
+  { id:'today',         label:'Today',             icon:'⌂' },
+  { id:'overview',      label:'Company Dashboard', icon:'◈' },
+  { id:'accounts',      label:'Accounts',          icon:'◉', hasBadge:true },
+  { id:'pipeline',      label:'Pipeline',          icon:'▲' },
+  { id:'activity',      label:'Activity',          icon:'⚡' },
+  { id:'routes',        label:'Routes',            icon:'→' },
+  { id:'territories',   label:'Territories',       icon:'◎' },
+  { id:'territory-map', label:'Territory Map',     icon:'⊕' },
+  { id:'events',        label:'Events',            icon:'◆' },
+  { id:'sales',         label:'Invoices',          icon:'$' },
+  { id:'depletion',     label:'Depletion',         icon:'◈' },
+  { id:'ar',            label:'AR',                icon:'$' },
+  { id:'reports',       label:'Reports',           icon:'▤' },
+  { id:'commissions',   label:'Commissions',       icon:'$' },
+  { id:'orders',        label:'Orders',            icon:'◧' },
+  { id:'inventory',     label:'Inventory',         icon:'▣' },
+  { id:'lagom-ai',      label:'Lagom AI',          icon:'✦' },
+  { id:'settings',      label:'Settings',          icon:'⚙', adminOnly:true },
+  { id:'setup',         label:'Setup',             icon:'⊞', adminOnly:true },
 ];
 
 const NAV_GROUPS = [
   { label: 'Workspace', ids: ['today', 'overview'] },
-  { label: 'Accounts', ids: ['accounts', 'pipeline', 'territories', 'territory-map', 'routes'] },
-  { label: 'Sales', ids: ['orders', 'sales', 'depletion', 'activity', 'commissions', 'inventory'] },
-  { label: 'Tools', ids: ['events', 'lagom-ai'] },
+  { label: 'CRM', ids: ['accounts', 'pipeline', 'activity'] },
+  { label: 'Field Sales', ids: ['routes', 'territories', 'territory-map', 'events'] },
+  { label: 'Commercial', ids: ['sales', 'depletion', 'ar', 'reports', 'commissions', 'orders', 'inventory'] },
+  { label: 'Tools', ids: ['lagom-ai'] },
   { label: 'Admin', ids: ['settings', 'setup'] },
 ];
 
@@ -174,6 +177,8 @@ const ICON_PATHS={
   routes:<><circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M18 7v6a4 4 0 0 1-4 4H8"/><path d="M6 17V9"/></>,
   orders:<><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></>,
   sales:<><path d="M3 3h18v18H3z"/><path d="M7 15l3-3 3 2 4-5"/><path d="M7 7h4"/></>,
+  ar:<><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h8M8 17h5"/><path d="M15 6v6"/></>,
+  reports:<><path d="M4 19V9M10 19V5M16 19v-7M22 19V3"/><path d="M2 21h22"/></>,
   depletion:<><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4"/><path d="M9 12h6M9 16h4"/></>,
   events:<><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></>,
   activity:<><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></>,
@@ -254,7 +259,7 @@ function Login({onLogin}){
         <div style={{position:'relative',width:'100%',maxWidth:560}}>
           <div style={{display:'flex',alignItems:'center',gap:11,marginBottom:32}}>
             <div style={{width:42,height:42,borderRadius:13,background:'rgba(255,255,255,.07)',border:'1px solid rgba(255,255,255,.1)',display:'flex',alignItems:'center',justifyContent:'center'}}><img src={assetUrl("/lagom-logo-icon-white.svg")} alt="Lagom Naturals" style={{height:25,width:25,objectFit:'contain'}}/></div>
-            <div><div style={{fontWeight:800,fontSize:15,letterSpacing:'-.25px'}}>Lagom</div><div style={{fontSize:10.5,color:'rgba(255,255,255,.42)',marginTop:2}}>Sales Operations</div></div>
+            <div><div style={{fontWeight:800,fontSize:15,letterSpacing:'-.25px'}}>Lagom</div><div style={{fontSize:10.5,color:'rgba(255,255,255,.42)',marginTop:2}}>Company Operations</div></div>
           </div>
           <div style={{fontSize:10,color:'#8BD1B2',fontWeight:800,textTransform:'uppercase',letterSpacing:'.12em',marginBottom:10}}>Field-first operating system</div>
           <h1 style={{fontSize:34,fontWeight:780,letterSpacing:'-.055em',lineHeight:1.08,maxWidth:520}}>Run wholesale sales with less friction and clearer next actions.</h1>
@@ -2769,7 +2774,7 @@ function App({user,onLogout}){
     if(pLoading)return <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:16,padding:60}}><Spinner size={28}/><div style={{color:P.t3,fontSize:13}}>Loading CRM data…</div></div>;
     const tabs={
       today:           <TodayTab {...tp}/>,
-      overview:        <OverviewTab {...tp}/>,
+      overview:        <CompanyOperationsWorkspace section="overview" supabase={supabase} {...tp}/>,
       accounts:        <AccountsTab {...tp}/>,
       pipeline:        <PipelineTab {...tp}/>,
       territories:     <TerritoriesTab {...tp}/>,
@@ -2777,10 +2782,12 @@ function App({user,onLogout}){
       routes:          <RoutesTab {...tp}/>,
       orders:          <OrdersTab {...tp}/>,
       sales:           <SalesWorkspace supabase={supabase} {...tp}/>,
-      depletion:       <DepletionWorkspace supabase={supabase} prospects={prospects} user={user} go={go}/>,
+      depletion:       <CompanyOperationsWorkspace section="depletion" supabase={supabase} {...tp}/>,
+      ar:              <CompanyOperationsWorkspace section="ar" supabase={supabase} {...tp}/>,
+      reports:         <CompanyOperationsWorkspace section="reports" supabase={supabase} {...tp}/>,
       events:          <EventsTab {...tp}/>,
       activity:        <ActivityTab {...tp}/>,
-      commissions:     <CommissionsTab {...tp}/>,
+      commissions:     <CompanyOperationsWorkspace section="commissions" supabase={supabase} {...tp}/>,
       inventory:       <InventoryTab {...tp}/>,
       'lagom-ai':      <LagomAITab {...tp}/>,
       settings:        isAdmin?<SettingsTab {...tp}/>:<div/>,
