@@ -1,10 +1,10 @@
-# Lagom CRM — Sales & Depletion Operations
+# Lagom Operations — Sales & Depletion
 
 ## Purpose
 
-This implementation turns the approved 2026 MSP depletion workbook into normalized CRM operations rather than reproducing the spreadsheet as a 36-column screen.
+This implementation turns the approved 2026 MSP depletion workbook into normalized Lagom Operations records rather than reproducing the spreadsheet as a 36-column screen.
 
-The CRM now treats the workbook's Depletion Log as a commercial transaction ledger:
+Lagom Operations treats the workbook's Depletion Log as a commercial transaction ledger:
 
 Account -> Order / Invoice -> Invoice Items -> Product / SKU
 
@@ -12,9 +12,9 @@ Payments, AR collections, product placement, reorder cadence, commissions, and d
 
 ## Deployment order
 
-1. Confirm the existing Lagom CRM baseline schema and 17-SKU product catalog are present.
-2. Run `depletion_phase2.sql` against the **actual Lagom CRM Supabase project**.
-3. Deploy the CRM application code from the associated feature/PR.
+1. Confirm the existing Lagom Operations baseline schema and 17-SKU product catalog are present.
+2. Run `depletion_phase2.sql` against the **actual Lagom Operations Supabase project**.
+3. Deploy the Lagom Operations application code from the associated feature/PR.
 4. Manually verify the reconciliation checks below before entering new production transactions.
 
 Do not run this migration against an unrelated Supabase project.
@@ -52,7 +52,7 @@ Each invoice contains one case of:
 
 ## Product / SKU model
 
-The CRM's `products` table remains the canonical catalog.
+The `products` table remains the canonical catalog.
 
 The approved workbook's Lookup sheet is mapped by SKU into separate depletion/accounting fields:
 
