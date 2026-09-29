@@ -448,7 +448,7 @@ function HomePage() {
     homeFrame.current = requestAnimationFrame(() => {
       homeRef.current?.style.setProperty("--sky-pointer-x", `${x * 14}px`);
       homeRef.current?.style.setProperty("--sky-pointer-y", `${y * 10}px`);
-      [["far", -2, -1], ["mid", -4, -2], ["near", -7, -3], ["left", -5, -2], ["right", -4, -2]].forEach(([layer, depthX, depthY]) => {
+      [["mid", -4, -2], ["near", -7, -3], ["left", -5, -2], ["right", -4, -2]].forEach(([layer, depthX, depthY]) => {
         homeRef.current?.style.setProperty(`--sky-${layer}-x`, `${x * depthX}px`);
         homeRef.current?.style.setProperty(`--sky-${layer}-y`, `${y * depthY}px`);
       });
@@ -458,7 +458,7 @@ function HomePage() {
     if (homeFrame.current) cancelAnimationFrame(homeFrame.current);
     homeRef.current?.style.setProperty("--sky-pointer-x", "0px");
     homeRef.current?.style.setProperty("--sky-pointer-y", "0px");
-    ["far", "mid", "near", "left", "right"].forEach((layer) => {
+    ["mid", "near", "left", "right"].forEach((layer) => {
       homeRef.current?.style.setProperty(`--sky-${layer}-x`, "0px");
       homeRef.current?.style.setProperty(`--sky-${layer}-y`, "0px");
     });
@@ -467,7 +467,6 @@ function HomePage() {
     <Shell>
       <div className="sky-home" ref={homeRef} onPointerMove={updateSky} onPointerLeave={resetSky}>
         <div className="sky-home__atmosphere" aria-hidden="true">
-          <span className="sky-home__cloud-depth sky-home__cloud-depth--far"><span className="sky-home__cloud sky-home__cloud--far" /></span>
           <span className="sky-home__cloud-depth sky-home__cloud-depth--mid"><span className="sky-home__cloud sky-home__cloud--mid" /></span>
           <span className="sky-home__cloud-depth sky-home__cloud-depth--near"><span className="sky-home__cloud sky-home__cloud--near" /></span>
           <span className="sky-home__cloud-depth sky-home__cloud-depth--left"><span className="sky-home__cloud sky-home__cloud--left" /></span>
