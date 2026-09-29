@@ -6,6 +6,17 @@
     width:100%;
     max-width:100vw;
     overflow-x:clip;
+    touch-action:pan-y pinch-zoom;
+  }
+
+  .sky-home[data-motion-profile="phone"] .atmospheric-scene-section{
+    will-change:auto!important;
+  }
+
+  .sky-home[data-motion-profile="phone"] .sky-home__cloud-scroll--mid,
+  .sky-home[data-motion-profile="phone"] .sky-home__cloud-scroll--near{
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
   }
 
   /* The mobile chrome begins transparent over the hero, then becomes a
@@ -488,6 +499,12 @@
      compete with Safari/Chrome bottom controls and the primary purchase CTAs. */
   .sky-home-nav{
     display:none!important;
+  }
+}
+
+@media (prefers-reduced-motion:reduce) and (max-width:899px){
+  .mobile-reference-header.is-home{
+    transition-duration:1ms!important;
   }
 }
 
