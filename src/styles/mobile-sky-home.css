@@ -3,17 +3,17 @@
 
 @media (max-width:899px){
   .sky-home{
-    --mobile-sky-top:#e8f1f3;
-    --mobile-sky-mid:#dfeaed;
-    --mobile-sky-low:#eaf2f2;
+    --mobile-sky-top:#e5eff2;
+    --mobile-sky-mid:#dbe8ec;
+    --mobile-sky-low:#e8f1f2;
     width:100%;
     max-width:100vw;
     overflow-x:clip;
     touch-action:pan-y pinch-zoom;
     background:
-      radial-gradient(ellipse 88% 28% at 50% 5%, rgba(255,255,255,.5), rgba(255,255,255,0) 72%),
-      radial-gradient(ellipse 72% 24% at 18% 28%, rgba(189,216,225,.22), rgba(189,216,225,0) 74%),
-      radial-gradient(ellipse 84% 30% at 82% 62%, rgba(200,223,229,.18), rgba(200,223,229,0) 76%),
+      radial-gradient(ellipse 88% 28% at 50% 5%, rgba(255,255,255,.42), rgba(255,255,255,0) 72%),
+      radial-gradient(ellipse 72% 24% at 18% 28%, rgba(189,216,225,.14), rgba(189,216,225,0) 74%),
+      radial-gradient(ellipse 84% 30% at 82% 62%, rgba(200,223,229,.12), rgba(200,223,229,0) 76%),
       linear-gradient(180deg,var(--mobile-sky-top) 0%,var(--mobile-sky-mid) 44%,var(--mobile-sky-low) 100%)!important;
     background-attachment:scroll!important;
   }
@@ -39,25 +39,27 @@
     filter:none!important;
   }
   .sky-home::before{
-    top:23%!important;
-    right:-46%!important;
+    top:24%!important;
+    right:-24%!important;
     bottom:auto!important;
     left:auto!important;
-    width:138vw!important;
-    height:68vw!important;
+    width:min(88vw,760px)!important;
+    height:auto!important;
+    aspect-ratio:1.9/1!important;
     max-width:none!important;
-    opacity:.075!important;
+    opacity:.055!important;
     background-image:url('../assets/atmosphere/cloud-mid-field.webp')!important;
   }
   .sky-home::after{
-    top:61%!important;
+    top:63%!important;
     right:auto!important;
     bottom:auto!important;
-    left:-52%!important;
-    width:146vw!important;
-    height:78vw!important;
+    left:-28%!important;
+    width:min(94vw,820px)!important;
+    height:auto!important;
+    aspect-ratio:1.78/1!important;
     max-width:none!important;
-    opacity:.065!important;
+    opacity:.05!important;
     background-image:url('../assets/atmosphere/cloud-near-mass.webp')!important;
   }
 
@@ -65,6 +67,32 @@
   .sky-home[data-motion-profile="phone"] .sky-home__cloud-scroll--near{
     backface-visibility:hidden;
     -webkit-backface-visibility:hidden;
+  }
+
+  /* Mobile parallax clouds are bounded visual objects, not viewport-filling
+     textures. These overrides intentionally supersede the older 190–205vw
+     values in sky-home.css. */
+  .sky-home[data-motion-profile="phone"] .sky-home__cloud--mid{
+    top:30%!important;
+    right:-24%!important;
+    left:auto!important;
+    width:82vw!important;
+    height:44vw!important;
+    max-width:620px!important;
+    max-height:332px!important;
+    opacity:.105!important;
+    background-size:contain!important;
+  }
+  .sky-home[data-motion-profile="phone"] .sky-home__cloud--near{
+    top:66%!important;
+    right:auto!important;
+    left:-30%!important;
+    width:94vw!important;
+    height:54vw!important;
+    max-width:700px!important;
+    max-height:402px!important;
+    opacity:.095!important;
+    background-size:contain!important;
   }
 
   /* The mobile chrome begins transparent over the hero, then becomes a
@@ -349,18 +377,20 @@
 
 @media (max-width:699px){
   .sky-home::before{
-    top:27%!important;
-    right:-58%!important;
-    width:152vw!important;
-    height:78vw!important;
-    opacity:.07!important;
+    top:28%!important;
+    right:-30%!important;
+    width:84vw!important;
+    height:auto!important;
+    aspect-ratio:1.9/1!important;
+    opacity:.045!important;
   }
   .sky-home::after{
-    top:64%!important;
-    left:-66%!important;
-    width:164vw!important;
-    height:88vw!important;
-    opacity:.06!important;
+    top:65%!important;
+    left:-34%!important;
+    width:92vw!important;
+    height:auto!important;
+    aspect-ratio:1.78/1!important;
+    opacity:.042!important;
   }
   .sky-home .beverage-hero{
     width:100%!important;
@@ -416,38 +446,44 @@
 
   .sky-home .legacy-sky-hero__cloud--mid{
     display:block!important;
-    top:-5%!important;
-    right:-58%!important;
+    top:3%!important;
+    right:-20%!important;
     left:auto!important;
-    width:142vw!important;
-    height:72vw!important;
-    max-width:none!important;
-    opacity:.18!important;
+    width:86vw!important;
+    height:46vw!important;
+    max-width:620px!important;
+    max-height:332px!important;
+    opacity:.12!important;
     background-position:center!important;
+    background-size:contain!important;
     animation:mobile-hero-cloud-mid 74s cubic-bezier(.37,0,.63,1) infinite alternate -18s!important;
     filter:brightness(1.01) contrast(.96);
   }
   .sky-home .legacy-sky-hero__cloud--right{
     display:block!important;
-    top:26%!important;
-    right:-33%!important;
+    top:31%!important;
+    right:-12%!important;
     left:auto!important;
-    width:78vw!important;
-    height:44vw!important;
-    max-width:none!important;
-    opacity:.11!important;
+    width:54vw!important;
+    height:31vw!important;
+    max-width:390px!important;
+    max-height:224px!important;
+    opacity:.075!important;
+    background-size:contain!important;
     animation:mobile-hero-cloud-right 92s cubic-bezier(.37,0,.63,1) infinite alternate -41s!important;
     filter:brightness(1.02) contrast(.94);
   }
   .sky-home .legacy-sky-hero__cloud--near{
     display:block!important;
     right:auto!important;
-    bottom:-19%!important;
-    left:-62%!important;
-    width:156vw!important;
-    height:86vw!important;
-    max-width:none!important;
-    opacity:.16!important;
+    bottom:-7%!important;
+    left:-28%!important;
+    width:98vw!important;
+    height:56vw!important;
+    max-width:720px!important;
+    max-height:412px!important;
+    opacity:.105!important;
+    background-size:contain!important;
     animation:mobile-hero-cloud-near 68s cubic-bezier(.37,0,.63,1) infinite alternate -27s!important;
     filter:brightness(1.01) contrast(.95);
   }
