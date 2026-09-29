@@ -93,7 +93,7 @@ export default function OperationsApp(){
   const [loading,setLoading]=useState(true);
   const [source,setSource]=useState({
     products:[],invoices:[],items:[],commissions:[],reorders:[],
-    prospects:[],activities:[],users:[],paymentTerms:[],errors:[]
+    prospects:[],activities:[],users:[],tasks:[],paymentTerms:[],errors:[]
   });
 
   useEffect(()=>{
@@ -135,6 +135,7 @@ export default function OperationsApp(){
       reorders:source.reorders.filter(x=>String(x.rep_name||'').toLowerCase()===me),
       prospects:source.prospects.filter(x=>String(x.assigned_to||'').toLowerCase()===me),
       activities:source.activities.filter(x=>String(x.crm_users?.display_name||x.rep||'').toLowerCase()===me),
+      tasks:source.tasks.filter(x=>String(x.assigned_to||'').toLowerCase()===me),
     };
   },[source,isCompanyWide,user]);
 
@@ -177,9 +178,9 @@ export default function OperationsApp(){
   }else if(active==='commissions'){
     page=<CommissionsPage model={model} reps={source.users}/>;
   }else if(active==='crm-account-detail'){
-    page=<CRMPage mode="detail" prospects={scoped.prospects} activities={scoped.activities} model={model} accountId={selectedAccountId} onNavigate={navigate}/>;
+    page=<CRMPage mode="detail" prospects={scoped.prospects} activities={scoped.activities} tasks={scoped.tasks} model={model} accountId={selectedAccountId} onNavigate={navigate}/>;
   }else if(active.startsWith('crm-')){
-    page=<CRMPage mode={active.replace('crm-','')} prospects={scoped.prospects} activities={scoped.activities} model={model} onOpenAccount={openAccount} onNavigate={navigate}/>;
+    page=<CRMPage mode={active.replace('crm-','')} prospects={scoped.prospects} activities={scoped.activities} tasks={scoped.tasks} model={model} onOpenAccount={openAccount} onNavigate={navigate}/>;
   }else if(active==='administration'){
     page=<AdministrationPage source={source} onNavigate={navigate}/>;
   }else if(active==='ui-library'){
