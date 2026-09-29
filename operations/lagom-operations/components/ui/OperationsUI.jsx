@@ -19,6 +19,24 @@ export const shortDate=value=>{
   return Number.isNaN(d.getTime())?'—':d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
 };
 
+export function downloadCsv(filename,rows=[]){
+  if(typeof window==='undefined'||!rows.length)return;
+  const headers=[...new Set(rows.flatMap(row=>Object.keys(row)))];
+  const escape=value=>{
+    const text=String(value??'');
+    return /[",\n]/.test(text)?'"'+text.replaceAll('"','""')+'"':text;
+  };
+  const csv=[headers.join(','),...rows.map(row=>headers.map(key=>escape(row[key])).join(','))].join('\n');
+  const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
+  const link=document.createElement('a');
+  link.href=url;
+  link.download=filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
 export function PageTitle({title,eyebrow,children,actions}){
   return <div className={'lo-page-title-row'+(actions?' has-actions':'')}>
     <div className="lo-page-title-copy">
