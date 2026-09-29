@@ -60,7 +60,7 @@ function Activities({activities=[]}){
   </div>;
 }
 
-function AccountDetail({account,model,activities=[],onBack}){
+function AccountDetail({account,model,activities=[],tasks=[],onBack}){
   const invoices=model.invoices.filter(inv=>inv.prospect_id===account.id);
   const ids=new Set(invoices.map(x=>x.id));
   const lines=model.lines.filter(line=>ids.has(line.invoiceId));
@@ -75,6 +75,7 @@ function AccountDetail({account,model,activities=[],onBack}){
   });
   const mix=[...productMap.values()].sort((a,b)=>b.value-a.value).slice(0,4);
   const accountActivities=activities.filter(a=>a.prospect_id===account.id).slice(0,5);
+  const accountTasks=tasks.filter(task=>task.prospect_id===account.id&&String(task.status||'Open').toLowerCase()!=='completed').slice(0,5);
   const invoiceRows=invoices.slice().sort((a,b)=>String(b.issuedAt).localeCompare(String(a.issuedAt))).slice(0,5);
 
   return <div className="lo-page">
@@ -82,7 +83,7 @@ function AccountDetail({account,model,activities=[],onBack}){
       <div>
         <button className="lo-back-link" onClick={onBack}>← Accounts</button>
         <div className="lo-page-eyebrow">ACCOUNT DETAIL</div>
-        <div className="lo-account-title"><h1>{account.business_name}</h1><StatusChip>Active</StatusChip></div>
+        <div className="lo-account-title"><h1>{account.business_name}</h1><StatusChip>{account.status||'Active'}</StatusChip></div>
         <div className="lo-account-meta">{account.id} <i/> {[account.address,account.city,account.state,account.zip].filter(Boolean).join(', ')}</div>
       </div>
       <div className="lo-page-actions"><Button>Edit</Button><Button>More⌄</Button></div>
@@ -99,13 +100,13 @@ function AccountDetail({account,model,activities=[],onBack}){
     <div className="lo-two-panel-grid">
       <Panel title="Account Information" action={<button className="lo-text-button">Edit</button>}>
         <div className="lo-account-info">
-          <div><span>Account #</span><strong>{account.id}</strong></div><div><span>Account Type</span><strong>{invoices[0]?.saleType||'Reorder'}</strong></div>
+          <div><span>Record ID</span><strong>{account.id}</strong></div><div><span>Account Type</span><strong>{account.account_type||'—'}</strong></div>
           <div><span>Account Name</span><strong>{account.business_name}</strong></div><div><span>Channel</span><strong>{account.channel||'—'}</strong></div>
           <div><span>Doing Business As</span><strong>{account.business_name}</strong></div><div><span>Sales Rep</span><strong>{account.assigned_to||'—'}</strong></div>
           <div><span>Address</span><strong>{[account.address,account.city,account.state,account.zip].filter(Boolean).join(', ')}</strong></div><div><span>Territory</span><strong>{account.county||'Minnesota'}</strong></div>
           <div><span>Phone</span><strong>{account.phone||'—'}</strong></div><div><span>Terms</span><strong>{invoices[0]?.terms||'Due on receipt'}</strong></div>
           <div><span>Email</span><strong className="lo-linkish">{account.email||'—'}</strong></div><div><span>Customer Since</span><strong>{shortDate(account.created_at)}</strong></div>
-          <div><span>Status</span><StatusChip>Active</StatusChip></div><div><span>Tax Exempt</span><strong>—</strong></div>
+          <div><span>Status</span><StatusChip>{account.status||'Active'}</StatusChip></div><div><span>Tax Exempt</span><strong>{account.tax_exempt==null?'—':account.tax_exempt?'Yes':'No'}</strong></div>
         </div>
       </Panel>
       <Panel title="Key Contacts" action={<div className="lo-inline-actions"><button className="lo-text-button">View All</button><Button>Add Contact</Button></div>}>
@@ -122,7 +123,10 @@ function AccountDetail({account,model,activities=[],onBack}){
       </Panel>
       <Panel title="Depletion Mix" action={<button className="lo-text-button">View Details</button>}><DonutChart items={mix} centerTop={number(lines.reduce((s,x)=>s+x.casesSold,0))} centerBottom="Cases"/></Panel>
       <Panel title="Open Opportunities / Follow-ups" action={<button className="lo-text-button">View All</button>}>
-        <div className="lo-followup-list"><div><i className="is-alert">!</i><span><strong>Follow up on expanded placement</strong><small>{account.notes||'Discuss additional placements and new flavors'}</small><small>Next follow-up {shortDate(account.next_follow_up)}</small></span><StatusChip>Overdue</StatusChip></div><div><i/><span><strong>Check in on re-order timing</strong><small>Likely to order next cycle</small></span><StatusChip>Open</StatusChip></div></div>
+        {accountTasks.length?<div className="lo-followup-list">{accountTasks.map(task=>{
+          const overdue=task.due_date&&task.due_date<new Date().toISOString().slice(0,10);
+          return <div key={task.id}><i className={overdue?'is-alert':''}>{overdue?'!':''}</i><span><strong>{task.title||task.task_type||'Follow-up'}</strong>{task.notes&&<small>{task.notes}</small>}<small>{task.due_date?'Due '+shortDate(task.due_date):'No due date'}</small></span><StatusChip>{overdue?'Overdue':task.status||'Open'}</StatusChip></div>;
+        })}</div>:<div className="lo-muted-block">No open follow-ups for this account.</div>}
       </Panel>
     </div>
 
@@ -133,13 +137,13 @@ function AccountDetail({account,model,activities=[],onBack}){
   </div>;
 }
 
-export default function CRMPage({mode='accounts',prospects=[],activities=[],model,accountId,onOpenAccount,onNavigate}){
+export default function CRMPage({mode='accounts',prospects=[],activities=[],tasks=[],model,accountId,onOpenAccount,onNavigate}){
   if(mode==='contacts')return <Contacts prospects={prospects}/>;
   if(mode==='opportunities')return <Opportunities prospects={prospects}/>;
   if(mode==='activities')return <Activities activities={activities}/>;
   if(mode==='detail'){
     const account=prospects.find(p=>p.id===accountId);
-    return account?<AccountDetail account={account} model={model} activities={activities} onBack={()=>onNavigate('crm-accounts')}/>:<AccountList prospects={prospects} model={model} onOpenAccount={onOpenAccount}/>;
+    return account?<AccountDetail account={account} model={model} activities={activities} tasks={tasks} onBack={()=>onNavigate('crm-accounts')}/>:<AccountList prospects={prospects} model={model} onOpenAccount={onOpenAccount}/>;
   }
   return <AccountList prospects={prospects} model={model} onOpenAccount={onOpenAccount}/>;
 }
