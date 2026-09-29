@@ -6,7 +6,6 @@ import {
   PageTitle,
   Panel,
   ProgressBar,
-  QualitySummary,
   StatusChip,
   displayInvoiceNumber,
   money,
@@ -22,8 +21,6 @@ export default function OverviewPage({model,onNavigate}){
   const maxProduct=Math.max(...products.map(p=>p.revenue),1);
   const recentInvoices=model.invoices.filter(x=>x.status!=='Draft').slice().sort((a,b)=>String(b.issuedAt||'').localeCompare(String(a.issuedAt||''))).slice(0,6);
   const recentLines=model.lines.slice().sort((a,b)=>String(b.invoiceDate||'').localeCompare(String(a.invoiceDate||''))).slice(0,6);
-  const overdue=model.invoices.filter(x=>x.isOverdue);
-  const followups=model.invoices.filter(x=>x.balanceDue>0||x.daysPastDue>0);
   const monthlyRevenue=monthly.map(x=>x.revenue);
   const monthlyCases=monthly.map(x=>x.cases);
   const monthlyProfit=monthly.map(x=>x.grossProfit);
@@ -57,15 +54,6 @@ export default function OverviewPage({model,onNavigate}){
         </div>
       </Panel>
     </div>
-
-    <Panel title="Operational Attention" action={<button className="lo-text-button" onClick={()=>onNavigate('administration')}>View All</button>}>
-      <QualitySummary items={[
-        {label:'Overdue Invoices',value:overdue.length,detail:overdue.length?'Review collections':'All clear',danger:overdue.length>0},
-        {label:'Depletion QA Issues',value:model.qualityIssues.filter(x=>x.scope==='Depletion').length,detail:'All clear',danger:model.qualityIssues.some(x=>x.scope==='Depletion')},
-        {label:'Reconciliation Issues',value:model.qualityIssues.filter(x=>x.issue.includes('reconcile')).length,detail:'All clear',danger:model.qualityIssues.some(x=>x.issue.includes('reconcile'))},
-        {label:'Accounts Need Follow-up',value:followups.length,detail:'View accounts →',danger:followups.length>0,action:null},
-      ]}/>
-    </Panel>
 
     <div className="lo-two-panel-grid">
       <Panel title="Recent Invoices" action={<button className="lo-text-button" onClick={()=>onNavigate('invoices')}>View All</button>}>

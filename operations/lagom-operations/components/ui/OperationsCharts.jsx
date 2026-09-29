@@ -12,11 +12,15 @@ function useChartReveal(){
   return isReady;
 }
 
-export function RevenueCasesChart({rows=[],height=250,title='Revenue & Cases'}){
+export function RevenueCasesChart({rows=[],height=280,title='Revenue & Cases'}){
   const isReady=useChartReveal();
   const chartId=useId().replaceAll(':','');
   const data=rows.length?rows:Array.from({length:12},(_,i)=>({label:new Date(2000,i,1).toLocaleDateString('en-US',{month:'short'}),revenue:0,cases:0}));
-  const width=760,padL=88,padR=62,padT=24,padB=46,plotW=width-padL-padR,plotH=height-padT-padB,baseline=padT+plotH;
+  // The SVG has a deliberately generous coordinate system.  It prevents axis
+  // labels and vertical titles from competing with the first/last data point
+  // while allowing the graphic to scale as one unit with its panel.
+  const chartHeight=Math.max(190,height);
+  const width=960,padL=112,padR=84,padT=30,padB=58,plotW=width-padL-padR,plotH=chartHeight-padT-padB,baseline=padT+plotH;
   const maxRevenue=Math.max(...data.map(row=>Number(row.revenue)||0),1);
   const maxCases=Math.max(...data.map(row=>Number(row.cases)||0),1);
   const slot=plotW/data.length;
@@ -30,26 +34,26 @@ export function RevenueCasesChart({rows=[],height=250,title='Revenue & Cases'}){
       <h2>{title}</h2>
       <div className="lo-chart-legend" aria-label="Chart legend"><span><i className="is-revenue"/>Revenue</span><span><i className="is-cases"/>Cases</span><span className="lo-chart-period">Monthly</span></div>
     </div>
-    <svg className="lo-chart" viewBox={'0 0 '+width+' '+height} role="img" aria-labelledby={chartId+'-title '+chartId+'-description'}>
+    <svg className="lo-chart" width={width} height={chartHeight} viewBox={'0 0 '+width+' '+chartHeight} preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby={chartId+'-title '+chartId+'-description'}>
       <title id={chartId+'-title'}>{title}</title>
       <desc id={chartId+'-description'}>Monthly revenue is displayed as vertical bars and cases as a line with focusable data points.</desc>
       <defs><linearGradient id={chartId+'-area'} x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stopColor="#3c9660" stopOpacity=".22"/><stop offset="100%" stopColor="#3c9660" stopOpacity="0"/></linearGradient></defs>
       {[0,.25,.5,.75,1].map((value,index)=>{
         const y=padT+plotH-(value*plotH);
-        return <g key={index} className="lo-chart-grid-row" style={{'--lo-delay':(index*45)+'ms'}}><line x1={padL} y1={y} x2={width-padR} y2={y} className="lo-chart-grid"/><text x={padL-13} y={y+4} textAnchor="end" className="lo-chart-axis-label">{money(maxRevenue*value).replace('.00','')}</text><text x={width-padR+13} y={y+4} textAnchor="start" className="lo-chart-axis-label">{number(maxCases*value)}</text></g>;
+        return <g key={index} className="lo-chart-grid-row" style={{'--lo-delay':(index*45)+'ms'}}><line x1={padL} y1={y} x2={width-padR} y2={y} className="lo-chart-grid"/><text x={padL-17} y={y+4} textAnchor="end" className="lo-chart-axis-label">{money(maxRevenue*value).replace('.00','')}</text><text x={width-padR+17} y={y+4} textAnchor="start" className="lo-chart-axis-label">{number(maxCases*value)}</text></g>;
       })}
       <path d={areaPath} fill={'url(#'+chartId+'-area)'} className="lo-chart-area"/>
       {data.map((row,index)=>{
         const x=padL+slot*index+slot/2;
         const barHeight=Number(row.revenue||0)/maxRevenue*plotH;
-        return <g key={row.label+index} className="lo-chart-column" style={{'--lo-delay':(150+index*42)+'ms'}}><rect x={x-barW/2} y={baseline-barHeight} width={barW} height={barHeight} rx="5" className="lo-chart-bar"/><text x={x} y={height-10} textAnchor="middle" className="lo-chart-axis-label">{row.label}</text></g>;
+        return <g key={row.label+index} className="lo-chart-column" style={{'--lo-delay':(150+index*42)+'ms'}}><rect x={x-barW/2} y={baseline-barHeight} width={barW} height={barHeight} rx="5" className="lo-chart-bar"/><text x={x} y={chartHeight-16} textAnchor="middle" className="lo-chart-axis-label">{row.label}</text></g>;
       })}
       <polyline points={linePoints} className="lo-chart-cases-line"/>
       {data.map((row,index)=>{
         const point=points[index];
         return <g key={'point'+index} className="lo-chart-point" tabIndex="0" role="img" aria-label={row.label+': '+money(row.revenue)+' revenue, '+number(row.cases)+' cases'} style={{'--lo-delay':(340+index*42)+'ms'}}><circle cx={point.x} cy={point.y} r="4" className="lo-chart-cases-dot"/><title>{row.label+': '+money(row.revenue)+' revenue, '+number(row.cases)+' cases'}</title></g>;
       })}
-      <text x="21" y={padT+plotH/2} transform={'rotate(-90 21 '+(padT+plotH/2)+')'} className="lo-chart-axis-title">Revenue</text><text x={width-18} y={padT+plotH/2} transform={'rotate(90 '+(width-18)+' '+(padT+plotH/2)+')'} className="lo-chart-axis-title">Cases</text>
+      <text x="29" y={padT+plotH/2} transform={'rotate(-90 29 '+(padT+plotH/2)+')'} className="lo-chart-axis-title">Revenue</text><text x={width-29} y={padT+plotH/2} transform={'rotate(90 '+(width-29)+' '+(padT+plotH/2)+')'} className="lo-chart-axis-title">Cases</text>
     </svg>
   </div>;
 }
