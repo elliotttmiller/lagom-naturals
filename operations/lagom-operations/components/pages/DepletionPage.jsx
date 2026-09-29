@@ -3,7 +3,7 @@
 import {useMemo,useState} from 'react';
 import DepletionImportDialog from '../operations/DepletionImportDialog';
 import {
-  Button,FilterBar,ImportButton,MetricCard,PageTitle,Pagination,SearchBox,SelectField,StatusChip,money,number
+  Button,FilterBar,ImportButton,MetricCard,PageTitle,Pagination,SearchBox,SelectField,StatusChip,downloadCsv,money,number
 } from '../ui/OperationsUI';
 
 export default function DepletionPage({model,source,supabase,reload,onAddEntry}){
@@ -56,7 +56,11 @@ export default function DepletionPage({model,source,supabase,reload,onAddEntry})
     </div>
 
     <section className="lo-data-card">
-      <div className="lo-data-card-title"><h2>Depletion Ledger</h2><Button>Export⌄</Button></div>
+      <div className="lo-data-card-title"><h2>Depletion Ledger</h2><Button onClick={()=>downloadCsv('lagom-depletion.csv',rows.map(row=>({
+        'Invoice #':row.invoiceNumber,'Invoice Date':row.invoiceDate,Product:row.product,Cases:row.casesSold,
+        'Sale Price':row.salePrice,Revenue:row.revenue,SKU:row.sku,'Product Line':row.productLine,
+        COGS:row.totalCogs,'Gross Profit':row.grossProfit,Account:row.account,'Sales Rep':row.rep
+      })))}>Export⌄</Button></div>
       <div className="lo-table-scroll">
         <table className="lo-data-table">
           <thead><tr><th>Invoice #</th><th>Invoice Date⌄</th><th>Product</th><th>Cases</th><th>Sale Price</th><th>Revenue</th><th>SKU</th><th>Product Line</th><th>COGS</th><th>Gross Profit</th><th>Account</th><th>Sales Rep</th><th>QA Status</th></tr></thead>
