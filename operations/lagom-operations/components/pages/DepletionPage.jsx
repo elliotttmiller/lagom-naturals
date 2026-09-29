@@ -60,9 +60,12 @@ export default function DepletionPage({model,source,supabase,reload,onAddEntry})
       <div className="lo-table-scroll">
         <table className="lo-data-table">
           <thead><tr><th>Invoice #</th><th>Invoice Date⌄</th><th>Product</th><th>Cases</th><th>Sale Price</th><th>Revenue</th><th>SKU</th><th>Product Line</th><th>COGS</th><th>Gross Profit</th><th>Account</th><th>Sales Rep</th><th>QA Status</th></tr></thead>
-          <tbody>{rows.map(row=><tr key={row.id}>
-            <td><strong>{row.invoiceNumber}</strong></td><td>{row.invoiceDate||'—'}</td><td>{row.product}</td><td>{number(row.casesSold)}</td><td>{money(row.salePrice)}</td><td>{money(row.revenue)}</td><td>{row.sku||'—'}</td><td>{row.productLine||'—'}</td><td>{money(row.totalCogs)}</td><td className={row.grossProfit<0?'lo-danger-text':''}>{money(row.grossProfit)}</td><td>{row.account}</td><td>{row.rep}</td><td><StatusChip>Recorded</StatusChip></td>
-          </tr>)}</tbody>
+          <tbody>{rows.map(row=>{
+            const hasIssue=model.qualityIssues.some(issue=>issue.scope==='Depletion'&&String(issue.record||'').includes(row.invoiceNumber));
+            return <tr key={row.id}>
+              <td><strong>{row.invoiceNumber}</strong></td><td>{row.invoiceDate||'—'}</td><td>{row.product}</td><td>{number(row.casesSold)}</td><td>{money(row.salePrice)}</td><td>{money(row.revenue)}</td><td>{row.sku||'—'}</td><td>{row.productLine||'—'}</td><td>{money(row.totalCogs)}</td><td className={row.grossProfit<0?'lo-danger-text':''}>{money(row.grossProfit)}</td><td>{row.account}</td><td>{row.rep}</td><td><StatusChip>{hasIssue?'Review':'Recorded'}</StatusChip></td>
+            </tr>;
+          })}</tbody>
         </table>
       </div>
       <Pagination count={rows.length}/>
