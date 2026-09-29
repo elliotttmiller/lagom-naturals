@@ -1,0 +1,15 @@
+{
+  "name": "Lagom Operations",
+  "short_name": "Lagom Ops",
+  "icons": [
+    {
+      "src": "/lagom-operations-browser-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "theme_color": "#0e1112",
+  "background_color": "#0e1112",
+  "display": "standalone"
+}

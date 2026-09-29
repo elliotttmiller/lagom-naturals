@@ -33,14 +33,6 @@ const supabase=IS_STATIC_PREVIEW
 
 const DEFAULT_USER={name:'Jordan Daniels',display_name:'Jordan Daniels',role:'admin',username:'preview'};
 
-function monthLabel(){
-  const now=new Date();
-  const start=new Date(now.getFullYear(),now.getMonth(),1);
-  const end=new Date(now.getFullYear(),now.getMonth()+1,0);
-  const f=d=>d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-  return f(start)+' – '+f(end);
-}
-
 function normalizeRoute(value){
   const route=String(value||'').replace(/^#\/?/,'').split('?')[0];
   const known=['overview','invoices','ar','commissions','depletion','reports','crm-accounts','crm-contacts','crm-opportunities','crm-activities','administration','ui-library'];
@@ -161,7 +153,6 @@ export default function OperationsApp(){
   if(!user)return <Login onLogin={setUser}/>;
 
   const shellActive=active==='crm-account-detail'?'crm-accounts':active;
-  const dateRange=monthLabel();
   const monthly=monthlyPerformance(model,new Date().getFullYear());
 
   let page;
@@ -189,7 +180,7 @@ export default function OperationsApp(){
     page=<OverviewPage model={model} onNavigate={navigate}/>;
   }
 
-  return <AppShell active={shellActive} onNavigate={navigate} user={user} dateLabel={dateRange}>
+  return <AppShell active={shellActive} onNavigate={navigate} user={user}>
     {source.errors?.length>0&&<div className="lo-source-banner">
       <strong>Some data sources need attention.</strong>
       <span>{source.errors.map(x=>x.source).join(', ')}</span>

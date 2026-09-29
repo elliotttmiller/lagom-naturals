@@ -2,15 +2,12 @@
 
 import React from 'react';
 import {
-  Bell,
   ChevronDown,
   CircleDollarSign,
   Database,
   FileBarChart,
-  FileText,
   Home,
   ReceiptText,
-  Search,
   Settings,
   TrendingUp,
   UserRound,
@@ -61,8 +58,6 @@ export default function AppShell({
   onNavigate,
   user,
   children,
-  dateLabel='Feb 1, 2025 – Feb 28, 2025',
-  onSearch,
 }){
   const openSales=['invoices','ar'].includes(active);
   const openCrm=active.startsWith('crm-');
@@ -119,23 +114,7 @@ export default function AppShell({
       </div>
     </aside>
 
-    <div className="lo-main">
-      <header className="lo-topbar">
-        <div className="lo-topbar-spacer"/>
-        <div className="lo-topbar-actions">
-          <button type="button" className="lo-date-control">
-            <span className="lo-calendar-mark">□</span>
-            <span>{dateLabel}</span>
-            <ChevronDown size={14}/>
-          </button>
-          <span className="lo-topbar-divider"/>
-          <button type="button" className="lo-icon-button" aria-label="Search" onClick={onSearch}><Search size={20}/></button>
-          <button type="button" className="lo-icon-button lo-notification-button" aria-label="Notifications"><Bell size={20}/><i/></button>
-          <div className="lo-avatar">{initials}</div>
-        </div>
-      </header>
-      <main className="lo-content">{children}</main>
-    </div>
+    <div className="lo-main"><main className="lo-content">{children}</main></div>
   </div>;
 }
 
