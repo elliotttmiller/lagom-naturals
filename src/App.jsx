@@ -26,7 +26,6 @@ import "./sky-home.css";
 import {
   AtmosphericCloudField,
   AtmosphericSceneSection,
-  AtmosphericSectionNavigator,
   useAtmosphericHomepageScroll,
 } from "@/AtmosphericScrollExperience";
 import {
@@ -446,10 +445,7 @@ function HomePage() {
   const homeRef = useRef(null);
   const homeFrame = useRef(null);
   const {
-    activeScene,
     cloudStyles,
-    progress,
-    scrollToScene,
     motionProfile,
   } = useAtmosphericHomepageScroll(homeRef);
   useEffect(() => () => { if (homeFrame.current) cancelAnimationFrame(homeFrame.current); }, []);
@@ -480,8 +476,7 @@ function HomePage() {
     <Shell>
       <div className="sky-home" data-motion-profile={motionProfile} ref={homeRef} onPointerMove={updateSky} onPointerLeave={resetSky}>
         <AtmosphericCloudField styles={cloudStyles} compact={motionProfile === "phone"} />
-        <section id="home-scene-hero" data-sky-scene="hero" className="beverage-hero atmospheric-scene-hero" aria-label="Featured Lagom Naturals products"><HomeHero /></section>
-        <AtmosphericSectionNavigator activeScene={activeScene} progress={progress} onNavigate={scrollToScene} />
+        <section id="home-scene-hero" className="beverage-hero atmospheric-scene-hero" aria-label="Featured Lagom Naturals products"><HomeHero /></section>
 
         <AtmosphericSceneSection id="flavors" className="sky-home__section sky-home__section--flavors" labelledBy="home-flavors-title">
           <div className="sky-home__heading sky-home__heading--split">
