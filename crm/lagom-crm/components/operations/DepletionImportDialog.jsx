@@ -74,16 +74,12 @@ export default function DepletionImportDialog({
     existingLines.forEach(line=>{
       keys.add([
         String(line.invoiceNumber||'').trim(),
-        lower(line.product||line.sku),
-        Number(line.casesSold||0),
-        Number(line.salePrice||0).toFixed(2),
+        lower(line.productId||line.sku||line.product),
       ].join('|'));
       if(line.sku){
         keys.add([
           String(line.invoiceNumber||'').trim(),
           lower(line.sku),
-          Number(line.casesSold||0),
-          Number(line.salePrice||0).toFixed(2),
         ].join('|'));
       }
     });
@@ -146,7 +142,7 @@ export default function DepletionImportDialog({
         if(!productName&&!sku)issues.push('Missing product');
         else if(!product)issues.push('Product not found');
         if(!(cases>0))issues.push('Cases must be greater than zero');
-        if(!(salePrice>0))issues.push('Sale price must be greater than zero');
+        if(salePrice<0)issues.push('Sale price cannot be negative');
         const cogs=product?.cogs_per_case;
         if(product&&(cogs==null||Number(cogs)<=0))issues.push('Approved COGS is missing');
 
@@ -154,8 +150,6 @@ export default function DepletionImportDialog({
         const duplicateKey=[
           invoiceNumber.trim(),
           productKey,
-          cases,
-          Number(salePrice).toFixed(2),
         ].join('|');
         if(existingKeys.has(duplicateKey)||seen.has(duplicateKey))issues.push('Possible duplicate line');
         seen.add(duplicateKey);
@@ -208,8 +202,6 @@ export default function DepletionImportDialog({
             'depletion-import',
             row.invoiceNumber,
             row.product.sku||row.product.id,
-            row.cases,
-            row.salePrice.toFixed(2),
           ].join(':'),
         };
       });
