@@ -8,9 +8,10 @@ export async function loadOperationsData(supabase){
     supabase.from('prospects').select('*').order('business_name'),
     supabase.from('sales_activities').select('*,prospects(business_name),crm_users(display_name)').order('activity_date',{ascending:false}).limit(250),
     supabase.from('crm_users').select('*').order('display_name'),
+    supabase.from('crm_tasks').select('*').order('due_date',{ascending:true}),
     supabase.from('payment_terms').select('*').eq('active',true).order('days'),
   ]);
-  const names=['products','invoices','items','commissions','reorders','prospects','activities','users','paymentTerms'];
+  const names=['products','invoices','items','commissions','reorders','prospects','activities','users','tasks','paymentTerms'];
   const out={errors:[]};
   queries.forEach((result,index)=>{
     out[names[index]]=result?.data||[];
@@ -30,6 +31,7 @@ export function subscribeOperations(supabase,onChange){
     .on('postgres_changes',{event:'*',schema:'public',table:'prospects'},onChange)
     .on('postgres_changes',{event:'*',schema:'public',table:'sales_activities'},onChange)
     .on('postgres_changes',{event:'*',schema:'public',table:'crm_users'},onChange)
+    .on('postgres_changes',{event:'*',schema:'public',table:'crm_tasks'},onChange)
     .subscribe();
   return()=>{if(typeof supabase.removeChannel==='function')supabase.removeChannel(channel)};
 }
