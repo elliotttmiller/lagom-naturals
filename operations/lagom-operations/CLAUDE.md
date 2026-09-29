@@ -1,38 +1,74 @@
-# Lagom CRM — Project Notes
+# Lagom Operations — Project Conventions
 
-Single-file Next.js app. The entire UI lives in `app/page.js` (React, inline
-styles + one `<GlobalStyles>` CSS block). Data is in Supabase; SQL setup
-scripts live at the repo root (e.g. `products_import.sql`).
+Canonical application: `operations/lagom-operations`.
 
-## Responsive / layout rules (IMPORTANT — read before any UI change)
+## Architecture
 
-The app was originally built mobile-first and drifted into looking great on a
-phone but sparse/unbalanced on desktop. To prevent that going forward:
+Keep the application modular.
 
-1. **Always check 3 widths before shipping any UI change:**
-   - `375px` (phone), `768px` (tablet), `1440px` (desktop).
-2. **Keep in-app content inside `.content-inner`** (max-width 1480px, centered).
-   All tab content renders through it via `<div className="content"><div
-   className="content-inner">…</div></div>`. Do not bypass it — it stops content
-   from sprawling edge-to-edge on wide monitors.
-3. **Use the grid utilities** (`.g2/.g3/.g4`) for card rows; they already
-   collapse at the `1024 / 768 / 480` breakpoints. Prefer them over ad-hoc
-   `grid-template-columns` so new sections inherit responsive behavior.
-4. **Cap text/measure** with sensible `maxWidth` on long paragraphs so line
-   length stays readable on desktop.
-5. **Full-bleed split screens (e.g. login `.auth`)**: keep the background
-   full-width, but bound the *content* with a `maxWidth` and center it so wide
-   screens look intentional, not bottom-left-anchored.
+- `app/page.js`: composition, auth/session, route state, data scoping.
+- `components/layout`: shared shell only.
+- `components/ui`: reusable visual primitives.
+- `components/pages`: page-level modules.
+- `components/operations`: transactional dialogs/workflows.
+- `lib/operationsData.js`: reads + realtime subscriptions.
+- `lib/companyOperationsDomain.js`: deterministic business calculations and QA.
+- Supabase owns persisted operational data.
 
-## Breakpoints in use
-- `1024px` — `.g4`/`.g3` drop to 2 columns
-- `880px` — login (`.auth`) stacks to single column
-- `768px` — sidebar hides, mobile bottom nav + drawer appear, grids stack
-- `480 / 380px` — stat grids drop to 1 column
+Do not move page logic back into one monolithic file.
 
-## Conventions
-- No em-dashes in user-facing copy (use commas / parentheses / colons).
-- Collapsible desktop sidebar state persists in `localStorage`
-  (`lagom_sidebar_collapsed`).
-- Nav surfaces use `P.nav` (#1E293B); the deep ink `P.slate` (#0F172A) is for
-  the login hero gradient and table-header text only.
+## Visual reference
+
+The approved Lagom Operations mockups are the design target.
+
+Use:
+- dark sidebar shell;
+- `DM Serif Display` for editorial page titles;
+- `Inter` for UI/body/table text;
+- canvas `#FBFAF7`;
+- surface `#FFFFFF`;
+- border `#E5E7EB`;
+- primary text `#0F172A`;
+- secondary text `#64748B`;
+- restrained green accents;
+- black/dark primary actions;
+- thin borders and minimal shadows.
+
+Avoid decorative gradients, excessive shadows, pill-heavy UI, oversized icons, or generic SaaS dashboard styling.
+
+## Responsive rules
+
+Validate 375 / 768 / 1440 / 1600 widths.
+
+- Desktop sidebar: 208 px.
+- Tablet sidebar may collapse to icon rail.
+- Mobile navigation becomes bottom navigation.
+- Tables remain semantically complete and may horizontally scroll.
+- Touch targets should remain at least ~44 px where practical.
+- Keep visible keyboard focus.
+- Respect reduced motion.
+
+## Data / business rules
+
+Never invent:
+- invoice values;
+- depletion values;
+- COGS;
+- product prices;
+- payment terms;
+- commission rates;
+- bonus rules;
+- inventory.
+
+The workbook migration contract lives in `companyOperationsDomain.js`.
+
+## Workflow
+
+Run before merge:
+
+```bash
+npm run validate:operations
+npm run build
+```
+
+Develop through feature branches and pull requests.
