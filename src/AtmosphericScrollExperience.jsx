@@ -286,6 +286,30 @@ export function AtmosphericSceneSection({ id, className, labelledBy, children })
     [0.985, 1, 1, 1.012],
   );
 
+  // Every mobile scene owns one atmospheric cloud plane. This keeps visible
+  // parallax present throughout the page instead of concentrating two clouds
+  // at fixed percentages of the entire homepage.
+  const sceneCloudX = useTransform(
+    smoothProgress,
+    [0, 0.34, 0.7, 1],
+    isPhone ? ["20px", "0px", "-10px", "-28px"] : ["2vw", "0vw", "-1vw", "-2.6vw"],
+  );
+  const sceneCloudY = useTransform(
+    smoothProgress,
+    [0, 0.34, 0.7, 1],
+    isPhone ? ["34px", "0px", "-26px", "-58px"] : ["3vh", "0vh", "-2.2vh", "-5vh"],
+  );
+  const sceneCloudScale = useTransform(
+    smoothProgress,
+    [0, 0.34, 0.7, 1],
+    isPhone ? [0.96, 1, 1.025, 1.055] : [0.97, 1, 1.02, 1.045],
+  );
+  const sceneCloudOpacity = useTransform(
+    smoothProgress,
+    [0, 0.18, 0.38, 0.72, 0.9, 1],
+    isPhone ? [0.08, 0.18, 0.24, 0.22, 0.14, 0.06] : [0.06, 0.14, 0.2, 0.18, 0.11, 0.04],
+  );
+
   return (
     <m.section
       ref={ref}
@@ -302,6 +326,10 @@ export function AtmosphericSceneSection({ id, className, labelledBy, children })
         "--scene-wash-opacity": washOpacity,
         "--scene-wash-y": washY,
         "--scene-wash-scale": washScale,
+        "--scene-cloud-x": sceneCloudX,
+        "--scene-cloud-y": sceneCloudY,
+        "--scene-cloud-scale": sceneCloudScale,
+        "--scene-cloud-opacity": sceneCloudOpacity,
       }}
     >
       {children}
