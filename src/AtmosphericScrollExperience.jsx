@@ -174,31 +174,63 @@ export function AtmosphericSceneSection({ id, className, labelledBy, children })
   const ref = useRef(null);
   const reduceMotion = useReducedMotion();
   const motionProfile = useViewportMotionProfile();
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-  const smoothProgress = useSpring(scrollYProgress, MOTION_PROFILES[motionProfile].sectionSpring);
   const isPhone = motionProfile === "phone";
   const isTablet = motionProfile === "tablet";
-  const y = useTransform(
+
+  // The first reference's outer/inner section transition is adapted here as
+  // continuous scroll choreography: the section shell and its direct content
+  // travel in subtly opposing directions, then settle into a readable hold.
+  // Native scrolling remains authoritative; there is no section lock/snap.
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: isPhone ? ["start 92%", "end 8%"] : isTablet ? ["start 96%", "end 6%"] : ["start end", "end start"],
+  });
+  const smoothProgress = useSpring(scrollYProgress, MOTION_PROFILES[motionProfile].sectionSpring);
+
+  const outerY = useTransform(
     smoothProgress,
-    [0, 0.24, 0.72, 1],
+    [0, 0.2, 0.34, 0.7, 0.84, 1],
     isPhone
-      ? ["30px", "0px", "0px", "-20px"]
+      ? ["34px", "14px", "0px", "0px", "-9px", "-24px"]
       : isTablet
-        ? ["3vh", "0vh", "0vh", "-2.4vh"]
-        : ["5vh", "0vh", "0vh", "-4vh"],
+        ? ["4vh", "1.5vh", "0vh", "0vh", "-1.2vh", "-3vh"]
+        : ["6vh", "2vh", "0vh", "0vh", "-1.7vh", "-4.8vh"],
   );
-  const opacity = useTransform(
+  const outerOpacity = useTransform(
     smoothProgress,
-    [0, 0.15, 0.3, 0.76, 0.94, 1],
-    isPhone ? [0.72, 0.9, 1, 1, 0.9, 0.74] : isTablet ? [0.8, 0.93, 1, 1, 0.94, 0.86] : [0.72, 0.9, 1, 1, 0.91, 0.8],
+    [0, 0.12, 0.3, 0.74, 0.9, 1],
+    isPhone
+      ? [0.64, 0.82, 1, 1, 0.86, 0.68]
+      : isTablet
+        ? [0.7, 0.88, 1, 1, 0.9, 0.76]
+        : [0.66, 0.86, 1, 1, 0.88, 0.7],
   );
-  const scale = useTransform(
+  const outerScale = useTransform(
     smoothProgress,
-    [0, 0.3, 0.75, 1],
-    isPhone ? [0.992, 1, 1, 0.995] : isTablet ? [0.996, 1, 1, 0.998] : [0.993, 1, 1, 0.997],
+    [0, 0.3, 0.72, 1],
+    isPhone ? [0.99, 1, 1, 0.994] : isTablet ? [0.994, 1, 1, 0.996] : [0.991, 1, 1, 0.994],
+  );
+
+  // Counter-motion recreates the visual character of the nested section
+  // wrappers from the section-transition reference without hijacking scroll.
+  const innerY = useTransform(
+    smoothProgress,
+    [0, 0.22, 0.34, 0.7, 0.86, 1],
+    isPhone
+      ? ["-18px", "-7px", "0px", "0px", "6px", "14px"]
+      : isTablet
+        ? ["-2vh", "-.7vh", "0vh", "0vh", ".6vh", "1.5vh"]
+        : ["-3vh", "-1vh", "0vh", "0vh", ".8vh", "2.1vh"],
+  );
+  const innerOpacity = useTransform(
+    smoothProgress,
+    [0, 0.16, 0.32, 0.76, 0.92, 1],
+    isPhone ? [0.78, 0.92, 1, 1, 0.94, 0.82] : [0.74, 0.9, 1, 1, 0.92, 0.78],
+  );
+  const innerScale = useTransform(
+    smoothProgress,
+    [0, 0.32, 0.74, 1],
+    isPhone ? [0.996, 1, 1, 0.998] : [0.994, 1, 1, 0.997],
   );
 
   return (
@@ -207,7 +239,14 @@ export function AtmosphericSceneSection({ id, className, labelledBy, children })
       id={`home-scene-${id}`}
       className={`${className} atmospheric-scene-section`}
       aria-labelledby={labelledBy}
-      style={reduceMotion ? undefined : { y, opacity, scale }}
+      style={reduceMotion ? undefined : {
+        y: outerY,
+        opacity: outerOpacity,
+        scale: outerScale,
+        "--scene-content-y": innerY,
+        "--scene-content-opacity": innerOpacity,
+        "--scene-content-scale": innerScale,
+      }}
     >
       {children}
     </m.section>
