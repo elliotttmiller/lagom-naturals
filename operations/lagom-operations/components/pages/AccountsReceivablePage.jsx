@@ -2,7 +2,7 @@
 
 import {useMemo,useState} from 'react';
 import {
-  Button,FilterBar,MetricCard,PageTitle,Pagination,SearchBox,SelectField,StatusChip,money
+  Button,FilterBar,MetricCard,PageTitle,Pagination,SearchBox,SelectField,StatusChip,downloadCsv,money
 } from '../ui/OperationsUI';
 
 export default function AccountsReceivablePage({model}){
@@ -49,7 +49,11 @@ export default function AccountsReceivablePage({model}){
       <SelectField label="Account Type" value={type} onChange={setType}><option>All</option>{types.map(x=><option key={x}>{x}</option>)}</SelectField>
       <SelectField label="Status" value={status} onChange={setStatus}><option>All</option><option>Current</option><option>Follow-up</option><option>Overdue</option></SelectField>
       <button className="lo-clear-link" onClick={()=>{setQuery('');setRep('All');setAging('All');setType('All');setStatus('All')}}>Clear</button>
-      <Button>Export</Button>
+      <Button onClick={()=>downloadCsv('lagom-accounts-receivable.csv',rows.map(row=>({
+        Account:row.accountName,'Invoice #':row.invoiceNumber,'Invoice Date':row.issuedAt,'Due Date':row.dueDate,
+        'Invoice Total':row.invoiceTotal,'Amount Paid':row.amountPaid,'Balance Due':row.balanceDue,
+        'Days Late':row.daysPastDue,Rep:row.repName,Aging:row.aging
+      })))}>Export</Button>
     </FilterBar>
 
     <section className="lo-data-card">
