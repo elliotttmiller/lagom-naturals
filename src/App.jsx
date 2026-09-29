@@ -450,6 +450,7 @@ function HomePage() {
     cloudStyles,
     progress,
     scrollToScene,
+    motionProfile,
   } = useAtmosphericHomepageScroll(homeRef);
   useEffect(() => () => { if (homeFrame.current) cancelAnimationFrame(homeFrame.current); }, []);
   const updateSky = (event) => {
@@ -478,7 +479,7 @@ function HomePage() {
   return (
     <Shell>
       <div className="sky-home" ref={homeRef} onPointerMove={updateSky} onPointerLeave={resetSky}>
-        <AtmosphericCloudField styles={cloudStyles} />
+        <AtmosphericCloudField styles={cloudStyles} compact={motionProfile === "phone"} />
         <section id="home-scene-hero" data-sky-scene="hero" className="beverage-hero atmospheric-scene-hero" aria-label="Featured Lagom Naturals products"><HomeHero /></section>
         <AtmosphericSectionNavigator activeScene={activeScene} progress={progress} onNavigate={scrollToScene} />
 
