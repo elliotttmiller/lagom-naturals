@@ -12,6 +12,7 @@
     "build:pages": "node scripts/build-pages.mjs",
     "check": "vite build --emptyOutDir",
     "images:optimize": "node scripts/optimize-storefront-images.mjs",
+    "images:clouds": "node scripts/create-cloud-atmosphere-assets.mjs",
     "audit:assets": "node scripts/audit-source-assets.mjs",
     "preview": "vite preview"
   },

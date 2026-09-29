@@ -1,128 +1,24 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import { m, Presence, motionTokens, useReducedMotion } from "./motionSystem";
+import heroCans from "./assets/products/hero.webp";
 
-import { responsiveImages } from "@/generated/responsiveImages";
-
-const mobileHero = responsiveImages.heroMobile;
-const desktopHero = responsiveImages.heroDesktop;
-
-const SLIDES = [
-  {id:"seltzer",eyebrow:"LAGOM THC SELTZER",title:"Find your just right.",body:"Crisp, zero-sugar THC seltzers made for a more measured social ritual.",primary:"SHOP ALL PRODUCTS",primaryTo:"/shop",secondary:"OUR STORY",secondaryTo:"/about",mobile:mobileHero.hero,desktop:desktopHero.hero,position:"center center"},
-  {id:"gummies",eyebrow:"LAGOM GUMMIES",title:"A softer way to settle in.",body:"Thoughtfully made THC gummies for nights that call for less noise and more ease.",primary:"SHOP ALL PRODUCTS",primaryTo:"/shop",secondary:"EXPLORE ALL",secondaryTo:"/shop",mobile:mobileHero["gummies-hero"],desktop:desktopHero["gummies-hero"],position:"center center"},
-  {id:"organic",eyebrow:"ORGANIC GUMMIES",title:"Keep the ritual simple.",body:"Organic gummies designed around an intentional, uncomplicated adult experience.",primary:"SHOP ALL PRODUCTS",primaryTo:"/shop",secondary:"LEARN MORE",secondaryTo:"/learn",mobile:mobileHero["organic-gummies-hero"],desktop:desktopHero["organic-gummies-hero"],position:"center center"},
-  {id:"midnight",eyebrow:"MIDNIGHT GUMMIES",title:"For the quieter hours.",body:"A night-minded gummy ritual for winding down, switching off, and letting the evening land.",primary:"SHOP ALL PRODUCTS",primaryTo:"/shop",secondary:"THC, EXPLAINED",secondaryTo:"/learn",mobile:mobileHero["midnight-gummies-hero"],desktop:desktopHero["midnight-gummies-hero"],position:"center center"},
-];
-
-const AUTOPLAY_MS = 6500;
-const SWIPE_THRESHOLD = 52;
-const SWIPE_VELOCITY = .34;
-
-function HeroCarousel() {
-  const [active,setActive]=useState(0);
-  const [paused,setPaused]=useState(false);
-  const [dragX,setDragX]=useState(0);
-  const [swiping,setSwiping]=useState(false);
-  const [direction,setDirection]=useState(1);
-  const gesture=useRef(null);
-  const suppressClick=useRef(false);
-  const reduceMotion=useReducedMotion();
-  const slide=SLIDES[active];
-
-  useEffect(()=>{
-    if(paused||reduceMotion||swiping)return undefined;
-    const timer=window.setInterval(()=>{setDirection(1);setActive(current=>(current+1)%SLIDES.length)},AUTOPLAY_MS);
-    return()=>window.clearInterval(timer);
-  },[paused,reduceMotion,swiping]);
-
-  const select=index=>{setDirection(index>=active?1:-1);setActive(index)};
-  const go=step=>{
-    setDirection(step);
-    setActive(current=>(current+step+SLIDES.length)%SLIDES.length);
+export default function HomeHero() {
+  const atmosphere = useRef(null);
+  const frame = useRef(null);
+  useEffect(() => () => { if (frame.current) cancelAnimationFrame(frame.current); }, []);
+  const updateAtmosphere = event => {
+    if (event.pointerType !== "mouse" || !atmosphere.current) return;
+    if (frame.current) cancelAnimationFrame(frame.current);
+    const { left, top, width, height } = event.currentTarget.getBoundingClientRect();
+    const x = Math.max(-1, Math.min(1, ((event.clientX - left) / width - .5) * 2));
+    const y = Math.max(-1, Math.min(1, ((event.clientY - top) / height - .5) * 2));
+    frame.current = requestAnimationFrame(() => { atmosphere.current?.style.setProperty("--pointer-x", `${x * 9}px`); atmosphere.current?.style.setProperty("--pointer-y", `${y * 6}px`); });
   };
-
-  const onPointerDown=event=>{
-    if(event.pointerType==='mouse')return;
-    gesture.current={id:event.pointerId,x:event.clientX,y:event.clientY,time:performance.now(),axis:null};
-    suppressClick.current=false;
-    event.currentTarget.setPointerCapture?.(event.pointerId);
-    setPaused(true);setDragX(0);
-  };
-  const onPointerMove=event=>{
-    const g=gesture.current;
-    if(!g||g.id!==event.pointerId)return;
-    const dx=event.clientX-g.x,dy=event.clientY-g.y;
-    if(!g.axis&&Math.hypot(dx,dy)>8){
-      g.axis=Math.abs(dx)>Math.abs(dy)*1.15?'x':'y';
-      if(g.axis==='x')setSwiping(true);
-    }
-    if(g.axis==='y'){setDragX(0);return;}
-    if(g.axis==='x'){
-      event.preventDefault();
-      suppressClick.current=true;
-      setDragX(Math.max(-118,Math.min(118,dx*.78)));
-    }
-  };
-  const finishSwipe=event=>{
-    const g=gesture.current;
-    if(!g||g.id!==event.pointerId)return;
-    const dx=event.clientX-g.x;
-    const elapsed=Math.max(1,performance.now()-g.time);
-    const velocity=Math.abs(dx)/elapsed;
-    if(g.axis==='x'&&(Math.abs(dx)>=SWIPE_THRESHOLD||velocity>=SWIPE_VELOCITY))go(dx<0?1:-1);
-    if(event.currentTarget.hasPointerCapture?.(event.pointerId))event.currentTarget.releasePointerCapture?.(event.pointerId);
-    gesture.current=null;setDragX(0);setSwiping(false);setPaused(false);
-  };
-  const cancelSwipe=event=>{
-    if(event?.currentTarget?.hasPointerCapture?.(event.pointerId))event.currentTarget.releasePointerCapture?.(event.pointerId);
-    gesture.current=null;setDragX(0);setSwiping(false);setPaused(false);
-  };
-  const onClickCapture=event=>{
-    if(!suppressClick.current)return;
-    event.preventDefault();
-    event.stopPropagation();
-    suppressClick.current=false;
-  };
-
-  const transition=reduceMotion?{duration:0}:{duration:.68,ease:motionTokens.ease};
-  const enterX=reduceMotion?0:direction*34;
-  const exitX=reduceMotion?0:direction*-26;
-
-  return <div className="home-hero-carousel" data-swiping={swiping?'true':'false'}
-    onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={finishSwipe} onPointerCancel={cancelSwipe}
-    onClickCapture={onClickCapture}
-    onMouseEnter={()=>setPaused(true)} onMouseLeave={()=>setPaused(false)}
-    onFocusCapture={()=>setPaused(true)} onBlurCapture={event=>{if(!event.currentTarget.contains(event.relatedTarget))setPaused(false)}}
-    aria-roledescription="carousel" aria-label="Lagom Naturals featured products">
-    <div className="home-hero-carousel__media" aria-hidden="true" style={{'--hero-drag':`${dragX}px`}}>
-      <Presence initial={false} mode="sync">
-        <m.picture key={slide.id} className="home-hero-carousel__picture"
-          initial={reduceMotion?false:{opacity:0,scale:1.018,x:enterX}}
-          animate={{opacity:1,scale:1,x:0}}
-          exit={reduceMotion?undefined:{opacity:0,scale:1.006,x:exitX}}
-          transition={transition}>
-          <source media="(max-width: 699px)" type="image/avif" srcSet={slide.mobile.avifSrcSet} sizes="100vw"/>
-          <source media="(max-width: 699px)" type="image/webp" srcSet={slide.mobile.webpSrcSet} sizes="100vw"/>
-          <source type="image/avif" srcSet={slide.desktop.avifSrcSet} sizes="100vw"/>
-          <source type="image/webp" srcSet={slide.desktop.webpSrcSet} sizes="100vw"/>
-          <img src={slide.desktop.src} alt="" loading={active===0?'eager':'lazy'} fetchPriority={active===0?'high':'low'} decoding="async" width="1600" height="900" style={{objectPosition:slide.position}}/>
-        </m.picture>
-      </Presence>
-    </div>
-    <div className="home-hero-carousel__veil" aria-hidden="true"/>
-    <div className="home-hero-carousel__content">
-      <Presence initial={false} mode="wait">
-        <m.div key={slide.id} className="home-hero-carousel__copy" initial={reduceMotion?false:{opacity:0,y:16}} animate={{opacity:1,y:0}} exit={reduceMotion?undefined:{opacity:0,y:-10}} transition={reduceMotion?{duration:0}:motionTokens.springSoft}>
-          <p className="home-hero-carousel__eyebrow">{slide.eyebrow}</p><h1>{slide.title}</h1><p className="home-hero-carousel__body">{slide.body}</p>
-          <div className="home-hero-carousel__actions"><Link className="home-hero-carousel__primary" to={slide.primaryTo}>{slide.primary}<ArrowRight aria-hidden="true"/></Link><Link className="home-hero-carousel__secondary" to={slide.secondaryTo}>{slide.secondary}</Link></div>
-        </m.div>
-      </Presence>
-    </div>
-    <div className="home-hero-carousel__controls">
-      <div className="home-hero-carousel__pagination" role="tablist" aria-label="Choose featured slide">{SLIDES.map((item,index)=><button key={item.id} type="button" role="tab" aria-selected={index===active} aria-label={`Show slide ${index+1}: ${item.eyebrow}`} className={index===active?'is-active':''} onClick={()=>select(index)}><span className="sr-only">{String(index+1).padStart(2,'0')}</span><i aria-hidden="true"><b/></i></button>)}</div>
-    </div>
-  </div>;
+  const resetAtmosphere = () => { if (frame.current) cancelAnimationFrame(frame.current); atmosphere.current?.style.setProperty("--pointer-x", "0px"); atmosphere.current?.style.setProperty("--pointer-y", "0px"); };
+  return <section className="legacy-sky-hero" onPointerMove={updateAtmosphere} onPointerLeave={resetAtmosphere} aria-labelledby="legacy-sky-hero-title">
+    <div className="legacy-sky-hero__atmosphere" ref={atmosphere} aria-hidden="true"><span className="legacy-sky-hero__light"/><span className="legacy-sky-hero__cloud legacy-sky-hero__cloud--far"/><span className="legacy-sky-hero__cloud legacy-sky-hero__cloud--mid"/><span className="legacy-sky-hero__cloud legacy-sky-hero__cloud--near"/><span className="legacy-sky-hero__cloud legacy-sky-hero__cloud--left"/><span className="legacy-sky-hero__cloud legacy-sky-hero__cloud--right"/></div>
+    <div className="legacy-sky-hero__content"><p>THC SELTZERS · MADE FOR THE MOMENT</p><h1 id="legacy-sky-hero-title">Find your<br/><strong>just right.</strong></h1><span className="legacy-sky-hero__lede">Crisp, zero-sugar THC seltzers made for a more measured social ritual.</span><div className="legacy-sky-hero__actions"><Link to="/shop">SHOP SELTZERS <ArrowRight aria-hidden="true"/></Link><Link to="/learn">THC, EXPLAINED</Link></div><span className="legacy-sky-hero__details">10 MG THC · ZERO SUGAR · 12 FL OZ</span></div>
+    <div className="legacy-sky-hero__product" aria-hidden="true"><img src={heroCans} alt="" width="1122" height="1402" fetchPriority="high" decoding="async"/></div>
+  </section>;
 }
-
-export default function HomeHero(){return <HeroCarousel/>}
