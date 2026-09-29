@@ -1,0 +1,39 @@
+{
+  "version": "2.0.0-prototype",
+  "generated_at": "2026-09-28",
+  "workbook": "Lagom_Naturals_Depletion_Workbook_v2.xlsx",
+  "sha256": "012d105841dafe85187bf3b2caaeedff52fa3183c5fb52fa917e65e3ff929d8c",
+  "reconciliation_seed": {
+    "invoice_count": 2,
+    "depletion_line_count": 8,
+    "cases": 8,
+    "revenue": 583.92,
+    "cogs": 576,
+    "gross_profit": 7.92,
+    "product_master_count": 17,
+    "rep_count": 4,
+    "legacy_date_serial_46064": "2026-02-11"
+  },
+  "security": {
+    "banking_credentials_committed": false,
+    "invoice_print_included": false,
+    "raw_legacy_invoice_generator_committed": false
+  },
+  "known_confirmation_items": [
+    "Confirm historical date represented by Excel serial 46064 before full migration.",
+    "Confirm Jess bonus semantics before any automated bonus calculation."
+  ],
+  "workbook_size_bytes": 117352,
+  "repository_target": "operations/depletion-workbook",
+  "validation": {
+    "formula_error_scan_matches": 0,
+    "seed_reconciliation": "PASS",
+    "visual_qa": [
+      "Overview",
+      "Invoices",
+      "Depletion",
+      "Commissions",
+      "Setup"
+    ]
+  }
+}

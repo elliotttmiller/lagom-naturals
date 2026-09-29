@@ -1,0 +1,5 @@
+Rep,New Rate,Reorder Rate,Mileage Rate,Bonus Threshold,Bonus Rule / Status,Active
+Roman,0.2,0.1,0.55,,None in export,True
+Jess,0.12,0.05,0.0,10000.0,Legacy sheet notes a 3% bonus over $10k; excluded pending confirmation.,True
+Timmy,0.0,0.0,0.0,,None in export,True
+Tito,0.0,0.0,0.0,,None in export,True

@@ -1,0 +1,37 @@
+Legacy Field,V2 Field,Disposition,Ownership,Rationale
+Invoice Date,Invoices.Invoice Date,Keep,Input,Required invoice-level date
+Type,—,Remove from core,Legacy,Seed is Invoice; no verified non-invoice workflow
+Invoice #,Invoices.Invoice # / Depletion.Invoice #,Keep,Input / foreign key,Unique invoice key
+Acct #,—,Remove/defer,Legacy,No populated value in verified seed
+Account Name,Invoices.Account,Keep,Input / validated,Account master selection
+City,Invoices.City,Derive,Calculated,Lookup from Setup account master
+Channel,Invoices.Channel,Derive,Calculated,Lookup from Setup account master
+Sales Rep,Invoices.Sales Rep,Keep,Input / validated,Rep master selection
+Product,Depletion.Product,Keep,Input / validated,Product master selection
+SKU,Depletion.SKU,Derive,Calculated,Product lookup
+Description,Setup.Products.Description,Move to master,Master data,Not repeated per transaction
+Category,Setup.Products.Category,Move to master,Master data,Reporting metadata
+Cases Sold,Depletion.Cases,Keep,Input,Positive numeric
+Sale Price,Depletion.Sale Price,Keep,Input,Non-negative case price
+Revenue,Depletion.Revenue,Derive,Calculated,Cases × Sale Price
+Payment Status,Invoices.Payment Status,Derive,Calculated,Derived from revenue and paid amount
+Notes,Invoices.Notes,Keep,Input,Invoice-level note; orphan notes quarantined
+Account Type,Invoices.Account Type,Keep,Input / validated,New or Reorder
+COGS/Case,Depletion.COGS/Case,Derive,Calculated,Product master lookup
+Total COGS,Depletion.Total COGS,Derive,Calculated,Cases × COGS/Case
+Gross Profit,Depletion.Gross Profit / Invoices.Gross Profit,Derive,Calculated,Revenue - COGS
+Dup Check,QA Status,Replace,Calculated QA,Deterministic unique/required checks
+Inv Line#,—,Remove,Helper,Table row/line identity is implicit
+Lookup Key,—,Remove,Helper,No user-facing helper key
+Adjustment Type,—,Defer extension,Legacy,No populated verified seed; do not invent behavior
+Cost/Bag Reference,Setup.Products.Cost/Unit Ref,Move to master,Master data,Reference only
+Invoice Total,Invoices.Invoice Revenue,Derive,Calculated,Sum of depletion revenue
+Amount Paid,Invoices.Amount Paid,Keep,Input,Recorded once per invoice
+Balance Due,Invoices.Balance Due,Derive,Calculated,"max(revenue-paid,0)"
+Due Date,Invoices.Due Date,Derive,Calculated,Invoice Date + term days
+Days Past Due,Invoices.Days Past Due,Derive,Calculated,Closed=0; otherwise today-due
+Collection Status,Invoices.Payment Status / Aging / AR.Action,Replace,Calculated,Consolidated derived state
+Last Follow-Up Date,—,Remove from core,CRM/finance extension,No populated verified workflow; avoid CRM behavior
+Next Follow-Up Date,—,Remove from core,CRM/finance extension,No populated verified workflow; avoid CRM behavior
+Payment Date,Invoices.Payment Date,Keep,Input,Required for Paid QA
+Commission Eligible Date,Invoices.Commission Eligible Date,Derive,Calculated,Payment Date only when Paid

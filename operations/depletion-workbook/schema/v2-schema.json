@@ -1,0 +1,122 @@
+{
+  "version": "2.0.0",
+  "system": "Lagom Naturals Depletion Workbook",
+  "crm_dependency": "none",
+  "tables": {
+    "Invoices": {
+      "grain": "one row per unique invoice",
+      "key": [
+        "Invoice #"
+      ],
+      "inputs": [
+        "Invoice #",
+        "Invoice Date",
+        "Account",
+        "Sales Rep",
+        "Account Type",
+        "Terms",
+        "Amount Paid",
+        "Payment Date",
+        "Notes"
+      ],
+      "derived": [
+        "City",
+        "Channel",
+        "Invoice Revenue",
+        "Cases",
+        "Total COGS",
+        "Gross Profit",
+        "Gross Margin",
+        "Balance Due",
+        "Due Date",
+        "Payment Status",
+        "Days Past Due",
+        "Aging",
+        "Commission Eligible Date",
+        "QA Status"
+      ]
+    },
+    "Depletion": {
+      "grain": "one row per invoice/product",
+      "key": [
+        "Invoice #",
+        "Product"
+      ],
+      "inputs": [
+        "Invoice #",
+        "Product",
+        "Cases",
+        "Sale Price"
+      ],
+      "derived": [
+        "Revenue",
+        "SKU",
+        "Product Line",
+        "COGS/Case",
+        "Total COGS",
+        "Gross Profit",
+        "Invoice Date",
+        "Account",
+        "Sales Rep",
+        "Account Type",
+        "QA Status"
+      ]
+    },
+    "Products": {
+      "grain": "one row per product",
+      "fields": [
+        "Product",
+        "SKU",
+        "Description",
+        "Category",
+        "Product Line",
+        "COGS/Case",
+        "Cost/Unit Ref",
+        "Active"
+      ]
+    },
+    "Accounts": {
+      "grain": "one row per workbook account key",
+      "fields": [
+        "Account",
+        "City",
+        "Channel",
+        "Active"
+      ]
+    },
+    "Reps": {
+      "grain": "one row per rep",
+      "fields": [
+        "Rep",
+        "New Rate",
+        "Reorder Rate",
+        "Mileage Rate",
+        "Bonus Threshold",
+        "Bonus Rule / Status",
+        "Active"
+      ]
+    },
+    "Terms": {
+      "grain": "one row per payment term",
+      "fields": [
+        "Term",
+        "Days"
+      ]
+    }
+  },
+  "derived_surfaces": [
+    "Overview",
+    "AR",
+    "Reports",
+    "Commissions"
+  ],
+  "security": {
+    "bank_credentials": "excluded",
+    "raw_invoice_generator": "excluded",
+    "invoice_print": "deferred"
+  },
+  "known_confirmations": [
+    "legacy date serial 46064",
+    "Jess bonus semantics"
+  ]
+}
