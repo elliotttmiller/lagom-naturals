@@ -60,10 +60,10 @@ export default function InvoicesPage({model,reps=[],onNewInvoice,onOpenInvoice})
     </FilterBar>
 
     <div className="lo-metric-grid lo-metric-grid--four">
-      <MetricCard label="Records" value={rows.length} trend="+20%" spark={rows.map((_,i)=>i+1)}/>
-      <MetricCard label="Revenue" value={money(revenue)} trend="+14%" spark={spark}/>
-      <MetricCard label="Open AR" value={money(openAR)} trend="-32%" trendDirection="down" spark={rows.map(x=>x.balanceDue)}/>
-      <MetricCard label="QA Issues" value={issues} trend={issues?'+100%':'0%'} trendDirection={issues?'bad':'flat'} tone={issues?'red':'green'} spark={rows.map((_,i)=>issues?i:0)}/>
+      <MetricCard label="Records" value={rows.length} trend="—" trendDirection="flat" spark={rows.map((_,i)=>i+1)}/>
+      <MetricCard label="Revenue" value={money(revenue)} trend="—" trendDirection="flat" spark={spark}/>
+      <MetricCard label="Open AR" value={money(openAR)} trend="—" trendDirection="flat" spark={rows.map(x=>x.balanceDue)}/>
+      <MetricCard label="QA Issues" value={issues} trend="—" trendDirection={issues?'bad':'flat'} tone={issues?'red':'green'} spark={rows.map((_,i)=>issues?i:0)}/>
     </div>
 
     <section className="lo-data-card">
