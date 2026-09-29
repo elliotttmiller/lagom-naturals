@@ -412,17 +412,6 @@ function HomePage() {
           ))}
         </Stagger>
       </section>
-      <Reveal className="find-band">
-        <div>
-          <p>FIND LAGOM</p>
-          <h2>Meet us out in the world.</h2>
-        </div>
-        <p>
-          Retail distribution details are being assembled. Check availability
-          directly with your local retailer.
-        </p>
-        <ArrowLink to="/visit">Explore availability</ArrowLink>
-      </Reveal>
     </Shell>
   );
 }
