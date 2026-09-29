@@ -15,6 +15,39 @@
 .sky-home .beverage-hero,
 .sky-home .legacy-sky-hero { background: transparent !important; }
 
+
+/* Hero product art: restore the approved transparent product composition.
+   Keep it independent from the atmospheric cloud field so parallax never
+   changes the packshot's merchandising scale or legibility. */
+.sky-home .legacy-sky-hero {
+  position:relative;
+  isolation:isolate;
+}
+.sky-home .legacy-sky-hero__atmosphere {
+  z-index:0;
+}
+.sky-home .legacy-sky-hero__product {
+  position:absolute;
+  z-index:1;
+  top:50%;
+  right:clamp(32px,6vw,112px);
+  width:clamp(520px,46vw,860px);
+  max-width:52%;
+  transform:translateY(-46%);
+  pointer-events:none;
+}
+.sky-home .legacy-sky-hero__product img {
+  display:block;
+  width:100%;
+  height:auto;
+  object-fit:contain;
+  filter:drop-shadow(0 28px 38px rgba(45,66,72,.12));
+}
+.sky-home .legacy-sky-hero__content {
+  position:relative;
+  z-index:2;
+}
+
 /* Keep the hero bright enough for copy, without bleaching the shared blue sky. */
 .sky-home .legacy-sky-hero__light {
   inset: -12%;
