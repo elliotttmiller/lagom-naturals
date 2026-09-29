@@ -24,6 +24,12 @@ import {
 } from "lucide-react";
 import "./sky-home.css";
 import {
+  AtmosphericCloudField,
+  AtmosphericSceneSection,
+  AtmosphericSectionNavigator,
+  useAtmosphericHomepageScroll,
+} from "@/AtmosphericScrollExperience";
+import {
   m,
   Presence,
   Reveal,
@@ -439,6 +445,13 @@ function HomeProductCard({ product }) {
 function HomePage() {
   const homeRef = useRef(null);
   const homeFrame = useRef(null);
+  const {
+    activeScene,
+    cloudStyles,
+    progress,
+    scrollToScene,
+    motionProfile,
+  } = useAtmosphericHomepageScroll(homeRef);
   useEffect(() => () => { if (homeFrame.current) cancelAnimationFrame(homeFrame.current); }, []);
   const updateSky = (event) => {
     if (event.pointerType !== "mouse" || !homeRef.current) return;
@@ -465,16 +478,12 @@ function HomePage() {
   };
   return (
     <Shell>
-      <div className="sky-home" ref={homeRef} onPointerMove={updateSky} onPointerLeave={resetSky}>
-        <div className="sky-home__atmosphere" aria-hidden="true">
-          <span className="sky-home__cloud-depth sky-home__cloud-depth--mid"><span className="sky-home__cloud sky-home__cloud--mid" /></span>
-          <span className="sky-home__cloud-depth sky-home__cloud-depth--near"><span className="sky-home__cloud sky-home__cloud--near" /></span>
-          <span className="sky-home__cloud-depth sky-home__cloud-depth--left"><span className="sky-home__cloud sky-home__cloud--left" /></span>
-          <span className="sky-home__cloud-depth sky-home__cloud-depth--right"><span className="sky-home__cloud sky-home__cloud--right" /></span>
-        </div>
-        <section className="beverage-hero" aria-label="Featured Lagom Naturals products"><HomeHero /></section>
+      <div className="sky-home" data-motion-profile={motionProfile} ref={homeRef} onPointerMove={updateSky} onPointerLeave={resetSky}>
+        <AtmosphericCloudField styles={cloudStyles} compact={motionProfile === "phone"} />
+        <section id="home-scene-hero" data-sky-scene="hero" className="beverage-hero atmospheric-scene-hero" aria-label="Featured Lagom Naturals products"><HomeHero /></section>
+        <AtmosphericSectionNavigator activeScene={activeScene} progress={progress} onNavigate={scrollToScene} />
 
-        <section className="sky-home__section sky-home__section--flavors" aria-labelledby="home-flavors-title">
+        <AtmosphericSceneSection id="flavors" className="sky-home__section sky-home__section--flavors" labelledBy="home-flavors-title">
           <div className="sky-home__heading sky-home__heading--split">
             <div><p>EXPLORE OUR FLAVORS</p><h2 id="home-flavors-title">A flavor for every vibe.</h2></div>
             <Link className="sky-home__outline-action" to="/shop/seltzers">SHOP ALL SELTZERS <ArrowRight aria-hidden="true" /></Link>
@@ -482,9 +491,9 @@ function HomePage() {
           <div className="sky-home__product-grid">
             {homeSeltzers.map((product) => <HomeProductCard key={product.id} product={product} />)}
           </div>
-        </section>
+        </AtmosphericSceneSection>
 
-        <section className="sky-home__section sky-home__section--editorial" aria-labelledby="home-craft-title">
+        <AtmosphericSceneSection id="craft" className="sky-home__section sky-home__section--editorial" labelledBy="home-craft-title">
           <div className="sky-home__editorial-copy">
             <p>PREMIUM BY NATURE</p>
             <h2 id="home-craft-title">A smoother state of mind.</h2>
@@ -492,9 +501,9 @@ function HomePage() {
             <Link className="sky-home__outline-action" to="/learn">LEARN MORE <ArrowRight aria-hidden="true" /></Link>
           </div>
           <aside className="sky-home__editorial-note" aria-label="Lagom point of view"><span>Flavor first.</span><span>Balance always.</span><small>Made for the moments in between.</small></aside>
-        </section>
+        </AtmosphericSceneSection>
 
-        <section className="sky-home__section sky-home__section--gummies" aria-labelledby="home-gummies-title">
+        <AtmosphericSceneSection id="gummies" className="sky-home__section sky-home__section--gummies" labelledBy="home-gummies-title">
           <div className="sky-home__heading">
             <p>MEET THE GUMMIE LINE</p>
             <h2 id="home-gummies-title">Real flavor.<br/>Higher moments.</h2>
@@ -504,9 +513,9 @@ function HomePage() {
             {homeGummies.map((product) => <HomeProductCard key={product.id} product={product} />)}
           </div>
           <Link className="sky-home__primary-action" to="/shop/gummies">SHOP GUMMIES <ArrowRight aria-hidden="true" /></Link>
-        </section>
+        </AtmosphericSceneSection>
 
-        <section className="sky-home__section sky-home__section--responsible" aria-labelledby="home-responsible-title">
+        <AtmosphericSceneSection id="balance" className="sky-home__section sky-home__section--responsible" labelledBy="home-responsible-title">
           <div className="sky-home__responsible-copy">
             <p>ENJOY RESPONSIBLY</p>
             <h2 id="home-responsible-title">A better moment starts with balance.</h2>
@@ -518,7 +527,7 @@ function HomePage() {
             <li>Do not drive or operate machinery after consuming THC.</li>
             <li>Keep products away from children and pets.</li>
           </ul>
-        </section>
+        </AtmosphericSceneSection>
       </div>
     </Shell>
   );
