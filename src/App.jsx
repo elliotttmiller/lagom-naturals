@@ -53,6 +53,17 @@ import lemonadeHomePackshot from "./assets/products/24k-lemonade.webp";
 import blackberryHomePackshot from "./assets/products/blackberry-breeze.webp";
 import strawberryLimeHomePackshot from "./assets/products/strawberry-lime-fusion.webp";
 import watermelonHomePackshot from "./assets/products/watermelon-refresher.webp";
+import berryMelonHomePackshot from "./assets/products/originals/Berry-Melon-Bliss-Photoroom-900x900.png";
+import blueRazzHomePackshot from "./assets/products/originals/Blue-Razz-Photoroom-Photoroom-1-900x900.png";
+import blueberryClassicHomePackshot from "./assets/products/originals/Blueberry-Yum-Yum-1-Photoroom-900x900.png";
+import blueberryMidnightHomePackshot from "./assets/products/originals/Blueberry-Yum-Yum-3-Photoroom-900x900.png";
+import cherryBlissHomePackshot from "./assets/products/originals/Cherry-Bliss-Photoroom-900x900.png";
+import greenAppleHomePackshot from "./assets/products/originals/Green-Apple-Photoroom-900x900.png";
+import peachHomePackshot from "./assets/products/originals/Peach-Photoroom-900x900.png";
+import pinkLemonadeHomePackshot from "./assets/products/originals/Pink-Lemonade-Photoroom-900x900.png";
+import pushPopOrganicHomePackshot from "./assets/products/originals/Push-Pop-1-Photoroom-900x900.png";
+import strawberryBananaHomePackshot from "./assets/products/originals/Strawberry-Banana-Photoroom-900x900.png";
+import strawberryMidnightHomePackshot from "./assets/products/originals/Strawberry-Photoroom-900x900.png";
 import {
   CartProvider,
   configuredProduct,
@@ -414,6 +425,20 @@ const HOME_FLAVOR_PACKSHOTS = {
   "watermelon-refresher": watermelonHomePackshot,
 };
 
+const HOME_GUMMY_PACKSHOTS = {
+  "blueberry-yum-yum": blueberryClassicHomePackshot,
+  "green-apple": greenAppleHomePackshot,
+  "strawberry-banana": strawberryBananaHomePackshot,
+  "berry-melon-bliss-organic": berryMelonHomePackshot,
+  "blue-razz-organic": blueRazzHomePackshot,
+  "cherry-bliss-organic": cherryBlissHomePackshot,
+  "push-pop-organic": pushPopOrganicHomePackshot,
+  "blueberry-yum-yum-midnight-drift": blueberryMidnightHomePackshot,
+  "peach-midnight-drift": peachHomePackshot,
+  "pink-lemonade-midnight-drift": pinkLemonadeHomePackshot,
+  "strawberry-midnight-drift": strawberryMidnightHomePackshot,
+};
+
 const HOME_FLAVOR_DESCRIPTIONS = {
   "24k-lemonade": "Sicilian lemon and juicy tangerine with a crisp, clean finish.",
   "blackberry-breeze": "Blackberry flavor with a clean, sparkling finish.",
@@ -429,7 +454,7 @@ function HomeProductCard({ product }) {
   return (
     <article className="sky-home-product" style={{ "--product-accent": product.accent }}>
       <Link className="sky-home-product__image" to={`/product/${product.id}`} aria-label={`View ${product.name}`}>
-        <img src={HOME_FLAVOR_PACKSHOTS[product.id] || product.image} alt={`${product.name} ${product.type}`} loading="lazy" decoding="async" />
+        <img src={HOME_FLAVOR_PACKSHOTS[product.id] || HOME_GUMMY_PACKSHOTS[product.id] || product.image} alt={`${product.name} ${product.type}`} loading="lazy" decoding="async" />
       </Link>
       <div className="sky-home-product__copy">
         <h3><Link to={`/product/${product.id}`}>{product.name}</Link></h3>
