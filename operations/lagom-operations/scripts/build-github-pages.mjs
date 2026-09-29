@@ -4,11 +4,11 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
-const crmRoot = resolve(here, '..');
-const apiDir = resolve(crmRoot, 'app', 'api');
-const apiHold = resolve(crmRoot, '.pages-api-disabled');
-const exportDir = resolve(crmRoot, 'out');
-const pagesTarget = resolve(crmRoot, '..', '..', 'docs', 'crm');
+const operationsRoot = resolve(here, '..');
+const apiDir = resolve(operationsRoot, 'app', 'api');
+const apiHold = resolve(operationsRoot, '.pages-api-disabled');
+const exportDir = resolve(operationsRoot, 'out');
+const pagesTarget = resolve(operationsRoot, '..', '..', 'docs', 'operations');
 
 let apiMoved = false;
 
@@ -25,24 +25,24 @@ try {
     process.platform === 'win32' ? 'npx.cmd' : 'npx',
     ['next', 'build'],
     {
-      cwd: crmRoot,
+      cwd: operationsRoot,
       stdio: 'inherit',
       env: {
         ...process.env,
         GITHUB_PAGES: 'true',
-        GITHUB_PAGES_BASE_PATH: process.env.GITHUB_PAGES_BASE_PATH || '/lagom-naturals/crm',
+        GITHUB_PAGES_BASE_PATH: process.env.GITHUB_PAGES_BASE_PATH || '/lagom-naturals/operations',
       },
     },
   );
 
   if (result.status !== 0) {
-    throw new Error(`CRM static export failed with exit code ${result.status ?? 'unknown'}`);
+    throw new Error(`Lagom Operations static export failed with exit code ${result.status ?? 'unknown'}`);
   }
 
   await rm(pagesTarget, { recursive: true, force: true });
   await mkdir(pagesTarget, { recursive: true });
   await cp(exportDir, pagesTarget, { recursive: true });
-  console.log(`CRM GitHub Pages preview copied to ${pagesTarget}`);
+  console.log(`Lagom Operations GitHub Pages preview copied to ${pagesTarget}`);
 } finally {
   if (apiMoved) {
     await rm(apiDir, { recursive: true, force: true });
