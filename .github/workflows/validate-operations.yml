@@ -1,0 +1,39 @@
+name: Validate Lagom Operations
+
+on:
+  pull_request:
+    paths:
+      - 'operations/lagom-operations/**'
+      - '.github/workflows/validate-operations.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-operations:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: operations/lagom-operations/package-lock.json
+
+      - name: Install dependencies
+        working-directory: operations/lagom-operations
+        run: npm ci
+
+      - name: Validate workbook-derived operations domain
+        working-directory: operations/lagom-operations
+        run: npm run validate:operations
+
+      - name: Build static Operations preview
+        working-directory: operations/lagom-operations
+        run: npm run build:pages
+        env:
+          GITHUB_PAGES_BASE_PATH: /lagom-naturals/operations
