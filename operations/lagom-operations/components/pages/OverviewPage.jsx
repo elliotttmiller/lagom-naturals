@@ -14,8 +14,6 @@ import {
 } from '../ui/OperationsUI';
 import {monthlyPerformance,productPerformance} from '../../lib/companyOperationsDomain';
 
-const trend=(value)=>value>0?'+12%':'0%';
-
 export default function OverviewPage({model,onNavigate}){
   const year=new Date().getFullYear();
   const monthly=monthlyPerformance(model,year);
@@ -33,10 +31,10 @@ export default function OverviewPage({model,onNavigate}){
     <PageTitle title="Overview" eyebrow="LAGOM NATURALS OPERATIONS"/>
 
     <div className="lo-metric-grid lo-metric-grid--five">
-      <MetricCard label="Revenue" value={money(model.kpis.revenue)} trend={trend(model.kpis.revenue)} spark={monthlyRevenue}/>
-      <MetricCard label="Cases" value={number(model.kpis.cases)} trend="+14%" spark={monthlyCases}/>
-      <MetricCard label="Gross Profit" value={money(model.kpis.grossProfit)} trend="+9%" spark={monthlyProfit}/>
-      <MetricCard label="Margin" value={(model.kpis.grossMargin*100).toFixed(1)+'%'} trend="+0.2%" spark={monthly.map(x=>x.margin*100)}/>
+      <MetricCard label="Revenue" value={money(model.kpis.revenue)} trend="—" trendDirection="flat" spark={monthlyRevenue}/>
+      <MetricCard label="Cases" value={number(model.kpis.cases)} trend="—" trendDirection="flat" spark={monthlyCases}/>
+      <MetricCard label="Gross Profit" value={money(model.kpis.grossProfit)} trend="—" trendDirection="flat" spark={monthlyProfit}/>
+      <MetricCard label="Margin" value={(model.kpis.grossMargin*100).toFixed(1)+'%'} trend="—" trendDirection="flat" spark={monthly.map(x=>x.margin*100)}/>
       <MetricCard label="Open AR" value={money(model.kpis.openAR)} trend="0%" trendDirection="flat" spark={monthly.map((x,i)=>i<monthly.length-3?0:model.kpis.openAR)}/>
     </div>
 
