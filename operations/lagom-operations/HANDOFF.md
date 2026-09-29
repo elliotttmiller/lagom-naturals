@@ -1,129 +1,162 @@
-# Lagom CRM — Developer Handoff
+# Lagom Operations — Developer Handoff
 
-A field-sales CRM for Lagom Naturals (hemp-derived THC beverage + gummy brand,
-Minnesota). Tracks accounts, activities, orders, inventory, territories, routes, and AI
-insights.
+Lagom Operations is the unified internal web application for Lagom Naturals. It combines CRM relationship work with sales operations, invoices, depletion, AR, commissions, reporting, product masters, and administration in one shared application shell.
 
-> **Start with `PRODUCT_VISION.md`** — it explains the brand, the field-sales/DSD model,
-> and why each feature exists. This file is the technical state.
+## Canonical application path
 
-## Stack & hosting
-- **Next.js (App Router).** The entire UI is one file: `app/page.js` (~2,500 lines,
-  React with inline styles + a single `<GlobalStyles>` CSS block). Intentional, but
-  the #1 piece of tech debt (see below).
-- **Supabase** (Postgres) for all data; the browser client uses the anon key.
-- **Two serverless API routes:** `app/api/ai/route.js` (Anthropic) and
-  `app/api/geocode/route.js` (Google Geocoding).
-- **Vercel** hosting, project `lagom-crm-2k87`. Custom domain **crm.lagomnaturals.com**
-  (CNAME -> Vercel, automatic SSL). DNS managed at SiteGround.
-- **Custom auth** (a `crm_users` table, username/password) — not Supabase Auth.
+`operations/lagom-operations/`
 
-## Repo layout
-- `app/page.js` — the whole app.
-- `app/api/ai/route.js`, `app/api/geocode/route.js` — backend routes.
-- Root SQL scripts (run manually in the Supabase SQL Editor):
-  `supabase-setup.sql`, `products_import.sql`, `capitol_bev_import.sql`,
-  `county_backfill.sql`, `maps_setup.sql`.
-- `CLAUDE.md` — project conventions (responsive rules, palette, breakpoints). Read first.
-- `INVOICES_SPEC.md` — spec for the next feature (Phase 3).
-- `components/crm/LagomCRM.jsx` — legacy/unused; safe to ignore or delete.
+The former `crm/lagom-crm/` application path is retired. Do not recreate a second CRM build.
 
-## Environment variables (Vercel -> Settings -> Environment Variables)
-- `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` — already set.
-- `GOOGLE_MAPS_API_KEY` (server, Geocoding API) — needed for geocoding. **Add.**
-- `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` (browser, Maps JavaScript API) — needed for the
-  interactive map. **Add.**
-- `ANTHROPIC_API_KEY` (server) — needed for the AI tab. **Add.**
+## Stack
 
-After adding any env var, redeploy for it to take effect.
+- Next.js App Router
+- React 18
+- Supabase/Postgres
+- Lucide React icons
+- ExcelJS for controlled depletion workbook import
+- Static GitHub Pages preview support
+- Vercel production hosting
 
-## Current state — DONE
+## Frontend architecture
 
-### Sales & Depletion operations (Phase 2 approved workbook)
-- New `Sales` workspace with Overview, Transactions, Reorders, AR, and Products.
-- Normalized `invoices` + `invoice_items` commercial model, individual `payments`,
-  collection activities, CRM tasks, product placements, reorder cadence, and product
-  performance views.
-- Approved workbook seed is in `depletion_phase2.sql`: invoices 1088/1089, 8 line
-  items, 8 cases, $583.92 revenue, $576.00 COGS, $7.92 gross profit.
-- Orders and Sales invoice creation now feed the same normalized commercial records.
-- Account 360 now shows sales history, lifetime metrics, AR, and SKU placement gaps.
-- Today and Routes consume reorder/AR signals.
-- Commissions derive from paid invoices and approved rep commission settings.
-- See `DEPLETION_OPERATIONS.md` for architecture, exact mapping, deployment order,
-  reconciliation totals, and manual verification checklist.
-- **Required deployment step:** run `depletion_phase2.sql` against the real Lagom CRM
-  Supabase database before deploying the application changes. This migration was not
-  applied during implementation because the connected Supabase workspace exposed only
-  an unrelated project named `Order Manager`.
+```text
+app/
+  page.js                  application composition + auth + route state
+  layout.js                root metadata/fonts
+  operations.css           canonical design system / responsive shell
+  api/
+    ai/route.js
+    geocode/route.js
 
-- Accounts, Activity, Inventory (17 products), Users management.
-- Collapsible desktop sidebar; desktop layout pass (content capped in `.content-inner`).
-- Custom domain + SSL.
-- **Phase 4 (maps):** Google geocoding route + one-click "Geocode all accounts" in the
-  Setup tab; interactive Google Territory Map (falls back to the SVG plot when no
-  browser key is set); "Open in Google Maps" link in Routes; **territories switched
-  from 5 hardcoded zones to real MN counties** everywhere — `getZone(p)` now returns
-  `p.county`, with stable per-county colors and dynamic county lists.
+components/
+  layout/
+    AppShell.jsx
+  ui/
+    OperationsUI.jsx
+    OperationsCharts.jsx
+  pages/
+    OverviewPage.jsx
+    InvoicesPage.jsx
+    DepletionPage.jsx
+    AccountsReceivablePage.jsx
+    ReportsPage.jsx
+    CommissionsPage.jsx
+    CRMPage.jsx
+    AdministrationPage.jsx
+    UILibraryPage.jsx
+  operations/
+    InvoiceDialog.jsx
+    DepletionImportDialog.jsx
 
-## Company Operations Portal refactor
-
-The primary UI direction has changed from spreadsheet-style dashboards to a unified company operations web application.
-
-Implemented on the company-operations branch:
-
-- `CompanyOperationsWorkspace.jsx` now owns Company Dashboard, Depletion, AR, Reports, and Commissions.
-- `DepletionImportDialog.jsx` owns validated XLSX depletion import; `QualityCheckDialog.jsx` owns the live workbook-style reconciliation/QA workflow.
-- `company_operations_v1.sql` adds payment terms and invoice term ownership without inventing unverified term definitions.
-- `SalesWorkspace.jsx` is retained as the invoice/payment mutation workspace and is visually/operationally narrowed to Invoices.
-- `companyOperationsDomain.js` translates approved workbook formulas, aging, reconciliation, QA, and reporting semantics into deterministic application logic.
-- `companyOperationsData.js` centralizes commercial reads and Supabase realtime refresh.
-- `operations.css` provides the new Nunito-led premium Lagom operations design system.
-- navigation is reorganized into Workspace, CRM, Field Sales, Commercial, Tools, and Admin.
-- the Google Sheets workbook is now a business-rule/reconciliation/admin artifact, not a parallel production writer.
-
-Read `COMPANY_OPERATIONS_PORTAL.md` before extending commercial functionality.
-
-The normalized Supabase model remains canonical. Do not add a two-way Google Sheets synchronization path without stable IDs, field ownership, conflict handling, and a server-side adapter.
-
-## PENDING (priority order)
-1. **Activate Phase 4** (no code change): add the two Google env vars + redeploy; run
-   `maps_setup.sql` (adds `latitude`/`longitude`/`county`); then Setup -> "Geocode all
-   accounts" (~2,391 records). Verify match rate and that the map renders.
-2. **Deploy Sales & Depletion migration:** run `depletion_phase2.sql` in the real Lagom CRM Supabase project, then run `company_operations_v1.sql`. Reconcile the approved workbook totals in `DEPLETION_OPERATIONS.md` before enabling normal commercial entry.
-3. **Verify `supabase-setup.sql` has been run** — tables `events`, `orders`,
-   `order_items`, `invoices`, `inventory_movements`, `commissions`. Those tabs error or
-   are empty if the script has not been run.
-4. **AI tab:** add `ANTHROPIC_API_KEY`; update the model id in `app/api/ai/route.js` to
-   a current Claude model.
-5. **Voice memo** in the Activity tab is a "coming soon" stub.
-
-## Risks / tech debt
-- **Legacy single-file architecture** (`app/page.js`): company operations have started moving into `components/operations` and `lib`. Continue extracting CRM domains incrementally and verify after each chunk.
-- **Security review (highest priority before real production use):** custom auth —
-  confirm passwords are hashed, not plaintext. Review **Supabase Row Level Security**
-  on every table; the browser uses the anon key, so RLS is what actually protects data.
-- **Geocoding** writes ~2,391 individual Supabase `update`s from the client — works but
-  slow; could be batched.
-- **Restrict the Google key(s):** browser key -> HTTP referrers `crm.lagomnaturals.com/*`
-  and `*.vercel.app/*`; server key -> Geocoding API only. Ideally two separate keys.
-- Company Operations has a deterministic workbook-baseline validation script (`npm run validate:operations`) and a PR validation workflow. GitHub Actions availability still depends on repository/account runner configuration.
-
-## Conventions (see CLAUDE.md)
-- Check **375 / 768 / 1440px** before shipping any UI change. Keep content inside
-  `.content-inner`. Use the `.g2/.g3/.g4` grid utilities (they collapse at breakpoints).
-- No em-dashes in user-facing copy.
-- Develop on a feature branch, open a PR, squash-merge to `main`. Vercel auto-deploys
-  `main` to production.
-
-## Local dev
+lib/
+  operationsData.js
+  companyOperationsDomain.js
+  previewClient.js
 ```
-npm install
-npm run dev      # http://localhost:3000
+
+The old single-file CRM UI and the intermediate `CompanyOperationsWorkspace` implementation have been removed from the canonical build.
+
+## Shared shell / visual contract
+
+The approved September 29 mockups are the visual reference.
+
+Required shell:
+- fixed dark Lagom Operations sidebar;
+- editorial serif page titles;
+- compact Inter body/UI typography;
+- warm off-white canvas;
+- white surfaces with thin gray borders;
+- restrained green operational accents;
+- low-shadow cards;
+- shared top-right date/search/notification/avatar controls.
+
+All modules should use the primitives in `components/ui/OperationsUI.jsx` and `components/ui/OperationsCharts.jsx` instead of inventing page-specific styling.
+
+## Primary modules
+
+- Overview
+- Invoices
+- Accounts Receivable
+- Commissions
+- Depletion
+- CRM: Accounts / Contacts / Opportunities / Activities
+- CRM Account Detail
+- Reports
+- Administration
+- UI Library
+
+## Data ownership
+
+Supabase is the canonical transactional source.
+
+| Domain | Source |
+| --- | --- |
+| Accounts | `prospects` |
+| Products | `products` |
+| Invoices | `invoices` / `crm_invoice_rollup` |
+| Depletion | `invoice_items` |
+| Payments | `payments` |
+| Collections | `collection_activities` |
+| Reorder intelligence | `crm_reorder_opportunities` |
+| Commission eligibility | `crm_commission_eligible` |
+| Reps | `crm_users` |
+| Payment terms | `payment_terms` |
+| CRM activity | `sales_activities` |
+
+The depletion workbook is a rule/reconciliation/import artifact, not a second production writer.
+
+## Workbook migration contract
+
+`lib/companyOperationsDomain.js` translates the validated workbook rules into application logic.
+
+Regression baseline:
+- 2 invoices
+- 8 invoice lines
+- 8 cases
+- $583.92 revenue
+- $576.00 COGS
+- $7.92 gross profit
+- $583.92 paid
+- $0.00 balance due
+
+Run:
+
+```bash
+npm ci
+npm run validate:operations
+npm run build
 ```
-A quick syntax check without a full build:
-```
-npx esbuild app/page.js --loader:.js=jsx --jsx=automatic --bundle \
-  --external:react --external:react-dom --external:@supabase/supabase-js \
-  --external:chart.js --external:next/* --outfile=/dev/null
-```
+
+## Database deployment order
+
+1. `supabase-setup.sql` if the base CRM schema is absent.
+2. `depletion_phase2.sql` for normalized commercial records/views.
+3. `company_operations_v1.sql` for payment terms and invoice term ownership.
+4. Other optional geographic/product imports only when needed.
+
+Do not fabricate payment terms, commission rates, product economics, or bonus rules.
+
+## Preview / CI
+
+- PR validation: `.github/workflows/validate-operations.yml`
+- Main preview build: `.github/workflows/build-operations-preview.yml`
+- Preview output: `docs/operations/`
+- Preview base path: `/lagom-naturals/operations`
+
+## Responsive acceptance
+
+Before shipping UI changes, inspect:
+- 375 px
+- 768 px
+- 1440 px
+- 1600 px reference desktop
+
+Dense ledgers may scroll horizontally on small screens. Do not compress columns until critical data becomes unreadable.
+
+## Current constraints
+
+- Commission period finalization is intentionally not implemented because no approved finalization state machine exists.
+- Invoice import is intentionally disabled until its import contract is defined.
+- Depletion XLSX import is implemented as validated line import into existing invoices.
+- The existing custom auth model remains in place.
