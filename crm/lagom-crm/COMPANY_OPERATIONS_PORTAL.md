@@ -53,6 +53,7 @@ The current production architecture already uses Supabase/Postgres. Preserve tha
 | Product performance | `crm_product_performance` |
 | Commission eligibility | `crm_commission_eligible` |
 | Rep settings | `crm_users` |
+| Payment terms | `payment_terms` |
 
 Do not add Google Sheets as a competing write path without an explicit synchronization contract, stable identifiers, conflict policy, and server-side Sheets adapter.
 
@@ -70,6 +71,9 @@ The approved workbook is translated into application responsibilities rather tha
 | Commissions | Commissions workspace |
 | Setup | CRM master data / admin settings |
 | Guide | Application help and project documentation |
+| Run Check | Operations Check dialog |
+| Import Depletion | Validated XLSX import dialog |
+| Reset Filters | Workspace-level reset actions |
 
 The calculation layer in `lib/companyOperationsDomain.js` preserves the workbook's transparent business logic in testable JavaScript domain functions.
 
@@ -183,6 +187,14 @@ Owns commercial data loading and live Supabase subscriptions.
 
 Owns workbook-derived deterministic calculations, reconciliation, QA, monthly analysis, product/account/rep reporting, AR aging, and commission enrichment.
 
+### `components/operations/DepletionImportDialog.jsx`
+
+Owns the lightweight workbook import path. It detects the Depletion table, validates Invoice # / Product / Cases / Sale Price, resolves existing invoices and products, rejects invalid or duplicate Invoice + Product rows, derives approved COGS economics, and writes only valid lines to `invoice_items`.
+
+### `components/operations/QualityCheckDialog.jsx`
+
+Replaces workbook Run Check with live revenue, cases, and COGS reconciliation plus the same embedded invoice/depletion QA rules.
+
 ### Existing `SalesWorkspace.jsx`
 
 Remains the mutation path for:
@@ -193,6 +205,18 @@ Remains the mutation path for:
 - collection follow-up.
 
 Its visible scope is now the Invoice ledger rather than a duplicate dashboard/reporting product.
+
+## Database migration
+
+`company_operations_v1.sql` adds the remaining workbook-native commercial master that was not represented in the Phase 2 schema:
+
+- `payment_terms`;
+- `invoices.terms`;
+- Due Date derivation from Invoice Date + configured term days;
+- verified seed `Due on receipt = 0 days`;
+- `terms` appended to `crm_invoice_rollup`.
+
+Run it only after the existing Phase 2 commercial migration is present. It is idempotent and does not fabricate unverified payment terms.
 
 ## Synchronization behavior
 
@@ -231,9 +255,10 @@ Any migration or production data reset must reconcile these source records befor
 
 ## Next engineering stages
 
-1. Validate the new portal against the preview client and real Supabase migration.
-2. Split additional legacy CRM sections out of `app/page.js` into domain modules.
-3. Add automated unit tests for `companyOperationsDomain.js`.
-4. Add integration tests for invoice creation, payment posting, AR, and commission eligibility.
-5. Complete the existing authentication/RLS security review before broader production use.
-6. If a live Google Sheets administrative mirror is later required, design it as a one-way export or a formally owned synchronization adapter instead of allowing uncontrolled dual writes.
+1. Run `depletion_phase2.sql` if the normalized commercial schema is not already deployed.
+2. Run `company_operations_v1.sql` to add payment terms and invoice term ownership.
+3. Reconcile the approved 2-invoice / 8-line baseline in the real Supabase project.
+4. Validate invoice creation, payment posting, depletion import, AR, reports, commissions, Run Check, and filter reset in a preview deployment.
+5. Split additional legacy CRM sections out of `app/page.js` into domain modules.
+6. Complete the existing authentication/RLS security review before broader production use.
+7. If a live Google Sheets administrative mirror is later required, design it as a one-way export or a formally owned synchronization adapter instead of allowing uncontrolled dual writes.
