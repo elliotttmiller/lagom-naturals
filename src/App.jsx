@@ -476,7 +476,7 @@ function HomePage() {
     <Shell>
       <div className="sky-home" data-motion-profile={motionProfile} ref={homeRef} onPointerMove={updateSky} onPointerLeave={resetSky}>
         <AtmosphericCloudField styles={cloudStyles} compact={motionProfile === "phone"} />
-        <section id="home-scene-hero" data-sky-scene="hero" className="beverage-hero atmospheric-scene-hero" aria-label="Featured Lagom Naturals products"><HomeHero /></section>
+        <section id="home-scene-hero" className="beverage-hero atmospheric-scene-hero" aria-label="Featured Lagom Naturals products"><HomeHero /></section>
 
         <AtmosphericSceneSection id="flavors" className="sky-home__section sky-home__section--flavors" labelledBy="home-flavors-title">
           <div className="sky-home__heading sky-home__heading--split">
