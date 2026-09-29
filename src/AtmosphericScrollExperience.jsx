@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useMotionValueEvent, useScroll, useSpring, useTransform } from "motion/react";
+import { useScroll, useSpring, useTransform } from "motion/react";
 import { m, motionTokens, useReducedMotion } from "@/motionSystem";
 
 const HOME_SCENES = [
@@ -88,9 +88,6 @@ export function useAtmosphericHomepageScroll(rootRef) {
   const nearScale = useTransform(progress, [0, 0.5, 1], [1, 1.035, 1.07]);
 
   const activeScene = useActiveScene(rootRef);
-  const [progressValue, setProgressValue] = useState(0);
-  useMotionValueEvent(progress, "change", (latest) => setProgressValue(latest));
-
   const cloudStyles = useMemo(
     () => ({
       far: reduceMotion ? undefined : { x: farX, y: farY },
@@ -117,7 +114,6 @@ export function useAtmosphericHomepageScroll(rootRef) {
     activeScene,
     cloudStyles,
     progress,
-    progressValue,
     reduceMotion,
     scrollToScene,
   };
