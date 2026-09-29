@@ -205,7 +205,6 @@ export function AtmosphericSceneSection({ id, className, labelledBy, children })
     <m.section
       ref={ref}
       id={`home-scene-${id}`}
-      data-sky-scene={id}
       className={`${className} atmospheric-scene-section`}
       aria-labelledby={labelledBy}
       style={reduceMotion ? undefined : { y, opacity, scale }}
