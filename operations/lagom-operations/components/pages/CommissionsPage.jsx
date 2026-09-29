@@ -1,7 +1,7 @@
 'use client';
 
 import {useMemo,useState} from 'react';
-import {Button,MetricCard,PageTitle,Panel,SelectField,StatusChip,money,number,percent,shortDate} from '../ui/OperationsUI';
+import {Button,MetricCard,PageTitle,Panel,SelectField,StatusChip,downloadCsv,money,number,percent,shortDate} from '../ui/OperationsUI';
 
 export default function CommissionsPage({model,reps=[]}){
   const repNames=[...new Set([...reps.map(r=>r.display_name||r.name),...model.commissions.map(r=>r.rep_name)].filter(Boolean))].sort();
@@ -46,7 +46,11 @@ export default function CommissionsPage({model,reps=[]}){
     </Panel>
 
     <section className="lo-data-card lo-section-gap">
-      <div className="lo-data-card-title"><h2>Eligible Invoices</h2><Button>Export</Button></div>
+      <div className="lo-data-card-title"><h2>Eligible Invoices</h2><Button onClick={()=>downloadCsv('lagom-commissions.csv',rows.map(row=>({
+        'Eligible Date':row.eligibleDate,Rep:row.rep_name,'Invoice #':row.invoice_number,Account:row.account_name,
+        'Sale Type':row.sale_type,Cases:row.cases,'Paid Revenue':row.paidRevenue,Rate:row.commissionRate,
+        Commission:row.commissionAmount
+      })))}>Export</Button></div>
       <div className="lo-table-scroll"><table className="lo-data-table">
         <thead><tr><th>Invoice #</th><th>Date</th><th>Account</th><th>Revenue</th><th>Cases</th><th>Type</th><th>Eligible</th><th>Commission Amount</th></tr></thead>
         <tbody>{rows.map(row=><tr key={row.invoice_id}>
