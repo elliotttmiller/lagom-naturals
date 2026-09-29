@@ -1,6 +1,6 @@
 # Lagom Naturals Depletion Workbook v2
 
-> **Architecture status (2026-09-29):** This workbook remains the validated business-rule and reconciliation baseline, but it is no longer the primary production UI or transaction writer. The active production direction is the Lagom Company Operations Portal in `crm/lagom-crm`, backed by canonical Supabase commercial records. See `docs/ADR-002-COMPANY-OPERATIONS-PORTAL.md`. The historical V2 workflow below is preserved because its field contracts, formulas, QA rules, and reconciliation totals are still migration requirements.
+> **Architecture status (2026-09-29):** This workbook remains the validated business-rule and reconciliation baseline, but it is no longer the primary production UI or transaction writer. The active production direction is the Lagom Company Operations Portal in `operations/lagom-operations`, backed by canonical Supabase commercial records. See `docs/ADR-002-COMPANY-OPERATIONS-PORTAL.md`. The historical V2 workflow below is preserved because its field contracts, formulas, QA rules, and reconciliation totals are still migration requirements.
 
 ## Purpose
 
