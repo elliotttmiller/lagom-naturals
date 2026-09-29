@@ -13,6 +13,8 @@ import {
   loadCompanyOperationsData,
   subscribeCompanyOperations,
 } from '../../lib/companyOperationsData';
+import DepletionImportDialog from './DepletionImportDialog';
+import QualityCheckDialog from './QualityCheckDialog';
 
 const money = value => new Intl.NumberFormat('en-US',{
   style:'currency',
@@ -201,6 +203,8 @@ export default function CompanyOperationsWorkspace({section='overview',supabase,
   const [reportEnd,setReportEnd]=useState(year+'-12-31');
   const [reportAccount,setReportAccount]=useState('All');
   const [commissionRep,setCommissionRep]=useState('All');
+  const [importOpen,setImportOpen]=useState(false);
+  const [checkOpen,setCheckOpen]=useState(false);
 
   const isAdmin=user?.role==='admin'||user?.role==='investor';
   const canWrite=user?.role!=='investor';
@@ -261,12 +265,27 @@ export default function CompanyOperationsWorkspace({section='overview',supabase,
   const productLines=useMemo(()=>[...new Set(baseModel.lines.map(line=>line.productLine).filter(Boolean))].sort(),[baseModel.lines]);
   const products=useMemo(()=>[...new Set(baseModel.lines.map(line=>line.product).filter(Boolean))].sort(),[baseModel.lines]);
 
+  const resetFilters=()=>{
+    setQuery('');
+    setRep('All');
+    setAging('All');
+    setProductLine('All');
+    setProduct('All');
+    setStatus('All');
+    setReportAccount('All');
+    setCommissionRep('All');
+    setReportStart(year+'-01-01');
+    setReportEnd(year+'-12-31');
+  };
+
   const startNewInvoice=()=>{
     try{sessionStorage.setItem('lagom_sales_new_invoice','1')}catch{}
     go?.('sales','transactions');
   };
 
   const headerAction=canWrite?<button className="ops-btn ops-btn--primary" type="button" onClick={startNewInvoice}>New invoice</button>:null;
+  const qualityDialog=checkOpen?<QualityCheckDialog model={yearModel} onClose={()=>setCheckOpen(false)}/>:null;
+  const importDialog=importOpen?<DepletionImportDialog supabase={supabase} invoices={source.invoices} products={source.products} existingLines={baseModel.lines} onClose={()=>setImportOpen(false)} onImported={load}/>:null;
 
   if(loading)return <div className="ops-loading"><span/>Loading company operations…</div>;
 
@@ -287,7 +306,11 @@ export default function CompanyOperationsWorkspace({section='overview',supabase,
     const revenue=sum(rows,'revenue'),cases=sum(rows,'casesSold'),gp=sum(rows,'grossProfit');
     return <div className="ops">
       {common}
-      <SectionHeader eyebrow="Commercial operations" title="Depletion" description="Invoice-linked product movement, SKU economics and account context translated directly from the depletion workbook model." actions={headerAction}/>
+      <SectionHeader eyebrow="Commercial operations" title="Depletion" description="Invoice-linked product movement, SKU economics and account context translated directly from the depletion workbook model." actions={<>
+        <button className="ops-btn" type="button" onClick={()=>setCheckOpen(true)}>Run check</button>
+        {canWrite&&<button className="ops-btn" type="button" onClick={()=>setImportOpen(true)}>Import depletion</button>}
+        {headerAction}
+      </>}/>
       <div className="ops-control-row">
         <FilterField label="Reporting year"><select value={year} onChange={e=>setYear(e.target.value)}>{years.map(value=><option key={value}>{value}</option>)}</select></FilterField>
         <FilterField label="Search" wide><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Invoice, account, product, SKU or rep"/></FilterField>
@@ -295,6 +318,7 @@ export default function CompanyOperationsWorkspace({section='overview',supabase,
         <FilterField label="Product line"><select value={productLine} onChange={e=>setProductLine(e.target.value)}><option>All</option>{productLines.map(value=><option key={value}>{value}</option>)}</select></FilterField>
         <FilterField label="Product"><select value={product} onChange={e=>setProduct(e.target.value)}><option>All</option>{products.map(value=><option key={value}>{value}</option>)}</select></FilterField>
         <FilterField label="Payment"><select value={status} onChange={e=>setStatus(e.target.value)}><option>All</option>{['Paid','Partial','Unpaid'].map(value=><option key={value}>{value}</option>)}</select></FilterField>
+        <button className="ops-btn ops-filter-reset" type="button" onClick={resetFilters}>Reset filters</button>
       </div>
       <div className="ops-metrics ops-metrics--four">
         <Metric label="Records" value={number(rows.length)} detail="Filtered depletion lines"/>
@@ -308,6 +332,8 @@ export default function CompanyOperationsWorkspace({section='overview',supabase,
           <td><b>{row.invoiceNumber||'—'}</b></td><td>{date(row.invoiceDate)}</td><td>{row.account||'—'}</td><td>{row.rep||'—'}</td><td><strong>{row.product||'—'}</strong></td><td>{row.sku||'—'}</td><td>{number(row.casesSold)}</td><td>{money(row.salePrice)}</td><td>{money(row.revenue)}</td><td>{money(row.totalCogs)}</td><td className={row.grossProfit<0?'ops-negative':'ops-positive'}>{money(row.grossProfit)}</td><td><Status>{row.paymentStatus}</Status></td>
         </tr>):<tr><td colSpan="12"><EmptyState title="No depletion records" body="No lines match the current filters."/></td></tr>}</tbody>
       </TableShell>
+      {qualityDialog}
+      {importDialog}
     </div>;
   }
 
@@ -326,6 +352,7 @@ export default function CompanyOperationsWorkspace({section='overview',supabase,
         <FilterField label="Search" wide><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Customer or invoice"/></FilterField>
         <FilterField label="Aging"><select value={aging} onChange={e=>setAging(e.target.value)}><option>All</option>{['Current','1-30','31-60','61-90','90+'].map(value=><option key={value}>{value}</option>)}</select></FilterField>
         {isAdmin&&<FilterField label="Rep"><select value={rep} onChange={e=>setRep(e.target.value)}><option>All</option>{reps.map(value=><option key={value}>{value}</option>)}</select></FilterField>}
+        <button className="ops-btn ops-filter-reset" type="button" onClick={resetFilters}>Reset filters</button>
       </div>
       <div className="ops-metrics ops-metrics--four">
         <Metric label="Open AR" value={money(sum(rows,'balanceDue'))} detail={rows.length+' open invoices'} tone={rows.length?'warn':'default'}/>
@@ -375,6 +402,7 @@ export default function CompanyOperationsWorkspace({section='overview',supabase,
         {isAdmin&&<FilterField label="Sales rep"><select value={rep} onChange={e=>setRep(e.target.value)}><option>All</option>{reps.map(value=><option key={value}>{value}</option>)}</select></FilterField>}
         <FilterField label="Account"><select value={reportAccount} onChange={e=>setReportAccount(e.target.value)}><option>All</option>{accounts.map(value=><option key={value}>{value}</option>)}</select></FilterField>
         <FilterField label="Product line"><select value={productLine} onChange={e=>setProductLine(e.target.value)}><option>All</option>{productLines.map(value=><option key={value}>{value}</option>)}</select></FilterField>
+        <button className="ops-btn ops-filter-reset" type="button" onClick={resetFilters}>Reset filters</button>
       </div>
       <div className="ops-metrics ops-metrics--five">
         <Metric label="Revenue" value={money(revenue)} detail={reportInvoices.length+' invoices'}/>
@@ -431,6 +459,7 @@ export default function CompanyOperationsWorkspace({section='overview',supabase,
         {isAdmin&&<FilterField label="Sales rep"><select value={commissionRep} onChange={e=>setCommissionRep(e.target.value)}><option>All</option>{reps.map(value=><option key={value}>{value}</option>)}</select></FilterField>}
         <FilterField label="Period start"><input type="date" value={reportStart} onChange={e=>setReportStart(e.target.value)}/></FilterField>
         <FilterField label="Period end"><input type="date" value={reportEnd} onChange={e=>setReportEnd(e.target.value)}/></FilterField>
+        <button className="ops-btn ops-filter-reset" type="button" onClick={resetFilters}>Reset filters</button>
       </div>
       <div className="ops-metrics ops-metrics--five">
         <Metric label="Eligible revenue" value={money(eligibleRevenue)} detail={rows.length+' paid invoices'}/>
@@ -459,7 +488,7 @@ export default function CompanyOperationsWorkspace({section='overview',supabase,
 
   return <div className="ops">
     {common}
-    <SectionHeader eyebrow="Lagom Naturals company operations" title="Company dashboard" description="Revenue, cases, profitability, receivables, depletion quality and rep performance from one commercial system of record." actions={<>{headerAction}<FilterField label="Reporting year"><select value={year} onChange={e=>setYear(e.target.value)}>{years.map(value=><option key={value}>{value}</option>)}</select></FilterField></>}/>
+    <SectionHeader eyebrow="Lagom Naturals company operations" title="Company dashboard" description="Revenue, cases, profitability, receivables, depletion quality and rep performance from one commercial system of record." actions={<>{headerAction}<button className="ops-btn" type="button" onClick={()=>setCheckOpen(true)}>Run check</button><FilterField label="Reporting year"><select value={year} onChange={e=>setYear(e.target.value)}>{years.map(value=><option key={value}>{value}</option>)}</select></FilterField></>}/>
     <div className="ops-metrics ops-metrics--eight">
       <Metric label="Revenue" value={money(yearModel.kpis.revenue)} detail={year+' invoiced sell-through'}/>
       <Metric label="Cases" value={number(yearModel.kpis.cases)} detail="Recorded cases sold"/>
@@ -500,5 +529,6 @@ export default function CompanyOperationsWorkspace({section='overview',supabase,
       <div><span>Products moving</span><strong>{productsRanked.length}</strong></div>
       <div><span>Invoices</span><strong>{yearModel.invoices.filter(invoice=>invoice.status!=='Draft').length}</strong></div>
     </div>
+    {qualityDialog}
   </div>;
 }
