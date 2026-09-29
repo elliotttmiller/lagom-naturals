@@ -26,10 +26,10 @@ export default function CommissionsPage({model,reps=[]}){
     </div>
 
     <div className="lo-metric-grid lo-metric-grid--five">
-      <MetricCard label="Eligible Revenue" value={money(eligibleRevenue)} trend="+12%" spark={rows.map((x,i)=>eligibleRevenue*(i+1)/Math.max(rows.length,1))}/>
-      <MetricCard label="New Revenue" value={money(newRevenue)} trend={newRevenue?'+12%':'0%'} trendDirection={newRevenue?'up':'flat'} spark={rows.map(x=>String(x.sale_type||'').toLowerCase().startsWith('new')?x.paidRevenue:0)}/>
-      <MetricCard label="Reorder Revenue" value={money(reorderRevenue)} trend="+12%" spark={rows.map((x,i)=>reorderRevenue*(i+1)/Math.max(rows.length,1))}/>
-      <MetricCard label="Eligible Cases" value={number(cases)} trend="+14%" spark={rows.map(x=>x.cases)}/>
+      <MetricCard label="Eligible Revenue" value={money(eligibleRevenue)} trend="—" trendDirection="flat" spark={rows.map((x,i)=>eligibleRevenue*(i+1)/Math.max(rows.length,1))}/>
+      <MetricCard label="New Revenue" value={money(newRevenue)} trend="—" trendDirection="flat" spark={rows.map(x=>String(x.sale_type||'').toLowerCase().startsWith('new')?x.paidRevenue:0)}/>
+      <MetricCard label="Reorder Revenue" value={money(reorderRevenue)} trend="—" trendDirection="flat" spark={rows.map((x,i)=>reorderRevenue*(i+1)/Math.max(rows.length,1))}/>
+      <MetricCard label="Eligible Cases" value={number(cases)} trend="—" trendDirection="flat" spark={rows.map(x=>x.cases)}/>
       <MetricCard label="Final Commission" value={money(commission)} trend="0%" trendDirection="flat" spark={rows.map(x=>x.commissionAmount)}/>
     </div>
 
