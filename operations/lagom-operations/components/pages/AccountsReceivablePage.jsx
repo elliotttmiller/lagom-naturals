@@ -34,12 +34,12 @@ export default function AccountsReceivablePage({model}){
     <PageTitle title="Accounts Receivable" eyebrow="COLLECTIONS"/>
 
     <div className="lo-metric-grid lo-metric-grid--six">
-      <MetricCard label="Open AR" value={money(open)} trend="-28%" trendDirection="down" spark={spark}/>
-      <MetricCard label="Current" value={money(current)} trend="-12%" spark={spark}/>
-      <MetricCard label="1 – 30 Days" value={money(bucketAmount('1-30'))} trend="-8%" spark={spark}/>
-      <MetricCard label="31 – 60 Days" value={money(bucketAmount('31-60'))} trend="+42%" trendDirection="bad" tone="red" spark={spark}/>
-      <MetricCard label="61 – 90 Days" value={money(bucketAmount('61-90'))} trend="+18%" trendDirection="bad" tone="red" spark={spark}/>
-      <MetricCard label="90+ Days" value={money(bucketAmount('90+'))} trend="+67%" trendDirection="down-bad" tone="red" spark={spark}/>
+      <MetricCard label="Open AR" value={money(open)} trend="—" trendDirection="flat" spark={spark}/>
+      <MetricCard label="Current" value={money(current)} trend="—" trendDirection="flat" spark={spark}/>
+      <MetricCard label="1 – 30 Days" value={money(bucketAmount('1-30'))} trend="—" trendDirection="flat" spark={spark}/>
+      <MetricCard label="31 – 60 Days" value={money(bucketAmount('31-60'))} trend="—" trendDirection="bad" tone="red" spark={spark}/>
+      <MetricCard label="61 – 90 Days" value={money(bucketAmount('61-90'))} trend="—" trendDirection="bad" tone="red" spark={spark}/>
+      <MetricCard label="90+ Days" value={money(bucketAmount('90+'))} trend="—" trendDirection="bad" tone="red" spark={spark}/>
     </div>
 
     <FilterBar>
