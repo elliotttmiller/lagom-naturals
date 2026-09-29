@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const isGithubPages = process.env.GITHUB_PAGES === 'true';
-const pagesBasePath = process.env.GITHUB_PAGES_BASE_PATH || '/lagom-naturals/crm';
+const pagesBasePath = process.env.GITHUB_PAGES_BASE_PATH || '/lagom-naturals/operations';
 
 const nextConfig = {
   turbopack: {
