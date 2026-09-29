@@ -3,17 +3,17 @@
 
 @media (max-width:899px){
   .sky-home{
-    --mobile-sky-top:#e5eff2;
-    --mobile-sky-mid:#dbe8ec;
-    --mobile-sky-low:#e8f1f2;
+    --mobile-sky-top:#d9edf4;
+    --mobile-sky-mid:#cce5ee;
+    --mobile-sky-low:#e2f0f4;
     width:100%;
     max-width:100vw;
     overflow-x:clip;
     touch-action:pan-y pinch-zoom;
     background:
-      radial-gradient(ellipse 88% 28% at 50% 5%, rgba(255,255,255,.42), rgba(255,255,255,0) 72%),
-      radial-gradient(ellipse 72% 24% at 18% 28%, rgba(189,216,225,.14), rgba(189,216,225,0) 74%),
-      radial-gradient(ellipse 84% 30% at 82% 62%, rgba(200,223,229,.12), rgba(200,223,229,0) 76%),
+      radial-gradient(ellipse 88% 28% at 50% 5%, rgba(255,255,255,.34), rgba(255,255,255,0) 72%),
+      radial-gradient(ellipse 72% 24% at 18% 28%, rgba(164,207,222,.24), rgba(164,207,222,0) 74%),
+      radial-gradient(ellipse 84% 30% at 82% 62%, rgba(177,214,227,.2), rgba(177,214,227,0) 76%),
       linear-gradient(180deg,var(--mobile-sky-top) 0%,var(--mobile-sky-mid) 44%,var(--mobile-sky-low) 100%)!important;
     background-attachment:scroll!important;
   }
@@ -48,7 +48,7 @@
     height:auto!important;
     aspect-ratio:1.9/1!important;
     max-width:none!important;
-    opacity:.055!important;
+    opacity:.16!important;
     background-image:url('../assets/atmosphere/cloud-mid-field.webp')!important;
   }
   .sky-home::after{
@@ -60,7 +60,7 @@
     height:auto!important;
     aspect-ratio:1.78/1!important;
     max-width:none!important;
-    opacity:.05!important;
+    opacity:.14!important;
     background-image:url('../assets/atmosphere/cloud-near-mass.webp')!important;
   }
 
@@ -81,9 +81,9 @@
     height:48vw!important;
     max-width:660px!important;
     max-height:360px!important;
-    opacity:.22!important;
+    opacity:.42!important;
     background-size:contain!important;
-    filter:contrast(1.03);
+    filter:contrast(1.06) brightness(.99);
   }
   .sky-home[data-motion-profile="phone"] .sky-home__cloud--near{
     top:58svh!important;
@@ -93,9 +93,24 @@
     height:56vw!important;
     max-width:720px!important;
     max-height:414px!important;
-    opacity:.18!important;
+    opacity:.36!important;
     background-size:contain!important;
-    filter:contrast(1.03);
+    filter:contrast(1.07) brightness(.985);
+  }
+
+  .sky-home[data-motion-profile="tablet"] .sky-home__cloud--mid{
+    top:10svh!important;
+    right:-18%!important;
+    width:90vw!important;
+    height:48vw!important;
+    opacity:.4!important;
+  }
+  .sky-home[data-motion-profile="tablet"] .sky-home__cloud--near{
+    top:56svh!important;
+    left:-22%!important;
+    width:96vw!important;
+    height:54vw!important;
+    opacity:.34!important;
   }
 
   /* The mobile chrome begins transparent over the hero, then becomes a
@@ -173,7 +188,7 @@
       scale(var(--scene-cloud-scale,1));
     transform-origin:50% 50%;
     background:center / contain no-repeat url('../assets/atmosphere/cloud-mid-field.webp');
-    filter:contrast(1.03);
+    filter:contrast(1.06) brightness(.99);
   }
   .atmospheric-scene-section > *{
     position:relative;
@@ -382,8 +397,8 @@
     line-height:1.42!important;
   }
 
-  /* Gummies need a different card system on mobile: the source images are
-     full lifestyle/package compositions, not narrow transparent can packshots. */
+  /* Homepage gummies now use transparent package packshots, matching the
+     seltzer merchandising system instead of lifestyle-scene thumbnails. */
   .sky-home__section--gummies .sky-home__heading{
     margin:0 0 clamp(30px,5vw,42px)!important;
   }
@@ -408,19 +423,22 @@
     width:calc(50% - 7px)!important;
   }
   .sky-home__gummy-grid .sky-home-product__image{
-    min-height:0!important;
+    display:grid!important;
+    place-items:center!important;
+    min-height:clamp(240px,42vw,320px)!important;
     height:auto!important;
-    aspect-ratio:1/1!important;
-    overflow:hidden!important;
-    border-radius:10px;
-    background:rgba(255,255,255,.2);
+    aspect-ratio:auto!important;
+    overflow:visible!important;
+    border-radius:0!important;
+    background:transparent!important;
   }
   .sky-home__gummy-grid .sky-home-product__image img{
-    width:100%!important;
-    height:100%!important;
-    max-width:none!important;
-    object-fit:cover!important;
-    filter:none!important;
+    width:min(100%,240px)!important;
+    height:clamp(240px,42vw,320px)!important;
+    max-width:100%!important;
+    object-fit:contain!important;
+    object-position:center!important;
+    filter:drop-shadow(0 14px 15px rgba(50,73,77,.12))!important;
   }
   .sky-home__gummy-grid .sky-home-product__copy h3{
     min-height:2.05em!important;
@@ -465,7 +483,7 @@
     width:84vw!important;
     height:auto!important;
     aspect-ratio:1.9/1!important;
-    opacity:.09!important;
+    opacity:.15!important;
   }
   .sky-home::after{
     top:65%!important;
@@ -473,7 +491,7 @@
     width:92vw!important;
     height:auto!important;
     aspect-ratio:1.78/1!important;
-    opacity:.085!important;
+    opacity:.13!important;
   }
   .sky-home .beverage-hero{
     width:100%!important;
@@ -490,8 +508,8 @@
     min-height:max(660px,100svh)!important;
     overflow:hidden!important;
     background:
-      radial-gradient(ellipse 78% 42% at 72% 18%,rgba(255,255,255,.38),transparent 72%),
-      radial-gradient(ellipse 88% 52% at 18% 72%,rgba(188,214,222,.16),transparent 76%)!important;
+      radial-gradient(ellipse 78% 42% at 72% 18%,rgba(255,255,255,.24),transparent 72%),
+      radial-gradient(ellipse 88% 52% at 18% 72%,rgba(160,205,221,.24),transparent 76%)!important;
   }
 
   /* Mobile hero atmosphere: restore a deliberately sparse three-plane cloud
@@ -507,10 +525,10 @@
   .sky-home .legacy-sky-hero__light{
     display:block!important;
     inset:-12% -24%!important;
-    opacity:.34!important;
+    opacity:.22!important;
     background:
-      radial-gradient(ellipse at 38% 30%,rgba(255,255,255,.52),rgba(255,255,255,0) 46%),
-      radial-gradient(ellipse at 78% 62%,rgba(177,211,223,.2),rgba(177,211,223,0) 58%)!important;
+      radial-gradient(ellipse at 38% 30%,rgba(255,255,255,.4),rgba(255,255,255,0) 46%),
+      radial-gradient(ellipse at 78% 62%,rgba(153,201,218,.24),rgba(153,201,218,0) 58%)!important;
     animation:mobile-sky-light-breathe 26s ease-in-out infinite alternate!important;
   }
 
@@ -518,48 +536,26 @@
     display:none!important;
   }
 
-  .sky-home .legacy-sky-hero__cloud--mid{
+  .sky-home .legacy-sky-hero__product{
     display:block!important;
-    top:3%!important;
-    right:-20%!important;
+    top:auto!important;
+    right:-12vw!important;
+    bottom:-1.5svh!important;
     left:auto!important;
-    width:86vw!important;
-    height:46vw!important;
-    max-width:620px!important;
-    max-height:332px!important;
-    opacity:.12!important;
-    background-position:center!important;
-    background-size:contain!important;
-    animation:mobile-hero-cloud-mid 74s cubic-bezier(.37,0,.63,1) infinite alternate -18s!important;
-    filter:brightness(1.01) contrast(.96);
+    width:min(82vw,590px)!important;
+    max-width:none!important;
+    transform:none!important;
+    opacity:.98!important;
+    pointer-events:none!important;
   }
-  .sky-home .legacy-sky-hero__cloud--right{
+  .sky-home .legacy-sky-hero__product img{
     display:block!important;
-    top:31%!important;
-    right:-12%!important;
-    left:auto!important;
-    width:54vw!important;
-    height:31vw!important;
-    max-width:390px!important;
-    max-height:224px!important;
-    opacity:.075!important;
-    background-size:contain!important;
-    animation:mobile-hero-cloud-right 92s cubic-bezier(.37,0,.63,1) infinite alternate -41s!important;
-    filter:brightness(1.02) contrast(.94);
-  }
-  .sky-home .legacy-sky-hero__cloud--near{
-    display:block!important;
-    right:auto!important;
-    bottom:-7%!important;
-    left:-28%!important;
-    width:98vw!important;
-    height:56vw!important;
-    max-width:720px!important;
-    max-height:412px!important;
-    opacity:.105!important;
-    background-size:contain!important;
-    animation:mobile-hero-cloud-near 68s cubic-bezier(.37,0,.63,1) infinite alternate -27s!important;
-    filter:brightness(1.01) contrast(.95);
+    width:100%!important;
+    height:auto!important;
+    max-height:48svh!important;
+    object-fit:contain!important;
+    object-position:right bottom!important;
+    filter:drop-shadow(0 18px 24px rgba(45,66,72,.11))!important;
   }
 
   .sky-home .legacy-sky-hero__content{
@@ -712,15 +708,18 @@
     width:100%!important;
   }
   .sky-home__gummy-grid .sky-home-product__image{
-    aspect-ratio:auto!important;
-    min-height:0!important;
+    min-height:clamp(270px,74vw,330px)!important;
     height:auto!important;
+    aspect-ratio:auto!important;
+    overflow:visible!important;
   }
   .sky-home__gummy-grid .sky-home-product__image img{
-    width:100%!important;
-    height:auto!important;
-    max-height:none!important;
+    width:min(72vw,270px)!important;
+    height:clamp(270px,74vw,330px)!important;
+    max-width:100%!important;
+    max-height:330px!important;
     object-fit:contain!important;
+    object-position:center!important;
   }
   .sky-home__gummy-grid .sky-home-product__copy{
     padding-top:14px!important;
@@ -778,6 +777,18 @@
   .atmospheric-scene-section::after{
     opacity:.16!important;
     transform:none!important;
+  }
+}
+
+@media (max-width:420px){
+  .sky-home .legacy-sky-hero__product{
+    right:-20vw!important;
+    bottom:0!important;
+    width:88vw!important;
+    opacity:.9!important;
+  }
+  .sky-home .legacy-sky-hero__product img{
+    max-height:42svh!important;
   }
 }
 
