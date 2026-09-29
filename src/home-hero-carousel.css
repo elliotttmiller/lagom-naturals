@@ -24,4 +24,10 @@
 
 /* Desktop editorial composition: give the existing message a full left-side
    presence without introducing more copy or competing with the product. */
-@media(min-width:900px){.legacy-sky-hero__content{position:relative;width:min(48%,720px);margin-left:clamp(96px,8vw,154px);padding:clamp(118px,14vh,168px) 0 clamp(94px,11vh,132px)}.legacy-sky-hero__content::before{position:absolute;top:18%;bottom:16%;left:clamp(-62px,-3.35vw,-42px);width:1px;background:linear-gradient(to bottom,transparent,rgba(17,17,17,.36) 14%,rgba(17,17,17,.22) 84%,transparent);content:""}.legacy-sky-hero__content>p{margin-bottom:24px;font-size:10px;letter-spacing:.18em}.legacy-sky-hero h1{max-width:660px;font-size:clamp(68px,6.65vw,118px);line-height:.81}.legacy-sky-hero__lede{max-width:590px;margin-top:36px;font-size:clamp(18px,1.4vw,22px);line-height:1.36}.legacy-sky-hero__actions{gap:12px;margin-top:38px}.legacy-sky-hero__actions a{min-height:56px;padding:0 25px}.legacy-sky-hero__details{margin-top:31px;font-size:9.5px;letter-spacing:.16em}}
+@media(min-width:900px){.legacy-sky-hero__content{position:relative;width:min(48%,720px);margin-left:clamp(96px,8vw,154px);padding:clamp(118px,14vh,168px) 0 clamp(94px,11vh,132px)}.legacy-sky-hero__content::before{position:absolute;top:18%;bottom:16%;left:clamp(-62px,-3.35vw,-42px);width:1px;background:linear-gradient(to bottom,transparent,rgba(17,17,17,.36) 14%,rgba(17,17,17,.22) 84%,transparent);content:""}.legacy-sky-hero h1{max-width:720px;font-size:clamp(64px,5.1vw,94px);line-height:.85;letter-spacing:-.072em}.legacy-sky-hero h1 strong{display:block;font-size:.96em}.legacy-sky-hero__lede{max-width:590px;margin-top:36px;font-size:clamp(18px,1.4vw,22px);line-height:1.36}.legacy-sky-hero__actions{gap:12px;margin-top:38px}.legacy-sky-hero__actions a{min-height:56px;padding:0 25px}.legacy-sky-hero__details{margin-top:31px;font-size:9.5px;letter-spacing:.16em}}
+
+@media(max-width:899px){.legacy-sky-hero h1 strong{display:block;font-size:.74em;letter-spacing:-.08em}}
+
+/* The far-left cloud crosses the brightest part of the sky wash. Give that
+   single plane more tonal definition so its form stays readable behind copy. */
+@media(min-width:900px){.legacy-sky-hero__cloud--far{opacity:.46;filter:brightness(.82) contrast(1.12)}}
