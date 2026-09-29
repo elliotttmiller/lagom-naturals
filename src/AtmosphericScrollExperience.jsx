@@ -147,6 +147,40 @@ export function useAtmosphericHomepageScroll(rootRef) {
   return { cloudStyles, motionProfile };
 }
 
+export function useAtmosphericHeroMotion(heroRef) {
+  const reduceMotion = useReducedMotion();
+  const motionProfile = useViewportMotionProfile();
+  const isPhone = motionProfile === "phone";
+  const isTablet = motionProfile === "tablet";
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  const progress = useSpring(scrollYProgress, MOTION_PROFILES[motionProfile].sectionSpring);
+
+  const contentY = useTransform(
+    progress,
+    [0, 0.45, 0.76, 1],
+    isPhone ? ["0px", "-5px", "-18px", "-34px"] : isTablet ? ["0vh", "-.4vh", "-1.7vh", "-3.3vh"] : ["0vh", "-.5vh", "-2.1vh", "-4vh"],
+  );
+  const contentOpacity = useTransform(
+    progress,
+    [0, 0.48, 0.8, 1],
+    [1, 1, 0.92, 0.72],
+  );
+  const contentScale = useTransform(
+    progress,
+    [0, 0.55, 1],
+    [1, 1, isPhone ? 0.992 : 0.988],
+  );
+
+  return reduceMotion ? undefined : {
+    y: contentY,
+    opacity: contentOpacity,
+    scale: contentScale,
+  };
+}
+
 export function AtmosphericCloudField({ styles, compact = false }) {
   return (
     <div className="sky-home__atmosphere" aria-hidden="true">
