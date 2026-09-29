@@ -66,6 +66,24 @@ After adding any env var, redeploy for it to take effect.
   from 5 hardcoded zones to real MN counties** everywhere — `getZone(p)` now returns
   `p.county`, with stable per-county colors and dynamic county lists.
 
+## Company Operations Portal refactor
+
+The primary UI direction has changed from spreadsheet-style dashboards to a unified company operations web application.
+
+Implemented on the company-operations branch:
+
+- `CompanyOperationsWorkspace.jsx` now owns Company Dashboard, Depletion, AR, Reports, and Commissions.
+- `SalesWorkspace.jsx` is retained as the invoice/payment mutation workspace and is visually/operationally narrowed to Invoices.
+- `companyOperationsDomain.js` translates approved workbook formulas, aging, reconciliation, QA, and reporting semantics into deterministic application logic.
+- `companyOperationsData.js` centralizes commercial reads and Supabase realtime refresh.
+- `operations.css` provides the new Nunito-led premium Lagom operations design system.
+- navigation is reorganized into Workspace, CRM, Field Sales, Commercial, Tools, and Admin.
+- the Google Sheets workbook is now a business-rule/reconciliation/admin artifact, not a parallel production writer.
+
+Read `COMPANY_OPERATIONS_PORTAL.md` before extending commercial functionality.
+
+The normalized Supabase model remains canonical. Do not add a two-way Google Sheets synchronization path without stable IDs, field ownership, conflict handling, and a server-side adapter.
+
 ## PENDING (priority order)
 1. **Activate Phase 4** (no code change): add the two Google env vars + redeploy; run
    `maps_setup.sql` (adds `latitude`/`longitude`/`county`); then Setup -> "Geocode all
@@ -79,8 +97,7 @@ After adding any env var, redeploy for it to take effect.
 5. **Voice memo** in the Activity tab is a "coming soon" stub.
 
 ## Risks / tech debt
-- **Single-file architecture** (`app/page.js`): split into components/modules for
-  maintainability. Do it carefully — it is the entire app. Verify after each chunk.
+- **Legacy single-file architecture** (`app/page.js`): company operations have started moving into `components/operations` and `lib`. Continue extracting CRM domains incrementally and verify after each chunk.
 - **Security review (highest priority before real production use):** custom auth —
   confirm passwords are hashed, not plaintext. Review **Supabase Row Level Security**
   on every table; the browser uses the anon key, so RLS is what actually protects data.
