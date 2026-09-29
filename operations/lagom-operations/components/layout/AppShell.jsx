@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import {
   Bell,
   ChevronDown,
@@ -135,4 +136,3 @@ export default function AppShell({
   </div>;
 }
 
-import React from 'react';
