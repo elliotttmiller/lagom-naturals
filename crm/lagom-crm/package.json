@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "build:pages": "node scripts/build-github-pages.mjs"
+    "build:pages": "node scripts/build-github-pages.mjs",
+    "validate:operations": "node scripts/validate-operations-domain.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.0",

@@ -1,5 +1,7 @@
 # Lagom Naturals Depletion Workbook v2
 
+> **Architecture status (2026-09-29):** This workbook remains the validated business-rule and reconciliation baseline, but it is no longer the primary production UI or transaction writer. The active production direction is the Lagom Company Operations Portal in `crm/lagom-crm`, backed by canonical Supabase commercial records. See `docs/ADR-002-COMPANY-OPERATIONS-PORTAL.md`. The historical V2 workflow below is preserved because its field contracts, formulas, QA rules, and reconciliation totals are still migration requirements.
+
 ## Purpose
 
 This directory is the source-controlled V2 baseline for Lagom Naturals' depletion workbook workflow. The workbook is intentionally independent of the CRM. It records completed invoice/depletion activity, receivables, product economics, and commission eligibility without turning the CRM into a second transaction ledger.
@@ -17,7 +19,8 @@ There is no required CRM API, database, Supabase, webhook, Power Automate, or bi
 - docs/SCHEMA_AUDIT.md — legacy workbook audit and sheet disposition.
 - docs/DATA_CONTRACT.md — canonical V2 entities, field ownership, calculations, and invariants.
 - docs/VALIDATION_AND_RELEASE.md — reconciliation, acceptance tests, migration, and rollout gates.
-- docs/ADR-001-SEPARATE-DEPLETION-FROM-CRM.md — accepted architecture decision.
+- docs/ADR-001-SEPARATE-DEPLETION-FROM-CRM.md — historical separation decision.
+- docs/ADR-002-COMPANY-OPERATIONS-PORTAL.md — active architecture decision superseding ADR-001.
 - schema/v2-schema.json — machine-readable V2 contract.
 - migration/legacy-field-map.csv — 36-column legacy-to-V2 mapping.
 - source/*.csv — sanitized seed/master data used by the validated prototype.

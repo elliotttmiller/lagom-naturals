@@ -1,0 +1,39 @@
+name: Validate Lagom CRM
+
+on:
+  pull_request:
+    paths:
+      - 'crm/lagom-crm/**'
+      - '.github/workflows/validate-crm.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-crm:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: crm/lagom-crm/package-lock.json
+
+      - name: Install dependencies
+        working-directory: crm/lagom-crm
+        run: npm ci
+
+      - name: Validate operations reconciliation
+        working-directory: crm/lagom-crm
+        run: npm run validate:operations
+
+      - name: Build static CRM preview
+        working-directory: crm/lagom-crm
+        run: npm run build:pages
+        env:
+          GITHUB_PAGES_BASE_PATH: /lagom-naturals/crm
