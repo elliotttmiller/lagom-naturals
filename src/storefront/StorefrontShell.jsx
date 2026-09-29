@@ -11,7 +11,7 @@ const publicAsset=name=>`${PUBLIC_BASE}${name.replace(/^\//,'')}`
 const MENU_DURATION=600
 const MENU_EASE=[0.4,0,0.2,1]
 
-function Logo({onClick,className=''}){return <Link to="/" className={`brand ${className}`} onClick={onClick}><img src={publicAsset("lagom-logo.svg")} alt="Lagom Naturals"/></Link>}
+function Logo({onClick,className=''}){return <Link to="/" className={`brand ${className}`} onClick={onClick}><img src={publicAsset("enhanced-lagom-logo.webp")} alt="Lagom Naturals"/></Link>}
 
 function Header({detail=false}){
   const{count}=useCart()
