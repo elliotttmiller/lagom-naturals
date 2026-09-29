@@ -78,7 +78,9 @@ export default function AppShell({
   return <div className="lo-app-shell">
     <aside className="lo-sidebar">
       <div className="lo-brand">
-        <img src={assetUrl('/lagom-logo-white.svg')} alt="Lagom Naturals"/>
+        <div className="lo-brand-wordmark">
+          <img src={assetUrl('/lagom-logo-white.svg')} alt="Lagom Naturals"/>
+        </div>
         <span>OPERATIONS</span>
       </div>
 
