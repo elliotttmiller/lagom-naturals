@@ -1,4 +1,4 @@
-# Lagom CRM — Product Vision & Context
+# Lagom Operations — Product Vision & Context
 
 Read this before the code. It explains **what we are building and why**, so feature
 decisions match how the business actually runs. Pair it with `HANDOFF.md` (technical
@@ -31,7 +31,7 @@ We run a **field-sales / DSD-style motion** (direct store delivery mindset):
 
 This is the same playbook big beverage brands run on enterprise tools
 (GreatVines / Salesforce Consumer Goods Cloud, VIP iDig, Encompass, Repsly, Lilypad).
-**Lagom CRM is the lightweight, purpose-built version of that** for an early-stage hemp
+**Lagom Operations is the lightweight, purpose-built version of that** for an early-stage hemp
 beverage brand — fast for reps in the field, clear for the founders.
 
 ## What "great" looks like (north star)
