@@ -536,6 +536,28 @@
     display:none!important;
   }
 
+  .sky-home .legacy-sky-hero__product{
+    display:block!important;
+    top:auto!important;
+    right:-12vw!important;
+    bottom:-1.5svh!important;
+    left:auto!important;
+    width:min(82vw,590px)!important;
+    max-width:none!important;
+    transform:none!important;
+    opacity:.98!important;
+    pointer-events:none!important;
+  }
+  .sky-home .legacy-sky-hero__product img{
+    display:block!important;
+    width:100%!important;
+    height:auto!important;
+    max-height:48svh!important;
+    object-fit:contain!important;
+    object-position:right bottom!important;
+    filter:drop-shadow(0 18px 24px rgba(45,66,72,.11))!important;
+  }
+
   .sky-home .legacy-sky-hero__content{
     box-sizing:border-box!important;
     justify-content:flex-start!important;
@@ -755,6 +777,18 @@
   .atmospheric-scene-section::after{
     opacity:.16!important;
     transform:none!important;
+  }
+}
+
+@media (max-width:420px){
+  .sky-home .legacy-sky-hero__product{
+    right:-20vw!important;
+    bottom:0!important;
+    width:88vw!important;
+    opacity:.9!important;
+  }
+  .sky-home .legacy-sky-hero__product img{
+    max-height:42svh!important;
   }
 }
 
