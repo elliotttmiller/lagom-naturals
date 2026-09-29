@@ -93,7 +93,7 @@ function loadLeaflet(){
 }
 
 function markerIcon(L,selected=false){
-  const iconUrl=`${import.meta.env.BASE_URL}lagom-logo-icon-white.svg`
+  const iconUrl=`${import.meta.env.BASE_URL}enhanced-lagom-naturals-icon-white.webp`
   return L.divIcon({
     className:`lagom-leaflet-pin${selected?' is-selected':''}`,
     html:`<span class="lagom-leaflet-pin__disc"><img src="${iconUrl}" alt=""></span><span class="lagom-leaflet-pin__tip"></span>`,

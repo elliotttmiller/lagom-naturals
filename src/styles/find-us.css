@@ -621,17 +621,16 @@ body:has(.find-experience) .route-stage .find-page,body:has(.find-experience) .v
 }
 .lagom-leaflet-pin__disc img{
   display:block!important;
-  /* The approved icon's artwork sits lower than its 300 × 343 viewBox center.
-     Size the visible round mark to the disc's inner ring, then offset that
-     viewBox padding so the artwork—not the SVG box—is optically centered. */
-  width:42px!important;
-  height:42px!important;
-  max-width:42px!important;
-  max-height:42px!important;
+  /* The supplied square mark is centered within its own artboard. Keep an
+     even breathing room inside the black locator disc at every marker size. */
+  width:40px!important;
+  height:40px!important;
+  max-width:40px!important;
+  max-height:40px!important;
   margin:0!important;
   object-fit:contain!important;
   object-position:center!important;
-  transform:translateY(-1.8px)!important;
+  transform:none!important;
 }
 .lagom-leaflet-pin__tip{
   position:absolute;
@@ -695,11 +694,11 @@ body:has(.find-experience) .route-stage .find-page,body:has(.find-experience) .v
     height:54px;
   }
   .lagom-leaflet-pin__disc img{
-    width:39px!important;
-    height:39px!important;
-    max-width:39px!important;
-    max-height:39px!important;
-    transform:translateY(-1.7px)!important;
+    width:38px!important;
+    height:38px!important;
+    max-width:38px!important;
+    max-height:38px!important;
+    transform:none!important;
   }
 }
 
@@ -720,11 +719,11 @@ body:has(.find-experience) .route-stage .find-page,body:has(.find-experience) .v
 }
 .lagom-leaflet-pin:not(.is-selected) .lagom-leaflet-pin__disc::after{inset:5px}
 .lagom-leaflet-pin:not(.is-selected) .lagom-leaflet-pin__disc img{
-  width:34px!important;
-  height:34px!important;
-  max-width:34px!important;
-  max-height:34px!important;
-  transform:translateY(-1.5px)!important;
+  width:32px!important;
+  height:32px!important;
+  max-width:32px!important;
+  max-height:32px!important;
+  transform:none!important;
 }
 .lagom-leaflet-pin:not(.is-selected) .lagom-leaflet-pin__tip{
   bottom:1px;
