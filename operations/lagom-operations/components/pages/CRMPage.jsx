@@ -90,10 +90,10 @@ function AccountDetail({account,model,activities=[],onBack}){
     <div className="lo-account-tabs"><button className="is-active">Overview</button><button>Contacts</button><button>Invoices</button><button>Depletion</button><button>Activities</button><button>Notes</button></div>
 
     <div className="lo-metric-grid lo-metric-grid--four">
-      <MetricCard label="Lifetime Revenue" value={money(lifetime)} trend="+12%" spark={invoices.map(x=>x.invoiceTotal)}/>
+      <MetricCard label="Lifetime Revenue" value={money(lifetime)} trend="—" trendDirection="flat" spark={invoices.map(x=>x.invoiceTotal)}/>
       <MetricCard label="Open AR" value={money(ar)} trend="0%" trendDirection="flat" spark={invoices.map(x=>x.balanceDue)}/>
       <MetricCard label="Last Order" value={shortDate(last)} trend={last?'Recent':'—'} trendDirection="flat" spark={[]}/>
-      <MetricCard label="Orders" value={invoices.length} trend="+100%" spark={invoices.map((_,i)=>i+1)}/>
+      <MetricCard label="Orders" value={invoices.length} trend="—" trendDirection="flat" spark={invoices.map((_,i)=>i+1)}/>
     </div>
 
     <div className="lo-two-panel-grid">
