@@ -91,18 +91,14 @@ export function buildCompanyOperationsModel({
   lines.forEach(line => {
     const key = [
       line.invoiceNumber,
-      lower(line.product),
-      line.casesSold,
-      line.salePrice,
+      lower(line.productId || line.sku || line.product),
     ].join('|');
     duplicateKeys.set(key, (duplicateKeys.get(key) || 0) + 1);
   });
   lines.forEach(line => {
     const key = [
       line.invoiceNumber,
-      lower(line.product),
-      line.casesSold,
-      line.salePrice,
+      lower(line.productId || line.sku || line.product),
     ].join('|');
     line.duplicate = (duplicateKeys.get(key) || 0) > 1;
     line.orphanInvoice = !invoiceById.has(line.invoiceId);
@@ -124,12 +120,17 @@ export function buildCompanyOperationsModel({
     const invoiceTotal = invoice.invoice_total == null ? lineRevenue : num(invoice.invoice_total);
     const amountPaid = num(invoice.amount_paid);
     const balanceDue = invoice.balance_due == null ? Math.max(0, invoiceTotal - amountPaid) : num(invoice.balance_due);
+    const derivedStatus = invoiceTotal <= 0 ? 'Draft' : amountPaid >= invoiceTotal ? 'Paid' : amountPaid > 0 ? 'Partial' : 'Unpaid';
     const dueDate = day(invoice.due_date);
     const daysPastDue = balanceDue > 0 && dueDate ? Math.max(0, daysBetween(dueDate, today)) : 0;
     const aging = agingBucket(balanceDue, dueDate, today);
 
     const row = {
       ...invoice,
+      rawStatus: invoice.status || '',
+      status: derivedStatus,
+      paymentStatus: derivedStatus,
+      terms: invoice.terms || '',
       issuedAt: day(invoice.issued_at),
       dueDate,
       paymentDate: day(invoice.payment_date),
@@ -157,9 +158,14 @@ export function buildCompanyOperationsModel({
   });
 
   const qualityIssues = [];
+  const invoiceNumbers = new Map();
+  invoiceRows.forEach(invoice => {
+    if(invoice.invoiceNumber) invoiceNumbers.set(invoice.invoiceNumber,(invoiceNumbers.get(invoice.invoiceNumber)||0)+1);
+  });
   invoiceRows.forEach(invoice => {
     const ref = invoice.invoiceNumber || invoice.id;
     if (!invoice.invoiceNumber) qualityIssues.push({scope:'Invoice', record:ref, severity:'High', issue:'Missing invoice number'});
+    else if ((invoiceNumbers.get(invoice.invoiceNumber)||0)>1) qualityIssues.push({scope:'Invoice', record:ref, severity:'High', issue:'Duplicate invoice number'});
     if (!invoice.issuedAt) qualityIssues.push({scope:'Invoice', record:ref, severity:'High', issue:'Missing invoice date'});
     if (!invoice.accountName) qualityIssues.push({scope:'Invoice', record:ref, severity:'High', issue:'Missing account'});
     if (!invoice.repName) qualityIssues.push({scope:'Invoice', record:ref, severity:'Medium', issue:'Missing sales rep'});
@@ -167,6 +173,7 @@ export function buildCompanyOperationsModel({
     if (!invoice.lineCount && invoice.status !== 'Draft') qualityIssues.push({scope:'Invoice', record:ref, severity:'High', issue:'Invoice has no depletion lines'});
     if (invoice.amountPaid < 0) qualityIssues.push({scope:'Invoice', record:ref, severity:'High', issue:'Invalid payment amount'});
     if (invoice.amountPaid - invoice.invoiceTotal > 0.005) qualityIssues.push({scope:'Invoice', record:ref, severity:'High', issue:'Payment exceeds invoice total'});
+    if (invoice.status === 'Paid' && !invoice.paymentDate) qualityIssues.push({scope:'Invoice', record:ref, severity:'High', issue:'Paid invoice is missing payment date'});
     if (Math.abs(invoice.reconciliationDelta) > 0.01) qualityIssues.push({scope:'Invoice', record:ref, severity:'High', issue:'Invoice revenue does not reconcile to line revenue'});
   });
 
@@ -175,7 +182,7 @@ export function buildCompanyOperationsModel({
     if (!line.invoiceNumber || line.orphanInvoice) qualityIssues.push({scope:'Depletion', record:ref, severity:'High', issue:'Orphan or missing invoice'});
     if (!line.product || line.unmappedProduct) qualityIssues.push({scope:'Depletion', record:ref, severity:'High', issue:'Unknown or unmapped product'});
     if (line.casesSold <= 0) qualityIssues.push({scope:'Depletion', record:ref, severity:'High', issue:'Cases must be greater than zero'});
-    if (line.salePrice <= 0) qualityIssues.push({scope:'Depletion', record:ref, severity:'High', issue:'Sale price must be greater than zero'});
+    if (line.salePrice < 0) qualityIssues.push({scope:'Depletion', record:ref, severity:'High', issue:'Sale price cannot be negative'});
     if (line.cogsPerCase <= 0) qualityIssues.push({scope:'Depletion', record:ref, severity:'Medium', issue:'Missing approved product COGS'});
     if (line.duplicate) qualityIssues.push({scope:'Depletion', record:ref, severity:'Medium', issue:'Possible duplicate depletion line'});
   });
