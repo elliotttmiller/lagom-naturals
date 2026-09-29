@@ -1,14 +1,7 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useScroll, useSpring, useTransform } from "motion/react";
-import { m, motionTokens, useReducedMotion } from "@/motionSystem";
+import { m, useReducedMotion } from "@/motionSystem";
 
-const HOME_SCENES = [
-  { id: "hero", label: "Home" },
-  { id: "flavors", label: "Flavors" },
-  { id: "craft", label: "Our way" },
-  { id: "gummies", label: "Gummies" },
-  { id: "balance", label: "Balance" },
-];
 
 const MOTION_PROFILES = {
   desktop: {
@@ -52,56 +45,6 @@ function useViewportMotionProfile() {
   }, []);
 
   return profile;
-}
-
-function useActiveScene(rootRef) {
-  const [activeScene, setActiveScene] = useState("hero");
-  const ratios = useRef(new Map());
-
-  useEffect(() => {
-    const root = rootRef.current;
-    if (!root || typeof IntersectionObserver === "undefined") return undefined;
-
-    const scenes = [...root.querySelectorAll("[data-sky-scene]")];
-    if (!scenes.length) return undefined;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const id = entry.target.getAttribute("data-sky-scene");
-          if (id) ratios.current.set(id, entry.isIntersecting ? entry.intersectionRatio : 0);
-        });
-
-        let next = "hero";
-        let best = -1;
-        ratios.current.forEach((ratio, id) => {
-          if (ratio > best) {
-            best = ratio;
-            next = id;
-          }
-        });
-        if (best > 0) setActiveScene(next);
-      },
-      {
-        root: null,
-        rootMargin: "-18% 0px -38% 0px",
-        threshold: [0, 0.12, 0.25, 0.4, 0.55, 0.72, 0.9, 1],
-      },
-    );
-
-    scenes.forEach((scene) => {
-      const id = scene.getAttribute("data-sky-scene");
-      if (id) ratios.current.set(id, 0);
-      observer.observe(scene);
-    });
-
-    return () => {
-      observer.disconnect();
-      ratios.current.clear();
-    };
-  }, [rootRef]);
-
-  return activeScene;
 }
 
 export function useAtmosphericHomepageScroll(rootRef) {
@@ -184,7 +127,6 @@ export function useAtmosphericHomepageScroll(rootRef) {
   const rightRotate = useTransform(progress, windStops, ["0deg", "0.09deg", "0deg", "0.15deg", "-0.03deg", "0.1deg", "0deg"]);
   const rightOpacity = useTransform(progress, windStops, [0.9, 0.95, 0.99, 0.96, 0.92, 0.97, 0.89]);
 
-  const activeScene = useActiveScene(rootRef);
   const cloudStyles = useMemo(
     () => ({
       mid: reduceMotion ? undefined : { x: midX, y: midY, scale: midScale, rotate: midRotate, opacity: midOpacity },
@@ -201,18 +143,8 @@ export function useAtmosphericHomepageScroll(rootRef) {
     ],
   );
 
-  const scrollToScene = useCallback(
-    (sceneId) => {
-      const target = rootRef.current?.querySelector(`[data-sky-scene="${sceneId}"]`);
-      target?.scrollIntoView({
-        behavior: reduceMotion ? "auto" : "smooth",
-        block: "start",
-      });
-    },
-    [reduceMotion, rootRef],
-  );
 
-  return { activeScene, cloudStyles, progress, scrollToScene, motionProfile };
+  return { cloudStyles, motionProfile };
 }
 
 export function AtmosphericCloudField({ styles, compact = false }) {
@@ -280,40 +212,5 @@ export function AtmosphericSceneSection({ id, className, labelledBy, children })
     >
       {children}
     </m.section>
-  );
-}
-
-export function AtmosphericSectionNavigator({ activeScene, progress, onNavigate }) {
-  return (
-    <nav className="sky-home-nav" aria-label="Homepage sections">
-      <span className="sky-home-nav__rail" aria-hidden="true">
-        <m.span className="sky-home-nav__progress" style={{ scaleY: progress }} />
-      </span>
-      <ol>
-        {HOME_SCENES.map((scene, index) => {
-          const active = scene.id === activeScene;
-          return (
-            <li key={scene.id}>
-              <button
-                type="button"
-                className={active ? "is-active" : ""}
-                aria-label={`Go to ${scene.label} section`}
-                aria-current={active ? "location" : undefined}
-                onClick={() => onNavigate(scene.id)}
-              >
-                <span className="sky-home-nav__index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-                <span className="sky-home-nav__label">{scene.label}</span>
-                <m.span
-                  className="sky-home-nav__dot"
-                  aria-hidden="true"
-                  animate={{ scale: active ? 1 : 0.62, opacity: active ? 1 : 0.48 }}
-                  transition={motionTokens.springSoft}
-                />
-              </button>
-            </li>
-          );
-        })}
-      </ol>
-    </nav>
   );
 }
