@@ -1,7 +1,15 @@
 'use client';
 
 import {useMemo,useState} from 'react';
-import {Button,MetricCard,PageTitle,Panel,SelectField,StatusChip,downloadCsv,money,number,percent,shortDate} from '../ui/OperationsUI';
+import {BadgePercent,CircleCheck,FileCheck2,Gift,Info,Target} from 'lucide-react';
+import {Button,MetricCard,PageTitle,Panel,SelectField,StatusChip,displayInvoiceNumber,downloadCsv,money,number,percent,shortDate} from '../ui/OperationsUI';
+
+function CalculationMetric({icon:Icon,label,description,value,detail,tone='green',children}){
+  return <article className={'lo-commission-calc-card is-'+tone}>
+    <div className="lo-commission-calc-card__head"><span className="lo-commission-calc-card__icon"><Icon size={16} strokeWidth={2}/></span><span className="lo-commission-calc-card__label">{label}<Info size={13} aria-label={description}/></span></div>
+    <strong>{children||value}</strong><small>{detail}</small>
+  </article>;
+}
 
 export default function CommissionsPage({model,reps=[]}){
   const repNames=[...new Set([...reps.map(r=>r.display_name||r.name),...model.commissions.map(r=>r.rep_name)].filter(Boolean))].sort();
@@ -36,12 +44,14 @@ export default function CommissionsPage({model,reps=[]}){
 
     <Panel title="Commission Calculation">
       <div className="lo-commission-calc">
-        <div><span>New Rate ⓘ</span><strong>{percent(newRate)}</strong><small>of eligible new revenue</small></div>
-        <div><span>Reorder Rate ⓘ</span><strong>{percent(reorderRate)}</strong><small>of eligible reorder revenue</small></div>
-        <div><span>Eligible Invoice Count ⓘ</span><strong>{rows.length}</strong><small>in period</small></div>
-        <div><span>Bonus Threshold ⓘ</span><strong>{bonusThreshold?money(bonusThreshold):'—'}</strong><small>{bonusThreshold?'eligible revenue':'not configured'}</small></div>
-        <div><span>Bonus Rule / Status ⓘ</span><strong>{bonusThreshold&&eligibleRevenue>=bonusThreshold?'Review':'No Bonus'}</strong><small>{bonusThreshold?'Threshold '+(eligibleRevenue>=bonusThreshold?'reached':'not met'):'No approved rule'}</small></div>
-        <div><span>QA State ⓘ</span><strong className={bonusNeedsReview?'lo-review':'lo-ready'}><i>{bonusNeedsReview?'!':'✓'}</i> {bonusNeedsReview?'Review':'Ready'}</strong><small>{bonusNeedsReview?'Bonus semantics require review':'All clear'}</small></div>
+        <CalculationMetric icon={BadgePercent} label="New rate" description="Commission rate applied to eligible new revenue." value={percent(newRate)} detail="of eligible new revenue"/>
+        <CalculationMetric icon={BadgePercent} label="Reorder rate" description="Commission rate applied to eligible reorder revenue." value={percent(reorderRate)} detail="of eligible reorder revenue"/>
+        <CalculationMetric icon={FileCheck2} label="Eligible invoices" description="Number of invoices eligible for commission in this period." value={rows.length} detail="in this period"/>
+        <CalculationMetric icon={Target} label="Bonus threshold" description="Eligible revenue required before the bonus rule applies." value={bonusThreshold?money(bonusThreshold):'—'} detail={bonusThreshold?'eligible revenue':'not configured'} tone={bonusThreshold?'green':'muted'}/>
+        <CalculationMetric icon={Gift} label="Bonus status" description="Current bonus-rule evaluation for this sales rep and period." value={bonusThreshold&&eligibleRevenue>=bonusThreshold?'Review':'No bonus'} detail={bonusThreshold?'Threshold '+(eligibleRevenue>=bonusThreshold?'reached':'not met'):'No approved rule'} tone={bonusNeedsReview?'review':'muted'}/>
+        <CalculationMetric icon={CircleCheck} label="QA state" description="Commission-quality status for this period." detail={bonusNeedsReview?'Bonus semantics require review':'All clear'} tone={bonusNeedsReview?'review':'ready'}>
+          <span className={bonusNeedsReview?'lo-review':'lo-ready'}><i>{bonusNeedsReview?'!':'✓'}</i> {bonusNeedsReview?'Review':'Ready'}</span>
+        </CalculationMetric>
       </div>
     </Panel>
 
@@ -54,7 +64,7 @@ export default function CommissionsPage({model,reps=[]}){
       <div className="lo-table-scroll"><table className="lo-data-table">
         <thead><tr><th>Invoice #</th><th>Date</th><th>Account</th><th>Revenue</th><th>Cases</th><th>Type</th><th>Eligible</th><th>Commission Amount</th></tr></thead>
         <tbody>{rows.map(row=><tr key={row.invoice_id}>
-          <td><strong>{row.invoice_number}</strong></td><td>{shortDate(row.eligibleDate)}</td><td>{row.account_name}</td><td>{money(row.paidRevenue)}</td><td>{number(row.cases)}</td><td>{row.sale_type||'—'}</td><td><StatusChip>Yes</StatusChip></td><td className="lo-num">{money(row.commissionAmount)}</td>
+          <td><strong>{displayInvoiceNumber(row.invoice_number)}</strong></td><td>{shortDate(row.eligibleDate)}</td><td>{row.account_name}</td><td>{money(row.paidRevenue)}</td><td>{number(row.cases)}</td><td>{row.sale_type||'—'}</td><td><StatusChip>Yes</StatusChip></td><td className="lo-num">{money(row.commissionAmount)}</td>
         </tr>)}</tbody>
       </table></div>
     </section>

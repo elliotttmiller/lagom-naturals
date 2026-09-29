@@ -11,6 +11,7 @@ import {
   SearchBox,
   SelectField,
   StatusChip,
+  displayInvoiceNumber,
   money,
   shortDate,
 } from '../ui/OperationsUI';
@@ -75,7 +76,7 @@ export default function InvoicesPage({model,reps=[],onNewInvoice,onOpenInvoice})
           <tbody>{rows.map(row=>{
             const state=row.status==='Paid'?'Paid':row.status==='Draft'?'Draft':row.isOverdue?'Overdue':'Open';
             return <tr key={row.id} onDoubleClick={()=>onOpenInvoice?.(row)}>
-              <td><strong>{row.invoiceNumber||'—'}</strong></td>
+              <td><strong>{displayInvoiceNumber(row.invoiceNumber)}</strong></td>
               <td>{shortDate(row.issuedAt)}</td>
               <td>{row.accountName||'—'}</td>
               <td>{row.repName||'—'}</td>
@@ -85,7 +86,7 @@ export default function InvoicesPage({model,reps=[],onNewInvoice,onOpenInvoice})
               <td className="lo-num">{money(row.amountPaid)}</td>
               <td className="lo-num">{money(row.balanceDue)}</td>
               <td><StatusChip>{state}</StatusChip></td>
-              <td><button className="lo-kebab" aria-label={'Actions for invoice '+row.invoiceNumber}>•••</button></td>
+              <td><button className="lo-kebab" aria-label={'Actions for invoice '+displayInvoiceNumber(row.invoiceNumber)}>•••</button></td>
             </tr>;
           })}</tbody>
         </table>

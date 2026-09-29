@@ -3,7 +3,7 @@
 import {useMemo,useState} from 'react';
 import {DonutChart} from '../ui/OperationsCharts';
 import {
-  Button,FilterBar,MetricCard,PageTitle,Panel,SearchBox,StatusChip,money,number,shortDate
+  Button,FilterBar,MetricCard,PageTitle,Panel,SearchBox,StatusChip,displayInvoiceNumber,money,number,shortDate
 } from '../ui/OperationsUI';
 
 function AccountList({prospects=[],model,onOpenAccount}){
@@ -119,7 +119,7 @@ function AccountDetail({account,model,activities=[],tasks=[],onBack}){
 
     <div className="lo-account-lower-grid">
       <Panel title="Recent Invoices" action={<button className="lo-text-button">View All</button>}>
-        <div className="lo-mini-table lo-mini-table--account"><div className="lo-mini-table-head"><span>Invoice #</span><span>Date</span><span>Cases</span><span>Revenue</span><span>Status</span></div>{invoiceRows.map(row=><div key={row.id}><strong>{row.invoiceNumber}</strong><span>{shortDate(row.issuedAt)}</span><span>{number(row.cases)}</span><span>{money(row.invoiceTotal)}</span><StatusChip>{row.status}</StatusChip></div>)}</div>
+        <div className="lo-mini-table lo-mini-table--account"><div className="lo-mini-table-head"><span>Invoice #</span><span>Date</span><span>Cases</span><span>Revenue</span><span>Status</span></div>{invoiceRows.map(row=><div key={row.id}><strong>{displayInvoiceNumber(row.invoiceNumber)}</strong><span>{shortDate(row.issuedAt)}</span><span>{number(row.cases)}</span><span>{money(row.invoiceTotal)}</span><StatusChip>{row.status}</StatusChip></div>)}</div>
       </Panel>
       <Panel title="Depletion Mix" action={<button className="lo-text-button">View Details</button>}><DonutChart items={mix} centerTop={number(lines.reduce((s,x)=>s+x.casesSold,0))} centerBottom="Cases"/></Panel>
       <Panel title="Open Opportunities / Follow-ups" action={<button className="lo-text-button">View All</button>}>

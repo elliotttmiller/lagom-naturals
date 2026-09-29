@@ -2,7 +2,7 @@
 
 import {useMemo,useState} from 'react';
 import {
-  Button,FilterBar,MetricCard,PageTitle,Pagination,SearchBox,SelectField,StatusChip,downloadCsv,money
+  Button,FilterBar,MetricCard,PageTitle,Pagination,SearchBox,SelectField,StatusChip,displayInvoiceNumber,downloadCsv,money
 } from '../ui/OperationsUI';
 
 export default function AccountsReceivablePage({model}){
@@ -63,7 +63,7 @@ export default function AccountsReceivablePage({model}){
           <tbody>{rows.map(row=>{
             const state=row.balanceDue<=0?'Current':row.isOverdue?'Overdue':'Follow-up';
             return <tr key={row.id}>
-              <td><strong>{row.accountName}</strong></td><td>{row.invoiceNumber}</td><td>{row.issuedAt}</td><td>{row.dueDate||'—'}</td>
+              <td><strong>{row.accountName}</strong></td><td>{displayInvoiceNumber(row.invoiceNumber)}</td><td>{row.issuedAt}</td><td>{row.dueDate||'—'}</td>
               <td>{money(row.invoiceTotal)}</td><td>{money(row.amountPaid)}</td><td>{money(row.balanceDue)}</td>
               <td className={row.daysPastDue?'lo-danger-text':''}>{row.daysPastDue||0}</td><td>{row.repName||'—'}</td>
               <td>{row.balanceDue<=0?'—':row.daysPastDue>20?'Send final notice':row.daysPastDue>0?'Call for payment':'Follow up'}</td><td><StatusChip>{state}</StatusChip></td>

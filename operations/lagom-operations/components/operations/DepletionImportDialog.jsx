@@ -1,6 +1,7 @@
 'use client';
 
 import {useMemo,useRef,useState} from 'react';
+import {displayInvoiceNumber} from '../ui/OperationsUI';
 
 const lower=value=>String(value||'').trim().toLowerCase();
 const num=value=>{
@@ -250,7 +251,7 @@ export default function DepletionImportDialog({
             <thead><tr><th>Row</th><th>Invoice</th><th>Product</th><th>Cases</th><th>Sale Price</th><th>Validation</th></tr></thead>
             <tbody>{rows.slice(0,100).map(row=><tr key={row.rowNumber}>
               <td>{row.rowNumber}</td>
-              <td>{row.invoiceNumber||'—'}</td>
+              <td>{displayInvoiceNumber(row.invoiceNumber)}</td>
               <td>{row.productName||row.sku||'—'}</td>
               <td>{row.cases||'—'}</td>
               <td>{row.salePrice?new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(row.salePrice):'—'}</td>

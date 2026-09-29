@@ -3,7 +3,7 @@
 import {useMemo,useState} from 'react';
 import DepletionImportDialog from '../operations/DepletionImportDialog';
 import {
-  Button,FilterBar,ImportButton,MetricCard,PageTitle,Pagination,SearchBox,SelectField,StatusChip,downloadCsv,money,number
+  Button,FilterBar,ImportButton,MetricCard,PageTitle,Pagination,SearchBox,SelectField,StatusChip,displayInvoiceNumber,downloadCsv,money,number
 } from '../ui/OperationsUI';
 
 export default function DepletionPage({model,source,supabase,reload,onAddEntry}){
@@ -67,7 +67,7 @@ export default function DepletionPage({model,source,supabase,reload,onAddEntry})
           <tbody>{rows.map(row=>{
             const hasIssue=model.qualityIssues.some(issue=>issue.scope==='Depletion'&&String(issue.record||'').includes(row.invoiceNumber));
             return <tr key={row.id}>
-              <td><strong>{row.invoiceNumber}</strong></td><td>{row.invoiceDate||'—'}</td><td>{row.product}</td><td>{number(row.casesSold)}</td><td>{money(row.salePrice)}</td><td>{money(row.revenue)}</td><td>{row.sku||'—'}</td><td>{row.productLine||'—'}</td><td>{money(row.totalCogs)}</td><td className={row.grossProfit<0?'lo-danger-text':''}>{money(row.grossProfit)}</td><td>{row.account}</td><td>{row.rep}</td><td><StatusChip>{hasIssue?'Review':'Recorded'}</StatusChip></td>
+              <td><strong>{displayInvoiceNumber(row.invoiceNumber)}</strong></td><td>{row.invoiceDate||'—'}</td><td>{row.product}</td><td>{number(row.casesSold)}</td><td>{money(row.salePrice)}</td><td>{money(row.revenue)}</td><td>{row.sku||'—'}</td><td>{row.productLine||'—'}</td><td>{money(row.totalCogs)}</td><td className={row.grossProfit<0?'lo-danger-text':''}>{money(row.grossProfit)}</td><td>{row.account}</td><td>{row.rep}</td><td><StatusChip>{hasIssue?'Review':'Recorded'}</StatusChip></td>
             </tr>;
           })}</tbody>
         </table>

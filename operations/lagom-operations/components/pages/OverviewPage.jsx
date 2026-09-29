@@ -8,6 +8,7 @@ import {
   ProgressBar,
   QualitySummary,
   StatusChip,
+  displayInvoiceNumber,
   money,
   number,
   shortDate,
@@ -68,18 +69,18 @@ export default function OverviewPage({model,onNavigate}){
 
     <div className="lo-two-panel-grid">
       <Panel title="Recent Invoices" action={<button className="lo-text-button" onClick={()=>onNavigate('invoices')}>View All</button>}>
-        <div className="lo-mini-table">
-          <div className="lo-mini-table-head"><span>Invoice #</span><span>Date</span><span>Account</span><span>Cases</span><span>Revenue</span><span>Status</span></div>
-          {recentInvoices.map(row=><div key={row.id}>
-            <strong>{row.invoiceNumber}</strong><span>{shortDate(row.issuedAt)}</span><span>{row.accountName}</span><span>{number(row.cases)}</span><span>{money(row.invoiceTotal)}</span><StatusChip>{row.status}</StatusChip>
+        <div className="lo-recent-table lo-recent-table--invoices" role="table" aria-label="Recent invoices">
+          <div className="lo-recent-table__head" role="row"><span>Invoice</span><span>Issued</span><span>Account</span><span>Cases</span><span>Revenue</span><span>Status</span></div>
+          {recentInvoices.map(row=><div className="lo-recent-table__row" role="row" key={row.id}>
+            <strong title={displayInvoiceNumber(row.invoiceNumber)}>{displayInvoiceNumber(row.invoiceNumber)}</strong><time dateTime={row.issuedAt}>{shortDate(row.issuedAt)}</time><span title={row.accountName}>{row.accountName}</span><span className="lo-recent-table__number">{number(row.cases)}</span><strong className="lo-recent-table__amount">{money(row.invoiceTotal)}</strong><StatusChip>{row.status}</StatusChip>
           </div>)}
         </div>
       </Panel>
       <Panel title="Recent Depletion" action={<button className="lo-text-button" onClick={()=>onNavigate('depletion')}>View All</button>}>
-        <div className="lo-mini-table lo-mini-table--depletion">
-          <div className="lo-mini-table-head"><span>Date</span><span>Account</span><span>Product</span><span>Cases</span><span>Sales Rep</span><span>Status</span></div>
-          {recentLines.map(row=><div key={row.id}>
-            <span>{shortDate(row.invoiceDate)}</span><span>{row.account||'—'}</span><span>{row.product||'—'}</span><span>{number(row.casesSold)}</span><span>{row.rep||'—'}</span><StatusChip>Recorded</StatusChip>
+        <div className="lo-recent-table lo-recent-table--depletion" role="table" aria-label="Recent depletion">
+          <div className="lo-recent-table__head" role="row"><span>Recorded</span><span>Account</span><span>Product</span><span>Cases</span><span>Sales rep</span><span>Status</span></div>
+          {recentLines.map(row=><div className="lo-recent-table__row" role="row" key={row.id}>
+            <time dateTime={row.invoiceDate}>{shortDate(row.invoiceDate)}</time><span title={row.account||'—'}>{row.account||'—'}</span><strong title={row.product||'—'}>{row.product||'—'}</strong><span className="lo-recent-table__number">{number(row.casesSold)}</span><span>{row.rep||'—'}</span><StatusChip>Recorded</StatusChip>
           </div>)}
         </div>
       </Panel>
