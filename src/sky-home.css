@@ -295,9 +295,30 @@
   will-change:transform,opacity;
 }
 
+/* Adapted from the section-transition reference: the scene shell and its
+   content counter-travel as scroll progress passes through the viewport.
+   This creates the composed "arrive → settle → hold → depart" effect without
+   fixing sections or intercepting the user's scroll gesture. */
+.atmospheric-scene-section > * {
+  opacity:var(--scene-content-opacity,1);
+  transform:translate3d(0,var(--scene-content-y,0px),0) scale(var(--scene-content-scale,1));
+  transform-origin:50% 48%;
+}
+
+@media (min-width:900px) {
+  .atmospheric-scene-section > * {
+    will-change:transform,opacity;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .sky-home__cloud-scroll,
   .atmospheric-scene-section {
+    transform:none !important;
+    opacity:1 !important;
+    will-change:auto;
+  }
+  .atmospheric-scene-section > * {
     transform:none !important;
     opacity:1 !important;
     will-change:auto;
