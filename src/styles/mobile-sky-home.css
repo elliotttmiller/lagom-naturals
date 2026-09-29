@@ -397,8 +397,8 @@
     line-height:1.42!important;
   }
 
-  /* Gummies need a different card system on mobile: the source images are
-     full lifestyle/package compositions, not narrow transparent can packshots. */
+  /* Homepage gummies now use transparent package packshots, matching the
+     seltzer merchandising system instead of lifestyle-scene thumbnails. */
   .sky-home__section--gummies .sky-home__heading{
     margin:0 0 clamp(30px,5vw,42px)!important;
   }
@@ -423,19 +423,22 @@
     width:calc(50% - 7px)!important;
   }
   .sky-home__gummy-grid .sky-home-product__image{
-    min-height:0!important;
+    display:grid!important;
+    place-items:center!important;
+    min-height:clamp(240px,42vw,320px)!important;
     height:auto!important;
-    aspect-ratio:1/1!important;
-    overflow:hidden!important;
-    border-radius:10px;
-    background:rgba(255,255,255,.2);
+    aspect-ratio:auto!important;
+    overflow:visible!important;
+    border-radius:0!important;
+    background:transparent!important;
   }
   .sky-home__gummy-grid .sky-home-product__image img{
-    width:100%!important;
-    height:100%!important;
-    max-width:none!important;
-    object-fit:cover!important;
-    filter:none!important;
+    width:min(100%,240px)!important;
+    height:clamp(240px,42vw,320px)!important;
+    max-width:100%!important;
+    object-fit:contain!important;
+    object-position:center!important;
+    filter:drop-shadow(0 14px 15px rgba(50,73,77,.12))!important;
   }
   .sky-home__gummy-grid .sky-home-product__copy h3{
     min-height:2.05em!important;
@@ -683,15 +686,18 @@
     width:100%!important;
   }
   .sky-home__gummy-grid .sky-home-product__image{
-    aspect-ratio:auto!important;
-    min-height:0!important;
+    min-height:clamp(270px,74vw,330px)!important;
     height:auto!important;
+    aspect-ratio:auto!important;
+    overflow:visible!important;
   }
   .sky-home__gummy-grid .sky-home-product__image img{
-    width:100%!important;
-    height:auto!important;
-    max-height:none!important;
+    width:min(72vw,270px)!important;
+    height:clamp(270px,74vw,330px)!important;
+    max-width:100%!important;
+    max-height:330px!important;
     object-fit:contain!important;
+    object-position:center!important;
   }
   .sky-home__gummy-grid .sky-home-product__copy{
     padding-top:14px!important;
