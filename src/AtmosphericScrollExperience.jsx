@@ -75,25 +75,50 @@ export function useAtmosphericHomepageScroll(rootRef) {
   });
   const progress = useSpring(scrollYProgress, globalSpring);
 
-  const midY = useTransform(progress, [0, 1], ["0vh", "-24vh"]);
-  const midX = useTransform(progress, [0, 1], ["0vw", "-4vw"]);
-  const nearY = useTransform(progress, [0, 1], ["0vh", "-39vh"]);
-  const nearX = useTransform(progress, [0, 1], ["0vw", "6vw"]);
-  const leftY = useTransform(progress, [0, 1], ["0vh", "-29vh"]);
-  const leftX = useTransform(progress, [0, 1], ["0vw", "3.5vw"]);
-  const rightY = useTransform(progress, [0, 1], ["0vh", "-33vh"]);
-  const rightX = useTransform(progress, [0, 1], ["0vw", "-3.5vw"]);
-  const nearScale = useTransform(progress, [0, 0.5, 1], [1, 1.03, 1.065]);
+  // A shared progress curve keeps the atmosphere coherent while each plane
+  // receives a distinct wind path. Multi-point transforms avoid the mechanical
+  // "one diagonal line" look typical of basic parallax implementations.
+  const windStops = [0, 0.16, 0.34, 0.52, 0.7, 0.86, 1];
+
+  const midX = useTransform(progress, windStops, ["0vw", "-1.1vw", "-0.4vw", "-2.5vw", "-1.45vw", "-4.15vw", "-3.5vw"]);
+  const midY = useTransform(progress, windStops, ["0vh", "-2.5vh", "-6.5vh", "-10.5vh", "-15vh", "-20vh", "-24vh"]);
+  const midScale = useTransform(progress, windStops, [1, 1.006, 1.012, 1.018, 1.021, 1.026, 1.03]);
+  const midRotate = useTransform(progress, windStops, ["0deg", "-0.08deg", "0.05deg", "-0.14deg", "0.04deg", "-0.08deg", "0deg"]);
+  const midOpacity = useTransform(progress, windStops, [0.94, 0.98, 1, 0.96, 0.92, 0.97, 0.9]);
+
+  const nearX = useTransform(progress, windStops, ["0vw", "1.4vw", "0.6vw", "3.6vw", "2.5vw", "5.8vw", "6.8vw"]);
+  const nearY = useTransform(progress, windStops, ["0vh", "-4vh", "-10vh", "-17vh", "-25vh", "-34vh", "-43vh"]);
+  const nearScale = useTransform(progress, windStops, [1, 1.012, 1.028, 1.04, 1.052, 1.066, 1.078]);
+  const nearRotate = useTransform(progress, windStops, ["0deg", "0.1deg", "-0.04deg", "0.18deg", "0.06deg", "0.22deg", "0.12deg"]);
+  const nearOpacity = useTransform(progress, windStops, [0.92, 0.97, 1, 0.98, 0.94, 0.99, 0.9]);
+
+  const leftX = useTransform(progress, windStops, ["0vw", "0.8vw", "0.25vw", "2vw", "1.2vw", "3.15vw", "3.8vw"]);
+  const leftY = useTransform(progress, windStops, ["0vh", "-3vh", "-7.5vh", "-12vh", "-18vh", "-24vh", "-30vh"]);
+  const leftScale = useTransform(progress, windStops, [1, 1.004, 1.01, 1.014, 1.018, 1.023, 1.028]);
+  const leftRotate = useTransform(progress, windStops, ["0deg", "-0.11deg", "-0.02deg", "-0.16deg", "0.03deg", "-0.1deg", "0deg"]);
+  const leftOpacity = useTransform(progress, windStops, [0.9, 0.96, 0.99, 0.95, 0.91, 0.96, 0.88]);
+
+  const rightX = useTransform(progress, windStops, ["0vw", "-0.7vw", "-0.2vw", "-1.8vw", "-1.1vw", "-3vw", "-3.7vw"]);
+  const rightY = useTransform(progress, windStops, ["0vh", "-3.5vh", "-8vh", "-13.5vh", "-20vh", "-27vh", "-34vh"]);
+  const rightScale = useTransform(progress, windStops, [1, 1.005, 1.011, 1.016, 1.021, 1.026, 1.032]);
+  const rightRotate = useTransform(progress, windStops, ["0deg", "0.09deg", "0deg", "0.15deg", "-0.03deg", "0.1deg", "0deg"]);
+  const rightOpacity = useTransform(progress, windStops, [0.9, 0.95, 0.99, 0.96, 0.92, 0.97, 0.89]);
 
   const activeScene = useActiveScene(rootRef);
   const cloudStyles = useMemo(
     () => ({
-      mid: reduceMotion ? undefined : { x: midX, y: midY },
-      near: reduceMotion ? undefined : { x: nearX, y: nearY, scale: nearScale },
-      left: reduceMotion ? undefined : { x: leftX, y: leftY },
-      right: reduceMotion ? undefined : { x: rightX, y: rightY },
+      mid: reduceMotion ? undefined : { x: midX, y: midY, scale: midScale, rotate: midRotate, opacity: midOpacity },
+      near: reduceMotion ? undefined : { x: nearX, y: nearY, scale: nearScale, rotate: nearRotate, opacity: nearOpacity },
+      left: reduceMotion ? undefined : { x: leftX, y: leftY, scale: leftScale, rotate: leftRotate, opacity: leftOpacity },
+      right: reduceMotion ? undefined : { x: rightX, y: rightY, scale: rightScale, rotate: rightRotate, opacity: rightOpacity },
     }),
-    [reduceMotion, midX, midY, nearX, nearY, nearScale, leftX, leftY, rightX, rightY],
+    [
+      reduceMotion,
+      midX, midY, midScale, midRotate, midOpacity,
+      nearX, nearY, nearScale, nearRotate, nearOpacity,
+      leftX, leftY, leftScale, leftRotate, leftOpacity,
+      rightX, rightY, rightScale, rightRotate, rightOpacity,
+    ],
   );
 
   const scrollToScene = useCallback(
