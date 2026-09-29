@@ -267,6 +267,25 @@ export function AtmosphericSceneSection({ id, className, labelledBy, children })
     isPhone ? [0.996, 1, 1, 0.998] : [0.994, 1, 1, 0.997],
   );
 
+  // Adapted from the fullscreen gradient scene treatment in the third
+  // reference. The wash stays decorative and is driven by the same local
+  // scroll progress, creating a soft atmospheric handoff between scenes.
+  const washOpacity = useTransform(
+    smoothProgress,
+    [0, 0.16, 0.34, 0.7, 0.88, 1],
+    isPhone ? [0, 0.18, 0.34, 0.34, 0.14, 0] : [0, 0.12, 0.26, 0.26, 0.1, 0],
+  );
+  const washY = useTransform(
+    smoothProgress,
+    [0, 0.34, 0.7, 1],
+    isPhone ? ["18px", "0px", "0px", "-14px"] : ["2vh", "0vh", "0vh", "-1.5vh"],
+  );
+  const washScale = useTransform(
+    smoothProgress,
+    [0, 0.34, 0.7, 1],
+    [0.985, 1, 1, 1.012],
+  );
+
   return (
     <m.section
       ref={ref}
@@ -280,6 +299,9 @@ export function AtmosphericSceneSection({ id, className, labelledBy, children })
         "--scene-content-y": innerY,
         "--scene-content-opacity": innerOpacity,
         "--scene-content-scale": innerScale,
+        "--scene-wash-opacity": washOpacity,
+        "--scene-wash-y": washY,
+        "--scene-wash-scale": washScale,
       }}
     >
       {children}
