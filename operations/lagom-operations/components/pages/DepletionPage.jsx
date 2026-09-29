@@ -49,10 +49,10 @@ export default function DepletionPage({model,source,supabase,reload,onAddEntry})
     </FilterBar>
 
     <div className="lo-metric-grid lo-metric-grid--four">
-      <MetricCard label="Records" value={rows.length} trend="+14%" spark={rows.map((_,i)=>i+1)}/>
-      <MetricCard label="Revenue" value={money(revenue)} trend="+12%" spark={rows.map((x,i)=>revenue?revenue*(i+1)/Math.max(rows.length,1):0)}/>
-      <MetricCard label="Cases" value={number(cases)} trend="+14%" spark={rows.map((x,i)=>cases?cases*(i+1)/Math.max(rows.length,1):0)}/>
-      <MetricCard label="QA Issues" value={issues} trend={issues?'+'+issues:'0%'} trendDirection={issues?'bad':'flat'} tone={issues?'red':'green'} spark={rows.map(()=>issues)}/>
+      <MetricCard label="Records" value={rows.length} trend="—" trendDirection="flat" spark={rows.map((_,i)=>i+1)}/>
+      <MetricCard label="Revenue" value={money(revenue)} trend="—" trendDirection="flat" spark={rows.map((x,i)=>revenue?revenue*(i+1)/Math.max(rows.length,1):0)}/>
+      <MetricCard label="Cases" value={number(cases)} trend="—" trendDirection="flat" spark={rows.map((x,i)=>cases?cases*(i+1)/Math.max(rows.length,1):0)}/>
+      <MetricCard label="QA Issues" value={issues} trend="—" trendDirection={issues?'bad':'flat'} tone={issues?'red':'green'} spark={rows.map(()=>issues)}/>
     </div>
 
     <section className="lo-data-card">
