@@ -1,7 +1,26 @@
 .sky-home {
-  background: #fff;
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  background:
+    radial-gradient(ellipse at 46% 14%, rgba(255,255,255,.9), transparent 23%),
+    linear-gradient(180deg, #dfe9ec 0%, #eef4f3 24%, #e6f0ef 56%, #dbe9e8 100%);
   color: var(--ink);
 }
+
+.sky-home::before,
+.sky-home::after {
+  position: absolute;
+  z-index: -1;
+  width: min(1050px, 78vw);
+  height: 620px;
+  background: center / contain no-repeat url('./assets/atmosphere/cloud-mid-field.webp');
+  opacity: .28;
+  content: "";
+  pointer-events: none;
+}
+.sky-home::before { top: 28%; right: -19%; }
+.sky-home::after { bottom: 7%; left: -20%; opacity: .22; transform: scaleX(-1); }
 
 .sky-home__section {
   width: min(100% - 32px, 1280px);
@@ -53,7 +72,10 @@
 
 .sky-home__outline-action {
   padding: 0.85rem 1.1rem;
-  border: 1px solid currentColor;
+  border: 1px solid color-mix(in srgb, currentColor 65%, transparent);
+  border-radius: 999px;
+  background: rgba(255,255,255,.24);
+  backdrop-filter: blur(8px);
 }
 
 .sky-home__outline-action:hover,
@@ -73,7 +95,12 @@
 
 .sky-home-product {
   min-width: 0;
-  border-top: 2px solid var(--product-accent, var(--green));
+  padding: .65rem;
+  border: 1px solid rgba(17,17,15,.1);
+  border-radius: 18px;
+  background: rgba(255,255,255,.42);
+  box-shadow: 0 16px 40px rgba(67,91,93,.06);
+  backdrop-filter: blur(8px);
 }
 
 .sky-home-product__image {
@@ -81,7 +108,8 @@
   place-items: center;
   aspect-ratio: 1 / 1.06;
   overflow: hidden;
-  background: color-mix(in srgb, var(--product-accent, var(--green)) 9%, #fff);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--product-accent, var(--green)) 8%, rgba(255,255,255,.88));
 }
 
 .sky-home-product__image img {
@@ -117,16 +145,17 @@
   align-items: end;
 }
 
-.sky-home__section--editorial { background: var(--green-soft); padding-inline: clamp(1.5rem, 5vw, 5rem); }
+.sky-home__section--editorial { position:relative; width:min(100% - 32px, 1280px); padding:clamp(3rem,6vw,6rem); border:1px solid rgba(17,17,15,.1); border-radius:24px; background:rgba(255,255,255,.36); box-shadow:0 18px 48px rgba(67,91,93,.06); backdrop-filter:blur(10px); }
 .sky-home__body-copy { max-width: 48ch; margin: 1.5rem 0; color: var(--ink-soft); font-size: clamp(1rem, 1.45vw, 1.2rem); }
 .sky-home__editorial-note { display: grid; gap: 1rem; padding: 1.5rem 0; border-top: 1px solid color-mix(in srgb, var(--green) 35%, transparent); border-bottom: 1px solid color-mix(in srgb, var(--green) 35%, transparent); font: 400 clamp(1.7rem, 3vw, 2.75rem)/0.98 var(--font-display); color: var(--green); }
+.sky-home__editorial-note small { max-width:16ch; margin-top:1rem; color:var(--ink-soft); font:600 .7rem/1.35 var(--font-ui); letter-spacing:.12em; text-transform:uppercase; }
 
 .sky-home__section--gummies .sky-home__heading { margin-bottom: 2.5rem; }
-.sky-home__primary-action { margin-top: 2rem; padding: 0.9rem 1.35rem; background: var(--green); color: #fff; }
+.sky-home__primary-action { margin-top: 2rem; padding: 0.9rem 1.35rem; border-radius:999px; background: var(--green); color: #fff; }
 .sky-home__primary-action:hover,
 .sky-home__primary-action:focus-visible { background: var(--green-strong); transform: translateY(-1px); }
 
-.sky-home__section--responsible { border-top: 1px solid var(--line); }
+.sky-home__section--responsible { padding:clamp(3rem,6vw,6rem); border:1px solid rgba(17,17,15,.1); border-radius:24px; background:rgba(255,255,255,.36); box-shadow:0 18px 48px rgba(67,91,93,.06); backdrop-filter:blur(10px); }
 .sky-home__responsible-list { display: grid; gap: 1rem; margin: 0; padding: 0; list-style: none; color: var(--ink-soft); }
 .sky-home__responsible-list li { padding: 1rem 0 1rem 1.5rem; border-bottom: 1px solid var(--line); position: relative; }
 .sky-home__responsible-list li::before { content: ""; position: absolute; left: 0; top: 1.48rem; width: 0.45rem; height: 0.45rem; border-radius: 50%; background: var(--green); }
@@ -139,7 +168,8 @@
   .sky-home__gummy-grid .sky-home-product:last-child { grid-column: 1 / -1; width: calc(50% - 0.4rem); }
   .sky-home__section--editorial,
   .sky-home__section--responsible { grid-template-columns: 1fr; gap: 2.5rem; }
-  .sky-home__section--editorial { width: 100%; padding-inline: 1.4rem; }
+  .sky-home__section--editorial { width:calc(100% - 28px); padding-inline: 1.4rem; }
+  .sky-home__section--responsible { width:calc(100% - 28px); padding-inline: 1.4rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

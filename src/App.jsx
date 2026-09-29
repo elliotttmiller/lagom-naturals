@@ -438,16 +438,16 @@ function HomePage() {
           <div className="sky-home__editorial-copy">
             <p>PREMIUM BY NATURE</p>
             <h2 id="home-craft-title">A smoother state of mind.</h2>
-            <p className="sky-home__body-copy">Thoughtfully made with clear serving information, bright flavor, and the details you need to choose your moment with confidence.</p>
+            <p className="sky-home__body-copy">Thoughtfully crafted with premium ingredients, bright flavor, and clear serving information—so you can choose your moment with confidence.</p>
             <Link className="sky-home__outline-action" to="/learn">LEARN MORE <ArrowRight aria-hidden="true" /></Link>
           </div>
-          <aside className="sky-home__editorial-note" aria-label="Lagom point of view"><span>Flavor first.</span><span>Balance always.</span></aside>
+          <aside className="sky-home__editorial-note" aria-label="Lagom point of view"><span>Flavor first.</span><span>Balance always.</span><small>Made for the moments in between.</small></aside>
         </section>
 
         <section className="sky-home__section sky-home__section--gummies" aria-labelledby="home-gummies-title">
           <div className="sky-home__heading">
             <p>MEET THE GUMMIE LINE</p>
-            <h2 id="home-gummies-title">Real flavor. Considered formats.</h2>
+            <h2 id="home-gummies-title">Real flavor.<br/>Higher moments.</h2>
             <p className="sky-home__body-copy">Explore fruit-forward gummies across the Lagom collections, with cannabinoid content clearly labeled on every product.</p>
           </div>
           <div className="sky-home__gummy-grid">

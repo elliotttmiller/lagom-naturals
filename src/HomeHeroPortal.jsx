@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
-import heroCans from "./assets/products/hero.webp";
+import { ArrowRight, Droplets, Leaf, Sparkles } from "lucide-react";
 
 export default function HomeHero() {
   const atmosphere = useRef(null);
@@ -26,7 +25,6 @@ export default function HomeHero() {
   const resetAtmosphere = () => { if (frame.current) cancelAnimationFrame(frame.current); const scene = atmosphere.current; scene?.style.setProperty("--pointer-x", "0px"); scene?.style.setProperty("--pointer-y", "0px"); ["far", "mid", "near", "left", "right", "horizon"].forEach(layer => { scene?.style.setProperty(`--${layer}-x`, "0px"); scene?.style.setProperty(`--${layer}-y`, "0px"); }); };
   return <section className="legacy-sky-hero" onPointerMove={updateAtmosphere} onPointerLeave={resetAtmosphere} aria-labelledby="legacy-sky-hero-title">
     <div className="legacy-sky-hero__atmosphere" ref={atmosphere} aria-hidden="true"><span className="legacy-sky-hero__light"/><span className="legacy-sky-hero__cloud-depth legacy-sky-hero__cloud-depth--far"><span className="legacy-sky-hero__cloud legacy-sky-hero__cloud--far"/></span><span className="legacy-sky-hero__cloud-depth legacy-sky-hero__cloud-depth--mid"><span className="legacy-sky-hero__cloud legacy-sky-hero__cloud--mid"/></span><span className="legacy-sky-hero__cloud-depth legacy-sky-hero__cloud-depth--near"><span className="legacy-sky-hero__cloud legacy-sky-hero__cloud--near"/></span><span className="legacy-sky-hero__cloud-depth legacy-sky-hero__cloud-depth--left"><span className="legacy-sky-hero__cloud legacy-sky-hero__cloud--left"/></span><span className="legacy-sky-hero__cloud-depth legacy-sky-hero__cloud-depth--right"><span className="legacy-sky-hero__cloud legacy-sky-hero__cloud--right"/></span><span className="legacy-sky-hero__cloud-depth legacy-sky-hero__cloud-depth--horizon"><span className="legacy-sky-hero__cloud legacy-sky-hero__cloud--horizon"/></span></div>
-    <div className="legacy-sky-hero__content"><h1 id="legacy-sky-hero-title">FIND YOUR<br/><strong>PERFECT BALANCE.</strong></h1><span className="legacy-sky-hero__lede">Full of flavor. Just the right amount of THC. Crafted for an easygoing experience—unmistakably Lagom.</span><div className="legacy-sky-hero__actions"><Link to="/shop">SHOP PRODUCTS <ArrowRight aria-hidden="true"/></Link><Link to="/merch">SHOP MERCH <ArrowRight aria-hidden="true"/></Link></div></div>
-    <div className="legacy-sky-hero__product" aria-hidden="true"><img src={heroCans} alt="" width="1122" height="1402" fetchPriority="high" decoding="async"/></div>
+    <div className="legacy-sky-hero__content"><p>PREMIUM HEMP-DERIVED THC</p><h1 id="legacy-sky-hero-title">FIND YOUR<br/><strong>HIGHER BALANCE.</strong></h1><span className="legacy-sky-hero__lede">Taste-forward THC seltzers and gummies for considered adult occasions. Clear serving information, crafted for real moments.</span><div className="legacy-sky-hero__actions"><Link to="/shop">SHOP PRODUCTS <ArrowRight aria-hidden="true"/></Link><Link to="/learn">LEARN MORE <ArrowRight aria-hidden="true"/></Link></div><ul className="legacy-sky-hero__proofs" aria-label="Lagom product highlights"><li><Leaf aria-hidden="true"/><span>Hemp-derived<br/>THC</span></li><li><Sparkles aria-hidden="true"/><span>Zero sugar<br/>seltzers</span></li><li><Droplets aria-hidden="true"/><span>Clear serving<br/>information</span></li></ul></div>
   </section>;
 }
