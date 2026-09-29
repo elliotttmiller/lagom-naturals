@@ -2,7 +2,7 @@
 
 import {useMemo,useState} from 'react';
 import {RevenueCasesChart} from '../ui/OperationsCharts';
-import {Panel,PageTitle,SelectField,Button,ProgressBar,money,number,percent} from '../ui/OperationsUI';
+import {Panel,PageTitle,SelectField,Button,ProgressBar,downloadCsv,money,number,percent} from '../ui/OperationsUI';
 import {productPerformance,accountPerformance,repPerformance,monthlyPerformance} from '../../lib/companyOperationsDomain';
 
 function PerformanceTable({type,rows=[]}){
@@ -54,7 +54,10 @@ export default function ReportsPage({model}){
       <SelectField label="Account" value={account} onChange={setAccount} wide><option>All</option>{accounts.map(x=><option key={x}>{x}</option>)}</SelectField>
       <SelectField label="Product Line" value={line} onChange={setLine} wide><option>All</option>{productLines.map(x=><option key={x}>{x}</option>)}</SelectField>
       <SelectField label="View" value="Monthly"><option>Monthly</option></SelectField>
-      <Button>Export⌄</Button>
+      <Button onClick={()=>downloadCsv('lagom-report-product-performance.csv',products.map(row=>({
+        Product:row.product,SKU:row.sku,Cases:row.cases,Revenue:row.revenue,COGS:row.cogs,
+        'Gross Profit':row.grossProfit,Margin:row.margin,'Active Accounts':row.activeAccounts
+      })))}>Export⌄</Button>
     </div>
     <Panel className="lo-chart-panel"><RevenueCasesChart rows={monthly}/></Panel>
     <div className="lo-two-panel-grid lo-reports-grid">
