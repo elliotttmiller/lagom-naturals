@@ -7,7 +7,7 @@
   --lo-text:#0f172a;
   --lo-text-2:#64748b;
   --lo-text-3:#8a939f;
-  --lo-sidebar:#11191b;
+  --lo-sidebar:#171c1e;
   --lo-sidebar-2:#1b2528;
   --lo-primary:#2f7d40;
   --lo-primary-strong:#1f6531;
@@ -31,7 +31,7 @@ a{color:inherit}
 .lo-sidebar{
   position:fixed;inset:0 auto 0 0;width:208px;background:
   radial-gradient(circle at 20% 10%,rgba(255,255,255,.035),transparent 38%),
-  linear-gradient(180deg,#10181a 0%,#121b1d 100%);
+  linear-gradient(180deg,#171c1e 0%,#151c1e 100%);
   color:#f8fafc;z-index:50;display:flex;flex-direction:column;border-right:1px solid rgba(255,255,255,.03)
 }
 .lo-brand{height:96px;padding:23px 22px 16px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
