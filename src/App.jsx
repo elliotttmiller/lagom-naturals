@@ -447,14 +447,18 @@ const HOME_FLAVOR_DESCRIPTIONS = {
 };
 
 function HomeProductCard({ product }) {
+  const isGummy = product.category === "Gummies";
+  const homePackshot = isGummy
+    ? HOME_GUMMY_PACKSHOTS[product.id]
+    : HOME_FLAVOR_PACKSHOTS[product.id];
   const potency = product.category === "Seltzers"
     ? `${product.thcMgPerCan} MG THC · ${product.canVolume}`
     : product.strength;
   const flavorDescription = HOME_FLAVOR_DESCRIPTIONS[product.id];
   return (
-    <article className="sky-home-product" style={{ "--product-accent": product.accent }}>
+    <article className={`sky-home-product${isGummy ? " sky-home-product--gummy-packshot" : ""}`} style={{ "--product-accent": product.accent }}>
       <Link className="sky-home-product__image" to={`/product/${product.id}`} aria-label={`View ${product.name}`}>
-        <img src={HOME_FLAVOR_PACKSHOTS[product.id] || HOME_GUMMY_PACKSHOTS[product.id] || product.image} alt={`${product.name} ${product.type}`} loading="lazy" decoding="async" />
+        <img src={homePackshot || product.image} alt={`${product.name} ${product.type}`} loading="lazy" decoding="async" />
       </Link>
       <div className="sky-home-product__copy">
         <h3><Link to={`/product/${product.id}`}>{product.name}</Link></h3>
