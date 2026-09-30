@@ -3,6 +3,16 @@
    cloud animation and atmospheric motion architecture. */
 
 @media (min-width:900px) {
+  /* Scroll snap must resolve against the actual section edge. The shared
+     atmospheric stylesheet carries a legacy scroll-margin-top for anchored
+     navigation; on desktop snap scenes that offset leaves a strip of the
+     previous scene visible when scrolling forward. */
+  .sky-home .atmospheric-scene-hero,
+  .sky-home .atmospheric-scene-section {
+    scroll-margin-top:0 !important;
+    scroll-margin-block-start:0 !important;
+  }
+
   :root {
     --home-desktop-announcement-h:28px;
     --home-desktop-header-h:82px;
