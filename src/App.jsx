@@ -650,6 +650,99 @@ function HomeGummyCollectionCard({ collection }) {
   );
 }
 
+function HomeHorizontalProductRail({ className, children, label }) {
+  const railRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const itemCount = React.Children.count(children);
+
+  useEffect(() => {
+    const rail = railRef.current;
+    if (!rail || typeof window === "undefined") return undefined;
+
+    const mobileViewport = window.matchMedia("(max-width: 899px)");
+    let observer;
+
+    const configure = () => {
+      observer?.disconnect();
+      const items = Array.from(rail.children);
+      items.forEach((item) => item.classList.remove("is-home-rail-active"));
+
+      if (!mobileViewport.matches || !items.length) {
+        setActiveIndex(0);
+        return;
+      }
+
+      items[0].classList.add("is-home-rail-active");
+      setActiveIndex(0);
+
+      if (!("IntersectionObserver" in window)) return;
+
+      observer = new IntersectionObserver(
+        (entries) => {
+          const visible = entries
+            .filter((entry) => entry.isIntersecting)
+            .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+          if (!visible || visible.intersectionRatio < 0.52) return;
+
+          const nextIndex = items.indexOf(visible.target);
+          if (nextIndex < 0) return;
+          items.forEach((item, index) => item.classList.toggle("is-home-rail-active", index === nextIndex));
+          setActiveIndex(nextIndex);
+        },
+        {
+          root: rail,
+          rootMargin: "0px -10% 0px -10%",
+          threshold: [0.34, 0.52, 0.7, 0.86],
+        },
+      );
+
+      items.forEach((item) => observer.observe(item));
+    };
+
+    configure();
+    if (mobileViewport.addEventListener) mobileViewport.addEventListener("change", configure);
+    else mobileViewport.addListener(configure);
+
+    return () => {
+      observer?.disconnect();
+      if (mobileViewport.removeEventListener) mobileViewport.removeEventListener("change", configure);
+      else mobileViewport.removeListener(configure);
+    };
+  }, [itemCount]);
+
+  const progress = itemCount ? ((activeIndex + 1) / itemCount) * 100 : 0;
+  const formatIndex = (value) => String(value).padStart(2, "0");
+
+  return (
+    <>
+      <div
+        ref={railRef}
+        className={`${className} home-product-rail`}
+        tabIndex={0}
+        role="group"
+        aria-roledescription="carousel"
+        aria-label={`${label}. Swipe horizontally or use the left and right arrow keys to browse.`}
+      >
+        {children}
+      </div>
+      <div
+        className="home-product-rail__meta"
+        style={{ "--home-rail-progress": `${progress}%` }}
+        aria-hidden="true"
+      >
+        <span className="home-product-rail__index">
+          {formatIndex(activeIndex + 1)} <i>/</i> {formatIndex(itemCount)}
+        </span>
+        <span className="home-product-rail__progress"><span /></span>
+        <span className="home-product-rail__cue">
+          {activeIndex < itemCount - 1 ? "Swipe" : "End"}
+          <ArrowRight aria-hidden="true" />
+        </span>
+      </div>
+    </>
+  );
+}
+
 function HomePage() {
   const homeRef = useRef(null);
   return (
@@ -664,9 +757,9 @@ function HomePage() {
             <h2 id="home-flavors-title">Thoughtfully made.<br/>Simply enjoyed.</h2>
             <p className="sky-home__body-copy">Meet the Lagom seltzer line—zero sugar, zero carbs, and zero calories, with hydrating electrolytes and no artificial flavors.</p>
           </div>
-          <div className="sky-home__product-grid">
+          <HomeHorizontalProductRail className="sky-home__product-grid" label="Lagom seltzer flavors">
             {homeSeltzers.map((product) => <HomeProductCard key={product.id} product={product} />)}
-          </div>
+          </HomeHorizontalProductRail>
         </AtmosphericSceneSection>
 
         <AtmosphericSceneSection id="gummies" className="sky-home__section sky-home__section--gummies" labelledBy="home-gummies-title">
@@ -675,9 +768,9 @@ function HomePage() {
             <h2 id="home-gummies-title">Three collections.<br/>One elevated standard.</h2>
             <p className="sky-home__body-copy">Meet the Lagom gummy line—three distinct collections, made to suit the rhythm of your day or evening.</p>
           </div>
-          <div className="sky-home__gummy-grid">
+          <HomeHorizontalProductRail className="sky-home__gummy-grid" label="Lagom gummy collections">
             {HOME_GUMMY_COLLECTIONS.map((collection) => <HomeGummyCollectionCard key={collection.name} collection={collection} />)}
-          </div>
+          </HomeHorizontalProductRail>
         </AtmosphericSceneSection>
 
       </div>
