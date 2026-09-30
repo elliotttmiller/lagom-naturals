@@ -7,8 +7,8 @@
     --home-desktop-announcement-h:28px;
     --home-desktop-header-h:82px;
     --home-desktop-chrome-h:calc(var(--home-desktop-announcement-h) + var(--home-desktop-header-h));
-    --home-desktop-hero-h:calc(100dvh - var(--home-desktop-chrome-h));
-    --home-desktop-scene-h:100dvh;
+    --home-desktop-hero-h:var(--home-desktop-snap-h,calc(100dvh - var(--home-desktop-chrome-h)));
+    --home-desktop-scene-h:var(--home-desktop-snap-h,calc(100dvh - var(--home-desktop-chrome-h)));
     --home-desktop-gutter:clamp(54px,5.2vw,104px);
   }
 
