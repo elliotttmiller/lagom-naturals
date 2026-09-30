@@ -7,10 +7,10 @@
   isolation: isolate;
   overflow: clip;
   background:
-    radial-gradient(ellipse 72% 34% at 58% 8%, rgba(205,233,244,.46), rgba(205,233,244,0) 70%),
-    radial-gradient(ellipse 58% 40% at 12% 46%, rgba(173,219,237,.36), rgba(173,219,237,0) 74%),
-    radial-gradient(ellipse 64% 38% at 88% 72%, rgba(180,222,238,.32), rgba(180,222,238,0) 76%),
-    linear-gradient(180deg, #d9f0f8 0%, #cceaf4 46%, #c4e5f0 72%, #d5eef6 100%);
+    radial-gradient(ellipse 76% 38% at 52% 2%, rgba(255,255,255,.26), rgba(255,255,255,0) 68%),
+    radial-gradient(ellipse 58% 38% at 8% 42%, rgba(151,213,250,.25), rgba(151,213,250,0) 72%),
+    radial-gradient(ellipse 66% 42% at 92% 70%, rgba(151,216,252,.22), rgba(151,216,252,0) 76%),
+    linear-gradient(180deg, #bfe7fd 0%, #c5eafd 34%, #c9ecfd 62%, #d8f1fc 100%);
   color: var(--ink);
 }
 
@@ -104,11 +104,11 @@
 
 /* Keep a tonal blue lift behind the copy, not a white spotlight. */
 .sky-home .legacy-sky-hero__light {
-  inset: -12%;
-  opacity: .24 !important;
+  inset:-12%;
+  opacity:.18 !important;
   background:
-    radial-gradient(ellipse at 42% 43%, rgba(184,221,236,.42), rgba(184,221,236,0) 50%),
-    radial-gradient(ellipse at 78% 58%, rgba(159,207,228,.3), rgba(159,207,228,0) 62%);
+    radial-gradient(ellipse at 38% 28%,rgba(255,255,255,.5),rgba(255,255,255,0) 46%),
+    radial-gradient(ellipse at 78% 62%,rgba(134,205,247,.2),rgba(134,205,247,0) 60%);
 }
 
 /* These sit inside the hero's isolated atmosphere stack. This is intentional:
@@ -123,15 +123,15 @@
   pointer-events:none;
   will-change:transform;
 }
-.hero-sky-cloud--horizon { top:8%; left:-16%; width:min(78vw,1480px); height:min(32vw,520px); opacity:.42; background-image:url('./assets/atmosphere/cloud-mid-field.webp'); filter:contrast(1.2) brightness(.84) saturate(.9); animation:hero-cloud-horizon 118s cubic-bezier(.42,.05,.58,.95) infinite -19s; }
-.hero-sky-cloud--high { top:-8%; left:24%; width:min(45vw,760px); height:min(25vw,420px); opacity:.32; background-image:url('./assets/atmosphere/clouds/cloud-14.webp'); filter:contrast(1.18) brightness(.86) saturate(.88); animation:hero-cloud-high 97s cubic-bezier(.42,.05,.58,.95) infinite -57s; }
-.hero-sky-cloud--bank { top:20%; left:-20%; width:min(67vw,1180px); height:min(38vw,640px); opacity:.46; background-image:url('./assets/atmosphere/cloud-near-mass.webp'); filter:contrast(1.18) brightness(.86) saturate(.9); animation:hero-cloud-bank 126s cubic-bezier(.42,.05,.58,.95) infinite -23s; }
-.hero-sky-cloud--center { top:34%; left:19%; width:min(52vw,910px); height:min(30vw,510px); opacity:.34; background-image:url('./assets/atmosphere/clouds/cloud-17.webp'); filter:contrast(1.18) brightness(.86) saturate(.88); animation:hero-cloud-center 101s cubic-bezier(.42,.05,.58,.95) infinite -68s; }
-.hero-sky-cloud--left { top:52%; left:-15%; width:min(38vw,670px); height:min(24vw,410px); opacity:.33; background-image:url('./assets/atmosphere/clouds/cloud-10.webp'); filter:contrast(1.17) brightness(.88) saturate(.88); animation:hero-cloud-left 91s cubic-bezier(.42,.05,.58,.95) infinite -43s; }
-.hero-sky-cloud--low-left { bottom:-9%; left:10%; width:min(35vw,610px); height:min(22vw,370px); opacity:.29; background-image:url('./assets/atmosphere/clouds/cloud-09.webp'); filter:contrast(1.15) brightness(.89) saturate(.86); animation:hero-cloud-low-left 87s cubic-bezier(.42,.05,.58,.95) infinite -27s; }
-.hero-sky-cloud--near { bottom:-28%; left:-12%; width:min(56vw,960px); height:min(34vw,560px); opacity:.38; background-image:url('./assets/atmosphere/cloud-left-fragment.webp'); filter:contrast(1.15) brightness(.89) saturate(.88); animation:hero-cloud-near 104s cubic-bezier(.42,.05,.58,.95) infinite -36s; }
-.hero-sky-cloud--right { top:11%; right:-14%; width:min(38vw,640px); height:min(24vw,400px); opacity:.31; background-image:url('./assets/atmosphere/cloud-right-fragment.webp'); filter:contrast(1.15) brightness(.89) saturate(.88); animation:hero-cloud-right 112s cubic-bezier(.42,.05,.58,.95) infinite -11s; }
-.hero-sky-cloud--low-right { right:-19%; bottom:-20%; width:min(46vw,790px); height:min(29vw,470px); opacity:.3; background-image:url('./assets/atmosphere/clouds/cloud-16.webp'); filter:contrast(1.16) brightness(.88) saturate(.88); animation:hero-cloud-low-right 109s cubic-bezier(.42,.05,.58,.95) infinite -71s; }
+.hero-sky-cloud--horizon { top:4%; left:-18%; width:min(82vw,1540px); height:min(36vw,590px); opacity:.74; background-image:url('./assets/atmosphere/clouds/cloud-21.webp'); filter:contrast(1.06) brightness(1.08) saturate(.98); animation:hero-cloud-horizon 118s cubic-bezier(.42,.05,.58,.95) infinite -19s; }
+.hero-sky-cloud--high { top:-10%; left:22%; width:min(47vw,790px); height:min(27vw,450px); opacity:.5; background-image:url('./assets/atmosphere/clouds/cloud-14.webp'); filter:contrast(1.05) brightness(1.1) saturate(.98); animation:hero-cloud-high 97s cubic-bezier(.42,.05,.58,.95) infinite -57s; }
+.hero-sky-cloud--bank { top:22%; left:-22%; width:min(70vw,1220px); height:min(40vw,680px); opacity:.78; background-image:url('./assets/atmosphere/clouds/cloud-17.webp'); filter:contrast(1.07) brightness(1.08) saturate(.98); animation:hero-cloud-bank 126s cubic-bezier(.42,.05,.58,.95) infinite -23s; }
+.hero-sky-cloud--center { top:34%; left:22%; width:min(54vw,940px); height:min(31vw,530px); opacity:.46; background-image:url('./assets/atmosphere/clouds/cloud-19.webp'); filter:contrast(1.05) brightness(1.09) saturate(.98); animation:hero-cloud-center 101s cubic-bezier(.42,.05,.58,.95) infinite -68s; }
+.hero-sky-cloud--left { top:48%; left:-13%; width:min(41vw,700px); height:min(26vw,430px); opacity:.56; background-image:url('./assets/atmosphere/clouds/cloud-10.webp'); filter:contrast(1.05) brightness(1.09) saturate(.98); animation:hero-cloud-left 91s cubic-bezier(.42,.05,.58,.95) infinite -43s; }
+.hero-sky-cloud--low-left { bottom:-11%; left:6%; width:min(39vw,660px); height:min(24vw,400px); opacity:.62; background-image:url('./assets/atmosphere/clouds/cloud-09.webp'); filter:contrast(1.05) brightness(1.1) saturate(.98); animation:hero-cloud-low-left 87s cubic-bezier(.42,.05,.58,.95) infinite -27s; }
+.hero-sky-cloud--near { bottom:-22%; left:-12%; width:min(61vw,1030px); height:min(38vw,610px); opacity:.72; background-image:url('./assets/atmosphere/clouds/cloud-21.webp'); filter:contrast(1.07) brightness(1.07) saturate(.98); animation:hero-cloud-near 104s cubic-bezier(.42,.05,.58,.95) infinite -36s; }
+.hero-sky-cloud--right { top:9%; right:-14%; width:min(42vw,700px); height:min(27vw,450px); opacity:.52; background-image:url('./assets/atmosphere/clouds/cloud-19.webp'); filter:contrast(1.05) brightness(1.09) saturate(.98); animation:hero-cloud-right 112s cubic-bezier(.42,.05,.58,.95) infinite -11s; }
+.hero-sky-cloud--low-right { right:-17%; bottom:-16%; width:min(50vw,840px); height:min(31vw,510px); opacity:.6; background-image:url('./assets/atmosphere/clouds/cloud-16.webp'); filter:contrast(1.05) brightness(1.1) saturate(.98); animation:hero-cloud-low-right 109s cubic-bezier(.42,.05,.58,.95) infinite -71s; }
 
 /* Each plane pauses for two seconds while fully outside its exit edge, then
    resets invisibly past the opposite edge before its next entrance. */
@@ -197,10 +197,10 @@
 
 .sky-home__atmosphere { position:absolute; inset:0; z-index:0; overflow:hidden; pointer-events:none; }
 .sky-home__cloud { position:absolute; display:block; background-repeat:no-repeat; background-position:center; background-size:contain; will-change:transform; }
-.sky-home__cloud--mid { top:clamp(70px,8vh,110px); right:-9%; width:clamp(720px,58vw,1160px); height:clamp(390px,32vw,640px); opacity:.76; background-image:url('./assets/atmosphere/clouds/cloud-17.webp'); filter:contrast(1.18) brightness(.94) saturate(.9); animation:lagom-sky-mid-crossing 86s cubic-bezier(.42,.05,.58,.95) infinite -31s; }
-.sky-home__cloud--near { top:clamp(420px,52vh,570px); left:-13%; width:clamp(760px,61vw,1220px); height:clamp(430px,36vw,720px); opacity:.7; background-image:url('./assets/atmosphere/clouds/cloud-21.webp'); filter:contrast(1.2) brightness(.93) saturate(.9); animation:lagom-sky-near-crossing 73s cubic-bezier(.42,.05,.58,.95) infinite -47s; }
-.sky-home__cloud--left { top:clamp(520px,64vh,690px); left:-6%; width:clamp(390px,32vw,650px); height:clamp(230px,19vw,390px); opacity:.54; background-image:url('./assets/atmosphere/clouds/cloud-09.webp'); filter:contrast(1.16) brightness(.95) saturate(.9); animation:lagom-sky-left-crossing 97s cubic-bezier(.42,.05,.58,.95) infinite -64s; }
-.sky-home__cloud--right { top:clamp(250px,31vh,350px); right:-5%; width:clamp(450px,36vw,720px); height:clamp(265px,21vw,430px); opacity:.58; background-image:url('./assets/atmosphere/clouds/cloud-19.webp'); filter:contrast(1.16) brightness(.95) saturate(.9); animation:lagom-sky-right-crossing 79s cubic-bezier(.42,.05,.58,.95) infinite -18s; }
+.sky-home__cloud--mid { top:clamp(70px,8vh,110px); right:-9%; width:clamp(720px,58vw,1160px); height:clamp(390px,32vw,640px); opacity:.78; background-image:url('./assets/atmosphere/clouds/cloud-17.webp'); filter:contrast(1.06) brightness(1.08) saturate(.98); animation:lagom-sky-mid-crossing 86s cubic-bezier(.42,.05,.58,.95) infinite -31s; }
+.sky-home__cloud--near { top:clamp(420px,52vh,570px); left:-13%; width:clamp(760px,61vw,1220px); height:clamp(430px,36vw,720px); opacity:.74; background-image:url('./assets/atmosphere/clouds/cloud-21.webp'); filter:contrast(1.07) brightness(1.07) saturate(.98); animation:lagom-sky-near-crossing 73s cubic-bezier(.42,.05,.58,.95) infinite -47s; }
+.sky-home__cloud--left { top:clamp(520px,64vh,690px); left:-6%; width:clamp(390px,32vw,650px); height:clamp(230px,19vw,390px); opacity:.58; background-image:url('./assets/atmosphere/clouds/cloud-09.webp'); filter:contrast(1.05) brightness(1.09) saturate(.98); animation:lagom-sky-left-crossing 97s cubic-bezier(.42,.05,.58,.95) infinite -64s; }
+.sky-home__cloud--right { top:clamp(250px,31vh,350px); right:-5%; width:clamp(450px,36vw,720px); height:clamp(265px,21vw,430px); opacity:.6; background-image:url('./assets/atmosphere/clouds/cloud-19.webp'); filter:contrast(1.05) brightness(1.09) saturate(.98); animation:lagom-sky-right-crossing 79s cubic-bezier(.42,.05,.58,.95) infinite -18s; }
 
 /* Mirror the hero's depth wrappers, pointer response, and crossing timelines. */
 .sky-home__cloud-depth { position:absolute; inset:0; display:block; will-change:transform; transition:transform 900ms cubic-bezier(.22,1,.36,1); }
