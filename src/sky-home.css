@@ -584,7 +584,7 @@
   width:100%;
   height:auto;
   max-width:none;
-  filter:contrast(1.18) brightness(.86) saturate(.88);
+  filter:contrast(1.06) brightness(1.08) saturate(.98);
   animation:sky-home-section-cloud-drift 34s cubic-bezier(.42,.05,.58,.95) infinite alternate;
   will-change:transform;
 }
