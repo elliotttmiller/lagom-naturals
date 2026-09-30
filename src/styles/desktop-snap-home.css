@@ -635,13 +635,13 @@
     font-family:var(--font-display);
     font-size:clamp(56px,4.9vw,84px);
     font-weight:400;
-    line-height:.88;
+    line-height:.94;
     letter-spacing:-.052em;
   }
 
   .sky-home__section--flavors .sky-home__heading .sky-home__body-copy {
     max-width:760px;
-    margin:clamp(10px,1.3dvh,14px) auto 0;
+    margin:clamp(18px,2dvh,24px) auto 0;
     color:var(--ink);
     font:650 clamp(11px,.76vw,14px)/1.35 var(--font-ui);
     letter-spacing:.18em;

@@ -1604,11 +1604,12 @@
   .sky-home__section--flavors .sky-home__heading h2 {
     max-width:8.2ch!important;
     margin-inline:auto!important;
+    line-height:.94!important;
   }
 
   .sky-home__section--flavors .sky-home__heading > .sky-home__body-copy {
     max-width:35ch!important;
-    margin:12px auto 0!important;
+    margin:18px auto 0!important;
     font-size:12.5px!important;
     line-height:1.4!important;
   }

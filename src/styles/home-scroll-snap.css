@@ -75,82 +75,6 @@
   }
 }
 
-@media (max-width: 899px) and (prefers-reduced-motion: no-preference) {
-  :root {
-    --home-mobile-header-h: var(--mobile-header-total-h, 72px);
-    --home-mobile-snap-h: calc(100dvh - var(--home-mobile-header-h));
-  }
-
-  html:has(.sky-home) {
-    scroll-snap-type: y mandatory !important;
-    scroll-padding-block-start: var(--home-mobile-header-h);
-    scroll-behavior: smooth;
-    overscroll-behavior-y: contain;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  body:has(.sky-home) {
-    overscroll-behavior-y: contain;
-  }
-
-  .sky-home [data-home-snap-scene] {
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-  }
-
-  body:has(.sky-home) #root > .site-footer {
-    scroll-snap-align: start;
-    scroll-snap-stop: normal;
-  }
-
-  .sky-home .atmospheric-scene-hero,
-  .sky-home .atmospheric-scene-section {
-    box-sizing: border-box;
-    block-size: var(--home-mobile-snap-h);
-    min-block-size: var(--home-mobile-snap-h);
-    max-block-size: var(--home-mobile-snap-h);
-    overflow: clip;
-  }
-
-  /* The wrapper becomes layout-transparent on mobile so each snap panel owns
-     the exact composition of its heading, merchandising and CTA. */
-  .sky-home .atmospheric-scene-section__content {
-    display: contents !important;
-  }
-
-  .sky-home [data-home-snap-content] > * {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
-
-  body:has(.sky-home) #root > .site-footer {
-    box-sizing: border-box;
-    margin-top: 0 !important;
-    min-block-size: 0 !important;
-    block-size: auto !important;
-    max-block-size: none !important;
-    overflow: visible !important;
-  }
-}
-
-/* Short landscape/compact-height devices still snap, but proximity prevents
-   trapping content if a browser UI state temporarily reduces the snapport. */
-@media (max-width: 899px) and (max-height: 699px) and (prefers-reduced-motion: no-preference) {
-  html:has(.sky-home) {
-    scroll-snap-type: y proximity !important;
-  }
-
-  .sky-home .atmospheric-scene-hero,
-  .sky-home .atmospheric-scene-section,
-  body:has(.sky-home) #root > .site-footer {
-    block-size: auto !important;
-    max-block-size: none !important;
-    min-block-size: var(--home-mobile-snap-h) !important;
-    overflow: visible !important;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   html:has(.sky-home) { scroll-behavior: auto; }
   .sky-home [data-home-snap-content] > * { opacity: 1; transform: none; transition: none; }
@@ -158,27 +82,4 @@
 
 @media (min-width:900px) and (prefers-reduced-motion: reduce) {
   html:has(.sky-home) { scroll-snap-type: none; }
-}
-
-@media (max-width:899px) and (prefers-reduced-motion: reduce) {
-  :root {
-    --home-mobile-header-h: var(--mobile-header-total-h,72px);
-    --home-mobile-snap-h: calc(100dvh - var(--home-mobile-header-h));
-  }
-  html:has(.sky-home) {
-    scroll-snap-type:y mandatory !important;
-    scroll-padding-block-start:var(--home-mobile-header-h);
-  }
-  .sky-home [data-home-snap-scene] {
-    scroll-snap-align:start;
-    scroll-snap-stop:always;
-  }
-  body:has(.sky-home) #root>.site-footer {
-    scroll-snap-align:start;
-    scroll-snap-stop:normal;
-  }
-}
-
-@media (max-height:29.99em) {
-  html:has(.sky-home) { scroll-snap-type:y proximity !important; scroll-behavior:auto; }
 }

@@ -691,22 +691,6 @@ function HomePage() {
           </div>
         </AtmosphericSceneSection>
 
-        <AtmosphericSceneSection id="balance" className="sky-home__section sky-home__section--responsible" labelledBy="home-responsible-title">
-          <div className="sky-home__responsible-copy">
-            <p>ENJOY RESPONSIBLY</p>
-            <h2 id="home-responsible-title">A better moment starts with balance.</h2>
-            <p className="sky-home__body-copy">Take your time, know your limits, and allow adequate time before consuming more. Individual experiences can vary.</p>
-            <Link className="sky-home__outline-action" to="/learn">THC, EXPLAINED <ArrowRight aria-hidden="true" /></Link>
-          </div>
-          <ul className="sky-home__responsible-list" aria-label="Responsible use reminders">
-            <li>Start with a lower serving if you are new to THC.</li>
-            <li>Do not drive or operate machinery after consuming THC.</li>
-            <li>Keep products away from children and pets.</li>
-          </ul>
-          <div className="sky-home__responsible-mark" aria-hidden="true">
-            <span>GOOD</span><span>BALANCE</span><span>BETTER</span><span>MOMENTS</span>
-          </div>
-        </AtmosphericSceneSection>
       </div>
     </Shell>
   );
