@@ -57,17 +57,6 @@ import lemonadeFourPackHomePackshot from "./assets/products/24k-lemonade-4pk.web
 import blackberryFourPackHomePackshot from "./assets/products/blackberry-breeze-4pk.webp";
 import strawberryLimeFourPackHomePackshot from "./assets/products/strawberry-lime-fusion-4pk.webp";
 import watermelonFourPackHomePackshot from "./assets/products/watermelon-refresher-4pk.webp";
-import berryMelonHomePackshot from "./assets/products/originals/Berry-Melon-Bliss-Photoroom-900x900.png";
-import blueRazzHomePackshot from "./assets/products/originals/Blue-Razz-Photoroom-Photoroom-1-900x900.png";
-import blueberryClassicHomePackshot from "./assets/products/originals/Blueberry-Yum-Yum-1-Photoroom-900x900.png";
-import blueberryMidnightHomePackshot from "./assets/products/originals/Blueberry-Yum-Yum-3-Photoroom-900x900.png";
-import cherryBlissHomePackshot from "./assets/products/originals/Cherry-Bliss-Photoroom-900x900.png";
-import greenAppleHomePackshot from "./assets/products/originals/Green-Apple-Photoroom-900x900.png";
-import peachHomePackshot from "./assets/products/originals/Peach-Photoroom-900x900.png";
-import pinkLemonadeHomePackshot from "./assets/products/originals/Pink-Lemonade-Photoroom-900x900.png";
-import pushPopOrganicHomePackshot from "./assets/products/originals/Push-Pop-1-Photoroom-900x900.png";
-import strawberryBananaHomePackshot from "./assets/products/originals/Strawberry-Banana-Photoroom-900x900.png";
-import strawberryMidnightHomePackshot from "./assets/products/originals/Strawberry-Photoroom-900x900.png";
 import {
   CartProvider,
   configuredProduct,
@@ -447,17 +436,17 @@ const HOME_FLAVOR_PACKSHOTS = {
 };
 
 const HOME_GUMMY_PACKSHOTS = {
-  "blueberry-yum-yum": blueberryClassicHomePackshot,
-  "green-apple": greenAppleHomePackshot,
-  "strawberry-banana": strawberryBananaHomePackshot,
-  "berry-melon-bliss-organic": berryMelonHomePackshot,
-  "blue-razz-organic": blueRazzHomePackshot,
-  "cherry-bliss-organic": cherryBlissHomePackshot,
-  "push-pop-organic": pushPopOrganicHomePackshot,
-  "blueberry-yum-yum-midnight-drift": blueberryMidnightHomePackshot,
-  "peach-midnight-drift": peachHomePackshot,
-  "pink-lemonade-midnight-drift": pinkLemonadeHomePackshot,
-  "strawberry-midnight-drift": strawberryMidnightHomePackshot,
+  "blueberry-yum-yum": responsiveImages.products["Blueberry-Yum-Yum-enhanced"].src,
+  "green-apple": responsiveImages.products["Green-Apple-enhanced"].src,
+  "strawberry-banana": responsiveImages.products["Strawberry-Banana-enhanced"].src,
+  "berry-melon-bliss-organic": responsiveImages.products["Berry-Melon-Bliss-organic-enhanced"].src,
+  "blue-razz-organic": responsiveImages.products["Blue-Razz-organic-enhanced"].src,
+  "cherry-bliss-organic": responsiveImages.products["Cherry-Bliss-organic-enhanced"].src,
+  "push-pop-organic": responsiveImages.products["Push-Pop-organic-enhanced"].src,
+  "blueberry-yum-yum-midnight-drift": responsiveImages.products["Blueberry-Yum-Yum-midnight-drift"].src,
+  "peach-midnight-drift": responsiveImages.products["Peach-Photoroom-midnight-drift"].src,
+  "pink-lemonade-midnight-drift": responsiveImages.products["Pink-Lemonade-midnight-drift"].src,
+  "strawberry-midnight-drift": responsiveImages.products["Strawberry-midnight-drift"].src,
 };
 
 const HOME_FLAVOR_DESCRIPTIONS = {
@@ -610,7 +599,7 @@ function HomeProductCard({ product }) {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
         >
-          <img src={homePackshot} alt={`${product.name} ${selectedVariant?.label || "product"}`} loading="lazy" decoding="async" />
+          <ResponsiveImage src={homePackshot} alt={`${product.name} ${selectedVariant?.label || "product"}`} sizes="(max-width: 699px) 78vw, 32vw" loading="lazy" decoding="async" />
         </m.span>
       </Link>
       <div className="sky-home-product__copy">
@@ -648,7 +637,7 @@ function HomeGummyCollectionCard({ collection }) {
     >
       <span className="gummy-collection-card__media" aria-hidden="true">
         {packshots.map((packshot) => (
-          <img key={packshot} src={packshot} alt="" loading="lazy" decoding="async" />
+          <ResponsiveImage key={packshot} src={packshot} alt="" sizes="(max-width: 699px) 42vw, 18vw" loading="lazy" decoding="async" />
         ))}
       </span>
       <span className="gummy-collection-card__content">

@@ -1,5 +1,5 @@
-import { copyFile, mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises'
-import { extname, join } from 'node:path'
+import { copyFile, mkdir, readFile, rm, writeFile } from 'node:fs/promises'
+import { join } from 'node:path'
 import { build, createServer } from 'vite'
 
 const outDir = 'docs'
@@ -88,6 +88,9 @@ try {
 } catch {
   console.warn('Unable to resolve hero preload assets from Vite manifest.')
 }
+// The manifest is a build-time lookup used only to generate the hero preloads.
+// GitHub Pages serves static output and has no runtime consumer for it.
+await rm(join(outDir, '.vite'), { recursive: true, force: true })
 
 const vite = await createServer({ server: { middlewareMode: true }, appType: 'custom', base, logLevel: 'error' })
 let products = []
@@ -207,25 +210,6 @@ const indexable = routes.filter(route => !route.noindex)
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${indexable.map(route => `  <url><loc>${escapeHtml(canonicalFor(route.pathname))}</loc></url>`).join('\n')}\n</urlset>\n`
 await writeFile(join(outDir, 'sitemap.xml'), sitemap)
 await writeFile(join(outDir, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${siteOrigin}/sitemap.xml\n`)
-
-// Temporary compatibility bridge for legacy root-relative public logo references.
-// New application code must use import.meta.env.BASE_URL for public assets. This
-// bridge can be removed after the remaining legacy JSX references are retired.
-const textExtensions = new Set(['.html', '.js', '.css', '.map'])
-async function normalizeLegacyPublicUrls(directory) {
-  for (const entry of await readdir(directory, { withFileTypes: true })) {
-    const filePath = join(directory, entry.name)
-    if (entry.isDirectory()) { await normalizeLegacyPublicUrls(filePath); continue }
-    if (!textExtensions.has(extname(entry.name))) continue
-    const source = await readFile(filePath, 'utf8')
-    const normalized = source
-      .replace(/(?<![A-Za-z0-9/_-])\/lagom-logo\.svg/g, `${base}lagom-logo.svg`)
-      .replace(/(?<![A-Za-z0-9/_-])\/lagom-logo-icon\.svg/g, `${base}lagom-logo-icon.svg`)
-      .replace(/(?<![A-Za-z0-9/_-])\/lagom-logo-icon-white\.svg/g, `${base}lagom-logo-icon-white.svg`)
-    if (normalized !== source) await writeFile(filePath, normalized)
-  }
-}
-await normalizeLegacyPublicUrls(outDir)
 
 await copyFile(`${outDir}/index.html`, `${outDir}/404.html`)
 await writeFile(`${outDir}/.nojekyll`, '')
