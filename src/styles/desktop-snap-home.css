@@ -17,7 +17,7 @@
     --home-desktop-announcement-h:28px;
     --home-desktop-header-h:82px;
     --home-desktop-chrome-h:calc(var(--home-desktop-announcement-h) + var(--home-desktop-header-h));
-    --home-desktop-hero-h:var(--home-desktop-snap-h,calc(100dvh - var(--home-desktop-chrome-h)));
+    --home-desktop-hero-h:calc(100dvh - var(--home-desktop-announcement-h));
     --home-desktop-scene-h:100dvh;
     --home-desktop-gutter:clamp(54px,5.2vw,104px);
   }
@@ -28,6 +28,15 @@
     min-block-size:var(--home-desktop-hero-h);
     max-block-size:var(--home-desktop-hero-h);
     overflow:hidden;
+    background:center bottom / cover no-repeat url('../assets/atmosphere/home-hero-sky.png') !important;
+  }
+
+  /* The legacy desktop shell supplied dark gradient pseudo-elements for a
+     retired photo hero. The homepage sky is the only hero backdrop now. */
+  .sky-home .beverage-hero::before,
+  .sky-home .beverage-hero::after {
+    content:none;
+    display:none;
   }
 
   .sky-home .atmospheric-scene-section {
@@ -53,7 +62,7 @@
   }
 
   /* ---------------------------------------------------------------------- */
-  /* HERO — reference: editorial left / oversized dual-can composition right */
+  /* HERO — centered editorial stack with a separately anchored packshot.   */
   /* ---------------------------------------------------------------------- */
   .sky-home .legacy-sky-hero {
     box-sizing:border-box;
@@ -66,45 +75,42 @@
   .sky-home .legacy-sky-hero__content {
     position:absolute;
     z-index:4;
-    inset:0 auto 0 var(--home-desktop-gutter);
-    inline-size:min(50vw,800px);
+    inset:clamp(120px,13dvh,154px) 0 auto;
+    inline-size:min(calc(100% - 48px),760px);
+    min-block-size:0;
+    min-height:0;
     display:flex;
     flex-direction:column;
-    justify-content:center;
-    padding-block:clamp(42px,5dvh,70px);
-  }
-
-  .sky-home .legacy-sky-hero__content > p {
-    margin:0 0 clamp(18px,2.3dvh,28px);
-    color:var(--ink);
-    font:700 clamp(11px,.72vw,13px)/1 var(--font-ui);
-    letter-spacing:.27em;
-    text-transform:uppercase;
+    align-items:center;
+    justify-content:flex-start;
+    margin-inline:auto;
+    padding:0;
+    text-align:center;
   }
 
   .sky-home .legacy-sky-hero h1 {
-    max-inline-size:9.9ch;
+    max-inline-size:none;
     margin:0;
     color:var(--ink);
     font-family:var(--font-display);
-    font-size:clamp(68px,6.15vw,112px);
+    font-size:clamp(66px,5.6vw,106px);
     font-weight:400;
-    line-height:.82;
+    line-height:.86;
     letter-spacing:-.058em;
   }
 
   .sky-home .legacy-sky-hero h1 strong {
-    display:inline;
+    display:block;
     font:inherit;
     letter-spacing:inherit;
   }
 
   .sky-home .legacy-sky-hero__lede {
     display:block;
-    max-inline-size:31ch;
-    margin-top:clamp(24px,3.2dvh,38px);
-    color:color-mix(in srgb,var(--ink) 88%,transparent);
-    font:500 clamp(18px,1.25vw,23px)/1.42 var(--font-primary);
+    max-inline-size:39ch;
+    margin-top:clamp(18px,2.3dvh,28px);
+    color:#10110f;
+    font:500 clamp(18px,1.35vw,24px)/1.33 var(--font-primary);
     letter-spacing:-.025em;
   }
 
@@ -115,79 +121,41 @@
 
   .sky-home .legacy-sky-hero__actions {
     display:flex;
-    gap:14px;
-    margin-top:clamp(28px,3.8dvh,42px);
+    justify-content:center;
+    gap:0;
+    margin-top:clamp(18px,2.8dvh,32px);
   }
 
   .sky-home .legacy-sky-hero__actions a {
-    min-block-size:clamp(52px,6dvh,64px);
-    padding-inline:clamp(22px,2vw,32px);
-    border:1px solid rgba(17,17,15,.58);
+    min-block-size:clamp(54px,6.2dvh,64px);
+    padding-inline:clamp(36px,3.1vw,52px);
+    border:1px solid #111;
     border-radius:999px;
     font:800 clamp(10px,.68vw,12px)/1 var(--font-ui);
     letter-spacing:.11em;
   }
 
   .sky-home .legacy-sky-hero__actions a:first-child {
-    min-inline-size:clamp(190px,15vw,250px);
+    min-inline-size:clamp(220px,17vw,294px);
     background:#111;
     color:#fff;
     border-color:#111;
-    box-shadow:0 15px 28px rgba(40,57,62,.12);
+    box-shadow:none;
   }
 
-  .sky-home .legacy-sky-hero__actions a:last-child {
-    min-inline-size:clamp(160px,12.5vw,210px);
-    background:rgba(255,255,255,.18);
-    backdrop-filter:blur(8px);
-  }
-
-  .sky-home .legacy-sky-hero__proofs {
-    display:grid;
-    grid-template-columns:repeat(3,max-content);
-    gap:clamp(26px,3.2vw,54px);
-    align-items:center;
-    margin:clamp(30px,4dvh,44px) 0 0;
-    padding:0;
-  }
-
-  .sky-home .legacy-sky-hero__proofs li {
-    display:grid;
-    grid-template-columns:42px auto;
-    align-items:center;
-    gap:11px;
-    min-width:0;
-  }
-
-  .sky-home .legacy-sky-hero__proofs svg {
-    width:42px;
-    height:42px;
-    padding:10px;
-    border:1px solid rgba(34,62,71,.28);
-    border-radius:50%;
-    background:rgba(255,255,255,.18);
-    backdrop-filter:blur(8px);
-  }
-
-  .sky-home .legacy-sky-hero__proofs span {
-    color:var(--ink);
-    font:750 clamp(9px,.62vw,11px)/1.15 var(--font-ui);
-    letter-spacing:.06em;
-    text-transform:uppercase;
-  }
+  .sky-home .legacy-sky-hero__proofs { display:none; }
 
   .sky-home .legacy-sky-hero__product {
     z-index:3;
-    top:50%;
-    right:clamp(4vw,6vw,110px);
-    width:auto;
-    height:min(91%,790px);
-    max-width:49vw;
-    transform:translateY(-47%);
+    inset:auto 50% 0 auto;
+    inline-size:min(100vw,1770px);
+    block-size:auto;
+    max-inline-size:none;
+    transform:translateX(50%);
   }
 
   .sky-home .legacy-sky-hero__product img {
-    filter:drop-shadow(0 32px 42px rgba(47,73,82,.18));
+    filter:none;
   }
 
   /* ---------------------------------------------------------------------- */
@@ -480,10 +448,6 @@
     box-shadow:0 12px 22px color-mix(in srgb,var(--product-accent) 22%,transparent);
   }
 
-  .sky-home__section--gummies > .sky-home__primary-action {
-    display:none;
-  }
-
   /* Keep the responsible-use desktop snap panel within the exact snap frame. */
   .sky-home__section--responsible {
     padding:
@@ -498,7 +462,7 @@
   .sky-home .legacy-sky-hero__lede { margin-top:18px; font-size:17px; }
   .sky-home .legacy-sky-hero__actions { margin-top:22px; }
   .sky-home .legacy-sky-hero__proofs { margin-top:22px; }
-  .sky-home .legacy-sky-hero__product { height:min(84%,650px); }
+  .sky-home .legacy-sky-hero__product { inline-size:min(54vw,780px); }
 
   .sky-home__section--flavors .sky-home__heading h2 { font-size:clamp(48px,4.4vw,70px); }
   .sky-home__section--flavors .sky-home-product__image { --sky-home-packshot-size:min(34dvh,320px); }
@@ -517,8 +481,8 @@
 }
 
 @media (min-width:900px) and (max-width:1180px) {
-  .sky-home .legacy-sky-hero__content { inline-size:53vw; }
-  .sky-home .legacy-sky-hero__product { right:2vw; max-width:45vw; height:min(80%,650px); }
+  .sky-home .legacy-sky-hero__content { inline-size:min(calc(100% - 64px),800px); }
+  .sky-home .legacy-sky-hero__product { inline-size:min(64vw,780px); }
   .sky-home .legacy-sky-hero h1 { font-size:clamp(64px,6vw,86px); }
 
   .sky-home__section--flavors,
@@ -530,3 +494,158 @@
   .sky-home__section--flavors .sky-home-product__purchase-row { width:min(100%,205px); }
   .sky-home__section--gummies .sky-home__gummy-grid { gap:28px; }
 }
+@media (min-width:900px) and (max-height:760px) {
+  .sky-home .legacy-sky-hero__content {
+    inset-block-start:calc(var(--home-desktop-header-h) + 22px);
+  }
+
+  .sky-home .legacy-sky-hero__proofs {
+    display:none;
+  }
+
+  .sky-home .legacy-sky-hero__product {
+    inset-block-end:clamp(-132px,-18dvh,-84px);
+    inline-size:min(54vw,780px);
+  }
+}
+
+@media (min-width:900px) {
+  /* The home gummy area is collection navigation, not three individual SKU
+     purchase cards. These gateways retain the existing product packshots but
+     give every collection its own visual identity and direct destination. */
+  .sky-home__section--gummies .sky-home__gummy-grid {
+    align-self:stretch;
+    gap:clamp(18px,2vw,34px);
+    width:min(100%,1260px);
+    margin:0 auto;
+  }
+
+  .sky-home__section--gummies .gummy-collection-card {
+    --collection-surface:rgba(255,255,255,.48);
+    --collection-ink:var(--ink);
+    position:relative;
+    display:grid;
+    grid-template-rows:minmax(0,1fr) auto;
+    min-width:0;
+    align-self:end;
+    block-size:min(100%,clamp(500px,52dvh,640px));
+    min-height:0;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,.68);
+    border-radius:clamp(18px,1.7vw,28px);
+    background:var(--collection-surface);
+    box-shadow:inset 0 1px rgba(255,255,255,.76),0 18px 38px rgba(45,82,93,.09);
+    color:var(--collection-ink);
+    isolation:isolate;
+    transition:transform .32s var(--ease-out),box-shadow .32s var(--ease-out),border-color .32s var(--ease-out);
+  }
+
+  .sky-home__section--gummies .gummy-collection-card::after {
+    position:absolute;
+    z-index:-1;
+    inset:auto -8% -42% 28%;
+    aspect-ratio:1;
+    border-radius:50%;
+    background:var(--collection-glow);
+    content:"";
+    filter:blur(8px);
+    opacity:.62;
+    transition:transform .42s var(--ease-out),opacity .32s var(--ease-out);
+  }
+
+  .sky-home__section--gummies .gummy-collection-card:hover,
+  .sky-home__section--gummies .gummy-collection-card:focus-visible {
+    border-color:color-mix(in srgb,var(--collection-ink) 24%,white);
+    box-shadow:inset 0 1px rgba(255,255,255,.85),0 26px 42px rgba(33,69,80,.17);
+    transform:translateY(-6px);
+  }
+
+  .sky-home__section--gummies .gummy-collection-card:hover::after,
+  .sky-home__section--gummies .gummy-collection-card:focus-visible::after { opacity:.9; transform:scale(1.13); }
+  .sky-home__section--gummies .gummy-collection-card:focus-visible { outline:3px solid var(--collection-ink); outline-offset:4px; }
+  .sky-home__section--gummies .gummy-collection-card--classic { --collection-surface:linear-gradient(145deg,rgba(255,255,255,.68),rgba(226,242,255,.62)); --collection-ink:#075bc6; --collection-glow:rgba(54,143,255,.32); }
+  .sky-home__section--gummies .gummy-collection-card--organic { --collection-surface:linear-gradient(145deg,rgba(255,255,255,.68),rgba(255,210,239,.56)); --collection-ink:#8c0f62; --collection-glow:rgba(232,65,165,.3); }
+  .sky-home__section--gummies .gummy-collection-card--midnight { --collection-surface:linear-gradient(145deg,rgba(236,242,255,.72),rgba(195,201,237,.68)); --collection-ink:#1b245d; --collection-glow:rgba(70,82,192,.32); }
+
+  .sky-home__section--gummies .gummy-collection-card__media {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:0;
+    min-height:0;
+    padding:clamp(18px,2.2dvh,28px) clamp(14px,1.6vw,24px) clamp(8px,1dvh,14px);
+  }
+
+  .sky-home__section--gummies .gummy-collection-card__media img {
+    width:min(51%,clamp(142px,13.5vw,218px));
+    height:min(34dvh,320px);
+    margin-inline:-4%;
+    object-fit:contain;
+    filter:drop-shadow(0 17px 14px rgba(31,53,72,.17));
+    transition:transform .42s var(--ease-out);
+  }
+
+  .sky-home__section--gummies .gummy-collection-card__media img:last-child { transform:translateY(7px) rotate(4deg); }
+  .sky-home__section--gummies .gummy-collection-card:hover .gummy-collection-card__media img:first-child,
+  .sky-home__section--gummies .gummy-collection-card:focus-visible .gummy-collection-card__media img:first-child { transform:translate(-7px,-5px) rotate(-3deg); }
+  .sky-home__section--gummies .gummy-collection-card:hover .gummy-collection-card__media img:last-child,
+  .sky-home__section--gummies .gummy-collection-card:focus-visible .gummy-collection-card__media img:last-child { transform:translate(7px,3px) rotate(7deg); }
+
+  .sky-home__section--gummies .gummy-collection-card__content { display:grid; gap:5px; padding:clamp(13px,1.6dvh,20px) clamp(16px,1.65vw,25px) clamp(16px,1.8dvh,23px); text-align:left; }
+  .sky-home__section--gummies .gummy-collection-card__eyebrow { color:var(--collection-ink); font:800 9px/1 var(--font-ui); letter-spacing:.18em; text-transform:uppercase; opacity:.75; }
+  .sky-home__section--gummies .gummy-collection-card__content strong { font:400 clamp(28px,2.25vw,39px)/.93 var(--font-display); letter-spacing:-.052em; }
+  .sky-home__section--gummies .gummy-collection-card__description { max-width:31ch; color:color-mix(in srgb,var(--collection-ink) 74%,var(--ink-soft)); font:550 clamp(11px,.7vw,13px)/1.32 var(--font-body); }
+  .sky-home__section--gummies .gummy-collection-card__cta { display:flex; align-items:center; gap:8px; margin-top:6px; font:800 10px/1 var(--font-ui); letter-spacing:.1em; text-transform:uppercase; }
+  .sky-home__section--gummies .gummy-collection-card__cta svg { width:15px; height:15px; transition:transform .25s var(--ease-out); }
+  .sky-home__section--gummies .gummy-collection-card:hover .gummy-collection-card__cta svg,
+  .sky-home__section--gummies .gummy-collection-card:focus-visible .gummy-collection-card__cta svg { transform:translateX(4px); }
+}
+
+@media (min-width:900px) {
+  /* The responsive foreground artwork is intentionally a full-width layer:
+     its transparent upper field leaves room for the headline while the sky
+     image on .beverage-hero remains the sole background. */
+  .sky-home .legacy-sky-hero__product {
+    inset:auto 50% 0 auto;
+    inline-size:min(100vw,1770px);
+    max-inline-size:none;
+    transform:translateX(50%);
+  }
+}
+
+@media (min-width:900px) {
+  /* Seltzer heading mirrors the centered editorial hierarchy used by the
+     Gummie Line, leaving the product rail as the sole discovery surface. */
+  .sky-home__section--flavors .sky-home__heading {
+    width:min(100%,950px);
+    margin:0 auto clamp(10px,1.4dvh,16px);
+    text-align:center;
+  }
+
+  .sky-home__section--flavors .sky-home__heading > p:first-child {
+    margin:0 0 8px;
+    color:var(--ink);
+    font-size:clamp(10px,.68vw,12px);
+    letter-spacing:.28em;
+  }
+
+  .sky-home__section--flavors .sky-home__heading h2 {
+    max-width:none;
+    margin:0;
+    font-family:var(--font-display);
+    font-size:clamp(56px,4.9vw,84px);
+    font-weight:400;
+    line-height:.88;
+    letter-spacing:-.052em;
+  }
+
+  .sky-home__section--flavors .sky-home__heading .sky-home__body-copy {
+    max-width:760px;
+    margin:clamp(10px,1.3dvh,14px) auto 0;
+    color:var(--ink);
+    font:650 clamp(11px,.76vw,14px)/1.35 var(--font-ui);
+    letter-spacing:.18em;
+    text-transform:uppercase;
+  }
+}
+

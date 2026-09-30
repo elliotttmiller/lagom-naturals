@@ -73,10 +73,10 @@
     background:transparent;border-bottom:0;backdrop-filter:none;-webkit-backdrop-filter:none
   }
   .app-shell:has(.beverage-hero) .site-header .desktop-nav a:not(.desktop-nav__brand),
-  .app-shell:has(.beverage-hero) .site-header .header-tools .icon-btn{color:#171915!important;text-shadow:none}
-  .app-shell:has(.beverage-hero) .site-header .desktop-nav__brand img{filter:none!important}
-  .app-shell:has(.beverage-hero) .site-header .header-tools .icon-btn:hover{background:rgba(17,25,21,.06)}
-  .app-shell:has(.beverage-hero) .site-header .cart-icon b{border-color:transparent;background:#111;color:#fff}
+  .app-shell:has(.beverage-hero) .site-header .header-tools .icon-btn{color:#fff!important;text-shadow:none}
+  .app-shell:has(.beverage-hero) .site-header .desktop-nav__brand img{filter:brightness(0) invert(1)!important}
+  .app-shell:has(.beverage-hero) .site-header .header-tools .icon-btn:hover{background:rgba(255,255,255,.14)}
+  .app-shell:has(.beverage-hero) .site-header .cart-icon b{border-color:transparent;background:#fff;color:#111}
 
   /* Homepage hero */
   .beverage-hero{

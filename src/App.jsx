@@ -418,9 +418,26 @@ function CategoryShopHero({ category }) {
 }
 
 const homeSeltzers = products.filter((product) => product.category === "Seltzers").slice(0, 4);
-const homeGummies = ["Organic", "Midnight Drift", "Classic"]
-  .map((line) => products.find((product) => product.category === "Gummies" && product.productLine === line))
-  .filter(Boolean);
+const HOME_GUMMY_COLLECTIONS = [
+  {
+    name: "Classic",
+    description: "Fruit-forward favorites for everyday moments.",
+    tone: "classic",
+    productIds: ["blueberry-yum-yum", "green-apple"],
+  },
+  {
+    name: "Organic",
+    description: "Organic fruit flavors with full-spectrum live resin.",
+    tone: "organic",
+    productIds: ["berry-melon-bliss-organic", "blue-razz-organic"],
+  },
+  {
+    name: "Midnight Drift",
+    description: "A full-spectrum collection for slower evenings.",
+    tone: "midnight",
+    productIds: ["blueberry-yum-yum-midnight-drift", "peach-midnight-drift"],
+  },
+];
 
 const HOME_FLAVOR_PACKSHOTS = {
   "24k-lemonade": lemonadeHomePackshot,
@@ -614,6 +631,36 @@ function HomeProductCard({ product }) {
   );
 }
 
+function HomeGummyCollectionCard({ collection }) {
+  const productsInCollection = products.filter((product) => (
+    product.category === "Gummies" && product.productLine === collection.name
+  ));
+  const packshots = collection.productIds
+    .map((id) => HOME_GUMMY_PACKSHOTS[id])
+    .filter(Boolean);
+  const collectionUrl = `/shop/gummies?collection=${encodeURIComponent(collection.name)}`;
+
+  return (
+    <Link
+      className={`gummy-collection-card gummy-collection-card--${collection.tone}`}
+      to={collectionUrl}
+      aria-label={`Explore the ${collection.name} gummy collection, ${productsInCollection.length} products`}
+    >
+      <span className="gummy-collection-card__media" aria-hidden="true">
+        {packshots.map((packshot) => (
+          <img key={packshot} src={packshot} alt="" loading="lazy" decoding="async" />
+        ))}
+      </span>
+      <span className="gummy-collection-card__content">
+        <span className="gummy-collection-card__eyebrow">{productsInCollection.length} flavors</span>
+        <strong>{collection.name}</strong>
+        <span className="gummy-collection-card__description">{collection.description}</span>
+        <span className="gummy-collection-card__cta">Explore collection <ArrowRight aria-hidden="true" /></span>
+      </span>
+    </Link>
+  );
+}
+
 function HomePage() {
   const homeRef = useRef(null);
   return (
@@ -623,9 +670,10 @@ function HomePage() {
         <section id="home-scene-hero" className="beverage-hero atmospheric-scene-hero" data-home-snap-scene aria-label="Featured Lagom Naturals products"><HomeHero /></section>
 
         <AtmosphericSceneSection id="flavors" className="sky-home__section sky-home__section--flavors" labelledBy="home-flavors-title">
-          <div className="sky-home__heading sky-home__heading--split">
-            <div><p>EXPLORE OUR FLAVORS</p><h2 id="home-flavors-title">A flavor for every vibe.</h2></div>
-            <Link className="sky-home__outline-action" to="/shop/seltzers">SHOP ALL SELTZERS <ArrowRight aria-hidden="true" /></Link>
+          <div className="sky-home__heading">
+            <p>MEET THE SELTZER LINE</p>
+            <h2 id="home-flavors-title">Thoughtfully made.<br/>Simply enjoyed.</h2>
+            <p className="sky-home__body-copy">Meet the Lagom seltzer line—zero sugar, zero carbs, and zero calories, with hydrating electrolytes and no artificial flavors.</p>
           </div>
           <div className="sky-home__product-grid">
             {homeSeltzers.map((product) => <HomeProductCard key={product.id} product={product} />)}
@@ -635,13 +683,12 @@ function HomePage() {
         <AtmosphericSceneSection id="gummies" className="sky-home__section sky-home__section--gummies" labelledBy="home-gummies-title">
           <div className="sky-home__heading">
             <p>MEET THE GUMMIE LINE</p>
-            <h2 id="home-gummies-title">Real flavor.<br/>Higher moments.</h2>
-            <p className="sky-home__body-copy">Explore fruit-forward gummies across the Lagom collections, with cannabinoid content clearly labeled on every product.</p>
+            <h2 id="home-gummies-title">Three collections.<br/>One elevated standard.</h2>
+            <p className="sky-home__body-copy">Meet the Lagom gummy line—three distinct collections, made to suit the rhythm of your day or evening.</p>
           </div>
           <div className="sky-home__gummy-grid">
-            {homeGummies.map((product) => <HomeProductCard key={product.id} product={product} />)}
+            {HOME_GUMMY_COLLECTIONS.map((collection) => <HomeGummyCollectionCard key={collection.name} collection={collection} />)}
           </div>
-          <Link className="sky-home__primary-action" to="/shop/gummies">SHOP GUMMIES <ArrowRight aria-hidden="true" /></Link>
         </AtmosphericSceneSection>
 
         <AtmosphericSceneSection id="balance" className="sky-home__section sky-home__section--responsible" labelledBy="home-responsible-title">

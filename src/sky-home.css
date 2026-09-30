@@ -18,88 +18,14 @@
 .sky-home .legacy-sky-hero { background: transparent !important; }
 
 
-/* Hero product art: restore the approved transparent product composition.
-   Keep it independent from the atmospheric cloud field so parallax never
-   changes the packshot's merchandising scale or legibility. */
+/* The sky layer provides atmosphere only. Responsive hero geometry is owned
+   by the breakpoint-specific homepage stylesheets. */
 .sky-home .legacy-sky-hero {
   position:relative;
   isolation:isolate;
 }
 .sky-home .legacy-sky-hero__atmosphere {
   z-index:0;
-}
-.sky-home .legacy-sky-hero__product {
-  position:absolute;
-  z-index:1;
-  top:50%;
-  right:clamp(32px,6vw,112px);
-  /* Size from the available hero height rather than from viewport width.
-     The source is a tall, transparent 1122 × 1402 cutout; width-led sizing
-     can push its lower alpha bounds into the hero clip on short desktops. */
-  width:auto;
-  height:min(88%, 760px);
-  aspect-ratio:1122 / 1402;
-  max-width:44%;
-  transform:translateY(-50%);
-  pointer-events:none;
-}
-.sky-home .legacy-sky-hero__product img {
-  display:block;
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  filter:drop-shadow(0 28px 38px rgba(45,66,72,.12));
-}
-
-/* Desktop packshot composition: reserve more visual weight below the cans so
-   their tallest edges do not compete with the navigation line. Reducing the
-   height envelope before applying the offset keeps the product fully inside
-   the hero on shorter desktop viewports. */
-@media (min-width:900px) {
-  .sky-home .legacy-sky-hero__product {
-    top:calc(50% + clamp(32px, 5vh, 64px));
-    height:min(84%, 720px);
-  }
-}
-.sky-home .legacy-sky-hero__product-clouds {
-  position:absolute;
-  inset:0;
-  z-index:2;
-  overflow:hidden;
-  pointer-events:none;
-}
-.sky-home .legacy-sky-hero__product-cloud {
-  position:absolute;
-  display:block;
-  background:center / contain no-repeat;
-  filter:contrast(1.06) brightness(1.08) saturate(.98);
-  pointer-events:none;
-  will-change:transform, opacity;
-}
-/* A sparse foreground lane crosses the product at irregular, offset intervals.
-   It deliberately remains below copy and controls so the product stays tactile,
-   while the commerce hierarchy remains completely legible. */
-.sky-home .legacy-sky-hero__product-cloud--one {
-  top:24%;
-  left:0;
-  width:min(46vw,840px);
-  height:min(27vw,490px);
-  opacity:0;
-  background-image:url('./assets/atmosphere/clouds/cloud-17.webp');
-  animation:hero-product-cloud-one 79s linear infinite -41s;
-}
-.sky-home .legacy-sky-hero__product-cloud--two {
-  top:49%;
-  left:0;
-  width:min(37vw,690px);
-  height:min(23vw,420px);
-  opacity:0;
-  background-image:url('./assets/atmosphere/clouds/cloud-19.webp');
-  animation:hero-product-cloud-two 113s linear infinite -78s;
-}
-.sky-home .legacy-sky-hero__content {
-  position:relative;
-  z-index:3;
 }
 
 /* Keep a tonal blue lift behind the copy, not a white spotlight. */
@@ -145,16 +71,6 @@
 @keyframes hero-cloud-right { 0% { transform:translate3d(54vw,.2vh,0); } 97.53%,100% { transform:translate3d(-104vw,-.25vh,0); } }
 @keyframes hero-cloud-low-right { 0% { transform:translate3d(-64vw,.4vh,0); } 97.71%,100% { transform:translate3d(116vw,-.3vh,0); } }
 
-@keyframes hero-product-cloud-one {
-  0%, 8% { transform:translate3d(112vw,-.4vh,0) scale(1.01); opacity:0; }
-  16%, 80% { opacity:.24; }
-  92%, 100% { transform:translate3d(-72vw,.55vh,0) scale(1.05); opacity:0; }
-}
-@keyframes hero-product-cloud-two {
-  0%, 13% { transform:translate3d(-54vw,.35vh,0) scale(1.015); opacity:0; }
-  21%, 82% { opacity:.16; }
-  94%, 100% { transform:translate3d(121vw,-.45vh,0) scale(1.045); opacity:0; }
-}
 
 /* The hero atmosphere is a foreground layer over the shared page sky.
    Feather its lower edge so cloud density never ends on a horizontal seam. */
@@ -162,9 +78,6 @@
   -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 84%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 0%, #000 84%, transparent 100%);
 }
-
-/* The optimized Motion cloud field is the single hero cloud system. */
-.sky-home .legacy-sky-hero__cloud-depth { display:none; }
 
 @keyframes hero-balanced-far { from { transform:translate3d(-4vw,-1vh,0); } to { transform:translate3d(4vw,1vh,0); } }
 @keyframes hero-balanced-mid { from { transform:translate3d(3vw,-1.4vh,0); } to { transform:translate3d(-3vw,1.4vh,0); } }
@@ -467,7 +380,6 @@
 .sky-home__responsible-list li::before { content: ""; position: absolute; left: 0; top: 1.48rem; width: 0.45rem; height: 0.45rem; border-radius: 50%; background: var(--green); }
 
 @media (max-width: 760px) {
-  .sky-home .legacy-sky-hero__product-clouds { display:none; }
   .sky-home__section { width: min(100% - 28px, 1280px); padding-block: 3.5rem; }
   .sky-home__heading--split { align-items: start; flex-direction: column; gap: 1.25rem; }
   .sky-home__product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 2rem; }
@@ -493,7 +405,6 @@
   .sky-home::after,
   .sky-home__cloud,
   .sky-home__cloud-depth { animation: none; transition:none; transform: none; }
-  .sky-home .legacy-sky-hero__product-cloud { animation:none; transform:none; opacity:0; }
 }
 
 

@@ -423,10 +423,6 @@
   .sky-home__gummy-grid .sky-home-product__line{
     min-height:1.5em!important;
   }
-  .sky-home__section--gummies>.sky-home__primary-action{
-    margin-top:clamp(30px,5vw,42px)!important;
-  }
-
   .sky-home__responsible-list{
     width:100%!important;
     gap:0!important;
@@ -1134,11 +1130,6 @@
     display:none!important;
   }
 
-  .sky-home__section--gummies>.sky-home__primary-action{
-    margin:0!important;
-    justify-self:start!important;
-  }
-
   /* RESPONSIBLE USE — compact copy/visual split inspired by the reference. */
   .sky-home__section--responsible{
     display:grid!important;
@@ -1438,13 +1429,6 @@
     display:none!important;
   }
 
-  .sky-home__section--gummies>.sky-home__primary-action{
-    min-height:38px!important;
-    margin:0!important;
-    padding-inline:15px!important;
-    font-size:8.5px!important;
-  }
-
   /* RESPONSIBLE USE */
   .sky-home__section--responsible{
     grid-template-columns:minmax(0,1.12fr) minmax(100px,.66fr)!important;
@@ -1545,5 +1529,87 @@
     height:auto!important;
     max-height:none!important;
     min-height:var(--home-mobile-snap-h)!important;
+  }
+}
+
+@media (max-width:899px) {
+  .sky-home__section--gummies .sky-home__gummy-grid {
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:10px!important;
+    width:100%;
+  }
+
+  .sky-home__section--gummies .gummy-collection-card {
+    --collection-ink:var(--ink);
+    display:grid;
+    grid-template-columns:122px minmax(0,1fr);
+    min-height:142px;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,.74);
+    border-radius:18px;
+    background:var(--collection-surface);
+    box-shadow:inset 0 1px rgba(255,255,255,.76),0 12px 24px rgba(45,82,93,.1);
+    color:var(--collection-ink);
+  }
+
+  .sky-home__section--gummies .gummy-collection-card--classic { --collection-surface:linear-gradient(135deg,rgba(255,255,255,.65),rgba(218,240,255,.76)); --collection-ink:#075bc6; }
+  .sky-home__section--gummies .gummy-collection-card--organic { --collection-surface:linear-gradient(135deg,rgba(255,255,255,.65),rgba(255,210,239,.7)); --collection-ink:#8c0f62; }
+  .sky-home__section--gummies .gummy-collection-card--midnight { --collection-surface:linear-gradient(135deg,rgba(240,244,255,.72),rgba(194,202,237,.74)); --collection-ink:#1b245d; }
+  .sky-home__section--gummies .gummy-collection-card:focus-visible { outline:3px solid var(--collection-ink); outline-offset:3px; }
+  .sky-home__section--gummies .gummy-collection-card__media { display:flex; align-items:end; justify-content:center; overflow:hidden; padding:8px 0 0; }
+  .sky-home__section--gummies .gummy-collection-card__media img { width:78px; height:124px; margin-inline:-17px; object-fit:contain; filter:drop-shadow(0 10px 10px rgba(31,53,72,.16)); }
+  .sky-home__section--gummies .gummy-collection-card__media img:last-child { transform:translateY(8px) rotate(5deg); }
+  .sky-home__section--gummies .gummy-collection-card__content { display:grid; align-content:center; gap:4px; padding:14px 14px 14px 4px; text-align:left; }
+  .sky-home__section--gummies .gummy-collection-card__eyebrow { font:800 8px/1 var(--font-ui); letter-spacing:.16em; text-transform:uppercase; opacity:.76; }
+  .sky-home__section--gummies .gummy-collection-card__content strong { font:400 27px/.92 var(--font-display); letter-spacing:-.045em; }
+  .sky-home__section--gummies .gummy-collection-card__description { font:550 10.5px/1.27 var(--font-body); }
+  .sky-home__section--gummies .gummy-collection-card__cta { display:flex; align-items:center; gap:6px; margin-top:4px; font:800 8.5px/1 var(--font-ui); letter-spacing:.09em; text-transform:uppercase; }
+  .sky-home__section--gummies .gummy-collection-card__cta svg { width:13px; height:13px; }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .sky-home__section--gummies .gummy-collection-card,
+  .sky-home__section--gummies .gummy-collection-card::after,
+  .sky-home__section--gummies .gummy-collection-card__media img,
+  .sky-home__section--gummies .gummy-collection-card__cta svg { transition:none; }
+}
+
+@media (max-width:899px) {
+  /* The portrait foreground asset is art-directed separately from desktop.
+     Keep it full-bleed at the base of the same sky background. */
+  .sky-home .legacy-sky-hero__product {
+    inset:auto 0 0 auto!important;
+    inline-size:100%!important;
+    max-inline-size:none!important;
+    opacity:1!important;
+    transform:none!important;
+  }
+
+  .sky-home .legacy-sky-hero__product picture,
+  .sky-home .legacy-sky-hero__product img {
+    inline-size:100%!important;
+    max-height:none!important;
+    object-fit:contain!important;
+    object-position:center bottom!important;
+  }
+}
+
+@media (max-width:899px) {
+  .sky-home__section--flavors .sky-home__heading {
+    margin:0!important;
+    text-align:center!important;
+  }
+
+  .sky-home__section--flavors .sky-home__heading h2 {
+    max-width:8.2ch!important;
+    margin-inline:auto!important;
+  }
+
+  .sky-home__section--flavors .sky-home__heading > .sky-home__body-copy {
+    max-width:35ch!important;
+    margin:12px auto 0!important;
+    font-size:12.5px!important;
+    line-height:1.4!important;
   }
 }
