@@ -10,10 +10,6 @@ import SearchOnIntent from '@/SearchOnIntent'
 import GlobalSearchTriggerBridge from '@/GlobalSearchTriggerBridge'
 import { gummyCollections, merch, products } from '@/catalogData'
 import { AppMotionProvider, Presence, RouteMotion, m, motionTokens, useReducedMotion } from '@/motionSystem'
-import lemonadeAgeGate from '@/assets/products/24k-lemonade.webp'
-import blackberryAgeGate from '@/assets/products/blackberry-breeze.webp'
-import strawberryLimeAgeGate from '@/assets/products/strawberry-lime-fusion.webp'
-import watermelonAgeGate from '@/assets/products/watermelon-refresher.webp'
 import ageGateSky from '@/assets/atmosphere/home-hero-sky.png'
 import cloudMidField from '@/assets/atmosphere/clouds/cloud-mid-field.webp'
 import cloudNearMass from '@/assets/atmosphere/clouds/cloud-near-mass.webp'
@@ -52,13 +48,6 @@ function AgeGate(){
   const gateRef=React.useRef(null);
   const entering=phase==='entering';
   const finished=phase==='complete';
-  const ageGateCans=[
-    {id:'blackberry-breeze',className:'age-gate__can--far-left',src:blackberryAgeGate,alt:'Blackberry Breeze THC seltzer can'},
-    {id:'strawberry-lime-fusion',className:'age-gate__can--near-left',src:strawberryLimeAgeGate,alt:'Strawberry Lime THC seltzer can'},
-    {id:'24k-lemonade',className:'age-gate__can--near-right',src:lemonadeAgeGate,alt:'24K Lemonade THC seltzer can'},
-    {id:'watermelon-refresher',className:'age-gate__can--far-right',src:watermelonAgeGate,alt:'Watermelon THC seltzer can'},
-  ];
-
   React.useEffect(()=>{
     if(verified){
       setReady(true);
@@ -66,13 +55,12 @@ function AgeGate(){
     }
     let cancelled=false;
     const critical=[
-      publicAsset('lagom-logo.svg'),
+      publicAsset('enhanced-lagom-naturals-icon.webp'),
       ageGateSky,
       cloudMidField,
       cloudNearMass,
       cloudLeftFragment,
       cloudRightFragment,
-      ...ageGateCans.map(item=>item.src),
     ];
     const preload=src=>new Promise(resolve=>{
       const image=new Image();
@@ -196,29 +184,6 @@ function AgeGate(){
         <div className="age-gate__cloud-frame age-gate__cloud-frame--left" aria-hidden="true"/>
         <div className="age-gate__cloud-frame age-gate__cloud-frame--right" aria-hidden="true"/>
         <div className="age-gate__cloud-frame age-gate__cloud-frame--bottom" aria-hidden="true"/>
-
-        <m.div
-          className="age-gate__products"
-          aria-hidden="true"
-          initial={reduceMotion?false:{opacity:0}}
-          animate={entering&&!reduceMotion?{opacity:0,y:12,scale:1.035}:{opacity:1,y:0,scale:1}}
-          transition={entering
-            ?{duration:.42,ease:[.4,0,.7,.2]}
-            :(reduceMotion?{duration:0}:{duration:.5,ease:[.16,1,.3,1]})}
-        >
-          {ageGateCans.map(({id,className,src,alt},index)=>
-            <m.figure
-              key={id}
-              className={`age-gate__can ${className}`}
-              initial={reduceMotion?false:{opacity:0,y:index%2===0?12:-10,scale:.975}}
-              animate={{opacity:1,y:0,scale:1}}
-              transition={reduceMotion?{duration:0}:{delay:.05+index*.045,duration:.48,ease:[.16,1,.3,1]}}
-            >
-              <img src={src} alt={alt} decoding="async"/>
-            </m.figure>
-          )}
-        </m.div>
-
         <m.div
           className="age-gate__panel"
           initial={reduceMotion?false:{opacity:0,y:10,scale:.994}}
@@ -231,7 +196,7 @@ function AgeGate(){
           aria-hidden={entering?'true':undefined}
         >
           <div className="age-gate__brand">
-            <img src={publicAsset("lagom-logo.svg")} alt="Lagom Naturals"/>
+            <img src={publicAsset("enhanced-lagom-naturals-icon.webp")} alt="Lagom Naturals"/>
           </div>
           <div className="age-gate__content">
             <h1 id="age-gate-title">Are you 21<br/>or older?</h1>
