@@ -160,7 +160,8 @@ function AgeGate(){
 
   const cloudSegmentEase=[
     [0.42,0,0.72,0.32],
-    [0.24,0.58,0.28,1],
+    [0.28,0.58,0.28,1],
+    [0.18,0.78,0.22,1],
     [0.16,1,0.3,1],
     [0.16,1,0.3,1],
   ];
@@ -176,7 +177,7 @@ function AgeGate(){
       initial={false}
       animate={{opacity:entering?0:1}}
       transition={entering
-        ?{delay:reduceMotion?0:.38,duration:reduceMotion?.16:.34,ease:[.4,0,.2,1]}
+        ?{delay:reduceMotion?0:.38,duration:reduceMotion ? .16 : .34,ease:[.4,0,.2,1]}
         :{duration:0}}
     >
       <div className="age-gate__prepare-surface" aria-hidden="true"/>
@@ -225,7 +226,7 @@ function AgeGate(){
             ?(reduceMotion?{opacity:0}:{opacity:0,y:8,scale:.992})
             :{opacity:1,y:0,scale:1}}
           transition={entering
-            ?{duration:reduceMotion?.16:.34,ease:[.4,0,.7,.2]}
+            ?{duration:reduceMotion ? .16 : .34,ease:[.4,0,.7,.2]}
             :(reduceMotion?{duration:0}:{delay:.04,duration:.5,ease:[.16,1,.3,1]})}
           aria-hidden={entering?'true':undefined}
         >
