@@ -142,12 +142,11 @@
     scroll-margin-top:calc(var(--mobile-header-row-h,72px) + env(safe-area-inset-top,0px) + 16px)!important;
   }
 
-  /* Adapt the third reference's fullscreen scene cadence without constraining
-     long commerce sections to a fixed viewport. min-height preserves full
-     content while giving each major scene at least one mobile viewport of air. */
+  /* Mobile sections stay in natural document flow. The desktop scene cadence
+     is preserved through spacing and atmosphere, not forced viewport height. */
   .atmospheric-scene-section{
     position:relative!important;
-    min-height:100svh!important;
+    min-height:0!important;
     isolation:isolate;
   }
 
