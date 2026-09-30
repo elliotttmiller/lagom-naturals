@@ -1,7 +1,7 @@
-/* Desktop-only homepage scene navigation.
-   Mobile/tablet deliberately retain native continuous scrolling and normal
-   document flow so the desktop visual system can scale responsively without
-   viewport-lock gaps or reveal-state suppression. */
+/* Homepage scene navigation.
+   Desktop uses native CSS snap/reveal choreography. Supported mobile/tablet
+   viewports use the controlled scene pager in HomeScrollSnap.jsx plus a
+   restrained atmospheric cloud bridge. */
 
 /* JS measures the live announcement + sticky header. 110px is the desktop fallback. */
 :root { --home-snap-offset: 0px; --home-desktop-snap-h:100dvh; }
@@ -82,4 +82,199 @@
 
 @media (min-width:900px) and (prefers-reduced-motion: reduce) {
   html:has(.sky-home) { scroll-snap-type: none; }
+}
+
+
+/* --------------------------------------------------------------------------
+   Mobile controlled scene pager
+   -------------------------------------------------------------------------- */
+@media (max-width:899px) and (min-height:700px) and (prefers-reduced-motion:no-preference){
+  html.home-mobile-pager:has(.sky-home){
+    scroll-snap-type:y mandatory!important;
+    scroll-padding-block-start:0!important;
+    scroll-behavior:auto!important;
+    overscroll-behavior-y:contain!important;
+  }
+
+  html.home-mobile-pager.home-mobile-scene-animating:has(.sky-home){
+    scroll-snap-type:none!important;
+  }
+
+  html.home-mobile-pager body:has(.sky-home){
+    overscroll-behavior-y:contain!important;
+    touch-action:pan-x pinch-zoom;
+  }
+
+  html.home-mobile-pager body.mobile-menu-open{
+    touch-action:auto;
+  }
+
+  .sky-home [data-home-snap-scene],
+  body:has(.sky-home) #root > .site-footer{
+    scroll-snap-align:start!important;
+    scroll-snap-stop:always!important;
+  }
+
+  .sky-home [data-home-snap-content] > *{
+    transition:
+      opacity 420ms cubic-bezier(.16,1,.3,1),
+      transform 620ms cubic-bezier(.16,1,.3,1)!important;
+  }
+
+  .sky-home [data-home-snap-scene]:not(.is-snap-visible) [data-home-snap-content] > *{
+    opacity:.72;
+    transform:translate3d(0,1.1rem,0) scale(.992);
+  }
+
+  .sky-home [data-home-snap-scene].is-snap-visible [data-home-snap-content] > *,
+  .sky-home [data-home-snap-scene]:focus-within [data-home-snap-content] > *{
+    opacity:1;
+    transform:translate3d(0,0,0) scale(1);
+  }
+}
+
+.home-scene-transition{
+  position:fixed;
+  inset:0;
+  z-index:9200;
+  overflow:hidden;
+  pointer-events:none;
+  contain:strict;
+  isolation:isolate;
+}
+
+.home-scene-transition__sky,
+.home-scene-transition__cloud{
+  position:absolute;
+  display:block;
+  pointer-events:none;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  will-change:transform,opacity;
+}
+
+.home-scene-transition__sky{
+  inset:-8%;
+  z-index:0;
+  opacity:0;
+  background:
+    radial-gradient(ellipse 84% 50% at 50% 44%,rgba(255,255,255,.34),rgba(255,255,255,.09) 52%,transparent 78%);
+  animation:home-scene-sky-next 820ms linear both;
+}
+
+.home-scene-transition__cloud{
+  z-index:1;
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:contain;
+  filter:brightness(1.04) contrast(1.02) saturate(.98);
+}
+
+.home-scene-transition__cloud--far{
+  top:-22vh;
+  right:-28vw;
+  width:112vw;
+  aspect-ratio:1.85/1;
+  background-image:url('../assets/atmosphere/clouds/cloud-mid-field.webp');
+  animation:home-scene-cloud-far-next 820ms cubic-bezier(.22,.7,.18,1) both;
+}
+
+.home-scene-transition__cloud--mid{
+  top:-12vh;
+  left:-38vw;
+  width:128vw;
+  aspect-ratio:1.8/1;
+  background-image:url('../assets/atmosphere/clouds/cloud-near-mass.webp');
+  animation:home-scene-cloud-mid-next 800ms cubic-bezier(.2,.72,.18,1) both;
+}
+
+.home-scene-transition__cloud--near{
+  top:-3vh;
+  left:-54vw;
+  width:138vw;
+  aspect-ratio:1.9/1;
+  background-image:url('../assets/atmosphere/clouds/cloud-left-fragment.webp');
+  animation:home-scene-cloud-near-next 780ms cubic-bezier(.18,.76,.16,1) both;
+}
+
+.home-scene-transition--previous .home-scene-transition__sky{
+  animation-name:home-scene-sky-previous;
+}
+
+.home-scene-transition--previous .home-scene-transition__cloud--far{
+  animation-name:home-scene-cloud-far-previous;
+}
+
+.home-scene-transition--previous .home-scene-transition__cloud--mid{
+  animation-name:home-scene-cloud-mid-previous;
+}
+
+.home-scene-transition--previous .home-scene-transition__cloud--near{
+  animation-name:home-scene-cloud-near-previous;
+}
+
+@keyframes home-scene-sky-next{
+  0%{opacity:0;transform:translate3d(0,-8%,0) scale(1)}
+  34%{opacity:.18}
+  64%{opacity:.14}
+  100%{opacity:0;transform:translate3d(0,30%,0) scale(1.08)}
+}
+
+@keyframes home-scene-cloud-far-next{
+  0%{opacity:0;transform:translate3d(8vw,-12vh,0) scale(.78)}
+  25%{opacity:.18}
+  58%{opacity:.24}
+  100%{opacity:0;transform:translate3d(-5vw,112vh,0) scale(1.34)}
+}
+
+@keyframes home-scene-cloud-mid-next{
+  0%{opacity:0;transform:translate3d(-8vw,-10vh,0) scale(.88)}
+  20%{opacity:.22}
+  56%{opacity:.32}
+  100%{opacity:0;transform:translate3d(12vw,122vh,0) scale(1.58)}
+}
+
+@keyframes home-scene-cloud-near-next{
+  0%{opacity:0;transform:translate3d(-12vw,-4vh,0) scale(.94)}
+  18%{opacity:.24}
+  52%{opacity:.36}
+  100%{opacity:0;transform:translate3d(22vw,136vh,0) scale(1.94)}
+}
+
+@keyframes home-scene-sky-previous{
+  0%{opacity:0;transform:translate3d(0,28%,0) scale(1.08)}
+  34%{opacity:.18}
+  64%{opacity:.14}
+  100%{opacity:0;transform:translate3d(0,-10%,0) scale(1)}
+}
+
+@keyframes home-scene-cloud-far-previous{
+  0%{opacity:0;transform:translate3d(-5vw,104vh,0) scale(1.3)}
+  25%{opacity:.18}
+  58%{opacity:.24}
+  100%{opacity:0;transform:translate3d(8vw,-24vh,0) scale(.8)}
+}
+
+@keyframes home-scene-cloud-mid-previous{
+  0%{opacity:0;transform:translate3d(12vw,114vh,0) scale(1.54)}
+  20%{opacity:.22}
+  56%{opacity:.32}
+  100%{opacity:0;transform:translate3d(-8vw,-22vh,0) scale(.9)}
+}
+
+@keyframes home-scene-cloud-near-previous{
+  0%{opacity:0;transform:translate3d(22vw,128vh,0) scale(1.9)}
+  18%{opacity:.24}
+  52%{opacity:.36}
+  100%{opacity:0;transform:translate3d(-12vw,-20vh,0) scale(.96)}
+}
+
+@media (min-width:700px) and (max-width:899px){
+  .home-scene-transition__cloud--far{width:92vw;right:-18vw}
+  .home-scene-transition__cloud--mid{width:106vw;left:-24vw}
+  .home-scene-transition__cloud--near{width:116vw;left:-34vw}
+}
+
+@media (max-height:699px), (prefers-reduced-motion:reduce){
+  .home-scene-transition{display:none!important}
 }

@@ -2,9 +2,9 @@
  * Mobile homepage composition
  *
  * This is the single mobile authority for the current homepage scene markup.
- * Phone layouts intentionally use document flow, rather than desktop scene
- * heights, so copy, product controls, and collection links remain reachable
- * at every viewport height.
+ * Natural document flow is the safe baseline. On supported viewport heights,
+ * the controlled mobile scene pager below upgrades the same markup into
+ * full-height swipe/snap scenes without duplicating content or architecture.
  */
 @media (max-width: 899px) {
   html:has(.sky-home) {
@@ -13,20 +13,37 @@
     overscroll-behavior-y: auto;
   }
 
+  body:has(.sky-home),
+  #root:has(.sky-home) {
+    max-inline-size: 100%;
+    overflow-x: clip;
+  }
+
   .sky-home {
+    inline-size: 100%;
+    max-inline-size: 100vw;
     overflow: clip;
+    touch-action: pan-y pinch-zoom;
+  }
+
+  .sky-home *,
+  .sky-home *::before,
+  .sky-home *::after {
+    box-sizing: border-box;
   }
 
   .sky-home .atmospheric-scene-hero,
   .sky-home .atmospheric-scene-section {
+    inline-size: 100% !important;
+    max-inline-size: 100% !important;
     block-size: auto !important;
     min-block-size: 0 !important;
     max-block-size: none !important;
-    overflow: visible !important;
+    overflow: clip !important;
   }
 
   .sky-home .atmospheric-scene-hero {
-    min-block-size: clamp(39rem, 100svh, 48rem) !important;
+    min-block-size: max(42rem, 100svh) !important;
     overflow: hidden !important;
     background: #b9e8fa url('../assets/atmosphere/home-hero-sky.png') center bottom / cover no-repeat !important;
   }
@@ -45,12 +62,13 @@
   }
 
   .sky-home .legacy-sky-hero__product {
-    inset: auto 0 0 !important;
-    inline-size: 100% !important;
+    inset: auto 50% -1rem auto !important;
+    inline-size: min(108vw, 44rem) !important;
     max-inline-size: none !important;
     opacity: 1 !important;
-    transform: none !important;
+    transform: translateX(50%) !important;
     z-index: 1 !important;
+    pointer-events: none !important;
   }
 
   .sky-home .legacy-sky-hero__product picture,
@@ -71,7 +89,10 @@
     max-inline-size: 36rem !important;
     min-block-size: 0 !important;
     margin: 0 auto !important;
-    padding: calc(var(--mobile-header-row-h, 72px) + env(safe-area-inset-top, 0px) + 2rem) 1.35rem 0 !important;
+    padding:
+      calc(var(--mobile-header-row-h, 72px) + env(safe-area-inset-top, 0px) + 2rem)
+      1.35rem
+      clamp(17rem, 42svh, 25rem) !important;
     color: var(--ink) !important;
   }
 
@@ -119,13 +140,21 @@
   .sky-home .atmospheric-scene-section {
     box-sizing: border-box !important;
     inline-size: 100% !important;
+    max-inline-size: 100% !important;
     margin: 0 !important;
-    padding: clamp(4rem, 14vw, 5.5rem) 1.15rem !important;
+    padding:
+      clamp(2.75rem, 8vw, 3.75rem)
+      max(1.15rem, env(safe-area-inset-right, 0px))
+      clamp(3.25rem, 10vw, 4.5rem)
+      max(1.15rem, env(safe-area-inset-left, 0px)) !important;
+    contain: paint;
   }
 
   .sky-home .atmospheric-scene-section__content {
     display: grid !important;
     inline-size: min(100%, 34rem) !important;
+    max-inline-size: 100% !important;
+    min-inline-size: 0 !important;
     margin-inline: auto !important;
   }
 
@@ -162,14 +191,30 @@
   }
 
   .sky-home .sky-home__product-grid {
+    display:grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     grid-template-rows: none !important;
-    gap: 2.25rem .8rem !important;
+    gap: 2.1rem .75rem !important;
     inline-size: 100% !important;
+    max-inline-size:100% !important;
+    min-inline-size:0 !important;
+    margin-inline:0 !important;
   }
 
   .sky-home .sky-home__product-grid > .sky-home-product {
+    inline-size:100% !important;
+    max-inline-size:100% !important;
+    min-inline-size:0 !important;
     align-content: start !important;
+    overflow:visible !important;
+  }
+
+  .sky-home .sky-home-product__image,
+  .sky-home .sky-home-product__copy,
+  .sky-home .sky-home-product__purchase-row{
+    inline-size:100% !important;
+    max-inline-size:100% !important;
+    min-inline-size:0 !important;
   }
 
   .sky-home .sky-home__section--flavors .sky-home-product__image,
@@ -195,7 +240,28 @@
     line-height: 1.34 !important;
   }
 
+  .sky-home .sky-home__section--flavors .sky-home-product__mobile-facts{
+    display:flex !important;
+    justify-content:center !important;
+    flex-wrap:wrap !important;
+    gap:.3rem .45rem !important;
+    margin:.55rem 0 0 !important;
+    color:var(--ink) !important;
+    font:800 clamp(.53rem,2.25vw,.64rem)/1.2 var(--font-ui) !important;
+  }
+
+  .sky-home .sky-home__section--flavors .sky-home-product__mobile-facts span+span{
+    padding-inline-start:.45rem !important;
+    border-inline-start:1px solid color-mix(in srgb,var(--ink) 32%,transparent) !important;
+  }
+
+  .sky-home .sky-home__section--flavors .sky-home-product__variant{
+    display:none !important;
+  }
+
   .sky-home .sky-home__section--flavors .sky-home-product__purchase-row {
+    inline-size:100% !important;
+    max-inline-size:100% !important;
     margin-block-start: .65rem !important;
   }
 
@@ -207,13 +273,24 @@
   }
 
   .sky-home .sky-home__section--gummies {
-    padding-block-start: 4.5rem !important;
+    padding-block-start: clamp(3rem,8vw,3.75rem) !important;
   }
 
   .sky-home .sky-home__gummy-grid {
+    display:grid !important;
     grid-template-columns: 1fr !important;
     gap: .85rem !important;
     inline-size: 100% !important;
+    max-inline-size:100% !important;
+    min-inline-size:0 !important;
+    margin-inline:0 !important;
+  }
+
+  .sky-home .sky-home__gummy-grid > *,
+  .sky-home .gummy-collection-card{
+    inline-size:100% !important;
+    max-inline-size:100% !important;
+    min-inline-size:0 !important;
   }
 
   .sky-home .sky-home__section--gummies .gummy-collection-card {
@@ -247,9 +324,33 @@
   }
 }
 
+@media (max-width: 899px) {
+  /* Keep transparent hero chrome visually coherent: black Lagom branding and
+     controls share one ink color until the frosted scrolled state takes over. */
+  .mobile-reference-header.is-home:not(.is-home-scrolled){
+    color:#111 !important;
+  }
+  .mobile-reference-header.is-home:not(.is-home-scrolled) :is(a,button,.hamburger,.hamburger .line){
+    color:#111 !important;
+    text-shadow:none !important;
+  }
+  .mobile-reference-header.is-home:not(.is-home-scrolled) svg{
+    color:#111 !important;
+    filter:none !important;
+  }
+
+  /* Defensive containment for mobile Safari diagonal gestures. Decorative
+     atmosphere may crop at the scene edge; commerce/UI content may not create
+     an over-width document. */
+  .sky-home :is(.sky-home__heading,.sky-home__body-copy,.sky-home-product,.gummy-collection-card__content){
+    max-inline-size:100% !important;
+    min-inline-size:0 !important;
+  }
+}
+
 @media (max-width: 374px) {
   .sky-home .atmospheric-scene-hero {
-    min-block-size: 37rem !important;
+    min-block-size: max(40rem, 100svh) !important;
   }
 
   .sky-home .legacy-sky-hero h1 {
@@ -268,5 +369,265 @@
 
   .sky-home .sky-home__product-grid {
     gap: 2.75rem 1.5rem !important;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   Full-height mobile scene composition
+   -------------------------------------------------------------------------- */
+@media (max-width:899px) and (min-height:700px){
+  .sky-home .atmospheric-scene-hero,
+  .sky-home .atmospheric-scene-section{
+    block-size:var(--home-mobile-scene-h,100svh)!important;
+    min-block-size:var(--home-mobile-scene-h,100svh)!important;
+    max-block-size:var(--home-mobile-scene-h,100svh)!important;
+    overflow:clip!important;
+  }
+
+  .sky-home .legacy-sky-hero{
+    block-size:100%!important;
+    min-block-size:100%!important;
+  }
+
+  .sky-home .legacy-sky-hero__content{
+    min-block-size:100%!important;
+    padding:
+      calc(var(--mobile-header-row-h,72px) + env(safe-area-inset-top,0px) + clamp(18px,2.8svh,30px))
+      1.25rem
+      clamp(15rem,34svh,22rem)!important;
+    display:flex!important;
+    flex-direction:column!important;
+    justify-content:flex-start!important;
+  }
+
+  .sky-home .legacy-sky-hero__product{
+    inset:auto 50% -1.25rem auto!important;
+    inline-size:min(105vw,42rem)!important;
+  }
+
+  .sky-home .legacy-sky-hero__actions{
+    margin-block-start:clamp(.9rem,2svh,1.25rem)!important;
+  }
+
+  .sky-home .atmospheric-scene-section{
+    display:grid!important;
+    align-items:stretch!important;
+    padding:
+      calc(var(--mobile-header-row-h,72px) + env(safe-area-inset-top,0px) + clamp(10px,1.8svh,18px))
+      max(1rem,env(safe-area-inset-right,0px))
+      max(14px,env(safe-area-inset-bottom,0px))
+      max(1rem,env(safe-area-inset-left,0px))!important;
+  }
+
+  .sky-home .atmospheric-scene-section__content{
+    display:grid!important;
+    block-size:100%!important;
+    min-block-size:0!important;
+    align-content:stretch!important;
+    overflow:hidden!important;
+  }
+
+  .sky-home .sky-home__heading{
+    margin:0 0 clamp(10px,1.5svh,16px)!important;
+  }
+
+  .sky-home .sky-home__heading>p:first-child{
+    margin-block-end:clamp(6px,1svh,9px)!important;
+    font-size:clamp(.54rem,2.15vw,.64rem)!important;
+  }
+
+  .sky-home .sky-home__heading h2{
+    font-size:clamp(2.05rem,9.8vw,3rem)!important;
+    line-height:.9!important;
+  }
+
+  .sky-home .sky-home__heading>.sky-home__body-copy{
+    max-inline-size:34ch!important;
+    margin:.7rem auto 0!important;
+    font-size:clamp(.7rem,2.7vw,.82rem)!important;
+    line-height:1.35!important;
+  }
+
+  /* Seltzer scene: heading + two balanced product rows inside one viewport. */
+  .sky-home .sky-home__section--flavors .atmospheric-scene-section__content{
+    grid-template-rows:auto minmax(0,1fr)!important;
+  }
+
+  .sky-home .sky-home__section--flavors .sky-home__product-grid{
+    min-block-size:0!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    grid-template-rows:repeat(2,minmax(0,1fr))!important;
+    gap:clamp(8px,1.2svh,13px) clamp(8px,2.2vw,12px)!important;
+  }
+
+  .sky-home .sky-home__section--flavors .sky-home-product{
+    min-block-size:0!important;
+    display:grid!important;
+    grid-template-rows:auto minmax(0,1fr)!important;
+    align-content:start!important;
+  }
+
+  .sky-home .sky-home__section--flavors .sky-home-product__image,
+  .sky-home .sky-home__section--flavors .sky-home-product__image img{
+    block-size:clamp(5.8rem,13.5svh,8rem)!important;
+    min-block-size:0!important;
+  }
+
+  .sky-home .sky-home__section--flavors .sky-home-product__image img{
+    inline-size:min(100%,7.4rem)!important;
+  }
+
+  .sky-home .sky-home__section--flavors .sky-home-product__copy{
+    align-self:start!important;
+    padding-top:1px!important;
+  }
+
+  .sky-home .sky-home__section--flavors .sky-home-product__copy h3{
+    font-size:clamp(.68rem,2.8vw,.82rem)!important;
+    line-height:1.02!important;
+  }
+
+  .sky-home .sky-home__section--flavors .sky-home-product__description{
+    max-inline-size:22ch!important;
+    margin-top:.28rem!important;
+    font-size:clamp(.58rem,2.25vw,.68rem)!important;
+    line-height:1.24!important;
+  }
+
+  .sky-home .sky-home__section--flavors .sky-home-product__mobile-facts{
+    margin-top:.3rem!important;
+    gap:.18rem .32rem!important;
+    font-size:clamp(.48rem,1.95vw,.58rem)!important;
+  }
+
+  .sky-home .sky-home__section--flavors .sky-home-product__mobile-facts span+span{
+    padding-inline-start:.32rem!important;
+  }
+
+  .sky-home .sky-home__section--flavors .sky-home-product__purchase-row{
+    margin-top:.35rem!important;
+  }
+
+  .sky-home .sky-home__section--flavors .sky-home-product__action{
+    inline-size:min(100%,8.25rem)!important;
+    min-block-size:2.1rem!important;
+    padding-inline:.5rem!important;
+    font-size:.52rem!important;
+  }
+
+  /* Gummy scene: three editorial collection rows in one viewport. */
+  .sky-home .sky-home__section--gummies{
+    padding-block-start:
+      calc(var(--mobile-header-row-h,72px) + env(safe-area-inset-top,0px) + clamp(10px,1.8svh,18px))!important;
+  }
+
+  .sky-home .sky-home__section--gummies .atmospheric-scene-section__content{
+    grid-template-rows:auto minmax(0,1fr)!important;
+  }
+
+  .sky-home .sky-home__section--gummies .sky-home__gummy-grid{
+    min-block-size:0!important;
+    align-content:center!important;
+    grid-template-columns:1fr!important;
+    grid-template-rows:repeat(3,minmax(0,1fr))!important;
+    gap:clamp(7px,1.1svh,11px)!important;
+  }
+
+  .sky-home .sky-home__section--gummies .gummy-collection-card{
+    min-block-size:0!important;
+    block-size:100%!important;
+    max-block-size:clamp(6.9rem,15.5svh,9.1rem)!important;
+    grid-template-columns:clamp(5.7rem,24vw,7rem) minmax(0,1fr)!important;
+    border-radius:1rem!important;
+  }
+
+  .sky-home .sky-home__section--gummies .gummy-collection-card__media{
+    min-inline-size:0!important;
+  }
+
+  .sky-home .sky-home__section--gummies .gummy-collection-card__media img{
+    inline-size:clamp(3.65rem,15vw,4.55rem)!important;
+    block-size:clamp(5.6rem,13svh,7rem)!important;
+  }
+
+  .sky-home .sky-home__section--gummies .gummy-collection-card__content{
+    gap:2px!important;
+    padding:.6rem .75rem .6rem .05rem!important;
+  }
+
+  .sky-home .sky-home__section--gummies .gummy-collection-card__eyebrow{
+    font-size:.48rem!important;
+  }
+
+  .sky-home .sky-home__section--gummies .gummy-collection-card__content strong{
+    font-size:clamp(1.3rem,5.8vw,1.7rem)!important;
+  }
+
+  .sky-home .sky-home__section--gummies .gummy-collection-card__description{
+    font-size:clamp(.56rem,2.2vw,.66rem)!important;
+    line-height:1.22!important;
+  }
+
+  .sky-home .sky-home__section--gummies .gummy-collection-card__cta{
+    min-block-size:1.7rem!important;
+    margin-top:0!important;
+    font-size:.5rem!important;
+  }
+
+  body:has(.sky-home) #root>.site-footer{
+    block-size:var(--home-mobile-scene-h,100svh)!important;
+    min-block-size:var(--home-mobile-scene-h,100svh)!important;
+    max-block-size:var(--home-mobile-scene-h,100svh)!important;
+    overflow:auto!important;
+    display:grid!important;
+    place-items:center!important;
+    padding:
+      calc(var(--mobile-header-row-h,72px) + env(safe-area-inset-top,0px) + 12px)
+      max(18px,env(safe-area-inset-right,0px))
+      max(22px,env(safe-area-inset-bottom,0px))
+      max(18px,env(safe-area-inset-left,0px))!important;
+  }
+}
+
+/* Short devices prioritize reachability over forced paging. */
+@media (max-width:899px) and (max-height:699px){
+  html:has(.sky-home){
+    scroll-snap-type:y proximity!important;
+    overscroll-behavior-y:auto!important;
+  }
+
+  .sky-home .atmospheric-scene-hero,
+  .sky-home .atmospheric-scene-section,
+  body:has(.sky-home) #root>.site-footer{
+    block-size:auto!important;
+    min-block-size:auto!important;
+    max-block-size:none!important;
+    scroll-snap-align:start!important;
+    scroll-snap-stop:normal!important;
+  }
+}
+
+@media (max-width:899px) and (min-height:700px) and (max-height:780px){
+  .sky-home .sky-home__heading h2{
+    font-size:clamp(1.85rem,8.7vw,2.45rem)!important;
+  }
+
+  .sky-home .sky-home__heading>.sky-home__body-copy{
+    margin-top:.5rem!important;
+    font-size:.68rem!important;
+  }
+
+  .sky-home .sky-home__section--flavors .sky-home-product__description{
+    display:none!important;
+  }
+
+  .sky-home .sky-home__section--flavors .sky-home-product__image,
+  .sky-home .sky-home__section--flavors .sky-home-product__image img{
+    block-size:clamp(5.25rem,12svh,6.4rem)!important;
+  }
+
+  .sky-home .sky-home__section--gummies .gummy-collection-card__description{
+    display:none!important;
   }
 }
