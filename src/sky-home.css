@@ -398,6 +398,7 @@
 .sky-home-product__variant-option-price { align-self:center; font:800 .68rem/1 var(--font-ui); white-space:nowrap; }
 .sky-home-product__variant-option-indicator { display:grid; place-items:center; width:1rem; height:1rem; }
 .sky-home-product__variant-option-indicator svg { width:.84rem; height:.84rem; }
+.sky-home-product__mobile-facts { display:none; }
 .sky-home-product__facts { display:flex; justify-content:center; gap:.55rem; margin:.55rem 0 0; color:var(--ink); font:800 .72rem/1.25 var(--font-ui); }
 .sky-home-product__facts span + span { padding-left:.55rem; border-left:1px solid color-mix(in srgb, var(--ink) 45%, transparent); }
 .sky-home-product__pack-detail { min-height:1.2em; margin:.34rem 0 0; color:var(--ink-soft); font:600 .67rem/1.25 var(--font-ui); }
