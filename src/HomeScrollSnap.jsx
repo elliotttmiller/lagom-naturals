@@ -31,6 +31,18 @@ export default function HomeScrollSnap({ rootRef }) {
       else mediaQuery.removeListener(listener);
     };
     let observer;
+    let resizeObserver;
+
+    const measureDesktopChrome = () => {
+      const announcement = document.querySelector(".announcement");
+      const header = document.querySelector(".site-header");
+      const announcementHeight = announcement?.getBoundingClientRect().height || 0;
+      const headerHeight = header?.getBoundingClientRect().height || 0;
+      const offset = Math.round(announcementHeight + headerHeight);
+      document.documentElement.style.setProperty("--home-snap-offset", `${offset}px`);
+      document.documentElement.style.setProperty("--home-desktop-snap-h", `calc(100dvh - ${offset}px)`);
+      return offset;
+    };
 
     const sync = () => {
       observer?.disconnect();
@@ -41,14 +53,19 @@ export default function HomeScrollSnap({ rootRef }) {
         return;
       }
 
+      const snapOffset = measureDesktopChrome();
       scenes.forEach((scene) => scene.classList.remove(ACTIVE_CLASS));
       observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
-            entry.target.classList.toggle(ACTIVE_CLASS, entry.intersectionRatio >= 0.35);
+            entry.target.classList.toggle(ACTIVE_CLASS, entry.intersectionRatio >= 0.62);
           });
         },
-        { root: null, rootMargin: "0px", threshold: [0, 0.35, 0.72, 1] },
+        {
+          root: null,
+          rootMargin: `-${snapOffset}px 0px -12% 0px`,
+          threshold: [0, 0.32, 0.62, 0.82, 1],
+        },
       );
       scenes.forEach((scene) => observer.observe(scene));
     };
@@ -57,10 +74,25 @@ export default function HomeScrollSnap({ rootRef }) {
     listen(reducedMotion, sync);
     listen(supportedViewport, sync);
 
+    if ("ResizeObserver" in window) {
+      resizeObserver = new ResizeObserver(() => {
+        if (supportedViewport.matches) sync();
+      });
+      const announcement = document.querySelector(".announcement");
+      const header = document.querySelector(".site-header");
+      if (announcement) resizeObserver.observe(announcement);
+      if (header) resizeObserver.observe(header);
+    }
+    window.addEventListener("resize", sync, { passive: true });
+
     return () => {
       observer?.disconnect();
+      resizeObserver?.disconnect();
+      window.removeEventListener("resize", sync);
       unlisten(reducedMotion, sync);
       unlisten(supportedViewport, sync);
+      document.documentElement.style.removeProperty("--home-snap-offset");
+      document.documentElement.style.removeProperty("--home-desktop-snap-h");
     };
   }, [rootRef]);
 

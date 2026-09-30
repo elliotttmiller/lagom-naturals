@@ -1,0 +1,505 @@
+/* Desktop homepage snap-scene redesign.
+   Presentation only: preserves the existing sky gradients, cloud assets,
+   cloud animation and atmospheric motion architecture. */
+
+@media (min-width:900px) {
+  :root {
+    --home-desktop-announcement-h:28px;
+    --home-desktop-header-h:82px;
+    --home-desktop-chrome-h:calc(var(--home-desktop-announcement-h) + var(--home-desktop-header-h));
+    --home-desktop-hero-h:var(--home-desktop-snap-h,calc(100dvh - var(--home-desktop-chrome-h)));
+    --home-desktop-scene-h:var(--home-desktop-snap-h,calc(100dvh - var(--home-desktop-chrome-h)));
+    --home-desktop-gutter:clamp(54px,5.2vw,104px);
+  }
+
+  /* Snap-frame contract */
+  .sky-home .atmospheric-scene-hero {
+    block-size:var(--home-desktop-hero-h);
+    min-block-size:var(--home-desktop-hero-h);
+    max-block-size:var(--home-desktop-hero-h);
+    overflow:hidden;
+  }
+
+  .sky-home .atmospheric-scene-section {
+    box-sizing:border-box;
+    inline-size:100%;
+    max-inline-size:none;
+    block-size:var(--home-desktop-scene-h);
+    min-block-size:var(--home-desktop-scene-h);
+    max-block-size:var(--home-desktop-scene-h);
+    margin:0;
+    overflow:hidden;
+    isolation:isolate;
+  }
+
+  .sky-home .atmospheric-scene-section__content {
+    display:contents;
+  }
+
+  .sky-home .atmospheric-scene-section > :not(.atmospheric-scene-section__cloud),
+  .sky-home .atmospheric-scene-section__content > * {
+    position:relative;
+    z-index:2;
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* HERO — reference: editorial left / oversized dual-can composition right */
+  /* ---------------------------------------------------------------------- */
+  .sky-home .legacy-sky-hero {
+    box-sizing:border-box;
+    block-size:100%;
+    min-block-size:0;
+    display:block;
+    overflow:hidden;
+  }
+
+  .sky-home .legacy-sky-hero__content {
+    position:absolute;
+    z-index:4;
+    inset:0 auto 0 var(--home-desktop-gutter);
+    inline-size:min(50vw,800px);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding-block:clamp(42px,5dvh,70px);
+  }
+
+  .sky-home .legacy-sky-hero__content > p {
+    margin:0 0 clamp(18px,2.3dvh,28px);
+    color:var(--ink);
+    font:700 clamp(11px,.72vw,13px)/1 var(--font-ui);
+    letter-spacing:.27em;
+    text-transform:uppercase;
+  }
+
+  .sky-home .legacy-sky-hero h1 {
+    max-inline-size:9.9ch;
+    margin:0;
+    color:var(--ink);
+    font-family:var(--font-display);
+    font-size:clamp(68px,6.15vw,112px);
+    font-weight:400;
+    line-height:.82;
+    letter-spacing:-.058em;
+  }
+
+  .sky-home .legacy-sky-hero h1 strong {
+    display:inline;
+    font:inherit;
+    letter-spacing:inherit;
+  }
+
+  .sky-home .legacy-sky-hero__lede {
+    display:block;
+    max-inline-size:31ch;
+    margin-top:clamp(24px,3.2dvh,38px);
+    color:color-mix(in srgb,var(--ink) 88%,transparent);
+    font:500 clamp(18px,1.25vw,23px)/1.42 var(--font-primary);
+    letter-spacing:-.025em;
+  }
+
+  .sky-home .legacy-sky-hero__lede em {
+    font-family:var(--font-display);
+    font-size:1.12em;
+  }
+
+  .sky-home .legacy-sky-hero__actions {
+    display:flex;
+    gap:14px;
+    margin-top:clamp(28px,3.8dvh,42px);
+  }
+
+  .sky-home .legacy-sky-hero__actions a {
+    min-block-size:clamp(52px,6dvh,64px);
+    padding-inline:clamp(22px,2vw,32px);
+    border:1px solid rgba(17,17,15,.58);
+    border-radius:999px;
+    font:800 clamp(10px,.68vw,12px)/1 var(--font-ui);
+    letter-spacing:.11em;
+  }
+
+  .sky-home .legacy-sky-hero__actions a:first-child {
+    min-inline-size:clamp(190px,15vw,250px);
+    background:#111;
+    color:#fff;
+    border-color:#111;
+    box-shadow:0 15px 28px rgba(40,57,62,.12);
+  }
+
+  .sky-home .legacy-sky-hero__actions a:last-child {
+    min-inline-size:clamp(160px,12.5vw,210px);
+    background:rgba(255,255,255,.18);
+    backdrop-filter:blur(8px);
+  }
+
+  .sky-home .legacy-sky-hero__proofs {
+    display:grid;
+    grid-template-columns:repeat(3,max-content);
+    gap:clamp(26px,3.2vw,54px);
+    align-items:center;
+    margin:clamp(30px,4dvh,44px) 0 0;
+    padding:0;
+  }
+
+  .sky-home .legacy-sky-hero__proofs li {
+    display:grid;
+    grid-template-columns:42px auto;
+    align-items:center;
+    gap:11px;
+    min-width:0;
+  }
+
+  .sky-home .legacy-sky-hero__proofs svg {
+    width:42px;
+    height:42px;
+    padding:10px;
+    border:1px solid rgba(34,62,71,.28);
+    border-radius:50%;
+    background:rgba(255,255,255,.18);
+    backdrop-filter:blur(8px);
+  }
+
+  .sky-home .legacy-sky-hero__proofs span {
+    color:var(--ink);
+    font:750 clamp(9px,.62vw,11px)/1.15 var(--font-ui);
+    letter-spacing:.06em;
+    text-transform:uppercase;
+  }
+
+  .sky-home .legacy-sky-hero__product {
+    z-index:3;
+    top:50%;
+    right:clamp(4vw,6vw,110px);
+    width:auto;
+    height:min(91%,790px);
+    max-width:49vw;
+    transform:translateY(-47%);
+  }
+
+  .sky-home .legacy-sky-hero__product img {
+    filter:drop-shadow(0 32px 42px rgba(47,73,82,.18));
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* FLAVORS — reference: four-column premium merchandising rail             */
+  /* ---------------------------------------------------------------------- */
+  .sky-home__section--flavors {
+    display:grid!important;
+    grid-template-rows:auto minmax(0,1fr);
+    align-items:stretch!important;
+    padding:
+      clamp(34px,4.4dvh,52px)
+      var(--home-desktop-gutter)
+      clamp(24px,3dvh,36px)!important;
+  }
+
+  .sky-home__section--flavors::before {
+    display:block!important;
+    position:absolute;
+    z-index:0;
+    inset:auto 0 0;
+    height:47%;
+    content:"";
+    pointer-events:none;
+    background:
+      linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.18) 24%,rgba(255,255,255,.42) 100%);
+    border-top:1px solid rgba(255,255,255,.22);
+  }
+
+  .sky-home__section--flavors .sky-home__heading--split {
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    align-items:start;
+    gap:32px;
+    margin:0 0 clamp(12px,1.7dvh,20px);
+  }
+
+  .sky-home__section--flavors .sky-home__heading > div > p {
+    margin:0 0 9px;
+    color:var(--ink);
+    font-size:clamp(10px,.68vw,12px);
+    letter-spacing:.2em;
+  }
+
+  .sky-home__section--flavors .sky-home__heading h2 {
+    max-width:8.2ch;
+    margin:0;
+    font-family:var(--font-display);
+    font-size:clamp(58px,5.1vw,88px);
+    font-weight:400;
+    line-height:.86;
+    letter-spacing:-.055em;
+  }
+
+  .sky-home__section--flavors .sky-home__outline-action {
+    align-self:center;
+    min-height:50px;
+    padding-inline:23px;
+    border-color:rgba(17,17,15,.48);
+    background:rgba(255,255,255,.18);
+    font-size:10px;
+    backdrop-filter:blur(8px);
+  }
+
+  .sky-home__section--flavors .sky-home__product-grid {
+    align-self:stretch;
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:clamp(24px,2.5vw,48px);
+    width:100%;
+    min-height:0;
+    margin:0;
+  }
+
+  .sky-home__section--flavors .sky-home-product {
+    display:grid;
+    grid-template-rows:minmax(0,1fr) auto;
+    min-width:0;
+    align-content:stretch;
+  }
+
+  .sky-home__section--flavors .sky-home-product__image {
+    --sky-home-packshot-size:min(35dvh,clamp(240px,20.5vw,360px));
+    display:grid;
+    place-items:end center;
+    height:auto;
+    min-height:0;
+    overflow:visible;
+  }
+
+  .sky-home__section--flavors .sky-home-product__image img {
+    width:var(--sky-home-packshot-size);
+    height:var(--sky-home-packshot-size);
+    max-width:100%;
+    object-fit:contain;
+    filter:drop-shadow(0 22px 22px rgba(48,77,86,.15));
+  }
+
+  .sky-home__section--flavors .sky-home-product__copy {
+    padding:clamp(4px,.7dvh,8px) 0 0;
+  }
+
+  .sky-home__section--flavors .sky-home-product__copy h3 {
+    max-width:18ch;
+    min-height:0;
+    margin:0 auto;
+    font-size:clamp(15px,1.1vw,20px);
+    line-height:1;
+  }
+
+  .sky-home__section--flavors .sky-home-product__description {
+    max-width:26ch;
+    min-height:2.5em;
+    margin:clamp(7px,1dvh,10px) auto 0;
+    font-size:clamp(12px,.82vw,15px);
+    line-height:1.28;
+  }
+
+  .sky-home__section--flavors .sky-home-product__purchase-row {
+    width:min(100%,230px);
+    gap:clamp(8px,1dvh,11px);
+    margin:clamp(10px,1.25dvh,13px) auto 0;
+  }
+
+  .sky-home__section--flavors .sky-home-product__variant {
+    width:100%;
+    margin:0;
+  }
+
+  .sky-home__section--flavors .sky-home-product__variant-label {
+    display:none;
+  }
+
+  .sky-home__section--flavors .sky-home-product__variant-trigger {
+    min-height:44px;
+    border-radius:999px;
+    background:rgba(255,255,255,.56);
+    box-shadow:0 8px 18px rgba(44,70,78,.08),inset 0 1px rgba(255,255,255,.75);
+  }
+
+  .sky-home__section--flavors .sky-home-product__action {
+    width:min(100%,205px)!important;
+    min-height:46px!important;
+    margin:0 auto!important;
+    font-size:10px!important;
+    box-shadow:0 12px 22px color-mix(in srgb,var(--product-accent) 22%,transparent);
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* GUMMIES — reference: centered campaign header + three large pouch sets  */
+  /* ---------------------------------------------------------------------- */
+  .sky-home__section--gummies {
+    display:grid!important;
+    grid-template-rows:auto minmax(0,1fr);
+    align-items:stretch!important;
+    padding:
+      clamp(28px,3.4dvh,42px)
+      var(--home-desktop-gutter)
+      clamp(22px,2.7dvh,34px)!important;
+    text-align:center;
+  }
+
+  .sky-home__section--gummies::before {
+    display:block!important;
+    position:absolute;
+    z-index:0;
+    inset:auto 0 0;
+    height:43%;
+    content:"";
+    pointer-events:none;
+    background:
+      linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.2) 20%,rgba(255,255,255,.46) 100%);
+    border-top:1px solid rgba(255,255,255,.22);
+  }
+
+  .sky-home__section--gummies .sky-home__heading {
+    width:min(100%,950px);
+    margin:0 auto clamp(10px,1.4dvh,16px);
+    text-align:center;
+  }
+
+  .sky-home__section--gummies .sky-home__heading > p:first-child {
+    margin:0 0 8px;
+    color:var(--ink);
+    font-size:clamp(10px,.68vw,12px);
+    letter-spacing:.28em;
+  }
+
+  .sky-home__section--gummies .sky-home__heading h2 {
+    max-width:none;
+    margin:0;
+    font-family:var(--font-display);
+    font-size:clamp(56px,4.9vw,84px);
+    font-weight:400;
+    line-height:.88;
+    letter-spacing:-.052em;
+  }
+
+  .sky-home__section--gummies .sky-home__heading .sky-home__body-copy {
+    max-width:760px;
+    margin:clamp(10px,1.3dvh,14px) auto 0;
+    color:var(--ink);
+    font:650 clamp(11px,.76vw,14px)/1.35 var(--font-ui);
+    letter-spacing:.18em;
+    text-transform:uppercase;
+  }
+
+  .sky-home__section--gummies .sky-home__gummy-grid {
+    align-self:stretch;
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:clamp(34px,4.5vw,82px);
+    width:100%;
+    min-height:0;
+  }
+
+  .sky-home__section--gummies .sky-home-product {
+    display:grid;
+    grid-template-rows:minmax(0,1fr) auto;
+    min-width:0;
+    align-content:stretch;
+  }
+
+  .sky-home__section--gummies .sky-home-product__image {
+    display:grid;
+    place-items:end center;
+    height:auto;
+    min-height:0;
+    overflow:visible;
+  }
+
+  .sky-home__section--gummies .sky-home-product__image img {
+    width:min(42dvh,clamp(300px,25vw,445px));
+    height:min(42dvh,clamp(300px,25vw,445px));
+    max-width:100%;
+    object-fit:contain;
+    filter:drop-shadow(0 24px 24px rgba(44,70,79,.16));
+  }
+
+  .sky-home__section--gummies .sky-home-product__copy {
+    padding:clamp(4px,.6dvh,7px) 0 0;
+  }
+
+  .sky-home__section--gummies .sky-home-product__copy h3 {
+    max-width:22ch;
+    margin:0 auto;
+    font-size:clamp(16px,1.12vw,20px);
+    line-height:1;
+  }
+
+  .sky-home__section--gummies .sky-home-product__line {
+    min-height:0;
+    margin:6px 0 0;
+    font-size:clamp(10px,.7vw,12px);
+    letter-spacing:.14em;
+  }
+
+  .sky-home__section--gummies .sky-home-product__facts {
+    gap:8px;
+    margin:8px 0 0;
+    font-size:clamp(11px,.72vw,13px);
+  }
+
+  .sky-home__section--gummies .sky-home-product__purchase-row {
+    width:auto;
+    margin:clamp(9px,1.1dvh,12px) auto 0;
+  }
+
+  .sky-home__section--gummies .sky-home-product__action {
+    min-width:clamp(150px,12vw,205px)!important;
+    min-height:46px!important;
+    margin:0!important;
+    font-size:10px!important;
+    box-shadow:0 12px 22px color-mix(in srgb,var(--product-accent) 22%,transparent);
+  }
+
+  .sky-home__section--gummies > .sky-home__primary-action {
+    display:none;
+  }
+
+  /* Keep non-reference desktop snap panels within the exact snap frame too. */
+  .sky-home__section--editorial,
+  .sky-home__section--responsible {
+    padding:
+      clamp(52px,7dvh,82px)
+      var(--home-desktop-gutter)!important;
+  }
+
+}
+
+@media (min-width:900px) and (max-height:760px) {
+  .sky-home .legacy-sky-hero h1 { font-size:clamp(60px,5.5vw,86px); }
+  .sky-home .legacy-sky-hero__lede { margin-top:18px; font-size:17px; }
+  .sky-home .legacy-sky-hero__actions { margin-top:22px; }
+  .sky-home .legacy-sky-hero__proofs { margin-top:22px; }
+  .sky-home .legacy-sky-hero__product { height:min(84%,650px); }
+
+  .sky-home__section--flavors .sky-home__heading h2 { font-size:clamp(48px,4.4vw,70px); }
+  .sky-home__section--flavors .sky-home-product__image { --sky-home-packshot-size:min(31dvh,280px); }
+  .sky-home__section--flavors .sky-home-product__description { font-size:12px; }
+  .sky-home__section--flavors .sky-home-product__variant-trigger { min-height:40px; }
+  .sky-home__section--flavors .sky-home-product__action { min-height:42px!important; }
+
+  .sky-home__section--gummies .sky-home__heading h2 { font-size:clamp(48px,4.2vw,68px); }
+  .sky-home__section--gummies .sky-home__heading .sky-home__body-copy { margin-top:8px; font-size:10px; }
+  .sky-home__section--gummies .sky-home-product__image img {
+    width:min(34dvh,320px);
+    height:min(34dvh,320px);
+  }
+  .sky-home__section--gummies .sky-home-product__action { min-height:42px!important; }
+}
+
+@media (min-width:900px) and (max-width:1180px) {
+  .sky-home .legacy-sky-hero__content { inline-size:53vw; }
+  .sky-home .legacy-sky-hero__product { right:2vw; max-width:45vw; height:min(80%,650px); }
+  .sky-home .legacy-sky-hero h1 { font-size:clamp(64px,6vw,86px); }
+
+  .sky-home__section--flavors,
+  .sky-home__section--gummies {
+    padding-inline:clamp(34px,4vw,56px)!important;
+  }
+
+  .sky-home__section--flavors .sky-home__product-grid { gap:18px; }
+  .sky-home__section--flavors .sky-home-product__purchase-row { width:min(100%,205px); }
+  .sky-home__section--gummies .sky-home__gummy-grid { gap:28px; }
+}
