@@ -599,6 +599,7 @@ function HomeProductCard({ product }) {
       <div className="sky-home-product__copy">
         <h3><Link to={`/product/${product.id}`}>{product.name}</Link></h3>
         {flavorDescription ? <p className="sky-home-product__description">{flavorDescription}</p> : <p className="sky-home-product__line">{product.productLine && product.productLine !== "Classic" ? product.productLine : product.flavor}</p>}
+        <p className="sky-home-product__mobile-facts" aria-hidden="true"><span>${selectedVariant.price.toFixed(2)}</span><span>{potency}</span></p>
         {variants.length > 1 ? <div className="sky-home-product__purchase-row">
           <HomePackSelector productId={product.id} variants={variants} selectedId={selectedVariant.id} onChange={(variantId) => { setSelectedVariantId(variantId); setCartState("idle"); }} />
           <AddToCartButton className="sky-home-product__action sky-home-product__add-to-cart" label="Add to cart" productId={product.id} state={cartState} onClick={handleAddToCart} aria-label={`Add ${product.name}, ${selectedVariant.label}, to cart`} />
