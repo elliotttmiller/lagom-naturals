@@ -1,0 +1,78 @@
+/* Homepage scene navigation, adapted from the local dinosaur scroll-snap
+   reference. The document remains the only vertical scroll owner. */
+:root { --home-snap-offset: 0px; }
+
+@media (min-width: 900px) {
+  :root { --home-snap-offset: 104px; }
+}
+
+@media (min-height: 30em) and (prefers-reduced-motion: no-preference) {
+  html:has(.sky-home) {
+    scroll-snap-type: y mandatory;
+    scroll-padding-block-start: var(--home-snap-offset);
+    scroll-behavior: smooth;
+  }
+
+  .sky-home [data-home-snap-scene] {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .sky-home .atmospheric-scene-section {
+    min-height: max(100svh, min-content);
+    display: grid;
+    align-items: center;
+  }
+
+  .sky-home .atmospheric-scene-section__content { display: contents; }
+
+  .sky-home [data-home-snap-content] > * {
+    opacity: 0;
+    transform: translate3d(0, 2.5rem, 0);
+    transition:
+      opacity 720ms var(--home-snap-delay, 0ms) ease,
+      transform 720ms cubic-bezier(.13, .07, .26, .99) var(--home-snap-delay, 0ms);
+  }
+
+  .sky-home [data-home-snap-content] > :nth-child(1) { --home-snap-delay: 0ms; }
+  .sky-home [data-home-snap-content] > :nth-child(2) { --home-snap-delay: 150ms; }
+  .sky-home [data-home-snap-content] > :nth-child(3) { --home-snap-delay: 300ms; }
+
+  .sky-home [data-home-snap-scene].is-snap-visible [data-home-snap-content] > * {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .sky-home .legacy-sky-hero__atmosphere,
+  .sky-home .atmospheric-scene-section__cloud {
+    transition: opacity 900ms ease;
+  }
+
+  .sky-home .hero-sky-cloud,
+  .sky-home .atmospheric-scene-section__cloud img {
+    animation: none;
+  }
+
+  .sky-home::before,
+  .sky-home::after { display: none !important; }
+
+  .sky-home [data-home-snap-scene]:not(.is-snap-visible) .legacy-sky-hero__atmosphere,
+  .sky-home [data-home-snap-scene]:not(.is-snap-visible) .atmospheric-scene-section__cloud {
+    opacity: .58;
+  }
+}
+
+@media (max-width: 899px) and (min-height: 30em) and (prefers-reduced-motion: no-preference) {
+  html:has(.sky-home) { --home-snap-offset: var(--mobile-header-row-h, 72px); }
+
+  /* Commerce sections can be taller than the viewport on a phone. Proximity
+     preserves the reference feel without trapping a touch scroll mid-card. */
+  html:has(.sky-home) { scroll-snap-type: y proximity; }
+  .sky-home [data-home-snap-scene] { scroll-snap-stop: normal; }
+  .sky-home .atmospheric-scene-section { min-height: min(100svh, 48rem); }
+}
+
+@media (prefers-reduced-motion: reduce), (max-height: 29.99em) {
+  html:has(.sky-home) { scroll-snap-type: none; scroll-behavior: auto; }
+  .sky-home [data-home-snap-content] > * { opacity: 1; transform: none; transition: none; }
+}

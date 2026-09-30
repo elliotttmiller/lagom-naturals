@@ -50,6 +50,17 @@
   object-fit:contain;
   filter:drop-shadow(0 28px 38px rgba(45,66,72,.12));
 }
+
+/* Desktop packshot composition: reserve more visual weight below the cans so
+   their tallest edges do not compete with the navigation line. Reducing the
+   height envelope before applying the offset keeps the product fully inside
+   the hero on shorter desktop viewports. */
+@media (min-width:900px) {
+  .sky-home .legacy-sky-hero__product {
+    top:calc(50% + clamp(32px, 5vh, 64px));
+    height:min(84%, 720px);
+  }
+}
 .sky-home .legacy-sky-hero__product-clouds {
   position:absolute;
   inset:0;

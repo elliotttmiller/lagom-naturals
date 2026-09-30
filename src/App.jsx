@@ -26,8 +26,8 @@ import {
 import "./sky-home.css";
 import {
   AtmosphericSceneSection,
-  useAtmosphericHomepageScroll,
 } from "@/AtmosphericScrollExperience";
+import HomeScrollSnap from "@/HomeScrollSnap";
 import {
   m,
   Presence,
@@ -615,40 +615,11 @@ function HomeProductCard({ product }) {
 
 function HomePage() {
   const homeRef = useRef(null);
-  const homeFrame = useRef(null);
-  const { motionProfile } = useAtmosphericHomepageScroll(homeRef);
-  useEffect(() => () => { if (homeFrame.current) cancelAnimationFrame(homeFrame.current); }, []);
-  const updateSky = (event) => {
-    if (event.pointerType !== "mouse" || !homeRef.current) return;
-    if (homeFrame.current) cancelAnimationFrame(homeFrame.current);
-    const x = Math.max(-1, Math.min(1, (event.clientX / window.innerWidth - .5) * 2));
-    const y = Math.max(-1, Math.min(1, (event.clientY / window.innerHeight - .5) * 2));
-    homeFrame.current = requestAnimationFrame(() => {
-      homeRef.current?.style.setProperty("--sky-pointer-x", `${x * 14}px`);
-      homeRef.current?.style.setProperty("--sky-pointer-y", `${y * 10}px`);
-      homeRef.current?.style.setProperty("--sky-section-cloud-x", `${x * 7}px`);
-      homeRef.current?.style.setProperty("--sky-section-cloud-y", `${y * 5}px`);
-      [["mid", -4, -2], ["near", -7, -3], ["left", -5, -2], ["right", -4, -2]].forEach(([layer, depthX, depthY]) => {
-        homeRef.current?.style.setProperty(`--sky-${layer}-x`, `${x * depthX}px`);
-        homeRef.current?.style.setProperty(`--sky-${layer}-y`, `${y * depthY}px`);
-      });
-    });
-  };
-  const resetSky = () => {
-    if (homeFrame.current) cancelAnimationFrame(homeFrame.current);
-    homeRef.current?.style.setProperty("--sky-pointer-x", "0px");
-    homeRef.current?.style.setProperty("--sky-pointer-y", "0px");
-    homeRef.current?.style.setProperty("--sky-section-cloud-x", "0px");
-    homeRef.current?.style.setProperty("--sky-section-cloud-y", "0px");
-    ["mid", "near", "left", "right"].forEach((layer) => {
-      homeRef.current?.style.setProperty(`--sky-${layer}-x`, "0px");
-      homeRef.current?.style.setProperty(`--sky-${layer}-y`, "0px");
-    });
-  };
   return (
     <Shell>
-      <div className="sky-home" data-motion-profile={motionProfile} ref={homeRef} onPointerMove={updateSky} onPointerLeave={resetSky}>
-        <section id="home-scene-hero" className="beverage-hero atmospheric-scene-hero" aria-label="Featured Lagom Naturals products"><HomeHero /></section>
+      <div className="sky-home" ref={homeRef}>
+        <HomeScrollSnap rootRef={homeRef} />
+        <section id="home-scene-hero" className="beverage-hero atmospheric-scene-hero" data-home-snap-scene aria-label="Featured Lagom Naturals products"><HomeHero /></section>
 
         <AtmosphericSceneSection id="flavors" className="sky-home__section sky-home__section--flavors" labelledBy="home-flavors-title">
           <div className="sky-home__heading sky-home__heading--split">
