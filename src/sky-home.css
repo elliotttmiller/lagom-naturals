@@ -50,9 +50,45 @@
   object-fit:contain;
   filter:drop-shadow(0 28px 38px rgba(45,66,72,.12));
 }
+.sky-home .legacy-sky-hero__product-clouds {
+  position:absolute;
+  inset:0;
+  z-index:2;
+  overflow:hidden;
+  pointer-events:none;
+}
+.sky-home .legacy-sky-hero__product-cloud {
+  position:absolute;
+  display:block;
+  background:center / contain no-repeat;
+  filter:contrast(1.18) brightness(.86) saturate(.88);
+  pointer-events:none;
+  will-change:transform, opacity;
+}
+/* A sparse foreground lane crosses the product at irregular, offset intervals.
+   It deliberately remains below copy and controls so the product stays tactile,
+   while the commerce hierarchy remains completely legible. */
+.sky-home .legacy-sky-hero__product-cloud--one {
+  top:24%;
+  left:0;
+  width:min(46vw,840px);
+  height:min(27vw,490px);
+  opacity:0;
+  background-image:url('./assets/atmosphere/clouds/cloud-17.webp');
+  animation:hero-product-cloud-one 79s linear infinite -41s;
+}
+.sky-home .legacy-sky-hero__product-cloud--two {
+  top:49%;
+  left:0;
+  width:min(37vw,690px);
+  height:min(23vw,420px);
+  opacity:0;
+  background-image:url('./assets/atmosphere/clouds/cloud-19.webp');
+  animation:hero-product-cloud-two 113s linear infinite -78s;
+}
 .sky-home .legacy-sky-hero__content {
   position:relative;
-  z-index:2;
+  z-index:3;
 }
 
 /* Keep a tonal blue lift behind the copy, not a white spotlight. */
@@ -97,6 +133,17 @@
 @keyframes hero-cloud-near { 0% { transform:translate3d(72vw,-.3vh,0); } 97.40%,100% { transform:translate3d(-108vw,.45vh,0); } }
 @keyframes hero-cloud-right { 0% { transform:translate3d(54vw,.2vh,0); } 97.53%,100% { transform:translate3d(-104vw,-.25vh,0); } }
 @keyframes hero-cloud-low-right { 0% { transform:translate3d(-64vw,.4vh,0); } 97.71%,100% { transform:translate3d(116vw,-.3vh,0); } }
+
+@keyframes hero-product-cloud-one {
+  0%, 8% { transform:translate3d(112vw,-.4vh,0) scale(1.01); opacity:0; }
+  16%, 80% { opacity:.24; }
+  92%, 100% { transform:translate3d(-72vw,.55vh,0) scale(1.05); opacity:0; }
+}
+@keyframes hero-product-cloud-two {
+  0%, 13% { transform:translate3d(-54vw,.35vh,0) scale(1.015); opacity:0; }
+  21%, 82% { opacity:.16; }
+  94%, 100% { transform:translate3d(121vw,-.45vh,0) scale(1.045); opacity:0; }
+}
 
 /* The hero atmosphere is a foreground layer over the shared page sky.
    Feather its lower edge so cloud density never ends on a horizontal seam. */
@@ -424,6 +471,7 @@
 .sky-home__responsible-list li::before { content: ""; position: absolute; left: 0; top: 1.48rem; width: 0.45rem; height: 0.45rem; border-radius: 50%; background: var(--green); }
 
 @media (max-width: 760px) {
+  .sky-home .legacy-sky-hero__product-clouds { display:none; }
   .sky-home__section { width: min(100% - 28px, 1280px); padding-block: 3.5rem; }
   .sky-home__heading--split { align-items: start; flex-direction: column; gap: 1.25rem; }
   .sky-home__product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 2rem; }
@@ -451,6 +499,7 @@
   .sky-home::after,
   .sky-home__cloud,
   .sky-home__cloud-depth { animation: none; transition:none; transform: none; }
+  .sky-home .legacy-sky-hero__product-cloud { animation:none; transform:none; opacity:0; }
 }
 
 
