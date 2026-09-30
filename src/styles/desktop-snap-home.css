@@ -8,7 +8,7 @@
     --home-desktop-header-h:82px;
     --home-desktop-chrome-h:calc(var(--home-desktop-announcement-h) + var(--home-desktop-header-h));
     --home-desktop-hero-h:var(--home-desktop-snap-h,calc(100dvh - var(--home-desktop-chrome-h)));
-    --home-desktop-scene-h:var(--home-desktop-snap-h,calc(100dvh - var(--home-desktop-chrome-h)));
+    --home-desktop-scene-h:100dvh;
     --home-desktop-gutter:clamp(54px,5.2vw,104px);
   }
 
@@ -188,7 +188,7 @@
     grid-template-rows:auto minmax(0,1fr);
     align-items:stretch!important;
     padding:
-      clamp(34px,4.4dvh,52px)
+      clamp(22px,2.7dvh,34px)
       var(--home-desktop-gutter)
       clamp(24px,3dvh,36px)!important;
   }
@@ -333,7 +333,7 @@
     grid-template-rows:auto minmax(0,1fr);
     align-items:stretch!important;
     padding:
-      clamp(28px,3.4dvh,42px)
+      clamp(18px,2.2dvh,28px)
       var(--home-desktop-gutter)
       clamp(22px,2.7dvh,34px)!important;
     text-align:center;
