@@ -505,11 +505,9 @@
 
   .sky-home .legacy-sky-hero{
     width:100%!important;
-    min-height:max(660px,100svh)!important;
+    min-height:clamp(700px,100svh,860px)!important;
     overflow:hidden!important;
-    background:
-      radial-gradient(ellipse 78% 42% at 72% 18%,rgba(255,255,255,.24),transparent 72%),
-      radial-gradient(ellipse 88% 52% at 18% 72%,rgba(160,205,221,.24),transparent 76%)!important;
+    background:transparent!important;
   }
 
   /* Mobile hero atmosphere: restore a deliberately sparse three-plane cloud
@@ -519,17 +517,42 @@
   .sky-home .legacy-sky-hero__atmosphere{
     inset:0!important;
     overflow:hidden!important;
-    -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 78%,rgba(0,0,0,.82) 88%,transparent 100%)!important;
-    mask-image:linear-gradient(to bottom,#000 0%,#000 78%,rgba(0,0,0,.82) 88%,transparent 100%)!important;
+    -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 84%,transparent 100%)!important;
+    mask-image:linear-gradient(to bottom,#000 0%,#000 84%,transparent 100%)!important;
   }
   .sky-home .legacy-sky-hero__light{
     display:block!important;
-    inset:-12% -24%!important;
-    opacity:.22!important;
+    inset:-12%!important;
+    opacity:.24!important;
     background:
-      radial-gradient(ellipse at 38% 30%,rgba(255,255,255,.4),rgba(255,255,255,0) 46%),
-      radial-gradient(ellipse at 78% 62%,rgba(153,201,218,.24),rgba(153,201,218,0) 58%)!important;
-    animation:mobile-sky-light-breathe 26s ease-in-out infinite alternate!important;
+      radial-gradient(ellipse at 42% 43%,rgba(184,221,236,.42),rgba(184,221,236,0) 50%),
+      radial-gradient(ellipse at 78% 58%,rgba(159,207,228,.3),rgba(159,207,228,0) 62%)!important;
+    animation:none!important;
+  }
+
+  /* Same cloud artwork and depth hierarchy as desktop, scaled/cropped for a
+     portrait viewport rather than replaced by a separate mobile scene. */
+  .sky-home .hero-sky-cloud--horizon{
+    top:7%!important;
+    left:-42%!important;
+    width:145vw!important;
+    height:62vw!important;
+    opacity:.4!important;
+  }
+  .sky-home .hero-sky-cloud--high{
+    top:-2%!important;
+    left:38%!important;
+    width:88vw!important;
+    height:46vw!important;
+    opacity:.3!important;
+  }
+  .sky-home .hero-sky-cloud--near{
+    right:auto!important;
+    bottom:-8%!important;
+    left:-30%!important;
+    width:126vw!important;
+    height:72vw!important;
+    opacity:.36!important;
   }
 
   .sky-home .legacy-sky-hero__cloud-depth{
@@ -538,23 +561,24 @@
 
   .sky-home .legacy-sky-hero__product{
     display:block!important;
-    top:auto!important;
-    right:-12vw!important;
-    bottom:-1.5svh!important;
+    top:clamp(138px,17svh,168px)!important;
+    right:-7vw!important;
+    bottom:auto!important;
     left:auto!important;
-    width:min(82vw,590px)!important;
+    width:min(43vw,184px)!important;
+    height:auto!important;
     max-width:none!important;
     transform:none!important;
-    opacity:.98!important;
+    opacity:.96!important;
     pointer-events:none!important;
   }
   .sky-home .legacy-sky-hero__product img{
     display:block!important;
     width:100%!important;
     height:auto!important;
-    max-height:48svh!important;
+    max-height:30svh!important;
     object-fit:contain!important;
-    object-position:right bottom!important;
+    object-position:right top!important;
     filter:drop-shadow(0 18px 24px rgba(45,66,72,.11))!important;
   }
 
@@ -581,7 +605,7 @@
 
   .sky-home .legacy-sky-hero h1{
     width:100%!important;
-    max-width:350px!important;
+    max-width:min(66vw,270px)!important;
     margin:0!important;
     font-size:clamp(50px,15vw,64px)!important;
     line-height:.84!important;
@@ -665,7 +689,19 @@
   }
 
   .sky-home__product-grid{
-    gap:28px 12px!important;
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    grid-auto-flow:row!important;
+    width:100%!important;
+    gap:30px 12px!important;
+  }
+  .sky-home__product-grid>.sky-home-product{
+    display:grid!important;
+    min-width:0!important;
+    width:100%!important;
+    overflow:visible!important;
+    visibility:visible!important;
+    opacity:1!important;
   }
   .sky-home-product__image{
     min-height:clamp(185px,54vw,235px)!important;
@@ -777,18 +813,6 @@
   .atmospheric-scene-section::after{
     opacity:.16!important;
     transform:none!important;
-  }
-}
-
-@media (max-width:420px){
-  .sky-home .legacy-sky-hero__product{
-    right:-20vw!important;
-    bottom:0!important;
-    width:88vw!important;
-    opacity:.9!important;
-  }
-  .sky-home .legacy-sky-hero__product img{
-    max-height:42svh!important;
   }
 }
 
