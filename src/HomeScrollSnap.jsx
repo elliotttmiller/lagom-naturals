@@ -273,6 +273,10 @@ export default function HomeScrollSnap({ rootRef }) {
       animateToScene(nextIndex, direction, nextIndex !== currentIndex);
     };
 
+    const onTouchCancel = () => {
+      gesture.current = null;
+    };
+
     const onClickCapture = (event) => {
       if (performance.now() < suppressClicksUntil.current) {
         event.preventDefault();
@@ -321,7 +325,7 @@ export default function HomeScrollSnap({ rootRef }) {
     document.addEventListener("touchstart", onTouchStart, { passive: true });
     document.addEventListener("touchmove", onTouchMove, { passive: false });
     document.addEventListener("touchend", onTouchEnd, { passive: true });
-    document.addEventListener("touchcancel", onTouchEnd, { passive: true });
+    document.addEventListener("touchcancel", onTouchCancel, { passive: true });
     document.addEventListener("click", onClickCapture, true);
     document.addEventListener("keydown", onKeyDown);
 
@@ -334,7 +338,7 @@ export default function HomeScrollSnap({ rootRef }) {
       document.removeEventListener("touchstart", onTouchStart);
       document.removeEventListener("touchmove", onTouchMove);
       document.removeEventListener("touchend", onTouchEnd);
-      document.removeEventListener("touchcancel", onTouchEnd);
+      document.removeEventListener("touchcancel", onTouchCancel);
       document.removeEventListener("click", onClickCapture, true);
       document.removeEventListener("keydown", onKeyDown);
       unlisten(reducedMotion, sync);
