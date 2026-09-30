@@ -72,7 +72,7 @@
   position:absolute;
   display:block;
   background:center / contain no-repeat;
-  filter:contrast(1.18) brightness(.86) saturate(.88);
+  filter:contrast(1.06) brightness(1.08) saturate(.98);
   pointer-events:none;
   will-change:transform, opacity;
 }
@@ -572,7 +572,7 @@
   width:clamp(720px,58vw,1160px);
   aspect-ratio:1.82/1;
   pointer-events:none;
-  opacity:.42;
+  opacity:.56;
   height:auto;
   transform:translate3d(var(--sky-section-cloud-x),var(--sky-section-cloud-y),0);
   transform-origin:50% 50%;
