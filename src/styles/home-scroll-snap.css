@@ -43,12 +43,19 @@
     transform: translate3d(0, 0, 0);
   }
 
+  /* A keyboard focus must never land in content that is visually deferred. */
+  .sky-home [data-home-snap-scene]:focus-within [data-home-snap-content] > * {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
   .sky-home .legacy-sky-hero__atmosphere,
   .sky-home .atmospheric-scene-section__cloud {
     transition: opacity 900ms ease;
   }
 
   .sky-home .hero-sky-cloud,
+  .sky-home .legacy-sky-hero__light,
   .sky-home .atmospheric-scene-section__cloud img {
     animation: none;
   }

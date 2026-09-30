@@ -19,6 +19,14 @@ export default function HomeScrollSnap({ rootRef }) {
     const scenes = Array.from(root.querySelectorAll(SCENE_SELECTOR));
 
     const showAll = () => scenes.forEach((scene) => scene.classList.add(ACTIVE_CLASS));
+    const listen = (mediaQuery, listener) => {
+      if (mediaQuery.addEventListener) mediaQuery.addEventListener("change", listener);
+      else mediaQuery.addListener(listener);
+    };
+    const unlisten = (mediaQuery, listener) => {
+      if (mediaQuery.removeEventListener) mediaQuery.removeEventListener("change", listener);
+      else mediaQuery.removeListener(listener);
+    };
     let observer;
 
     const sync = () => {
@@ -43,13 +51,13 @@ export default function HomeScrollSnap({ rootRef }) {
     };
 
     sync();
-    reducedMotion.addEventListener("change", sync);
-    supportedViewport.addEventListener("change", sync);
+    listen(reducedMotion, sync);
+    listen(supportedViewport, sync);
 
     return () => {
       observer?.disconnect();
-      reducedMotion.removeEventListener("change", sync);
-      supportedViewport.removeEventListener("change", sync);
+      unlisten(reducedMotion, sync);
+      unlisten(supportedViewport, sync);
     };
   }, [rootRef]);
 
