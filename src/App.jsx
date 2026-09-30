@@ -599,6 +599,7 @@ function HomeProductCard({ product }) {
       <div className="sky-home-product__copy">
         <h3><Link to={`/product/${product.id}`}>{product.name}</Link></h3>
         {flavorDescription ? <p className="sky-home-product__description">{flavorDescription}</p> : <p className="sky-home-product__line">{product.productLine && product.productLine !== "Classic" ? product.productLine : product.flavor}</p>}
+        <p className="sky-home-product__mobile-facts" aria-hidden="true"><span>${selectedVariant.price.toFixed(2)}</span><span>{potency}</span></p>
         {variants.length > 1 ? <div className="sky-home-product__purchase-row">
           <HomePackSelector productId={product.id} variants={variants} selectedId={selectedVariant.id} onChange={(variantId) => { setSelectedVariantId(variantId); setCartState("idle"); }} />
           <AddToCartButton className="sky-home-product__action sky-home-product__add-to-cart" label="Add to cart" productId={product.id} state={cartState} onClick={handleAddToCart} aria-label={`Add ${product.name}, ${selectedVariant.label}, to cart`} />
@@ -639,6 +640,10 @@ function HomePage() {
             <Link className="sky-home__outline-action" to="/learn">LEARN MORE <ArrowRight aria-hidden="true" /></Link>
           </div>
           <aside className="sky-home__editorial-note" aria-label="Lagom point of view"><span>Flavor first.</span><span>Balance always.</span><small>Made for the moments in between.</small></aside>
+          <div className="sky-home__editorial-product-visual" aria-hidden="true">
+            <img src={lemonadeHomePackshot} alt="" />
+            <img src={watermelonHomePackshot} alt="" />
+          </div>
         </AtmosphericSceneSection>
 
         <AtmosphericSceneSection id="gummies" className="sky-home__section sky-home__section--gummies" labelledBy="home-gummies-title">
@@ -665,6 +670,9 @@ function HomePage() {
             <li>Do not drive or operate machinery after consuming THC.</li>
             <li>Keep products away from children and pets.</li>
           </ul>
+          <div className="sky-home__responsible-mark" aria-hidden="true">
+            <span>GOOD</span><span>BALANCE</span><span>BETTER</span><span>MOMENTS</span>
+          </div>
         </AtmosphericSceneSection>
       </div>
     </Shell>

@@ -15,7 +15,10 @@ export default function HomeScrollSnap({ rootRef }) {
     if (!root || typeof window === "undefined") return undefined;
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const supportedViewport = window.matchMedia("(min-height: 30em)");
+    // Scene snapping/reveal choreography is a desktop enhancement only.
+    // Phones/tablets keep native continuous scrolling so the desktop visual
+    // system can scale fluidly without introducing viewport-height gaps.
+    const supportedViewport = window.matchMedia("(min-width: 900px) and (min-height: 30em)");
     const scenes = Array.from(root.querySelectorAll(SCENE_SELECTOR));
 
     const showAll = () => scenes.forEach((scene) => scene.classList.add(ACTIVE_CLASS));
