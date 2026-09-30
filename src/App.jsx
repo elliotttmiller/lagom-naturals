@@ -639,6 +639,10 @@ function HomePage() {
             <Link className="sky-home__outline-action" to="/learn">LEARN MORE <ArrowRight aria-hidden="true" /></Link>
           </div>
           <aside className="sky-home__editorial-note" aria-label="Lagom point of view"><span>Flavor first.</span><span>Balance always.</span><small>Made for the moments in between.</small></aside>
+          <div className="sky-home__editorial-product-visual" aria-hidden="true">
+            <img src={lemonadeHomePackshot} alt="" />
+            <img src={watermelonHomePackshot} alt="" />
+          </div>
         </AtmosphericSceneSection>
 
         <AtmosphericSceneSection id="gummies" className="sky-home__section sky-home__section--gummies" labelledBy="home-gummies-title">
@@ -665,6 +669,9 @@ function HomePage() {
             <li>Do not drive or operate machinery after consuming THC.</li>
             <li>Keep products away from children and pets.</li>
           </ul>
+          <div className="sky-home__responsible-mark" aria-hidden="true">
+            <span>GOOD</span><span>BALANCE</span><span>BETTER</span><span>MOMENTS</span>
+          </div>
         </AtmosphericSceneSection>
       </div>
     </Shell>
