@@ -350,7 +350,7 @@
 
 @media (max-width: 374px) {
   .sky-home .atmospheric-scene-hero {
-    min-block-size: 37rem !important;
+    min-block-size: max(40rem, 100svh) !important;
   }
 
   .sky-home .legacy-sky-hero h1 {
