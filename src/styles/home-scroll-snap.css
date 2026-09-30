@@ -3,10 +3,11 @@
    document flow so the desktop visual system can scale responsively without
    viewport-lock gaps or reveal-state suppression. */
 
-:root { --home-snap-offset: 0px; }
+/* JS measures the live announcement + sticky header. 110px is the desktop fallback. */
+:root { --home-snap-offset: 0px; --home-desktop-snap-h:100dvh; }
 
 @media (min-width: 900px) and (min-height: 30em) and (prefers-reduced-motion: no-preference) {
-  :root { --home-snap-offset: 104px; }
+  :root { --home-snap-offset: 110px; --home-desktop-snap-h:calc(100dvh - 110px); }
 
   html:has(.sky-home) {
     scroll-snap-type: y mandatory;
@@ -20,7 +21,7 @@
   }
 
   .sky-home .atmospheric-scene-section {
-    min-height: max(100svh, min-content);
+    min-height: var(--home-desktop-snap-h);
     display: grid;
     align-items: center;
   }
@@ -31,8 +32,8 @@
     opacity: 0;
     transform: translate3d(0, 2.5rem, 0);
     transition:
-      opacity 720ms var(--home-snap-delay, 0ms) ease,
-      transform 720ms cubic-bezier(.13, .07, .26, .99) var(--home-snap-delay, 0ms);
+      opacity 640ms var(--home-snap-delay, 0ms) cubic-bezier(.22,1,.36,1),
+      transform 760ms cubic-bezier(.16,1,.3,1) var(--home-snap-delay, 0ms);
   }
 
   .sky-home [data-home-snap-content] > :nth-child(1) { --home-snap-delay: 0ms; }
@@ -48,12 +49,6 @@
   .sky-home .legacy-sky-hero__atmosphere,
   .sky-home .atmospheric-scene-section__cloud {
     transition: opacity 900ms ease;
-  }
-
-  .sky-home .hero-sky-cloud,
-  .sky-home .legacy-sky-hero__light,
-  .sky-home .atmospheric-scene-section__cloud img {
-    animation: none;
   }
 
   .sky-home::before,
