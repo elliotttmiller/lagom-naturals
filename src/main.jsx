@@ -42,6 +42,13 @@ function AgeGate(){
   const gateRef=React.useRef(null);
   const entering=phase==='entering';
   const finished=phase==='complete';
+  const seltzerById=Object.fromEntries(products.filter(item=>item.category==='Seltzers').map(item=>[item.id,item]));
+  const ageGateCans=[
+    {id:'blackberry-breeze',className:'age-gate__can--far-left',alt:'Blackberry Breeze THC seltzer can'},
+    {id:'strawberry-lime-fusion',className:'age-gate__can--near-left',alt:'Strawberry Lime THC seltzer can'},
+    {id:'24k-lemonade',className:'age-gate__can--near-right',alt:'24K Lemonade THC seltzer can'},
+    {id:'watermelon-refresher',className:'age-gate__can--far-right',alt:'Watermelon THC seltzer can'},
+  ].map(item=>({...item,src:seltzerById[item.id]?.image})).filter(item=>item.src);
 
   React.useEffect(()=>{
     document.body.classList.toggle('age-gate-open',!finished);
@@ -115,6 +122,7 @@ function AgeGate(){
       role="dialog"
       aria-modal="true"
       aria-labelledby="age-gate-title"
+      aria-describedby="age-gate-description"
       initial={reduceMotion?false:{opacity:0}}
       animate={{opacity:entering?0:1}}
       transition={{duration:entering?(reduceMotion ? .18 : .48):motionTokens.duration.fast,ease:motionTokens.easeSoft}}
@@ -122,31 +130,49 @@ function AgeGate(){
       <m.div
         className="age-gate__scene"
         aria-hidden="true"
-        animate={entering&&!reduceMotion?{scale:1.115,filter:'blur(2px) saturate(.96)'}:{scale:1.005,filter:'blur(0px) saturate(1)'}}
-        transition={entering?{duration:1.35,ease:motionTokens.easeSoft}:{duration:0}}
+        animate={entering&&!reduceMotion?{scale:1.09,filter:'blur(1.5px) saturate(.98)'}:{scale:1,filter:'blur(0px) saturate(1)'}}
+        transition={entering?{duration:1.25,ease:motionTokens.easeSoft}:{duration:0}}
       />
+      <div className="age-gate__cloud-frame age-gate__cloud-frame--left" aria-hidden="true"/>
+      <div className="age-gate__cloud-frame age-gate__cloud-frame--right" aria-hidden="true"/>
+      <div className="age-gate__cloud-frame age-gate__cloud-frame--bottom" aria-hidden="true"/>
+
       <m.div
-        className="age-gate__scrim"
+        className="age-gate__products"
         aria-hidden="true"
-        animate={{opacity:entering ? .42 : 1}}
-        transition={{duration:entering ? .58 : 0,ease:motionTokens.ease}}
-      />
+        animate={entering&&!reduceMotion?{opacity:0,scale:1.08}:{opacity:1,scale:1}}
+        transition={entering?{duration:.48,ease:motionTokens.ease}:{duration:.5,ease:motionTokens.easeSoft}}
+      >
+        {ageGateCans.map(({id,className,src,alt},index)=>
+          <m.figure
+            key={id}
+            className={`age-gate__can ${className}`}
+            initial={reduceMotion?false:{opacity:0,y:index%2===0?18:-14,scale:.96}}
+            animate={{opacity:1,y:0,scale:1}}
+            transition={reduceMotion?{duration:0}:{delay:.08+index*.055,duration:.55,ease:motionTokens.easeSoft}}
+          >
+            <img src={src} alt={alt}/>
+          </m.figure>
+        )}
+      </m.div>
+
       <m.div
         className="age-gate__panel"
-        initial={reduceMotion?false:{opacity:0,y:14,scale:.992}}
+        initial={reduceMotion?false:{opacity:0,y:12,scale:.992}}
         animate={entering
-          ?(reduceMotion?{opacity:0}:{opacity:0,y:-12,scale:1.012})
+          ?(reduceMotion?{opacity:0}:{opacity:0,y:-10,scale:1.008})
           :{opacity:1,y:0,scale:1}}
         transition={entering
-          ?{duration:reduceMotion ? .16 : .38,ease:motionTokens.ease}
-          :(reduceMotion?{duration:0}:motionTokens.springSnappy)}
+          ?{duration:reduceMotion ? .16 : .36,ease:motionTokens.ease}
+          :(reduceMotion?{duration:0}:{delay:.06,...motionTokens.springSnappy})}
         aria-hidden={entering?'true':undefined}
       >
-        <div className="age-gate__brand"><img src={publicAsset("lagom-logo.svg")} alt="Lagom Naturals"/></div>
+        <div className="age-gate__brand">
+          <img src={publicAsset("lagom-logo.svg")} alt="Lagom Naturals"/>
+        </div>
         <div className="age-gate__content">
-          <p className="age-gate__eyebrow">THC PRODUCTS · FOR ADULTS</p>
           <h1 id="age-gate-title">Are you 21<br/>or older?</h1>
-          <p className="age-gate__copy">You must be 21 or older to enter. Passing this gate does not establish legal purchase eligibility.</p>
+          <p id="age-gate-description" className="age-gate__copy">You must be 21 or older to enter. Passing this gate does not establish legal purchase eligibility.</p>
           <div className="age-gate__actions">
             <button type="button" className="age-gate__action age-gate__action--primary" autoFocus disabled={entering} onClick={enter}>
               <span>YES, I’M 21+</span><ArrowRight aria-hidden="true"/>
