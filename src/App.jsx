@@ -584,7 +584,7 @@ function HomeProductCard({ product }) {
   };
 
   return (
-    <article className={`sky-home-product${isGummy ? " sky-home-product--gummy-packshot" : ""}${product.id === "24k-lemonade" ? " sky-home-product--24k-lemonade" : ""}`} data-variant={selectedVariant.id} style={{ "--product-accent": product.accent }}>
+    <article className={`sky-home-product${isGummy ? " sky-home-product--gummy-packshot" : ""}`} data-variant={selectedVariant.id} style={{ "--product-accent": product.accent }}>
       <Link className="sky-home-product__image" to={`/product/${product.id}`} aria-label={`View ${product.name}`}>
         <m.span
           key={selectedVariant?.id}
@@ -629,20 +629,6 @@ function HomePage() {
           </div>
           <div className="sky-home__product-grid">
             {homeSeltzers.map((product) => <HomeProductCard key={product.id} product={product} />)}
-          </div>
-        </AtmosphericSceneSection>
-
-        <AtmosphericSceneSection id="craft" className="sky-home__section sky-home__section--editorial" labelledBy="home-craft-title">
-          <div className="sky-home__editorial-copy">
-            <p>PREMIUM BY NATURE</p>
-            <h2 id="home-craft-title">A smoother state of mind.</h2>
-            <p className="sky-home__body-copy">Thoughtfully crafted with premium ingredients, bright flavor, and clear serving information—so you can choose your moment with confidence.</p>
-            <Link className="sky-home__outline-action" to="/learn">LEARN MORE <ArrowRight aria-hidden="true" /></Link>
-          </div>
-          <aside className="sky-home__editorial-note" aria-label="Lagom point of view"><span>Flavor first.</span><span>Balance always.</span><small>Made for the moments in between.</small></aside>
-          <div className="sky-home__editorial-product-visual" aria-hidden="true">
-            <img src={lemonadeHomePackshot} alt="" />
-            <img src={watermelonHomePackshot} alt="" />
           </div>
         </AtmosphericSceneSection>
 

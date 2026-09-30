@@ -269,7 +269,7 @@
   }
 
   .sky-home__section--flavors .sky-home-product__image {
-    --sky-home-packshot-size:min(35dvh,clamp(240px,20.5vw,360px));
+    --sky-home-packshot-size:min(39dvh,clamp(270px,22vw,400px));
     display:grid;
     place-items:end center;
     height:auto;
@@ -282,6 +282,11 @@
     height:var(--sky-home-packshot-size);
     max-width:100%;
     object-fit:contain;
+    /* The source canvases include a generous transparent base. Scaling the
+       packshot inside its lane and compensating for that inset brings the
+       visible can closer to its title without changing the card's controls. */
+    transform:translateY(clamp(28px,3.6dvh,46px)) scale(1.08);
+    transform-origin:center bottom;
     filter:drop-shadow(0 22px 22px rgba(48,77,86,.15));
   }
 
@@ -316,6 +321,10 @@
     margin:0;
   }
 
+  .sky-home__section--flavors .sky-home-product__variant.is-open {
+    z-index:5;
+  }
+
   .sky-home__section--flavors .sky-home-product__variant-label {
     display:none;
   }
@@ -325,6 +334,14 @@
     border-radius:999px;
     background:rgba(255,255,255,.56);
     box-shadow:0 8px 18px rgba(44,70,78,.08),inset 0 1px rgba(255,255,255,.75);
+  }
+
+  /* Flavor-card selectors live at the lower edge of a snap scene. Opening
+     upward keeps every pack option inside the visible scene and reachable. */
+  .sky-home__section--flavors .sky-home-product__variant-sheet {
+    top:auto;
+    bottom:calc(100% + .5rem);
+    z-index:6;
   }
 
   .sky-home__section--flavors .sky-home-product__action {
@@ -467,8 +484,7 @@
     display:none;
   }
 
-  /* Keep non-reference desktop snap panels within the exact snap frame too. */
-  .sky-home__section--editorial,
+  /* Keep the responsible-use desktop snap panel within the exact snap frame. */
   .sky-home__section--responsible {
     padding:
       clamp(52px,7dvh,82px)
@@ -485,7 +501,8 @@
   .sky-home .legacy-sky-hero__product { height:min(84%,650px); }
 
   .sky-home__section--flavors .sky-home__heading h2 { font-size:clamp(48px,4.4vw,70px); }
-  .sky-home__section--flavors .sky-home-product__image { --sky-home-packshot-size:min(31dvh,280px); }
+  .sky-home__section--flavors .sky-home-product__image { --sky-home-packshot-size:min(34dvh,320px); }
+  .sky-home__section--flavors .sky-home-product__image img { transform:translateY(clamp(18px,2.7dvh,28px)) scale(1.04); }
   .sky-home__section--flavors .sky-home-product__description { font-size:12px; }
   .sky-home__section--flavors .sky-home-product__variant-trigger { min-height:40px; }
   .sky-home__section--flavors .sky-home-product__action { min-height:42px!important; }

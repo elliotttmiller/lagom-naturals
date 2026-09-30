@@ -250,7 +250,6 @@
 }
 
 .sky-home__heading > p,
-.sky-home__editorial-copy > p:first-child,
 .sky-home__responsible-copy > p:first-child,
 .sky-home-product__line {
   margin: 0 0 0.8rem;
@@ -261,7 +260,6 @@
 }
 
 .sky-home__heading h2,
-.sky-home__editorial-copy h2,
 .sky-home__responsible-copy h2 {
   max-width: 12ch;
   margin: 0;
@@ -354,13 +352,6 @@
   place-items: center;
 }
 
-/* The 24K source packshot has a smaller transparent bottom inset than the
-   rest of the seltzer set. Keep the visible cans—not their source canvases—
-   aligned to the shared copy rhythm. */
-.sky-home-product--24k-lemonade .sky-home-product__image img {
-  transform: translateY(-3.2%);
-}
-
 /* The trimmed four-pack artwork is a broader product group than a single can.
    Match its *visible* can height to the singles on wide screens, but cap the
    stage from the four-column viewport geometry so a selected pack can never
@@ -370,10 +361,6 @@
   width: var(--sky-home-four-pack-size);
   height: var(--sky-home-four-pack-size);
 }
-.sky-home-product--24k-lemonade[data-variant="4-pack"] .sky-home-product__image img {
-  transform: none;
-}
-
 .sky-home-product__copy { padding: .2rem .1rem 0; }
 .sky-home-product__copy h3 { max-width:15ch; margin:0 auto; color:var(--product-accent, var(--green)); font:800 clamp(.9rem, 1.15vw, 1.08rem)/1.02 var(--font-ui); letter-spacing:-.035em; text-transform:uppercase; }
 .sky-home-product__line { min-height: 0.86rem; margin:.5rem 0 0; color:var(--product-accent, var(--green)); }
@@ -459,7 +446,6 @@
   }
 }
 
-.sky-home__section--editorial,
 .sky-home__section--responsible {
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(16rem, 0.65fr);
@@ -467,12 +453,7 @@
   align-items: end;
 }
 
-.sky-home__section--editorial { position:relative; width:min(100% - 32px, 1280px); padding:clamp(4.5rem,9vw,8rem) 0; }
 .sky-home__body-copy { max-width: 48ch; margin: 1.5rem 0; color: var(--ink-soft); font-size: clamp(1rem, 1.45vw, 1.2rem); }
-.sky-home__editorial-note { display: grid; gap: 1rem; padding: 1.5rem 0; border-top: 1px solid color-mix(in srgb, var(--green) 35%, transparent); border-bottom: 1px solid color-mix(in srgb, var(--green) 35%, transparent); font: 400 clamp(1.7rem, 3vw, 2.75rem)/0.98 var(--font-display); color: var(--green); }
-.sky-home__editorial-note small { max-width:16ch; margin-top:1rem; color:var(--ink-soft); font:600 .7rem/1.35 var(--font-ui); letter-spacing:.12em; text-transform:uppercase; }
-
-.sky-home__editorial-product-visual,
 .sky-home__responsible-mark { display:none; }
 
 .sky-home__section--gummies .sky-home__heading { margin-bottom: 2.5rem; }
@@ -492,9 +473,7 @@
   .sky-home__product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 2rem; }
   .sky-home__gummy-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .sky-home__gummy-grid .sky-home-product:last-child { grid-column: 1 / -1; width: calc(50% - 0.4rem); }
-  .sky-home__section--editorial,
   .sky-home__section--responsible { grid-template-columns: 1fr; gap: 2.5rem; }
-  .sky-home__section--editorial { width:calc(100% - 28px); padding-inline: 0; }
   .sky-home__section--responsible { width:calc(100% - 28px); padding-inline: 0; }
   .sky-home-product__image { min-height:clamp(205px,55vw,270px); }
   .sky-home-product__image img { width:290px; height:290px; }

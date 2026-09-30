@@ -15,9 +15,24 @@
     scroll-behavior: smooth;
   }
 
+  /* A selector menu is an in-place interaction, not a request to advance to
+     the next scene. Release the document from snap capture until it closes. */
+  html:has(.sky-home-product__variant.is-open) {
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+  }
+
   .sky-home [data-home-snap-scene] {
     scroll-snap-align: start;
     scroll-snap-stop: always;
+  }
+
+  /* The footer is the final document destination, not another fixed scene.
+     Giving it a normal terminal snap target keeps every footer link reachable. */
+  body:has(.sky-home) #root > .site-footer {
+    scroll-snap-align: start;
+    scroll-snap-stop: normal;
+    scroll-margin-block-start: 0;
   }
 
   .sky-home .atmospheric-scene-section {
@@ -78,10 +93,14 @@
     overscroll-behavior-y: contain;
   }
 
-  .sky-home [data-home-snap-scene],
-  body:has(.sky-home) #root > .site-footer {
+  .sky-home [data-home-snap-scene] {
     scroll-snap-align: start;
     scroll-snap-stop: always;
+  }
+
+  body:has(.sky-home) #root > .site-footer {
+    scroll-snap-align: start;
+    scroll-snap-stop: normal;
   }
 
   .sky-home .atmospheric-scene-hero,
@@ -107,11 +126,11 @@
 
   body:has(.sky-home) #root > .site-footer {
     box-sizing: border-box;
-    min-block-size: var(--home-mobile-snap-h) !important;
-    block-size: var(--home-mobile-snap-h) !important;
-    max-block-size: var(--home-mobile-snap-h) !important;
     margin-top: 0 !important;
-    overflow: hidden !important;
+    min-block-size: 0 !important;
+    block-size: auto !important;
+    max-block-size: none !important;
+    overflow: visible !important;
   }
 }
 
@@ -150,10 +169,13 @@
     scroll-snap-type:y mandatory !important;
     scroll-padding-block-start:var(--home-mobile-header-h);
   }
-  .sky-home [data-home-snap-scene],
-  body:has(.sky-home) #root>.site-footer {
+  .sky-home [data-home-snap-scene] {
     scroll-snap-align:start;
     scroll-snap-stop:always;
+  }
+  body:has(.sky-home) #root>.site-footer {
+    scroll-snap-align:start;
+    scroll-snap-stop:normal;
   }
 }
 
