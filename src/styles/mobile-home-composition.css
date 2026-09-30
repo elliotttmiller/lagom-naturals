@@ -324,6 +324,7 @@
   }
 }
 
+@media (max-width: 899px) {
   /* Keep transparent hero chrome visually coherent: black Lagom branding and
      controls share one ink color until the frosted scrolled state takes over. */
   .mobile-reference-header.is-home:not(.is-home-scrolled){
@@ -345,6 +346,7 @@
     max-inline-size:100% !important;
     min-inline-size:0 !important;
   }
+}
 
 @media (max-width: 374px) {
   .sky-home .atmospheric-scene-hero {
