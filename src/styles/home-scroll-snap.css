@@ -11,7 +11,7 @@
 
   html:has(.sky-home) {
     scroll-snap-type: y mandatory;
-    scroll-padding-block-start: var(--home-snap-offset);
+    scroll-padding-block-start: 0;
     scroll-behavior: smooth;
   }
 
@@ -21,7 +21,7 @@
   }
 
   .sky-home .atmospheric-scene-section {
-    min-height: var(--home-desktop-snap-h);
+    min-height: 100dvh;
     display: grid;
     align-items: center;
   }
