@@ -3,13 +3,15 @@ import { resolve } from 'node:path'
 import sharp from 'sharp'
 
 const root = resolve(import.meta.dirname, '..')
-const output = resolve(root, 'src/assets/atmosphere')
+const output = resolve(root, 'src/assets/atmosphere/clouds')
 const layers = [
-  { source: 'data/ui/horizontal-dream-fluffy-clouds-landscaped-cut-transparent-backgrounds-3d-illustration-png.webp', name: 'cloud-distant-horizon.webp', outputWidth: 1440, quality: 78 },
-  { source: 'data/ui/white-clear-clouds-cutout-backgrounds-3d-illustration-png.webp', name: 'cloud-mid-field.webp', outputWidth: 1280, quality: 80 },
-  { source: 'data/ui/isolated-white-clouds-smooth-realistic-shapes-on-transparent-backgrounds-3d-render-png.webp', name: 'cloud-near-mass.webp', outputWidth: 1120, quality: 82 },
-  { source: 'data/ui/cutout-clean-white-cloud-transparent-backgrounds-special-effect-3d-illustration-png.png', name: 'cloud-left-fragment.webp', outputWidth: 960, quality: 80 },
-  { source: 'data/ui/heaven-oxygen-smooth-cloudscape-transparent-backgrounds-special-effect-3d-rendering-file-png.webp', name: 'cloud-right-fragment.webp', outputWidth: 960, quality: 80 },
+  { source: 'data/ui/clouds-pack/09.png', name: 'cloud-09.webp', outputWidth: 1120, quality: 82 },
+  { source: 'data/ui/clouds-pack/10.png', name: 'cloud-10.webp', outputWidth: 1280, quality: 82 },
+  { source: 'data/ui/clouds-pack/14.png', name: 'cloud-14.webp', outputWidth: 1440, quality: 82 },
+  { source: 'data/ui/clouds-pack/16.png', name: 'cloud-16.webp', outputWidth: 1280, quality: 82 },
+  { source: 'data/ui/clouds-pack/17.png', name: 'cloud-17.webp', outputWidth: 1440, quality: 82 },
+  { source: 'data/ui/clouds-pack/19.png', name: 'cloud-19.webp', outputWidth: 1120, quality: 82 },
+  { source: 'data/ui/clouds-pack/21.png', name: 'cloud-21.webp', outputWidth: 1280, quality: 82 },
 ]
 
 await mkdir(output, { recursive: true })

@@ -1,6 +1,10 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useScroll, useSpring, useTransform } from "motion/react";
 import { m, useReducedMotion } from "@/motionSystem";
+import cloudSeventeen from "./assets/atmosphere/clouds/cloud-17.webp";
+import cloudTwentyOne from "./assets/atmosphere/clouds/cloud-21.webp";
+import cloudFourteen from "./assets/atmosphere/clouds/cloud-14.webp";
+import cloudNineteen from "./assets/atmosphere/clouds/cloud-19.webp";
 
 
 const MOTION_PROFILES = {
@@ -313,6 +317,14 @@ export function AtmosphericSceneSection({ id, className, labelledBy, children })
         ? [0.1, 0.25, 0.38, 0.35, 0.2, 0.08]
         : [0.08, 0.22, 0.34, 0.32, 0.18, 0.07],
   );
+  const sceneCloudSources = {
+    flavors: cloudSeventeen,
+    craft: cloudTwentyOne,
+    gummies: cloudFourteen,
+    balance: cloudNineteen,
+  };
+  const sceneCloudSource = sceneCloudSources[id] || cloudSeventeen;
+  const sceneCloudPlacement = id === "craft" ? "editorial" : id;
 
   return (
     <m.section
@@ -336,6 +348,12 @@ export function AtmosphericSceneSection({ id, className, labelledBy, children })
         "--scene-cloud-opacity": sceneCloudOpacity,
       }}
     >
+      <span
+        className={`atmospheric-scene-section__cloud atmospheric-scene-section__cloud--${sceneCloudPlacement}`}
+        aria-hidden="true"
+      >
+        <img src={sceneCloudSource} alt="" />
+      </span>
       {children}
     </m.section>
   );

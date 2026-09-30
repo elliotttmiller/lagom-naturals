@@ -49,7 +49,7 @@
     aspect-ratio:1.9/1!important;
     max-width:none!important;
     opacity:.16!important;
-    background-image:url('../assets/atmosphere/cloud-mid-field.webp')!important;
+    background-image:url('../assets/atmosphere/clouds/cloud-17.webp')!important;
   }
   .sky-home::after{
     top:63%!important;
@@ -61,7 +61,7 @@
     aspect-ratio:1.78/1!important;
     max-width:none!important;
     opacity:.14!important;
-    background-image:url('../assets/atmosphere/cloud-near-mass.webp')!important;
+    background-image:url('../assets/atmosphere/clouds/cloud-21.webp')!important;
   }
 
   .sky-home[data-motion-profile="phone"] .sky-home__cloud-scroll--mid,
@@ -187,7 +187,7 @@
       translate3d(var(--scene-cloud-x,0px),var(--scene-cloud-y,0px),0)
       scale(var(--scene-cloud-scale,1));
     transform-origin:50% 50%;
-    background:center / contain no-repeat url('../assets/atmosphere/cloud-mid-field.webp');
+    background:center / contain no-repeat url('../assets/atmosphere/clouds/cloud-17.webp');
     filter:contrast(1.06) brightness(.99);
   }
   .atmospheric-scene-section > *{
@@ -203,7 +203,7 @@
     left:-34%;
     right:auto;
     width:min(104vw,720px);
-    background-image:url('../assets/atmosphere/cloud-near-mass.webp');
+    background-image:url('../assets/atmosphere/clouds/cloud-21.webp');
   }
   .sky-home__section--gummies::after{
     top:24%;
@@ -214,7 +214,7 @@
     left:-32%;
     right:auto;
     width:min(102vw,720px);
-    background-image:url('../assets/atmosphere/cloud-near-mass.webp');
+    background-image:url('../assets/atmosphere/clouds/cloud-21.webp');
   }
 
   .sky-home__section--editorial,

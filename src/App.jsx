@@ -16,6 +16,7 @@ import {
 } from "react-router-dom";
 import {
   ArrowRight,
+  Check,
   ChevronDown,
   Leaf,
   Package,
@@ -24,7 +25,6 @@ import {
 } from "lucide-react";
 import "./sky-home.css";
 import {
-  AtmosphericCloudField,
   AtmosphericSceneSection,
   useAtmosphericHomepageScroll,
 } from "@/AtmosphericScrollExperience";
@@ -53,6 +53,10 @@ import lemonadeHomePackshot from "./assets/products/24k-lemonade.webp";
 import blackberryHomePackshot from "./assets/products/blackberry-breeze.webp";
 import strawberryLimeHomePackshot from "./assets/products/strawberry-lime-fusion.webp";
 import watermelonHomePackshot from "./assets/products/watermelon-refresher.webp";
+import lemonadeFourPackHomePackshot from "./assets/products/24k-lemonade-4pk.webp";
+import blackberryFourPackHomePackshot from "./assets/products/blackberry-breeze-4pk.webp";
+import strawberryLimeFourPackHomePackshot from "./assets/products/strawberry-lime-fusion-4pk.webp";
+import watermelonFourPackHomePackshot from "./assets/products/watermelon-refresher-4pk.webp";
 import berryMelonHomePackshot from "./assets/products/originals/Berry-Melon-Bliss-Photoroom-900x900.png";
 import blueRazzHomePackshot from "./assets/products/originals/Blue-Razz-Photoroom-Photoroom-1-900x900.png";
 import blueberryClassicHomePackshot from "./assets/products/originals/Blueberry-Yum-Yum-1-Photoroom-900x900.png";
@@ -446,25 +450,164 @@ const HOME_FLAVOR_DESCRIPTIONS = {
   "watermelon-refresher": "Light watermelon flavor designed for crisp refreshment.",
 };
 
+const HOME_FLAVOR_FOUR_PACK_PACKSHOTS = {
+  "24k-lemonade": lemonadeFourPackHomePackshot,
+  "blackberry-breeze": blackberryFourPackHomePackshot,
+  "strawberry-lime-fusion": strawberryLimeFourPackHomePackshot,
+  "watermelon-refresher": watermelonFourPackHomePackshot,
+};
+
+function HomePackSelector({ productId, variants, selectedId, onChange }) {
+  const [open, setOpen] = useState(false);
+  const selectorRef = useRef(null);
+  const triggerRef = useRef(null);
+  const optionRefs = useRef([]);
+  const selectedIndex = Math.max(0, variants.findIndex((variant) => variant.id === selectedId));
+  const selectedVariant = variants[selectedIndex];
+  const labelId = `home-product-pack-label-${productId}`;
+  const listboxId = `home-product-pack-listbox-${productId}`;
+
+  useEffect(() => {
+    if (!open) return undefined;
+
+    const closeOnOutsidePress = (event) => {
+      if (!selectorRef.current?.contains(event.target)) setOpen(false);
+    };
+    const closeOnEscape = (event) => {
+      if (event.key !== "Escape") return;
+      setOpen(false);
+      triggerRef.current?.focus();
+    };
+
+    window.addEventListener("pointerdown", closeOnOutsidePress);
+    window.addEventListener("keydown", closeOnEscape);
+    optionRefs.current[selectedIndex]?.focus();
+    return () => {
+      window.removeEventListener("pointerdown", closeOnOutsidePress);
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [open, selectedIndex]);
+
+  const chooseVariant = (variantId) => {
+    onChange(variantId);
+    setOpen(false);
+    window.requestAnimationFrame(() => triggerRef.current?.focus());
+  };
+
+  const moveFocus = (event, index) => {
+    const nextIndex = event.key === "ArrowDown"
+      ? (index + 1) % variants.length
+      : event.key === "ArrowUp"
+        ? (index - 1 + variants.length) % variants.length
+        : event.key === "Home"
+          ? 0
+          : event.key === "End"
+            ? variants.length - 1
+            : null;
+    if (nextIndex === null) return;
+    event.preventDefault();
+    optionRefs.current[nextIndex]?.focus();
+  };
+
+  return <div className={`sky-home-product__variant${open ? " is-open" : ""}`} ref={selectorRef}>
+    <span className="sky-home-product__variant-label" id={labelId}>Pack size</span>
+    <button
+      ref={triggerRef}
+      type="button"
+      className="sky-home-product__variant-trigger"
+      aria-expanded={open}
+      aria-haspopup="listbox"
+      aria-controls={listboxId}
+      aria-label={`Pack size: ${selectedVariant.label}, $${selectedVariant.price.toFixed(2)}`}
+      onClick={() => setOpen((current) => !current)}
+    >
+      <span><strong>{selectedVariant.label}</strong></span>
+      <b>${selectedVariant.price.toFixed(2)}</b>
+      <ChevronDown aria-hidden="true" />
+    </button>
+    <Presence>
+      {open ? <m.div
+        id={listboxId}
+        className="sky-home-product__variant-sheet"
+        role="listbox"
+        aria-labelledby={labelId}
+        initial={{ opacity: 0, y: -7, scale: 0.985 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: -5, scale: 0.985 }}
+        transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+      >
+        {variants.map((variant, index) => <button
+          ref={(element) => { optionRefs.current[index] = element; }}
+          type="button"
+          key={variant.id}
+          role="option"
+          aria-selected={variant.id === selectedId}
+          className={variant.id === selectedId ? "is-selected" : ""}
+          onClick={() => chooseVariant(variant.id)}
+          onKeyDown={(event) => moveFocus(event, index)}
+        >
+          <span className="sky-home-product__variant-option-copy"><strong>{variant.label}</strong></span>
+          <b className="sky-home-product__variant-option-price">${variant.price.toFixed(2)}</b>
+          <span className="sky-home-product__variant-option-indicator" aria-hidden="true">{variant.id === selectedId ? <Check /> : null}</span>
+        </button>)}
+      </m.div> : null}
+    </Presence>
+  </div>;
+}
+
 function HomeProductCard({ product }) {
   const isGummy = product.category === "Gummies";
-  const homePackshot = isGummy
+  const variants = productVariants(product);
+  const [selectedVariantId, setSelectedVariantId] = useState(variants[0]?.id);
+  const [cartState, setCartState] = useState("idle");
+  const cartFeedbackTimeout = useRef(null);
+  const { add } = useCart();
+  const selectedVariant = variants.find((variant) => variant.id === selectedVariantId) || variants[0];
+  const basePackshot = isGummy
     ? HOME_GUMMY_PACKSHOTS[product.id]
     : HOME_FLAVOR_PACKSHOTS[product.id];
+  const homePackshot = selectedVariant?.id === "4-pack"
+    ? HOME_FLAVOR_FOUR_PACK_PACKSHOTS[product.id] || selectedVariant.image || basePackshot
+    : basePackshot;
   const potency = product.category === "Seltzers"
     ? `${product.thcMgPerCan} MG THC · ${product.canVolume}`
     : product.strength;
   const flavorDescription = HOME_FLAVOR_DESCRIPTIONS[product.id];
+
+  useEffect(() => () => window.clearTimeout(cartFeedbackTimeout.current), []);
+
+  const handleAddToCart = () => {
+    add(configuredProduct(product, selectedVariant));
+    setCartState("added");
+    window.clearTimeout(cartFeedbackTimeout.current);
+    cartFeedbackTimeout.current = window.setTimeout(() => setCartState("idle"), 1400);
+  };
+
   return (
-    <article className={`sky-home-product${isGummy ? " sky-home-product--gummy-packshot" : ""}`} style={{ "--product-accent": product.accent }}>
+    <article className={`sky-home-product${isGummy ? " sky-home-product--gummy-packshot" : ""}${product.id === "24k-lemonade" ? " sky-home-product--24k-lemonade" : ""}`} data-variant={selectedVariant.id} style={{ "--product-accent": product.accent }}>
       <Link className="sky-home-product__image" to={`/product/${product.id}`} aria-label={`View ${product.name}`}>
-        <img src={homePackshot} alt={`${product.name} ${product.type}`} loading="lazy" decoding="async" />
+        <m.span
+          key={selectedVariant?.id}
+          className="sky-home-product__image-swap"
+          initial={{ opacity: 0, scale: 0.985 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <img src={homePackshot} alt={`${product.name} ${selectedVariant?.label || "product"}`} loading="lazy" decoding="async" />
+        </m.span>
       </Link>
       <div className="sky-home-product__copy">
         <h3><Link to={`/product/${product.id}`}>{product.name}</Link></h3>
         {flavorDescription ? <p className="sky-home-product__description">{flavorDescription}</p> : <p className="sky-home-product__line">{product.productLine && product.productLine !== "Classic" ? product.productLine : product.flavor}</p>}
-        <p className="sky-home-product__facts"><span>${product.price.toFixed(2)}</span><span>{product.category === "Seltzers" ? `${product.thcMgPerCan} MG THC` : potency}</span></p>
-        <Link className="sky-home-product__action" to={`/product/${product.id}`}>SHOP NOW <ArrowRight aria-hidden="true" /></Link>
+        {variants.length > 1 ? <div className="sky-home-product__purchase-row">
+          <HomePackSelector productId={product.id} variants={variants} selectedId={selectedVariant.id} onChange={(variantId) => { setSelectedVariantId(variantId); setCartState("idle"); }} />
+          <AddToCartButton className="sky-home-product__action sky-home-product__add-to-cart" label="Add to cart" productId={product.id} state={cartState} onClick={handleAddToCart} aria-label={`Add ${product.name}, ${selectedVariant.label}, to cart`} />
+        </div> : <>
+          <p className="sky-home-product__facts"><span>${selectedVariant.price.toFixed(2)}</span><span>{potency}</span></p>
+          <div className="sky-home-product__purchase-row sky-home-product__purchase-row--solo">
+            <AddToCartButton className="sky-home-product__action sky-home-product__add-to-cart" label="Add to cart" productId={product.id} state={cartState} onClick={handleAddToCart} aria-label={`Add ${product.name}, ${selectedVariant.label}, to cart`} />
+          </div>
+        </>}
       </div>
     </article>
   );
@@ -473,10 +616,7 @@ function HomeProductCard({ product }) {
 function HomePage() {
   const homeRef = useRef(null);
   const homeFrame = useRef(null);
-  const {
-    cloudStyles,
-    motionProfile,
-  } = useAtmosphericHomepageScroll(homeRef);
+  const { motionProfile } = useAtmosphericHomepageScroll(homeRef);
   useEffect(() => () => { if (homeFrame.current) cancelAnimationFrame(homeFrame.current); }, []);
   const updateSky = (event) => {
     if (event.pointerType !== "mouse" || !homeRef.current) return;
@@ -486,6 +626,8 @@ function HomePage() {
     homeFrame.current = requestAnimationFrame(() => {
       homeRef.current?.style.setProperty("--sky-pointer-x", `${x * 14}px`);
       homeRef.current?.style.setProperty("--sky-pointer-y", `${y * 10}px`);
+      homeRef.current?.style.setProperty("--sky-section-cloud-x", `${x * 7}px`);
+      homeRef.current?.style.setProperty("--sky-section-cloud-y", `${y * 5}px`);
       [["mid", -4, -2], ["near", -7, -3], ["left", -5, -2], ["right", -4, -2]].forEach(([layer, depthX, depthY]) => {
         homeRef.current?.style.setProperty(`--sky-${layer}-x`, `${x * depthX}px`);
         homeRef.current?.style.setProperty(`--sky-${layer}-y`, `${y * depthY}px`);
@@ -496,6 +638,8 @@ function HomePage() {
     if (homeFrame.current) cancelAnimationFrame(homeFrame.current);
     homeRef.current?.style.setProperty("--sky-pointer-x", "0px");
     homeRef.current?.style.setProperty("--sky-pointer-y", "0px");
+    homeRef.current?.style.setProperty("--sky-section-cloud-x", "0px");
+    homeRef.current?.style.setProperty("--sky-section-cloud-y", "0px");
     ["mid", "near", "left", "right"].forEach((layer) => {
       homeRef.current?.style.setProperty(`--sky-${layer}-x`, "0px");
       homeRef.current?.style.setProperty(`--sky-${layer}-y`, "0px");
@@ -504,7 +648,6 @@ function HomePage() {
   return (
     <Shell>
       <div className="sky-home" data-motion-profile={motionProfile} ref={homeRef} onPointerMove={updateSky} onPointerLeave={resetSky}>
-        <AtmosphericCloudField styles={cloudStyles} compact={motionProfile === "phone"} />
         <section id="home-scene-hero" className="beverage-hero atmospheric-scene-hero" aria-label="Featured Lagom Naturals products"><HomeHero /></section>
 
         <AtmosphericSceneSection id="flavors" className="sky-home__section sky-home__section--flavors" labelledBy="home-flavors-title">

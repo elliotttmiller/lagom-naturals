@@ -30,6 +30,14 @@
 
 @media(max-width:899px){.legacy-sky-hero h1 strong{display:block;font-size:.74em;letter-spacing:-.08em}}
 
+/* Curated cloud-pack library. These explicit mappings supersede the legacy
+   source paths above while preserving the existing scene structure. */
+.legacy-sky-hero__cloud--far{background-image:url('./assets/atmosphere/clouds/cloud-14.webp')}
+.legacy-sky-hero__cloud--mid,.legacy-sky-hero__cloud--horizon{background-image:url('./assets/atmosphere/clouds/cloud-17.webp')}
+.legacy-sky-hero__cloud--near{background-image:url('./assets/atmosphere/clouds/cloud-21.webp')}
+.legacy-sky-hero__cloud--left{background-image:url('./assets/atmosphere/clouds/cloud-09.webp')}
+.legacy-sky-hero__cloud--right{background-image:url('./assets/atmosphere/clouds/cloud-19.webp')}
+
 /* The far-left cloud crosses the brightest part of the sky wash. Give that
    single plane more tonal definition so its form stays readable behind copy. */
 @media(min-width:900px){.legacy-sky-hero__cloud--far{opacity:.46;filter:brightness(.82) contrast(1.12)}}
