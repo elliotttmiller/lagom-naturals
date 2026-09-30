@@ -10,6 +10,15 @@ import SearchOnIntent from '@/SearchOnIntent'
 import GlobalSearchTriggerBridge from '@/GlobalSearchTriggerBridge'
 import { gummyCollections, merch, products } from '@/catalogData'
 import { AppMotionProvider, Presence, RouteMotion, m, motionTokens, useReducedMotion } from '@/motionSystem'
+import lemonadeAgeGate from '@/assets/products/24k-lemonade.webp'
+import blackberryAgeGate from '@/assets/products/blackberry-breeze.webp'
+import strawberryLimeAgeGate from '@/assets/products/strawberry-lime-fusion.webp'
+import watermelonAgeGate from '@/assets/products/watermelon-refresher.webp'
+import ageGateSky from '@/assets/atmosphere/home-hero-sky.png'
+import cloudMidField from '@/assets/atmosphere/clouds/cloud-mid-field.webp'
+import cloudNearMass from '@/assets/atmosphere/clouds/cloud-near-mass.webp'
+import cloudLeftFragment from '@/assets/atmosphere/clouds/cloud-left-fragment.webp'
+import cloudRightFragment from '@/assets/atmosphere/clouds/cloud-right-fragment.webp'
 import './styles/index.css'
 
 const loadAccountPage=()=>import('@/AccountPage')
@@ -38,17 +47,51 @@ function NavigationIntentPreloader(){React.useEffect(()=>{const preload=event=>{
 function AgeGate(){
   const [verified,setVerified]=React.useState(()=>{try{return sessionStorage.getItem('lagom-age-verified')==='true'}catch{return false}});
   const [phase,setPhase]=React.useState(()=>verified?'complete':'idle');
+  const [ready,setReady]=React.useState(verified);
   const reduceMotion=useReducedMotion();
   const gateRef=React.useRef(null);
   const entering=phase==='entering';
   const finished=phase==='complete';
-  const seltzerById=Object.fromEntries(products.filter(item=>item.category==='Seltzers').map(item=>[item.id,item]));
   const ageGateCans=[
-    {id:'blackberry-breeze',className:'age-gate__can--far-left',alt:'Blackberry Breeze THC seltzer can'},
-    {id:'strawberry-lime-fusion',className:'age-gate__can--near-left',alt:'Strawberry Lime THC seltzer can'},
-    {id:'24k-lemonade',className:'age-gate__can--near-right',alt:'24K Lemonade THC seltzer can'},
-    {id:'watermelon-refresher',className:'age-gate__can--far-right',alt:'Watermelon THC seltzer can'},
-  ].map(item=>({...item,src:seltzerById[item.id]?.image})).filter(item=>item.src);
+    {id:'blackberry-breeze',className:'age-gate__can--far-left',src:blackberryAgeGate,alt:'Blackberry Breeze THC seltzer can'},
+    {id:'strawberry-lime-fusion',className:'age-gate__can--near-left',src:strawberryLimeAgeGate,alt:'Strawberry Lime THC seltzer can'},
+    {id:'24k-lemonade',className:'age-gate__can--near-right',src:lemonadeAgeGate,alt:'24K Lemonade THC seltzer can'},
+    {id:'watermelon-refresher',className:'age-gate__can--far-right',src:watermelonAgeGate,alt:'Watermelon THC seltzer can'},
+  ];
+
+  React.useEffect(()=>{
+    if(verified){
+      setReady(true);
+      return undefined;
+    }
+    let cancelled=false;
+    const critical=[
+      publicAsset('lagom-logo.svg'),
+      ageGateSky,
+      cloudMidField,
+      cloudNearMass,
+      cloudLeftFragment,
+      cloudRightFragment,
+      ...ageGateCans.map(item=>item.src),
+    ];
+    const preload=src=>new Promise(resolve=>{
+      const image=new Image();
+      let settled=false;
+      const done=()=>{if(settled)return;settled=true;resolve()};
+      image.onload=done;
+      image.onerror=done;
+      image.src=src;
+      if(image.complete)done();
+      else if(typeof image.decode==='function')image.decode().then(done).catch(()=>{});
+    });
+    const timeout=window.setTimeout(()=>{if(!cancelled)setReady(true)},1400);
+    Promise.all(critical.map(preload)).then(()=>{
+      if(cancelled)return;
+      window.clearTimeout(timeout);
+      requestAnimationFrame(()=>requestAnimationFrame(()=>setReady(true)));
+    });
+    return()=>{cancelled=true;window.clearTimeout(timeout)};
+  },[verified]);
 
   React.useEffect(()=>{
     document.body.classList.toggle('age-gate-open',!finished);
@@ -60,7 +103,7 @@ function AgeGate(){
   },[entering,finished]);
 
   React.useEffect(()=>{
-    if(finished||entering)return undefined;
+    if(finished||entering||!ready)return undefined;
     const gate=gateRef.current;
     if(!gate)return undefined;
     const handleKeyDown=event=>{
@@ -87,7 +130,7 @@ function AgeGate(){
     };
     gate.addEventListener('keydown',handleKeyDown);
     return()=>gate.removeEventListener('keydown',handleKeyDown);
-  },[entering,finished]);
+  },[entering,finished,ready]);
 
   const finishTransition=React.useCallback(()=>{
     setVerified(true);
@@ -103,11 +146,11 @@ function AgeGate(){
   },[]);
 
   const enter=()=>{
-    if(entering||finished)return;
+    if(entering||finished||!ready)return;
     try{sessionStorage.setItem('lagom-age-verified','true')}catch{}
     if(reduceMotion){
       setPhase('entering');
-      window.setTimeout(finishTransition,220);
+      window.setTimeout(finishTransition,240);
       return;
     }
     setPhase('entering');
@@ -115,74 +158,94 @@ function AgeGate(){
 
   if(finished)return null;
 
+  const cloudSegmentEase=[
+    [0.42,0,0.72,0.32],
+    [0.24,0.58,0.28,1],
+    [0.16,1,0.3,1],
+    [0.16,1,0.3,1],
+  ];
+
   return <Presence>
     <m.div
       ref={gateRef}
-      className={`age-gate${entering?' is-transitioning':''}`}
+      className={`age-gate${ready?' is-ready':' is-preparing'}${entering?' is-transitioning':''}`}
       role="dialog"
       aria-modal="true"
       aria-labelledby="age-gate-title"
       aria-describedby="age-gate-description"
-      initial={reduceMotion?false:{opacity:0}}
+      initial={false}
       animate={{opacity:entering?0:1}}
-      transition={{duration:entering?(reduceMotion ? .18 : .48):motionTokens.duration.fast,ease:motionTokens.easeSoft}}
+      transition={entering
+        ?{delay:reduceMotion?0:.38,duration:reduceMotion?.16:.34,ease:[.4,0,.2,1]}
+        :{duration:0}}
     >
-      <m.div
-        className="age-gate__scene"
-        aria-hidden="true"
-        animate={entering&&!reduceMotion?{scale:1.09,filter:'blur(1.5px) saturate(.98)'}:{scale:1,filter:'blur(0px) saturate(1)'}}
-        transition={entering?{duration:1.25,ease:motionTokens.easeSoft}:{duration:0}}
-      />
-      <div className="age-gate__cloud-frame age-gate__cloud-frame--left" aria-hidden="true"/>
-      <div className="age-gate__cloud-frame age-gate__cloud-frame--right" aria-hidden="true"/>
-      <div className="age-gate__cloud-frame age-gate__cloud-frame--bottom" aria-hidden="true"/>
+      <div className="age-gate__prepare-surface" aria-hidden="true"/>
+      {ready&&<>
+        <m.div
+          className="age-gate__scene"
+          aria-hidden="true"
+          initial={reduceMotion?false:{opacity:0,scale:1.012}}
+          animate={entering&&!reduceMotion
+            ?{opacity:1,scale:1.055}
+            :{opacity:1,scale:1}}
+          transition={entering
+            ?{duration:1.15,ease:[.16,1,.3,1]}
+            :(reduceMotion?{duration:0}:{duration:.48,ease:[.16,1,.3,1]})}
+        />
+        <div className="age-gate__cloud-frame age-gate__cloud-frame--left" aria-hidden="true"/>
+        <div className="age-gate__cloud-frame age-gate__cloud-frame--right" aria-hidden="true"/>
+        <div className="age-gate__cloud-frame age-gate__cloud-frame--bottom" aria-hidden="true"/>
 
-      <m.div
-        className="age-gate__products"
-        aria-hidden="true"
-        animate={entering&&!reduceMotion?{opacity:0,scale:1.08}:{opacity:1,scale:1}}
-        transition={entering?{duration:.48,ease:motionTokens.ease}:{duration:.5,ease:motionTokens.easeSoft}}
-      >
-        {ageGateCans.map(({id,className,src,alt},index)=>
-          <m.figure
-            key={id}
-            className={`age-gate__can ${className}`}
-            initial={reduceMotion?false:{opacity:0,y:index%2===0?18:-14,scale:.96}}
-            animate={{opacity:1,y:0,scale:1}}
-            transition={reduceMotion?{duration:0}:{delay:.08+index*.055,duration:.55,ease:motionTokens.easeSoft}}
-          >
-            <img src={src} alt={alt}/>
-          </m.figure>
-        )}
-      </m.div>
+        <m.div
+          className="age-gate__products"
+          aria-hidden="true"
+          initial={reduceMotion?false:{opacity:0}}
+          animate={entering&&!reduceMotion?{opacity:0,y:12,scale:1.035}:{opacity:1,y:0,scale:1}}
+          transition={entering
+            ?{duration:.42,ease:[.4,0,.7,.2]}
+            :(reduceMotion?{duration:0}:{duration:.5,ease:[.16,1,.3,1]})}
+        >
+          {ageGateCans.map(({id,className,src,alt},index)=>
+            <m.figure
+              key={id}
+              className={`age-gate__can ${className}`}
+              initial={reduceMotion?false:{opacity:0,y:index%2===0?12:-10,scale:.975}}
+              animate={{opacity:1,y:0,scale:1}}
+              transition={reduceMotion?{duration:0}:{delay:.05+index*.045,duration:.48,ease:[.16,1,.3,1]}}
+            >
+              <img src={src} alt={alt} decoding="async"/>
+            </m.figure>
+          )}
+        </m.div>
 
-      <m.div
-        className="age-gate__panel"
-        initial={reduceMotion?false:{opacity:0,y:12,scale:.992}}
-        animate={entering
-          ?(reduceMotion?{opacity:0}:{opacity:0,y:-10,scale:1.008})
-          :{opacity:1,y:0,scale:1}}
-        transition={entering
-          ?{duration:reduceMotion ? .16 : .36,ease:motionTokens.ease}
-          :(reduceMotion?{duration:0}:{delay:.06,...motionTokens.springSnappy})}
-        aria-hidden={entering?'true':undefined}
-      >
-        <div className="age-gate__brand">
-          <img src={publicAsset("lagom-logo.svg")} alt="Lagom Naturals"/>
-        </div>
-        <div className="age-gate__content">
-          <h1 id="age-gate-title">Are you 21<br/>or older?</h1>
-          <p id="age-gate-description" className="age-gate__copy">You must be 21 or older to enter. Passing this gate does not establish legal purchase eligibility.</p>
-          <div className="age-gate__actions">
-            <button type="button" className="age-gate__action age-gate__action--primary" autoFocus disabled={entering} onClick={enter}>
-              <span>YES, I’M 21+</span><ArrowRight aria-hidden="true"/>
-            </button>
-            <button type="button" className="age-gate__action age-gate__action--secondary" disabled={entering} onClick={()=>window.location.replace('https://www.google.com/')}>
-              <span>NO, EXIT SITE</span>
-            </button>
+        <m.div
+          className="age-gate__panel"
+          initial={reduceMotion?false:{opacity:0,y:10,scale:.994}}
+          animate={entering
+            ?(reduceMotion?{opacity:0}:{opacity:0,y:8,scale:.992})
+            :{opacity:1,y:0,scale:1}}
+          transition={entering
+            ?{duration:reduceMotion?.16:.34,ease:[.4,0,.7,.2]}
+            :(reduceMotion?{duration:0}:{delay:.04,duration:.5,ease:[.16,1,.3,1]})}
+          aria-hidden={entering?'true':undefined}
+        >
+          <div className="age-gate__brand">
+            <img src={publicAsset("lagom-logo.svg")} alt="Lagom Naturals"/>
           </div>
-        </div>
-      </m.div>
+          <div className="age-gate__content">
+            <h1 id="age-gate-title">Are you 21<br/>or older?</h1>
+            <p id="age-gate-description" className="age-gate__copy">You must be 21 or older to enter. Passing this gate does not establish legal purchase eligibility.</p>
+            <div className="age-gate__actions">
+              <button type="button" className="age-gate__action age-gate__action--primary" autoFocus disabled={entering} onClick={enter}>
+                <span>YES, I’M 21+</span><ArrowRight aria-hidden="true"/>
+              </button>
+              <button type="button" className="age-gate__action age-gate__action--secondary" disabled={entering} onClick={()=>window.location.replace('https://www.google.com/')}>
+                <span>NO, EXIT SITE</span>
+              </button>
+            </div>
+          </div>
+        </m.div>
+      </>}
     </m.div>
 
     {entering&&<m.div
@@ -190,48 +253,68 @@ function AgeGate(){
       className="age-gate-transition"
       aria-hidden="true"
       initial={{opacity:0}}
-      animate={reduceMotion?{opacity:[0,1,0]}:{opacity:[0,1,1,1,0]}}
+      animate={reduceMotion?{opacity:[0,1,0]}:{opacity:[0,1,1,1,1,0]}}
       transition={reduceMotion
-        ?{duration:.22,times:[0,.42,1],ease:'linear'}
-        :{duration:1.9,times:[0,.1,.52,.78,1],ease:'linear'}}
+        ?{duration:.24,times:[0,.45,1],ease:'linear'}
+        :{duration:2.06,times:[0,.08,.36,.58,.84,1],ease:'linear'}}
       onAnimationComplete={finishTransition}
     >
       <m.div
         className="age-gate-transition__sky"
-        animate={reduceMotion?{opacity:[0,.82,0]}:{opacity:[0,.28,.88,.72,0]}}
+        animate={reduceMotion?{opacity:[0,.86,0]}:{opacity:[0,.14,.34,.22,.08,0]}}
         transition={reduceMotion
-          ?{duration:.22,times:[0,.45,1],ease:'linear'}
-          :{duration:1.9,times:[0,.18,.52,.76,1],ease:'linear'}}
+          ?{duration:.24,times:[0,.48,1],ease:'linear'}
+          :{duration:2.06,times:[0,.12,.42,.62,.82,1],ease:'linear'}}
       />
       {!reduceMotion&&<>
         <m.div
           className="age-gate-transition__cloud age-gate-transition__cloud--far"
-          initial={{opacity:0,x:'8vw',y:'5vh',scale:.72}}
-          animate={{opacity:[0,.54,.82,.56,0],x:['8vw','2vw','-5vw','-13vw','-20vw'],y:['5vh','2vh','-2vh','-6vh','-9vh'],scale:[.72,.9,1.22,1.62,2.02]}}
-          transition={{duration:1.9,times:[0,.18,.48,.76,1],ease:motionTokens.easeSoft}}
+          initial={{opacity:0,x:'6vw',y:'-24vh',scale:.82}}
+          animate={{
+            opacity:[0,.46,.76,.72,.34,0],
+            x:['6vw','3vw','-1vw','-5vw','-9vw','-12vw'],
+            y:['-24vh','-15vh','1vh','24vh','49vh','70vh'],
+            scale:[.82,.9,1.02,1.16,1.28,1.38],
+          }}
+          transition={{duration:2.06,times:[0,.16,.39,.62,.82,1],ease:cloudSegmentEase}}
         />
         <m.div
           className="age-gate-transition__cloud age-gate-transition__cloud--mid"
-          initial={{opacity:0,x:'-16vw',y:'10vh',scale:.74}}
-          animate={{opacity:[0,.7,1,.8,0],x:['-16vw','-8vw','0vw','11vw','20vw'],y:['10vh','4vh','-2vh','-8vh','-13vh'],scale:[.74,.98,1.42,2.05,2.62]}}
-          transition={{duration:1.9,times:[0,.14,.45,.74,1],ease:motionTokens.easeSoft}}
+          initial={{opacity:0,x:'-14vw',y:'-14vh',scale:.9}}
+          animate={{
+            opacity:[0,.6,.94,1,.56,0],
+            x:['-14vw','-10vw','-4vw','3vw','9vw','14vw'],
+            y:['-14vh','-6vh','14vh','42vh','72vh','96vh'],
+            scale:[.9,1.02,1.22,1.48,1.7,1.86],
+          }}
+          transition={{duration:2.06,times:[0,.13,.36,.59,.8,1],ease:cloudSegmentEase}}
         />
         <m.div
           className="age-gate-transition__cloud age-gate-transition__cloud--near-left"
-          initial={{opacity:0,x:'-36vw',y:'18vh',scale:.82}}
-          animate={{opacity:[0,.72,1,1,0],x:['-36vw','-18vw','-2vw','17vw','30vw'],y:['18vh','9vh','1vh','-9vh','-16vh'],scale:[.82,1.16,1.88,2.75,3.35]}}
-          transition={{duration:1.9,times:[0,.12,.4,.72,1],ease:motionTokens.easeSoft}}
+          initial={{opacity:0,x:'-39vw',y:'-7vh',scale:.96}}
+          animate={{
+            opacity:[0,.7,1,1,.86,0],
+            x:['-39vw','-28vw','-13vw','2vw','15vw','24vw'],
+            y:['-7vh','4vh','31vh','66vh','101vh','129vh'],
+            scale:[.96,1.18,1.54,1.98,2.34,2.6],
+          }}
+          transition={{duration:2.06,times:[0,.1,.32,.55,.79,1],ease:cloudSegmentEase}}
         />
         <m.div
           className="age-gate-transition__cloud age-gate-transition__cloud--near-right"
-          initial={{opacity:0,x:'34vw',y:'16vh',scale:.86}}
-          animate={{opacity:[0,.74,1,1,0],x:['34vw','16vw','1vw','-17vw','-29vw'],y:['16vh','8vh','0vh','-10vh','-17vh'],scale:[.86,1.2,1.96,2.86,3.42]}}
-          transition={{duration:1.9,times:[0,.1,.4,.72,1],ease:motionTokens.easeSoft}}
+          initial={{opacity:0,x:'38vw',y:'-2vh',scale:.98}}
+          animate={{
+            opacity:[0,.72,1,1,.82,0],
+            x:['38vw','27vw','12vw','-3vw','-16vw','-25vw'],
+            y:['-2vh','9vh','36vh','72vh','106vh','134vh'],
+            scale:[.98,1.2,1.58,2.04,2.4,2.68],
+          }}
+          transition={{duration:2.06,times:[0,.09,.31,.55,.79,1],ease:cloudSegmentEase}}
         />
         <m.div
           className="age-gate-transition__veil"
-          animate={{opacity:[0,.08,.44,.78,.18,0]}}
-          transition={{duration:1.9,times:[0,.18,.42,.58,.8,1],ease:'linear'}}
+          animate={{opacity:[0,.05,.38,.84,.7,.24,0],y:['-8vh','-5vh','0vh','8vh','24vh','48vh','70vh'],scale:[1,1.02,1.06,1.1,1.14,1.18,1.2]}}
+          transition={{duration:2.06,times:[0,.18,.33,.46,.57,.72,1],ease:[.32,.04,.26,1]}}
         />
       </>}
     </m.div>}
