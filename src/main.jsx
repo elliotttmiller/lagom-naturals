@@ -85,7 +85,7 @@ function AgeGate(){
       aria-labelledby="age-gate-title"
       initial={reduceMotion?false:{opacity:0}}
       animate={{opacity:entering?0:1}}
-      transition={{duration:entering?(reduceMotion?.18:.48):motionTokens.duration.fast,ease:motionTokens.easeSoft}}
+      transition={{duration:entering?(reduceMotion ? .18 : .48):motionTokens.duration.fast,ease:motionTokens.easeSoft}}
     >
       <m.div
         className="age-gate__scene"
@@ -96,7 +96,7 @@ function AgeGate(){
       <m.div
         className="age-gate__scrim"
         aria-hidden="true"
-        animate={{opacity:entering?.42:1}}
+        animate={{opacity:entering ? .42 : 1}}
         transition={{duration:entering?.58:0,ease:motionTokens.ease}}
       />
       <m.div
@@ -106,7 +106,7 @@ function AgeGate(){
           ?(reduceMotion?{opacity:0}:{opacity:0,y:-12,scale:1.012})
           :{opacity:1,y:0,scale:1}}
         transition={entering
-          ?{duration:reduceMotion?.16:.38,ease:motionTokens.ease}
+          ?{duration:reduceMotion ? .16 : .38,ease:motionTokens.ease}
           :(reduceMotion?{duration:0}:motionTokens.springSnappy)}
         aria-hidden={entering?'true':undefined}
       >
