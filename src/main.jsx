@@ -97,7 +97,7 @@ function AgeGate(){
         className="age-gate__scrim"
         aria-hidden="true"
         animate={{opacity:entering ? .42 : 1}}
-        transition={{duration:entering?.58:0,ease:motionTokens.ease}}
+        transition={{duration:entering ? .58 : 0,ease:motionTokens.ease}}
       />
       <m.div
         className="age-gate__panel"
