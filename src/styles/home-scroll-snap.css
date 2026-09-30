@@ -1,12 +1,13 @@
-/* Homepage scene navigation, adapted from the local dinosaur scroll-snap
-   reference. The document remains the only vertical scroll owner. */
+/* Desktop-only homepage scene navigation.
+   Mobile/tablet deliberately retain native continuous scrolling and normal
+   document flow so the desktop visual system can scale responsively without
+   viewport-lock gaps or reveal-state suppression. */
+
 :root { --home-snap-offset: 0px; }
 
-@media (min-width: 900px) {
+@media (min-width: 900px) and (min-height: 30em) and (prefers-reduced-motion: no-preference) {
   :root { --home-snap-offset: 104px; }
-}
 
-@media (min-height: 30em) and (prefers-reduced-motion: no-preference) {
   html:has(.sky-home) {
     scroll-snap-type: y mandatory;
     scroll-padding-block-start: var(--home-snap-offset);
@@ -38,12 +39,7 @@
   .sky-home [data-home-snap-content] > :nth-child(2) { --home-snap-delay: 150ms; }
   .sky-home [data-home-snap-content] > :nth-child(3) { --home-snap-delay: 300ms; }
 
-  .sky-home [data-home-snap-scene].is-snap-visible [data-home-snap-content] > * {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-
-  /* A keyboard focus must never land in content that is visually deferred. */
+  .sky-home [data-home-snap-scene].is-snap-visible [data-home-snap-content] > *,
   .sky-home [data-home-snap-scene]:focus-within [data-home-snap-content] > * {
     opacity: 1;
     transform: translate3d(0, 0, 0);
@@ -69,14 +65,32 @@
   }
 }
 
-@media (max-width: 899px) and (min-height: 30em) and (prefers-reduced-motion: no-preference) {
-  html:has(.sky-home) { --home-snap-offset: var(--mobile-header-row-h, 72px); }
+@media (max-width: 899px) {
+  html:has(.sky-home) {
+    scroll-snap-type: none !important;
+    scroll-behavior: auto;
+  }
 
-  /* Commerce sections can be taller than the viewport on a phone. Proximity
-     preserves the reference feel without trapping a touch scroll mid-card. */
-  html:has(.sky-home) { scroll-snap-type: y proximity; }
-  .sky-home [data-home-snap-scene] { scroll-snap-stop: normal; }
-  .sky-home .atmospheric-scene-section { min-height: min(100svh, 48rem); }
+  .sky-home [data-home-snap-scene] {
+    scroll-snap-align: none !important;
+    scroll-snap-stop: normal !important;
+  }
+
+  .sky-home .atmospheric-scene-section {
+    min-height: 0 !important;
+    display: block !important;
+    align-items: initial !important;
+  }
+
+  .sky-home .atmospheric-scene-section__content {
+    display: block !important;
+  }
+
+  .sky-home [data-home-snap-content] > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }
 
 @media (prefers-reduced-motion: reduce), (max-height: 29.99em) {
