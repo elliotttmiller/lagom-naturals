@@ -39,6 +39,7 @@ function AgeGate(){
   const [verified,setVerified]=React.useState(()=>{try{return sessionStorage.getItem('lagom-age-verified')==='true'}catch{return false}});
   const [phase,setPhase]=React.useState(()=>verified?'complete':'idle');
   const reduceMotion=useReducedMotion();
+  const gateRef=React.useRef(null);
   const entering=phase==='entering';
   const finished=phase==='complete';
 
@@ -49,6 +50,36 @@ function AgeGate(){
       document.body.classList.remove('age-gate-open');
       document.body.classList.remove('age-gate-transitioning');
     };
+  },[entering,finished]);
+
+  React.useEffect(()=>{
+    if(finished||entering)return undefined;
+    const gate=gateRef.current;
+    if(!gate)return undefined;
+    const handleKeyDown=event=>{
+      if(event.key==='Escape'){
+        event.preventDefault();
+        return;
+      }
+      if(event.key!=='Tab')return;
+      const focusable=[...gate.querySelectorAll('button:not([disabled]),a[href],[tabindex]:not([tabindex="-1"])')]
+        .filter(node=>!node.hasAttribute('hidden')&&node.getAttribute('aria-hidden')!=='true');
+      if(!focusable.length){
+        event.preventDefault();
+        return;
+      }
+      const first=focusable[0];
+      const last=focusable[focusable.length-1];
+      if(event.shiftKey&&document.activeElement===first){
+        event.preventDefault();
+        last.focus();
+      }else if(!event.shiftKey&&document.activeElement===last){
+        event.preventDefault();
+        first.focus();
+      }
+    };
+    gate.addEventListener('keydown',handleKeyDown);
+    return()=>gate.removeEventListener('keydown',handleKeyDown);
   },[entering,finished]);
 
   const finishTransition=React.useCallback(()=>{
@@ -79,6 +110,7 @@ function AgeGate(){
 
   return <Presence>
     <m.div
+      ref={gateRef}
       className={`age-gate${entering?' is-transitioning':''}`}
       role="dialog"
       aria-modal="true"
