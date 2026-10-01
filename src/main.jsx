@@ -147,7 +147,7 @@ function AgeGate(){
   if(finished)return null;
 
   const cloudEase=[.16,1,.3,1];
-  const cloudDuration=1.42;
+  const cloudDuration=1.34;
 
   return <Presence>
     <m.div
@@ -160,8 +160,11 @@ function AgeGate(){
       initial={false}
       animate={{opacity:entering?0:1}}
       transition={entering
-        ?{delay:reduceMotion?0:.14,duration:reduceMotion?.14:.3,ease:[.4,0,.2,1]}
+        ?(reduceMotion
+          ?{duration:.14,ease:'linear'}
+          :{delay:.54,duration:.72,ease:cloudEase})
         :{duration:0}}
+      onAnimationComplete={()=>{if(entering)finishTransition()}}
     >
       <div className="age-gate__prepare-surface" aria-hidden="true"/>
       {ready&&<>
@@ -170,7 +173,7 @@ function AgeGate(){
           aria-hidden="true"
           initial={reduceMotion?false:{opacity:0,scale:1.008}}
           animate={entering&&!reduceMotion
-            ?{opacity:1,scale:1.026}
+            ?{opacity:1,scale:1.022}
             :{opacity:1,scale:1}}
           transition={entering
             ?{duration:cloudDuration,ease:cloudEase}
@@ -209,82 +212,6 @@ function AgeGate(){
       </>}
     </m.div>
 
-    {entering&&<m.div
-      key="age-gate-cloud-transition"
-      className="age-gate-transition"
-      aria-hidden="true"
-      initial={{opacity:0}}
-      animate={reduceMotion?{opacity:[0,1,0]}:{opacity:[0,1,1,0]}}
-      transition={reduceMotion
-        ?{duration:.24,times:[0,.45,1],ease:'linear'}
-        :{duration:cloudDuration,times:[0,.11,.78,1],ease:'linear'}}
-      onAnimationComplete={finishTransition}
-    >
-      <m.div
-        className="age-gate-transition__sky"
-        initial={{opacity:0}}
-        animate={reduceMotion?{opacity:[0,.86,0]}:{opacity:[0,.18,.12,0]}}
-        transition={reduceMotion
-          ?{duration:.24,times:[0,.48,1],ease:'linear'}
-          :{duration:cloudDuration,times:[0,.2,.72,1],ease:'linear'}}
-      />
-      {!reduceMotion&&<>
-        <m.div
-          className="age-gate-transition__cloud age-gate-transition__cloud--far"
-          initial={{opacity:0,x:'5vw',y:'-16vh',scale:.92}}
-          animate={{opacity:[0,.58,.58,0],x:'-4vw',y:'24vh',scale:1.08}}
-          transition={{
-            x:{duration:cloudDuration,ease:cloudEase},
-            y:{duration:cloudDuration,ease:cloudEase},
-            scale:{duration:cloudDuration,ease:cloudEase},
-            opacity:{duration:cloudDuration,times:[0,.2,.72,1],ease:'linear'},
-          }}
-        />
-        <m.div
-          className="age-gate-transition__cloud age-gate-transition__cloud--mid"
-          initial={{opacity:0,x:'-10vw',y:'-9vh',scale:.96}}
-          animate={{opacity:[0,.82,.82,0],x:'4vw',y:'43vh',scale:1.24}}
-          transition={{
-            x:{duration:cloudDuration,ease:cloudEase},
-            y:{duration:cloudDuration,ease:cloudEase},
-            scale:{duration:cloudDuration,ease:cloudEase},
-            opacity:{duration:cloudDuration,times:[0,.16,.74,1],ease:'linear'},
-          }}
-        />
-        <m.div
-          className="age-gate-transition__cloud age-gate-transition__cloud--near-left"
-          initial={{opacity:0,x:'-27vw',y:'1vh',scale:1.02}}
-          animate={{opacity:[0,.92,.92,0],x:'4vw',y:'66vh',scale:1.5}}
-          transition={{
-            x:{duration:cloudDuration,ease:cloudEase},
-            y:{duration:cloudDuration,ease:cloudEase},
-            scale:{duration:cloudDuration,ease:cloudEase},
-            opacity:{duration:cloudDuration,times:[0,.12,.76,1],ease:'linear'},
-          }}
-        />
-        <m.div
-          className="age-gate-transition__cloud age-gate-transition__cloud--near-right"
-          initial={{opacity:0,x:'27vw',y:'3vh',scale:1.02}}
-          animate={{opacity:[0,.9,.9,0],x:'-4vw',y:'68vh',scale:1.52}}
-          transition={{
-            x:{duration:cloudDuration,ease:cloudEase},
-            y:{duration:cloudDuration,ease:cloudEase},
-            scale:{duration:cloudDuration,ease:cloudEase},
-            opacity:{duration:cloudDuration,times:[0,.13,.76,1],ease:'linear'},
-          }}
-        />
-        <m.div
-          className="age-gate-transition__veil"
-          initial={{opacity:0,y:'0vh',scale:1}}
-          animate={{opacity:[0,.14,.1,0],y:'20vh',scale:1.06}}
-          transition={{
-            y:{duration:cloudDuration,ease:cloudEase},
-            scale:{duration:cloudDuration,ease:cloudEase},
-            opacity:{duration:cloudDuration,times:[0,.28,.68,1],ease:'linear'},
-          }}
-        />
-      </>}
-    </m.div>}
   </Presence>;
 }
 function getRouteMeta(pathname,search=''){if(pathname==='/shop'){const params=new URLSearchParams(search);const category=params.get('category');const collection=params.get('collection');const knownCollection=gummyCollections.some(({name})=>name===collection);if(category==='Gummies'&&knownCollection)return{title:`${collection} Gummies | Lagom Naturals`,label:`${collection} gummies`,description:`Explore the ${collection} Lagom Naturals THC gummy collection.`};if(category==='Gummies')return{title:'THC Gummies | Lagom Naturals',label:'Gummies',description:'Explore Lagom Naturals THC gummy collections by flavor and collection.'};if(category==='Seltzers')return{title:'THC Seltzers | Lagom Naturals',label:'Seltzers',description:'Explore the Lagom Naturals THC seltzer lineup by flavor.'};return routeMeta['/shop']}if(pathname.startsWith('/product/')){const id=decodeURIComponent(pathname.split('/').filter(Boolean).pop()||'');const product=products.find(item=>String(item.id)===id);if(product){const detail=[product.flavor,product.category==='Seltzers'&&product.thcMgPerCan?`${product.thcMgPerCan} mg THC per can`:null,product.canVolume].filter(Boolean).join(' · ');return{title:`${product.name} | Lagom Naturals`,label:product.name,description:[product.name,detail].filter(Boolean).join(' — ')}}return{title:'THC Product | Lagom Naturals',label:'Product details',description:'Explore product flavor, format, and responsible-use information from Lagom Naturals.'}}if(pathname.startsWith('/merch/')){const id=decodeURIComponent(pathname.split('/').filter(Boolean).pop()||'');const item=merch.find(entry=>String(entry.id)===id);if(item)return{title:`${item.name} | Lagom Naturals`,label:item.name,description:item.description||`Review ${item.name} details and availability from Lagom Naturals.`};return{title:'Apparel | Lagom Naturals',label:'Apparel details',description:'Review Lagom Naturals apparel details and availability.'}}return routeMeta[pathname]||{title:'Lagom Naturals',label:'Lagom Naturals',description:'Premium hemp-derived THC seltzers and gummies.'}}
