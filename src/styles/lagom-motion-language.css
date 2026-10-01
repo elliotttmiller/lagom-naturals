@@ -34,6 +34,10 @@
   --motion-fast:var(--lagom-motion-fast);
   --motion-base:360ms;
   --motion-slow:560ms;
+  --lagom-menu-ease-standard:var(--lagom-ease-standard);
+  --lagom-menu-ease-emphasized:var(--lagom-ease-glide);
+  --lagom-menu-ease-exit:var(--lagom-ease-exit);
+  --lagom-menu-motion-ease-exit:var(--lagom-ease-exit);
 }
 
 /* --------------------------------------------------------------------------
@@ -197,9 +201,11 @@
    Horizontal homepage product rails
    -------------------------------------------------------------------------- */
 .sky-home .home-product-rail > *{
+  opacity:var(--home-rail-opacity,.68);
+  transform:translate3d(0,var(--home-rail-y,8px),0) scale(var(--home-rail-scale,.965));
   transition:
-    opacity 360ms var(--lagom-ease-glide),
-    transform 520ms var(--lagom-ease-glide),
+    opacity 180ms linear,
+    transform 180ms linear,
     filter 420ms ease,
     border-color 300ms ease,
     box-shadow 420ms var(--lagom-ease-glide)!important;
@@ -556,4 +562,14 @@
   .sky-home [data-home-snap-scene]:not(.is-snap-visible) [data-home-snap-content]>*{
     opacity:1!important;
   }
+}
+
+
+/* Navigation icon morphs share the same control timing as drawers. */
+.header-mobile-toggle.hamburger svg,
+.hamburger svg,
+.header-mobile-toggle.hamburger .line,
+.hamburger .line{
+  transition-duration:520ms!important;
+  transition-timing-function:var(--lagom-ease-glide)!important;
 }
