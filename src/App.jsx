@@ -436,17 +436,17 @@ const HOME_FLAVOR_PACKSHOTS = {
 };
 
 const HOME_GUMMY_PACKSHOTS = {
-  "blueberry-yum-yum": responsiveImages.products["Blueberry-Yum-Yum-enhanced"].src,
-  "green-apple": responsiveImages.products["Green-Apple-enhanced"].src,
-  "strawberry-banana": responsiveImages.products["Strawberry-Banana-enhanced"].src,
-  "berry-melon-bliss-organic": responsiveImages.products["Berry-Melon-Bliss-organic-enhanced"].src,
-  "blue-razz-organic": responsiveImages.products["Blue-Razz-organic-enhanced"].src,
-  "cherry-bliss-organic": responsiveImages.products["Cherry-Bliss-organic-enhanced"].src,
-  "push-pop-organic": responsiveImages.products["Push-Pop-organic-enhanced"].src,
-  "blueberry-yum-yum-midnight-drift": responsiveImages.products["Blueberry-Yum-Yum-midnight-drift"].src,
-  "peach-midnight-drift": responsiveImages.products["Peach-Photoroom-midnight-drift"].src,
-  "pink-lemonade-midnight-drift": responsiveImages.products["Pink-Lemonade-midnight-drift"].src,
-  "strawberry-midnight-drift": responsiveImages.products["Strawberry-midnight-drift"].src,
+  "blueberry-yum-yum": responsiveImages.homeGummies["Blueberry-Yum-Yum-1-Photoroom-900x900"].src,
+  "green-apple": responsiveImages.homeGummies["Green-Apple-Photoroom-900x900"].src,
+  "strawberry-banana": responsiveImages.homeGummies["Strawberry-Banana-Photoroom-900x900"].src,
+  "berry-melon-bliss-organic": responsiveImages.homeGummies["Berry-Melon-Bliss-Photoroom-900x900"].src,
+  "blue-razz-organic": responsiveImages.homeGummies["Blue-Razz-Photoroom-Photoroom-1-900x900"].src,
+  "cherry-bliss-organic": responsiveImages.homeGummies["Cherry-Bliss-Photoroom-900x900"].src,
+  "push-pop-organic": responsiveImages.homeGummies["Push-Pop-1-Photoroom-900x900"].src,
+  "blueberry-yum-yum-midnight-drift": responsiveImages.homeGummies["Blueberry-Yum-Yum-3-Photoroom-900x900"].src,
+  "peach-midnight-drift": responsiveImages.homeGummies["Peach-Photoroom-900x900"].src,
+  "pink-lemonade-midnight-drift": responsiveImages.homeGummies["Pink-Lemonade-Photoroom-900x900"].src,
+  "strawberry-midnight-drift": responsiveImages.homeGummies["Strawberry-Photoroom-900x900"].src,
 };
 
 const HOME_FLAVOR_DESCRIPTIONS = {
