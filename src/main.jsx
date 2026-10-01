@@ -146,13 +146,8 @@ function AgeGate(){
 
   if(finished)return null;
 
-  const cloudSegmentEase=[
-    [0.42,0,0.72,0.32],
-    [0.28,0.58,0.28,1],
-    [0.18,0.78,0.22,1],
-    [0.16,1,0.3,1],
-    [0.16,1,0.3,1],
-  ];
+  const cloudEase=[.16,1,.3,1];
+  const cloudDuration=1.42;
 
   return <Presence>
     <m.div
@@ -165,7 +160,7 @@ function AgeGate(){
       initial={false}
       animate={{opacity:entering?0:1}}
       transition={entering
-        ?{delay:reduceMotion?0:.38,duration:reduceMotion ? .16 : .34,ease:[.4,0,.2,1]}
+        ?{delay:reduceMotion?0:.14,duration:reduceMotion?.14:.3,ease:[.4,0,.2,1]}
         :{duration:0}}
     >
       <div className="age-gate__prepare-surface" aria-hidden="true"/>
@@ -173,13 +168,13 @@ function AgeGate(){
         <m.div
           className="age-gate__scene"
           aria-hidden="true"
-          initial={reduceMotion?false:{opacity:0,scale:1.012}}
+          initial={reduceMotion?false:{opacity:0,scale:1.008}}
           animate={entering&&!reduceMotion
-            ?{opacity:1,scale:1.055}
+            ?{opacity:1,scale:1.026}
             :{opacity:1,scale:1}}
           transition={entering
-            ?{duration:1.15,ease:[.16,1,.3,1]}
-            :(reduceMotion?{duration:0}:{duration:.48,ease:[.16,1,.3,1]})}
+            ?{duration:cloudDuration,ease:cloudEase}
+            :(reduceMotion?{duration:0}:{duration:.48,ease:cloudEase})}
         />
         <div className="age-gate__cloud-frame age-gate__cloud-frame--left" aria-hidden="true"/>
         <div className="age-gate__cloud-frame age-gate__cloud-frame--right" aria-hidden="true"/>
@@ -188,11 +183,11 @@ function AgeGate(){
           className="age-gate__panel"
           initial={reduceMotion?false:{opacity:0,y:10,scale:.994}}
           animate={entering
-            ?(reduceMotion?{opacity:0}:{opacity:0,y:8,scale:.992})
+            ?(reduceMotion?{opacity:0}:{opacity:0,y:5,scale:.996})
             :{opacity:1,y:0,scale:1}}
           transition={entering
-            ?{duration:reduceMotion ? .16 : .34,ease:[.4,0,.7,.2]}
-            :(reduceMotion?{duration:0}:{delay:.04,duration:.5,ease:[.16,1,.3,1]})}
+            ?{duration:reduceMotion?.14:.24,ease:[.4,0,.2,1]}
+            :(reduceMotion?{duration:0}:{delay:.04,duration:.5,ease:cloudEase})}
           aria-hidden={entering?'true':undefined}
         >
           <div className="age-gate__brand">
@@ -219,68 +214,74 @@ function AgeGate(){
       className="age-gate-transition"
       aria-hidden="true"
       initial={{opacity:0}}
-      animate={reduceMotion?{opacity:[0,1,0]}:{opacity:[0,1,1,1,1,0]}}
+      animate={reduceMotion?{opacity:[0,1,0]}:{opacity:[0,1,1,0]}}
       transition={reduceMotion
         ?{duration:.24,times:[0,.45,1],ease:'linear'}
-        :{duration:2.06,times:[0,.08,.36,.58,.84,1],ease:'linear'}}
+        :{duration:cloudDuration,times:[0,.11,.78,1],ease:'linear'}}
       onAnimationComplete={finishTransition}
     >
       <m.div
         className="age-gate-transition__sky"
-        animate={reduceMotion?{opacity:[0,.86,0]}:{opacity:[0,.14,.34,.22,.08,0]}}
+        initial={{opacity:0}}
+        animate={reduceMotion?{opacity:[0,.86,0]}:{opacity:[0,.18,.12,0]}}
         transition={reduceMotion
           ?{duration:.24,times:[0,.48,1],ease:'linear'}
-          :{duration:2.06,times:[0,.12,.42,.62,.82,1],ease:'linear'}}
+          :{duration:cloudDuration,times:[0,.2,.72,1],ease:'linear'}}
       />
       {!reduceMotion&&<>
         <m.div
           className="age-gate-transition__cloud age-gate-transition__cloud--far"
-          initial={{opacity:0,x:'6vw',y:'-24vh',scale:.82}}
-          animate={{
-            opacity:[0,.46,.76,.72,.34,0],
-            x:['6vw','3vw','-1vw','-5vw','-9vw','-12vw'],
-            y:['-24vh','-15vh','1vh','24vh','49vh','70vh'],
-            scale:[.82,.9,1.02,1.16,1.28,1.38],
+          initial={{opacity:0,x:'5vw',y:'-16vh',scale:.92}}
+          animate={{opacity:[0,.58,.58,0],x:'-4vw',y:'24vh',scale:1.08}}
+          transition={{
+            x:{duration:cloudDuration,ease:cloudEase},
+            y:{duration:cloudDuration,ease:cloudEase},
+            scale:{duration:cloudDuration,ease:cloudEase},
+            opacity:{duration:cloudDuration,times:[0,.2,.72,1],ease:'linear'},
           }}
-          transition={{duration:2.06,times:[0,.16,.39,.62,.82,1],ease:cloudSegmentEase}}
         />
         <m.div
           className="age-gate-transition__cloud age-gate-transition__cloud--mid"
-          initial={{opacity:0,x:'-14vw',y:'-14vh',scale:.9}}
-          animate={{
-            opacity:[0,.6,.94,1,.56,0],
-            x:['-14vw','-10vw','-4vw','3vw','9vw','14vw'],
-            y:['-14vh','-6vh','14vh','42vh','72vh','96vh'],
-            scale:[.9,1.02,1.22,1.48,1.7,1.86],
+          initial={{opacity:0,x:'-10vw',y:'-9vh',scale:.96}}
+          animate={{opacity:[0,.82,.82,0],x:'4vw',y:'43vh',scale:1.24}}
+          transition={{
+            x:{duration:cloudDuration,ease:cloudEase},
+            y:{duration:cloudDuration,ease:cloudEase},
+            scale:{duration:cloudDuration,ease:cloudEase},
+            opacity:{duration:cloudDuration,times:[0,.16,.74,1],ease:'linear'},
           }}
-          transition={{duration:2.06,times:[0,.13,.36,.59,.8,1],ease:cloudSegmentEase}}
         />
         <m.div
           className="age-gate-transition__cloud age-gate-transition__cloud--near-left"
-          initial={{opacity:0,x:'-39vw',y:'-7vh',scale:.96}}
-          animate={{
-            opacity:[0,.7,1,1,.86,0],
-            x:['-39vw','-28vw','-13vw','2vw','15vw','24vw'],
-            y:['-7vh','4vh','31vh','66vh','101vh','129vh'],
-            scale:[.96,1.18,1.54,1.98,2.34,2.6],
+          initial={{opacity:0,x:'-27vw',y:'1vh',scale:1.02}}
+          animate={{opacity:[0,.92,.92,0],x:'4vw',y:'66vh',scale:1.5}}
+          transition={{
+            x:{duration:cloudDuration,ease:cloudEase},
+            y:{duration:cloudDuration,ease:cloudEase},
+            scale:{duration:cloudDuration,ease:cloudEase},
+            opacity:{duration:cloudDuration,times:[0,.12,.76,1],ease:'linear'},
           }}
-          transition={{duration:2.06,times:[0,.1,.32,.55,.79,1],ease:cloudSegmentEase}}
         />
         <m.div
           className="age-gate-transition__cloud age-gate-transition__cloud--near-right"
-          initial={{opacity:0,x:'38vw',y:'-2vh',scale:.98}}
-          animate={{
-            opacity:[0,.72,1,1,.82,0],
-            x:['38vw','27vw','12vw','-3vw','-16vw','-25vw'],
-            y:['-2vh','9vh','36vh','72vh','106vh','134vh'],
-            scale:[.98,1.2,1.58,2.04,2.4,2.68],
+          initial={{opacity:0,x:'27vw',y:'3vh',scale:1.02}}
+          animate={{opacity:[0,.9,.9,0],x:'-4vw',y:'68vh',scale:1.52}}
+          transition={{
+            x:{duration:cloudDuration,ease:cloudEase},
+            y:{duration:cloudDuration,ease:cloudEase},
+            scale:{duration:cloudDuration,ease:cloudEase},
+            opacity:{duration:cloudDuration,times:[0,.13,.76,1],ease:'linear'},
           }}
-          transition={{duration:2.06,times:[0,.09,.31,.55,.79,1],ease:cloudSegmentEase}}
         />
         <m.div
           className="age-gate-transition__veil"
-          animate={{opacity:[0,.05,.38,.84,.7,.24,0],y:['-8vh','-5vh','0vh','8vh','24vh','48vh','70vh'],scale:[1,1.02,1.06,1.1,1.14,1.18,1.2]}}
-          transition={{duration:2.06,times:[0,.18,.33,.46,.57,.72,1],ease:[.32,.04,.26,1]}}
+          initial={{opacity:0,y:'0vh',scale:1}}
+          animate={{opacity:[0,.14,.1,0],y:'20vh',scale:1.06}}
+          transition={{
+            y:{duration:cloudDuration,ease:cloudEase},
+            scale:{duration:cloudDuration,ease:cloudEase},
+            opacity:{duration:cloudDuration,times:[0,.28,.68,1],ease:'linear'},
+          }}
         />
       </>}
     </m.div>}
