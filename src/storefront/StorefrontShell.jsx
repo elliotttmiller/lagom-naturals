@@ -8,8 +8,8 @@ import {useCart} from './StorefrontContext'
 const PUBLIC_BASE=import.meta.env.BASE_URL
 const publicAsset=name=>`${PUBLIC_BASE}${name.replace(/^\//,'')}`
 
-const MENU_DURATION=600
-const MENU_EASE=[0.4,0,0.2,1]
+const MENU_DURATION=560
+const MENU_EASE=motionTokens.easeSoft
 
 function Logo({onClick,className=''}){return <Link to="/" className={`brand ${className}`} onClick={onClick}><img src={publicAsset("enhanced-lagom-logo.webp")} alt="Lagom Naturals"/></Link>}
 
