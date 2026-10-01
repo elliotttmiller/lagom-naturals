@@ -652,6 +652,7 @@ function HomeGummyCollectionCard({ collection }) {
 
 function HomeHorizontalProductRail({ className, children, label }) {
   const railRef = useRef(null);
+  const metaRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const itemCount = React.Children.count(children);
 
@@ -661,10 +662,41 @@ function HomeHorizontalProductRail({ className, children, label }) {
 
     const mobileViewport = window.matchMedia("(max-width: 899px)");
     let observer;
+    let motionFrame = 0;
+    let items = [];
+
+    const updateMotion = () => {
+      motionFrame = 0;
+      if (!mobileViewport.matches || !items.length) return;
+
+      const railRect = rail.getBoundingClientRect();
+      const railCenter = railRect.left + railRect.width / 2;
+      const influence = Math.max(1, railRect.width * 0.78);
+
+      items.forEach((item) => {
+        const rect = item.getBoundingClientRect();
+        const center = rect.left + rect.width / 2;
+        const distance = Math.min(1, Math.abs(center - railCenter) / influence);
+        const proximity = 1 - distance;
+        item.style.setProperty("--home-rail-opacity", (0.64 + proximity * 0.36).toFixed(3));
+        item.style.setProperty("--home-rail-scale", (0.965 + proximity * 0.035).toFixed(4));
+        item.style.setProperty("--home-rail-y", `${((1 - proximity) * 8).toFixed(2)}px`);
+      });
+
+      const maxScroll = Math.max(0, rail.scrollWidth - rail.clientWidth);
+      const normalized = maxScroll > 0 ? Math.min(1, Math.max(0, rail.scrollLeft / maxScroll)) : 0;
+      const baseProgress = itemCount ? 100 / itemCount : 100;
+      const progress = baseProgress + normalized * (100 - baseProgress);
+      metaRef.current?.style.setProperty("--home-rail-progress", `${progress}%`);
+    };
+
+    const scheduleMotion = () => {
+      if (!motionFrame) motionFrame = requestAnimationFrame(updateMotion);
+    };
 
     const configure = () => {
       observer?.disconnect();
-      const items = Array.from(rail.children);
+      items = Array.from(rail.children);
       items.forEach((item) => item.classList.remove("is-home-rail-active"));
 
       if (!mobileViewport.matches || !items.length) {
@@ -674,6 +706,7 @@ function HomeHorizontalProductRail({ className, children, label }) {
 
       items[0].classList.add("is-home-rail-active");
       setActiveIndex(0);
+      scheduleMotion();
 
       if (!("IntersectionObserver" in window)) return;
 
@@ -700,17 +733,21 @@ function HomeHorizontalProductRail({ className, children, label }) {
     };
 
     configure();
+    rail.addEventListener("scroll", scheduleMotion, { passive: true });
+    window.addEventListener("resize", scheduleMotion, { passive: true });
     if (mobileViewport.addEventListener) mobileViewport.addEventListener("change", configure);
     else mobileViewport.addListener(configure);
 
     return () => {
       observer?.disconnect();
+      cancelAnimationFrame(motionFrame);
+      rail.removeEventListener("scroll", scheduleMotion);
+      window.removeEventListener("resize", scheduleMotion);
       if (mobileViewport.removeEventListener) mobileViewport.removeEventListener("change", configure);
       else mobileViewport.removeListener(configure);
     };
   }, [itemCount]);
 
-  const progress = itemCount ? ((activeIndex + 1) / itemCount) * 100 : 0;
   const formatIndex = (value) => String(value).padStart(2, "0");
 
   return (
@@ -726,8 +763,9 @@ function HomeHorizontalProductRail({ className, children, label }) {
         {children}
       </div>
       <div
+        ref={metaRef}
         className="home-product-rail__meta"
-        style={{ "--home-rail-progress": `${progress}%` }}
+        style={{ "--home-rail-progress": `${itemCount ? 100 / itemCount : 100}%` }}
         aria-hidden="true"
       >
         <span className="home-product-rail__index">
