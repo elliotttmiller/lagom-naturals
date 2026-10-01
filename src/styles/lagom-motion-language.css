@@ -55,6 +55,16 @@
   min-inline-size:0;
 }
 
+.legacy-sky-hero__product img{
+  opacity:0;
+  transition:
+    opacity 520ms var(--lagom-ease-glide),
+    filter var(--lagom-motion-atmosphere) ease!important;
+}
+.legacy-sky-hero__product img.is-ready{
+  opacity:1;
+}
+
 /* Preserve layout stability: media containers own geometry before decode. */
 :is(.unified-product-card__media,.sky-home-product__image,.gummy-collection-card__media,.global-search__result-media,.pdp-media,.merch-detail-media){
   contain:layout paint;
