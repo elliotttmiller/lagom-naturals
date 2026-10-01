@@ -2,9 +2,9 @@
  * Mobile homepage composition
  *
  * This is the single mobile authority for the current homepage scene markup.
- * Natural document flow is the safe baseline. On supported viewport heights,
- * the controlled mobile scene pager below upgrades the same markup into
- * full-height swipe/snap scenes without duplicating content or architecture.
+ * Native document scrolling is the single scroll owner. Supported viewport
+ * heights use CSS Scroll Snap + 100dvh full-height scenes; compact/overflowing
+ * layouts degrade to reachable natural-height/proximity behavior.
  */
 @media (max-width: 899px) {
   html:has(.sky-home) {
@@ -1078,5 +1078,26 @@
     opacity:1!important;
     transform:none!important;
     filter:none!important;
+  }
+}
+
+/* Dynamic viewport fallback lives beside the authoritative mobile scene rules
+   so older engines cannot fall through to an earlier min-height reset. */
+@supports not (height:100dvh){
+  @media (max-width:899px) and (min-height:700px){
+    .sky-home .atmospheric-scene-hero,
+    .sky-home .atmospheric-scene-section,
+    body:has(.sky-home) #root>.site-footer{
+      block-size:100vh!important;
+      min-block-size:100vh!important;
+      max-block-size:100vh!important;
+    }
+
+    .sky-home.has-home-snap-overflow .atmospheric-scene-hero,
+    .sky-home.has-home-snap-overflow .atmospheric-scene-section{
+      block-size:auto!important;
+      min-block-size:100vh!important;
+      max-block-size:none!important;
+    }
   }
 }
