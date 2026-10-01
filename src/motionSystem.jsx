@@ -3,13 +3,14 @@ import { AnimatePresence, LayoutGroup, LazyMotion, MotionConfig, domAnimation, m
 
 export const motionTokens={
   ease:[.22,.82,.28,1],
-  easeSoft:[.18,.92,.26,1],
-  spring:{type:'spring',stiffness:245,damping:29,mass:.9},
-  springSnappy:{type:'spring',stiffness:320,damping:31,mass:.82},
-  springSoft:{type:'spring',stiffness:190,damping:27,mass:1},
-  duration:{instant:.14,fast:.22,base:.38,slow:.58,cinematic:.82},
-  hover:{y:-3,scale:1.004},
-  tap:{scale:.985},
+  easeSoft:[.16,1,.3,1],
+  easeExit:[.4,0,.2,1],
+  spring:{type:'spring',stiffness:220,damping:28,mass:.92},
+  springSnappy:{type:'spring',stiffness:300,damping:30,mass:.84},
+  springSoft:{type:'spring',stiffness:170,damping:26,mass:1.02},
+  duration:{instant:.16,fast:.22,base:.36,slow:.56,cinematic:.76,ambient:1.1},
+  hover:{y:-2,scale:1.006},
+  tap:{scale:.982},
 }
 
 export const motionVariants={
@@ -41,6 +42,7 @@ export function AppMotionProvider({children}){
 
 export function RouteMotion({routeKey,navigationType='PUSH',children}){
   const reduceMotion=useReducedMotion()
+  const desktop=typeof window!=='undefined'&&window.matchMedia('(min-width:900px)').matches
   const returning=navigationType==='POP'
   // `wait` leaves a fully empty viewport between pages. Keep the outgoing
   // screen present while the next route settles in so navigation reads as one
@@ -49,10 +51,10 @@ export function RouteMotion({routeKey,navigationType='PUSH',children}){
     <m.div
       key={routeKey}
       className="route-stage"
-      initial={reduceMotion?false:{opacity:.9}}
-      animate={{opacity:1,transition:{duration:returning?motionTokens.duration.base:motionTokens.duration.slow,ease:motionTokens.easeSoft}}}
-      exit={reduceMotion?{opacity:1}:{opacity:.5,transition:{duration:motionTokens.duration.base,ease:motionTokens.ease}}}
-      style={{transform:'none',filter:'none'}}
+      initial={reduceMotion?false:{opacity:.82,y:desktop?(returning?-3:6):0}}
+      animate={{opacity:1,y:0,transition:{duration:returning?motionTokens.duration.base:motionTokens.duration.slow,ease:motionTokens.easeSoft}}}
+      exit={reduceMotion?{opacity:1,y:0}:{opacity:.72,y:desktop?(returning?4:-3):0,transition:{duration:motionTokens.duration.fast,ease:motionTokens.easeExit}}}
+      style={{filter:'none'}}
     >{children}</m.div>
   </AnimatePresence>
 }

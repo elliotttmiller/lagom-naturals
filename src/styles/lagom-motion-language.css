@@ -1,0 +1,585 @@
+/*
+ * Lagom Motion Language
+ * ---------------------
+ * Final interaction authority loaded last.
+ * Motion hierarchy:
+ * - micro:      160–220ms
+ * - controls:   240–320ms
+ * - components: 340–460ms
+ * - scenes:     560–760ms
+ * - atmosphere: 900–1200ms
+ *
+ * CSS owns presentation/interpolation. Browser-native scrolling remains the
+ * source of truth for vertical and horizontal snap physics.
+ */
+
+:root{
+  --lagom-ease-glide:cubic-bezier(.16,1,.3,1);
+  --lagom-ease-standard:cubic-bezier(.22,.82,.28,1);
+  --lagom-ease-exit:cubic-bezier(.4,0,.2,1);
+  --lagom-ease-check:cubic-bezier(.65,0,.35,1);
+  --lagom-motion-micro:160ms;
+  --lagom-motion-fast:220ms;
+  --lagom-motion-control:300ms;
+  --lagom-motion-component:420ms;
+  --lagom-motion-scene:640ms;
+  --lagom-motion-cinematic:760ms;
+  --lagom-motion-atmosphere:1100ms;
+  --motion-ease:var(--lagom-ease-standard);
+  --motion-ease-soft:var(--lagom-ease-glide);
+  --ease:var(--lagom-ease-standard);
+  --ease-soft:var(--lagom-ease-glide);
+  --ease-out:var(--lagom-ease-standard);
+  --ease-exit:var(--lagom-ease-exit);
+  --motion-fast:var(--lagom-motion-fast);
+  --motion-base:360ms;
+  --motion-slow:560ms;
+  --lagom-menu-ease-standard:var(--lagom-ease-standard);
+  --lagom-menu-ease-emphasized:var(--lagom-ease-glide);
+  --lagom-menu-ease-exit:var(--lagom-ease-exit);
+  --lagom-menu-motion-ease-exit:var(--lagom-ease-exit);
+}
+
+/* --------------------------------------------------------------------------
+   Rendering + image lifecycle
+   -------------------------------------------------------------------------- */
+.responsive-image{
+  opacity:0;
+  transition:opacity var(--lagom-motion-component) var(--lagom-ease-glide);
+}
+.responsive-image.is-ready,
+.responsive-image[data-image-state="ready"]{
+  opacity:1;
+}
+.responsive-picture{
+  min-inline-size:0;
+}
+
+.legacy-sky-hero__product img{
+  opacity:0;
+  transition:
+    opacity 520ms var(--lagom-ease-glide),
+    filter var(--lagom-motion-atmosphere) ease!important;
+}
+.legacy-sky-hero__product img.is-ready{
+  opacity:1;
+}
+
+/* Preserve layout stability: media containers own geometry before decode. */
+:is(.unified-product-card__media,.sky-home-product__image,.gummy-collection-card__media,.global-search__result-media,.pdp-media,.merch-detail-media){
+  contain:layout paint;
+}
+
+/* --------------------------------------------------------------------------
+   Route + asynchronous loading choreography
+   -------------------------------------------------------------------------- */
+.route-stage{
+  backface-visibility:hidden;
+  transform-origin:50% 10%;
+  will-change:auto;
+}
+.route-chunk-fallback{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+}
+.route-chunk-fallback::before{
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 50% 42%,rgba(176,227,253,.18),transparent 32%),
+    linear-gradient(180deg,rgba(255,255,255,.6),rgba(255,255,255,0));
+  content:"";
+  pointer-events:none;
+  animation:lagom-loading-breathe 1.6s var(--lagom-ease-glide) infinite alternate;
+}
+.route-chunk-fallback__mark{
+  position:relative;
+  z-index:1;
+}
+.route-chunk-fallback__mark>i{
+  width:38px;
+  height:2px;
+  border-radius:999px;
+  overflow:hidden;
+  background:rgba(16,23,19,.12);
+}
+.route-chunk-fallback__mark>i::after{
+  width:42%;
+  border-radius:inherit;
+  background:#101713;
+  animation:lagom-loading-sweep 1.05s var(--lagom-ease-glide) infinite;
+}
+@keyframes lagom-loading-sweep{
+  0%{transform:translateX(-140%);opacity:.35}
+  45%{opacity:1}
+  100%{transform:translateX(330%);opacity:.45}
+}
+@keyframes lagom-loading-breathe{
+  from{opacity:.45;transform:scale(.985)}
+  to{opacity:1;transform:scale(1.015)}
+}
+
+/* --------------------------------------------------------------------------
+   Vertical homepage scene choreography
+   -------------------------------------------------------------------------- */
+.sky-home [data-home-snap-scene]{
+  --lagom-scene-media-y:14px;
+  --lagom-scene-copy-y:18px;
+  --lagom-scene-scale:.992;
+}
+
+.sky-home [data-home-snap-content] > *{
+  transition:
+    opacity var(--lagom-motion-scene) var(--lagom-ease-glide),
+    transform var(--lagom-motion-cinematic) var(--lagom-ease-glide),
+    filter var(--lagom-motion-component) ease!important;
+}
+
+.sky-home [data-home-snap-scene]:not(.is-snap-visible) [data-home-snap-content] > *{
+  opacity:.72;
+  transform:translate3d(0,var(--lagom-scene-copy-y),0) scale(var(--lagom-scene-scale));
+}
+
+.sky-home [data-home-snap-scene].is-snap-visible [data-home-snap-content] > *,
+.sky-home [data-home-snap-scene]:focus-within [data-home-snap-content] > *{
+  opacity:1;
+  transform:translate3d(0,0,0) scale(1);
+}
+
+.sky-home [data-home-snap-content] > :nth-child(1){transition-delay:0ms!important}
+.sky-home [data-home-snap-content] > :nth-child(2){transition-delay:70ms!important}
+.sky-home [data-home-snap-content] > :nth-child(3){transition-delay:130ms!important}
+.sky-home [data-home-snap-content] > :nth-child(4){transition-delay:180ms!important}
+
+.sky-home .legacy-sky-hero__product{
+  transition:
+    opacity var(--lagom-motion-scene) var(--lagom-ease-glide),
+    filter var(--lagom-motion-atmosphere) ease;
+}
+.sky-home .atmospheric-scene-hero:not(.is-snap-visible) .legacy-sky-hero__product{
+  opacity:.88;
+}
+.sky-home .legacy-sky-hero__content h1,
+.sky-home .legacy-sky-hero__lede,
+.sky-home .legacy-sky-hero__actions{
+  will-change:transform,opacity;
+}
+.sky-home .atmospheric-scene-hero:not(.is-snap-visible) .legacy-sky-hero__content h1{
+  transform:translate3d(0,20px,0);
+  opacity:.64;
+}
+.sky-home .atmospheric-scene-hero:not(.is-snap-visible) .legacy-sky-hero__lede{
+  transform:translate3d(0,16px,0);
+  opacity:.56;
+}
+.sky-home .atmospheric-scene-hero:not(.is-snap-visible) .legacy-sky-hero__actions{
+  transform:translate3d(0,12px,0);
+  opacity:.48;
+}
+.sky-home .atmospheric-scene-hero.is-snap-visible :is(.legacy-sky-hero__content h1,.legacy-sky-hero__lede,.legacy-sky-hero__actions){
+  transform:none;
+  opacity:1;
+}
+.sky-home .legacy-sky-hero__content h1{
+  transition:opacity 620ms var(--lagom-ease-glide),transform 720ms var(--lagom-ease-glide);
+}
+.sky-home .legacy-sky-hero__lede{
+  transition:opacity 620ms var(--lagom-ease-glide) 70ms,transform 720ms var(--lagom-ease-glide) 70ms;
+}
+.sky-home .legacy-sky-hero__actions{
+  transition:opacity 560ms var(--lagom-ease-glide) 130ms,transform 680ms var(--lagom-ease-glide) 130ms;
+}
+
+/* Atmosphere settles more slowly than UI content, creating depth without
+   taking ownership of scroll position. */
+.sky-home .legacy-sky-hero__atmosphere,
+.sky-home .atmospheric-scene-section__cloud{
+  transition:
+    opacity var(--lagom-motion-atmosphere) ease,
+    filter var(--lagom-motion-atmosphere) ease!important;
+}
+.sky-home [data-home-snap-scene]:not(.is-snap-visible) .atmospheric-scene-section__cloud{
+  opacity:.38!important;
+  filter:saturate(.92);
+}
+.sky-home [data-home-snap-scene].is-snap-visible .atmospheric-scene-section__cloud{
+  filter:saturate(1);
+}
+
+/* --------------------------------------------------------------------------
+   Horizontal homepage product rails
+   -------------------------------------------------------------------------- */
+.sky-home .home-product-rail > *{
+  opacity:var(--home-rail-opacity,.68);
+  transform:translate3d(0,var(--home-rail-y,8px),0) scale(var(--home-rail-scale,.965));
+  transition:
+    opacity 180ms linear,
+    transform 180ms linear,
+    filter 420ms ease,
+    border-color 300ms ease,
+    box-shadow 420ms var(--lagom-ease-glide)!important;
+}
+.sky-home .home-product-rail > * :is(h3,strong,.sky-home-product__description,.gummy-collection-card__description,.sky-home-product__mobile-facts,.gummy-collection-card__cta){
+  transition:opacity 360ms var(--lagom-ease-glide),transform 440ms var(--lagom-ease-glide);
+}
+.sky-home .home-product-rail > *:not(.is-home-rail-active) :is(h3,strong,.sky-home-product__description,.gummy-collection-card__description,.sky-home-product__mobile-facts,.gummy-collection-card__cta){
+  opacity:.66;
+  transform:translate3d(0,4px,0);
+}
+.sky-home .home-product-rail > *.is-home-rail-active :is(h3,strong,.sky-home-product__description,.gummy-collection-card__description,.sky-home-product__mobile-facts,.gummy-collection-card__cta){
+  opacity:1;
+  transform:none;
+}
+.home-product-rail__progress > span{
+  transition:inline-size 440ms var(--lagom-ease-glide)!important;
+}
+.home-product-rail__cue svg{
+  transition:transform var(--lagom-motion-control) var(--lagom-ease-glide)!important;
+}
+@media(hover:hover) and (pointer:fine){
+  .home-product-rail__cue:hover svg{transform:translateX(3px)}
+}
+
+/* --------------------------------------------------------------------------
+   Navigation + drawers
+   -------------------------------------------------------------------------- */
+.site-header,
+.mobile-reference-header{
+  transition:
+    background-color 360ms var(--lagom-ease-glide),
+    border-color 300ms ease,
+    box-shadow 420ms var(--lagom-ease-glide),
+    color 260ms ease,
+    backdrop-filter 420ms var(--lagom-ease-glide)!important;
+}
+.desktop-nav a{
+  position:relative;
+}
+.desktop-nav a::after{
+  position:absolute;
+  right:0;
+  bottom:-7px;
+  left:0;
+  height:1px;
+  background:currentColor;
+  content:"";
+  opacity:.7;
+  transform:scaleX(0);
+  transform-origin:right center;
+  transition:transform var(--lagom-motion-control) var(--lagom-ease-glide),opacity var(--lagom-motion-fast) ease;
+}
+.desktop-nav a:hover::after,
+.desktop-nav a:focus-visible::after,
+.desktop-nav a.active::after{
+  transform:scaleX(1);
+  transform-origin:left center;
+}
+.mobile-reference-menu-backdrop,
+.mobile-account-backdrop,
+.drawer-bg{
+  transition:
+    background-color 420ms var(--lagom-ease-glide),
+    opacity 320ms var(--lagom-ease-glide)!important;
+}
+.mobile-reference-menu,
+.mobile-account-drawer,
+.drawer{
+  transition:
+    transform 560ms var(--lagom-ease-glide),
+    opacity 420ms var(--lagom-ease-glide),
+    box-shadow 560ms var(--lagom-ease-glide)!important;
+}
+.mobile-reference-menu nav > *,
+.mobile-account-rows > *,
+.drawer nav > *{
+  transition:opacity 420ms var(--lagom-ease-glide),transform 520ms var(--lagom-ease-glide),background-color var(--lagom-motion-fast) ease!important;
+}
+.mobile-reference-menu-backdrop:not(.is-open) .mobile-reference-menu nav > *,
+.mobile-account-backdrop:not(.is-open) .mobile-account-rows > *{
+  opacity:0;
+  transform:translate3d(0,8px,0);
+}
+.mobile-reference-menu-backdrop.is-open .mobile-reference-menu nav > *,
+.mobile-account-backdrop.is-open .mobile-account-rows > *{
+  opacity:1;
+  transform:none;
+}
+.mobile-reference-menu-backdrop.is-open .mobile-reference-menu nav > :nth-child(1),
+.mobile-account-backdrop.is-open .mobile-account-rows > :nth-child(1){transition-delay:70ms!important}
+.mobile-reference-menu-backdrop.is-open .mobile-reference-menu nav > :nth-child(2),
+.mobile-account-backdrop.is-open .mobile-account-rows > :nth-child(2){transition-delay:105ms!important}
+.mobile-reference-menu-backdrop.is-open .mobile-reference-menu nav > :nth-child(3),
+.mobile-account-backdrop.is-open .mobile-account-rows > :nth-child(3){transition-delay:140ms!important}
+.mobile-reference-menu-backdrop.is-open .mobile-reference-menu nav > :nth-child(4),
+.mobile-account-backdrop.is-open .mobile-account-rows > :nth-child(4){transition-delay:175ms!important}
+.mobile-reference-menu-backdrop.is-open .mobile-reference-menu nav > :nth-child(n+5),
+.mobile-account-backdrop.is-open .mobile-account-rows > :nth-child(n+5){transition-delay:205ms!important}
+
+.mobile-reference-menu nav a svg,
+.mobile-reference-menu__link svg,
+.mobile-account-rows>button>svg:last-child{
+  transition:transform var(--lagom-motion-control) var(--lagom-ease-glide),opacity var(--lagom-motion-fast) ease!important;
+}
+@media(hover:hover) and (pointer:fine){
+  .mobile-reference-menu nav a:hover svg,
+  .mobile-reference-menu__link:hover svg,
+  .mobile-account-rows>button:hover>svg:last-child{
+    transform:translateX(4px);
+    opacity:1;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Search + filters + selectors
+   -------------------------------------------------------------------------- */
+.global-search-layer{
+  transition:background-color 360ms var(--lagom-ease-glide),backdrop-filter 420ms var(--lagom-ease-glide);
+}
+.global-search{
+  transform-origin:top center;
+}
+.global-search__summary,
+.global-search__suggestions,
+.global-search__result-list,
+.global-search__empty{
+  transition:opacity var(--lagom-motion-control) var(--lagom-ease-glide),transform var(--lagom-motion-component) var(--lagom-ease-glide);
+}
+.global-search--searching .global-search__summary{
+  animation:lagom-search-state-in 320ms var(--lagom-ease-glide) both;
+}
+@keyframes lagom-search-state-in{
+  from{opacity:.56;transform:translate3d(0,-4px,0)}
+  to{opacity:1;transform:none}
+}
+.global-search__form,
+.global-search__input-wrap{
+  transition:
+    border-color var(--lagom-motion-fast) ease,
+    background-color var(--lagom-motion-fast) ease,
+    box-shadow var(--lagom-motion-control) var(--lagom-ease-glide),
+    transform var(--lagom-motion-control) var(--lagom-ease-glide)!important;
+}
+.global-search__form:focus-within,
+.global-search__input-wrap:focus-within{
+  transform:translateY(-1px);
+}
+.global-search__result{
+  transition:
+    border-color var(--lagom-motion-fast) ease,
+    box-shadow var(--lagom-motion-component) var(--lagom-ease-glide),
+    transform var(--lagom-motion-component) var(--lagom-ease-glide),
+    background-color var(--lagom-motion-fast) ease!important;
+}
+.global-search__result-media img{
+  transition:transform 520ms var(--lagom-ease-glide),opacity var(--lagom-motion-component) var(--lagom-ease-glide)!important;
+}
+.global-search__result-action,
+.global-search__clear,
+.global-search__close{
+  transition:
+    transform var(--lagom-motion-fast) var(--lagom-ease-standard),
+    background-color var(--lagom-motion-fast) ease,
+    color var(--lagom-motion-fast) ease!important;
+}
+@media(hover:hover) and (pointer:fine){
+  .global-search__result:hover{transform:translateY(-2px)}
+  .global-search__result:hover .global-search__result-media img{transform:scale(1.025)}
+  .global-search__result:hover .global-search__result-action{transform:translateX(2px)}
+  .global-search__clear:hover,.global-search__close:hover{transform:scale(1.035)}
+}
+
+:is(.chips button,.global-search__chips button,.global-search__categories button,.collection-chips button,.mobile-sort-menu>button,.variant-trigger,.sky-home-product__variant-trigger,.mobile-variant-sheet__panel [role="option"]){
+  transition:
+    color var(--lagom-motion-fast) ease,
+    background-color var(--lagom-motion-fast) ease,
+    border-color var(--lagom-motion-fast) ease,
+    box-shadow var(--lagom-motion-control) var(--lagom-ease-glide),
+    transform var(--lagom-motion-control) var(--lagom-ease-standard)!important;
+}
+@media(hover:hover) and (pointer:fine){
+  :is(.chips button,.global-search__chips button,.global-search__categories button,.collection-chips button,.mobile-sort-menu>button,.variant-trigger,.sky-home-product__variant-trigger,.mobile-variant-sheet__panel [role="option"]):hover{
+    transform:translateY(-1px);
+  }
+}
+:is(.chips button,.global-search__chips button,.global-search__categories button,.collection-chips button,.mobile-sort-menu>button,.variant-trigger,.sky-home-product__variant-trigger,.mobile-variant-sheet__panel [role="option"]):active{
+  transform:scale(.985);
+}
+.sky-home-product__variant-trigger svg,
+.variant-trigger svg{
+  transition:transform var(--lagom-motion-control) var(--lagom-ease-glide)!important;
+}
+
+/* --------------------------------------------------------------------------
+   Product cards + merchandise imagery
+   -------------------------------------------------------------------------- */
+:is(.unified-product-card,.category-card,.merch-card,.gummy-collection-card){
+  transition:
+    border-color var(--lagom-motion-fast) ease,
+    background-color var(--lagom-motion-fast) ease,
+    box-shadow var(--lagom-motion-component) var(--lagom-ease-glide),
+    transform var(--lagom-motion-component) var(--lagom-ease-glide)!important;
+}
+:is(.unified-product-card__media img,.category-card__media>img,.merch-media img,.product-media img){
+  transition:
+    transform 560ms var(--lagom-ease-glide),
+    opacity var(--lagom-motion-component) var(--lagom-ease-glide)!important;
+}
+@media(hover:hover) and (pointer:fine){
+  .unified-product-card:hover,
+  .merch-card:hover{
+    transform:translateY(-3px);
+  }
+  .unified-product-card:hover .unified-product-card__media img,
+  .merch-card:hover .merch-media img{
+    transform:scale(1.028);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   CTAs, cart actions and commerce feedback
+   -------------------------------------------------------------------------- */
+:is(.legacy-sky-hero__actions a,.primary-bar,.icon-btn,.lagom-atc,.shop-page .category-card__action,.global-search__result-action,.mobile-reference-menu__social a,.mobile-drawer-top>button){
+  transition:
+    transform var(--lagom-motion-fast) var(--lagom-ease-standard),
+    box-shadow var(--lagom-motion-component) var(--lagom-ease-glide),
+    background-color var(--lagom-motion-fast) ease,
+    border-color var(--lagom-motion-fast) ease,
+    color var(--lagom-motion-fast) ease,
+    opacity var(--lagom-motion-fast) ease!important;
+}
+@media(hover:hover) and (pointer:fine){
+  :is(.legacy-sky-hero__actions a,.primary-bar,.lagom-atc):hover:not(:disabled){
+    transform:translateY(-2px);
+  }
+  :is(.icon-btn,.shop-page .category-card__action,.global-search__result-action,.mobile-reference-menu__social a,.mobile-drawer-top>button):hover{
+    transform:translateY(-1px) scale(1.025);
+  }
+}
+:is(.legacy-sky-hero__actions a,.primary-bar,.icon-btn,.lagom-atc,.shop-page .category-card__action,.global-search__result-action,.mobile-reference-menu__social a,.mobile-drawer-top>button):active{
+  transform:scale(.982)!important;
+  transition-duration:var(--lagom-motion-micro)!important;
+}
+
+.lagom-atc{
+  --lagom-atc-ease:var(--lagom-ease-glide);
+  --lagom-atc-ease-standard:var(--lagom-ease-standard);
+  --lagom-atc-ease-check:var(--lagom-ease-check);
+}
+.lagom-cart-toast{
+  transition:
+    opacity 280ms var(--lagom-ease-standard),
+    transform 440ms var(--lagom-ease-glide),
+    visibility 0s linear 440ms!important;
+}
+.lagom-cart-toast[data-visible="true"]{
+  transition:
+    opacity 280ms var(--lagom-ease-standard),
+    transform 440ms var(--lagom-ease-glide),
+    visibility 0s linear 0s!important;
+}
+.lagom-cart-toast__action{
+  transition:transform var(--lagom-motion-fast) var(--lagom-ease-standard),background-color var(--lagom-motion-fast) ease!important;
+}
+@media(hover:hover) and (pointer:fine){
+  .lagom-cart-toast__action:hover{transform:translateX(2px)}
+}
+
+/* --------------------------------------------------------------------------
+   Focus language
+   -------------------------------------------------------------------------- */
+:where(a,button,input,select,textarea,[tabindex]):focus-visible{
+  outline:2px solid color-mix(in srgb,var(--green,#0f513d) 76%,white);
+  outline-offset:3px;
+  transition:outline-color var(--lagom-motion-fast) ease,box-shadow var(--lagom-motion-fast) ease;
+}
+:where(.lagom-atc,.primary-bar,.variant-trigger,.sky-home-product__variant-trigger,.global-search__result,.category-card,.unified-product-card):focus-visible{
+  box-shadow:
+    0 0 0 3px color-mix(in srgb,var(--green,#0f513d) 14%,transparent),
+    0 10px 28px rgba(16,23,19,.08);
+}
+
+/* --------------------------------------------------------------------------
+   Touch-specific feedback: no sticky hover simulation
+   -------------------------------------------------------------------------- */
+@media(hover:none) and (pointer:coarse){
+  :is(.unified-product-card,.category-card,.merch-card,.global-search__result):hover{
+    transform:none!important;
+  }
+  :is(.legacy-sky-hero__actions a,.primary-bar,.icon-btn,.lagom-atc,.variant-trigger,.chips button):active{
+    transform:scale(.982)!important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Reduced motion: preserve state clarity, remove travel/choreography
+   -------------------------------------------------------------------------- */
+@media(prefers-reduced-motion:reduce){
+  :root{
+    --lagom-motion-micro:1ms;
+    --lagom-motion-fast:1ms;
+    --lagom-motion-control:1ms;
+    --lagom-motion-component:1ms;
+    --lagom-motion-scene:1ms;
+    --lagom-motion-cinematic:1ms;
+    --lagom-motion-atmosphere:1ms;
+  }
+
+  *,
+  *::before,
+  *::after{
+    scroll-behavior:auto!important;
+  }
+
+  :is(
+    .route-stage,
+    .responsive-image,
+    .sky-home [data-home-snap-content]>*,
+    .legacy-sky-hero__product,
+    .legacy-sky-hero__atmosphere,
+    .atmospheric-scene-section__cloud,
+    .home-product-rail>*,
+    .mobile-reference-menu,
+    .mobile-account-drawer,
+    .drawer,
+    .global-search,
+    .global-search__result,
+    .unified-product-card,
+    .category-card,
+    .merch-card,
+    .lagom-atc,
+    .lagom-cart-toast
+  ){
+    animation:none!important;
+    transition-duration:1ms!important;
+    transition-delay:0ms!important;
+  }
+
+  .route-stage,
+  .sky-home [data-home-snap-content]>*,
+  .home-product-rail>*,
+  .global-search__result,
+  .unified-product-card,
+  .category-card,
+  .merch-card{
+    transform:none!important;
+  }
+
+  .responsive-image{
+    opacity:1!important;
+  }
+
+  .sky-home [data-home-snap-scene]:not(.is-snap-visible) [data-home-snap-content]>*{
+    opacity:1!important;
+  }
+}
+
+
+/* Navigation icon morphs share the same control timing as drawers. */
+.header-mobile-toggle.hamburger svg,
+.hamburger svg,
+.header-mobile-toggle.hamburger .line,
+.hamburger .line{
+  transition-duration:520ms!important;
+  transition-timing-function:var(--lagom-ease-glide)!important;
+}
