@@ -3,9 +3,13 @@ import { responsiveImageBySrc } from "@/generated/responsiveImages";
 
 export default function ResponsiveImage({ src, alt, sizes = "100vw", className = "", onLoad, onError, ...imageProps }) {
   const [ready, setReady] = React.useState(false);
+  const imageRef = React.useRef(null);
   const media = responsiveImageBySrc.get(src);
 
-  React.useEffect(() => setReady(false), [src]);
+  React.useEffect(() => {
+    setReady(false);
+    if (imageRef.current?.complete) setReady(true);
+  }, [src]);
 
   const handleLoad = (event) => {
     setReady(true);
@@ -20,6 +24,7 @@ export default function ResponsiveImage({ src, alt, sizes = "100vw", className =
   const imageClassName = ["responsive-image", ready ? "is-ready" : "is-loading", className].filter(Boolean).join(" ");
   const image = (
     <img
+      ref={imageRef}
       src={media?.src || src}
       alt={alt}
       sizes={sizes}
