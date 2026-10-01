@@ -42,6 +42,7 @@ export function AppMotionProvider({children}){
 
 export function RouteMotion({routeKey,navigationType='PUSH',children}){
   const reduceMotion=useReducedMotion()
+  const desktop=typeof window!=='undefined'&&window.matchMedia('(min-width:900px)').matches
   const returning=navigationType==='POP'
   // `wait` leaves a fully empty viewport between pages. Keep the outgoing
   // screen present while the next route settles in so navigation reads as one
@@ -50,9 +51,9 @@ export function RouteMotion({routeKey,navigationType='PUSH',children}){
     <m.div
       key={routeKey}
       className="route-stage"
-      initial={reduceMotion?false:{opacity:.82,y:returning?-3:6}}
+      initial={reduceMotion?false:{opacity:.82,y:desktop?(returning?-3:6):0}}
       animate={{opacity:1,y:0,transition:{duration:returning?motionTokens.duration.base:motionTokens.duration.slow,ease:motionTokens.easeSoft}}}
-      exit={reduceMotion?{opacity:1,y:0}:{opacity:.72,y:returning?4:-3,transition:{duration:motionTokens.duration.fast,ease:motionTokens.easeExit}}}
+      exit={reduceMotion?{opacity:1,y:0}:{opacity:.72,y:desktop?(returning?4:-3):0,transition:{duration:motionTokens.duration.fast,ease:motionTokens.easeExit}}}
       style={{filter:'none'}}
     >{children}</m.div>
   </AnimatePresence>
