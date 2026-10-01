@@ -12,7 +12,6 @@ import { gummyCollections, merch, products } from '@/catalogData'
 import { AppMotionProvider, Presence, RouteMotion, m, motionTokens, useReducedMotion } from '@/motionSystem'
 import ageGateSky from '@/assets/atmosphere/home-hero-sky.png'
 import cloudMidField from '@/assets/atmosphere/clouds/cloud-mid-field.webp'
-import cloudNearMass from '@/assets/atmosphere/clouds/cloud-near-mass.webp'
 import cloudLeftFragment from '@/assets/atmosphere/clouds/cloud-left-fragment.webp'
 import cloudRightFragment from '@/assets/atmosphere/clouds/cloud-right-fragment.webp'
 import './styles/index.css'
@@ -58,7 +57,6 @@ function AgeGate(){
       publicAsset('enhanced-lagom-naturals-icon.webp'),
       ageGateSky,
       cloudMidField,
-      cloudNearMass,
       cloudLeftFragment,
       cloudRightFragment,
     ];
