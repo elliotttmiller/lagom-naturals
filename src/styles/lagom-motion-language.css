@@ -76,7 +76,7 @@
 .route-stage{
   backface-visibility:hidden;
   transform-origin:50% 10%;
-  will-change:opacity,transform;
+  will-change:auto;
 }
 .route-chunk-fallback{
   position:relative;
