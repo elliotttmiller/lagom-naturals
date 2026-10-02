@@ -54,10 +54,6 @@ import lemonadeHomePackshot from "./assets/products/24k-lemonade.webp";
 import blackberryHomePackshot from "./assets/products/blackberry-breeze.webp";
 import strawberryLimeHomePackshot from "./assets/products/strawberry-lime-fusion.webp";
 import watermelonHomePackshot from "./assets/products/watermelon-refresher.webp";
-import lemonadeFourPackHomePackshot from "./assets/products/24k-lemonade-4pk.webp";
-import blackberryFourPackHomePackshot from "./assets/products/blackberry-breeze-4pk.webp";
-import strawberryLimeFourPackHomePackshot from "./assets/products/strawberry-lime-fusion-4pk.webp";
-import watermelonFourPackHomePackshot from "./assets/products/watermelon-refresher-4pk.webp";
 import {
   CartProvider,
   configuredProduct,
@@ -457,12 +453,6 @@ const HOME_FLAVOR_DESCRIPTIONS = {
   "watermelon-refresher": "Light watermelon flavor designed for crisp refreshment.",
 };
 
-const HOME_FLAVOR_FOUR_PACK_PACKSHOTS = {
-  "24k-lemonade": lemonadeFourPackHomePackshot,
-  "blackberry-breeze": blackberryFourPackHomePackshot,
-  "strawberry-lime-fusion": strawberryLimeFourPackHomePackshot,
-  "watermelon-refresher": watermelonFourPackHomePackshot,
-};
 
 function HomePackSelector({ productId, variants, selectedId, onChange }) {
   const [open, setOpen] = useState(false);
