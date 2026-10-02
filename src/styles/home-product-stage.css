@@ -562,9 +562,9 @@
 /* Mobile: full-height portrait stage + swipe-only navigation. */
 @media(max-width:899px){
   .sky-home .sky-home__section--product-stage{
-    block-size:100dvh!important;
-    min-block-size:100dvh!important;
-    max-block-size:100dvh!important;
+    block-size:var(--home-mobile-scene-h,100dvh)!important;
+    min-block-size:var(--home-mobile-scene-h,100dvh)!important;
+    max-block-size:var(--home-mobile-scene-h,100dvh)!important;
   }
 
   .sky-home .sky-home__section--product-stage .atmospheric-scene-section__content{
@@ -834,7 +834,7 @@
 @media(max-width:899px){
   .sky-home.has-home-snap-overflow .sky-home__section--product-stage{
     block-size:auto!important;
-    min-block-size:100dvh!important;
+    min-block-size:var(--home-mobile-scene-h,100dvh)!important;
     max-block-size:none!important;
     overflow:visible!important;
   }
@@ -842,7 +842,7 @@
   .sky-home.has-home-snap-overflow .sky-home__section--product-stage .atmospheric-scene-section__content,
   .sky-home.has-home-snap-overflow .home-product-stage{
     block-size:auto!important;
-    min-block-size:100dvh!important;
+    min-block-size:var(--home-mobile-scene-h,100dvh)!important;
     overflow:visible!important;
   }
 }
