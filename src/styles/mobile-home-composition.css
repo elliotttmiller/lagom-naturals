@@ -43,7 +43,9 @@
   .sky-home .atmospheric-scene-hero {
     min-block-size: max(42rem, 100svh) !important;
     overflow: hidden !important;
-    background: #b9e8fa url('../assets/atmosphere/home-hero-sky.png') center bottom / cover no-repeat !important;
+    background:
+      linear-gradient(180deg,rgba(176,227,253,.22),rgba(176,227,253,.06)),
+      #b0e3fd url('../assets/atmosphere/home-hero-sky.png') center bottom / cover no-repeat !important;
   }
 
   .sky-home .beverage-hero::before,
@@ -60,13 +62,13 @@
   }
 
   .sky-home .legacy-sky-hero__product {
-    inset: auto 50% -1rem auto !important;
-    inline-size: min(108vw, 44rem) !important;
-    max-inline-size: none !important;
-    opacity: 1 !important;
-    transform: translateX(50%) !important;
-    z-index: 1 !important;
-    pointer-events: none !important;
+    inset:auto -7vw clamp(1rem,2.5svh,1.75rem) auto!important;
+    inline-size:min(58vw,17rem)!important;
+    max-inline-size:none!important;
+    opacity:1!important;
+    transform:none!important;
+    z-index:1!important;
+    pointer-events:none!important;
   }
 
   .sky-home .legacy-sky-hero__product picture,
@@ -76,7 +78,7 @@
     block-size: auto !important;
     max-block-size: none !important;
     object-fit: contain !important;
-    object-position: center bottom !important;
+    object-position:right bottom!important;
     filter: drop-shadow(0 15px 18px rgb(24 73 93 / 16%)) !important;
   }
 
@@ -84,18 +86,19 @@
     position: relative !important;
     z-index: 2 !important;
     inline-size: 100% !important;
-    max-inline-size: 36rem !important;
+    max-inline-size:32rem!important;
     min-block-size: 0 !important;
     margin: 0 auto !important;
     padding:
       calc(var(--mobile-header-row-h, 72px) + env(safe-area-inset-top, 0px) + 2rem)
-      1.35rem
-      clamp(17rem, 42svh, 25rem) !important;
+      max(1.25rem,env(safe-area-inset-right,0px))
+      clamp(12rem,27svh,16rem)
+      max(1.25rem,env(safe-area-inset-left,0px))!important;
     color: var(--ink) !important;
   }
 
   .sky-home .legacy-sky-hero h1 {
-    max-inline-size: 6.9ch !important;
+    max-inline-size:min(7.1ch,68vw)!important;
     color: var(--ink) !important;
     font-size: clamp(3rem, 13.2vw, 4.3rem) !important;
     line-height: .86 !important;
@@ -109,7 +112,7 @@
   }
 
   .sky-home .legacy-sky-hero__lede {
-    max-inline-size: 22rem !important;
+    max-inline-size:min(22rem,76vw)!important;
     margin-block-start: 1.05rem !important;
     color: color-mix(in srgb, var(--ink) 84%, transparent) !important;
     font-size: clamp(.9rem, 3.8vw, 1.05rem) !important;
@@ -392,16 +395,19 @@
     min-block-size:100%!important;
     padding:
       calc(var(--mobile-header-row-h,72px) + env(safe-area-inset-top,0px) + clamp(18px,2.8svh,30px))
-      1.25rem
-      clamp(15rem,34svh,22rem)!important;
+      max(1.25rem,env(safe-area-inset-right,0px))
+      clamp(11rem,25svh,15rem)
+      max(1.25rem,env(safe-area-inset-left,0px))!important;
     display:flex!important;
     flex-direction:column!important;
     justify-content:flex-start!important;
   }
 
   .sky-home .legacy-sky-hero__product{
-    inset:auto 50% -1.25rem auto!important;
-    inline-size:min(105vw,42rem)!important;
+    inset:auto -8vw clamp(.75rem,2svh,1.4rem) auto!important;
+    inline-size:min(60vw,17.5rem)!important;
+    max-inline-size:none!important;
+    transform:none!important;
   }
 
   .sky-home .legacy-sky-hero__actions{
