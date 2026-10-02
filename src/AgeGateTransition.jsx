@@ -106,11 +106,15 @@ export default function AgeGateTransition({
       }
     }
 
-    const glide='cubic-bezier(.16,1,.3,1)'
-    const soft='cubic-bezier(.22,.82,.28,1)'
-    const exit='cubic-bezier(.4,0,.2,1)'
-    const duration=mobile?1380:1540
-    const occlusionAt=mobile?420:470
+    /* The handoff is intentionally slower than ordinary UI motion. Clouds are
+       treated as atmospheric masses, not controls: gradual acceleration into
+       camera, a soft occlusion hold, then a long deceleration into the Hero. */
+    const approach='cubic-bezier(.32,.02,.22,1)'
+    const drift='cubic-bezier(.18,.72,.22,1)'
+    const settle='cubic-bezier(.16,1,.3,1)'
+    const panelEase='cubic-bezier(.4,0,.18,1)'
+    const duration=mobile?2060:2260
+    const occlusionAt=mobile?690:760
 
     if(heroMedia){
       heroMedia.style.opacity='1'
@@ -125,19 +129,19 @@ export default function AgeGateTransition({
       {opacity:1,transform:'translate3d(-50%,-50%,0) scale(1)'},
       {opacity:.98,offset:.22,transform:'translate3d(-50%,-50.5%,0) scale(.996)'},
       {opacity:0,transform:'translate3d(-50%,-54%,0) scale(.965)'},
-    ],{duration:280,easing:exit},registry)
+    ],{duration:520,easing:panelEase},registry)
 
     play(gateGlow,[
       {opacity:.55,transform:'scale(1)'},
       {opacity:.68,offset:.42,transform:'scale(1.04)'},
       {opacity:.08,transform:'scale(1.11)'},
-    ],{duration:760,delay:70,easing:soft},registry)
+    ],{duration:1180,delay:110,easing:drift},registry)
 
     play(gateClouds,[
       {opacity:1,transform:'translate3d(0,0,0) scale(1)'},
       {opacity:.78,offset:.42,transform:mobile?'translate3d(0,-1.5vh,0) scale(1.018)':'translate3d(0,-1vh,0) scale(1.012)'},
       {opacity:.12,transform:mobile?'translate3d(0,-5vh,0) scale(1.045)':'translate3d(0,-3vh,0) scale(1.035)'},
-    ],{duration:820,delay:60,easing:soft},registry)
+    ],{duration:1260,delay:90,easing:drift},registry)
 
     const veil=root.querySelector('.age-transition__veil')
     play(veil,[
@@ -146,7 +150,7 @@ export default function AgeGateTransition({
       {opacity:.2,offset:.48},
       {opacity:.08,offset:.68},
       {opacity:0},
-    ],{duration:duration-140,delay:110,easing:soft},registry)
+    ],{duration:duration-180,delay:180,easing:drift},registry)
 
     const far=root.querySelector('.age-transition__plane--far')
     play(far,[
@@ -154,7 +158,7 @@ export default function AgeGateTransition({
       {opacity:.42,offset:.30,transform:'translate3d(0,0,0) scale(1.01)'},
       {opacity:.3,offset:.58,transform:'translate3d(0,-4vh,0) scale(1.07)'},
       {opacity:0,transform:'translate3d(0,-14vh,0) scale(1.14)'},
-    ],{duration:duration-120,delay:80,easing:glide},registry)
+    ],{duration:duration-140,delay:120,easing:approach},registry)
 
     const midLeft=root.querySelector('.age-transition__cloud--mid-left')
     const midRight=root.querySelector('.age-transition__cloud--mid-right')
@@ -165,14 +169,14 @@ export default function AgeGateTransition({
       {opacity:.78,offset:.35,transform:mobile?'translate3d(-8vw,2vh,0) scale(1.05)':'translate3d(-5vw,1vh,0) scale(1.04)'},
       {opacity:.9,offset:.52,transform:'translate3d(3vw,-4vh,0) scale(1.14)'},
       {opacity:0,transform:mobile?'translate3d(58vw,-24vh,0) scale(1.38)':'translate3d(42vw,-18vh,0) scale(1.31)'},
-    ],{duration:duration-120,delay:110,easing:glide},registry)
+    ],{duration:duration-120,delay:180,easing:approach},registry)
 
     play(midRight,[
       {opacity:0,transform:mobile?'translate3d(34vw,9vh,0) scale(.9)':'translate3d(22vw,7vh,0) scale(.92)'},
       {opacity:.76,offset:.34,transform:mobile?'translate3d(8vw,2vh,0) scale(1.05)':'translate3d(5vw,1vh,0) scale(1.04)'},
       {opacity:.9,offset:.51,transform:'translate3d(-3vw,-4vh,0) scale(1.14)'},
       {opacity:0,transform:mobile?'translate3d(-58vw,-23vh,0) scale(1.38)':'translate3d(-42vw,-18vh,0) scale(1.31)'},
-    ],{duration:duration-100,delay:125,easing:glide},registry)
+    ],{duration:duration-100,delay:205,easing:approach},registry)
 
     play(center,[
       {opacity:0,transform:'translate3d(-50%,12vh,0) scale(.88)'},
@@ -180,7 +184,7 @@ export default function AgeGateTransition({
       {opacity:.96,offset:.46,transform:'translate3d(-50%,-2vh,0) scale(1.2)'},
       {opacity:.9,offset:.57,transform:'translate3d(-50%,-7vh,0) scale(1.32)'},
       {opacity:0,transform:'translate3d(-50%,-36vh,0) scale(1.58)'},
-    ],{duration:duration-40,delay:90,easing:glide},registry)
+    ],{duration:duration-30,delay:150,easing:approach},registry)
 
     const nearLeft=root.querySelector('.age-transition__cloud--near-left')
     const nearRight=root.querySelector('.age-transition__cloud--near-right')
@@ -193,7 +197,7 @@ export default function AgeGateTransition({
       {opacity:1,offset:.49,transform:'translate3d(18vw,-8vh,0) rotate(3deg) scale(1.34)'},
       {opacity:.72,offset:.64,transform:'translate3d(44vw,-18vh,0) rotate(6deg) scale(1.48)'},
       {opacity:0,transform:mobile?'translate3d(110vw,-42vh,0) rotate(10deg) scale(1.72)':'translate3d(92vw,-36vh,0) rotate(9deg) scale(1.64)'},
-    ],{duration,delay:90,easing:glide},registry)
+    ],{duration,delay:170,easing:approach},registry)
 
     play(nearRight,[
       {opacity:0,transform:mobile?'translate3d(38vw,22vh,0) rotate(6deg) scale(.82)':'translate3d(30vw,18vh,0) rotate(5deg) scale(.84)'},
@@ -202,7 +206,7 @@ export default function AgeGateTransition({
       {opacity:1,offset:.48,transform:'translate3d(-18vw,-8vh,0) rotate(-3deg) scale(1.34)'},
       {opacity:.7,offset:.63,transform:'translate3d(-44vw,-18vh,0) rotate(-6deg) scale(1.48)'},
       {opacity:0,transform:mobile?'translate3d(-110vw,-40vh,0) rotate(-10deg) scale(1.72)':'translate3d(-92vw,-34vh,0) rotate(-9deg) scale(1.64)'},
-    ],{duration,delay:105,easing:glide},registry)
+    ],{duration,delay:195,easing:approach},registry)
 
     play(nearBottom,[
       {opacity:0,transform:'translate3d(-50%,26vh,0) scale(.9)'},
@@ -210,26 +214,26 @@ export default function AgeGateTransition({
       {opacity:.94,offset:.43,transform:'translate3d(-50%,1vh,0) scale(1.2)'},
       {opacity:.88,offset:.55,transform:'translate3d(-50%,-7vh,0) scale(1.33)'},
       {opacity:0,transform:'translate3d(-50%,-46vh,0) scale(1.62)'},
-    ],{duration:duration-20,delay:120,easing:glide},registry)
+    ],{duration:duration-10,delay:210,easing:approach},registry)
 
     play(gateScene,[
       {opacity:1,transform:'scale(1)'},
       {opacity:1,offset:.44,transform:'scale(1.01)'},
       {opacity:0,transform:'scale(1.025)'},
-    ],{duration:580,delay:occlusionAt,easing:soft},registry)
+    ],{duration:940,delay:occlusionAt,easing:drift},registry)
 
     play(gate,[
       {backgroundColor:'rgba(176,227,253,1)'},
       {backgroundColor:'rgba(176,227,253,1)',offset:.42},
       {backgroundColor:'rgba(176,227,253,.18)',offset:.72},
       {backgroundColor:'rgba(176,227,253,0)'},
-    ],{duration:720,delay:occlusionAt,easing:soft},registry)
+    ],{duration:1120,delay:occlusionAt,easing:drift},registry)
 
     if(heroMedia){
       play(heroMedia,[
         {opacity:1,transform:mobile?'scale(1.045) translate3d(0,1.2%,0)':'scale(1.035) translate3d(0,.7%,0)'},
         {opacity:1,transform:'scale(1) translate3d(0,0,0)'},
-      ],{duration:760,delay:occlusionAt+210,easing:glide},registry)
+      ],{duration:1160,delay:occlusionAt+330,easing:settle},registry)
     }
 
     if(heroContent){
@@ -237,29 +241,29 @@ export default function AgeGateTransition({
         {opacity:0,transform:mobile?'translate3d(0,22px,0)':'translate3d(0,18px,0)'},
         {opacity:.18,offset:.22,transform:mobile?'translate3d(0,17px,0)':'translate3d(0,13px,0)'},
         {opacity:1,transform:'translate3d(0,0,0)'},
-      ],{duration:620,delay:occlusionAt+300,easing:glide},registry)
+      ],{duration:1040,delay:occlusionAt+430,easing:settle},registry)
     }
 
     if(heroTitle){
       play(heroTitle,[
         {opacity:.45,transform:'translate3d(0,10px,0)'},
         {opacity:1,transform:'translate3d(0,0,0)'},
-      ],{duration:520,delay:occlusionAt+315,easing:glide},registry)
+      ],{duration:900,delay:occlusionAt+455,easing:settle},registry)
     }
     if(heroLede){
       play(heroLede,[
         {opacity:0,transform:'translate3d(0,9px,0)'},
         {opacity:1,transform:'translate3d(0,0,0)'},
-      ],{duration:470,delay:occlusionAt+390,easing:glide},registry)
+      ],{duration:860,delay:occlusionAt+560,easing:settle},registry)
     }
     if(heroActions){
       play(heroActions,[
         {opacity:0,transform:'translate3d(0,8px,0)'},
         {opacity:1,transform:'translate3d(0,0,0)'},
-      ],{duration:430,delay:occlusionAt+455,easing:glide},registry)
+      ],{duration:820,delay:occlusionAt+660,easing:settle},registry)
     }
 
-    finishTimerRef.current=window.setTimeout(complete,duration+230)
+    finishTimerRef.current=window.setTimeout(complete,duration+760)
 
     return()=>{
       registry.forEach(animation=>animation?.cancel?.())
