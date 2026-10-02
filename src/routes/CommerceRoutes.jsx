@@ -150,10 +150,7 @@ function CheckoutPage() {
                 initial={{ opacity: 0, x: 10 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -8 }}
-                transition={{
-                  duration: motionTokens.duration.base,
-                  ease: motionTokens.ease,
-                }}
+                transition={motionTokens.springSoft}
               >
                 {step === 1 && (
                   <>
