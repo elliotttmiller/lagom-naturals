@@ -171,7 +171,7 @@ function MerchDetailPage() {
                 type="button"
                 aria-label="Decrease quantity"
                 disabled={qty <= 1}
-                whileTap={{ scale: 0.88 }}
+                whileTap={{ scale: 0.94 }}
                 onClick={() => setQty(Math.max(1, qty - 1))}
               >
                 <Minus />
@@ -191,7 +191,7 @@ function MerchDetailPage() {
               <m.button
                 type="button"
                 aria-label="Increase quantity"
-                whileTap={{ scale: 0.88 }}
+                whileTap={{ scale: 0.94 }}
                 onClick={() => setQty((current) => current + 1)}
               >
                 <Plus />
