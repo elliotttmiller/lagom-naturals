@@ -1,17 +1,20 @@
 /* ==========================================================================
    Mobile homepage stability contract
    --------------------------------------------------------------------------
-   Loaded after legacy mobile/home composition layers. This file owns only
-   viewport/snap stability and does not restyle the desktop storefront.
+   Loaded after composition and product-stage layers. This file hardens layout
+   containment only. Snap ownership and scene-height geometry live exclusively
+   in home-scroll-snap.css.
    ========================================================================== */
 
 @media(max-width:899px){
   html:has(.sky-home),
   body:has(.sky-home){
-    overscroll-behavior-y:none!important;
     background:#b0e3fd;
   }
 
+  /* The fixed mobile header overlays each full-screen scene. Header allowance
+     is therefore internal to scene content instead of becoming a second scroll
+     offset above the document. */
   body:has(.sky-home) .app-shell>main{
     padding-top:0!important;
   }
@@ -19,20 +22,20 @@
   .sky-home{
     inline-size:100%!important;
     min-inline-size:0!important;
+    max-inline-size:100vw!important;
     overflow-x:clip!important;
+    touch-action:pan-y pinch-zoom;
   }
 
   .sky-home [data-home-snap-scene],
   .sky-home .atmospheric-scene-hero,
   .sky-home .atmospheric-scene-section,
   .sky-home .sky-home__section--product-stage{
-    block-size:var(--home-mobile-scene-h,100svh)!important;
-    min-block-size:var(--home-mobile-scene-h,100svh)!important;
-    max-block-size:var(--home-mobile-scene-h,100svh)!important;
+    box-sizing:border-box!important;
+    inline-size:100%!important;
+    max-inline-size:100%!important;
   }
 
-  /* Fixed header space is internal to each scene rather than added above the
-     entire main document. */
   .sky-home .legacy-sky-hero__content,
   .sky-home .home-product-stage{
     padding-top:max(
@@ -41,9 +44,8 @@
     )!important;
   }
 
-  /* Core scene composition is present from the first frame. The active-scene
-     observer is allowed to animate only secondary layers defined by the snap
-     stylesheet, so there is no delayed-render flash. */
+  /* Never use observer state to hide structural mobile content. Scene state is
+     presentation metadata only, eliminating iOS arrival flashes. */
   .sky-home [data-home-snap-content]>*,
   .sky-home .legacy-sky-hero__content h1,
   .sky-home .legacy-sky-hero__lede,
@@ -55,10 +57,7 @@
     filter:none!important;
   }
 
-  .sky-home [data-home-snap-content]>*{
-    transition:none!important;
-  }
-
+  .sky-home [data-home-snap-content]>*,
   .sky-home .legacy-sky-hero__content h1,
   .sky-home .legacy-sky-hero__lede,
   .sky-home .legacy-sky-hero__actions,
@@ -70,73 +69,30 @@
     filter:none!important;
   }
 
-  /* Footer is a natural continuation after the last mandatory scene. */
   body:has(.sky-home) #root>.site-footer{
     scroll-snap-align:none!important;
     scroll-snap-stop:normal!important;
     scroll-margin-block-start:0!important;
   }
 
-  /* Prevent full-screen media from creating a separate containing block or
-     horizontal overflow during Safari toolbar changes. */
+  /* Full-screen media stays paint-contained so Safari toolbar resizing cannot
+     promote it into a competing horizontal/viewport containing block. */
   .sky-home .legacy-sky-hero__product--fullbleed,
   .sky-home .legacy-sky-hero__product--fullbleed picture,
   .sky-home .legacy-sky-hero__product--fullbleed img{
     contain:paint;
+  }
+
+  /* Horizontal product gestures must always yield vertical movement to the
+     document snap owner. */
+  .sky-home .home-product-stage__gesture{
+    touch-action:pan-y!important;
+    overscroll-behavior-inline:contain;
   }
 }
 
 @media(max-width:899px) and (prefers-reduced-motion:reduce){
   .sky-home .sky-home__section--product-stage .home-product-stage{
     transition:none!important;
-  }
-}
-
-@media(max-width:899px) and (prefers-reduced-motion:no-preference){
-  html:has(.sky-home){
-    scroll-snap-type:y mandatory!important;
-    scroll-padding-block-start:0!important;
-    scroll-behavior:auto!important;
-    overscroll-behavior-y:none!important;
-    touch-action:pan-y pinch-zoom;
-  }
-
-  body:has(.sky-home){
-    overscroll-behavior-y:none!important;
-  }
-
-  .sky-home [data-home-snap-scene]{
-    scroll-snap-align:start!important;
-    scroll-snap-stop:always!important;
-    scroll-margin-block-start:0!important;
-  }
-
-  /* Mobile snap scenes must already be compositionally complete when the
-     browser lands on them. Avoid observer-driven opacity/transform changes
-     during the physical snap; they read as flashing on iOS Safari. */
-  .sky-home [data-home-snap-scene] .atmospheric-scene-section__cloud{
-    opacity:.38!important;
-    transform:none!important;
-    transition:none!important;
-  }
-
-  .sky-home [data-home-snap-scene] .home-product-stage__topline,
-  .sky-home [data-home-snap-scene] .home-product-stage__progress{
-    opacity:1!important;
-    transform:none!important;
-    transition:none!important;
-  }
-
-  html:has(.sky-home.has-home-snap-overflow){
-    scroll-snap-type:y proximity!important;
-    scroll-behavior:auto!important;
-  }
-
-  .sky-home.has-home-snap-overflow [data-home-snap-scene]{
-    block-size:auto!important;
-    min-block-size:100svh!important;
-    max-block-size:none!important;
-    scroll-snap-stop:normal!important;
-    overflow:visible!important;
   }
 }
