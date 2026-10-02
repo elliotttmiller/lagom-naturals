@@ -858,3 +858,17 @@
     transform:none!important;
   }
 }
+
+/* Shared atmospheric continuation: gummies remain a distinct product scene,
+   but begin with the same horizon color that closes the seltzer showcase. */
+.sky-home .sky-home__section--gummies{
+  background:
+    radial-gradient(ellipse 68% 35% at 50% 0%,rgba(255,255,255,.42),transparent 72%),
+    radial-gradient(ellipse 58% 48% at 88% 64%,rgba(151,211,244,.25),transparent 74%),
+    linear-gradient(180deg,#cceefd 0%,#c4ebfc 48%,#b7e6fd 100%)!important;
+}
+
+.sky-home .sky-home__section--gummies .atmospheric-scene-section__cloud{
+  opacity:.48!important;
+  filter:saturate(.92) brightness(1.08);
+}
