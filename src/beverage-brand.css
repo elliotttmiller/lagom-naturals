@@ -665,12 +665,6 @@ body {
   width: 100%;
   gap: 30px;
 }
-.age-gate {
-  background: #171714 !important;
-}
-.age-gate__panel {
-  background: var(--paper) !important;
-}
 @media (max-width: 899px) {
   .announcement {
     height: 24px;
