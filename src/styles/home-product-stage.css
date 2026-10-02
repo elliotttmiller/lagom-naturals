@@ -440,7 +440,8 @@
   min-inline-size:24rem;
 }
 
-.home-product-stage__purchase .sky-home-product__variant{
+.sky-home .sky-home__section--product-stage .home-product-stage__purchase .sky-home-product__variant{
+  display:block!important;
   min-inline-size:11.5rem;
 }
 
@@ -703,7 +704,8 @@
     inline-size:100%;
   }
 
-  .home-product-stage__purchase .sky-home-product__variant{
+  .sky-home .sky-home__section--product-stage .home-product-stage__purchase .sky-home-product__variant{
+    display:block!important;
     min-inline-size:0;
   }
 
