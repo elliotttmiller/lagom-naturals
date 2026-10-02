@@ -16,11 +16,6 @@
 @import './liquid-glass-system.css';
 @import './coupon-ribbon-product-cards.css';
 
-@import './mobile-sky-home.css';
-@import './home-scroll-snap.css';
-@import './desktop-snap-home.css';
-@import './mobile-home-composition.css';
-@import './home-hero-fullbleed.css';
-@import './home-product-stage.css';
-@import './lagom-motion-language.css';
-@import './mobile-home-stability.css';
+/* Canonical homepage entry. Preserve this boundary; homepage modules are
+   ordered internally by styles/home/index.css. */
+@import './home/index.css';
