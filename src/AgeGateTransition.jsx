@@ -114,6 +114,11 @@ export default function AgeGateTransition({
     const heroTitle=hero?.querySelector('.legacy-sky-hero h1')
     const heroLede=hero?.querySelector('.legacy-sky-hero__lede')
     const heroActions=hero?.querySelector('.legacy-sky-hero__actions')
+    const chrome=[
+      document.querySelector('.announcement'),
+      document.querySelector('.site-header'),
+      document.querySelector('.mobile-reference-header'),
+    ].filter(Boolean)
 
     document.body.classList.add('age-gate-transitioning')
     if(cinematic&&hero)document.body.classList.add('age-gate-cinematic-handoff')
@@ -153,6 +158,10 @@ export default function AgeGateTransition({
       heroContent.style.opacity='0'
       heroContent.style.transform=mobile?'translate3d(0,22px,0)':'translate3d(0,18px,0)'
     }
+    chrome.forEach(node=>{
+      node.style.opacity='0'
+      node.style.transform='translate3d(0,-12px,0)'
+    })
 
     play(panel,[
       {opacity:1,transform:'translate3d(-50%,-50%,0) scale(1)'},
@@ -292,6 +301,18 @@ export default function AgeGateTransition({
       ],{duration:820,delay:occlusionAt+660,easing:settle},registry)
     }
 
+    chrome.forEach((node,index)=>{
+      play(node,[
+        {opacity:0,transform:'translate3d(0,-12px,0)'},
+        {opacity:.35,offset:.28,transform:'translate3d(0,-7px,0)'},
+        {opacity:1,transform:'translate3d(0,0,0)'},
+      ],{
+        duration:mobile?880:980,
+        delay:occlusionAt+520+(index*70),
+        easing:settle,
+      },registry)
+    })
+
     finishTimerRef.current=window.setTimeout(complete,duration+760)
 
     return()=>{
@@ -306,6 +327,10 @@ export default function AgeGateTransition({
         heroContent.style.opacity=''
         heroContent.style.transform=''
       }
+      chrome.forEach(node=>{
+        node.style.opacity=''
+        node.style.transform=''
+      })
     }
   },[active,assetsReady,heroReady,cinematic,gateRef,onComplete])
 
