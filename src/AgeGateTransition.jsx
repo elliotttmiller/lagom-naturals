@@ -49,6 +49,7 @@ export default function AgeGateTransition({
   const animationsRef=React.useRef([])
   const finishTimerRef=React.useRef(0)
   const [assetsReady,setAssetsReady]=React.useState(false)
+  const [heroReady,setHeroReady]=React.useState(false)
 
   React.useEffect(()=>{
     let cancelled=false
@@ -58,13 +59,41 @@ export default function AgeGateTransition({
     return()=>{cancelled=true}
   },[])
 
+  React.useEffect(()=>{
+    let frame=0
+    let fallback=0
+    let media=null
+    const finish=()=>setHeroReady(true)
+
+    frame=requestAnimationFrame(()=>{
+      const hero=document.querySelector('.sky-home .atmospheric-scene-hero')
+      media=hero?.querySelector('.legacy-sky-hero__product--fullbleed img')||null
+
+      if(!hero||!media||(media.complete&&media.naturalWidth>0)){
+        finish()
+        return
+      }
+
+      media.addEventListener('load',finish,{once:true})
+      media.addEventListener('error',finish,{once:true})
+      fallback=window.setTimeout(finish,1800)
+    })
+
+    return()=>{
+      cancelAnimationFrame(frame)
+      window.clearTimeout(fallback)
+      media?.removeEventListener('load',finish)
+      media?.removeEventListener('error',finish)
+    }
+  },[])
+
   React.useEffect(()=>()=>{
     animationsRef.current.forEach(animation=>animation?.cancel?.())
     window.clearTimeout(finishTimerRef.current)
   },[])
 
   React.useEffect(()=>{
-    if(!active||!assetsReady)return undefined
+    if(!active||!assetsReady||!heroReady)return undefined
 
     const root=rootRef.current
     const gate=gateRef?.current
@@ -278,7 +307,7 @@ export default function AgeGateTransition({
         heroContent.style.transform=''
       }
     }
-  },[active,assetsReady,cinematic,gateRef,onComplete])
+  },[active,assetsReady,heroReady,cinematic,gateRef,onComplete])
 
   return <div
     ref={rootRef}
