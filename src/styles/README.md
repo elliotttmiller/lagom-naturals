@@ -35,7 +35,7 @@ file. Runtime ownership and bundle boundaries take precedence over directory sym
 | System | Canonical authority |
 | --- | --- |
 | Homepage vertical scroll owner | Browser/native document scroll |
-| Homepage snap type/alignment/scene height + mobile containment | `home-scroll-snap.css` |
+| Homepage snap type/alignment/scene height + mobile containment + terminal footer release | `home-scroll-snap.css` |
 | Desktop homepage composition | `desktop-snap-home.css` |
 | Mobile homepage composition | `mobile-home-composition.css` |
 | Homepage product-stage static layout | `home-product-stage.css` |
