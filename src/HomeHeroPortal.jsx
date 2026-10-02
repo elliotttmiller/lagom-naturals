@@ -3,20 +3,35 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { responsiveImages } from "@/generated/responsiveImages";
 
+const mobileHero = responsiveImages.heroMobile.hero;
 const desktopHero = responsiveImages.heroDesktop.hero;
 
 export default function HomeHero() {
   const [mediaReady, setMediaReady] = useState(false);
+
   return <section className="legacy-sky-hero" aria-labelledby="legacy-sky-hero-title">
-    <div className="legacy-sky-hero__product" aria-hidden="true">
+    <div className="legacy-sky-hero__product legacy-sky-hero__product--fullbleed" aria-hidden="true">
       <picture>
-        <source media="(max-width: 899px)" type="image/avif" srcSet={desktopHero.avifSrcSet} sizes="52vw" />
-        <source media="(max-width: 899px)" type="image/webp" srcSet={desktopHero.webpSrcSet} sizes="52vw" />
-        <source type="image/avif" srcSet={desktopHero.avifSrcSet} sizes="100vw" />
-        <source type="image/webp" srcSet={desktopHero.webpSrcSet} sizes="100vw" />
-        <img className={mediaReady ? "is-ready" : "is-loading"} src={desktopHero.src} alt="" fetchPriority="high" decoding="async" onLoad={()=>setMediaReady(true)} onError={()=>setMediaReady(true)} />
+        <source media="(max-width: 899px)" type="image/avif" srcSet={mobileHero.avifSrcSet} sizes="100vw" />
+        <source media="(max-width: 899px)" type="image/webp" srcSet={mobileHero.webpSrcSet} sizes="100vw" />
+        <source media="(min-width: 900px)" type="image/avif" srcSet={desktopHero.avifSrcSet} sizes="100vw" />
+        <source media="(min-width: 900px)" type="image/webp" srcSet={desktopHero.webpSrcSet} sizes="100vw" />
+        <img
+          className={mediaReady ? "is-ready" : "is-loading"}
+          src={desktopHero.src}
+          alt=""
+          fetchPriority="high"
+          decoding="async"
+          onLoad={()=>setMediaReady(true)}
+          onError={()=>setMediaReady(true)}
+        />
       </picture>
     </div>
-    <div className="legacy-sky-hero__content" data-home-snap-content><h1 id="legacy-sky-hero-title">A Flavor for<br/><strong>Every Vibe.</strong></h1><span className="legacy-sky-hero__lede">Premium hemp-derived THC seltzers crafted for a balanced, refreshing experience. Zero sugar. Zero carbs. Full of flavor.</span><div className="legacy-sky-hero__actions"><Link to="/shop">SHOP NOW <ArrowRight aria-hidden="true"/></Link></div></div>
+
+    <div className="legacy-sky-hero__content" data-home-snap-content>
+      <h1 id="legacy-sky-hero-title">A Flavor for<br/><strong>Every Vibe.</strong></h1>
+      <span className="legacy-sky-hero__lede">Premium hemp-derived THC seltzers crafted for a balanced, refreshing experience. Zero sugar. Zero carbs. Full of flavor.</span>
+      <div className="legacy-sky-hero__actions"><Link to="/shop">SHOP NOW <ArrowRight aria-hidden="true"/></Link></div>
+    </div>
   </section>;
 }
