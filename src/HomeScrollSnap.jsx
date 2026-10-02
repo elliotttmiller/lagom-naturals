@@ -72,7 +72,7 @@ export default function HomeScrollSnap({ rootRef }) {
       sceneObserver?.disconnect();
       sceneObserver = undefined;
 
-      if (reducedMotion.matches || mobileViewport.matches || !("IntersectionObserver" in window)) {
+      if (reducedMotion.matches || !("IntersectionObserver" in window)) {
         showAll();
         return;
       }
@@ -88,11 +88,11 @@ export default function HomeScrollSnap({ rootRef }) {
           }
         : {
             root: null,
-            rootMargin: "-8% 0px -8% 0px",
-            threshold: [0, 0.35, 0.55, 0.72, 0.9],
+            rootMargin: "-14% 0px -14% 0px",
+            threshold: [0, 0.3, 0.5, 0.64, 0.78, 0.92],
           };
 
-      const activationThreshold = desktopViewport.matches ? 0.62 : 0.55;
+      const activationThreshold = desktopViewport.matches ? 0.62 : 0.64;
 
       sceneObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
