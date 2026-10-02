@@ -18,6 +18,10 @@ import cloudNearMass from '@/assets/atmosphere/clouds/cloud-near-mass.webp'
 import cloudFarLeft from '@/assets/atmosphere/clouds/cloud-16.webp'
 import cloudFarRight from '@/assets/atmosphere/clouds/cloud-09.webp'
 import cloudCenterMass from '@/assets/atmosphere/clouds/cloud-21.webp'
+import cloudUpperCenter from '@/assets/atmosphere/clouds/cloud-10.webp'
+import cloudFarLow from '@/assets/atmosphere/clouds/cloud-14.webp'
+import cloudMidSecondary from '@/assets/atmosphere/clouds/cloud-19.webp'
+import cloudNatural from '@/assets/atmosphere/clouds/natural-white-cumulus-cloud-floating-on-transparent-background-png.webp'
 import './styles/index.css'
 
 const loadAccountPage=()=>import('@/AccountPage')
@@ -77,6 +81,10 @@ function AgeGate(){
       cloudFarLeft,
       cloudFarRight,
       cloudCenterMass,
+      cloudUpperCenter,
+      cloudFarLow,
+      cloudMidSecondary,
+      cloudNatural,
     ];
     const preload=src=>new Promise(resolve=>{
       const image=new Image();
@@ -246,6 +254,18 @@ function AgeGate(){
             animate={entering&&!reduceMotion?{x:'14vw',y:'-7vh',scale:1.11,opacity:.12,rotate:2}:{x:0,y:0,scale:1,opacity:.3,rotate:0}}
             transition={cloudTransition(.04,1.48)}
           />
+          <m.div
+            className="age-gate__cloud-frame age-gate__cloud-frame--far-top"
+            initial={false}
+            animate={entering&&!reduceMotion?{x:'6vw',y:'-18vh',scale:1.12,opacity:.06,rotate:1}:{x:0,y:0,scale:1,opacity:.26,rotate:0}}
+            transition={cloudTransition(.06,1.46)}
+          />
+          <m.div
+            className="age-gate__cloud-frame age-gate__cloud-frame--far-low"
+            initial={false}
+            animate={entering&&!reduceMotion?{x:'-8vw',y:'18vh',scale:1.14,opacity:.07,rotate:-1}:{x:0,y:0,scale:1,opacity:.24,rotate:0}}
+            transition={cloudTransition(.08,1.44)}
+          />
         </m.div>
 
         <m.div className="age-gate__cloud-depth age-gate__cloud-depth--mid" style={{x:midX,y:midY}} aria-hidden="true">
@@ -280,6 +300,22 @@ function AgeGate(){
             ?{y:'25vh',scale:1.15,opacity:.2}
             :{y:0,scale:1,opacity:.56}}
           transition={cloudTransition(.14,1.24)}
+        />
+        <m.div
+          className="age-gate__cloud-frame age-gate__cloud-frame--mid-lower-left"
+          initial={false}
+          animate={entering&&!reduceMotion
+            ?{x:'-52vw',y:'6vh',scale:1.2,opacity:.08,rotate:-7}
+            :{x:0,y:0,scale:1,opacity:.38,rotate:0}}
+          transition={cloudTransition(.16,1.22)}
+        />
+        <m.div
+          className="age-gate__cloud-frame age-gate__cloud-frame--mid-lower-right"
+          initial={false}
+          animate={entering&&!reduceMotion
+            ?{x:'52vw',y:'8vh',scale:1.18,opacity:.08,rotate:7}
+            :{x:0,y:0,scale:1,opacity:.36,rotate:0}}
+          transition={cloudTransition(.18,1.2)}
         />
         </m.div>
 
