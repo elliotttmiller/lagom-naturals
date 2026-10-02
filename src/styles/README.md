@@ -20,7 +20,8 @@ file. Runtime ownership and bundle boundaries take precedence over directory sym
 - `legacy-core.css` — temporary shared/desktop compatibility bridge only.
 - `mobile.css` → `mobile/index.css` — globally required mobile foundation, motion, chrome, catalog, overlay and accessibility layers.
 - `desktop.css` — shared desktop presentation.
-- `age-gate.css` — sole Age Gate presentation owner. `src/AgeGate.jsx` owns gate state, accessibility, asset preloading and native WAAPI enter choreography. No legacy stylesheet may target `.age-gate*` or `body.age-gate-*`.
+- `age-gate.css` — sole static Age Gate presentation owner. `src/AgeGate.jsx` owns verification state, focus/accessibility and the static decision scene.
+- `age-gate-transition.css` — sole cinematic handoff presentation owner. `src/AgeGateTransition.jsx` owns transition asset preloading, WAAPI choreography and the temporary Hero reveal contract.
 - `home/index.css` — single global homepage stylesheet boundary.
 - `home-scroll-snap.css` — authoritative homepage native vertical scroll-snap geometry and scene-height contract.
 - `desktop-snap-home.css` — desktop homepage scene presentation.
@@ -43,6 +44,7 @@ file. Runtime ownership and bundle boundaries take precedence over directory sym
 | Mobile viewport/safe-area baseline | `mobile/00-foundation.css` |
 | Site mobile chrome | `mobile/20-chrome.css` |
 | Age-gate static layout | `age-gate.css` |
+| Age-gate → Hero cinematic handoff | `AgeGateTransition.jsx` + `age-gate-transition.css` |
 | Age-gate enter choreography | WAAPI in `main.jsx` |
 | Reduced-motion mobile policy | `mobile/10-motion.css` + `mobile/90-accessibility.css` |
 | Shared design tokens | `tokens.css` |
