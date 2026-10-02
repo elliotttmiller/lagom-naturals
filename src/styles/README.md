@@ -45,7 +45,7 @@ file. Runtime ownership and bundle boundaries take precedence over directory sym
 | Site mobile chrome | `mobile/20-chrome.css` |
 | Age-gate static layout | `age-gate.css` |
 | Age-gate → Hero cinematic handoff | `AgeGateTransition.jsx` + `age-gate-transition.css` |
-| Age-gate enter choreography | WAAPI in `main.jsx` |
+| Age-gate → Hero cinematic handoff | `AgeGateTransition.jsx` + `age-gate-transition.css` (WAAPI runtime choreography) |
 | Reduced-motion mobile policy | `mobile/10-motion.css` + `mobile/90-accessibility.css` |
 | Shared design tokens | `tokens.css` |
 
