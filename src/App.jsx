@@ -419,7 +419,6 @@ function CategoryShopHero({ category }) {
   );
 }
 
-const homeSeltzers = products.filter((product) => product.category === "Seltzers").slice(0, 4);
 const HOME_GUMMY_COLLECTIONS = [
   {
     name: "Classic",
@@ -454,112 +453,6 @@ const HOME_GUMMY_PACKSHOTS = {
   "pink-lemonade-midnight-drift": responsiveImages.homeGummies["Pink-Lemonade-Photoroom-900x900"].src,
   "strawberry-midnight-drift": responsiveImages.homeGummies["Strawberry-Photoroom-900x900"].src,
 };
-
-const HOME_FLAVOR_DESCRIPTIONS = {
-  "24k-lemonade": "Sicilian lemon and juicy tangerine with a crisp, clean finish.",
-  "blackberry-breeze": "Blackberry flavor with a clean, sparkling finish.",
-  "strawberry-lime-fusion": "Ripe strawberry flavor with a bright lime edge.",
-  "watermelon-refresher": "Light watermelon flavor designed for crisp refreshment.",
-};
-
-
-function HomePackSelector({ productId, variants, selectedId, onChange }) {
-  const [open, setOpen] = useState(false);
-  const selectorRef = useRef(null);
-  const triggerRef = useRef(null);
-  const optionRefs = useRef([]);
-  const selectedIndex = Math.max(0, variants.findIndex((variant) => variant.id === selectedId));
-  const selectedVariant = variants[selectedIndex];
-  const labelId = `home-product-pack-label-${productId}`;
-  const listboxId = `home-product-pack-listbox-${productId}`;
-
-  useEffect(() => {
-    if (!open) return undefined;
-
-    const closeOnOutsidePress = (event) => {
-      if (!selectorRef.current?.contains(event.target)) setOpen(false);
-    };
-    const closeOnEscape = (event) => {
-      if (event.key !== "Escape") return;
-      setOpen(false);
-      triggerRef.current?.focus();
-    };
-
-    window.addEventListener("pointerdown", closeOnOutsidePress);
-    window.addEventListener("keydown", closeOnEscape);
-    optionRefs.current[selectedIndex]?.focus();
-    return () => {
-      window.removeEventListener("pointerdown", closeOnOutsidePress);
-      window.removeEventListener("keydown", closeOnEscape);
-    };
-  }, [open, selectedIndex]);
-
-  const chooseVariant = (variantId) => {
-    onChange(variantId);
-    setOpen(false);
-    window.requestAnimationFrame(() => triggerRef.current?.focus());
-  };
-
-  const moveFocus = (event, index) => {
-    const nextIndex = event.key === "ArrowDown"
-      ? (index + 1) % variants.length
-      : event.key === "ArrowUp"
-        ? (index - 1 + variants.length) % variants.length
-        : event.key === "Home"
-          ? 0
-          : event.key === "End"
-            ? variants.length - 1
-            : null;
-    if (nextIndex === null) return;
-    event.preventDefault();
-    optionRefs.current[nextIndex]?.focus();
-  };
-
-  return <div className={`sky-home-product__variant${open ? " is-open" : ""}`} ref={selectorRef}>
-    <span className="sky-home-product__variant-label" id={labelId}>Pack size</span>
-    <button
-      ref={triggerRef}
-      type="button"
-      className="sky-home-product__variant-trigger"
-      aria-expanded={open}
-      aria-haspopup="listbox"
-      aria-controls={listboxId}
-      aria-label={`Pack size: ${selectedVariant.label}, $${selectedVariant.price.toFixed(2)}`}
-      onClick={() => setOpen((current) => !current)}
-    >
-      <span><strong>{selectedVariant.label}</strong></span>
-      <b>${selectedVariant.price.toFixed(2)}</b>
-      <ChevronDown aria-hidden="true" />
-    </button>
-    <Presence>
-      {open ? <m.div
-        id={listboxId}
-        className="sky-home-product__variant-sheet"
-        role="listbox"
-        aria-labelledby={labelId}
-        initial={{ opacity: 0, y: -7, scale: 0.985 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: -5, scale: 0.985 }}
-        transition={motionTokens.springSoft}
-      >
-        {variants.map((variant, index) => <button
-          ref={(element) => { optionRefs.current[index] = element; }}
-          type="button"
-          key={variant.id}
-          role="option"
-          aria-selected={variant.id === selectedId}
-          className={variant.id === selectedId ? "is-selected" : ""}
-          onClick={() => chooseVariant(variant.id)}
-          onKeyDown={(event) => moveFocus(event, index)}
-        >
-          <span className="sky-home-product__variant-option-copy"><strong>{variant.label}</strong></span>
-          <b className="sky-home-product__variant-option-price">${variant.price.toFixed(2)}</b>
-          <span className="sky-home-product__variant-option-indicator" aria-hidden="true">{variant.id === selectedId ? <Check /> : null}</span>
-        </button>)}
-      </m.div> : null}
-    </Presence>
-  </div>;
-}
 
 const HOME_GUMMY_STAGE_ACCENTS = {
   Classic: "#df6d86",
@@ -733,24 +626,6 @@ function HomePage() {
       <div className="sky-home" ref={homeRef}>
         <HomeScrollSnap rootRef={homeRef} />
         <section id="home-scene-hero" className="beverage-hero atmospheric-scene-hero" data-home-snap-scene aria-label="Featured Lagom Naturals products"><HomeHero /></section>
-
-        <AtmosphericSceneSection id="flavors" className="sky-home__section sky-home__section--flavors sky-home__section--product-stage" labelledBy="home-flavors-title">
-          <HomeProductStage
-            kind="seltzer"
-            items={homeSeltzers}
-            eyebrow="MEET THE SELTZER LINE"
-            headingId="home-flavors-title"
-            headingText="Lagom seltzer flavors"
-            intro="Thoughtfully made. Simply enjoyed."
-            ariaLabel="Lagom seltzer flavors"
-            getKey={(product) => product.id}
-            getTitle={(product) => product.name}
-            getAccent={(product) => product.accent}
-            renderMedia={(product, _, motionState) => <HomeSeltzerStageMedia product={product} reduceMotion={motionState.reduceMotion} />}
-            renderDetails={(product) => <HomeSeltzerStageDetails product={product} />}
-            persistentMedia
-          />
-        </AtmosphericSceneSection>
 
         <AtmosphericSceneSection id="gummies" className="sky-home__section sky-home__section--gummies sky-home__section--product-stage" labelledBy="home-gummies-title">
           <HomeProductStage

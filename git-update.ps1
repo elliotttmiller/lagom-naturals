@@ -1,3 +1,3 @@
 git add .
-git commit -m "Update - Checkpoint"
+git commit -m "Update"
 git push --force  

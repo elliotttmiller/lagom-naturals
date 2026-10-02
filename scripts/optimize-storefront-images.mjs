@@ -25,6 +25,8 @@ const groups = [
   { name: 'findUs', directory: 'src/assets/mobile', files: ['find-us-hero.png'], widths: [480, 960] },
   { name: 'store', directory: 'src/assets/store', widths: [480, 960] },
   { name: 'storeDesktop', directory: 'src/assets/desktop', files: ['storefront.webp'], widths: [960, 1600] },
+  { name: 'showcaseDesktop', directory: 'src/assets/showcase', files: ['seltzer-background.png', 'seltzer-splash.png'], widths: [960, 1600] },
+  { name: 'showcaseMobile', directory: 'src/assets/showcase', files: ['seltzer-background-mobile.png'], widths: [480, 800] },
   { name: 'categories', directory: 'src/assets', files: ['seltzers-thumbnail.webp', 'gummies-thumbnail.webp'], widths: [320, 640] },
 ]
 
