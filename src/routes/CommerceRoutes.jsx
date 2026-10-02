@@ -100,7 +100,7 @@ function CartPage() {
                   <b>${(subtotal * 0.08).toFixed(2)}</b>
                 </p>
               </m.div>
-              <m.div whileHover={{ y: -2 }} whileTap={motionTokens.tap}>
+              <m.div whileHover={motionTokens.hover} whileTap={motionTokens.tap}>
                 <Link className="primary-bar linkbar" to="/checkout">
                   CONTINUE
                 </Link>
@@ -204,7 +204,7 @@ function CheckoutPage() {
 
                     <m.button
                       type="button"
-                      whileHover={{ y: -2 }}
+                      whileHover={motionTokens.hover}
                       whileTap={motionTokens.tap}
                       className="primary-bar"
                       onClick={() => setStep(2)}
