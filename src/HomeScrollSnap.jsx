@@ -72,7 +72,7 @@ export default function HomeScrollSnap({ rootRef }) {
       sceneObserver?.disconnect();
       sceneObserver = undefined;
 
-      if (reducedMotion.matches || !("IntersectionObserver" in window)) {
+      if (reducedMotion.matches || mobileViewport.matches || !("IntersectionObserver" in window)) {
         showAll();
         return;
       }
