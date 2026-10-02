@@ -41,34 +41,33 @@
     )!important;
   }
 
-  /* Mobile page snapping must never depend on an IntersectionObserver class
-     arriving after first paint. Scenes render fully composed from frame one. */
+  /* Core scene composition is present from the first frame. The active-scene
+     observer is allowed to animate only secondary layers defined by the snap
+     stylesheet, so there is no delayed-render flash. */
   .sky-home [data-home-snap-content]>*,
   .sky-home .legacy-sky-hero__content h1,
   .sky-home .legacy-sky-hero__lede,
   .sky-home .legacy-sky-hero__actions,
-  .sky-home .legacy-sky-hero__product{
-    opacity:1!important;
-    transform:none!important;
-    filter:none!important;
-    transition:none!important;
-  }
-
-  .sky-home [data-home-snap-scene] .atmospheric-scene-section__cloud{
-    opacity:.42!important;
-    filter:none!important;
-    transition:none!important;
-  }
-
-  /* Product stages must be composition-ready at the moment scroll snap lands.
-     Their own keyed Motion transitions handle product changes; scene entry does
-     not fade or translate the entire stage. */
-  .sky-home .sky-home__section--product-stage [data-home-snap-content]>*,
+  .sky-home .legacy-sky-hero__product,
   .sky-home .sky-home__section--product-stage .home-product-stage{
     opacity:1!important;
     transform:none!important;
     filter:none!important;
+  }
+
+  .sky-home [data-home-snap-content]>*{
     transition:none!important;
+  }
+
+  .sky-home .legacy-sky-hero__content h1,
+  .sky-home .legacy-sky-hero__lede,
+  .sky-home .legacy-sky-hero__actions,
+  .sky-home .legacy-sky-hero__product{
+    transition:none!important;
+  }
+
+  .sky-home [data-home-snap-scene] .atmospheric-scene-section__cloud{
+    filter:none!important;
   }
 
   /* Footer is a natural continuation after the last mandatory scene. */
@@ -84,17 +83,6 @@
   .sky-home .legacy-sky-hero__product--fullbleed picture,
   .sky-home .legacy-sky-hero__product--fullbleed img{
     contain:paint;
-  }
-}
-
-@media(max-width:899px) and (max-height:699px){
-  .sky-home [data-home-snap-scene],
-  .sky-home .atmospheric-scene-hero,
-  .sky-home .atmospheric-scene-section,
-  .sky-home .sky-home__section--product-stage{
-    block-size:auto!important;
-    min-block-size:100svh!important;
-    max-block-size:none!important;
   }
 }
 
