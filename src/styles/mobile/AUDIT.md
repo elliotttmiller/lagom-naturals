@@ -121,3 +121,40 @@ The migration deliberately preserves the highest-value behavior from the previou
 ## Follow-up retirement rule
 
 Root-level legacy files should only be deleted after their remaining desktop/shared selectors have been migrated or proven unused. Until then they may stay in the repository, but **they must never be imported as a second mobile style system**. `styles/mobile/index.css` is the sole mobile manifest.
+
+
+## 2026-10-02 retirement pass
+
+The following historical root-level mobile sheets were deleted after repository-wide
+reference checks showed no live JSX import, CSS import, or runtime ownership. Their
+production responsibilities had already been migrated into the structured mobile
+system described above.
+
+| Deleted stylesheet | Classification | Surviving canonical owner |
+| --- | --- | --- |
+| `mobile-shell.css` | MIGRATED / SUPERSEDED | `mobile/00-foundation.css`, `mobile/20-chrome.css`, `mobile/90-accessibility.css` |
+| `mobile-home.css` | MIGRATED / SUPERSEDED | `mobile/30-home.css` + homepage modules |
+| `mobile-home-category-polish.css` | MIGRATED | `mobile/40-catalog.css` |
+| `mobile-category-surface-polish.css` | MIGRATED | `mobile/40-catalog.css`, `mobile/80-overlays.css` |
+| `mobile-shop.css` | MIGRATED | `mobile/40-catalog.css` |
+| `mobile-listing-control-icons.css` | MIGRATED | `mobile/40-catalog.css` |
+| `mobile-sort-menu.css` | MIGRATED | `mobile/80-overlays.css`, `mobile/10-motion.css` |
+| `mobile-product-pdp.css` | MIGRATED | `mobile/50-pdp.css` |
+| `mobile-pdp-fixes.css` | MIGRATED / SUPERSEDED | `mobile/50-pdp.css` |
+| `mobile-product-media-polish.css` | MIGRATED | `mobile/40-catalog.css`, `mobile/50-pdp.css` |
+| `mobile-cart.css` | MIGRATED | `mobile/60-commerce.css` |
+| `mobile-checkout-account.css` | MIGRATED / OBSOLETE | `mobile/60-commerce.css`; obsolete account portions were not retained |
+| `mobile-about.css` | MIGRATED | `mobile/70-editorial.css` |
+| `mobile-visit.css` | MIGRATED | `mobile/70-editorial.css` |
+| `mobile-visit-hero.css` | SUPERSEDED | `mobile/70-editorial.css` |
+| `mobile-merch.css` | MIGRATED | `mobile/70-editorial.css` |
+| `mobile-nav-shop.css` | SUPERSEDED | `mobile/20-chrome.css` |
+
+These deletions intentionally exclude live component-owned root sheets such as
+`add-to-cart-button.css`, `cart-feedback-toast.css`, `global-search.css` and
+`hamburger-toggle.css`, because current JSX still imports them. They require a
+separate migration before deletion.
+
+The homepage global import surface was also consolidated behind
+`styles/home/index.css`. This changes the import topology, not the visual cascade:
+the prior homepage stylesheet order is preserved inside the manifest.

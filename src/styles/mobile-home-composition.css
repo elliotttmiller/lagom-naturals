@@ -1,10 +1,9 @@
 /*
  * Mobile homepage composition
  *
- * This is the single mobile authority for the current homepage scene markup.
- * Native document scrolling is the single scroll owner. Supported viewport
- * heights use CSS Scroll Snap + 100dvh full-height scenes; compact/overflowing
- * layouts degrade to reachable natural-height/proximity behavior.
+ * This is the mobile presentation authority for the current homepage scene markup.
+ * Native vertical scroll, snap alignment, viewport scene sizing, overflow
+ * relaxation and footer scene geometry are owned by home-scroll-snap.css.
  */
 @media (max-width: 899px) {
   html:has(.sky-home) {
@@ -48,10 +47,6 @@
   .sky-home .atmospheric-scene-section {
     inline-size: 100% !important;
     max-inline-size: 100% !important;
-    block-size: var(--home-mobile-scene-h, 100dvh) !important;
-    min-block-size: var(--home-mobile-scene-h, 100dvh) !important;
-    max-block-size: var(--home-mobile-scene-h, 100dvh) !important;
-    overflow: clip !important;
   }
 
   .sky-home .atmospheric-scene-hero {
@@ -383,14 +378,6 @@
    Full-height mobile scene composition
    -------------------------------------------------------------------------- */
 @media (max-width:899px) and (min-height:700px){
-  .sky-home .atmospheric-scene-hero,
-  .sky-home .atmospheric-scene-section{
-    block-size:var(--home-mobile-scene-h,100dvh)!important;
-    min-block-size:var(--home-mobile-scene-h,100dvh)!important;
-    max-block-size:var(--home-mobile-scene-h,100dvh)!important;
-    overflow:clip!important;
-  }
-
   .sky-home .legacy-sky-hero{
     block-size:100%!important;
     min-block-size:100%!important;
@@ -585,10 +572,6 @@
   }
 
   body:has(.sky-home) #root>.site-footer{
-    block-size:var(--home-mobile-scene-h,100dvh)!important;
-    min-block-size:var(--home-mobile-scene-h,100dvh)!important;
-    max-block-size:var(--home-mobile-scene-h,100dvh)!important;
-    overflow:auto!important;
     display:grid!important;
     place-items:center!important;
     padding:
@@ -603,14 +586,6 @@
    viewport, release fixed-height clipping and let proximity snapping preserve
    access to all content. */
 @media (max-width:899px) and (min-height:700px){
-  .sky-home.has-home-snap-overflow .atmospheric-scene-hero,
-  .sky-home.has-home-snap-overflow .atmospheric-scene-section{
-    block-size:auto!important;
-    min-block-size:var(--home-mobile-scene-h,100dvh)!important;
-    max-block-size:none!important;
-    overflow:visible!important;
-  }
-
   .sky-home.has-home-snap-overflow .atmospheric-scene-section__content{
     block-size:auto!important;
     min-block-size:0!important;
@@ -646,23 +621,3 @@
 }
 
 
-/* Dynamic viewport fallback lives beside the authoritative mobile scene rules
-   so older engines cannot fall through to an earlier min-height reset. */
-@supports not (height:100dvh){
-  @media (max-width:899px){
-    .sky-home .atmospheric-scene-hero,
-    .sky-home .atmospheric-scene-section,
-    body:has(.sky-home) #root>.site-footer{
-      block-size:var(--home-mobile-scene-h,100vh)!important;
-      min-block-size:var(--home-mobile-scene-h,100vh)!important;
-      max-block-size:var(--home-mobile-scene-h,100vh)!important;
-    }
-
-    .sky-home.has-home-snap-overflow .atmospheric-scene-hero,
-    .sky-home.has-home-snap-overflow .atmospheric-scene-section{
-      block-size:auto!important;
-      min-block-size:var(--home-mobile-scene-h,100vh)!important;
-      max-block-size:none!important;
-    }
-  }
-}

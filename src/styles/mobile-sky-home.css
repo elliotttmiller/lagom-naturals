@@ -1232,7 +1232,7 @@
 }
 
 
-/* Mobile scene sizing is owned by mobile-home-composition.css.
+/* Mobile scene sizing is owned by home-scroll-snap.css.
    Legacy phone snap/full-height geometry was removed to keep one responsive
    authority and prevent viewport-height gaps/overflow conflicts. */
 

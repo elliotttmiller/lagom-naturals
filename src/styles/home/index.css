@@ -1,0 +1,24 @@
+/* Homepage stylesheet manifest.
+   Import order is intentional. This file is the single global entry for the
+   homepage visual system; individual modules retain one narrow responsibility.
+
+   1. atmospheric base
+   2. native browser scroll-snap geometry
+   3. desktop scene presentation
+   4. mobile scene presentation
+   5. hero media composition
+   6. product-stage static geometry/presentation
+   7. shared motion presentation tokens/states
+   8. mobile containment hardening
+
+   Vertical document position is always browser-owned. Motion/WAAPI may animate
+   content inside a scene but must never compete with native vertical scrolling.
+*/
+@import '../mobile-sky-home.css';
+@import '../home-scroll-snap.css';
+@import '../desktop-snap-home.css';
+@import '../mobile-home-composition.css';
+@import '../home-hero-fullbleed.css';
+@import '../home-product-stage.css';
+@import '../lagom-motion-language.css';
+@import '../mobile-home-stability.css';

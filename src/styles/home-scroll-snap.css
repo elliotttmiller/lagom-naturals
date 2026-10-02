@@ -13,6 +13,42 @@
 }
 
 /* --------------------------------------------------------------------------
+   Desktop scene geometry
+   --------------------------------------------------------------------------
+   Geometry is independent of motion preference. Reduced-motion disables paging
+   and choreography, not the approved scene dimensions.
+   -------------------------------------------------------------------------- */
+@media (min-width:900px){
+  :root{
+    --home-desktop-announcement-h:28px;
+    --home-desktop-header-h:82px;
+    --home-desktop-chrome-h:calc(var(--home-desktop-announcement-h) + var(--home-desktop-header-h));
+    --home-desktop-hero-h:calc(100dvh - var(--home-desktop-announcement-h));
+    --home-desktop-scene-h:100dvh;
+  }
+
+  .sky-home [data-home-snap-scene]{
+    scroll-margin-top:0!important;
+    scroll-margin-block-start:0!important;
+  }
+
+  .sky-home .atmospheric-scene-hero{
+    block-size:var(--home-desktop-hero-h);
+    min-block-size:var(--home-desktop-hero-h);
+    max-block-size:var(--home-desktop-hero-h);
+    overflow:hidden;
+  }
+
+  .sky-home .atmospheric-scene-section{
+    box-sizing:border-box;
+    block-size:var(--home-desktop-scene-h);
+    min-block-size:var(--home-desktop-scene-h);
+    max-block-size:var(--home-desktop-scene-h);
+    overflow:hidden;
+  }
+}
+
+/* --------------------------------------------------------------------------
    Desktop native snap
    -------------------------------------------------------------------------- */
 @media (min-width:900px) and (min-height:30em) and (prefers-reduced-motion:no-preference){
@@ -45,7 +81,6 @@
   }
 
   .sky-home .atmospheric-scene-section{
-    min-height:100dvh;
     display:grid;
     align-items:center;
   }
@@ -89,6 +124,37 @@
 }
 
 /* --------------------------------------------------------------------------
+   Mobile/tablet scene geometry
+   -------------------------------------------------------------------------- */
+@media (max-width:899px){
+  .sky-home [data-home-snap-scene]{
+    box-sizing:border-box!important;
+    block-size:var(--home-mobile-scene-h)!important;
+    min-block-size:var(--home-mobile-scene-h)!important;
+    max-block-size:var(--home-mobile-scene-h)!important;
+    scroll-margin-block-start:0!important;
+    overflow:clip!important;
+    overscroll-behavior:contain;
+  }
+
+  .sky-home.has-home-snap-overflow [data-home-snap-scene]{
+    block-size:auto!important;
+    min-block-size:var(--home-mobile-scene-h)!important;
+    max-block-size:none!important;
+    overflow:visible!important;
+  }
+}
+
+@media (max-width:899px) and (min-height:700px){
+  body:has(.sky-home) #root>.site-footer{
+    block-size:var(--home-mobile-scene-h)!important;
+    min-block-size:var(--home-mobile-scene-h)!important;
+    max-block-size:var(--home-mobile-scene-h)!important;
+    overflow:auto!important;
+  }
+}
+
+/* --------------------------------------------------------------------------
    Mobile/tablet full-viewport snap
    --------------------------------------------------------------------------
    Every scene uses the same viewport contract. Mandatory snap relaxes only for
@@ -110,15 +176,8 @@
   }
 
   .sky-home [data-home-snap-scene]{
-    box-sizing:border-box!important;
-    block-size:var(--home-mobile-scene-h)!important;
-    min-block-size:var(--home-mobile-scene-h)!important;
-    max-block-size:var(--home-mobile-scene-h)!important;
     scroll-snap-align:start!important;
     scroll-snap-stop:always!important;
-    scroll-margin-block-start:0!important;
-    overflow:clip!important;
-    overscroll-behavior:contain;
   }
 
   body:has(.sky-home) #root>.site-footer{
@@ -169,11 +228,17 @@
   }
 
   .sky-home.has-home-snap-overflow [data-home-snap-scene]{
-    block-size:auto!important;
-    min-block-size:var(--home-mobile-scene-h)!important;
-    max-block-size:none!important;
     scroll-snap-stop:normal!important;
-    overflow:visible!important;
+  }
+}
+
+@supports not (height:100dvh){
+  @media (max-width:899px) and (min-height:700px){
+    body:has(.sky-home) #root>.site-footer{
+      block-size:var(--home-mobile-scene-h,100vh)!important;
+      min-block-size:var(--home-mobile-scene-h,100vh)!important;
+      max-block-size:var(--home-mobile-scene-h,100vh)!important;
+    }
   }
 }
 
