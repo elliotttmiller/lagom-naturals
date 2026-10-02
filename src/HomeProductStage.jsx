@@ -68,7 +68,7 @@ export default function HomeProductStage({
   const next = (source = "button") => goTo(activeIndex + 1, 1, source === "button" ? "next" : null);
 
   const handleDragEnd = (_, info) => {
-    if (!mobile || reduceMotion) return;
+    if (!mobile) return;
     const distance = Math.abs(info.offset.x);
     const velocity = Math.abs(info.velocity.x);
     if (distance < 46 && velocity < 430) return;
@@ -120,7 +120,7 @@ export default function HomeProductStage({
       <div className="home-product-stage__visual">
         <m.div
           className="home-product-stage__gesture"
-          drag={mobile && !reduceMotion ? "x" : false}
+          drag={mobile ? "x" : false}
           dragConstraints={{ left: 0, right: 0 }}
           dragElastic={0.075}
           dragMomentum={false}
@@ -130,11 +130,11 @@ export default function HomeProductStage({
           aria-hidden="true"
         />
 
-        <m.div className="home-product-stage__accent-field home-product-stage__accent-field--far" style={{ x: farDrag }} aria-hidden="true">
+        <m.div className="home-product-stage__accent-field home-product-stage__accent-field--far" style={{ x: reduceMotion ? 0 : farDrag }} aria-hidden="true">
           {accentNodes.slice(0, 2).map((slot) => <span key={slot} className={`home-product-stage__accent home-product-stage__accent--${slot + 1}`} />)}
         </m.div>
 
-        <m.div className="home-product-stage__title-parallax" style={{ x: titleDrag }} aria-hidden="true">
+        <m.div className="home-product-stage__title-parallax" style={{ x: reduceMotion ? 0 : titleDrag }} aria-hidden="true">
           <Presence mode="popLayout" initial={false}>
             <m.div
               key={`title-${itemKey}`}
@@ -149,11 +149,11 @@ export default function HomeProductStage({
           </Presence>
         </m.div>
 
-        <m.div className="home-product-stage__accent-field home-product-stage__accent-field--near" style={{ x: nearDrag }} aria-hidden="true">
+        <m.div className="home-product-stage__accent-field home-product-stage__accent-field--near" style={{ x: reduceMotion ? 0 : nearDrag }} aria-hidden="true">
           {accentNodes.slice(2).map((slot) => <span key={slot} className={`home-product-stage__accent home-product-stage__accent--${slot + 1}`} />)}
         </m.div>
 
-        <m.div className="home-product-stage__media-parallax" style={{ x: mediaDrag }}>
+        <m.div className="home-product-stage__media-parallax" style={{ x: reduceMotion ? 0 : mediaDrag }}>
           <Presence mode="popLayout" initial={false}>
             <m.div
               key={`media-${itemKey}`}
