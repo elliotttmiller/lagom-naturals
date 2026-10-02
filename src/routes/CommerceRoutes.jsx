@@ -51,7 +51,7 @@ function CartPage() {
                     <m.button
                       type="button"
                       aria-label={`Decrease ${item.name} quantity`}
-                      whileTap={{ scale: 0.85 }}
+                      whileTap={{ scale: 0.94 }}
                       onClick={() => change(item.cartKey, item.qty - 1)}
                     >
                       <Minus />
@@ -69,7 +69,7 @@ function CartPage() {
                     <m.button
                       type="button"
                       aria-label={`Increase ${item.name} quantity`}
-                      whileTap={{ scale: 0.85 }}
+                      whileTap={{ scale: 0.94 }}
                       onClick={() => change(item.cartKey, item.qty + 1)}
                     >
                       <Plus />
