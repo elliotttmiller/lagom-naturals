@@ -225,7 +225,7 @@ function AnchoredVariantMenu({ productName, variants, selectedId, onSelect, menu
       initial={{ opacity: 0, y: -6, scale: 0.98 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: -4, scale: 0.98 }}
-      transition={{ duration: motionTokens.duration.fast, ease: motionTokens.ease }}
+      transition={motionTokens.springSoft}
     >
       {variants.map((variant) => (
         <button type="button" key={variant.id} role="option" aria-selected={variant.id === selectedId} className={variant.id === selectedId ? "active" : ""} onClick={() => onSelect(variant)}>
@@ -540,7 +540,7 @@ function HomePackSelector({ productId, variants, selectedId, onChange }) {
         initial={{ opacity: 0, y: -7, scale: 0.985 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: -5, scale: 0.985 }}
-        transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+        transition={motionTokens.springSoft}
       >
         {variants.map((variant, index) => <button
           ref={(element) => { optionRefs.current[index] = element; }}
@@ -597,7 +597,7 @@ function HomeProductCard({ product }) {
           className="sky-home-product__image-swap"
           initial={{ opacity: 0, scale: 0.985 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+          transition={motionTokens.springMedia}
         >
           <ResponsiveImage src={homePackshot} alt={`${product.name} ${selectedVariant?.label || "product"}`} sizes="(max-width: 699px) 78vw, 32vw" loading="lazy" decoding="async" />
         </m.span>
