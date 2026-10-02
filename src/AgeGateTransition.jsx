@@ -64,7 +64,7 @@ export default function AgeGateTransition({
   },[])
 
   React.useEffect(()=>{
-    if(!active)return undefined
+    if(!active||!assetsReady)return undefined
 
     const root=rootRef.current
     const gate=gateRef?.current
@@ -274,7 +274,7 @@ export default function AgeGateTransition({
         heroContent.style.transform=''
       }
     }
-  },[active,cinematic,gateRef,onComplete])
+  },[active,assetsReady,cinematic,gateRef,onComplete])
 
   return <div
     ref={rootRef}
