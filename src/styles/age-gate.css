@@ -2,8 +2,9 @@
    Lagom Naturals Age Gate
    --------------------------------------------------------------------------
    Canonical stylesheet owner for all Age Gate presentation.
-   AgeGate.jsx owns state, accessibility and WAAPI choreography.
-   No other stylesheet should target .age-gate* or body.age-gate-*.
+   AgeGate.jsx owns verification, focus handling and the static decision scene.
+   AgeGateTransition.jsx + age-gate-transition.css exclusively own the cinematic
+   gate-to-Hero handoff. No unrelated stylesheet may target these systems.
    ========================================================================== */
 
 body.age-gate-open{
@@ -12,9 +13,6 @@ body.age-gate-open{
   touch-action:none;
 }
 
-body.age-gate-transitioning{
-  cursor:progress;
-}
 
 .age-gate{
   --age-sky:#b0e3fd;
@@ -46,6 +44,21 @@ body.age-gate-transitioning{
 
 .age-gate.is-ready .age-gate__prepare-surface{
   opacity:0;
+}
+
+.age-gate__static-scene,
+.age-gate__static-clouds{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+}
+
+.age-gate__static-scene{
+  z-index:0;
+}
+
+.age-gate__static-clouds{
+  z-index:2;
 }
 
 .age-gate__scene{
@@ -93,9 +106,8 @@ body.age-gate-transitioning{
   backface-visibility:hidden;
 }
 
-.age-gate__cloud-depth--far{z-index:2}
-.age-gate__cloud-depth--mid{z-index:3}
-.age-gate__cloud-depth--near{z-index:4}
+.age-gate__cloud-depth--far{z-index:0}
+.age-gate__cloud-depth--mid{z-index:1}
 
 .age-gate__cloud-frame{
   position:absolute;
@@ -201,28 +213,6 @@ body.age-gate-transitioning{
   aspect-ratio:1.78/1;
   opacity:.21;
   background-image:url('../assets/atmosphere/clouds/natural-white-cumulus-cloud-floating-on-transparent-background-png.webp');
-}
-
-/* Near camera clouds remain mostly off-screen at rest. During entry WAAPI
-   drives them across the camera to create the full-screen cloud curtain. */
-.age-gate__cloud-frame--near-left{
-  left:-46%;
-  bottom:-34%;
-  width:min(112vw,1760px);
-  aspect-ratio:1.72/1;
-  opacity:.08;
-  background-image:url('../assets/atmosphere/clouds/cloud-near-mass.webp');
-  transform-origin:28% 72%;
-}
-
-.age-gate__cloud-frame--near-right{
-  right:-48%;
-  bottom:-31%;
-  width:min(108vw,1700px);
-  aspect-ratio:1.76/1;
-  opacity:.07;
-  background-image:url('../assets/atmosphere/clouds/cloud-17.webp');
-  transform-origin:72% 72%;
 }
 
 /* Decision layer */
@@ -357,16 +347,6 @@ body.age-gate-transitioning{
   outline-offset:4px;
 }
 
-.age-gate.is-transitioning{
-  pointer-events:none;
-}
-
-.age-gate.is-transitioning .age-gate__cloud-frame,
-.age-gate.is-transitioning .age-gate__scene,
-.age-gate.is-transitioning .age-gate__atmosphere-glow{
-  will-change:transform,opacity;
-}
-
 /* Mobile/tablet composition */
 @media(max-width:899px){
   .age-gate{
@@ -418,19 +398,6 @@ body.age-gate-transitioning{
   .age-gate__cloud-frame--mid-lower-left{top:51%;left:-30%;width:92vw;opacity:.17}
   .age-gate__cloud-frame--mid-lower-right{top:54%;right:-31%;width:94vw;opacity:.16}
 
-  .age-gate__cloud-frame--near-left{
-    left:-78%;
-    bottom:-26%;
-    width:176vw;
-    opacity:.07;
-  }
-
-  .age-gate__cloud-frame--near-right{
-    right:-82%;
-    bottom:-24%;
-    width:180vw;
-    opacity:.06;
-  }
 }
 
 @media(max-width:599px){
@@ -497,17 +464,6 @@ body.age-gate-transitioning{
   .age-gate__cloud-frame--mid-lower-left{top:51%;left:-53%;width:136vw;opacity:.15}
   .age-gate__cloud-frame--mid-lower-right{top:55%;right:-59%;width:140vw;opacity:.14}
 
-  .age-gate__cloud-frame--near-left{
-    left:-104%;
-    bottom:-20%;
-    width:224vw;
-  }
-
-  .age-gate__cloud-frame--near-right{
-    right:-110%;
-    bottom:-18%;
-    width:228vw;
-  }
 }
 
 @media(max-width:380px){
@@ -528,7 +484,6 @@ body.age-gate-transitioning{
 }
 
 @media(prefers-reduced-motion:reduce){
-  body.age-gate-transitioning{cursor:default}
   .age-gate__prepare-surface,
   .age-gate__action{transition:none}
   .age-gate__atmosphere-glow{display:none}
