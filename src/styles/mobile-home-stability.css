@@ -41,6 +41,25 @@
     )!important;
   }
 
+  /* Mobile page snapping must never depend on an IntersectionObserver class
+     arriving after first paint. Scenes render fully composed from frame one. */
+  .sky-home [data-home-snap-content]>*,
+  .sky-home .legacy-sky-hero__content h1,
+  .sky-home .legacy-sky-hero__lede,
+  .sky-home .legacy-sky-hero__actions,
+  .sky-home .legacy-sky-hero__product{
+    opacity:1!important;
+    transform:none!important;
+    filter:none!important;
+    transition:none!important;
+  }
+
+  .sky-home [data-home-snap-scene] .atmospheric-scene-section__cloud{
+    opacity:.42!important;
+    filter:none!important;
+    transition:none!important;
+  }
+
   /* Product stages must be composition-ready at the moment scroll snap lands.
      Their own keyed Motion transitions handle product changes; scene entry does
      not fade or translate the entire stage. */
