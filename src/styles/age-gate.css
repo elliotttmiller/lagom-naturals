@@ -1,29 +1,35 @@
 /* ==========================================================================
    Lagom Naturals Age Gate
-   Native WAAPI owns enter choreography. CSS owns static geometry and states.
-   Large moving layers are restricted to transform + opacity for mobile Safari.
+   --------------------------------------------------------------------------
+   Canonical stylesheet owner for all Age Gate presentation.
+   AgeGate.jsx owns state, accessibility and WAAPI choreography.
+   No other stylesheet should target .age-gate* or body.age-gate-*.
    ========================================================================== */
 
 body.age-gate-open{
-  overflow:hidden!important;
-  overscroll-behavior:none!important;
+  overflow:hidden;
+  overscroll-behavior:none;
   touch-action:none;
+}
+
+body.age-gate-transitioning{
+  cursor:progress;
 }
 
 .age-gate{
   --age-sky:#b0e3fd;
   --age-ink:#0b0d12;
-  --age-soft:#27343c;
-  position:fixed!important;
-  inset:0!important;
-  z-index:10000!important;
-  inline-size:100vw!important;
-  block-size:100dvh!important;
-  min-block-size:100svh!important;
-  overflow:hidden!important;
-  isolation:isolate!important;
-  background:#b0e3fd!important;
-  color:var(--age-ink)!important;
+  --age-copy:#26343c;
+  position:fixed;
+  inset:0;
+  z-index:10000;
+  width:100vw;
+  height:100dvh;
+  min-height:100svh;
+  overflow:hidden;
+  isolation:isolate;
+  background:var(--age-sky);
+  color:var(--age-ink);
 }
 
 .age-gate__prepare-surface{
@@ -32,12 +38,15 @@ body.age-gate-open{
   z-index:40;
   pointer-events:none;
   background:
-    radial-gradient(ellipse 74% 42% at 50% 45%,rgba(255,255,255,.16),transparent 72%),
-    linear-gradient(180deg,#b0e3fd,#b9e7fd 55%,#d0effd);
+    radial-gradient(ellipse 72% 42% at 50% 45%,rgba(255,255,255,.18),transparent 72%),
+    linear-gradient(180deg,#b0e3fd 0%,#bae7fd 55%,#d3f0fd 100%);
   opacity:1;
   transition:opacity 220ms cubic-bezier(.16,1,.3,1);
 }
-.age-gate.is-ready .age-gate__prepare-surface{opacity:0}
+
+.age-gate.is-ready .age-gate__prepare-surface{
+  opacity:0;
+}
 
 .age-gate__scene{
   position:absolute;
@@ -45,30 +54,35 @@ body.age-gate-open{
   z-index:0;
   pointer-events:none;
   background:
-    linear-gradient(180deg,rgba(176,227,253,.04),rgba(176,227,253,.01)),
+    linear-gradient(180deg,rgba(176,227,253,.03),rgba(176,227,253,.01)),
     url('../assets/atmosphere/home-hero-sky.png') center 48% / cover no-repeat;
-  transform:translate3d(0,0,0) scale(1);
-  transform-origin:50% 48%;
+  transform:scale(1);
+  transform-origin:50% 50%;
   backface-visibility:hidden;
-  -webkit-backface-visibility:hidden;
 }
+
 .age-gate__scene::after{
   position:absolute;
   inset:0;
   content:"";
   background:
-    radial-gradient(ellipse 48% 38% at 50% 46%,rgba(255,255,255,.12),transparent 74%),
+    radial-gradient(ellipse 48% 38% at 50% 46%,rgba(255,255,255,.14),transparent 74%),
     linear-gradient(180deg,rgba(255,255,255,.02),transparent 56%,rgba(190,234,254,.06));
 }
 
 .age-gate__atmosphere-glow{
   position:absolute;
-  inset:-8%;
+  inset:-10%;
   z-index:1;
   pointer-events:none;
-  background:radial-gradient(ellipse 58% 40% at 50% 53%,rgba(255,255,255,.18),rgba(255,255,255,.035) 48%,transparent 75%);
-  opacity:.72;
-  transform:translate3d(0,0,0) scale(1);
+  background:radial-gradient(
+    ellipse 60% 42% at 50% 52%,
+    rgba(255,255,255,.34) 0%,
+    rgba(255,255,255,.12) 42%,
+    transparent 74%
+  );
+  opacity:.55;
+  transform:scale(1);
 }
 
 .age-gate__cloud-depth{
@@ -76,10 +90,9 @@ body.age-gate-open{
   inset:0;
   pointer-events:none;
   transform:translate3d(0,0,0);
-  transition:transform 220ms cubic-bezier(.16,1,.3,1);
   backface-visibility:hidden;
-  -webkit-backface-visibility:hidden;
 }
+
 .age-gate__cloud-depth--far{z-index:2}
 .age-gate__cloud-depth--mid{z-index:3}
 .age-gate__cloud-depth--near{z-index:4}
@@ -90,241 +103,433 @@ body.age-gate-open{
   background-repeat:no-repeat;
   background-position:center;
   background-size:contain;
-  filter:none!important;
-  transform:translate3d(0,0,0) rotate(0deg) scale(1);
+  filter:none;
+  transform:translate3d(0,0,0) scale(1);
   transform-origin:50% 50%;
   backface-visibility:hidden;
-  -webkit-backface-visibility:hidden;
 }
 
-/* Far plane */
-.age-gate__cloud-frame--far-left{top:8%;left:-8%;width:min(29vw,440px);aspect-ratio:1.75/1;opacity:.22;background-image:url('../assets/atmosphere/clouds/cloud-16.webp')}
-.age-gate__cloud-frame--far-right{top:28%;right:-8%;width:min(31vw,470px);aspect-ratio:1.8/1;opacity:.23;background-image:url('../assets/atmosphere/clouds/cloud-09.webp')}
-.age-gate__cloud-frame--far-top{top:-9%;left:34%;width:min(38vw,620px);aspect-ratio:1.84/1;opacity:.2;background-image:url('../assets/atmosphere/clouds/cloud-10.webp')}
-.age-gate__cloud-frame--far-low{left:31%;bottom:6%;width:min(35vw,560px);aspect-ratio:1.82/1;opacity:.18;background-image:url('../assets/atmosphere/clouds/cloud-14.webp')}
+/* Far atmosphere */
+.age-gate__cloud-frame--far-left{
+  top:8%;
+  left:-8%;
+  width:min(29vw,440px);
+  aspect-ratio:1.75/1;
+  opacity:.24;
+  background-image:url('../assets/atmosphere/clouds/cloud-16.webp');
+}
 
-/* Mid plane */
-.age-gate__cloud-frame--left{top:-11%;left:-15%;width:min(50vw,800px);aspect-ratio:1.9/1;opacity:.44;background-image:url('../assets/atmosphere/clouds/cloud-left-fragment.webp')}
-.age-gate__cloud-frame--right{top:-7%;right:-17%;width:min(52vw,820px);aspect-ratio:1.9/1;opacity:.44;background-image:url('../assets/atmosphere/clouds/cloud-right-fragment.webp')}
-.age-gate__cloud-frame--center{top:31%;left:50%;width:min(48vw,760px);aspect-ratio:1.85/1;translate:-50% 0;opacity:.24;background-image:url('../assets/atmosphere/clouds/cloud-21.webp')}
-.age-gate__cloud-frame--bottom{left:50%;bottom:-28%;width:min(108vw,1760px);aspect-ratio:1.82/1;translate:-50% 0;opacity:.36;background-image:url('../assets/atmosphere/clouds/cloud-mid-field.webp')}
-.age-gate__cloud-frame--mid-lower-left{top:49%;left:-7%;width:min(43vw,690px);aspect-ratio:1.8/1;opacity:.21;background-image:url('../assets/atmosphere/clouds/cloud-19.webp')}
-.age-gate__cloud-frame--mid-lower-right{top:52%;right:-8%;width:min(41vw,660px);aspect-ratio:1.78/1;opacity:.2;background-image:url('../assets/atmosphere/clouds/natural-white-cumulus-cloud-floating-on-transparent-background-png.webp')}
+.age-gate__cloud-frame--far-right{
+  top:28%;
+  right:-8%;
+  width:min(31vw,470px);
+  aspect-ratio:1.8/1;
+  opacity:.25;
+  background-image:url('../assets/atmosphere/clouds/cloud-09.webp');
+}
 
-/* Near plane: framing only; they must never cover the decision UI at rest. */
-.age-gate__cloud-frame--near-left{left:-30%;bottom:-34%;width:min(74vw,1180px);aspect-ratio:1.72/1;opacity:.09;background-image:url('../assets/atmosphere/clouds/cloud-near-mass.webp');transform-origin:28% 72%}
-.age-gate__cloud-frame--near-right{right:-33%;bottom:-30%;width:min(70vw,1120px);aspect-ratio:1.76/1;opacity:.08;background-image:url('../assets/atmosphere/clouds/cloud-17.webp');transform-origin:72% 72%}
+.age-gate__cloud-frame--far-top{
+  top:-8%;
+  left:34%;
+  width:min(38vw,620px);
+  aspect-ratio:1.84/1;
+  opacity:.22;
+  background-image:url('../assets/atmosphere/clouds/cloud-10.webp');
+}
 
-/* Editorial decision layer. This is intentionally always above every cloud. */
+.age-gate__cloud-frame--far-low{
+  left:31%;
+  bottom:7%;
+  width:min(35vw,560px);
+  aspect-ratio:1.82/1;
+  opacity:.2;
+  background-image:url('../assets/atmosphere/clouds/cloud-14.webp');
+}
+
+/* Mid atmosphere */
+.age-gate__cloud-frame--left{
+  top:-10%;
+  left:-15%;
+  width:min(50vw,800px);
+  aspect-ratio:1.9/1;
+  opacity:.45;
+  background-image:url('../assets/atmosphere/clouds/cloud-left-fragment.webp');
+}
+
+.age-gate__cloud-frame--right{
+  top:-7%;
+  right:-17%;
+  width:min(52vw,820px);
+  aspect-ratio:1.9/1;
+  opacity:.45;
+  background-image:url('../assets/atmosphere/clouds/cloud-right-fragment.webp');
+}
+
+.age-gate__cloud-frame--center{
+  top:32%;
+  left:50%;
+  width:min(48vw,760px);
+  aspect-ratio:1.85/1;
+  opacity:.24;
+  translate:-50% 0;
+  background-image:url('../assets/atmosphere/clouds/cloud-21.webp');
+}
+
+.age-gate__cloud-frame--bottom{
+  left:50%;
+  bottom:-28%;
+  width:min(108vw,1760px);
+  aspect-ratio:1.82/1;
+  opacity:.34;
+  translate:-50% 0;
+  background-image:url('../assets/atmosphere/clouds/cloud-mid-field.webp');
+}
+
+.age-gate__cloud-frame--mid-lower-left{
+  top:49%;
+  left:-7%;
+  width:min(43vw,690px);
+  aspect-ratio:1.8/1;
+  opacity:.22;
+  background-image:url('../assets/atmosphere/clouds/cloud-19.webp');
+}
+
+.age-gate__cloud-frame--mid-lower-right{
+  top:52%;
+  right:-8%;
+  width:min(41vw,660px);
+  aspect-ratio:1.78/1;
+  opacity:.21;
+  background-image:url('../assets/atmosphere/clouds/natural-white-cumulus-cloud-floating-on-transparent-background-png.webp');
+}
+
+/* Near camera clouds remain mostly off-screen at rest. During entry WAAPI
+   drives them across the camera to create the full-screen cloud curtain. */
+.age-gate__cloud-frame--near-left{
+  left:-46%;
+  bottom:-34%;
+  width:min(112vw,1760px);
+  aspect-ratio:1.72/1;
+  opacity:.08;
+  background-image:url('../assets/atmosphere/clouds/cloud-near-mass.webp');
+  transform-origin:28% 72%;
+}
+
+.age-gate__cloud-frame--near-right{
+  right:-48%;
+  bottom:-31%;
+  width:min(108vw,1700px);
+  aspect-ratio:1.76/1;
+  opacity:.07;
+  background-image:url('../assets/atmosphere/clouds/cloud-17.webp');
+  transform-origin:72% 72%;
+}
+
+/* Decision layer */
 .age-gate__panel{
-  position:absolute!important;
-  z-index:20!important;
-  top:50%!important;
-  left:50%!important;
-  inline-size:min(calc(100vw - 48px),680px)!important;
-  margin:0!important;
-  padding:clamp(18px,2.2vw,28px)!important;
-  display:flex!important;
-  flex-direction:column!important;
-  align-items:center!important;
-  justify-content:center!important;
-  border:0!important;
-  border-radius:0!important;
-  background:transparent!important;
-  box-shadow:none!important;
-  text-align:center!important;
-  translate:-50% -50%!important;
-  opacity:1!important;
+  position:absolute;
+  z-index:20;
+  top:50%;
+  left:50%;
+  width:min(calc(100vw - 48px),680px);
+  padding:clamp(18px,2.2vw,28px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  transform:translate3d(-50%,-50%,0);
 }
+
 .age-gate__panel::before{
   position:absolute;
   z-index:-1;
-  inline-size:min(86vw,640px);
-  block-size:min(58vh,520px);
+  width:min(86vw,640px);
+  height:min(58vh,520px);
   border-radius:50%;
   content:"";
   pointer-events:none;
-  background:radial-gradient(ellipse at center,rgba(237,249,255,.74) 0%,rgba(237,249,255,.44) 40%,rgba(237,249,255,.14) 62%,transparent 78%);
+  background:radial-gradient(
+    ellipse at center,
+    rgba(238,249,255,.8) 0%,
+    rgba(238,249,255,.48) 42%,
+    rgba(238,249,255,.15) 64%,
+    transparent 79%
+  );
 }
-.age-gate__panel::after{content:none!important;display:none!important}
 
 .age-gate__brand{
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  inline-size:100%!important;
-  margin:0 0 clamp(24px,3.5vh,40px)!important;
-  opacity:1!important;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  margin:0 0 clamp(24px,3.5vh,40px);
 }
+
 .age-gate__brand img{
-  display:block!important;
-  inline-size:clamp(86px,8vw,118px)!important;
-  max-inline-size:28vw!important;
-  block-size:auto!important;
-  margin:0 auto!important;
-  object-fit:contain!important;
-  filter:none!important;
-  opacity:1!important;
+  display:block;
+  width:clamp(86px,8vw,118px);
+  max-width:28vw;
+  height:auto;
+  object-fit:contain;
+  opacity:1;
 }
 
 .age-gate__content{
-  inline-size:min(100%,620px)!important;
-  margin:0 auto!important;
-  display:flex!important;
-  flex-direction:column!important;
-  align-items:center!important;
-  opacity:1!important;
+  width:min(100%,620px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
 }
-.age-gate__content h1{
-  inline-size:100%!important;
-  margin:0!important;
-  color:#0b0d12!important;
-  font:400 clamp(72px,7vw,108px)/.81 var(--font-display,var(--serif,Georgia,serif))!important;
-  letter-spacing:-.058em!important;
-  text-align:center!important;
-  text-wrap:balance!important;
-  text-shadow:none!important;
-  opacity:1!important;
-}
-.age-gate__copy{
-  inline-size:min(100%,570px)!important;
-  margin:clamp(18px,2.4vh,28px) auto 0!important;
-  color:#27343c!important;
-  font:600 clamp(14px,1.05vw,18px)/1.43 var(--font-primary,var(--sans,sans-serif))!important;
-  letter-spacing:-.012em!important;
-  text-align:center!important;
-  text-shadow:none!important;
-  opacity:1!important;
-}
-.age-gate__actions{
-  inline-size:min(100%,460px)!important;
-  margin:clamp(28px,3.4vh,38px) auto 0!important;
-  display:grid!important;
-  gap:12px!important;
-  opacity:1!important;
-}
-.age-gate__action{
-  position:relative!important;
-  inline-size:100%!important;
-  min-block-size:64px!important;
-  margin:0!important;
-  padding:0 60px 0 28px!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  appearance:none!important;
-  border:1.5px solid rgba(11,13,18,.72)!important;
-  border-radius:999px!important;
-  background:rgba(247,252,255,.76)!important;
-  color:#0b0d12!important;
-  box-shadow:0 8px 22px rgba(30,69,91,.07)!important;
-  -webkit-backdrop-filter:none!important;
-  backdrop-filter:none!important;
-  font:800 clamp(10.5px,.85vw,12.5px)/1 var(--font-ui,var(--sans,sans-serif))!important;
-  letter-spacing:.22em!important;
-  text-transform:uppercase!important;
-  text-shadow:none!important;
-  cursor:pointer;
-  transition:transform 160ms ease,background-color 160ms ease,color 160ms ease,border-color 160ms ease!important;
-}
-.age-gate__action--primary{border-color:#0b0d12!important;background:#0b0d12!important;color:#fff!important;box-shadow:0 12px 28px rgba(11,13,18,.16)!important}
-.age-gate__action--secondary{background:rgba(247,252,255,.78)!important}
-.age-gate__action svg{position:absolute!important;right:25px!important;top:50%!important;inline-size:22px!important;block-size:22px!important;stroke-width:1.65!important;transform:translateY(-50%)!important}
-.age-gate__action:hover{transform:translateY(-2px)!important}
-.age-gate__action:active{transform:translateY(0) scale(.99)!important}
-.age-gate__action:disabled{cursor:default!important}
-.age-gate__action:focus-visible{outline:3px solid rgba(11,13,18,.88)!important;outline-offset:4px!important}
 
-.age-gate.is-transitioning{pointer-events:none!important}
+.age-gate__content h1{
+  width:100%;
+  margin:0;
+  color:var(--age-ink);
+  font:400 clamp(72px,7vw,108px)/.81 var(--font-display,var(--serif,Georgia,serif));
+  letter-spacing:-.058em;
+  text-align:center;
+  text-wrap:balance;
+}
+
+.age-gate__copy{
+  width:min(100%,570px);
+  margin:clamp(18px,2.4vh,28px) auto 0;
+  color:var(--age-copy);
+  font:600 clamp(14px,1.05vw,18px)/1.43 var(--font-primary,var(--sans,sans-serif));
+  letter-spacing:-.012em;
+  text-align:center;
+}
+
+.age-gate__actions{
+  width:min(100%,460px);
+  margin:clamp(28px,3.4vh,38px) auto 0;
+  display:grid;
+  gap:12px;
+}
+
+.age-gate__action{
+  position:relative;
+  width:100%;
+  min-height:64px;
+  padding:0 60px 0 28px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1.5px solid rgba(11,13,18,.72);
+  border-radius:999px;
+  background:rgba(247,252,255,.78);
+  color:var(--age-ink);
+  box-shadow:0 8px 22px rgba(30,69,91,.07);
+  font:800 clamp(10.5px,.85vw,12.5px)/1 var(--font-ui,var(--sans,sans-serif));
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:
+    transform 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease;
+}
+
+.age-gate__action--primary{
+  border-color:var(--age-ink);
+  background:var(--age-ink);
+  color:#fff;
+  box-shadow:0 12px 28px rgba(11,13,18,.16);
+}
+
+.age-gate__action svg{
+  position:absolute;
+  right:25px;
+  top:50%;
+  width:22px;
+  height:22px;
+  stroke-width:1.65;
+  transform:translateY(-50%);
+}
+
+.age-gate__action:hover{transform:translateY(-2px)}
+.age-gate__action:active{transform:translateY(0) scale(.99)}
+.age-gate__action:disabled{cursor:default}
+.age-gate__action:focus-visible{
+  outline:3px solid rgba(11,13,18,.88);
+  outline-offset:4px;
+}
+
+.age-gate.is-transitioning{
+  pointer-events:none;
+}
+
 .age-gate.is-transitioning .age-gate__cloud-frame,
 .age-gate.is-transitioning .age-gate__scene,
-.age-gate.is-transitioning .age-gate__atmosphere-glow,
-.age-gate.is-transitioning .age-gate__brand,
-.age-gate.is-transitioning #age-gate-title,
-.age-gate.is-transitioning #age-gate-description,
-.age-gate.is-transitioning .age-gate__actions{
+.age-gate.is-transitioning .age-gate__atmosphere-glow{
   will-change:transform,opacity;
 }
-body.age-gate-transitioning{cursor:progress}
 
-/* Mobile composition */
+/* Mobile/tablet composition */
 @media(max-width:899px){
-  .age-gate{block-size:100svh!important;min-block-size:100svh!important}
-  .age-gate__panel{
-    inline-size:min(calc(100vw - 30px),560px)!important;
-    padding:18px clamp(16px,4.5vw,30px)!important;
+  .age-gate{
+    height:100svh;
+    min-height:100svh;
   }
-  .age-gate__panel::before{inline-size:min(104vw,590px);block-size:min(60svh,500px)}
-  .age-gate__brand{margin-bottom:clamp(20px,3svh,29px)!important}
-  .age-gate__brand img{inline-size:clamp(74px,15vw,94px)!important;max-inline-size:24vw!important}
-  .age-gate__content h1{font-size:clamp(56px,11vw,80px)!important}
-  .age-gate__copy{inline-size:min(100%,470px)!important;font-size:clamp(13px,2.15vw,16px)!important}
-  .age-gate__actions{inline-size:min(100%,410px)!important}
 
-  .age-gate__cloud-depth{transition:none!important}
-  .age-gate__cloud-frame--far-left{top:9%;left:-22%;width:60vw;opacity:.18}
-  .age-gate__cloud-frame--far-right{top:30%;right:-24%;width:64vw;opacity:.19}
-  .age-gate__cloud-frame--far-top{top:-5%;left:19%;width:70vw;opacity:.15}
-  .age-gate__cloud-frame--far-low{left:18%;bottom:17%;width:66vw;opacity:.14}
+  .age-gate__panel{
+    width:min(calc(100vw - 30px),560px);
+    padding:18px clamp(16px,4.5vw,30px);
+  }
+
+  .age-gate__panel::before{
+    width:min(104vw,590px);
+    height:min(60svh,500px);
+  }
+
+  .age-gate__brand{
+    margin-bottom:clamp(20px,3svh,29px);
+  }
+
+  .age-gate__brand img{
+    width:clamp(74px,15vw,94px);
+    max-width:24vw;
+  }
+
+  .age-gate__content h1{
+    font-size:clamp(56px,11vw,80px);
+  }
+
+  .age-gate__copy{
+    width:min(100%,470px);
+    font-size:clamp(13px,2.15vw,16px);
+  }
+
+  .age-gate__actions{
+    width:min(100%,410px);
+  }
+
+  .age-gate__cloud-frame--far-left{top:9%;left:-22%;width:60vw;opacity:.19}
+  .age-gate__cloud-frame--far-right{top:30%;right:-24%;width:64vw;opacity:.2}
+  .age-gate__cloud-frame--far-top{top:-5%;left:19%;width:70vw;opacity:.17}
+  .age-gate__cloud-frame--far-low{left:18%;bottom:17%;width:66vw;opacity:.15}
+
   .age-gate__cloud-frame--left{top:-4%;left:-42%;width:98vw;opacity:.34}
   .age-gate__cloud-frame--right{top:1%;right:-45%;width:100vw;opacity:.34}
   .age-gate__cloud-frame--center{top:34%;width:92vw;opacity:.19}
   .age-gate__cloud-frame--bottom{bottom:-14%;width:154vw;opacity:.3}
   .age-gate__cloud-frame--mid-lower-left{top:51%;left:-30%;width:92vw;opacity:.17}
   .age-gate__cloud-frame--mid-lower-right{top:54%;right:-31%;width:94vw;opacity:.16}
-  .age-gate__cloud-frame--near-left{left:-65%;bottom:-25%;width:140vw;opacity:.07}
-  .age-gate__cloud-frame--near-right{right:-69%;bottom:-23%;width:142vw;opacity:.06}
+
+  .age-gate__cloud-frame--near-left{
+    left:-78%;
+    bottom:-26%;
+    width:176vw;
+    opacity:.07;
+  }
+
+  .age-gate__cloud-frame--near-right{
+    right:-82%;
+    bottom:-24%;
+    width:180vw;
+    opacity:.06;
+  }
 }
 
 @media(max-width:599px){
   .age-gate__panel{
-    inline-size:min(calc(100vw - 24px),430px)!important;
-    padding:16px 14px!important;
+    width:min(calc(100vw - 24px),430px);
+    padding:16px 14px;
   }
-  .age-gate__panel::before{inline-size:112vw;block-size:min(61svh,470px)}
-  .age-gate__brand{margin-bottom:clamp(19px,2.8svh,26px)!important}
-  .age-gate__brand img{inline-size:clamp(70px,20vw,88px)!important;max-inline-size:24vw!important}
-  .age-gate__content h1{font-size:clamp(49px,14.5vw,64px)!important;line-height:.84!important}
-  .age-gate__copy{inline-size:min(100%,350px)!important;margin-top:17px!important;padding-inline:7px!important;font-size:clamp(13px,3.45vw,14.5px)!important;line-height:1.42!important}
-  .age-gate__actions{inline-size:min(100%,350px)!important;margin-top:24px!important;gap:10px!important}
-  .age-gate__action{min-block-size:56px!important;padding-inline:22px 52px!important;font-size:10.25px!important;letter-spacing:.19em!important}
-  .age-gate__action svg{right:21px!important;inline-size:19px!important;block-size:19px!important}
 
-  .age-gate__cloud-frame--far-left{top:9%;left:-35%;width:84vw}
-  .age-gate__cloud-frame--far-right{top:31%;right:-38%;width:88vw}
-  .age-gate__cloud-frame--far-top{top:-1%;left:8%;width:90vw}
-  .age-gate__cloud-frame--far-low{left:8%;bottom:22%;width:86vw}
-  .age-gate__cloud-frame--left{left:-62%;width:130vw;opacity:.3}
-  .age-gate__cloud-frame--right{right:-65%;width:132vw;opacity:.3}
-  .age-gate__cloud-frame--center{top:37%;width:118vw;opacity:.16}
-  .age-gate__cloud-frame--bottom{bottom:-6%;width:194vw;opacity:.27}
-  .age-gate__cloud-frame--mid-lower-left{top:51%;left:-51%;width:132vw;opacity:.14}
-  .age-gate__cloud-frame--mid-lower-right{top:55%;right:-57%;width:136vw;opacity:.13}
-  .age-gate__cloud-frame--near-left{left:-84%;bottom:-20%;width:184vw;opacity:.055}
-  .age-gate__cloud-frame--near-right{right:-90%;bottom:-18%;width:188vw;opacity:.05}
+  .age-gate__panel::before{
+    width:112vw;
+    height:min(61svh,470px);
+  }
+
+  .age-gate__brand{
+    margin-bottom:clamp(19px,2.8svh,26px);
+  }
+
+  .age-gate__brand img{
+    width:clamp(70px,20vw,88px);
+    max-width:24vw;
+  }
+
+  .age-gate__content h1{
+    font-size:clamp(49px,14.5vw,64px);
+    line-height:.84;
+  }
+
+  .age-gate__copy{
+    width:min(100%,350px);
+    margin-top:17px;
+    padding-inline:7px;
+    font-size:clamp(13px,3.45vw,14.5px);
+    line-height:1.42;
+  }
+
+  .age-gate__actions{
+    width:min(100%,350px);
+    margin-top:24px;
+    gap:10px;
+  }
+
+  .age-gate__action{
+    min-height:56px;
+    padding-inline:22px 52px;
+    font-size:10.25px;
+    letter-spacing:.19em;
+  }
+
+  .age-gate__action svg{
+    right:21px;
+    width:19px;
+    height:19px;
+  }
+
+  .age-gate__cloud-frame--far-left{top:8%;left:-36%;width:86vw}
+  .age-gate__cloud-frame--far-right{top:30%;right:-39%;width:90vw}
+  .age-gate__cloud-frame--far-top{top:-2%;left:8%;width:92vw}
+  .age-gate__cloud-frame--far-low{left:7%;bottom:21%;width:88vw}
+
+  .age-gate__cloud-frame--left{left:-64%;width:134vw;opacity:.31}
+  .age-gate__cloud-frame--right{right:-67%;width:136vw;opacity:.31}
+  .age-gate__cloud-frame--center{top:37%;width:122vw;opacity:.17}
+  .age-gate__cloud-frame--bottom{bottom:-6%;width:198vw;opacity:.28}
+  .age-gate__cloud-frame--mid-lower-left{top:51%;left:-53%;width:136vw;opacity:.15}
+  .age-gate__cloud-frame--mid-lower-right{top:55%;right:-59%;width:140vw;opacity:.14}
+
+  .age-gate__cloud-frame--near-left{
+    left:-104%;
+    bottom:-20%;
+    width:224vw;
+  }
+
+  .age-gate__cloud-frame--near-right{
+    right:-110%;
+    bottom:-18%;
+    width:228vw;
+  }
 }
 
 @media(max-width:380px){
-  .age-gate__panel{inline-size:min(calc(100vw - 18px),390px)!important;padding-inline:10px!important}
-  .age-gate__brand img{inline-size:68px!important}
-  .age-gate__content h1{font-size:47px!important}
-  .age-gate__copy{inline-size:min(100%,315px)!important;font-size:13px!important}
-  .age-gate__actions{inline-size:min(100%,325px)!important}
-  .age-gate__action{min-block-size:54px!important;font-size:9.75px!important}
+  .age-gate__brand img{width:68px}
+  .age-gate__content h1{font-size:47px}
+  .age-gate__copy{width:min(100%,315px);font-size:13px}
+  .age-gate__actions{width:min(100%,325px)}
+  .age-gate__action{min-height:54px;font-size:9.75px}
 }
 
 @media(max-height:690px) and (max-width:599px){
-  .age-gate__brand{margin-bottom:15px!important}
-  .age-gate__brand img{inline-size:61px!important}
-  .age-gate__content h1{font-size:42px!important}
-  .age-gate__copy{margin-top:11px!important;font-size:12.75px!important;line-height:1.34!important}
-  .age-gate__actions{margin-top:16px!important;gap:7px!important}
-  .age-gate__action{min-block-size:48px!important}
+  .age-gate__brand{margin-bottom:15px}
+  .age-gate__brand img{width:61px}
+  .age-gate__content h1{font-size:42px}
+  .age-gate__copy{margin-top:11px;font-size:12.75px;line-height:1.34}
+  .age-gate__actions{margin-top:16px;gap:7px}
+  .age-gate__action{min-height:48px}
 }
 
 @media(prefers-reduced-motion:reduce){
   body.age-gate-transitioning{cursor:default}
-  .age-gate__action{transition:none!important}
-  .age-gate__cloud-depth{transition:none!important}
-  .age-gate__atmosphere-glow{display:none!important}
+  .age-gate__prepare-surface,
+  .age-gate__action{transition:none}
+  .age-gate__atmosphere-glow{display:none}
 }
