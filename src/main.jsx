@@ -219,7 +219,7 @@ function AgeGate(){
           aria-hidden="true"
           initial={false}
           animate={entering&&!reduceMotion
-            ?{x:'118vw',y:'-20vh',opacity:0,rotate:-7,scale:1.16}
+            ?{x:'118vw',y:'-20vh',opacity:[0,.34,0],rotate:-7,scale:1.16}
             :{x:'-34vw',y:'18vh',opacity:0,rotate:-7,scale:.92}}
           transition={cloudTransition(.18,1.08)}
         />
@@ -228,7 +228,7 @@ function AgeGate(){
           aria-hidden="true"
           initial={false}
           animate={entering&&!reduceMotion
-            ?{x:'-116vw',y:'-16vh',opacity:0,rotate:6,scale:1.14}
+            ?{x:'-116vw',y:'-16vh',opacity:[0,.3,0],rotate:6,scale:1.14}
             :{x:'36vw',y:'22vh',opacity:0,rotate:6,scale:.94}}
           transition={cloudTransition(.24,1.05)}
         />
