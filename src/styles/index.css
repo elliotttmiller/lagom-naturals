@@ -20,5 +20,6 @@
 @import './home-scroll-snap.css';
 @import './desktop-snap-home.css';
 @import './mobile-home-composition.css';
+@import './home-hero-fullbleed.css';
 @import './home-product-stage.css';
 @import './lagom-motion-language.css';
