@@ -31,6 +31,7 @@
   transform:none!important;
   translate:none!important;
   pointer-events:none!important;
+  contain:paint;
 }
 
 .sky-home .atmospheric-scene-hero .legacy-sky-hero__product--fullbleed picture{
