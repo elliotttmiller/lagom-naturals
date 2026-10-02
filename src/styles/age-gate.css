@@ -23,7 +23,6 @@ body.age-gate-open{
   isolation:isolate!important;
   background-color:var(--age-sky)!important;
   color:var(--age-ink)!important;
-  transition:background-color .76s cubic-bezier(.16,1,.3,1) .42s;
 }
 
 .age-gate__prepare-surface{
@@ -78,9 +77,20 @@ body.age-gate-open{
   position:absolute;
   inset:0;
   pointer-events:none;
-  transform:translateZ(0);
+  transform:translate3d(0,0,0);
+  transition:transform 260ms cubic-bezier(.16,1,.3,1);
   backface-visibility:hidden;
   -webkit-backface-visibility:hidden;
+}
+
+.age-gate:not(.is-transitioning) .age-gate__cloud-depth--far{
+  transform:translate3d(calc(var(--age-pointer-x,0px) * .28),calc(var(--age-pointer-y,0px) * .20),0);
+}
+.age-gate:not(.is-transitioning) .age-gate__cloud-depth--mid{
+  transform:translate3d(calc(var(--age-pointer-x,0px) * .55),calc(var(--age-pointer-y,0px) * .42),0);
+}
+.age-gate:not(.is-transitioning) .age-gate__cloud-depth--near{
+  transform:translate3d(calc(var(--age-pointer-x,0px) * .84),calc(var(--age-pointer-y,0px) * .68),0);
 }
 
 .age-gate__cloud-depth--far{z-index:0}
@@ -95,7 +105,6 @@ body.age-gate-open{
   background:
     radial-gradient(ellipse 44% 30% at 50% 54%,rgba(255,255,255,.46),rgba(255,255,255,.08) 48%,transparent 76%),
     radial-gradient(ellipse 82% 48% at 50% 16%,rgba(255,255,255,.14),transparent 72%);
-  filter:blur(6px);
   transform-origin:50% 52%;
 }
 
@@ -225,36 +234,7 @@ body.age-gate-open{
 }
 
 .age-gate.is-transitioning .age-gate__cloud-frame,
-.age-gate.is-transitioning .age-gate__mist-sweep{
-  will-change:transform,opacity;
-}
-
-.age-gate__mist-sweep{
-  position:absolute;
-  z-index:2;
-  inline-size:min(82vw,72rem);
-  block-size:min(24vh,14rem);
-  pointer-events:none;
-  border-radius:50%;
-  background:
-    radial-gradient(ellipse at center,rgba(255,255,255,.48) 0%,rgba(255,255,255,.24) 28%,rgba(255,255,255,.08) 52%,transparent 74%);
-  filter:blur(16px);
-  mix-blend-mode:screen;
-  transform-origin:50% 50%;
-}
-
-.age-gate__mist-sweep--left{
-  top:41%;
-  left:-38%;
-}
-
-.age-gate__mist-sweep--right{
-  right:-40%;
-  bottom:25%;
-}
-
-
-.age-gate__panel{
+.age-gate.is-transitioning .age-gate__panel{
   position:absolute!important;
   z-index:3!important;
   top:50%!important;
@@ -470,6 +450,8 @@ body.age-gate-open{
   .age-gate__cloud-frame--mid-lower-right{top:55%;right:-54%;width:132vw;opacity:.24}
   .age-gate__cloud-frame--near-left{left:-78%;bottom:-18%;width:178vw}
   .age-gate__cloud-frame--near-right{right:-84%;bottom:-17%;width:182vw}
+  .age-gate__cloud-frame{filter:none!important}
+  .age-gate__atmosphere-glow{background:radial-gradient(ellipse 72% 40% at 50% 48%,rgba(255,255,255,.24),transparent 72%)!important}
 }
 
 @media(max-width:380px){
@@ -523,6 +505,5 @@ body.age-gate-transitioning{
   .age-gate__action{transition:none!important}
   .age-gate__scene{filter:none!important}
   .age-gate__cloud-frame{will-change:auto!important}
-  .age-gate__atmosphere-glow,
-  .age-gate__mist-sweep{display:none!important}
+  .age-gate__atmosphere-glow{display:none!important}
 }
