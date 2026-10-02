@@ -60,16 +60,6 @@
   opacity:1;
 }
 
-/* The gate and Hero feel like one camera move: the hidden Hero waits slightly
-   pushed in, then eases to its final crop while the cloud corridor clears. */
-body.age-gate-open .sky-home .legacy-sky-hero__product--fullbleed img.is-ready{
-  transform:scale(1.025);
-}
-
-body.age-gate-transitioning .sky-home .legacy-sky-hero__product--fullbleed img.is-ready{
-  transform:scale(1);
-}
-
 .sky-home .atmospheric-scene-hero .legacy-sky-hero__content{
   z-index:3!important;
 }
