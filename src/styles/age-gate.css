@@ -83,15 +83,6 @@ body.age-gate-open{
   -webkit-backface-visibility:hidden;
 }
 
-.age-gate:not(.is-transitioning) .age-gate__cloud-depth--far{
-  transform:translate3d(calc(var(--age-pointer-x,0px) * .28),calc(var(--age-pointer-y,0px) * .20),0);
-}
-.age-gate:not(.is-transitioning) .age-gate__cloud-depth--mid{
-  transform:translate3d(calc(var(--age-pointer-x,0px) * .55),calc(var(--age-pointer-y,0px) * .42),0);
-}
-.age-gate:not(.is-transitioning) .age-gate__cloud-depth--near{
-  transform:translate3d(calc(var(--age-pointer-x,0px) * .84),calc(var(--age-pointer-y,0px) * .68),0);
-}
 
 .age-gate__cloud-depth--far{z-index:0}
 .age-gate__cloud-depth--mid{z-index:1}
