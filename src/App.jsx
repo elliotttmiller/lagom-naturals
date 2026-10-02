@@ -454,6 +454,11 @@ const HOME_GUMMY_PACKSHOTS = {
   "strawberry-midnight-drift": responsiveImages.homeGummies["Strawberry-Photoroom-900x900"].src,
 };
 
+function HomePackSelector({ productId, variants, selectedId, onChange }) {
+  const selected = variants.find((variant) => variant.id === selectedId) || variants[0];
+  return <label className="sky-home-product__variant"><span className="sky-home-product__variant-label">Pack size</span><select className="sky-home-product__variant-trigger" value={selected.id} onChange={(event) => onChange(event.target.value)} aria-label={`Pack size for ${productId}`}>{variants.map((variant) => <option key={variant.id} value={variant.id}>{variant.label} — ${variant.price.toFixed(2)}</option>)}</select></label>;
+}
+
 const HOME_GUMMY_STAGE_ACCENTS = {
   Classic: "#df6d86",
   Organic: "#75996b",
@@ -626,6 +631,10 @@ function HomePage() {
       <div className="sky-home" ref={homeRef}>
         <HomeScrollSnap rootRef={homeRef} />
         <section id="home-scene-hero" className="beverage-hero atmospheric-scene-hero" data-home-snap-scene aria-label="Featured Lagom Naturals products"><HomeHero /></section>
+
+        <AtmosphericSceneSection id="flavors" className="sky-home__section sky-home__section--flavors sky-home__section--product-stage" labelledBy="home-flavors-title">
+          <HomeProductStage kind="seltzer" items={products.filter((product) => product.category === "Seltzers").slice(0, 4)} eyebrow="MEET THE SELTZER LINE" headingId="home-flavors-title" headingText="Lagom seltzer flavors" intro="Thoughtfully made. Simply enjoyed." ariaLabel="Lagom seltzer flavors" getKey={(product) => product.id} getTitle={(product) => product.name} getAccent={(product) => product.accent} renderMedia={(product, _, motionState) => <HomeSeltzerStageMedia product={product} reduceMotion={motionState.reduceMotion} />} renderDetails={(product) => <HomeSeltzerStageDetails product={product} />} persistentMedia />
+        </AtmosphericSceneSection>
 
         <AtmosphericSceneSection id="gummies" className="sky-home__section sky-home__section--gummies sky-home__section--product-stage" labelledBy="home-gummies-title">
           <HomeProductStage
