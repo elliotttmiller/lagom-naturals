@@ -75,8 +75,11 @@
     scroll-snap-stop:always;
   }
 
+  /* The footer is the terminal desktop snap region. Aligning its end keeps the
+     compact desktop footer fully visible after the final product scene instead
+     of mandatory snapping back to Gummies. */
   body:has(.sky-home) #root>.site-footer{
-    scroll-snap-align:none;
+    scroll-snap-align:end;
     scroll-snap-stop:normal;
     scroll-margin-block-start:0;
   }
@@ -203,14 +206,24 @@
     scroll-snap-stop:always!important;
   }
 
+  /* Terminal mobile snap region. The footer keeps its natural document height.
+     If it is taller than the snapport, CSS Scroll Snap permits normal scrolling
+     through the oversized snap area so every footer row remains reachable. */
   body:has(.sky-home) #root>.site-footer{
     block-size:auto!important;
     min-block-size:0!important;
     max-block-size:none!important;
     overflow:visible!important;
-    scroll-snap-align:none!important;
+    scroll-snap-align:start!important;
     scroll-snap-stop:normal!important;
     scroll-margin-block-start:0!important;
+    overscroll-behavior-y:auto!important;
+  }
+
+  /* Once the final product scene has been reached, it must not behave as a
+     hard terminal stop. The next downward gesture can resolve to the footer. */
+  .sky-home [data-home-snap-scene]:last-of-type{
+    scroll-snap-stop:normal!important;
   }
 
   /* Mobile content is always rendered. Observer state only identifies the
@@ -272,6 +285,10 @@
   .sky-home [data-home-snap-scene],
   body:has(.sky-home) #root>.site-footer{
     scroll-snap-stop:normal!important;
+  }
+
+  body:has(.sky-home) #root>.site-footer{
+    scroll-snap-align:none!important;
   }
 
   .sky-home [data-home-snap-content]>*{
