@@ -146,7 +146,7 @@ function ProductPage() {
             </div>
             <m.button
               type="button"
-              whileHover={{ y: -2 }}
+              whileHover={motionTokens.hover}
               whileTap={motionTokens.tap}
               className="primary-bar"
               onClick={() => add(item, qty)}
