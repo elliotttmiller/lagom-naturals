@@ -244,6 +244,17 @@
 /* --------------------------------------------------------------------------
    Navigation + drawers
    -------------------------------------------------------------------------- */
+/* Motion owns drawer/backdrop lifecycle transforms. Disable legacy CSS
+   interpolation so inline Motion values reach the compositor directly. */
+.mobile-reference-menu-backdrop,
+.mobile-reference-menu,
+.mobile-account-backdrop,
+.mobile-account-drawer,
+.drawer-bg,
+.drawer{
+  transition:none!important;
+}
+
 .site-header,
 .mobile-reference-header{
   transition:
