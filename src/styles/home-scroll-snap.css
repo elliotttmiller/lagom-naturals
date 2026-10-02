@@ -5,11 +5,12 @@
 :root{
   --home-snap-offset:0px;
   --home-desktop-snap-h:100dvh;
-  --home-mobile-scene-h:100vh;
+  --home-mobile-header-h:calc(var(--mobile-header-content-h,72px) + env(safe-area-inset-top,0px));
+  --home-mobile-scene-h:calc(100vh - var(--home-mobile-header-h));
 }
 
-@supports (height:100dvh){
-  :root{--home-mobile-scene-h:100dvh}
+@supports (height:100svh){
+  :root{--home-mobile-scene-h:calc(100svh - var(--home-mobile-header-h))}
 }
 
 /* --------------------------------------------------------------------------
@@ -127,12 +128,31 @@
    Mobile/tablet scene geometry
    -------------------------------------------------------------------------- */
 @media (max-width:899px){
+  html:has(.sky-home),
+  body:has(.sky-home){
+    background:#b0e3fd;
+  }
+
+  body:has(.sky-home) .app-shell>main{
+    padding-top:0;
+  }
+
+  .sky-home{
+    inline-size:100%;
+    min-inline-size:0;
+    max-inline-size:100vw;
+    overflow-x:clip;
+    touch-action:pan-y pinch-zoom;
+  }
+
   .sky-home [data-home-snap-scene]{
     box-sizing:border-box!important;
     block-size:var(--home-mobile-scene-h)!important;
     min-block-size:var(--home-mobile-scene-h)!important;
     max-block-size:var(--home-mobile-scene-h)!important;
     scroll-margin-block-start:0!important;
+    inline-size:100%!important;
+    max-inline-size:100%!important;
     overflow:clip!important;
     overscroll-behavior:contain;
   }
@@ -142,15 +162,6 @@
     min-block-size:var(--home-mobile-scene-h)!important;
     max-block-size:none!important;
     overflow:visible!important;
-  }
-}
-
-@media (max-width:899px) and (min-height:700px){
-  body:has(.sky-home) #root>.site-footer{
-    block-size:var(--home-mobile-scene-h)!important;
-    min-block-size:var(--home-mobile-scene-h)!important;
-    max-block-size:var(--home-mobile-scene-h)!important;
-    overflow:auto!important;
   }
 }
 
@@ -164,7 +175,7 @@
 @media (max-width:899px) and (prefers-reduced-motion:no-preference){
   html:has(.sky-home){
     scroll-snap-type:y mandatory!important;
-    scroll-padding-block-start:0!important;
+    scroll-padding-block-start:var(--home-mobile-header-h)!important;
     scroll-behavior:auto!important;
     overscroll-behavior-y:none!important;
     touch-action:pan-y pinch-zoom;
@@ -181,6 +192,10 @@
   }
 
   body:has(.sky-home) #root>.site-footer{
+    block-size:auto!important;
+    min-block-size:0!important;
+    max-block-size:none!important;
+    overflow:visible!important;
     scroll-snap-align:none!important;
     scroll-snap-stop:normal!important;
     scroll-margin-block-start:0!important;
@@ -191,6 +206,7 @@
   .sky-home [data-home-snap-content]>*{
     opacity:1!important;
     transform:none!important;
+    transition:none!important;
   }
 
   .sky-home [data-home-snap-scene] .atmospheric-scene-section__cloud{
@@ -229,16 +245,6 @@
 
   .sky-home.has-home-snap-overflow [data-home-snap-scene]{
     scroll-snap-stop:normal!important;
-  }
-}
-
-@supports not (height:100dvh){
-  @media (max-width:899px) and (min-height:700px){
-    body:has(.sky-home) #root>.site-footer{
-      block-size:var(--home-mobile-scene-h,100vh)!important;
-      min-block-size:var(--home-mobile-scene-h,100vh)!important;
-      max-block-size:var(--home-mobile-scene-h,100vh)!important;
-    }
   }
 }
 
