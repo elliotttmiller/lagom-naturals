@@ -45,6 +45,7 @@ import {
 } from "./catalogData";
 import Shell from "@/storefront/StorefrontShell";
 import HomeHero from "@/HomeHeroPortal";
+import HomeProductStage from "@/HomeProductStage";
 import CatalogProductCard from "@/storefront/CatalogProductCard";
 import AddToCartButton from "@/AddToCartButton";
 import ResponsiveImage from "@/storefront/ResponsiveImage";
@@ -561,24 +562,41 @@ function HomePackSelector({ productId, variants, selectedId, onChange }) {
   </div>;
 }
 
-function HomeProductCard({ product }) {
-  const isGummy = product.category === "Gummies";
+const HOME_GUMMY_STAGE_ACCENTS = {
+  Classic: "#df6d86",
+  Organic: "#75996b",
+  "Midnight Drift": "#6763a6",
+};
+
+function HomeSeltzerStageMedia({ product }) {
+  const packshot = HOME_FLAVOR_PACKSHOTS[product.id] || product.image;
+  return (
+    <div className="home-product-stage__seltzer-media">
+      <ResponsiveImage
+        src={packshot}
+        alt={product.name}
+        sizes="(max-width: 899px) 52vw, 24vw"
+        loading="eager"
+        decoding="async"
+      />
+    </div>
+  );
+}
+
+function HomeSeltzerStageDetails({ product }) {
   const variants = productVariants(product);
   const [selectedVariantId, setSelectedVariantId] = useState(variants[0]?.id);
   const [cartState, setCartState] = useState("idle");
   const cartFeedbackTimeout = useRef(null);
   const { add } = useCart();
   const selectedVariant = variants.find((variant) => variant.id === selectedVariantId) || variants[0];
-  const basePackshot = isGummy
-    ? HOME_GUMMY_PACKSHOTS[product.id]
-    : HOME_FLAVOR_PACKSHOTS[product.id];
-  const homePackshot = selectedVariant?.id === "4-pack"
-    ? HOME_FLAVOR_FOUR_PACK_PACKSHOTS[product.id] || selectedVariant.image || basePackshot
-    : basePackshot;
-  const potency = product.category === "Seltzers"
-    ? `${product.thcMgPerCan} MG THC · ${product.canVolume}`
-    : product.strength;
-  const flavorDescription = HOME_FLAVOR_DESCRIPTIONS[product.id];
+  const potency = `${product.thcMgPerCan} MG THC · ${product.canVolume}`;
+  const description = HOME_FLAVOR_DESCRIPTIONS[product.id] || product.description;
+
+  useEffect(() => {
+    setSelectedVariantId(variants[0]?.id);
+    setCartState("idle");
+  }, [product.id]);
 
   useEffect(() => () => window.clearTimeout(cartFeedbackTimeout.current), []);
 
@@ -590,192 +608,82 @@ function HomeProductCard({ product }) {
   };
 
   return (
-    <article className={`sky-home-product${isGummy ? " sky-home-product--gummy-packshot" : ""}`} data-variant={selectedVariant.id} style={{ "--product-accent": product.accent }}>
-      <Link className="sky-home-product__image" to={`/product/${product.id}`} aria-label={`View ${product.name}`}>
-        <m.span
-          key={selectedVariant?.id}
-          className="sky-home-product__image-swap"
-          initial={{ opacity: 0, scale: 0.985 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={motionTokens.springMedia}
-        >
-          <ResponsiveImage src={homePackshot} alt={`${product.name} ${selectedVariant?.label || "product"}`} sizes="(max-width: 699px) 78vw, 32vw" loading="lazy" decoding="async" />
-        </m.span>
-      </Link>
-      <div className="sky-home-product__copy">
-        <h3><Link to={`/product/${product.id}`}>{product.name}</Link></h3>
-        {flavorDescription ? <p className="sky-home-product__description">{flavorDescription}</p> : <p className="sky-home-product__line">{product.productLine && product.productLine !== "Classic" ? product.productLine : product.flavor}</p>}
-        <p className="sky-home-product__mobile-facts" aria-hidden="true"><span>${selectedVariant.price.toFixed(2)}</span><span>{potency}</span></p>
-        {variants.length > 1 ? <div className="sky-home-product__purchase-row">
-          <HomePackSelector productId={product.id} variants={variants} selectedId={selectedVariant.id} onChange={(variantId) => { setSelectedVariantId(variantId); setCartState("idle"); }} />
-          <AddToCartButton className="sky-home-product__action sky-home-product__add-to-cart" label="Add to cart" productId={product.id} state={cartState} onClick={handleAddToCart} aria-label={`Add ${product.name}, ${selectedVariant.label}, to cart`} />
-        </div> : <>
-          <p className="sky-home-product__facts"><span>${selectedVariant.price.toFixed(2)}</span><span>{potency}</span></p>
-          <div className="sky-home-product__purchase-row sky-home-product__purchase-row--solo">
-            <AddToCartButton className="sky-home-product__action sky-home-product__add-to-cart" label="Add to cart" productId={product.id} state={cartState} onClick={handleAddToCart} aria-label={`Add ${product.name}, ${selectedVariant.label}, to cart`} />
-          </div>
-        </>}
+    <>
+      <div className="home-product-stage__detail-copy">
+        <p>{description}</p>
+        <div className="home-product-stage__facts">
+          <span>${selectedVariant.price.toFixed(2)}</span>
+          <span>{potency}</span>
+          <Link to={`/product/${product.id}`}>View details <ArrowRight aria-hidden="true" /></Link>
+        </div>
       </div>
-    </article>
+      <div className="home-product-stage__purchase">
+        {variants.length > 1 && (
+          <HomePackSelector
+            productId={product.id}
+            variants={variants}
+            selectedId={selectedVariant.id}
+            onChange={(variantId) => {
+              setSelectedVariantId(variantId);
+              setCartState("idle");
+            }}
+          />
+        )}
+        <AddToCartButton
+          className="home-product-stage__add-to-cart"
+          label="Add to cart"
+          productId={product.id}
+          state={cartState}
+          onClick={handleAddToCart}
+          aria-label={`Add ${product.name}, ${selectedVariant.label}, to cart`}
+        />
+      </div>
+    </>
   );
 }
 
-function HomeGummyCollectionCard({ collection }) {
+function HomeGummyStageMedia({ collection }) {
+  const packshots = collection.productIds
+    .map((id) => HOME_GUMMY_PACKSHOTS[id])
+    .filter(Boolean)
+    .slice(0, 2);
+
+  return (
+    <div className="home-product-stage__gummy-media" aria-label={`${collection.name} gummy collection`}>
+      {packshots.map((packshot, index) => (
+        <ResponsiveImage
+          key={packshot}
+          className={`home-product-stage__gummy-pouch home-product-stage__gummy-pouch--${index + 1}`}
+          src={packshot}
+          alt=""
+          sizes="(max-width: 899px) 42vw, 20vw"
+          loading="eager"
+          decoding="async"
+        />
+      ))}
+    </div>
+  );
+}
+
+function HomeGummyStageDetails({ collection }) {
   const productsInCollection = products.filter((product) => (
     product.category === "Gummies" && product.productLine === collection.name
   ));
-  const packshots = collection.productIds
-    .map((id) => HOME_GUMMY_PACKSHOTS[id])
-    .filter(Boolean);
   const collectionUrl = `/shop/gummies?collection=${encodeURIComponent(collection.name)}`;
 
   return (
-    <Link
-      className={`gummy-collection-card gummy-collection-card--${collection.tone}`}
-      to={collectionUrl}
-      aria-label={`Explore the ${collection.name} gummy collection, ${productsInCollection.length} products`}
-    >
-      <span className="gummy-collection-card__media" aria-hidden="true">
-        {packshots.map((packshot) => (
-          <ResponsiveImage key={packshot} src={packshot} alt="" sizes="(max-width: 699px) 42vw, 18vw" loading="lazy" decoding="async" />
-        ))}
-      </span>
-      <span className="gummy-collection-card__content">
-        <span className="gummy-collection-card__eyebrow">{productsInCollection.length} flavors</span>
-        <strong>{collection.name}</strong>
-        <span className="gummy-collection-card__description">{collection.description}</span>
-        <span className="gummy-collection-card__cta">Explore collection <ArrowRight aria-hidden="true" /></span>
-      </span>
-    </Link>
-  );
-}
-
-function HomeHorizontalProductRail({ className, children, label }) {
-  const railRef = useRef(null);
-  const metaRef = useRef(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const itemCount = React.Children.count(children);
-
-  useEffect(() => {
-    const rail = railRef.current;
-    if (!rail || typeof window === "undefined") return undefined;
-
-    const mobileViewport = window.matchMedia("(max-width: 899px)");
-    let observer;
-    let motionFrame = 0;
-    let items = [];
-
-    const updateMotion = () => {
-      motionFrame = 0;
-      if (!mobileViewport.matches || !items.length) return;
-
-      const railRect = rail.getBoundingClientRect();
-      const railCenter = railRect.left + railRect.width / 2;
-      const influence = Math.max(1, railRect.width * 0.78);
-
-      items.forEach((item) => {
-        const rect = item.getBoundingClientRect();
-        const center = rect.left + rect.width / 2;
-        const distance = Math.min(1, Math.abs(center - railCenter) / influence);
-        const proximity = 1 - distance;
-        item.style.setProperty("--home-rail-opacity", (0.64 + proximity * 0.36).toFixed(3));
-        item.style.setProperty("--home-rail-scale", (0.965 + proximity * 0.035).toFixed(4));
-        item.style.setProperty("--home-rail-y", `${((1 - proximity) * 8).toFixed(2)}px`);
-      });
-
-      const maxScroll = Math.max(0, rail.scrollWidth - rail.clientWidth);
-      const normalized = maxScroll > 0 ? Math.min(1, Math.max(0, rail.scrollLeft / maxScroll)) : 0;
-      const baseProgress = itemCount ? 100 / itemCount : 100;
-      const progress = baseProgress + normalized * (100 - baseProgress);
-      metaRef.current?.style.setProperty("--home-rail-progress", `${progress}%`);
-    };
-
-    const scheduleMotion = () => {
-      if (!motionFrame) motionFrame = requestAnimationFrame(updateMotion);
-    };
-
-    const configure = () => {
-      observer?.disconnect();
-      items = Array.from(rail.children);
-      items.forEach((item) => item.classList.remove("is-home-rail-active"));
-
-      if (!mobileViewport.matches || !items.length) {
-        setActiveIndex(0);
-        return;
-      }
-
-      items[0].classList.add("is-home-rail-active");
-      setActiveIndex(0);
-      scheduleMotion();
-
-      if (!("IntersectionObserver" in window)) return;
-
-      observer = new IntersectionObserver(
-        (entries) => {
-          const visible = entries
-            .filter((entry) => entry.isIntersecting)
-            .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-          if (!visible || visible.intersectionRatio < 0.52) return;
-
-          const nextIndex = items.indexOf(visible.target);
-          if (nextIndex < 0) return;
-          items.forEach((item, index) => item.classList.toggle("is-home-rail-active", index === nextIndex));
-          setActiveIndex(nextIndex);
-        },
-        {
-          root: rail,
-          rootMargin: "0px -10% 0px -10%",
-          threshold: [0.34, 0.52, 0.7, 0.86],
-        },
-      );
-
-      items.forEach((item) => observer.observe(item));
-    };
-
-    configure();
-    rail.addEventListener("scroll", scheduleMotion, { passive: true });
-    window.addEventListener("resize", scheduleMotion, { passive: true });
-    if (mobileViewport.addEventListener) mobileViewport.addEventListener("change", configure);
-    else mobileViewport.addListener(configure);
-
-    return () => {
-      observer?.disconnect();
-      cancelAnimationFrame(motionFrame);
-      rail.removeEventListener("scroll", scheduleMotion);
-      window.removeEventListener("resize", scheduleMotion);
-      if (mobileViewport.removeEventListener) mobileViewport.removeEventListener("change", configure);
-      else mobileViewport.removeListener(configure);
-    };
-  }, [itemCount]);
-
-  const formatIndex = (value) => String(value).padStart(2, "0");
-
-  return (
     <>
-      <div
-        ref={railRef}
-        className={`${className} home-product-rail`}
-        tabIndex={0}
-        role="group"
-        aria-roledescription="carousel"
-        aria-label={`${label}. Swipe horizontally or use the left and right arrow keys to browse.`}
-      >
-        {children}
+      <div className="home-product-stage__detail-copy">
+        <p>{collection.description}</p>
+        <div className="home-product-stage__facts">
+          <span>{productsInCollection.length} flavors</span>
+          <span>Gummy collection</span>
+        </div>
       </div>
-      <div
-        ref={metaRef}
-        className="home-product-rail__meta"
-        style={{ "--home-rail-progress": `${itemCount ? 100 / itemCount : 100}%` }}
-        aria-hidden="true"
-      >
-        <span className="home-product-rail__index">
-          {formatIndex(activeIndex + 1)} <i>/</i> {formatIndex(itemCount)}
-        </span>
-        <span className="home-product-rail__progress"><span /></span>
-        <span className="home-product-rail__cue">
-          {activeIndex < itemCount - 1 ? "Swipe" : "End"}
-          <ArrowRight aria-hidden="true" />
-        </span>
+      <div className="home-product-stage__purchase home-product-stage__purchase--collection">
+        <Link className="home-product-stage__collection-link" to={collectionUrl}>
+          Explore collection <ArrowRight aria-hidden="true" />
+        </Link>
       </div>
     </>
   );
@@ -789,26 +697,38 @@ function HomePage() {
         <HomeScrollSnap rootRef={homeRef} />
         <section id="home-scene-hero" className="beverage-hero atmospheric-scene-hero" data-home-snap-scene aria-label="Featured Lagom Naturals products"><HomeHero /></section>
 
-        <AtmosphericSceneSection id="flavors" className="sky-home__section sky-home__section--flavors" labelledBy="home-flavors-title">
-          <div className="sky-home__heading">
-            <p>MEET THE SELTZER LINE</p>
-            <h2 id="home-flavors-title">Thoughtfully made.<br/>Simply enjoyed.</h2>
-            <p className="sky-home__body-copy">Meet the Lagom seltzer line—zero sugar, zero carbs, and zero calories, with hydrating electrolytes and no artificial flavors.</p>
-          </div>
-          <HomeHorizontalProductRail className="sky-home__product-grid" label="Lagom seltzer flavors">
-            {homeSeltzers.map((product) => <HomeProductCard key={product.id} product={product} />)}
-          </HomeHorizontalProductRail>
+        <AtmosphericSceneSection id="flavors" className="sky-home__section sky-home__section--flavors sky-home__section--product-stage" labelledBy="home-flavors-title">
+          <HomeProductStage
+            kind="seltzer"
+            items={homeSeltzers}
+            eyebrow="MEET THE SELTZER LINE"
+            headingId="home-flavors-title"
+            headingText="Lagom seltzer flavors"
+            intro="Thoughtfully made. Simply enjoyed."
+            ariaLabel="Lagom seltzer flavors"
+            getKey={(product) => product.id}
+            getTitle={(product) => product.name}
+            getAccent={(product) => product.accent}
+            renderMedia={(product) => <HomeSeltzerStageMedia product={product} />}
+            renderDetails={(product) => <HomeSeltzerStageDetails product={product} />}
+          />
         </AtmosphericSceneSection>
 
-        <AtmosphericSceneSection id="gummies" className="sky-home__section sky-home__section--gummies" labelledBy="home-gummies-title">
-          <div className="sky-home__heading">
-            <p>MEET THE GUMMIE LINE</p>
-            <h2 id="home-gummies-title">Three collections.<br/>One elevated standard.</h2>
-            <p className="sky-home__body-copy">Meet the Lagom gummy line—three distinct collections, made to suit the rhythm of your day or evening.</p>
-          </div>
-          <HomeHorizontalProductRail className="sky-home__gummy-grid" label="Lagom gummy collections">
-            {HOME_GUMMY_COLLECTIONS.map((collection) => <HomeGummyCollectionCard key={collection.name} collection={collection} />)}
-          </HomeHorizontalProductRail>
+        <AtmosphericSceneSection id="gummies" className="sky-home__section sky-home__section--gummies sky-home__section--product-stage" labelledBy="home-gummies-title">
+          <HomeProductStage
+            kind="gummy"
+            items={HOME_GUMMY_COLLECTIONS}
+            eyebrow="MEET THE GUMMIE LINE"
+            headingId="home-gummies-title"
+            headingText="Lagom gummy collections"
+            intro="Three collections. One elevated standard."
+            ariaLabel="Lagom gummy collections"
+            getKey={(collection) => collection.name}
+            getTitle={(collection) => collection.name}
+            getAccent={(collection) => HOME_GUMMY_STAGE_ACCENTS[collection.name] || "#6f7f86"}
+            renderMedia={(collection) => <HomeGummyStageMedia collection={collection} />}
+            renderDetails={(collection) => <HomeGummyStageDetails collection={collection} />}
+          />
         </AtmosphericSceneSection>
 
       </div>
