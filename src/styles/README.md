@@ -20,7 +20,7 @@ file. Runtime ownership and bundle boundaries take precedence over directory sym
 - `legacy-core.css` — temporary shared/desktop compatibility bridge only.
 - `mobile.css` → `mobile/index.css` — globally required mobile foundation, motion, chrome, catalog, overlay and accessibility layers.
 - `desktop.css` — shared desktop presentation.
-- `age-gate.css` — static age-gate geometry/state presentation; native WAAPI in `main.jsx` owns enter choreography.
+- `age-gate.css` — sole Age Gate presentation owner. `src/AgeGate.jsx` owns gate state, accessibility, asset preloading and native WAAPI enter choreography. No legacy stylesheet may target `.age-gate*` or `body.age-gate-*`.
 - `home/index.css` — single global homepage stylesheet boundary.
 - `home-scroll-snap.css` — authoritative homepage native vertical scroll-snap geometry and scene-height contract.
 - `desktop-snap-home.css` — desktop homepage scene presentation.
