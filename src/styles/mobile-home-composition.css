@@ -24,6 +24,20 @@
     touch-action: pan-x pan-y pinch-zoom;
   }
 
+  /* Match the desktop scene contract: the sky is continuous and each section
+     is a composition layer, not an opaque card that visually interrupts snap. */
+  .sky-home .sky-home__section--flavors,
+  .sky-home .sky-home__section--gummies {
+    background: transparent !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .sky-home [data-home-snap-scene] {
+    overflow-anchor: none;
+  }
+
   .sky-home *,
   .sky-home *::before,
   .sky-home *::after {
