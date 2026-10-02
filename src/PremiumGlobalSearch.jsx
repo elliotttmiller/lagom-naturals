@@ -32,6 +32,7 @@ function facts(product){
 export default function PremiumGlobalSearch({openRequest=0,initialTrigger=null}){
   const[open,setOpen]=useState(false)
   const[query,setQuery]=useState('')
+  const[fieldFocused,setFieldFocused]=useState(false)
   const[headerGeometry,setHeaderGeometry]=useState({top:0,height:72})
   const inputRef=useRef(null)
   const returnFocusRef=useRef(null)
@@ -133,8 +134,10 @@ export default function PremiumGlobalSearch({openRequest=0,initialTrigger=null})
         <m.form
           className="global-search__form"
           onSubmit={submit}
-          initial={reduceMotion?false:{opacity:.78,x:10,scale:.992}}
-          animate={{opacity:1,x:0,scale:1}}
+          onFocusCapture={()=>setFieldFocused(true)}
+          onBlurCapture={event=>{if(!event.currentTarget.contains(event.relatedTarget))setFieldFocused(false)}}
+          initial={reduceMotion?false:{opacity:.78,x:10,scale:.992,y:0}}
+          animate={{opacity:1,x:0,scale:1,y:fieldFocused?-1:0}}
           transition={reduceMotion?{duration:0}:{delay:.04,...motionTokens.springSoft}}
         >
           <Search aria-hidden="true"/>
@@ -229,6 +232,7 @@ export default function PremiumGlobalSearch({openRequest=0,initialTrigger=null})
                       exit={{opacity:0,y:-4,scale:.997}}
                       transition={reduceMotion?{duration:0}:{duration:motionTokens.duration.control,delay:Math.min(index*.025,.1),ease:motionTokens.easeSoft}}
                       onClick={()=>goProduct(product.id)}
+                      whileHover={reduceMotion?undefined:{y:-2}}
                       whileTap={motionTokens.tap}
                     >
                       <span className="global-search__result-media"><img src={product.image} alt=""/></span>
