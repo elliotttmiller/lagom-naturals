@@ -116,10 +116,16 @@
   /* The mobile chrome begins transparent over the hero, then becomes a
      readable frosted sky surface after the hero clears the header. */
   .mobile-reference-header.is-home{
+    background:rgba(176,227,253,.94)!important;
+    border-bottom:1px solid rgba(17,17,15,.07)!important;
+    box-shadow:0 8px 24px rgba(44,62,67,.035)!important;
+    color:#111!important;
+    backdrop-filter:blur(14px) saturate(1.06)!important;
+    -webkit-backdrop-filter:blur(14px) saturate(1.06)!important;
     transition:background-color 260ms ease,border-color 260ms ease,box-shadow 260ms ease,color 220ms ease,backdrop-filter 260ms ease!important;
   }
   .mobile-reference-header.is-home.is-home-scrolled{
-    background:rgba(232,241,243,.92)!important;
+    background:rgba(238,247,250,.94)!important;
     border-bottom:1px solid rgba(17,17,15,.10)!important;
     box-shadow:0 8px 30px rgba(44,62,67,.07)!important;
     color:#111!important;
