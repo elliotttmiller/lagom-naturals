@@ -108,7 +108,7 @@ export default function PremiumGlobalSearch({openRequest=0,initialTrigger=null})
     initial={reduceMotion?false:{opacity:0}}
     animate={{opacity:1}}
     exit={{opacity:0}}
-    transition={transition}
+    transition={reduceMotion?{duration:0}:{duration:motionTokens.duration.control,ease:motionTokens.ease}}
     onPointerDown={event=>{if(event.target===event.currentTarget)close()}}
   >
     <m.section
@@ -116,14 +116,27 @@ export default function PremiumGlobalSearch({openRequest=0,initialTrigger=null})
       className={`global-search${searching?' global-search--searching':''}`}
       role="search"
       aria-label="Search Lagom products"
-      initial={reduceMotion?false:{y:-10}}
-      animate={{y:0}}
-      exit={reduceMotion?undefined:{y:-8}}
-      transition={transition}
+      initial={reduceMotion?false:{opacity:.94,y:-10}}
+      animate={{opacity:1,y:0}}
+      exit={reduceMotion?undefined:{opacity:.9,y:-7}}
+      transition={reduceMotion?{duration:0}:motionTokens.springSoft}
     >
-      <div className="global-search__bar">
-        <Link className="global-search__brand" to="/" aria-label="Lagom Naturals home" onClick={close}><img src={`${import.meta.env.BASE_URL}lagom-logo.svg`} alt="Lagom Naturals"/></Link>
-        <form className="global-search__form" onSubmit={submit}>
+      <m.div
+        className="global-search__bar"
+        initial={reduceMotion?false:{opacity:.86,y:-5}}
+        animate={{opacity:1,y:0}}
+        transition={reduceMotion?{duration:0}:{delay:.035,...motionTokens.springSoft}}
+      >
+        <m.div initial={reduceMotion?false:{opacity:0,x:-6}} animate={{opacity:1,x:0}} transition={reduceMotion?{duration:0}:{delay:.08,...motionTokens.springSoft}}>
+          <Link className="global-search__brand" to="/" aria-label="Lagom Naturals home" onClick={close}><img src={`${import.meta.env.BASE_URL}lagom-logo.svg`} alt="Lagom Naturals"/></Link>
+        </m.div>
+        <m.form
+          className="global-search__form"
+          onSubmit={submit}
+          initial={reduceMotion?false:{opacity:.78,x:10,scale:.992}}
+          animate={{opacity:1,x:0,scale:1}}
+          transition={reduceMotion?{duration:0}:{delay:.04,...motionTokens.springSoft}}
+        >
           <Search aria-hidden="true"/>
           <input
             ref={inputRef}
@@ -140,38 +153,97 @@ export default function PremiumGlobalSearch({openRequest=0,initialTrigger=null})
             autoCorrect="off"
             spellCheck="false"
           />
-          {query&&<button type="button" className="global-search__clear" onClick={()=>{setQuery('');inputRef.current?.focus()}} aria-label="Clear search"><X/></button>}
-        </form>
-        <button type="button" className="global-search__close" onClick={close} aria-label="Close search"><X/><span>Close</span></button>
-      </div>
+          <Presence initial={false}>
+            {query&&<m.button
+              type="button"
+              className="global-search__clear"
+              onClick={()=>{setQuery('');inputRef.current?.focus()}}
+              aria-label="Clear search"
+              initial={reduceMotion?false:{opacity:0,scale:.88}}
+              animate={{opacity:1,scale:1}}
+              exit={{opacity:0,scale:.9}}
+              transition={reduceMotion?{duration:0}:motionTokens.springSnappy}
+              whileTap={motionTokens.tap}
+            ><X/></m.button>}
+          </Presence>
+        </m.form>
+        <m.button
+          type="button"
+          className="global-search__close"
+          onClick={close}
+          aria-label="Close search"
+          initial={reduceMotion?false:{opacity:0,x:6}}
+          animate={{opacity:1,x:0}}
+          transition={reduceMotion?{duration:0}:{delay:.1,...motionTokens.springSoft}}
+          whileTap={motionTokens.tap}
+        ><X/><span>Close</span></m.button>
+      </m.div>
 
-      <div className="global-search__panel">
-        {!searching?<div className="global-search__suggestions">
-          <span>Popular searches</span>
-          <div className="global-search__chips">{POPULAR.map(term=><button type="button" key={term} onClick={()=>setQuery(term)}>{term}</button>)}</div>
-        </div>:<>
-          <div className="global-search__summary"><span aria-live="polite">{results.length} {results.length===1?'match':'matches'}</span>{results.length>6&&<button type="button" onClick={goAll}>View all results <ArrowRight/></button>}</div>
-          <Presence mode="popLayout" initial={false}>{topResults.length?<m.div id="global-search-results" role="listbox" className="global-search__result-list" key="results">{topResults.map((product,index)=><m.button
-            layout
-            type="button"
-            role="option"
-            aria-selected="false"
-            className="global-search__result"
-            key={product.id}
-            initial={reduceMotion?false:{opacity:0,y:6}}
-            animate={{opacity:1,y:0}}
-            transition={reduceMotion?{duration:0}:{duration:.18,delay:Math.min(index*.02,.08)}}
-            onClick={()=>goProduct(product.id)}
-          >
-            <span className="global-search__result-media"><img src={product.image} alt=""/></span>
-            <span className="global-search__result-body">
-              <span className="global-search__result-copy"><small>{product.category}</small><strong>{product.name}</strong><span>{facts(product).join(' · ')}</span></span>
-              {price(product)&&<span className="global-search__result-price">{price(product)}</span>}
-            </span>
-            <span className="global-search__result-action" aria-hidden="true"><ChevronRight/></span>
-          </m.button>)}</m.div>:<m.div id="global-search-results" className="global-search__empty" key="empty" role="status" aria-live="polite"><strong>No matching products</strong><p>Try another flavor, product, category, or potency.</p></m.div>}</Presence>
-        </>}
-      </div>
+      <m.div
+        className="global-search__panel"
+        initial={reduceMotion?false:{opacity:0,y:-6}}
+        animate={{opacity:1,y:0}}
+        transition={reduceMotion?{duration:0}:{delay:.075,duration:motionTokens.duration.slow,ease:motionTokens.easeSoft}}
+      >
+        <Presence mode="popLayout" initial={false}>
+          {!searching
+            ?<m.div
+              key="suggestions"
+              className="global-search__suggestions"
+              initial={reduceMotion?false:{opacity:0,y:-5}}
+              animate={{opacity:1,y:0}}
+              exit={{opacity:0,y:-3}}
+              transition={reduceMotion?{duration:0}:{duration:motionTokens.duration.base,ease:motionTokens.easeSoft}}
+            >
+              <span>Popular searches</span>
+              <m.div className="global-search__chips" initial={reduceMotion?false:'hidden'} animate="visible" variants={{hidden:{},visible:{transition:{staggerChildren:.035,delayChildren:.02}}}}>
+                {POPULAR.map(term=><m.button
+                  type="button"
+                  key={term}
+                  onClick={()=>setQuery(term)}
+                  variants={{hidden:{opacity:0,y:4},visible:{opacity:1,y:0,transition:motionTokens.springSoft}}}
+                  whileTap={motionTokens.tap}
+                >{term}</m.button>)}
+              </m.div>
+            </m.div>
+            :<m.div
+              key="searching"
+              initial={reduceMotion?false:{opacity:0,y:4}}
+              animate={{opacity:1,y:0}}
+              exit={{opacity:0,y:-3}}
+              transition={reduceMotion?{duration:0}:{duration:motionTokens.duration.base,ease:motionTokens.easeSoft}}
+            >
+              <div className="global-search__summary"><span aria-live="polite">{results.length} {results.length===1?'match':'matches'}</span>{results.length>6&&<m.button type="button" onClick={goAll} whileTap={motionTokens.tap}>View all results <ArrowRight/></m.button>}</div>
+              <Presence mode="popLayout" initial={false}>
+                {topResults.length
+                  ?<m.div id="global-search-results" role="listbox" className="global-search__result-list" key="results" layout>
+                    {topResults.map((product,index)=><m.button
+                      layout
+                      type="button"
+                      role="option"
+                      aria-selected="false"
+                      className="global-search__result"
+                      key={product.id}
+                      initial={reduceMotion?false:{opacity:0,y:8,scale:.995}}
+                      animate={{opacity:1,y:0,scale:1}}
+                      exit={{opacity:0,y:-4,scale:.997}}
+                      transition={reduceMotion?{duration:0}:{duration:motionTokens.duration.control,delay:Math.min(index*.025,.1),ease:motionTokens.easeSoft}}
+                      onClick={()=>goProduct(product.id)}
+                      whileTap={motionTokens.tap}
+                    >
+                      <span className="global-search__result-media"><img src={product.image} alt=""/></span>
+                      <span className="global-search__result-body">
+                        <span className="global-search__result-copy"><small>{product.category}</small><strong>{product.name}</strong><span>{facts(product).join(' · ')}</span></span>
+                        {price(product)&&<span className="global-search__result-price">{price(product)}</span>}
+                      </span>
+                      <span className="global-search__result-action" aria-hidden="true"><ChevronRight/></span>
+                    </m.button>)}
+                  </m.div>
+                  :<m.div id="global-search-results" className="global-search__empty" key="empty" role="status" aria-live="polite" initial={reduceMotion?false:{opacity:0,y:6}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-3}} transition={reduceMotion?{duration:0}:motionTokens.springSoft}><strong>No matching products</strong><p>Try another flavor, product, category, or potency.</p></m.div>}
+              </Presence>
+            </m.div>}
+        </Presence>
+      </m.div>
     </m.section>
   </m.div>}</Presence>
 }
