@@ -59,6 +59,7 @@
 
 .sky-home .atmospheric-scene-hero .legacy-sky-hero__product--fullbleed img.is-ready{
   opacity:1;
+  transform:scale(1);
 }
 
 .sky-home .atmospheric-scene-hero .legacy-sky-hero__content{
