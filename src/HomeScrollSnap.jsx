@@ -162,6 +162,18 @@ export default function HomeScrollSnap({ rootRef }) {
       syncKeyboardState();
     };
 
+    const handleWindowResize = () => {
+      measureDesktopChrome();
+      measureOverflow();
+      syncKeyboardState();
+
+      /* Mobile Safari may emit resize events as browser chrome expands or
+         collapses during a gesture. The mobile observer uses a zero rootMargin,
+         so rebuilding it on every toolbar resize only creates state churn.
+         Desktop chrome measurement, by contrast, changes observer geometry. */
+      if (desktopViewport.matches) configureSceneObserver();
+    };
+
     sync();
     listen(reducedMotion, sync);
     listen(desktopViewport, sync);
@@ -188,7 +200,7 @@ export default function HomeScrollSnap({ rootRef }) {
     const visualViewport = window.visualViewport;
     const onFocusChange = () => syncKeyboardState();
 
-    window.addEventListener("resize", sync, { passive: true });
+    window.addEventListener("resize", handleWindowResize, { passive: true });
     visualViewport?.addEventListener("resize", syncKeyboardState, { passive: true });
     visualViewport?.addEventListener("scroll", syncKeyboardState, { passive: true });
     document.addEventListener("focusin", onFocusChange);
@@ -199,7 +211,7 @@ export default function HomeScrollSnap({ rootRef }) {
       resizeObserver?.disconnect();
       cancelAnimationFrame(measureFrame);
       cancelAnimationFrame(keyboardFrame);
-      window.removeEventListener("resize", sync);
+      window.removeEventListener("resize", handleWindowResize);
       visualViewport?.removeEventListener("resize", syncKeyboardState);
       visualViewport?.removeEventListener("scroll", syncKeyboardState);
       document.removeEventListener("focusin", onFocusChange);
