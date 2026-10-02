@@ -24,7 +24,7 @@
     --home-desktop-announcement-h:28px;
     --home-desktop-header-h:82px;
     --home-desktop-chrome-h:calc(var(--home-desktop-announcement-h) + var(--home-desktop-header-h));
-    --home-desktop-hero-h:calc(100dvh - var(--home-desktop-announcement-h));
+    --home-desktop-hero-h:100dvh;
     --home-desktop-scene-h:100dvh;
   }
 

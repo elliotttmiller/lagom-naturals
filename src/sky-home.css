@@ -1,4 +1,5 @@
 .sky-home {
+  --home-atmosphere-sky: #b0e3fd;
   --sky-pointer-x: 0px;
   --sky-pointer-y: 0px;
   --sky-section-cloud-x: 0px;
@@ -10,7 +11,7 @@
     radial-gradient(ellipse 76% 38% at 52% 2%, rgba(255,255,255,.26), rgba(255,255,255,0) 68%),
     radial-gradient(ellipse 58% 38% at 8% 42%, rgba(123,205,249,.22), rgba(123,205,249,0) 72%),
     radial-gradient(ellipse 66% 42% at 92% 70%, rgba(132,210,250,.2), rgba(132,210,250,0) 76%),
-    linear-gradient(180deg, #b0e3fd 0%, #b7e6fd 36%, #bfe9fd 66%, #cceefd 100%);
+    linear-gradient(180deg, var(--home-atmosphere-sky) 0%, #b7e6fd 36%, #bfe9fd 66%, #cceefd 100%);
   color: var(--ink);
 }
 
@@ -510,4 +511,3 @@
     transform:none;
   }
 }
-
