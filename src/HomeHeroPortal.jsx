@@ -4,15 +4,14 @@ import { ArrowRight } from "lucide-react";
 import { responsiveImages } from "@/generated/responsiveImages";
 
 const desktopHero = responsiveImages.heroDesktop.hero;
-const mobileHero = responsiveImages.heroMobile.hero;
 
 export default function HomeHero() {
   const [mediaReady, setMediaReady] = useState(false);
   return <section className="legacy-sky-hero" aria-labelledby="legacy-sky-hero-title">
     <div className="legacy-sky-hero__product" aria-hidden="true">
       <picture>
-        <source media="(max-width: 899px)" type="image/avif" srcSet={mobileHero.avifSrcSet} sizes="100vw" />
-        <source media="(max-width: 899px)" type="image/webp" srcSet={mobileHero.webpSrcSet} sizes="100vw" />
+        <source media="(max-width: 899px)" type="image/avif" srcSet={desktopHero.avifSrcSet} sizes="52vw" />
+        <source media="(max-width: 899px)" type="image/webp" srcSet={desktopHero.webpSrcSet} sizes="52vw" />
         <source type="image/avif" srcSet={desktopHero.avifSrcSet} sizes="100vw" />
         <source type="image/webp" srcSet={desktopHero.webpSrcSet} sizes="100vw" />
         <img className={mediaReady ? "is-ready" : "is-loading"} src={desktopHero.src} alt="" fetchPriority="high" decoding="async" onLoad={()=>setMediaReady(true)} onError={()=>setMediaReady(true)} />
