@@ -1,5 +1,5 @@
 import React from 'react'
-import { AnimatePresence, LayoutGroup, LazyMotion, MotionConfig, domAnimation, m, useReducedMotion } from 'motion/react'
+import { AnimatePresence, LayoutGroup, LazyMotion, MotionConfig, domAnimation, m, useMotionValue, useReducedMotion, useSpring, useTransform } from 'motion/react'
 
 export const motionTokens={
   ease:[.22,.82,.28,1],
@@ -109,4 +109,4 @@ export function Presence({children,mode='sync',initial=false,onExitComplete}){
   return <AnimatePresence mode={mode} initial={initial} onExitComplete={onExitComplete}>{children}</AnimatePresence>
 }
 
-export {m,useReducedMotion}
+export {m,useMotionValue,useReducedMotion,useSpring,useTransform}
