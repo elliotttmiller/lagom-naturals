@@ -1,5 +1,5 @@
 import React from 'react'
-import { AnimatePresence, LayoutGroup, LazyMotion, MotionConfig, domAnimation, m, useMotionValue, useReducedMotion, useSpring, useTransform } from 'motion/react'
+import { AnimatePresence, LayoutGroup, LazyMotion, MotionConfig, domMax, m, useMotionValue, useReducedMotion, useSpring, useTransform } from 'motion/react'
 
 export const motionTokens={
   ease:[.22,.82,.28,1],
@@ -53,8 +53,8 @@ export const motionVariants={
 }
 
 export function AppMotionProvider({children}){
-  return <LazyMotion features={domAnimation} strict>
-    <MotionConfig reducedMotion="user" transition={motionTokens.spring}>
+  return <LazyMotion features={domMax} strict>
+    <MotionConfig reducedMotion="user">
       <LayoutGroup id="lagom-storefront">{children}</LayoutGroup>
     </MotionConfig>
   </LazyMotion>
