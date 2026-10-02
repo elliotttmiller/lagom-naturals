@@ -166,6 +166,7 @@ export default function PremiumGlobalSearch({openRequest=0,initialTrigger=null})
               animate={{opacity:1,scale:1}}
               exit={{opacity:0,scale:.9}}
               transition={reduceMotion?{duration:0}:motionTokens.springSnappy}
+              whileHover={reduceMotion?undefined:{scale:1.035}}
               whileTap={motionTokens.tap}
             ><X/></m.button>}
           </Presence>
@@ -178,6 +179,7 @@ export default function PremiumGlobalSearch({openRequest=0,initialTrigger=null})
           initial={reduceMotion?false:{opacity:0,x:6}}
           animate={{opacity:1,x:0}}
           transition={reduceMotion?{duration:0}:{delay:.1,...motionTokens.springSoft}}
+          whileHover={reduceMotion?undefined:{scale:1.025}}
           whileTap={motionTokens.tap}
         ><X/><span>Close</span></m.button>
       </m.div>
@@ -205,6 +207,7 @@ export default function PremiumGlobalSearch({openRequest=0,initialTrigger=null})
                   key={term}
                   onClick={()=>setQuery(term)}
                   variants={{hidden:{opacity:0,y:4},visible:{opacity:1,y:0,transition:motionTokens.springSoft}}}
+                  whileHover={reduceMotion?undefined:{y:-1}}
                   whileTap={motionTokens.tap}
                 >{term}</m.button>)}
               </m.div>
