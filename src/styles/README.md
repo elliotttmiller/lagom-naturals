@@ -2,54 +2,76 @@
 
 `src/styles/index.css` is the only global stylesheet entry imported by `src/main.jsx`.
 
+## Runtime loading model
+
+Global CSS is loaded through `styles/index.css`. Route-specific systems remain
+code-split and are imported by the routes that own them. In particular:
+
+- `mobile/50-pdp.css` is route-owned by the product detail route.
+- `mobile/60-commerce.css` and `mobile/65-checkout.css` are route-owned by commerce routes.
+- `mobile/70-editorial.css` is route-owned by editorial/merch routes.
+
+Do not globalize these modules merely to make `mobile/index.css` list every mobile
+file. Runtime ownership and bundle boundaries take precedence over directory symmetry.
+
 ## Architecture
 
-- `tokens.css` — shared color, typography, spacing, radius, elevation, breakpoint compatibility aliases, and motion primitives.
-- `desktop.css` — authoritative desktop system at `min-width: 900px`.
-- `mobile.css` — compatibility entry that imports `mobile/index.css`.
-- `mobile/index.css` — ordered mobile manifest for the production mobile system.
-- `mobile/00-foundation.css` — viewport, safe-area, scroll ownership, touch behavior, shared mobile geometry and typography.
-- `mobile/10-motion.css` — CSS motion contract, transitions, reduced-motion and reduced-transparency behavior.
-- `mobile/20-chrome.css` — mobile header, bottom navigation, More menu, hamburger and legacy drawer compatibility.
-- `mobile/30-home.css` — mobile homepage hero and home-specific responsive behavior.
-- `mobile/40-catalog.css` — shop, category/listing surfaces, product cards, filters and listing-control icons.
-- `mobile/50-pdp.css` — product-detail media, purchase controls, accordions and product-media hardening.
-- `mobile/60-commerce.css` — cart, checkout, add-to-cart feedback, quantity controls and success toast.
-- `mobile/70-editorial.css` — Our Story, Find Us, education, recipes, merch and merch-detail surfaces.
-- `mobile/80-overlays.css` — global search and sort overlay systems.
-- `mobile/90-accessibility.css` — focus, safe-area, coarse-pointer, iOS-form, high-contrast and device hardening.
-- `legacy-core.css` — temporary compatibility imports required by shared/desktop code that has not yet been fully decomposed. It is not the source of truth for mobile styling.
+- `tokens.css` — shared design tokens and compatibility aliases.
+- `legacy-core.css` — temporary shared/desktop compatibility bridge only.
+- `mobile.css` → `mobile/index.css` — globally required mobile foundation, motion, chrome, catalog, overlay and accessibility layers.
+- `desktop.css` — shared desktop presentation.
+- `age-gate.css` — static age-gate geometry/state presentation; native WAAPI in `main.jsx` owns enter choreography.
+- `home/index.css` — single global homepage stylesheet boundary.
+- `home-scroll-snap.css` — authoritative homepage native vertical scroll-snap geometry and scene-height contract.
+- `desktop-snap-home.css` — desktop homepage scene presentation.
+- `mobile-home-composition.css` — mobile homepage composition inside the geometry contract.
+- `home-product-stage.css` — static product-stage geometry/presentation; Motion owns product-stage transform/opacity choreography.
+- `lagom-motion-language.css` — shared presentation-level motion tokens/state feedback, not vertical document movement.
+- `mobile-home-stability.css` — containment/hardening only; it must not redefine snap geometry.
+- `styles/mobile/*` — structured mobile modules below 900px.
+- route-scoped redesign sheets — loaded only by their owning routes/components.
+
+## Canonical high-risk ownership
+
+| System | Canonical authority |
+| --- | --- |
+| Homepage vertical scroll owner | Browser/native document scroll |
+| Homepage snap type/alignment/scene height | `home-scroll-snap.css` |
+| Desktop homepage composition | `desktop-snap-home.css` |
+| Mobile homepage composition | `mobile-home-composition.css` |
+| Homepage product-stage static layout | `home-product-stage.css` |
+| Homepage product-stage animated transform/opacity | Motion in `HomeProductStage.jsx` |
+| Mobile viewport/safe-area baseline | `mobile/00-foundation.css` |
+| Site mobile chrome | `mobile/20-chrome.css` |
+| Age-gate static layout | `age-gate.css` |
+| Age-gate enter choreography | WAAPI in `main.jsx` |
+| Reduced-motion mobile policy | `mobile/10-motion.css` + `mobile/90-accessibility.css` |
+| Shared design tokens | `tokens.css` |
+
+The rule is one canonical authority **per responsibility**, not one technology for
+an entire feature. CSS, Motion, WAAPI and native scrolling may participate only
+when their property/runtime-state boundaries do not compete.
 
 ## Mobile migration policy
 
-The files under `src/styles/mobile/` are authoritative below `900px`. Root-level `mobile-*.css` and historical polish sheets are retained only as migration/reference sources unless another non-mobile subsystem still imports them. New mobile styles must not be added to root-level CSS files.
+The structured files under `src/styles/mobile/` are the production mobile system.
+Historical root-level `mobile-*.css` files that were fully superseded and had no
+runtime import path were removed on 2026-10-02. Do not recreate them.
 
-Key integrations migrated from the previous frontend include:
-
-- route-stage transform neutralization and single-document vertical scroll ownership;
-- diagonal-touch/scroll-chain fixes for horizontal rails;
-- safe-area-aware fixed chrome and isolated modal/drawer scroll surfaces;
-- Motion-compatible geometry and compositor/backface hardening;
-- reduced-motion and reduced-transparency support;
-- morphing hamburger timing/easing and drawer transition contracts;
-- search backdrop/surface transitions and body scroll locking;
-- iOS-style sort popover containment and reduced-motion behavior;
-- add-to-cart spinner, sheen, success-check and cart-pulse feedback;
-- cart success toast enter/exit behavior and screen-reader announcer treatment;
-- PDP media isolation, white media-surface blending and accordion behavior;
-- coarse-pointer hover suppression, visible focus and mobile input hardening;
-- 320/380px small-phone and 600–899px large-phone/tablet calibration.
-
-See `mobile/AUDIT.md` for the file-by-file migration/disposition record.
+Some root-level component styles remain because live components still import them
+directly. A legacy-looking filename is not deletion evidence.
 
 ## Ownership rules
 
-1. Do not add new global CSS imports to `main.jsx`; add them through this library.
-2. Do not create new root-level `mobile-*.css`, `desktop-*.css`, or ad-hoc `*-polish.css` files.
-3. Add new mobile rules to the narrowest appropriate module under `styles/mobile/`.
-4. Keep desktop behavior in `desktop.css`; never solve a mobile problem with a desktop override or vice versa.
-5. Prefer shared tokens over repeated literal values.
-6. CSS transitions are for lightweight state feedback; Motion owns component entrance/exit/layout choreography where a Motion component already exists.
-7. Avoid `!important` except where the structured layer must neutralize a still-loaded legacy contract.
-8. Preserve safe-area handling, keyboard focus, reduced motion, coarse-pointer behavior and vertical scroll ownership when modifying mobile geometry.
-9. The desktop homepage hero uses `src/assets/desktop/hero.webp`; the mobile homepage uses `src/assets/mobile/hero.webp`. Do not layer catalog thumbnails over either art-directed hero.
+1. Do not add additional global CSS imports to `main.jsx`; use `styles/index.css` or a deliberate route/component boundary.
+2. Do not create root-level `mobile-*.css`, `desktop-*.css`, or ad-hoc `*-fix.css`/`*-polish.css` layers.
+3. New mobile rules belong in the narrowest canonical module under `styles/mobile/`.
+4. Homepage modules must enter globally through `styles/home/index.css`.
+5. `home-scroll-snap.css` alone owns homepage snap geometry. Presentation sheets may not compensate for bad snap geometry.
+6. Motion/WAAPI own runtime choreography only where explicitly documented; CSS must not independently animate the same transform/opacity property in that state.
+7. Prefer shared tokens over repeated literals when the value is genuinely systemic.
+8. Avoid `!important` except for intentional compatibility neutralization with a documented upstream owner.
+9. Preserve safe-area handling, keyboard focus, reduced motion, coarse-pointer behavior and native vertical scroll ownership.
+10. Delete a stylesheet only after classifying it as MIGRATED, OBSOLETE, DEAD, DUPLICATED or SUPERSEDED and identifying the surviving authority.
+
+See `mobile/AUDIT.md` for the migration/disposition record.
