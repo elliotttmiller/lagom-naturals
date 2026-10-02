@@ -1,0 +1,121 @@
+/* ==========================================================================
+   Lagom Naturals global loading mark
+   --------------------------------------------------------------------------
+   Runtime counterpart to the critical first-paint shell in index.html.
+   The canonical public/enhanced-lagom-naturals-icon.webp remains unchanged.
+   Motion is optical and restrained: the frame stays fixed while clipped,
+   low-opacity copies create a gliding bird highlight and a phased water
+   current through the four lower bars.
+   ========================================================================== */
+
+.lagom-loading-mark{
+  --lagom-loader-size:clamp(72px,8vw,96px);
+  position:relative;
+  display:grid;
+  width:var(--lagom-loader-size);
+  aspect-ratio:1;
+  place-items:center;
+  contain:layout paint;
+}
+
+.lagom-loading-mark__visual{
+  position:relative;
+  display:block;
+  width:100%;
+  aspect-ratio:1;
+  isolation:isolate;
+  animation:lagom-loader-arrive 680ms cubic-bezier(.16,1,.3,1) both;
+}
+
+.lagom-loading-mark__image{
+  position:absolute;
+  inset:0;
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  user-select:none;
+  pointer-events:none;
+  -webkit-user-drag:none;
+}
+
+.lagom-loading-mark__base{
+  position:relative;
+  opacity:.96;
+}
+
+.lagom-loading-mark__motion{
+  z-index:1;
+  opacity:.28;
+  mix-blend-mode:screen;
+  filter:brightness(1.45) contrast(1.02);
+  will-change:transform,opacity;
+}
+
+.lagom-loading-mark__bird{
+  clip-path:inset(19% 15% 47% 20%);
+  transform-origin:61% 43%;
+  animation:lagom-loader-bird 5.2s cubic-bezier(.45,0,.2,1) infinite;
+}
+
+.lagom-loading-mark__wave{
+  transform-origin:50% 50%;
+  animation:lagom-loader-current 3.35s cubic-bezier(.45,0,.2,1) infinite;
+}
+
+.lagom-loading-mark__wave--1{
+  clip-path:inset(60.5% 17% 32.2% 17%);
+  animation-delay:0ms;
+}
+
+.lagom-loading-mark__wave--2{
+  clip-path:inset(68.2% 22% 24.8% 22%);
+  animation-delay:140ms;
+}
+
+.lagom-loading-mark__wave--3{
+  clip-path:inset(75.2% 30% 17.4% 30%);
+  animation-delay:280ms;
+}
+
+.lagom-loading-mark__wave--4{
+  clip-path:inset(81.4% 38% 11.4% 38%);
+  animation-delay:420ms;
+}
+
+.route-chunk-fallback .lagom-loading-mark{
+  --lagom-loader-size:clamp(68px,10vw,88px);
+}
+
+@keyframes lagom-loader-arrive{
+  from{opacity:0;transform:scale(.945);filter:blur(3px)}
+  58%{opacity:1;filter:blur(.35px)}
+  to{opacity:1;transform:scale(1);filter:blur(0)}
+}
+
+@keyframes lagom-loader-bird{
+  0%,12%,100%{opacity:.18;transform:translate3d(0,0,0) rotate(0)}
+  32%{opacity:.42;transform:translate3d(1px,-2px,0) rotate(-.16deg)}
+  52%{opacity:.34;transform:translate3d(2px,-1px,0) rotate(.12deg)}
+  72%{opacity:.26;transform:translate3d(.7px,.7px,0) rotate(.05deg)}
+  88%{opacity:.2;transform:translate3d(0,0,0) rotate(0)}
+}
+
+@keyframes lagom-loader-current{
+  0%,100%{opacity:.16;transform:translate3d(-.6px,0,0) scaleX(.998)}
+  24%{opacity:.28;transform:translate3d(.5px,-.8px,0) scaleX(1.002)}
+  49%{opacity:.44;transform:translate3d(1.2px,0,0) scaleX(1.004)}
+  72%{opacity:.26;transform:translate3d(.3px,.8px,0) scaleX(1.001)}
+}
+
+@media(max-width:699px){
+  .lagom-loading-mark{--lagom-loader-size:clamp(68px,21vw,88px)}
+  .lagom-loading-mark__bird{animation-duration:5.5s}
+  .lagom-loading-mark__wave{animation-duration:3.6s}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .lagom-loading-mark__visual{animation:none}
+  .lagom-loading-mark__motion{display:none}
+  .lagom-loading-mark__base{opacity:1}
+}
