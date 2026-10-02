@@ -72,8 +72,9 @@ export default function HomeProductStage({
     const distance = Math.abs(info.offset.x);
     const velocity = Math.abs(info.velocity.x);
     if (distance < 46 && velocity < 430) return;
-    if (info.offset.x < 0 || info.velocity.x < -430) next("swipe");
-    else if (info.offset.x > 0 || info.velocity.x > 430) previous("swipe");
+    const signal = distance >= 46 ? info.offset.x : info.velocity.x;
+    if (signal < 0) next("swipe");
+    else if (signal > 0) previous("swipe");
   };
 
   const handleKeyDown = (event) => {
