@@ -96,7 +96,7 @@
   html:has(.sky-home){
     scroll-snap-type:y mandatory!important;
     scroll-padding-block-start:0!important;
-    scroll-behavior:smooth!important;
+    scroll-behavior:auto!important;
     overscroll-behavior-y:none!important;
     touch-action:pan-y pinch-zoom;
   }
@@ -111,32 +111,20 @@
     scroll-margin-block-start:0!important;
   }
 
+  /* Mobile snap scenes must already be compositionally complete when the
+     browser lands on them. Avoid observer-driven opacity/transform changes
+     during the physical snap; they read as flashing on iOS Safari. */
   .sky-home [data-home-snap-scene] .atmospheric-scene-section__cloud{
-    opacity:.30!important;
-    transform:translate3d(0,10px,0) scale(.995)!important;
-    transition:
-      opacity 480ms cubic-bezier(.16,1,.3,1),
-      transform 680ms cubic-bezier(.16,1,.3,1)!important;
-  }
-
-  .sky-home [data-home-snap-scene].is-snap-visible .atmospheric-scene-section__cloud{
-    opacity:.44!important;
-    transform:translate3d(0,0,0) scale(1)!important;
+    opacity:.38!important;
+    transform:none!important;
+    transition:none!important;
   }
 
   .sky-home [data-home-snap-scene] .home-product-stage__topline,
   .sky-home [data-home-snap-scene] .home-product-stage__progress{
-    opacity:.82!important;
-    transform:translate3d(0,6px,0)!important;
-    transition:
-      opacity 340ms cubic-bezier(.16,1,.3,1),
-      transform 460ms cubic-bezier(.16,1,.3,1)!important;
-  }
-
-  .sky-home [data-home-snap-scene].is-snap-visible .home-product-stage__topline,
-  .sky-home [data-home-snap-scene].is-snap-visible .home-product-stage__progress{
     opacity:1!important;
-    transform:translate3d(0,0,0)!important;
+    transform:none!important;
+    transition:none!important;
   }
 
   html:has(.sky-home.has-home-snap-overflow){
