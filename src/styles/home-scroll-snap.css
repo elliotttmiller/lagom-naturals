@@ -1,17 +1,22 @@
 /* Homepage scene navigation.
-   Native CSS owns scroll physics on every viewport. React only observes scene
-   state and measures the desktop header stack for the initial hero frame. */
+   Native document scrolling is the single vertical scroll owner. React observes
+   scene state only; it never drives touch/wheel scroll position. */
 
-:root {
+:root{
   --home-snap-offset:0px;
   --home-desktop-snap-h:100dvh;
+  --home-mobile-scene-h:100vh;
+}
+
+@supports (height:100dvh){
+  :root{--home-mobile-scene-h:100dvh}
 }
 
 /* --------------------------------------------------------------------------
    Desktop native snap
    -------------------------------------------------------------------------- */
 @media (min-width:900px) and (min-height:30em) and (prefers-reduced-motion:no-preference){
-  :root {
+  :root{
     --home-snap-offset:110px;
     --home-desktop-snap-h:calc(100dvh - 110px);
   }
@@ -84,35 +89,36 @@
 }
 
 /* --------------------------------------------------------------------------
-   Mobile/tablet native full-viewport snap
+   Mobile/tablet full-viewport snap
    --------------------------------------------------------------------------
-   Hero -> Seltzers -> Gummies are exact viewport stops at every mobile height.
-   We degrade only when ResizeObserver proves content actually overflows.
+   Every scene uses the same viewport contract. Mandatory snap relaxes only for
+   real content overflow, focused text-entry/keyboard states, open selectors,
+   or reduced motion.
    -------------------------------------------------------------------------- */
 @media (max-width:899px) and (prefers-reduced-motion:no-preference){
-  :root{
-    --home-mobile-scene-h:100svh;
-  }
-
   html:has(.sky-home){
     scroll-snap-type:y mandatory!important;
     scroll-padding-block-start:0!important;
-    scroll-behavior:smooth!important;
+    scroll-behavior:auto!important;
     overscroll-behavior-y:none!important;
+    touch-action:pan-y pinch-zoom;
   }
 
   body:has(.sky-home){
     overscroll-behavior-y:none!important;
+    touch-action:pan-y pinch-zoom;
   }
 
   .sky-home [data-home-snap-scene]{
+    box-sizing:border-box!important;
     block-size:var(--home-mobile-scene-h)!important;
     min-block-size:var(--home-mobile-scene-h)!important;
     max-block-size:var(--home-mobile-scene-h)!important;
     scroll-snap-align:start!important;
     scroll-snap-stop:always!important;
     scroll-margin-block-start:0!important;
-    overflow:clip;
+    overflow:clip!important;
+    overscroll-behavior:contain;
   }
 
   body:has(.sky-home) #root>.site-footer{
@@ -121,66 +127,57 @@
     scroll-margin-block-start:0!important;
   }
 
-  /* Core composition is always present. Active-scene styling is limited to
-     secondary polish so section arrival never looks like delayed rendering. */
-  .sky-home [data-home-snap-scene]{
-    --home-mobile-scene-progress:0;
-  }
-
-  .sky-home [data-home-snap-scene].is-snap-visible{
-    --home-mobile-scene-progress:1;
+  /* Mobile content is always rendered. Observer state only identifies the
+     dominant scene; it must never gate core composition during a physical snap. */
+  .sky-home [data-home-snap-content]>*{
+    opacity:1!important;
+    transform:none!important;
   }
 
   .sky-home [data-home-snap-scene] .atmospheric-scene-section__cloud{
-    opacity:.32!important;
-    transform:translate3d(0,10px,0) scale(.995);
-    transition:
-      opacity 520ms cubic-bezier(.16,1,.3,1),
-      transform 720ms cubic-bezier(.16,1,.3,1)!important;
-  }
-
-  .sky-home [data-home-snap-scene].is-snap-visible .atmospheric-scene-section__cloud{
-    opacity:.44!important;
-    transform:translate3d(0,0,0) scale(1);
+    opacity:.38!important;
+    transform:none!important;
+    transition:none!important;
   }
 
   .sky-home [data-home-snap-scene] .home-product-stage__topline,
   .sky-home [data-home-snap-scene] .home-product-stage__progress{
-    opacity:.82;
-    transform:translate3d(0,6px,0);
-    transition:
-      opacity 360ms cubic-bezier(.16,1,.3,1),
-      transform 480ms cubic-bezier(.16,1,.3,1)!important;
+    opacity:1!important;
+    transform:none!important;
+    transition:none!important;
   }
 
-  .sky-home [data-home-snap-scene].is-snap-visible .home-product-stage__topline,
-  .sky-home [data-home-snap-scene].is-snap-visible .home-product-stage__progress{
-    opacity:1;
-    transform:translate3d(0,0,0);
+  /* Interactive controls and the software keyboard must not be trapped by
+     mandatory paging while their own UI is active. */
+  html:has(.sky-home.is-home-snap-suspended),
+  html:has(.sky-home-product__variant.is-open){
+    scroll-snap-type:none!important;
+    scroll-behavior:auto!important;
+    overscroll-behavior-y:auto!important;
   }
 
-  /* Overflow is the only reason mobile paging relaxes. */
+  .sky-home.is-home-snap-suspended [data-home-snap-scene],
+  .sky-home:has(.sky-home-product__variant.is-open) [data-home-snap-scene]{
+    scroll-snap-stop:normal!important;
+  }
+
+  /* Real content overflow is the only layout-driven reason to relax paging. */
   html:has(.sky-home.has-home-snap-overflow){
     scroll-snap-type:y proximity!important;
     scroll-behavior:auto!important;
+    overscroll-behavior-y:auto!important;
   }
 
   .sky-home.has-home-snap-overflow [data-home-snap-scene]{
     block-size:auto!important;
-    min-block-size:100svh!important;
+    min-block-size:var(--home-mobile-scene-h)!important;
     max-block-size:none!important;
     scroll-snap-stop:normal!important;
     overflow:visible!important;
   }
 }
 
-@supports not (height:100svh){
-  @media (max-width:899px){
-    :root{--home-mobile-scene-h:100vh}
-  }
-}
-
-/* Reduced motion removes the forced snap queue and presentation choreography. */
+/* Reduced motion removes forced paging and presentation choreography. */
 @media (prefers-reduced-motion:reduce){
   html:has(.sky-home){
     scroll-snap-type:none!important;
