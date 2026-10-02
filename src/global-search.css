@@ -44,8 +44,8 @@
 .global-search__suggestions{min-height:112px;display:flex;align-items:center;gap:28px;padding:24px 0}
 .global-search__suggestions>span,.global-search__summary>span{flex:0 0 auto;color:#69716b;font:800 10px/1 var(--font-ui);letter-spacing:.13em;text-transform:uppercase}
 .global-search__chips{display:flex;gap:8px;flex-wrap:wrap}
-.global-search__chips button{min-height:42px;padding:0 17px;border:1px solid #dde0db;border-radius:999px;background:#fff;color:#263029;font:700 13px/1 var(--font-ui);transition:border-color .18s ease,background .18s ease,transform .18s ease}
-.global-search__chips button:hover{border-color:#aeb6af;background:#f6f7f4;transform:translateY(-1px)}
+.global-search__chips button{min-height:42px;padding:0 17px;border:1px solid #dde0db;border-radius:999px;background:#fff;color:#263029;font:700 13px/1 var(--font-ui);transition:border-color .18s ease,background .18s ease}
+.global-search__chips button:hover{border-color:#aeb6af;background:#f6f7f4}
 .global-search__summary{height:62px;display:flex;align-items:center;justify-content:space-between}
 .global-search__summary button{min-height:44px;display:flex;align-items:center;gap:8px;border:0;background:transparent;color:#315746;font:800 11px/1 var(--font-ui);letter-spacing:.04em}
 .global-search__summary button svg{width:17px;height:17px}
