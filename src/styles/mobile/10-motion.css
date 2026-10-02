@@ -28,9 +28,6 @@
   }
 }
 
-@keyframes lagom-mobile-fade{from{opacity:0}to{opacity:1}}
-@keyframes lagom-mobile-slide-in{from{opacity:0;transform:translate3d(18px,0,0)}to{opacity:1;transform:none}}
-@keyframes lagom-mobile-rise{from{opacity:0;transform:translate3d(0,16px,0)}to{opacity:1;transform:none}}
 @keyframes lagom-atc-spin{to{transform:rotate(360deg)}}
 @keyframes lagom-atc-pending-sheen{0%{transform:translateX(-78%);opacity:0}35%{opacity:.62}100%{transform:translateX(78%);opacity:0}}
 @keyframes lagom-atc-success-pop{0%{transform:translate(-50%,-50%) scale(.6)}60%{transform:translate(-50%,-50%) scale(1.12)}100%{transform:translate(-50%,-50%) scale(1)}}
