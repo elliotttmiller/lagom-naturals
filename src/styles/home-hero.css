@@ -1,7 +1,6 @@
 /* Shared home-hero component contract. Desktop and mobile own their geometry
    independently in their breakpoint stylesheets. */
 .beverage-hero { position:relative; padding:0!important; overflow:hidden; background:transparent; }
-.beverage-hero > :not(.legacy-sky-hero) { display:none!important; }
 .legacy-sky-hero { position:relative; isolation:isolate; min-block-size:clamp(610px,76vh,820px); overflow:hidden; background:transparent; color:#111; }
 .legacy-sky-hero__atmosphere { position:absolute; inset:0; z-index:0; overflow:hidden; pointer-events:none; }
 .legacy-sky-hero__light { position:absolute; inset:-18%; background:none; }

@@ -5,10 +5,36 @@ import AddToCartButton from "@/AddToCartButton";
 import { products } from "@/catalogData";
 import { responsiveImages } from "@/generated/responsiveImages";
 import { configuredProduct, productVariants, useCart } from "@/storefront/StorefrontContext";
+import canBase480Avif from "../assets/seltzers/lagom-seltzer-can-base-480.avif";
+import canBase480Webp from "../assets/seltzers/lagom-seltzer-can-base-480.webp";
+import canBase889Avif from "../assets/seltzers/lagom-seltzer-can-base-889.avif";
+import canBase889Webp from "../assets/seltzers/lagom-seltzer-can-base-889.webp";
+import lemonade480Avif from "../assets/seltzers/24k-lemonade-label-480.avif";
+import lemonade480Webp from "../assets/seltzers/24k-lemonade-label-480.webp";
+import lemonade889Avif from "../assets/seltzers/24k-lemonade-label-889.avif";
+import lemonade889Webp from "../assets/seltzers/24k-lemonade-label-889.webp";
+import blackberry480Avif from "../assets/seltzers/blackberry-breeze-label-480.avif";
+import blackberry480Webp from "../assets/seltzers/blackberry-breeze-label-480.webp";
+import blackberry889Avif from "../assets/seltzers/blackberry-breeze-label-889.avif";
+import blackberry889Webp from "../assets/seltzers/blackberry-breeze-label-889.webp";
+import strawberry480Avif from "../assets/seltzers/strawberry-lime-label-aligned-480.avif";
+import strawberry480Webp from "../assets/seltzers/strawberry-lime-label-aligned-480.webp";
+import strawberry889Avif from "../assets/seltzers/strawberry-lime-label-aligned-889.avif";
+import strawberry889Webp from "../assets/seltzers/strawberry-lime-label-aligned-889.webp";
+import watermelon480Avif from "../assets/seltzers/watermelon-label-480.avif";
+import watermelon480Webp from "../assets/seltzers/watermelon-label-480.webp";
+import watermelon889Avif from "../assets/seltzers/watermelon-label-889.avif";
+import watermelon889Webp from "../assets/seltzers/watermelon-label-889.webp";
 
 const PRODUCT_ORDER = ["24k-lemonade", "strawberry-lime-fusion", "watermelon-refresher", "blackberry-breeze"];
 const showcaseProducts = PRODUCT_ORDER.map((id) => products.find((product) => product.id === id)).filter(Boolean);
 const blackberryIndex = showcaseProducts.findIndex((product) => product.id === "blackberry-breeze");
+const labelMedia = {
+  "24k-lemonade": { avif: `${lemonade480Avif} 480w, ${lemonade889Avif} 889w`, webp: `${lemonade480Webp} 480w, ${lemonade889Webp} 889w`, src: lemonade889Webp },
+  "blackberry-breeze": { avif: `${blackberry480Avif} 480w, ${blackberry889Avif} 889w`, webp: `${blackberry480Webp} 480w, ${blackberry889Webp} 889w`, src: blackberry889Webp },
+  "strawberry-lime-fusion": { avif: `${strawberry480Avif} 480w, ${strawberry889Avif} 889w`, webp: `${strawberry480Webp} 480w, ${strawberry889Webp} 889w`, src: strawberry889Webp },
+  "watermelon-refresher": { avif: `${watermelon480Avif} 480w, ${watermelon889Avif} 889w`, webp: `${watermelon480Webp} 480w, ${watermelon889Webp} 889w`, src: watermelon889Webp },
+};
 
 function SceneImage({ desktop, mobile }) {
   return <picture className="seltzer-showcase__scene" aria-hidden="true">
@@ -41,6 +67,7 @@ export default function SeltzerShowcase() {
   }, []);
 
   const selectedVariant = variants.find((variant) => variant.id === variantId) ?? variants[0];
+  const label = labelMedia[product.id];
   const media = product.id === "blackberry-breeze"
     ? { desktop: responsiveImages.showcaseDesktop["seltzer-background"], mobile: responsiveImages.showcaseMobile["blackberry-breeze-mobile"] }
     : { desktop: responsiveImages.showcaseDesktop["seltzer-background"], mobile: responsiveImages.showcaseMobile["seltzer-background-mobile"] };
@@ -57,7 +84,7 @@ export default function SeltzerShowcase() {
     <div className="seltzer-showcase__topline" aria-hidden="true"><span>Meet the seltzer line</span><span>Thoughtfully made. Simply enjoyed.</span></div>
     <div className="seltzer-showcase__product" key={product.id}>
       <h1 id="seltzer-showcase-title">{displayName.split("\n").map((line) => <span key={line}>{line}</span>)}</h1>
-      <img src={selectedVariant.image || product.image} alt={`${product.name}, ${selectedVariant.label}`} />
+      <span className="seltzer-showcase__can" aria-label={`${product.name} THC seltzer can`} role="img"><picture className="seltzer-showcase__can-base"><source type="image/avif" srcSet={`${canBase480Avif} 480w, ${canBase889Avif} 889w`} sizes="(max-width: 899px) 53vw, 21rem" /><source type="image/webp" srcSet={`${canBase480Webp} 480w, ${canBase889Webp} 889w`} sizes="(max-width: 899px) 53vw, 21rem" /><img src={canBase889Webp} alt="" /></picture><picture className="seltzer-showcase__can-label"><source type="image/avif" srcSet={label.avif} sizes="(max-width: 899px) 53vw, 21rem" /><source type="image/webp" srcSet={label.webp} sizes="(max-width: 899px) 53vw, 21rem" /><img src={label.src} alt="" /></picture></span>
     </div>
     <button className="seltzer-showcase__nav seltzer-showcase__nav--previous" type="button" onClick={() => change(-1)} aria-label="Previous seltzer"><ArrowLeft /></button>
     <button className="seltzer-showcase__nav seltzer-showcase__nav--next" type="button" onClick={() => change(1)} aria-label="Next seltzer"><ArrowRight /></button>

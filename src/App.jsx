@@ -45,6 +45,7 @@ import {
 } from "./catalogData";
 import Shell from "@/storefront/StorefrontShell";
 import HomeHero from "@/HomeHeroPortal";
+import SeltzerShowcase from "@/home/SeltzerShowcase";
 import HomeProductStage from "@/HomeProductStage";
 import CatalogProductCard from "@/storefront/CatalogProductCard";
 import AddToCartButton from "@/AddToCartButton";
@@ -631,6 +632,15 @@ function HomePage() {
       <div className="sky-home" ref={homeRef}>
         <HomeScrollSnap rootRef={homeRef} />
         <section id="home-scene-hero" className="beverage-hero atmospheric-scene-hero" data-home-snap-scene aria-label="Featured Lagom Naturals products"><HomeHero /></section>
+
+        <section
+          id="home-scene-flavors"
+          className="seltzer-showcase-section"
+          data-home-snap-scene
+          aria-label="Lagom seltzer flavors"
+        >
+          <SeltzerShowcase />
+        </section>
 
         <AtmosphericSceneSection id="gummies" className="sky-home__section sky-home__section--gummies sky-home__section--product-stage" labelledBy="home-gummies-title">
           <HomeProductStage
