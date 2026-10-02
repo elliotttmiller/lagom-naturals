@@ -55,13 +55,11 @@
   min-inline-size:0;
 }
 
-.legacy-sky-hero__product img{
+.legacy-sky-hero__product:not(.legacy-sky-hero__product--fullbleed) img{
   opacity:0;
-  transition:
-    opacity 520ms var(--lagom-ease-glide),
-    filter var(--lagom-motion-atmosphere) ease!important;
+  transition:opacity 520ms var(--lagom-ease-glide)!important;
 }
-.legacy-sky-hero__product img.is-ready{
+.legacy-sky-hero__product:not(.legacy-sky-hero__product--fullbleed) img.is-ready{
   opacity:1;
 }
 
