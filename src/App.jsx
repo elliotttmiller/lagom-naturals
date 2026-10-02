@@ -632,10 +632,6 @@ function HomePage() {
         <HomeScrollSnap rootRef={homeRef} />
         <section id="home-scene-hero" className="beverage-hero atmospheric-scene-hero" data-home-snap-scene aria-label="Featured Lagom Naturals products"><HomeHero /></section>
 
-        <AtmosphericSceneSection id="flavors" className="sky-home__section sky-home__section--flavors sky-home__section--product-stage" labelledBy="home-flavors-title">
-          <HomeProductStage kind="seltzer" items={products.filter((product) => product.category === "Seltzers").slice(0, 4)} eyebrow="MEET THE SELTZER LINE" headingId="home-flavors-title" headingText="Lagom seltzer flavors" intro="Thoughtfully made. Simply enjoyed." ariaLabel="Lagom seltzer flavors" getKey={(product) => product.id} getTitle={(product) => product.name} getAccent={(product) => product.accent} renderMedia={(product, _, motionState) => <HomeSeltzerStageMedia product={product} reduceMotion={motionState.reduceMotion} />} renderDetails={(product) => <HomeSeltzerStageDetails product={product} />} persistentMedia />
-        </AtmosphericSceneSection>
-
         <AtmosphericSceneSection id="gummies" className="sky-home__section sky-home__section--gummies sky-home__section--product-stage" labelledBy="home-gummies-title">
           <HomeProductStage
             kind="gummy"

@@ -44,7 +44,7 @@
       #lagom-boot-shell{position:fixed;z-index:9999;inset:0;display:grid;place-items:center;min-height:100svh;overflow:hidden;background:#f7f6f1;color:#111713;font-family:Arial,sans-serif;opacity:1;visibility:visible;transition:opacity 540ms cubic-bezier(.16,1,.3,1),visibility 0s linear 540ms}
       #lagom-boot-shell::before{position:absolute;inset:0;content:"";pointer-events:none;background:radial-gradient(circle at 50% 50%,rgba(17,23,19,.025),transparent 34%)}
       .lagom-app-ready #lagom-boot-shell{opacity:0;visibility:hidden;pointer-events:none}
-      .lagom-boot-shell__mark{position:relative;width:clamp(92px,10vw,132px);aspect-ratio:1;isolation:isolate;contain:layout paint;animation:lagom-boot-arrive 680ms cubic-bezier(.16,1,.3,1) both}
+      .lagom-boot-shell__mark{position:relative;width:clamp(92px,10vw,132px);aspect-ratio:1;isolation:isolate;contain:layout paint;animation:lagom-boot-arrive 680ms cubic-bezier(.16,1,.3,1) both,lagom-boot-drift 2.8s cubic-bezier(.45,0,.2,1) 680ms infinite}
       .lagom-app-ready .lagom-boot-shell__mark{transform:scale(.985);filter:blur(2px);transition:transform 540ms cubic-bezier(.4,0,.2,1),filter 540ms cubic-bezier(.4,0,.2,1)}
       .lagom-boot-shell__image{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain;user-select:none;pointer-events:none;-webkit-user-drag:none}
       .lagom-boot-shell__base{position:relative;opacity:.96}
@@ -58,12 +58,13 @@
       .seo-fallback{position:absolute!important;width:1px!important;height:1px!important;margin:-1px!important;padding:0!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;clip-path:inset(50%)!important;white-space:nowrap!important;border:0!important}
       .seo-fallback__content{position:absolute!important;width:1px!important;height:1px!important;margin:-1px!important;padding:0!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;clip-path:inset(50%)!important;white-space:nowrap!important;border:0!important}
       @keyframes lagom-boot-arrive{from{opacity:0;transform:scale(.945);filter:blur(3px)}58%{opacity:1;filter:blur(.35px)}to{opacity:1;transform:scale(1);filter:blur(0)}}
+      @keyframes lagom-boot-drift{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-7px) scale(1.018)}}
       @keyframes lagom-boot-bird{0%,12%,100%{opacity:.18;transform:translate3d(0,0,0) rotate(0)}32%{opacity:.42;transform:translate3d(1px,-2px,0) rotate(-.16deg)}52%{opacity:.34;transform:translate3d(2px,-1px,0) rotate(.12deg)}72%{opacity:.26;transform:translate3d(.7px,.7px,0) rotate(.05deg)}88%{opacity:.2;transform:translate3d(0,0,0) rotate(0)}}
       @keyframes lagom-boot-current{0%,100%{opacity:.16;transform:translate3d(-.6px,0,0) scaleX(.998)}24%{opacity:.28;transform:translate3d(.5px,-.8px,0) scaleX(1.002)}49%{opacity:.44;transform:translate3d(1.2px,0,0) scaleX(1.004)}72%{opacity:.26;transform:translate3d(.3px,.8px,0) scaleX(1.001)}}
       @media(max-width:699px){.lagom-boot-shell__mark{width:clamp(86px,24vw,106px)}.lagom-boot-shell__bird{animation-duration:5.5s}.lagom-boot-shell__wave{animation-duration:3.6s}}
       @media(prefers-reduced-motion:reduce){#lagom-boot-shell{transition-duration:120ms}.lagom-boot-shell__mark{animation:none}.lagom-boot-shell__motion{display:none}.lagom-boot-shell__base{opacity:1}.lagom-app-ready .lagom-boot-shell__mark{filter:none;transform:none;transition:none}}
     </style>
-    <script type="module" crossorigin src="/lagom-naturals/assets/index-GT3aO1lN.js"></script>
+    <script type="module" crossorigin src="/lagom-naturals/assets/index-DI7NaaBi.js"></script>
     <link rel="modulepreload" crossorigin href="/lagom-naturals/assets/rolldown-runtime-Dik6OG8R.js">
     <link rel="modulepreload" crossorigin href="/lagom-naturals/assets/icons-BpX7dKxM.js">
     <link rel="modulepreload" crossorigin href="/lagom-naturals/assets/react-CZYsDNYZ.js">
@@ -82,6 +83,31 @@
         <img class="lagom-boot-shell__image lagom-boot-shell__motion lagom-boot-shell__wave lagom-boot-shell__wave--4" src="/lagom-naturals/enhanced-lagom-naturals-icon.webp" alt="" width="1254" height="1254" decoding="sync" />
       </div>
     </div>
-    <div id="root"><main class="seo-fallback" data-seo-fallback="true"><div class="seo-fallback__content"><nav aria-label="Primary"><a href="/lagom-naturals/">Home</a> <a href="/lagom-naturals/shop/">Shop</a> <a href="/lagom-naturals/merch/">Merch</a> <a href="/lagom-naturals/visit/">Find Us</a> <a href="/lagom-naturals/about/">Our Story</a> <a href="/lagom-naturals/learn/">Learn</a></nav><h1>Recipes &amp; Rituals</h1><p>Lagom Naturals drink recipes, pairings, and balanced occasion ideas.</p></div></main></div>
+    <div id="root"><main class="seo-fallback" data-seo-fallback="true"><div class="seo-fallback__content"><nav aria-label="Primary"><a href="/lagom-naturals/">Home</a> <a href="/lagom-naturals/shop/">Shop</a> <a href="/lagom-naturals/merch/">Merch</a> <a href="/lagom-naturals/visit/">Find Us</a> <a href="/lagom-naturals/about/">Our Story</a> <a href="/lagom-naturals/learn/">Learn</a></nav><h1>Recipes &amp; Rituals</h1><p>Lagom Naturals drink recipes, pairings, and balanced occasion ideas.</p></div></main></div>
+    <script>
+      /* The document owns the boot-overlay escape hatch. This remains available
+         if the application module fails before React can mount, so loading UI
+         cannot obscure the browser's actual error state indefinitely. */
+      (() => {
+        const shell = document.getElementById('lagom-boot-shell');
+        const root = document.getElementById('root');
+        if (!shell || !root) return;
+        let released = false;
+        const release = () => {
+          if (released) return;
+          released = true;
+          document.documentElement.classList.add('lagom-app-ready');
+          window.setTimeout(() => shell.remove(), 560);
+        };
+        const observer = new MutationObserver(() => {
+          if (root.childElementCount > 0) {
+            observer.disconnect();
+            release();
+          }
+        });
+        observer.observe(root, { childList: true });
+        window.setTimeout(release, 2400);
+      })();
+    </script>
   </body>
 </html>
