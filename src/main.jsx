@@ -177,9 +177,33 @@ function AgeGate(){
             ?{duration:cloudDuration,ease:cloudEase}
             :(reduceMotion?{duration:0}:{duration:.48,ease:cloudEase})}
         />
-        <div className="age-gate__cloud-frame age-gate__cloud-frame--left" aria-hidden="true"/>
-        <div className="age-gate__cloud-frame age-gate__cloud-frame--right" aria-hidden="true"/>
-        <div className="age-gate__cloud-frame age-gate__cloud-frame--bottom" aria-hidden="true"/>
+        <m.div
+          className="age-gate__cloud-frame age-gate__cloud-frame--left"
+          aria-hidden="true"
+          initial={false}
+          animate={entering&&!reduceMotion
+            ?{x:'5vw',y:'18vh',scale:1.12,opacity:.58}
+            :{x:0,y:0,scale:1,opacity:.68}}
+          transition={reduceMotion?{duration:0}:{duration:1.34,ease:motionTokens.easeSoft}}
+        />
+        <m.div
+          className="age-gate__cloud-frame age-gate__cloud-frame--right"
+          aria-hidden="true"
+          initial={false}
+          animate={entering&&!reduceMotion
+            ?{x:'-5vw',y:'19vh',scale:1.12,opacity:.58}
+            :{x:0,y:0,scale:1,opacity:.68}}
+          transition={reduceMotion?{duration:0}:{duration:1.34,ease:motionTokens.easeSoft}}
+        />
+        <m.div
+          className="age-gate__cloud-frame age-gate__cloud-frame--bottom"
+          aria-hidden="true"
+          initial={false}
+          animate={entering&&!reduceMotion
+            ?{y:'24vh',scale:1.18,opacity:.64}
+            :{y:0,scale:1,opacity:.56}}
+          transition={reduceMotion?{duration:0}:{duration:1.34,ease:motionTokens.easeSoft}}
+        />
         <m.div
           className="age-gate__panel"
           initial={reduceMotion?false:{opacity:0,y:10,scale:.994}}
