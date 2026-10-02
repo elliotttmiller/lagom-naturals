@@ -6,6 +6,7 @@ const OVERFLOW_CLASS = "has-home-snap-overflow";
 const SUSPENDED_CLASS = "is-home-snap-suspended";
 const KEYBOARD_CLASS = "is-home-keyboard-open";
 const KEYBOARD_THRESHOLD = 140;
+const OVERFLOW_TOLERANCE = 24;
 
 function isTextEntryTarget(node) {
   if (!(node instanceof HTMLElement)) return false;
@@ -81,7 +82,7 @@ export default function HomeScrollSnap({ rootRef }) {
           const content = scene.querySelector("[data-home-snap-content]") || scene;
           const available = Math.ceil(scene.clientHeight);
           const required = Math.ceil(content.scrollHeight);
-          return required > available + 8;
+          return required > available + OVERFLOW_TOLERANCE;
         });
 
         root.classList.toggle(OVERFLOW_CLASS, hasOverflow);
