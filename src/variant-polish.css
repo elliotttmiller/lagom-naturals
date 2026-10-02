@@ -1,6 +1,3 @@
-@import './mobile-pdp-fixes.css';
-@import './home-category-rail.css';
-
 /* Interactive catalog variant selector. Loaded after catalog-polish.css. */
 .product-card{overflow:visible}
 .product-card.is-variant-open{z-index:12}
