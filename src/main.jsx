@@ -163,7 +163,7 @@ function AgeGate(){
   if(finished)return null;
 
   const cloudEase=motionTokens.easeSoft;
-  const cloudDuration=1.48;
+  const cloudDuration=1.58;
   const cloudTransition=(delay=0,duration=cloudDuration)=>reduceMotion?{duration:0}:{duration,delay,ease:cloudEase};
   const handleAtmospherePointer=event=>{
     if(entering||reduceMotion||event.pointerType!=='mouse')return;
@@ -186,7 +186,7 @@ function AgeGate(){
       transition={entering
         ?(reduceMotion
           ?{duration:.14,ease:'linear'}
-          :{delay:.8,duration:.7,ease:motionTokens.easeExit})
+          :{delay:1.06,duration:.5,ease:motionTokens.easeExit})
         :{duration:0}}
       onPointerMove={handleAtmospherePointer}
       onPointerLeave={resetAtmospherePointer}
@@ -199,10 +199,10 @@ function AgeGate(){
           aria-hidden="true"
           initial={reduceMotion?false:{opacity:0,scale:1.008}}
           animate={entering&&!reduceMotion
-            ?{opacity:1,scale:1.045,y:'1.5vh'}
+            ?{opacity:0,scale:1.085,y:'2.4vh'}
             :{opacity:1,scale:1,y:0}}
           transition={entering
-            ?cloudTransition(0,1.5)
+            ?cloudTransition(.42,.9)
             :(reduceMotion?{duration:0}:{duration:.48,ease:cloudEase})}
         />
         <m.div
@@ -210,23 +210,41 @@ function AgeGate(){
           aria-hidden="true"
           initial={false}
           animate={entering&&!reduceMotion
-            ?{opacity:.44,scale:1.08}
-            :{opacity:.18,scale:1}}
-          transition={cloudTransition(.08,1.2)}
+            ?{opacity:.3,scale:1.18,y:'-4vh'}
+            :{opacity:.18,scale:1,y:0}}
+          transition={cloudTransition(.12,1.08)}
+        />
+        <m.div
+          className="age-gate__mist-sweep age-gate__mist-sweep--left"
+          aria-hidden="true"
+          initial={false}
+          animate={entering&&!reduceMotion
+            ?{x:'118vw',y:'-20vh',opacity:0,rotate:-7,scale:1.16}
+            :{x:'-34vw',y:'18vh',opacity:0,rotate:-7,scale:.92}}
+          transition={cloudTransition(.18,1.08)}
+        />
+        <m.div
+          className="age-gate__mist-sweep age-gate__mist-sweep--right"
+          aria-hidden="true"
+          initial={false}
+          animate={entering&&!reduceMotion
+            ?{x:'-116vw',y:'-16vh',opacity:0,rotate:6,scale:1.14}
+            :{x:'36vw',y:'22vh',opacity:0,rotate:6,scale:.94}}
+          transition={cloudTransition(.24,1.05)}
         />
 
         <m.div className="age-gate__cloud-depth age-gate__cloud-depth--far" style={{x:farX,y:farY}} aria-hidden="true">
           <m.div
             className="age-gate__cloud-frame age-gate__cloud-frame--far-left"
             initial={false}
-            animate={entering&&!reduceMotion?{x:'10vw',y:'13vh',scale:1.08,opacity:.14}:{x:0,y:0,scale:1,opacity:.28}}
-            transition={cloudTransition(0,1.55)}
+            animate={entering&&!reduceMotion?{x:'-13vw',y:'-9vh',scale:1.1,opacity:.12,rotate:-2}:{x:0,y:0,scale:1,opacity:.28,rotate:0}}
+            transition={cloudTransition(.02,1.5)}
           />
           <m.div
             className="age-gate__cloud-frame age-gate__cloud-frame--far-right"
             initial={false}
-            animate={entering&&!reduceMotion?{x:'-9vw',y:'15vh',scale:1.1,opacity:.14}:{x:0,y:0,scale:1,opacity:.3}}
-            transition={cloudTransition(.02,1.55)}
+            animate={entering&&!reduceMotion?{x:'14vw',y:'-7vh',scale:1.11,opacity:.12,rotate:2}:{x:0,y:0,scale:1,opacity:.3,rotate:0}}
+            transition={cloudTransition(.04,1.48)}
           />
         </m.div>
 
@@ -235,33 +253,33 @@ function AgeGate(){
             className="age-gate__cloud-frame age-gate__cloud-frame--left"
           initial={false}
           animate={entering&&!reduceMotion
-            ?{x:'8vw',y:'24vh',scale:1.2,opacity:.66}
-            :{x:0,y:0,scale:1,opacity:.68}}
-          transition={cloudTransition(.03,1.46)}
+            ?{x:'-42vw',y:'-15vh',scale:1.16,opacity:.2,rotate:-5}
+            :{x:0,y:0,scale:1,opacity:.68,rotate:0}}
+          transition={cloudTransition(.1,1.34)}
         />
         <m.div
           className="age-gate__cloud-frame age-gate__cloud-frame--right"
           initial={false}
           animate={entering&&!reduceMotion
-            ?{x:'-8vw',y:'25vh',scale:1.21,opacity:.66}
-            :{x:0,y:0,scale:1,opacity:.68}}
-          transition={cloudTransition(.04,1.46)}
+            ?{x:'42vw',y:'-13vh',scale:1.17,opacity:.2,rotate:5}
+            :{x:0,y:0,scale:1,opacity:.68,rotate:0}}
+          transition={cloudTransition(.12,1.32)}
         />
         <m.div
           className="age-gate__cloud-frame age-gate__cloud-frame--center"
           initial={false}
           animate={entering&&!reduceMotion
-            ?{x:'-2vw',y:'31vh',scale:1.28,opacity:.72}
+            ?{x:'-3vw',y:'-31vh',scale:1.18,opacity:.08}
             :{x:0,y:0,scale:1,opacity:.42}}
-          transition={cloudTransition(.05,1.42)}
+          transition={cloudTransition(.16,1.2)}
         />
         <m.div
           className="age-gate__cloud-frame age-gate__cloud-frame--bottom"
           initial={false}
           animate={entering&&!reduceMotion
-            ?{y:'38vh',scale:1.38,opacity:.82}
+            ?{y:'25vh',scale:1.15,opacity:.2}
             :{y:0,scale:1,opacity:.56}}
-          transition={cloudTransition(.06,1.4)}
+          transition={cloudTransition(.14,1.24)}
         />
         </m.div>
 
@@ -270,44 +288,57 @@ function AgeGate(){
             className="age-gate__cloud-frame age-gate__cloud-frame--near-left"
             initial={false}
             animate={entering&&!reduceMotion
-              ?{x:'16vw',y:'-19vh',scale:1.58,opacity:.94,rotate:-2}
+              ?{x:'118vw',y:'-86vh',scale:1.42,opacity:0,rotate:7}
               :{x:0,y:0,scale:1,opacity:.16,rotate:0}}
-            transition={cloudTransition(.12,1.18)}
+            transition={cloudTransition(.2,1.18)}
           />
           <m.div
             className="age-gate__cloud-frame age-gate__cloud-frame--near-right"
             initial={false}
             animate={entering&&!reduceMotion
-              ?{x:'-17vw',y:'-16vh',scale:1.54,opacity:.9,rotate:2}
+              ?{x:'-118vw',y:'-82vh',scale:1.4,opacity:0,rotate:-7}
               :{x:0,y:0,scale:1,opacity:.14,rotate:0}}
-            transition={cloudTransition(.15,1.16)}
+            transition={cloudTransition(.24,1.16)}
           />
         </m.div>
         <m.div
           className="age-gate__panel"
           initial={reduceMotion?false:{opacity:0,y:10,scale:.994}}
-          animate={entering
-            ?(reduceMotion?{opacity:0}:{opacity:0,y:5,scale:.996})
-            :{opacity:1,y:0,scale:1}}
-          transition={entering
-            ?(reduceMotion?{duration:.14}:{duration:.3,ease:motionTokens.easeExit})
-            :(reduceMotion?{duration:0}:{delay:.04,duration:.5,ease:cloudEase})}
+          animate={{opacity:1,y:0,scale:1}}
+          transition={reduceMotion?{duration:0}:{delay:.04,duration:.5,ease:cloudEase}}
           aria-hidden={entering?'true':undefined}
         >
-          <div className="age-gate__brand">
+          <m.div
+            className="age-gate__brand"
+            animate={entering&&!reduceMotion?{opacity:0,y:-20,scale:.94}:{opacity:1,y:0,scale:1}}
+            transition={reduceMotion?{duration:0}:{duration:.3,ease:motionTokens.easeExit}}
+          >
             <img src={publicAsset("enhanced-lagom-naturals-icon.webp")} alt="Lagom Naturals"/>
-          </div>
+          </m.div>
           <div className="age-gate__content">
-            <h1 id="age-gate-title">Are you 21<br/>or older?</h1>
-            <p id="age-gate-description" className="age-gate__copy">You must be 21 or older to enter. Passing this gate does not establish legal purchase eligibility.</p>
-            <div className="age-gate__actions">
+            <m.h1
+              id="age-gate-title"
+              animate={entering&&!reduceMotion?{opacity:0,y:-15,scale:.985}:{opacity:1,y:0,scale:1}}
+              transition={reduceMotion?{duration:0}:{delay:.03,duration:.32,ease:motionTokens.easeExit}}
+            >Are you 21<br/>or older?</m.h1>
+            <m.p
+              id="age-gate-description"
+              className="age-gate__copy"
+              animate={entering&&!reduceMotion?{opacity:0,y:-8}:{opacity:1,y:0}}
+              transition={reduceMotion?{duration:0}:{delay:.06,duration:.3,ease:motionTokens.easeExit}}
+            >You must be 21 or older to enter. Passing this gate does not establish legal purchase eligibility.</m.p>
+            <m.div
+              className="age-gate__actions"
+              animate={entering&&!reduceMotion?{opacity:0,y:18,scale:.985}:{opacity:1,y:0,scale:1}}
+              transition={reduceMotion?{duration:0}:{delay:.08,duration:.3,ease:motionTokens.easeExit}}
+            >
               <button type="button" className="age-gate__action age-gate__action--primary" autoFocus disabled={entering} onClick={enter}>
                 <span>YES, I’M 21+</span><ArrowRight aria-hidden="true"/>
               </button>
               <button type="button" className="age-gate__action age-gate__action--secondary" disabled={entering} onClick={()=>window.location.replace('https://www.google.com/')}>
                 <span>NO, EXIT SITE</span>
               </button>
-            </div>
+            </m.div>
           </div>
         </m.div>
       </>}
