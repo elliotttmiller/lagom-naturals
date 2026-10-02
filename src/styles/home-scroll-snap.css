@@ -34,7 +34,7 @@
   }
 
   body:has(.sky-home) #root>.site-footer{
-    scroll-snap-align:start;
+    scroll-snap-align:none;
     scroll-snap-stop:normal;
     scroll-margin-block-start:0;
   }
@@ -90,11 +90,12 @@
    is a mandatory stop; the footer remains a normal terminal destination.
 */
 @media (max-width:899px) and (min-height:700px) and (prefers-reduced-motion:no-preference){
+  :root{--home-mobile-scene-h:100svh;}
   html:has(.sky-home){
     scroll-snap-type:y mandatory!important;
     scroll-padding-block-start:0!important;
     scroll-behavior:smooth!important;
-    overscroll-behavior-y:contain!important;
+    overscroll-behavior-y:none!important;
   }
 
   body:has(.sky-home){
@@ -108,7 +109,7 @@
   }
 
   body:has(.sky-home) #root>.site-footer{
-    scroll-snap-align:start!important;
+    scroll-snap-align:none!important;
     scroll-snap-stop:normal!important;
     scroll-margin-block-start:0!important;
   }
