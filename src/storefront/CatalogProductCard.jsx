@@ -27,8 +27,8 @@ export default function CatalogProductCard({
   return (
     <m.article
       className={`catalog-card cpc-13 ${className}`.trim()}
-      whileHover={{ y: -4 }}
-      whileTap={{ scale: 0.992 }}
+      whileHover={motionTokens.hover}
+      whileTap={motionTokens.tap}
       transition={motionTokens.springSoft}
       {...motionProps}
     >
