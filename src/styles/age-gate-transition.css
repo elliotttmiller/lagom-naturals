@@ -123,7 +123,10 @@ body.age-gate-cinematic-handoff .sky-home .atmospheric-scene-hero .legacy-sky-he
 body.age-gate-cinematic-handoff .sky-home .atmospheric-scene-hero .legacy-sky-hero__content,
 body.age-gate-cinematic-handoff .sky-home .atmospheric-scene-hero .legacy-sky-hero h1,
 body.age-gate-cinematic-handoff .sky-home .atmospheric-scene-hero .legacy-sky-hero__lede,
-body.age-gate-cinematic-handoff .sky-home .atmospheric-scene-hero .legacy-sky-hero__actions{
+body.age-gate-cinematic-handoff .sky-home .atmospheric-scene-hero .legacy-sky-hero__actions,
+body.age-gate-cinematic-handoff .announcement,
+body.age-gate-cinematic-handoff .site-header,
+body.age-gate-cinematic-handoff .mobile-reference-header{
   transition:none!important;
   will-change:transform,opacity;
 }
@@ -241,7 +244,10 @@ body.age-gate-cinematic-handoff .sky-home .atmospheric-scene-hero .legacy-sky-he
   }
 
   body.age-gate-cinematic-handoff .sky-home .atmospheric-scene-hero .legacy-sky-hero__product--fullbleed img,
-  body.age-gate-cinematic-handoff .sky-home .atmospheric-scene-hero .legacy-sky-hero__content{
+  body.age-gate-cinematic-handoff .sky-home .atmospheric-scene-hero .legacy-sky-hero__content,
+  body.age-gate-cinematic-handoff .announcement,
+  body.age-gate-cinematic-handoff .site-header,
+  body.age-gate-cinematic-handoff .mobile-reference-header{
     will-change:auto;
   }
 }
