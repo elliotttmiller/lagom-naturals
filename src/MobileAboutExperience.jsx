@@ -25,7 +25,7 @@ export default function MobileAboutExperience(){
       <m.div className="mobile-about__hero-media"
         initial={reduceMotion?false:{scale:1.035,opacity:.96}}
         animate={{scale:1,opacity:1}}
-        transition={{duration:reduceMotion?0:.8,ease:motionTokens.easeSoft}}
+        transition={reduceMotion?{duration:0}:{duration:motionTokens.duration.cinematic,ease:motionTokens.easeSoft}}
       ><ResponsiveImage src={mainStore2} alt="Inside Lagom Naturals in Minneapolis" sizes="100vw" fetchPriority="high" loading="eager" decoding="async"/></m.div>
       <div className="mobile-about__hero-shade"/>
       <m.div className="mobile-about__hero-copy" initial="hidden" animate="visible" variants={motionVariants.stagger}>
@@ -60,7 +60,7 @@ export default function MobileAboutExperience(){
         <m.h2 variants={motionVariants.item}>A Modern<br/>Dispensary<br/>Experience</m.h2>
         <m.p variants={motionVariants.item}>A welcoming, modern environment designed for discovery, comfort, and straightforward shopping.</m.p>
       </m.div>
-      <m.div className="mobile-about__space-media" initial={reduceMotion?false:{opacity:0,y:16}} whileInView={{opacity:1,y:0}} viewport={{once:true,amount:.18}} transition={{duration:reduceMotion?0:motionTokens.duration.slow,ease:motionTokens.easeSoft}}>
+      <m.div className="mobile-about__space-media" initial={reduceMotion?false:{opacity:0,y:16}} whileInView={{opacity:1,y:0}} viewport={{once:true,amount:.18}} transition={reduceMotion?{duration:0}:motionTokens.springSoft}>
         <ResponsiveImage src={extraStore2} alt="Lagom Naturals retail interior" sizes="100vw" loading="lazy" decoding="async"/>
       </m.div>
     </section>
