@@ -3,14 +3,24 @@ import { useEffect } from "react";
 const SCENE_SELECTOR = "[data-home-snap-scene]";
 const ACTIVE_CLASS = "is-snap-visible";
 const OVERFLOW_CLASS = "has-home-snap-overflow";
+const SUSPENDED_CLASS = "is-home-snap-suspended";
+const KEYBOARD_CLASS = "is-home-keyboard-open";
+const KEYBOARD_THRESHOLD = 140;
+
+function isTextEntryTarget(node) {
+  if (!(node instanceof HTMLElement)) return false;
+  if (node.isContentEditable) return true;
+  return /^(INPUT|TEXTAREA|SELECT)$/.test(node.tagName);
+}
 
 /**
- * Presentation-state controller for the native CSS scroll-snap homepage.
+ * Presentation/state controller for the native CSS scroll-snap homepage.
  *
- * Scroll physics intentionally remain browser-owned. This component only:
- * 1) measures desktop chrome for the first hero frame,
- * 2) observes the active scene for reveal/atmosphere state, and
- * 3) detects content overflow so mandatory snapping can safely degrade.
+ * The browser remains the only vertical scroll engine. This controller:
+ * 1) observes which scene is actually dominant in the viewport,
+ * 2) detects genuine content overflow and relaxes mandatory snap only then,
+ * 3) suspends snapping while the on-screen keyboard is open, and
+ * 4) measures desktop chrome without mutating mobile scroll geometry.
  */
 export default function HomeScrollSnap({ rootRef }) {
   useEffect(() => {
@@ -25,6 +35,9 @@ export default function HomeScrollSnap({ rootRef }) {
     let sceneObserver;
     let resizeObserver;
     let measureFrame = 0;
+    let keyboardFrame = 0;
+    let lastActiveScene = scenes[0] || null;
+    const visibleRatios = new Map(scenes.map((scene) => [scene, 0]));
 
     const listen = (mediaQuery, listener) => {
       if (mediaQuery.addEventListener) mediaQuery.addEventListener("change", listener);
@@ -34,6 +47,12 @@ export default function HomeScrollSnap({ rootRef }) {
     const unlisten = (mediaQuery, listener) => {
       if (mediaQuery.removeEventListener) mediaQuery.removeEventListener("change", listener);
       else mediaQuery.removeListener(listener);
+    };
+
+    const setActiveScene = (scene) => {
+      if (!scene || scene === lastActiveScene && scene.classList.contains(ACTIVE_CLASS)) return;
+      lastActiveScene = scene;
+      scenes.forEach((candidate) => candidate.classList.toggle(ACTIVE_CLASS, candidate === scene));
     };
 
     const showAll = () => scenes.forEach((scene) => scene.classList.add(ACTIVE_CLASS));
@@ -59,56 +78,88 @@ export default function HomeScrollSnap({ rootRef }) {
         }
 
         const hasOverflow = scenes.some((scene) => {
-          const content = scene.querySelector("[data-home-snap-content]");
-          const target = content || scene;
-          return Math.ceil(target.scrollHeight) > Math.ceil(scene.clientHeight) + 2;
+          const content = scene.querySelector("[data-home-snap-content]") || scene;
+          const available = Math.ceil(scene.clientHeight);
+          const required = Math.ceil(content.scrollHeight);
+          return required > available + 8;
         });
 
         root.classList.toggle(OVERFLOW_CLASS, hasOverflow);
       });
     };
 
+    const syncKeyboardState = () => {
+      cancelAnimationFrame(keyboardFrame);
+      keyboardFrame = requestAnimationFrame(() => {
+        if (!mobileViewport.matches || !window.visualViewport) {
+          root.classList.remove(KEYBOARD_CLASS, SUSPENDED_CLASS);
+          return;
+        }
+
+        const focused = isTextEntryTarget(document.activeElement);
+        const obscuredHeight = Math.max(0, window.innerHeight - window.visualViewport.height);
+        const keyboardOpen = focused && obscuredHeight > KEYBOARD_THRESHOLD;
+
+        root.classList.toggle(KEYBOARD_CLASS, keyboardOpen);
+        root.classList.toggle(SUSPENDED_CLASS, keyboardOpen);
+      });
+    };
+
     const configureSceneObserver = () => {
       sceneObserver?.disconnect();
       sceneObserver = undefined;
+      visibleRatios.forEach((_, scene) => visibleRatios.set(scene, 0));
 
       if (reducedMotion.matches || !("IntersectionObserver" in window)) {
         showAll();
         return;
       }
 
-      scenes.forEach((scene) => scene.classList.remove(ACTIVE_CLASS));
-
       const desktopOffset = measureDesktopChrome();
       const options = desktopViewport.matches
         ? {
             root: null,
-            rootMargin: `-${desktopOffset}px 0px -12% 0px`,
-            threshold: [0, 0.32, 0.62, 0.82, 1],
+            rootMargin: `-${desktopOffset}px 0px -10% 0px`,
+            threshold: [0, 0.2, 0.4, 0.55, 0.7, 0.85, 1],
           }
         : {
             root: null,
-            rootMargin: "-14% 0px -14% 0px",
-            threshold: [0, 0.3, 0.5, 0.64, 0.78, 0.92],
+            rootMargin: "0px",
+            threshold: [0, 0.2, 0.4, 0.5, 0.6, 0.75, 0.9, 1],
           };
 
-      const activationThreshold = desktopViewport.matches ? 0.62 : 0.64;
+      scenes.forEach((scene) => scene.classList.remove(ACTIVE_CLASS));
+      if (lastActiveScene) lastActiveScene.classList.add(ACTIVE_CLASS);
 
       sceneObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
-          entry.target.classList.toggle(
-            ACTIVE_CLASS,
-            entry.isIntersecting && entry.intersectionRatio >= activationThreshold,
-          );
+          visibleRatios.set(entry.target, entry.isIntersecting ? entry.intersectionRatio : 0);
         });
+
+        let dominantScene = lastActiveScene;
+        let dominantRatio = dominantScene ? visibleRatios.get(dominantScene) || 0 : 0;
+
+        scenes.forEach((scene) => {
+          const ratio = visibleRatios.get(scene) || 0;
+          if (ratio > dominantRatio) {
+            dominantScene = scene;
+            dominantRatio = ratio;
+          }
+        });
+
+        if (dominantScene && (dominantRatio >= 0.5 || !lastActiveScene)) {
+          setActiveScene(dominantScene);
+        }
       }, options);
 
       scenes.forEach((scene) => sceneObserver.observe(scene));
     };
 
     const sync = () => {
+      measureDesktopChrome();
       configureSceneObserver();
       measureOverflow();
+      syncKeyboardState();
     };
 
     sync();
@@ -134,19 +185,29 @@ export default function HomeScrollSnap({ rootRef }) {
       if (header) resizeObserver.observe(header);
     }
 
+    const visualViewport = window.visualViewport;
+    const onFocusChange = () => syncKeyboardState();
+
     window.addEventListener("resize", sync, { passive: true });
-    window.visualViewport?.addEventListener("resize", measureOverflow, { passive: true });
+    visualViewport?.addEventListener("resize", syncKeyboardState, { passive: true });
+    visualViewport?.addEventListener("scroll", syncKeyboardState, { passive: true });
+    document.addEventListener("focusin", onFocusChange);
+    document.addEventListener("focusout", onFocusChange);
 
     return () => {
       sceneObserver?.disconnect();
       resizeObserver?.disconnect();
       cancelAnimationFrame(measureFrame);
+      cancelAnimationFrame(keyboardFrame);
       window.removeEventListener("resize", sync);
-      window.visualViewport?.removeEventListener("resize", measureOverflow);
+      visualViewport?.removeEventListener("resize", syncKeyboardState);
+      visualViewport?.removeEventListener("scroll", syncKeyboardState);
+      document.removeEventListener("focusin", onFocusChange);
+      document.removeEventListener("focusout", onFocusChange);
       unlisten(reducedMotion, sync);
       unlisten(desktopViewport, sync);
       unlisten(mobileViewport, sync);
-      root.classList.remove(OVERFLOW_CLASS);
+      root.classList.remove(OVERFLOW_CLASS, SUSPENDED_CLASS, KEYBOARD_CLASS);
       document.documentElement.style.removeProperty("--home-snap-offset");
       document.documentElement.style.removeProperty("--home-desktop-snap-h");
     };
