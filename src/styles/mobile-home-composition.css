@@ -34,14 +34,13 @@
   .sky-home .atmospheric-scene-section {
     inline-size: 100% !important;
     max-inline-size: 100% !important;
-    block-size: auto !important;
-    min-block-size: 0 !important;
-    max-block-size: none !important;
+    block-size: var(--home-mobile-scene-h, 100dvh) !important;
+    min-block-size: var(--home-mobile-scene-h, 100dvh) !important;
+    max-block-size: var(--home-mobile-scene-h, 100dvh) !important;
     overflow: clip !important;
   }
 
   .sky-home .atmospheric-scene-hero {
-    min-block-size: max(42rem, 100svh) !important;
     overflow: hidden !important;
     background:
       linear-gradient(180deg,rgba(176,227,253,.22),rgba(176,227,253,.06)),
