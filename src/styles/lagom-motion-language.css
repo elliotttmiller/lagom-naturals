@@ -208,40 +208,6 @@
 }
 
 /* --------------------------------------------------------------------------
-   Horizontal homepage product rails
-   -------------------------------------------------------------------------- */
-.sky-home .home-product-rail > *{
-  opacity:var(--home-rail-opacity,.68);
-  transform:translate3d(0,var(--home-rail-y,8px),0) scale(var(--home-rail-scale,.965));
-  transition:
-    opacity 180ms linear,
-    transform 180ms linear,
-    filter 420ms ease,
-    border-color 300ms ease,
-    box-shadow 420ms var(--lagom-ease-glide)!important;
-}
-.sky-home .home-product-rail > * :is(h3,strong,.sky-home-product__description,.gummy-collection-card__description,.sky-home-product__mobile-facts,.gummy-collection-card__cta){
-  transition:opacity 360ms var(--lagom-ease-glide),transform 440ms var(--lagom-ease-glide);
-}
-.sky-home .home-product-rail > *:not(.is-home-rail-active) :is(h3,strong,.sky-home-product__description,.gummy-collection-card__description,.sky-home-product__mobile-facts,.gummy-collection-card__cta){
-  opacity:.66;
-  transform:translate3d(0,4px,0);
-}
-.sky-home .home-product-rail > *.is-home-rail-active :is(h3,strong,.sky-home-product__description,.gummy-collection-card__description,.sky-home-product__mobile-facts,.gummy-collection-card__cta){
-  opacity:1;
-  transform:none;
-}
-.home-product-rail__progress > span{
-  transition:inline-size 440ms var(--lagom-ease-glide)!important;
-}
-.home-product-rail__cue svg{
-  transition:transform var(--lagom-motion-control) var(--lagom-ease-glide)!important;
-}
-@media(hover:hover) and (pointer:fine){
-  .home-product-rail__cue:hover svg{transform:translateX(3px)}
-}
-
-/* --------------------------------------------------------------------------
    Navigation + drawers
    -------------------------------------------------------------------------- */
 /* Motion owns drawer/backdrop lifecycle transforms. Disable legacy CSS
