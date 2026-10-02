@@ -9,11 +9,15 @@ import SiteFooter from '@/SiteFooter'
 import SearchOnIntent from '@/SearchOnIntent'
 import GlobalSearchTriggerBridge from '@/GlobalSearchTriggerBridge'
 import { gummyCollections, merch, products } from '@/catalogData'
-import { AppMotionProvider, Presence, RouteMotion, m, motionTokens, useReducedMotion } from '@/motionSystem'
+import { AppMotionProvider, Presence, RouteMotion, m, motionTokens, useMotionValue, useReducedMotion, useSpring, useTransform } from '@/motionSystem'
 import ageGateSky from '@/assets/atmosphere/home-hero-sky.png'
 import cloudMidField from '@/assets/atmosphere/clouds/cloud-mid-field.webp'
 import cloudLeftFragment from '@/assets/atmosphere/clouds/cloud-left-fragment.webp'
 import cloudRightFragment from '@/assets/atmosphere/clouds/cloud-right-fragment.webp'
+import cloudNearMass from '@/assets/atmosphere/clouds/cloud-near-mass.webp'
+import cloudFarLeft from '@/assets/atmosphere/clouds/cloud-16.webp'
+import cloudFarRight from '@/assets/atmosphere/clouds/cloud-09.webp'
+import cloudCenterMass from '@/assets/atmosphere/clouds/cloud-21.webp'
 import './styles/index.css'
 
 const loadAccountPage=()=>import('@/AccountPage')
@@ -45,6 +49,16 @@ function AgeGate(){
   const [ready,setReady]=React.useState(verified);
   const reduceMotion=useReducedMotion();
   const gateRef=React.useRef(null);
+  const pointerX=useMotionValue(0);
+  const pointerY=useMotionValue(0);
+  const parallaxX=useSpring(pointerX,{stiffness:90,damping:24,mass:.9});
+  const parallaxY=useSpring(pointerY,{stiffness:90,damping:24,mass:.9});
+  const farX=useTransform(parallaxX,value=>value*.28);
+  const farY=useTransform(parallaxY,value=>value*.2);
+  const midX=useTransform(parallaxX,value=>value*.55);
+  const midY=useTransform(parallaxY,value=>value*.42);
+  const nearX=useTransform(parallaxX,value=>value*.88);
+  const nearY=useTransform(parallaxY,value=>value*.72);
   const entering=phase==='entering';
   const finished=phase==='complete';
   React.useEffect(()=>{
@@ -59,6 +73,10 @@ function AgeGate(){
       cloudMidField,
       cloudLeftFragment,
       cloudRightFragment,
+      cloudNearMass,
+      cloudFarLeft,
+      cloudFarRight,
+      cloudCenterMass,
     ];
     const preload=src=>new Promise(resolve=>{
       const image=new Image();
@@ -144,8 +162,16 @@ function AgeGate(){
 
   if(finished)return null;
 
-  const cloudEase=[.16,1,.3,1];
-  const cloudDuration=1.34;
+  const cloudEase=motionTokens.easeSoft;
+  const cloudDuration=1.48;
+  const cloudTransition=(delay=0,duration=cloudDuration)=>reduceMotion?{duration:0}:{duration,delay,ease:cloudEase};
+  const handleAtmospherePointer=event=>{
+    if(entering||reduceMotion||event.pointerType!=='mouse')return;
+    const rect=event.currentTarget.getBoundingClientRect();
+    pointerX.set(((event.clientX-rect.left)/rect.width-.5)*18);
+    pointerY.set(((event.clientY-rect.top)/rect.height-.5)*12);
+  };
+  const resetAtmospherePointer=()=>{pointerX.set(0);pointerY.set(0)};
 
   return <Presence>
     <m.div
@@ -160,8 +186,10 @@ function AgeGate(){
       transition={entering
         ?(reduceMotion
           ?{duration:.14,ease:'linear'}
-          :{delay:.54,duration:.72,ease:cloudEase})
+          :{delay:.8,duration:.7,ease:motionTokens.easeExit})
         :{duration:0}}
+      onPointerMove={handleAtmospherePointer}
+      onPointerLeave={resetAtmospherePointer}
       onAnimationComplete={()=>{if(entering)finishTransition()}}
     >
       <div className="age-gate__prepare-surface" aria-hidden="true"/>
@@ -171,39 +199,90 @@ function AgeGate(){
           aria-hidden="true"
           initial={reduceMotion?false:{opacity:0,scale:1.008}}
           animate={entering&&!reduceMotion
-            ?{opacity:1,scale:1.022}
-            :{opacity:1,scale:1}}
+            ?{opacity:1,scale:1.045,y:'1.5vh'}
+            :{opacity:1,scale:1,y:0}}
           transition={entering
-            ?{duration:cloudDuration,ease:cloudEase}
+            ?cloudTransition(0,1.5)
             :(reduceMotion?{duration:0}:{duration:.48,ease:cloudEase})}
         />
         <m.div
-          className="age-gate__cloud-frame age-gate__cloud-frame--left"
+          className="age-gate__atmosphere-glow"
           aria-hidden="true"
           initial={false}
           animate={entering&&!reduceMotion
-            ?{x:'5vw',y:'18vh',scale:1.12,opacity:.58}
+            ?{opacity:.44,scale:1.08}
+            :{opacity:.18,scale:1}}
+          transition={cloudTransition(.08,1.2)}
+        />
+
+        <m.div className="age-gate__cloud-depth age-gate__cloud-depth--far" style={{x:farX,y:farY}} aria-hidden="true">
+          <m.div
+            className="age-gate__cloud-frame age-gate__cloud-frame--far-left"
+            initial={false}
+            animate={entering&&!reduceMotion?{x:'10vw',y:'13vh',scale:1.08,opacity:.14}:{x:0,y:0,scale:1,opacity:.28}}
+            transition={cloudTransition(0,1.55)}
+          />
+          <m.div
+            className="age-gate__cloud-frame age-gate__cloud-frame--far-right"
+            initial={false}
+            animate={entering&&!reduceMotion?{x:'-9vw',y:'15vh',scale:1.1,opacity:.14}:{x:0,y:0,scale:1,opacity:.3}}
+            transition={cloudTransition(.02,1.55)}
+          />
+        </m.div>
+
+        <m.div className="age-gate__cloud-depth age-gate__cloud-depth--mid" style={{x:midX,y:midY}} aria-hidden="true">
+          <m.div
+            className="age-gate__cloud-frame age-gate__cloud-frame--left"
+          initial={false}
+          animate={entering&&!reduceMotion
+            ?{x:'8vw',y:'24vh',scale:1.2,opacity:.66}
             :{x:0,y:0,scale:1,opacity:.68}}
-          transition={reduceMotion?{duration:0}:{duration:1.34,ease:motionTokens.easeSoft}}
+          transition={cloudTransition(.03,1.46)}
         />
         <m.div
           className="age-gate__cloud-frame age-gate__cloud-frame--right"
-          aria-hidden="true"
           initial={false}
           animate={entering&&!reduceMotion
-            ?{x:'-5vw',y:'19vh',scale:1.12,opacity:.58}
+            ?{x:'-8vw',y:'25vh',scale:1.21,opacity:.66}
             :{x:0,y:0,scale:1,opacity:.68}}
-          transition={reduceMotion?{duration:0}:{duration:1.34,ease:motionTokens.easeSoft}}
+          transition={cloudTransition(.04,1.46)}
+        />
+        <m.div
+          className="age-gate__cloud-frame age-gate__cloud-frame--center"
+          initial={false}
+          animate={entering&&!reduceMotion
+            ?{x:'-2vw',y:'31vh',scale:1.28,opacity:.72}
+            :{x:0,y:0,scale:1,opacity:.42}}
+          transition={cloudTransition(.05,1.42)}
         />
         <m.div
           className="age-gate__cloud-frame age-gate__cloud-frame--bottom"
-          aria-hidden="true"
           initial={false}
           animate={entering&&!reduceMotion
-            ?{y:'24vh',scale:1.18,opacity:.64}
+            ?{y:'38vh',scale:1.38,opacity:.82}
             :{y:0,scale:1,opacity:.56}}
-          transition={reduceMotion?{duration:0}:{duration:1.34,ease:motionTokens.easeSoft}}
+          transition={cloudTransition(.06,1.4)}
         />
+        </m.div>
+
+        <m.div className="age-gate__cloud-depth age-gate__cloud-depth--near" style={{x:nearX,y:nearY}} aria-hidden="true">
+          <m.div
+            className="age-gate__cloud-frame age-gate__cloud-frame--near-left"
+            initial={false}
+            animate={entering&&!reduceMotion
+              ?{x:'16vw',y:'-19vh',scale:1.58,opacity:.94,rotate:-2}
+              :{x:0,y:0,scale:1,opacity:.16,rotate:0}}
+            transition={cloudTransition(.12,1.18)}
+          />
+          <m.div
+            className="age-gate__cloud-frame age-gate__cloud-frame--near-right"
+            initial={false}
+            animate={entering&&!reduceMotion
+              ?{x:'-17vw',y:'-16vh',scale:1.54,opacity:.9,rotate:2}
+              :{x:0,y:0,scale:1,opacity:.14,rotate:0}}
+            transition={cloudTransition(.15,1.16)}
+          />
+        </m.div>
         <m.div
           className="age-gate__panel"
           initial={reduceMotion?false:{opacity:0,y:10,scale:.994}}
@@ -211,7 +290,7 @@ function AgeGate(){
             ?(reduceMotion?{opacity:0}:{opacity:0,y:5,scale:.996})
             :{opacity:1,y:0,scale:1}}
           transition={entering
-            ?{duration:reduceMotion?.14:.24,ease:[.4,0,.2,1]}
+            ?(reduceMotion?{duration:.14}:{duration:.3,ease:motionTokens.easeExit})
             :(reduceMotion?{duration:0}:{delay:.04,duration:.5,ease:cloudEase})}
           aria-hidden={entering?'true':undefined}
         >
