@@ -76,7 +76,7 @@
     position:absolute;
     z-index:4;
     inset:clamp(120px,13dvh,154px) 0 auto;
-    inline-size:min(calc(100% - 48px),760px);
+    inline-size:min(calc(100% - 48px),920px);
     min-block-size:0;
     min-height:0;
     display:flex;
@@ -103,6 +103,7 @@
     display:block;
     font:inherit;
     letter-spacing:inherit;
+    white-space:nowrap;
   }
 
   .sky-home .legacy-sky-hero__lede {

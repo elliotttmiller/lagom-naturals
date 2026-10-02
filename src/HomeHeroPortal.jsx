@@ -29,8 +29,8 @@ export default function HomeHero() {
     </div>
 
     <div className="legacy-sky-hero__content" data-home-snap-content>
-      <h1 id="legacy-sky-hero-title">A Flavor for<br/><strong>Every Vibe.</strong></h1>
-      <span className="legacy-sky-hero__lede">Premium hemp-derived THC seltzers crafted for a balanced, refreshing experience. Zero sugar. Zero carbs. Full of flavor.</span>
+      <h1 id="legacy-sky-hero-title">FIND YOUR<br/><strong>PERFECT BALANCE.</strong></h1>
+      <span className="legacy-sky-hero__lede">Full of flavor. Just the right amount of THC. Crafted for an easygoing experience that feels unmistakably <em>Lagom.</em></span>
       <div className="legacy-sky-hero__actions"><Link to="/shop">SHOP NOW <ArrowRight aria-hidden="true"/></Link></div>
     </div>
   </section>;

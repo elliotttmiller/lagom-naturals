@@ -62,10 +62,10 @@ import lemonadeLabel480Avif from "./assets/seltzers/24k-lemonade-label-480.avif"
 import lemonadeLabel480Webp from "./assets/seltzers/24k-lemonade-label-480.webp";
 import lemonadeLabel889Avif from "./assets/seltzers/24k-lemonade-label-889.avif";
 import lemonadeLabel889Webp from "./assets/seltzers/24k-lemonade-label-889.webp";
-import strawberryLimeLabel480Avif from "./assets/seltzers/strawberry-lime-label-480.avif";
-import strawberryLimeLabel480Webp from "./assets/seltzers/strawberry-lime-label-480.webp";
-import strawberryLimeLabel889Avif from "./assets/seltzers/strawberry-lime-label-889.avif";
-import strawberryLimeLabel889Webp from "./assets/seltzers/strawberry-lime-label-889.webp";
+import strawberryLimeLabel480Avif from "./assets/seltzers/strawberry-lime-label-aligned-480.avif";
+import strawberryLimeLabel480Webp from "./assets/seltzers/strawberry-lime-label-aligned-480.webp";
+import strawberryLimeLabel889Avif from "./assets/seltzers/strawberry-lime-label-aligned-889.avif";
+import strawberryLimeLabel889Webp from "./assets/seltzers/strawberry-lime-label-aligned-889.webp";
 import watermelonLabel480Avif from "./assets/seltzers/watermelon-label-480.avif";
 import watermelonLabel480Webp from "./assets/seltzers/watermelon-label-480.webp";
 import watermelonLabel889Avif from "./assets/seltzers/watermelon-label-889.avif";
