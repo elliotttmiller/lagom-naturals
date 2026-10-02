@@ -68,8 +68,8 @@ export default function MobileSortMenuBridge(){
     setCurrent(readSort(button))
   }
 
-  const menuTransition=reduceMotion?{duration:0}:{duration:.24,ease:[.22,1,.36,1]}
-  const scrimTransition=reduceMotion?{duration:0}:{duration:.18,ease:[.22,1,.36,1]}
+  const menuTransition=reduceMotion?{duration:0}:motionTokens.springSoft
+  const scrimTransition=reduceMotion?{duration:0}:{duration:motionTokens.duration.fast,ease:motionTokens.ease}
 
   return <Presence initial={false}>
     {open&&<>
@@ -95,7 +95,7 @@ export default function MobileSortMenuBridge(){
         exit={{opacity:0,y:-3,scale:.996}}
         transition={menuTransition}
       >
-        <div className="mobile-sort-menu__label">Sort Products <ChevronDown aria-hidden="true"/></div>
+        <m.div className="mobile-sort-menu__label" initial={reduceMotion?false:{opacity:0,y:-3}} animate={{opacity:1,y:0}} transition={reduceMotion?{duration:0}:motionTokens.springSoft}>Sort Products <ChevronDown aria-hidden="true"/></m.div>
         {OPTIONS.map((option,index)=>{
           const selected=option.key===active.key
           return <m.button
@@ -107,7 +107,8 @@ export default function MobileSortMenuBridge(){
             onClick={()=>choose(option)}
             initial={reduceMotion?false:{opacity:0,y:-2}}
             animate={{opacity:1,y:0}}
-            transition={reduceMotion?{duration:0}:{duration:.16,delay:.025*index,ease:[.22,1,.36,1]}}
+            transition={reduceMotion?{duration:0}:{delay:.025*index,...motionTokens.springSoft}}
+            whileTap={motionTokens.tap}
           >
             <span>{option.label}</span>
             <span className="mobile-sort-menu__check" aria-hidden="true">{selected&&<Check/>}</span>
