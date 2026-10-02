@@ -134,6 +134,7 @@ export default function AgeGate({cinematic=true}){
 
   const enter=()=>{
     if(entering||finished||!ready)return
+    if(document.activeElement instanceof HTMLElement)document.activeElement.blur()
     setPhase('entering')
   }
 
