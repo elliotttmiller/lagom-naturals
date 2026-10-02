@@ -1,5 +1,6 @@
 import React,{useEffect,useRef,useState}from'react'
 import{Link}from'react-router-dom'
+import{Presence,m,motionTokens,useReducedMotion}from'./motionSystem'
 import'./add-to-cart-button.css'
 import'./cart-feedback-toast.css'
 
@@ -120,6 +121,7 @@ function begin(trigger,before,onSuccess){
 }
 
 export default function CartInteractionFeedback(){
+  const reduceMotion=useReducedMotion()
   const[announcement,setAnnouncement]=useState('')
   const[toast,setToast]=useState({visible:false,product:'',anchor:{top:82,right:12,arrowRight:24}})
   const toastTimerRef=useRef(null)
@@ -167,10 +169,32 @@ export default function CartInteractionFeedback(){
 
   return <>
     <span className="lagom-cart-announcer" role="status" aria-live="polite" aria-atomic="true">{announcement}</span>
-    <div className="lagom-cart-toast" data-visible={toast.visible?'true':'false'} aria-hidden={toast.visible?undefined:'true'} style={{'--lagom-toast-top':`${toast.anchor.top}px`,'--lagom-toast-right':`${toast.anchor.right}px`,'--lagom-toast-arrow-right':`${toast.anchor.arrowRight}px`}}>
-      <span className="lagom-cart-toast__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5.5 12.5 4.2 4.2 8.8-9.4"/></svg></span>
-      <span className="lagom-cart-toast__copy"><strong>Added to cart</strong><span>{toast.product}</span></span>
-      <Link className="lagom-cart-toast__action" to="/cart" onClick={()=>setToast(current=>({...current,visible:false}))}>View cart</Link>
-    </div>
+    <Presence initial={false}>
+      {toast.visible&&<m.div
+        key="cart-toast"
+        className="lagom-cart-toast"
+        data-visible="true"
+        style={{'--lagom-toast-top':`${toast.anchor.top}px`,'--lagom-toast-right':`${toast.anchor.right}px`,'--lagom-toast-arrow-right':`${toast.anchor.arrowRight}px`}}
+        initial={reduceMotion?false:{opacity:0,y:-10,scale:.975}}
+        animate={{opacity:1,y:0,scale:1}}
+        exit={reduceMotion?{opacity:0}:{opacity:0,y:-6,scale:.985}}
+        transition={reduceMotion?{duration:0}:motionTokens.springSoft}
+      >
+        <m.span className="lagom-cart-toast__icon" aria-hidden="true" initial={reduceMotion?false:{scale:.9}} animate={{scale:1}} transition={reduceMotion?{duration:0}:motionTokens.springSnappy}>
+          <svg viewBox="0 0 24 24">
+            <m.path
+              d="m5.5 12.5 4.2 4.2 8.8-9.4"
+              initial={reduceMotion?false:{pathLength:0,opacity:.45}}
+              animate={{pathLength:1,opacity:1}}
+              transition={reduceMotion?{duration:0}:{duration:.34,delay:.08,ease:motionTokens.easeSoft}}
+            />
+          </svg>
+        </m.span>
+        <m.span className="lagom-cart-toast__copy" initial={reduceMotion?false:{opacity:0,y:4}} animate={{opacity:1,y:0}} transition={reduceMotion?{duration:0}:{delay:.04,...motionTokens.springSoft}}><strong>Added to cart</strong><span>{toast.product}</span></m.span>
+        <m.span initial={reduceMotion?false:{opacity:0,x:5}} animate={{opacity:1,x:0}} transition={reduceMotion?{duration:0}:{delay:.08,...motionTokens.springSoft}}>
+          <Link className="lagom-cart-toast__action" to="/cart" onClick={()=>setToast(current=>({...current,visible:false}))}>View cart</Link>
+        </m.span>
+      </m.div>}
+    </Presence>
   </>
 }
