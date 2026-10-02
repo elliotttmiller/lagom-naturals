@@ -302,7 +302,7 @@ function ProductCard({ product }) {
     >
       <div className={`shop-card-commerce ${hasVariantPicker ? "shop-card-commerce--variant" : "shop-card-commerce--single"}`.trim()}>
         {hasVariantPicker ? <div className="variant-picker shop-card-variant-picker" ref={pickerRef}>
-          <m.button ref={triggerRef} type="button" className="variant-trigger shop-card-variant-trigger" whileTap={{ scale: 0.985 }} aria-haspopup="listbox" aria-expanded={variantOpen} onClick={() => setVariantOpen((open) => !open)}>
+          <m.button ref={triggerRef} type="button" className="variant-trigger shop-card-variant-trigger" whileTap={motionTokens.tap} aria-haspopup="listbox" aria-expanded={variantOpen} onClick={() => setVariantOpen((open) => !open)}>
             <span>{selected.label}</span>
             <m.span animate={{ rotate: variantOpen ? 180 : 0 }} transition={motionTokens.springSnappy} aria-hidden="true"><ChevronDown /></m.span>
           </m.button>
