@@ -157,11 +157,23 @@
     overscroll-behavior:contain;
   }
 
+  /* The first scene starts at document origin, so it owns the entire stable
+     viewport. Subsequent scenes snap beneath the fixed mobile header. */
+  .sky-home .atmospheric-scene-hero{
+    block-size:100svh!important;
+    min-block-size:100svh!important;
+    max-block-size:100svh!important;
+  }
+
   .sky-home.has-home-snap-overflow [data-home-snap-scene]{
     block-size:auto!important;
     min-block-size:var(--home-mobile-scene-h)!important;
     max-block-size:none!important;
     overflow:visible!important;
+  }
+
+  .sky-home.has-home-snap-overflow .atmospheric-scene-hero{
+    min-block-size:100svh!important;
   }
 }
 
