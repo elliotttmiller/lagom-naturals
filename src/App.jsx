@@ -50,10 +50,26 @@ import CatalogProductCard from "@/storefront/CatalogProductCard";
 import AddToCartButton from "@/AddToCartButton";
 import ResponsiveImage from "@/storefront/ResponsiveImage";
 import { responsiveImages } from "@/generated/responsiveImages";
-import lemonadeHomePackshot from "./assets/products/24k-lemonade.webp";
-import blackberryHomePackshot from "./assets/products/blackberry-breeze.webp";
-import strawberryLimeHomePackshot from "./assets/products/strawberry-lime-fusion.webp";
-import watermelonHomePackshot from "./assets/products/watermelon-refresher.webp";
+import seltzerCanBase480Avif from "./assets/seltzers/lagom-seltzer-can-base-480.avif";
+import seltzerCanBase480Webp from "./assets/seltzers/lagom-seltzer-can-base-480.webp";
+import seltzerCanBase889Avif from "./assets/seltzers/lagom-seltzer-can-base-889.avif";
+import seltzerCanBase889Webp from "./assets/seltzers/lagom-seltzer-can-base-889.webp";
+import blackberryBreezeLabel480Avif from "./assets/seltzers/blackberry-breeze-label-480.avif";
+import blackberryBreezeLabel480Webp from "./assets/seltzers/blackberry-breeze-label-480.webp";
+import blackberryBreezeLabel889Avif from "./assets/seltzers/blackberry-breeze-label-889.avif";
+import blackberryBreezeLabel889Webp from "./assets/seltzers/blackberry-breeze-label-889.webp";
+import lemonadeLabel480Avif from "./assets/seltzers/24k-lemonade-label-480.avif";
+import lemonadeLabel480Webp from "./assets/seltzers/24k-lemonade-label-480.webp";
+import lemonadeLabel889Avif from "./assets/seltzers/24k-lemonade-label-889.avif";
+import lemonadeLabel889Webp from "./assets/seltzers/24k-lemonade-label-889.webp";
+import strawberryLimeLabel480Avif from "./assets/seltzers/strawberry-lime-label-480.avif";
+import strawberryLimeLabel480Webp from "./assets/seltzers/strawberry-lime-label-480.webp";
+import strawberryLimeLabel889Avif from "./assets/seltzers/strawberry-lime-label-889.avif";
+import strawberryLimeLabel889Webp from "./assets/seltzers/strawberry-lime-label-889.webp";
+import watermelonLabel480Avif from "./assets/seltzers/watermelon-label-480.avif";
+import watermelonLabel480Webp from "./assets/seltzers/watermelon-label-480.webp";
+import watermelonLabel889Avif from "./assets/seltzers/watermelon-label-889.avif";
+import watermelonLabel889Webp from "./assets/seltzers/watermelon-label-889.webp";
 import {
   CartProvider,
   configuredProduct,
@@ -425,13 +441,6 @@ const HOME_GUMMY_COLLECTIONS = [
   },
 ];
 
-const HOME_FLAVOR_PACKSHOTS = {
-  "24k-lemonade": lemonadeHomePackshot,
-  "blackberry-breeze": blackberryHomePackshot,
-  "strawberry-lime-fusion": strawberryLimeHomePackshot,
-  "watermelon-refresher": watermelonHomePackshot,
-};
-
 const HOME_GUMMY_PACKSHOTS = {
   "blueberry-yum-yum": responsiveImages.homeGummies["Blueberry-Yum-Yum-1-Photoroom-900x900"].src,
   "green-apple": responsiveImages.homeGummies["Green-Apple-Photoroom-900x900"].src,
@@ -558,17 +567,55 @@ const HOME_GUMMY_STAGE_ACCENTS = {
   "Midnight Drift": "#6763a6",
 };
 
-function HomeSeltzerStageMedia({ product }) {
-  const packshot = HOME_FLAVOR_PACKSHOTS[product.id] || product.image;
+const SELTZER_LABEL_SOURCES = {
+  "24k-lemonade": {
+    avif: `${lemonadeLabel480Avif} 480w, ${lemonadeLabel889Avif} 889w`,
+    webp: `${lemonadeLabel480Webp} 480w, ${lemonadeLabel889Webp} 889w`,
+    fallback: lemonadeLabel889Webp,
+  },
+  "blackberry-breeze": {
+    avif: `${blackberryBreezeLabel480Avif} 480w, ${blackberryBreezeLabel889Avif} 889w`,
+    webp: `${blackberryBreezeLabel480Webp} 480w, ${blackberryBreezeLabel889Webp} 889w`,
+    fallback: blackberryBreezeLabel889Webp,
+  },
+  "strawberry-lime-fusion": {
+    avif: `${strawberryLimeLabel480Avif} 480w, ${strawberryLimeLabel889Avif} 889w`,
+    webp: `${strawberryLimeLabel480Webp} 480w, ${strawberryLimeLabel889Webp} 889w`,
+    fallback: strawberryLimeLabel889Webp,
+  },
+  "watermelon-refresher": {
+    avif: `${watermelonLabel480Avif} 480w, ${watermelonLabel889Avif} 889w`,
+    webp: `${watermelonLabel480Webp} 480w, ${watermelonLabel889Webp} 889w`,
+    fallback: watermelonLabel889Webp,
+  },
+};
+
+function HomeSeltzerStageMedia({ product, reduceMotion = false }) {
+  const labelSource = SELTZER_LABEL_SOURCES[product.id];
   return (
     <div className="home-product-stage__seltzer-media">
-      <ResponsiveImage
-        src={packshot}
-        alt={product.name}
-        sizes="(max-width: 899px) 52vw, 24vw"
-        loading="eager"
-        decoding="async"
-      />
+      <div className="home-product-stage__seltzer-can">
+        <picture className="home-product-stage__seltzer-base">
+          <source type="image/avif" srcSet={`${seltzerCanBase480Avif} 480w, ${seltzerCanBase889Avif} 889w`} sizes="(max-width: 899px) 50vw, 18rem" />
+          <source type="image/webp" srcSet={`${seltzerCanBase480Webp} 480w, ${seltzerCanBase889Webp} 889w`} sizes="(max-width: 899px) 50vw, 18rem" />
+          <img src={seltzerCanBase889Webp} alt={`${product.name} THC seltzer can`} decoding="async" />
+        </picture>
+        <Presence mode="sync" initial={false}>
+          {labelSource ? <m.picture
+            key={product.id}
+            className="home-product-stage__seltzer-label-image"
+            initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -10 }}
+            transition={reduceMotion ? { duration: 0 } : { duration: 0.34, ease: motionTokens.easeSoft }}
+            aria-hidden="true"
+          >
+            <source type="image/avif" srcSet={labelSource.avif} sizes="(max-width: 899px) 50vw, 18rem" />
+            <source type="image/webp" srcSet={labelSource.webp} sizes="(max-width: 899px) 50vw, 18rem" />
+            <img src={labelSource.fallback} alt="" decoding="async" />
+          </m.picture> : null}
+        </Presence>
+      </div>
     </div>
   );
 }
@@ -699,8 +746,9 @@ function HomePage() {
             getKey={(product) => product.id}
             getTitle={(product) => product.name}
             getAccent={(product) => product.accent}
-            renderMedia={(product) => <HomeSeltzerStageMedia product={product} />}
+            renderMedia={(product, _, motionState) => <HomeSeltzerStageMedia product={product} reduceMotion={motionState.reduceMotion} />}
             renderDetails={(product) => <HomeSeltzerStageDetails product={product} />}
+            persistentMedia
           />
         </AtmosphericSceneSection>
 

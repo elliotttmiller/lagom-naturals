@@ -26,6 +26,7 @@ export default function HomeProductStage({
   getAccent = (item) => item.accent || "#597d90",
   renderMedia,
   renderDetails,
+  persistentMedia = false,
 }) {
   const reduceMotion = useReducedMotion();
   const [activeIndex, setActiveIndex] = useState(0);
@@ -154,18 +155,29 @@ export default function HomeProductStage({
         </m.div>
 
         <m.div className="home-product-stage__media-parallax" style={{ x: reduceMotion ? 0 : mediaDrag }}>
-          <Presence mode="popLayout" initial={false}>
+          {persistentMedia ? (
             <m.div
-              key={`media-${itemKey}`}
               className="home-product-stage__media"
-              initial={mediaInitial}
-              animate={{ opacity: 1, x: 0, rotate: 0, scale: 1 }}
-              exit={mediaExit}
-              transition={reduceMotion ? { duration: 0 } : motionTokens.springMedia}
+              initial={false}
+              animate={reduceMotion ? undefined : { rotate: [0, direction * 1.5, 0], scale: [1, 0.988, 1] }}
+              transition={reduceMotion ? { duration: 0 } : { duration: 0.46, ease: motionTokens.easeSoft }}
             >
-              {renderMedia(activeItem, activeIndex)}
+              {renderMedia(activeItem, activeIndex, { direction, reduceMotion })}
             </m.div>
-          </Presence>
+          ) : (
+            <Presence mode="popLayout" initial={false}>
+              <m.div
+                key={`media-${itemKey}`}
+                className="home-product-stage__media"
+                initial={mediaInitial}
+                animate={{ opacity: 1, x: 0, rotate: 0, scale: 1 }}
+                exit={mediaExit}
+                transition={reduceMotion ? { duration: 0 } : motionTokens.springMedia}
+              >
+                {renderMedia(activeItem, activeIndex)}
+              </m.div>
+            </Presence>
+          )}
         </m.div>
 
         <div className="home-product-stage__desktop-nav" aria-label={`${ariaLabel} navigation`}>
