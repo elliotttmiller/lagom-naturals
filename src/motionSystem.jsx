@@ -5,30 +5,50 @@ export const motionTokens={
   ease:[.22,.82,.28,1],
   easeSoft:[.16,1,.3,1],
   easeExit:[.4,0,.2,1],
-  spring:{type:'spring',stiffness:220,damping:28,mass:.92},
-  springSnappy:{type:'spring',stiffness:300,damping:30,mass:.84},
-  springSoft:{type:'spring',stiffness:170,damping:26,mass:1.02},
-  duration:{instant:.16,fast:.22,base:.36,slow:.56,cinematic:.76,ambient:1.1},
+  easeLinear:[0,0,1,1],
+  spring:{type:'spring',stiffness:210,damping:27,mass:.94},
+  springSoft:{type:'spring',stiffness:165,damping:25,mass:1.02},
+  springSnappy:{type:'spring',stiffness:330,damping:31,mass:.82},
+  springDrawer:{type:'spring',stiffness:185,damping:27,mass:1.02},
+  springMedia:{type:'spring',stiffness:145,damping:24,mass:1.06},
+  duration:{instant:.14,micro:.18,fast:.22,control:.3,base:.38,slow:.56,cinematic:.74,atmosphere:1.08},
   hover:{y:-2,scale:1.006},
   tap:{scale:.982},
 }
 
+export const motionTransitions={
+  fade:{duration:motionTokens.duration.control,ease:motionTokens.ease},
+  enter:{duration:motionTokens.duration.slow,ease:motionTokens.easeSoft},
+  exit:{duration:motionTokens.duration.fast,ease:motionTokens.easeExit},
+  scene:{duration:motionTokens.duration.cinematic,ease:motionTokens.easeSoft},
+  atmosphere:{duration:motionTokens.duration.atmosphere,ease:motionTokens.easeSoft},
+}
+
 export const motionVariants={
   fadeUp:{
-    hidden:{opacity:0,y:10},
-    visible:{opacity:1,y:0,transition:{duration:motionTokens.duration.slow,ease:motionTokens.ease}},
+    hidden:{opacity:0,y:12},
+    visible:{opacity:1,y:0,transition:{duration:motionTokens.duration.slow,ease:motionTokens.easeSoft}},
+    exit:{opacity:0,y:-4,transition:motionTransitions.exit},
   },
   softScale:{
-    hidden:{opacity:0,scale:.988,y:7},
+    hidden:{opacity:0,scale:.986,y:8},
     visible:{opacity:1,scale:1,y:0,transition:motionTokens.springSoft},
+    exit:{opacity:0,scale:.992,y:-3,transition:motionTransitions.exit},
   },
   stagger:{
     hidden:{},
-    visible:{transition:{staggerChildren:.065,delayChildren:.045}},
+    visible:{transition:{staggerChildren:.055,delayChildren:.04}},
+    exit:{transition:{staggerChildren:.025,staggerDirection:-1}},
   },
   item:{
-    hidden:{opacity:0,y:9,scale:.994},
+    hidden:{opacity:0,y:10,scale:.994},
     visible:{opacity:1,y:0,scale:1,transition:motionTokens.springSoft},
+    exit:{opacity:0,y:-3,scale:.996,transition:motionTransitions.exit},
+  },
+  drawerItem:{
+    hidden:{opacity:0,y:8},
+    visible:{opacity:1,y:0,transition:motionTokens.springSoft},
+    exit:{opacity:0,y:-2,transition:motionTransitions.exit},
   },
 }
 
@@ -44,16 +64,13 @@ export function RouteMotion({routeKey,navigationType='PUSH',children}){
   const reduceMotion=useReducedMotion()
   const desktop=typeof window!=='undefined'&&window.matchMedia('(min-width:900px)').matches
   const returning=navigationType==='POP'
-  // `wait` leaves a fully empty viewport between pages. Keep the outgoing
-  // screen present while the next route settles in so navigation reads as one
-  // continuous composition instead of a flash to the page background.
   return <AnimatePresence mode="popLayout" initial={false}>
     <m.div
       key={routeKey}
       className="route-stage"
-      initial={reduceMotion?false:{opacity:.82,y:desktop?(returning?-3:6):0}}
+      initial={reduceMotion?false:{opacity:.84,y:desktop?(returning?-3:6):0}}
       animate={{opacity:1,y:0,transition:{duration:returning?motionTokens.duration.base:motionTokens.duration.slow,ease:motionTokens.easeSoft}}}
-      exit={reduceMotion?{opacity:1,y:0}:{opacity:.72,y:desktop?(returning?4:-3):0,transition:{duration:motionTokens.duration.fast,ease:motionTokens.easeExit}}}
+      exit={reduceMotion?{opacity:1,y:0}:{opacity:.76,y:desktop?(returning?3:-3):0,transition:motionTransitions.exit}}
       style={{filter:'none'}}
     >{children}</m.div>
   </AnimatePresence>
