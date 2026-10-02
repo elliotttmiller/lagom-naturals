@@ -84,7 +84,7 @@ function AgeGate(){
       image.onerror=done;
       image.src=src;
       if(image.complete)done();
-      else image.decode?.().then(done).catch(()=>{});
+      else if(typeof image.decode==='function')image.decode().then(done).catch(()=>{});
     });
     const timeout=window.setTimeout(()=>{if(!cancelled)setReady(true)},1200);
     Promise.all(critical.map(preload)).then(()=>{
@@ -239,18 +239,21 @@ function AgeGate(){
     cancelAnimationFrame(pointerFrameRef.current);
     pointerFrameRef.current=requestAnimationFrame(()=>{
       const rect=gate.getBoundingClientRect();
-      const x=((event.clientX-rect.left)/rect.width-.5);
-      const y=((event.clientY-rect.top)/rect.height-.5);
-      gate.style.setProperty('--age-pointer-x',`${(x*14).toFixed(2)}px`);
-      gate.style.setProperty('--age-pointer-y',`${(y*9).toFixed(2)}px`);
+      const x=((event.clientX-rect.left)/rect.width-.5)*14;
+      const y=((event.clientY-rect.top)/rect.height-.5)*9;
+      const far=gate.querySelector('.age-gate__cloud-depth--far');
+      const mid=gate.querySelector('.age-gate__cloud-depth--mid');
+      const near=gate.querySelector('.age-gate__cloud-depth--near');
+      if(far)far.style.transform=`translate3d(${(x*.28).toFixed(2)}px,${(y*.20).toFixed(2)}px,0)`;
+      if(mid)mid.style.transform=`translate3d(${(x*.55).toFixed(2)}px,${(y*.42).toFixed(2)}px,0)`;
+      if(near)near.style.transform=`translate3d(${(x*.84).toFixed(2)}px,${(y*.68).toFixed(2)}px,0)`;
     });
   };
 
   const resetAtmospherePointer=()=>{
     const gate=gateRef.current;
     if(!gate)return;
-    gate.style.setProperty('--age-pointer-x','0px');
-    gate.style.setProperty('--age-pointer-y','0px');
+    gate.querySelectorAll('.age-gate__cloud-depth').forEach(node=>{node.style.transform='translate3d(0,0,0)'});
   };
 
   if(finished)return null;
