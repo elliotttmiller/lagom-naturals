@@ -133,38 +133,39 @@ export default function HomeProductStage({
           {accentNodes.slice(0, 2).map((slot) => <span key={slot} className={`home-product-stage__accent home-product-stage__accent--${slot + 1}`} />)}
         </m.div>
 
-        <Presence mode="popLayout" initial={false}>
-          <m.div
-            key={`title-${itemKey}`}
-            className="home-product-stage__backdrop-title"
-            style={{ x: titleDrag }}
-            initial={titleInitial}
-            animate={{ opacity: 1, x: 0, y: 0 }}
-            exit={titleExit}
-            transition={reduceMotion ? { duration: 0 } : { duration: 0.58, ease: motionTokens.easeSoft }}
-            aria-hidden="true"
-          >
-            {activeTitle}
-          </m.div>
-        </Presence>
+        <m.div className="home-product-stage__title-parallax" style={{ x: titleDrag }} aria-hidden="true">
+          <Presence mode="popLayout" initial={false}>
+            <m.div
+              key={`title-${itemKey}`}
+              className="home-product-stage__backdrop-title"
+              initial={titleInitial}
+              animate={{ opacity: 1, x: 0, y: 0 }}
+              exit={titleExit}
+              transition={reduceMotion ? { duration: 0 } : { duration: 0.58, ease: motionTokens.easeSoft }}
+            >
+              {activeTitle}
+            </m.div>
+          </Presence>
+        </m.div>
 
         <m.div className="home-product-stage__accent-field home-product-stage__accent-field--near" style={{ x: nearDrag }} aria-hidden="true">
           {accentNodes.slice(2).map((slot) => <span key={slot} className={`home-product-stage__accent home-product-stage__accent--${slot + 1}`} />)}
         </m.div>
 
-        <Presence mode="popLayout" initial={false}>
-          <m.div
-            key={`media-${itemKey}`}
-            className="home-product-stage__media"
-            style={{ x: mediaDrag }}
-            initial={mediaInitial}
-            animate={{ opacity: 1, x: 0, rotate: 0, scale: 1 }}
-            exit={mediaExit}
-            transition={reduceMotion ? { duration: 0 } : motionTokens.springMedia}
-          >
-            {renderMedia(activeItem, activeIndex)}
-          </m.div>
-        </Presence>
+        <m.div className="home-product-stage__media-parallax" style={{ x: mediaDrag }}>
+          <Presence mode="popLayout" initial={false}>
+            <m.div
+              key={`media-${itemKey}`}
+              className="home-product-stage__media"
+              initial={mediaInitial}
+              animate={{ opacity: 1, x: 0, rotate: 0, scale: 1 }}
+              exit={mediaExit}
+              transition={reduceMotion ? { duration: 0 } : motionTokens.springMedia}
+            >
+              {renderMedia(activeItem, activeIndex)}
+            </m.div>
+          </Presence>
+        </m.div>
 
         <div className="home-product-stage__desktop-nav" aria-label={`${ariaLabel} navigation`}>
           <m.button
