@@ -614,7 +614,7 @@
   .home-product-stage__media{
     top:50%;
     inline-size:min(76vw,24rem);
-    block-size:min(45svh,27rem);
+    block-size:min(92%,27rem);
   }
 
   .home-product-stage__seltzer-can{
@@ -628,13 +628,13 @@
 
   .home-product-stage__gummy-media{
     inline-size:min(82vw,24rem);
-    block-size:min(40svh,23rem);
+    block-size:min(88%,23rem);
   }
 
   .home-product-stage__gummy-media picture,
   .home-product-stage__gummy-media>img{
     inline-size:min(43vw,11.25rem);
-    block-size:min(35svh,19rem);
+    block-size:min(90%,19rem);
   }
 
   .home-product-stage__gummy-media picture:nth-child(1),
@@ -777,7 +777,7 @@
   }
 
   .home-product-stage__media{
-    block-size:min(39svh,22rem);
+    block-size:min(88%,22rem);
   }
 
   .home-product-stage__seltzer-can{
@@ -785,7 +785,7 @@
   }
 
   .home-product-stage__gummy-media{
-    block-size:min(35svh,19rem);
+    block-size:min(84%,19rem);
   }
 
   .home-product-stage__detail-copy>p{
