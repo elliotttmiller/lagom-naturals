@@ -222,10 +222,17 @@
 }
 
 .home-product-stage__gummy-pouch{
-  inline-size:100%!important;
-  block-size:100%!important;
   object-fit:contain!important;
   filter:drop-shadow(0 24px 24px rgba(31,53,72,.18));
+}
+
+.home-product-stage__gummy-media picture .home-product-stage__gummy-pouch{
+  inline-size:100%!important;
+  block-size:100%!important;
+}
+
+.home-product-stage__gummy-media>img.home-product-stage__gummy-pouch{
+  max-inline-size:none!important;
 }
 
 .home-product-stage__accent-field{
