@@ -212,6 +212,7 @@
   .sky-home [data-home-snap-scene] .atmospheric-scene-section__cloud{
     opacity:.38!important;
     transform:none!important;
+    filter:none!important;
     transition:none!important;
   }
 
