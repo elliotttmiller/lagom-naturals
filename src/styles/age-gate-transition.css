@@ -1,0 +1,247 @@
+/* ==========================================================================
+   Age Gate -> Homepage Hero cinematic handoff
+   --------------------------------------------------------------------------
+   Sole presentation owner for the temporary transition layer. The underlying
+   Age Gate and Hero retain their own static layout contracts.
+   ========================================================================== */
+
+body.age-gate-transitioning{
+  cursor:progress;
+}
+
+.age-transition{
+  position:absolute;
+  inset:0;
+  z-index:30;
+  overflow:hidden;
+  visibility:hidden;
+  pointer-events:none;
+  contain:paint;
+}
+
+.age-transition.is-active{
+  visibility:visible;
+}
+
+.age-transition__veil,
+.age-transition__plane{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+}
+
+.age-transition__veil{
+  z-index:0;
+  opacity:0;
+  background:
+    radial-gradient(ellipse 74% 52% at 50% 48%,rgba(255,255,255,.62),rgba(255,255,255,.18) 46%,transparent 76%);
+}
+
+.age-transition__plane{
+  transform:translate3d(0,0,0);
+  backface-visibility:hidden;
+}
+
+.age-transition__plane--far{z-index:1}
+.age-transition__plane--mid{z-index:2}
+.age-transition__plane--near{z-index:3}
+
+.age-transition__cloud{
+  position:absolute;
+  display:block;
+  max-inline-size:none;
+  block-size:auto;
+  object-fit:contain;
+  opacity:0;
+  transform:translate3d(0,0,0);
+  transform-origin:50% 50%;
+  backface-visibility:hidden;
+  user-select:none;
+  -webkit-user-drag:none;
+}
+
+/* Far field only creates atmospheric continuity. It never becomes the wipe. */
+.age-transition__cloud--far-left{
+  top:-14%;
+  left:-8%;
+  inline-size:min(48vw,820px);
+}
+
+.age-transition__cloud--far-right{
+  top:18%;
+  right:-10%;
+  inline-size:min(46vw,780px);
+}
+
+/* Mid field closes the negative space immediately before the camera curtain. */
+.age-transition__cloud--mid-left{
+  top:-8%;
+  left:-24%;
+  inline-size:min(82vw,1320px);
+}
+
+.age-transition__cloud--mid-right{
+  top:-5%;
+  right:-25%;
+  inline-size:min(84vw,1360px);
+}
+
+.age-transition__cloud--center{
+  top:27%;
+  left:50%;
+  inline-size:min(72vw,1160px);
+  transform:translate3d(-50%,0,0);
+}
+
+/* Near field is intentionally oversized. These three masses are responsible
+   for genuine full-frame occlusion; opacity is never faked with a white card. */
+.age-transition__cloud--near-left{
+  left:-46%;
+  bottom:-38%;
+  inline-size:min(124vw,2040px);
+  transform-origin:34% 70%;
+}
+
+.age-transition__cloud--near-right{
+  right:-47%;
+  bottom:-36%;
+  inline-size:min(124vw,2040px);
+  transform-origin:66% 70%;
+}
+
+.age-transition__cloud--near-bottom{
+  left:50%;
+  bottom:-48%;
+  inline-size:min(142vw,2320px);
+  transform:translate3d(-50%,0,0);
+  transform-origin:50% 78%;
+}
+
+/* WAAPI owns these properties during the handoff. Disable the Hero's normal
+   load transitions so there is one and only one animation authority. */
+body.age-gate-cinematic-handoff .sky-home .atmospheric-scene-hero .legacy-sky-hero__product--fullbleed img,
+body.age-gate-cinematic-handoff .sky-home .atmospheric-scene-hero .legacy-sky-hero__content,
+body.age-gate-cinematic-handoff .sky-home .atmospheric-scene-hero .legacy-sky-hero h1,
+body.age-gate-cinematic-handoff .sky-home .atmospheric-scene-hero .legacy-sky-hero__lede,
+body.age-gate-cinematic-handoff .sky-home .atmospheric-scene-hero .legacy-sky-hero__actions{
+  transition:none!important;
+  will-change:transform,opacity;
+}
+
+.age-gate.is-transitioning{
+  pointer-events:none;
+}
+
+.age-gate.is-transitioning .age-transition__cloud,
+.age-gate.is-transitioning .age-transition__plane,
+.age-gate.is-transitioning .age-transition__veil{
+  will-change:transform,opacity;
+}
+
+@media(max-width:899px){
+  .age-transition__cloud--far-left{
+    top:-6%;
+    left:-34%;
+    inline-size:104vw;
+  }
+
+  .age-transition__cloud--far-right{
+    top:23%;
+    right:-38%;
+    inline-size:108vw;
+  }
+
+  .age-transition__cloud--mid-left{
+    top:-1%;
+    left:-70%;
+    inline-size:164vw;
+  }
+
+  .age-transition__cloud--mid-right{
+    top:1%;
+    right:-72%;
+    inline-size:168vw;
+  }
+
+  .age-transition__cloud--center{
+    top:29%;
+    inline-size:148vw;
+  }
+
+  .age-transition__cloud--near-left{
+    left:-115%;
+    bottom:-22%;
+    inline-size:246vw;
+  }
+
+  .age-transition__cloud--near-right{
+    right:-118%;
+    bottom:-20%;
+    inline-size:250vw;
+  }
+
+  .age-transition__cloud--near-bottom{
+    bottom:-26%;
+    inline-size:270vw;
+  }
+}
+
+@media(max-width:599px){
+  .age-transition__cloud--far-left{
+    left:-48%;
+    inline-size:132vw;
+  }
+
+  .age-transition__cloud--far-right{
+    right:-52%;
+    inline-size:136vw;
+  }
+
+  .age-transition__cloud--mid-left{
+    left:-92%;
+    inline-size:210vw;
+  }
+
+  .age-transition__cloud--mid-right{
+    right:-95%;
+    inline-size:214vw;
+  }
+
+  .age-transition__cloud--center{
+    top:31%;
+    inline-size:184vw;
+  }
+
+  .age-transition__cloud--near-left{
+    left:-146%;
+    bottom:-15%;
+    inline-size:304vw;
+  }
+
+  .age-transition__cloud--near-right{
+    right:-150%;
+    bottom:-13%;
+    inline-size:310vw;
+  }
+
+  .age-transition__cloud--near-bottom{
+    bottom:-18%;
+    inline-size:326vw;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  body.age-gate-transitioning{
+    cursor:default;
+  }
+
+  .age-transition__plane,
+  .age-transition__veil{
+    display:none;
+  }
+
+  body.age-gate-cinematic-handoff .sky-home .atmospheric-scene-hero .legacy-sky-hero__product--fullbleed img,
+  body.age-gate-cinematic-handoff .sky-home .atmospheric-scene-hero .legacy-sky-hero__content{
+    will-change:auto;
+  }
+}
