@@ -119,7 +119,7 @@ function ProductPage() {
                 <m.button
                   type="button"
                   aria-label="Decrease quantity"
-                  whileTap={{ scale: 0.88 }}
+                  whileTap={{ scale: 0.94 }}
                   onClick={() => setQty(Math.max(1, qty - 1))}
                 >
                   <Minus />
@@ -137,7 +137,7 @@ function ProductPage() {
                 <m.button
                   type="button"
                   aria-label="Increase quantity"
-                  whileTap={{ scale: 0.88 }}
+                  whileTap={{ scale: 0.94 }}
                   onClick={() => setQty((current) => current + 1)}
                 >
                   <Plus />
@@ -294,8 +294,8 @@ function ProductDetailsAccordion({ product, selected }) {
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
                   transition={{
-                    duration: motionTokens.duration.base,
-                    ease: motionTokens.ease,
+                    height:{duration:.44,ease:motionTokens.easeSoft},
+                    opacity:{duration:motionTokens.duration.control,ease:motionTokens.ease},
                   }}
                 >
                   <div>{row.content}</div>
