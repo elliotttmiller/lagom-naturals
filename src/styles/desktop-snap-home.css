@@ -3,31 +3,11 @@
    cloud animation and atmospheric motion architecture. */
 
 @media (min-width:900px) {
-  /* Scroll snap must resolve against the actual section edge. The shared
-     atmospheric stylesheet carries a legacy scroll-margin-top for anchored
-     navigation; on desktop snap scenes that offset leaves a strip of the
-     previous scene visible when scrolling forward. */
-  .sky-home .atmospheric-scene-hero,
-  .sky-home .atmospheric-scene-section {
-    scroll-margin-top:0 !important;
-    scroll-margin-block-start:0 !important;
-  }
-
   :root {
-    --home-desktop-announcement-h:28px;
-    --home-desktop-header-h:82px;
-    --home-desktop-chrome-h:calc(var(--home-desktop-announcement-h) + var(--home-desktop-header-h));
-    --home-desktop-hero-h:calc(100dvh - var(--home-desktop-announcement-h));
-    --home-desktop-scene-h:100dvh;
     --home-desktop-gutter:clamp(54px,5.2vw,104px);
   }
 
-  /* Snap-frame contract */
   .sky-home .atmospheric-scene-hero {
-    block-size:var(--home-desktop-hero-h);
-    min-block-size:var(--home-desktop-hero-h);
-    max-block-size:var(--home-desktop-hero-h);
-    overflow:hidden;
     background:center bottom / cover no-repeat url('../assets/atmosphere/home-hero-sky.png') !important;
   }
 
@@ -40,14 +20,9 @@
   }
 
   .sky-home .atmospheric-scene-section {
-    box-sizing:border-box;
     inline-size:100%;
     max-inline-size:none;
-    block-size:var(--home-desktop-scene-h);
-    min-block-size:var(--home-desktop-scene-h);
-    max-block-size:var(--home-desktop-scene-h);
     margin:0;
-    overflow:hidden;
     isolation:isolate;
   }
 
