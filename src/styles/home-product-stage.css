@@ -6,8 +6,18 @@
    ========================================================================== */
 
 .sky-home .sky-home__section--product-stage{
+  display:block!important;
+  grid-template-columns:none!important;
+  grid-template-rows:none!important;
+  align-items:initial!important;
   padding:0!important;
   overflow:clip!important;
+  text-align:left!important;
+}
+
+.sky-home .sky-home__section--product-stage::before{
+  display:none!important;
+  content:none!important;
 }
 
 .sky-home .sky-home__section--product-stage .atmospheric-scene-section__content{
