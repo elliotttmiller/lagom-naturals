@@ -21,8 +21,9 @@ body.age-gate-open{
   min-height:100svh!important;
   overflow:hidden!important;
   isolation:isolate!important;
-  background:var(--age-sky)!important;
+  background-color:var(--age-sky)!important;
   color:var(--age-ink)!important;
+  transition:background-color .76s cubic-bezier(.16,1,.3,1) .42s;
 }
 
 .age-gate__prepare-surface{
@@ -179,9 +180,39 @@ body.age-gate-open{
   transform-origin:72% 72%;
 }
 
-.age-gate.is-transitioning .age-gate__cloud-frame{
+.age-gate.is-transitioning{
+  background-color:rgba(176,227,253,0)!important;
+}
+
+.age-gate.is-transitioning .age-gate__cloud-frame,
+.age-gate.is-transitioning .age-gate__mist-sweep{
   will-change:transform,opacity;
 }
+
+.age-gate__mist-sweep{
+  position:absolute;
+  z-index:2;
+  inline-size:min(82vw,72rem);
+  block-size:min(24vh,14rem);
+  pointer-events:none;
+  border-radius:50%;
+  background:
+    radial-gradient(ellipse at center,rgba(255,255,255,.48) 0%,rgba(255,255,255,.24) 28%,rgba(255,255,255,.08) 52%,transparent 74%);
+  filter:blur(16px);
+  mix-blend-mode:screen;
+  transform-origin:50% 50%;
+}
+
+.age-gate__mist-sweep--left{
+  top:41%;
+  left:-38%;
+}
+
+.age-gate__mist-sweep--right{
+  right:-40%;
+  bottom:25%;
+}
+
 
 .age-gate__panel{
   position:absolute!important;
@@ -440,8 +471,10 @@ body.age-gate-transitioning{
 
 @media(prefers-reduced-motion:reduce){
   body.age-gate-transitioning{cursor:default}
+  .age-gate{transition:none!important}
   .age-gate__action{transition:none!important}
   .age-gate__scene{filter:none!important}
   .age-gate__cloud-frame{will-change:auto!important}
-  .age-gate__atmosphere-glow{display:none!important}
+  .age-gate__atmosphere-glow,
+  .age-gate__mist-sweep{display:none!important}
 }
