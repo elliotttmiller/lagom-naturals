@@ -4,6 +4,7 @@
 @import '../storefront-footer-template.css';
 @import './desktop.css';
 @import './age-gate.css';
+@import './age-gate-transition.css';
 @import './shop-render-fix.css';
 @import './home-hero.css';
 @import '../category-selector-polish.css';
