@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ArrowRight, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Package, Sparkles, X } from "lucide-react";
 import {
   m,
   Presence,
@@ -109,6 +109,15 @@ function productFacts(product) {
   return facts.slice(0, 3);
 }
 
+function productHighlights(product) {
+  const highlights = [];
+  if (product.flavor) highlights.push({ icon: Sparkles, label: `${product.flavor} flavor` });
+  if (Number.isFinite(product.piecesPerPackage)) highlights.push({ icon: Package, label: `${product.piecesPerPackage}-piece pouch` });
+  const tested = product.testingAndPackaging?.find((item) => /tested/i.test(item));
+  if (tested) highlights.push({ icon: Check, label: tested });
+  return highlights.slice(0, 3);
+}
+
 function CollectionRail({ activeIndex, onSelect }) {
   return (
     <div className="gummy-mobile__collection-rail" role="tablist" aria-label="Gummy collections">
@@ -176,6 +185,7 @@ function ProductTile({ product, collectionTone, index, onOpen, buttonRef, reduce
 function ProductQuickView({ product, collectionTone, onClose, reduceMotion, detailHeadingRef }) {
   const theme = PRODUCT_THEMES[product.id] || PRODUCT_THEMES["push-pop"];
   const facts = productFacts(product);
+  const highlights = productHighlights(product);
 
   return (
     <m.article
@@ -216,6 +226,14 @@ function ProductQuickView({ product, collectionTone, onClose, reduceMotion, deta
           {product.name}
         </m.h3>
         <p className="gummy-quick-view__description">{product.description}</p>
+
+        {highlights.length ? (
+          <div className="gummy-quick-view__highlights" aria-label={`${product.name} highlights`}>
+            {highlights.map(({ icon: Icon, label }) => (
+              <span key={label}><Icon aria-hidden="true" /><b>{label}</b></span>
+            ))}
+          </div>
+        ) : null}
 
         {facts.length ? (
           <div className="gummy-quick-view__facts" aria-label={`${product.name} product facts`}>
