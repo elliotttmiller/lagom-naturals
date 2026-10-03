@@ -508,7 +508,7 @@
   .gummy-showcase__experience{
     inline-size:min(100%,92rem);
     block-size:min(100%,calc(100dvh - clamp(2rem,4.4vw,4.5rem)));
-    min-block-size:38rem;
+    min-block-size:0;
     padding:0;
   }
 
