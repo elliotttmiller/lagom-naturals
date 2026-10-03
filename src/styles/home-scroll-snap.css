@@ -180,27 +180,26 @@
 /* --------------------------------------------------------------------------
    Mobile/tablet full-viewport snap
    --------------------------------------------------------------------------
-   Every scene uses the same viewport contract. Mandatory snap relaxes only for
-   real content overflow, focused text-entry/keyboard states, open selectors,
-   or reduced motion.
+   Every scene uses the same viewport contract. Proximity snap preserves a
+   natural touch scroll while settling deliberate swipes on scene boundaries.
    -------------------------------------------------------------------------- */
 @media (max-width:899px) and (prefers-reduced-motion:no-preference){
   html:has(.sky-home){
-    scroll-snap-type:y mandatory!important;
+    scroll-snap-type:y proximity!important;
     scroll-padding-block-start:var(--home-mobile-header-h)!important;
     scroll-behavior:auto!important;
-    overscroll-behavior-y:none!important;
+    overscroll-behavior-y:auto!important;
     touch-action:pan-y pinch-zoom;
   }
 
   body:has(.sky-home){
-    overscroll-behavior-y:none!important;
+    overscroll-behavior-y:auto!important;
     touch-action:pan-y pinch-zoom;
   }
 
   .sky-home [data-home-snap-scene]{
     scroll-snap-align:start!important;
-    scroll-snap-stop:always!important;
+    scroll-snap-stop:normal!important;
   }
 
   /* Terminal mobile snap region. The footer keeps its natural document height.
@@ -245,8 +244,8 @@
     transition:none!important;
   }
 
-  /* Interactive controls and the software keyboard must not be trapped by
-     mandatory paging while their own UI is active. */
+  /* Interactive controls and the software keyboard retain ordinary scrolling
+     while their own UI is active. */
   html:has(.sky-home.is-home-snap-suspended),
   html:has(.sky-home-product__variant.is-open){
     scroll-snap-type:none!important;

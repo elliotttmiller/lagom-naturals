@@ -116,12 +116,12 @@
   /* The mobile chrome begins transparent over the hero, then becomes a
      readable frosted sky surface after the hero clears the header. */
   .mobile-reference-header.is-home{
-    background:rgba(176,227,253,.94)!important;
-    border-bottom:1px solid rgba(17,17,15,.07)!important;
-    box-shadow:0 8px 24px rgba(44,62,67,.035)!important;
+    background:transparent!important;
+    border-bottom-color:transparent!important;
+    box-shadow:none!important;
     color:#111!important;
-    backdrop-filter:blur(14px) saturate(1.06)!important;
-    -webkit-backdrop-filter:blur(14px) saturate(1.06)!important;
+    backdrop-filter:none!important;
+    -webkit-backdrop-filter:none!important;
     transition:background-color 260ms ease,border-color 260ms ease,box-shadow 260ms ease,color 220ms ease,backdrop-filter 260ms ease!important;
   }
   .mobile-reference-header.is-home.is-home-scrolled{
@@ -536,29 +536,6 @@
     display:none!important;
   }
 
-  .sky-home .legacy-sky-hero__product{
-    display:block!important;
-    top:clamp(138px,17svh,168px)!important;
-    right:-7vw!important;
-    bottom:auto!important;
-    left:auto!important;
-    width:min(43vw,184px)!important;
-    height:auto!important;
-    max-width:none!important;
-    transform:none!important;
-    opacity:.96!important;
-    pointer-events:none!important;
-  }
-  .sky-home .legacy-sky-hero__product img{
-    display:block!important;
-    width:100%!important;
-    height:auto!important;
-    max-height:30svh!important;
-    object-fit:contain!important;
-    object-position:right top!important;
-    filter:drop-shadow(0 18px 24px rgba(45,66,72,.11))!important;
-  }
-
   .sky-home .legacy-sky-hero__content{
     box-sizing:border-box!important;
     justify-content:flex-start!important;
@@ -873,17 +850,6 @@
     max-width:100%!important;
     font-size:.76em!important;
     line-height:.88!important;
-  }
-
-  .sky-home .legacy-sky-hero__product{
-    top:clamp(150px,18svh,176px)!important;
-    right:-2vw!important;
-    width:min(37vw,158px)!important;
-    opacity:.97!important;
-  }
-
-  .sky-home .legacy-sky-hero__product img{
-    max-height:31svh!important;
   }
 
   .sky-home .legacy-sky-hero__lede{
@@ -1277,26 +1243,6 @@
   .sky-home__section--gummies .gummy-collection-card::after,
   .sky-home__section--gummies .gummy-collection-card__media img,
   .sky-home__section--gummies .gummy-collection-card__cta svg { transition:none; }
-}
-
-@media (max-width:899px) {
-  /* The portrait foreground asset is art-directed separately from desktop.
-     Keep it full-bleed at the base of the same sky background. */
-  .sky-home .legacy-sky-hero__product {
-    inset:auto 0 0 auto!important;
-    inline-size:100%!important;
-    max-inline-size:none!important;
-    opacity:1!important;
-    transform:none!important;
-  }
-
-  .sky-home .legacy-sky-hero__product picture,
-  .sky-home .legacy-sky-hero__product img {
-    inline-size:100%!important;
-    max-height:none!important;
-    object-fit:contain!important;
-    object-position:center bottom!important;
-  }
 }
 
 @media (max-width:899px) {
