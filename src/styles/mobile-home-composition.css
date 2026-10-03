@@ -573,16 +573,7 @@
 
 }
 
-/* If ResizeObserver detects a scene that no longer fits one dynamic
-   viewport, release fixed-height clipping and let proximity snapping preserve
-   access to all content. */
-@media (max-width:899px) and (min-height:700px){
-  .sky-home.has-home-snap-overflow .atmospheric-scene-section__content{
-    block-size:auto!important;
-    min-block-size:0!important;
-    overflow:visible!important;
-  }
-}
+
 
 /* Short viewports use the same scene contract. HomeScrollSnap relaxes paging
    only when measured content actually exceeds the available scene height. */
