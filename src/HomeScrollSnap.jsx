@@ -89,6 +89,15 @@ export default function HomeScrollSnap({ rootRef }) {
             return;
           }
 
+          /* Fixed product compositions deliberately distribute their controls
+             and media inside one viewport. Their internal scrollHeight can
+             include harmless grid rounding, so it must not turn one scene into
+             a second document-length stop. */
+          if (scene.hasAttribute("data-home-snap-fixed")) {
+            scene.classList.remove(SCENE_OVERFLOW_CLASS);
+            return;
+          }
+
           const content = scene.querySelector("[data-home-snap-content]") || scene;
           const available = Math.ceil(scene.clientHeight);
           const required = Math.ceil(content.scrollHeight);

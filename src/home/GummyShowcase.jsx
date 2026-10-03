@@ -478,7 +478,7 @@ function DesktopGummyShowcase() {
 
 export default function GummyShowcase() {
   return (
-    <section className="gummy-showcase-shell" aria-label="Lagom gummy showcase">
+    <section className="gummy-showcase-shell" data-home-snap-content aria-label="Lagom gummy showcase">
       <MobileGummyExperience />
       <DesktopGummyShowcase />
     </section>

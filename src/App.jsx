@@ -598,7 +598,13 @@ function HomePage() {
           <SeltzerShowcase />
         </section>
 
-        <section id="gummies" className="seltzer-showcase-section gummy-showcase-section" data-home-snap-scene aria-label="Lagom gummy collections">
+        <section
+          id="gummies"
+          className="seltzer-showcase-section gummy-showcase-section"
+          data-home-snap-scene
+          data-home-snap-fixed
+          aria-label="Lagom gummy collections"
+        >
           <GummyShowcase />
         </section>
 

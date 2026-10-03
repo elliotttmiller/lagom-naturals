@@ -22,12 +22,16 @@
 /* -------------------------------------------------------------------------- */
 @media (max-width:899px){
   .gummy-showcase-section{
+    block-size:var(--home-mobile-scene-h)!important;
+    min-block-size:var(--home-mobile-scene-h)!important;
+    max-block-size:var(--home-mobile-scene-h)!important;
     background:#f7f4ef!important;
   }
 
-  .gummy-showcase-shell{
+  .gummy-showcase-section > .gummy-showcase-shell{
     block-size:100%;
     min-block-size:0;
+    max-block-size:100%;
     background:#f7f4ef;
   }
 

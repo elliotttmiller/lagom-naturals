@@ -66,6 +66,22 @@
   z-index:3!important;
 }
 
+/* Desktop copy remains live over an art-directed, high-detail image. The
+   readability treatment stays attached to the glyphs, never as a separate
+   panel or a blurred region of the supplied artwork. */
+@media(min-width:900px){
+  .sky-home .atmospheric-scene-hero .legacy-sky-hero h1{
+    text-shadow:
+      0 1px 0 rgba(255,255,255,.46),
+      0 0 .55rem rgba(255,255,255,.38),
+      0 .16rem 1.1rem rgba(255,255,255,.26);
+  }
+
+  .sky-home .atmospheric-scene-hero .legacy-sky-hero__lede{
+    text-shadow:0 0 .42rem rgba(255,255,255,.72),0 .1rem .8rem rgba(255,255,255,.38);
+  }
+}
+
 /* A restrained readable wash keeps live Hero copy legible without changing
    the supplied artwork or baking text into the image. */
 .sky-home .atmospheric-scene-hero .legacy-sky-hero::after{
