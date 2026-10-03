@@ -18,7 +18,7 @@
 .legacy-sky-hero__proofs { list-style:none; }
 @media (hover:hover) and (pointer:fine) { .legacy-sky-hero__actions a:hover { transform:translateY(-2px); } }
 @media (max-width:899px) {
-  .legacy-sky-hero { min-block-size:660px; }
+  /* Homepage scene height is assigned by home-scroll-snap.css. */
   .legacy-sky-hero__content { justify-content:flex-start; inline-size:auto; min-block-size:0; margin:0; padding:clamp(106px,17svh,142px) 22px 0; }
   .legacy-sky-hero__content > p { margin-block-end:13px; font-size:8.5px; }
   .legacy-sky-hero h1 { max-inline-size:330px; font-size:clamp(48px,14.2vw,68px); line-height:.86; }
