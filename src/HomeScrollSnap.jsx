@@ -3,6 +3,7 @@ import { useEffect } from "react";
 const SCENE_SELECTOR = "[data-home-snap-scene]";
 const ACTIVE_CLASS = "is-snap-visible";
 const OVERFLOW_CLASS = "has-home-snap-overflow";
+const SCENE_OVERFLOW_CLASS = "has-home-scene-overflow";
 const SUSPENDED_CLASS = "is-home-snap-suspended";
 const KEYBOARD_CLASS = "is-home-keyboard-open";
 const KEYBOARD_THRESHOLD = 140;
@@ -75,17 +76,33 @@ export default function HomeScrollSnap({ rootRef }) {
       measureFrame = requestAnimationFrame(() => {
         if (!mobileViewport.matches) {
           root.classList.remove(OVERFLOW_CLASS);
+          scenes.forEach((scene) => scene.classList.remove(SCENE_OVERFLOW_CLASS));
           return;
         }
 
-        const hasOverflow = scenes.some((scene) => {
+        let hasProductOverflow = false;
+
+        scenes.forEach((scene) => {
+          /*
+           * The hero is an art-directed full-viewport composition whose inner
+           * content intentionally uses padded positioning. Its scrollHeight is
+           * not a valid signal for relaxing downstream product-scene paging.
+           */
+          if (scene.classList.contains("atmospheric-scene-hero")) {
+            scene.classList.remove(SCENE_OVERFLOW_CLASS);
+            return;
+          }
+
           const content = scene.querySelector("[data-home-snap-content]") || scene;
           const available = Math.ceil(scene.clientHeight);
           const required = Math.ceil(content.scrollHeight);
-          return required > available + OVERFLOW_TOLERANCE;
+          const overflows = required > available + OVERFLOW_TOLERANCE;
+
+          scene.classList.toggle(SCENE_OVERFLOW_CLASS, overflows);
+          if (overflows) hasProductOverflow = true;
         });
 
-        root.classList.toggle(OVERFLOW_CLASS, hasOverflow);
+        root.classList.toggle(OVERFLOW_CLASS, hasProductOverflow);
       });
     };
 
@@ -221,6 +238,7 @@ export default function HomeScrollSnap({ rootRef }) {
       unlisten(desktopViewport, sync);
       unlisten(mobileViewport, sync);
       root.classList.remove(OVERFLOW_CLASS, SUSPENDED_CLASS, KEYBOARD_CLASS);
+      scenes.forEach((scene) => scene.classList.remove(SCENE_OVERFLOW_CLASS));
       document.documentElement.style.removeProperty("--home-snap-offset");
       document.documentElement.style.removeProperty("--home-desktop-snap-h");
     };
