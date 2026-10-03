@@ -1,6 +1,6 @@
 import React,{useEffect,useMemo,useState} from 'react'
 import {Link,useParams} from 'react-router-dom'
-import {ChevronDown,Minus,Plus} from 'lucide-react'
+import {ChevronDown,Minus,Plus,ShoppingCart} from 'lucide-react'
 import {m,Presence,motionTokens,motionVariants} from '@/motionSystem'
 import {products} from '@/catalogData'
 import Shell from '@/storefront/StorefrontShell'
@@ -9,6 +9,7 @@ import useSwipeGallery from '@/storefront/useSwipeGallery'
 import ResponsiveImage from '@/storefront/ResponsiveImage'
 import '@/styles/mobile/50-pdp.css'
 import '@/styles/product-page-redesign.css'
+import '@/styles/product-page-flavor-theme.css'
 
 const brandLogo = `${import.meta.env.BASE_URL}lagom-logo.svg`
 
@@ -42,7 +43,7 @@ function ProductPage() {
   const item = configuredProduct(product, selected);
   return (
     <Shell detail>
-      <m.div className="pdp" style={{ "--accent": product.accent }}>
+      <m.div className="pdp pdp--flavor" style={{ "--accent": product.accent }}>
         <m.div
           className="pdp-media"
           style={{ "--pdp-image": `url("${selected.image || product.image}")` }}
@@ -151,7 +152,8 @@ function ProductPage() {
               className="primary-bar"
               onClick={() => add(item, qty)}
             >
-              ADD TO CART
+              <ShoppingCart aria-hidden="true" />
+              <span>ADD TO CART</span>
             </m.button>
           </m.div>
           <ProductDetailsAccordion product={product} selected={selected} />

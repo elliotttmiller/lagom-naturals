@@ -89,10 +89,8 @@ function ShowcaseFrame({ direction, label, product, reducedMotion }) {
   );
 }
 
-function ShowcaseCan({ direction, label, product, reducedMotion }) {
-  const enterOffset = direction > 0 ? "100%" : "-100%";
-  const exitOffset = direction > 0 ? "-100%" : "100%";
-  const transition = reducedMotion ? { duration: 0 } : { duration: 0.68, ease: [0.77, 0, 0.18, 1] };
+function ShowcaseCan({ label, product, reducedMotion }) {
+  const transition = reducedMotion ? { duration: 0 } : { duration: 0.38, ease: [0.16, 1, 0.3, 1] };
 
   return <span className="seltzer-showcase__can" aria-label={`${product.name} THC seltzer can`} role="img">
     <picture className="seltzer-showcase__can-base">
@@ -101,8 +99,8 @@ function ShowcaseCan({ direction, label, product, reducedMotion }) {
       <img src={canBase889Webp} alt="" />
     </picture>
     <span className="seltzer-showcase__label-viewport">
-      <AnimatePresence initial={false} custom={direction} mode="sync">
-        <motion.picture key={product.id} className="seltzer-showcase__can-label" initial={{ x: reducedMotion ? 0 : enterOffset }} animate={{ x: 0 }} exit={{ x: reducedMotion ? 0 : exitOffset }} transition={transition}>
+      <AnimatePresence initial={false} mode="sync">
+        <motion.picture key={product.id} className="seltzer-showcase__can-label" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={transition}>
           <source type="image/avif" srcSet={label.avif} sizes="(max-width: 899px) 53vw, 21rem" />
           <source type="image/webp" srcSet={label.webp} sizes="(max-width: 899px) 53vw, 21rem" />
           <img src={label.src} alt="" />
@@ -186,8 +184,8 @@ export default function SeltzerShowcase() {
     <h2 id="seltzer-showcase-title" className="sr-only">Lagom Naturals seltzer showcase</h2>
     <ShowcaseColorTrack background={theme.color} desktopMedia={theme.desktopMedia} mobileMedia={theme.mobileMedia} direction={direction} productId={product.id} reducedMotion={reducedMotion} />
     <ShowcaseBackdrop />
-    <div className="seltzer-showcase__topline" aria-hidden="true"><span>Lagom</span></div>
-    <ShowcaseCan direction={direction} label={label} product={product} reducedMotion={reducedMotion} />
+    <div className="seltzer-showcase__topline" aria-hidden="true"><img className="seltzer-showcase__brand-logo" src="/enhanced-lagom-naturals-logo-white.webp" alt="" /></div>
+    <ShowcaseCan label={label} product={product} reducedMotion={reducedMotion} />
     <button className="seltzer-showcase__nav seltzer-showcase__nav--previous" type="button" onClick={() => change(-1)} aria-label="Previous seltzer"><ArrowLeft /></button>
     <button className="seltzer-showcase__nav seltzer-showcase__nav--next" type="button" onClick={() => change(1)} aria-label="Next seltzer"><ArrowRight /></button>
     <div className="seltzer-showcase__commerce">

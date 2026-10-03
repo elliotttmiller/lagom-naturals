@@ -39,13 +39,12 @@ import {
 } from "./motionSystem";
 import {
   products,
-  categoryCards,
-  categoryImages,
   gummyCollections,
 } from "./catalogData";
 import Shell from "@/storefront/StorefrontShell";
 import HomeHero from "@/HomeHeroPortal";
 import SeltzerShowcase from "@/home/SeltzerShowcase";
+import GummyShowcase from "@/home/GummyShowcase";
 import HomeProductStage from "@/HomeProductStage";
 import CatalogProductCard from "@/storefront/CatalogProductCard";
 import AddToCartButton from "@/AddToCartButton";
@@ -124,53 +123,9 @@ function SectionTitle({ title, to = "/shop" }) {
     </m.div>
   );
 }
-function CategoryCard({ name, label, description }) {
-  const img = categoryImages[name];
-  const categoryPath = name === "Seltzers" ? "/shop/seltzers" : name === "Gummies" ? "/shop/gummies" : "/shop";
-  return (
-    <m.div
-      className="motion-card-shell"
-      variants={motionVariants.item}
-      layout
-      whileHover={motionTokens.hover}
-      whileTap={motionTokens.tap}
-      transition={motionTokens.spring}
-    >
-      <Link
-        className={`category-card shop-category-card${img ? " has-image" : ""}`}
-        to={categoryPath}
-        aria-label={`Explore ${label}`}
-      >
-        {img ? (
-          <span className="category-card__media shop-category-card__media">
-            <ResponsiveImage
-              src={img}
-              alt=""
-              sizes="(max-width: 899px) 50vw, 33vw"
-              loading="eager"
-              decoding="async"
-            />
-          </span>
-        ) : (
-          <div className="category-symbol">{label.slice(0, 2).toUpperCase()}</div>
-        )}
-        <span className="shop-category-card__shade" aria-hidden="true" />
-        <span className="category-card__content shop-category-card__content">
-          <span className="category-card__copy shop-category-card__copy">
-            <span className="shop-category-card__eyebrow">Explore</span>
-            <strong>{label}</strong>
-            <small>{description}</small>
-          </span>
-          <span className="category-card__action shop-category-card__action" aria-hidden="true">
-            <ArrowRight />
-          </span>
-        </span>
-      </Link>
-    </m.div>
-  );
-}
 function productCardFacts(product) {
-  if (product.category === "Gummies" || product.category === "Seltzers") return [];
+  if (product.category === "Seltzers") return [`${product.thcMgPerCan} mg THC`, product.canVolume];
+  if (product.category === "Gummies") return [product.strength, `${product.piecesPerPackage} gummies`];
   const facts = [];
   if (product.productLine && product.productLine !== "Classic") facts.push(product.productLine);
   if (product.weight) facts.push(product.weight);
@@ -251,7 +206,7 @@ function AnchoredVariantMenu({ productName, variants, selectedId, onSelect, menu
   );
 }
 
-function ProductCard({ product }) {
+function ProductCard({ product, showDescription = false }) {
   const { add } = useCart();
   const variants = useMemo(() => productVariants(product), [product]);
   const [selectedId, setSelectedId] = useState(variants[0]?.id);
@@ -312,12 +267,13 @@ function ProductCard({ product }) {
           {facts.map((fact) => <span key={fact}>{fact}</span>)}
         </span>
       ) : null}
+      reviewStatus={showDescription ? product.description : null}
       motionProps={{ variants: motionVariants.item, layout: "position", style: { "--accent": product.accent } }}
     >
       <div className={`shop-card-commerce ${hasVariantPicker ? "shop-card-commerce--variant" : "shop-card-commerce--single"}`.trim()}>
         {hasVariantPicker ? <div className="variant-picker shop-card-variant-picker" ref={pickerRef}>
           <m.button ref={triggerRef} type="button" className="variant-trigger shop-card-variant-trigger" whileTap={motionTokens.tap} aria-haspopup="listbox" aria-expanded={variantOpen} onClick={() => setVariantOpen((open) => !open)}>
-            <span>{selected.label}</span>
+            <span>{selected.label} · ${selected.price.toFixed(2)}</span>
             <m.span animate={{ rotate: variantOpen ? 180 : 0 }} transition={motionTokens.springSnappy} aria-hidden="true"><ChevronDown /></m.span>
           </m.button>
           <Presence>
@@ -642,22 +598,9 @@ function HomePage() {
           <SeltzerShowcase />
         </section>
 
-        <AtmosphericSceneSection id="gummies" className="sky-home__section sky-home__section--gummies sky-home__section--product-stage" labelledBy="home-gummies-title">
-          <HomeProductStage
-            kind="gummy"
-            items={HOME_GUMMY_COLLECTIONS}
-            eyebrow="MEET THE GUMMIE LINE"
-            headingId="home-gummies-title"
-            headingText="Lagom gummy collections"
-            intro="Three collections. One elevated standard."
-            ariaLabel="Lagom gummy collections"
-            getKey={(collection) => collection.name}
-            getTitle={(collection) => collection.name}
-            getAccent={(collection) => HOME_GUMMY_STAGE_ACCENTS[collection.name] || "#6f7f86"}
-            renderMedia={(collection) => <HomeGummyStageMedia collection={collection} />}
-            renderDetails={(collection) => <HomeGummyStageDetails collection={collection} />}
-          />
-        </AtmosphericSceneSection>
+        <section id="gummies" className="seltzer-showcase-section gummy-showcase-section" data-home-snap-scene aria-label="Lagom gummy collections">
+          <GummyShowcase />
+        </section>
 
       </div>
     </Shell>
@@ -706,34 +649,17 @@ function ShopPage() {
   );
   return (
     <Shell>
-      <div className="shop-page shop-page--reference">
+      <div className={`shop-page shop-page--reference ${category === "All" ? "shop-page--all-products" : ""}`}>
         {category === "All" ? (
           <Reveal className="shop-intro">
             <div className="shop-intro__copy">
-              <h1>Shop</h1>
-              <p>Premium THC beverages and gummies for every occasion.</p>
+              <h1>All Products</h1>
+              <p>Premium THC seltzers and gummies. Real flavors. A better state of mind.</p>
             </div>
-            <div className="shop-intro__aside" aria-hidden="true">
-              <span>Good</span>
-              <span>Things</span>
-              <span>In Balance</span>
-              <i />
-            </div>
+            <span className="shop-intro__count">{visible.length} {visible.length === 1 ? "product" : "products"}</span>
           </Reveal>
         ) : (
           <CategoryShopHero category={category} />
-        )}
-        {category === "All" && (
-          <Stagger className="category-grid">
-            {categoryCards.map(([name, label, description]) => (
-              <CategoryCard
-                key={name}
-                name={name}
-                label={label}
-                description={description}
-              />
-            ))}
-          </Stagger>
         )}
         <Reveal className="shop-catalog" id="shop-products">
           <div className="shop-catalog__toolbar">
@@ -789,7 +715,7 @@ function ShopPage() {
         <Stagger className="product-grid listing-grid">
           {visible.map((p) => (
             <StaggerItem key={p.id}>
-              <ProductCard product={p} />
+              <ProductCard product={p} showDescription={category === "All"} />
             </StaggerItem>
           ))}
         </Stagger>

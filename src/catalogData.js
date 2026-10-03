@@ -296,7 +296,7 @@ export const products = [
     flavorFamily: "Citrus",
     category: "Seltzers",
     ...SELTZER_COMMON,
-    description: "A lightly sparkling THC seltzer built around Sicilian lemon and juicy tangerine, with a crisp citrus profile and clean mineral finish. Each 12 fl oz can contains 10 mg THC with zero sugar, zero carbs, and zero calories.",
+    description: "Bright Sicilian lemon and juicy tangerine with a crisp, clean mineral finish.",
     image: lemonade,
     variants: [
       {
@@ -325,7 +325,7 @@ export const products = [
     flavorFamily: "Berry",
     category: "Seltzers",
     ...SELTZER_COMMON,
-    description: "A blackberry-flavored THC seltzer with a clean, sparkling finish. Each 12 fl oz can contains 10 mg THC with zero sugar, zero carbs, and zero calories.",
+    description: "Clean blackberry flavor with a crisp, sparkling finish.",
     image: blackberry,
     variants: [
       {
@@ -354,7 +354,7 @@ export const products = [
     flavorFamily: "Fruit + citrus",
     category: "Seltzers",
     ...SELTZER_COMMON,
-    description: "A strawberry-and-lime THC seltzer pairing ripe fruit flavor with a bright citrus edge and sparkling finish. Each 12 fl oz can contains 10 mg THC with zero sugar, zero carbs, and zero calories.",
+    description: "Ripe strawberry and zesty lime with a bright citrus finish.",
     image: strawberryLime,
     variants: [
       {
@@ -383,7 +383,7 @@ export const products = [
     flavorFamily: "Melon",
     category: "Seltzers",
     ...SELTZER_COMMON,
-    description: "A watermelon-flavored THC seltzer with a light, sparkling profile designed for crisp refreshment. Each 12 fl oz can contains 10 mg THC with zero sugar, zero carbs, and zero calories.",
+    description: "Juicy watermelon with a light, sparkling finish.",
     image: watermelon,
     variants: [
       {

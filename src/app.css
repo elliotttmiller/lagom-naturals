@@ -61,6 +61,7 @@ p { letter-spacing: -.008em }
 .icon-btn:hover { background: var(--surface-soft) }
 .icon-btn svg { width: 20px; height: 20px; stroke-width: 1.65 }
 .cart-icon { position: relative }
+.header-account span, .cart-icon span { display: none }
 .cart-icon b { position: absolute; right: 1px; top: 1px; width: 16px; height: 16px; border-radius: 50%; background: var(--green); color: #fff; font-family: var(--font-ui); font-size: 9px; font-weight: 700; display: grid; place-items: center }
 .desktop-nav { display: none }
 

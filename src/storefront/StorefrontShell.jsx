@@ -1,5 +1,5 @@
 import React,{useEffect,useRef,useState} from 'react'
-import {Link,NavLink,useNavigate} from 'react-router-dom'
+import {Link,NavLink,useLocation,useNavigate} from 'react-router-dom'
 import {ArrowLeft,ChevronRight,Search,ShoppingBag,User} from 'lucide-react'
 import HamburgerToggle from '@/HamburgerToggle'
 import {Presence,m,motionTokens,motionVariants,useReducedMotion} from '@/motionSystem'
@@ -12,6 +12,7 @@ function Logo({onClick,className=''}){return <Link to="/" className={`brand ${cl
 
 function Header({detail=false}){
   const{count}=useCart()
+  const location=useLocation()
   const[open,setOpen]=useState(false)
   const reduceMotion=useReducedMotion()
   const nav=useNavigate(),drawerRef=useRef(null),closeRef=useRef(null)
@@ -36,25 +37,27 @@ function Header({detail=false}){
     return()=>{document.removeEventListener('keydown',key);document.body.style.overflow=overflow;previous?.focus?.()}
   },[open])
 
-  const desktopLinks=[['Shop','/shop'],['Collections','/shop'],['About','/about'],['Learn','/learn']]
+  const isAllProducts=location.pathname==='/shop'
+  const desktopLinks=isAllProducts
+    ? [['Shop','/shop'],['About','/about'],['Our Story','/about'],['FAQ','/learn']]
+    : [['Shop','/shop'],['Collections','/shop'],['About','/about'],['Learn','/learn']]
   const drawerLinks=[['Shop','/shop'],['Merch','/merch'],['Find Us','/visit'],['Our Story','/about']]
   const backdropTransition=reduceMotion?{duration:0}:{duration:motionTokens.duration.control,ease:motionTokens.ease}
   const drawerTransition=reduceMotion?{duration:0}:motionTokens.springDrawer
 
   return <>
-    <m.header className={`site-header ${detail?'site-header--commerce':''}`} layout="position">
+    <m.header className={`site-header ${detail?'site-header--commerce':''} ${isAllProducts?'site-header--shop-all':''}`} layout="position">
       <div className="header-inner">
         {detail?<m.button type="button" className="icon-btn" whileTap={motionTokens.tap} onClick={()=>nav(-1)} aria-label="Back"><ArrowLeft/></m.button>:<HamburgerToggle checked={open} onChange={toggle} controls="site-navigation-drawer" label={open?'Close menu':'Open menu'}/>}
         <Logo className="header-mobile-brand"/>
         <nav className="desktop-nav" aria-label="Primary navigation">
-          <div className="desktop-nav__group desktop-nav__group--left">{desktopLinks.slice(0,2).map(([label,to])=><NavLink key={label} to={to}>{label}</NavLink>)}</div>
           <Logo className="desktop-nav__brand"/>
-          <div className="desktop-nav__group desktop-nav__group--right">{desktopLinks.slice(2).map(([label,to])=><NavLink key={label} to={to}>{label}</NavLink>)}</div>
+          <div className="desktop-nav__group desktop-nav__group--primary">{desktopLinks.map(([label,to])=><NavLink key={label} to={to}>{label}</NavLink>)}</div>
         </nav>
         <div className="header-tools">
-          <m.button type="button" className="icon-btn" aria-label="Search drinks" aria-controls="global-search-surface" aria-expanded="false" whileTap={motionTokens.tap} onClick={()=>window.dispatchEvent(new CustomEvent('lagom:open-global-search'))}><Search/></m.button>
-          <Link className="icon-btn header-account" to="/account" aria-label="Account"><User/></Link>
-          <Link className="icon-btn cart-icon" to="/cart" aria-label={`Cart, ${count} items`}><ShoppingBag/>{count>0&&<b>{count}</b>}</Link>
+          <m.button type="button" className="icon-btn header-search" aria-label="Search drinks" aria-controls="global-search-surface" aria-expanded="false" whileTap={motionTokens.tap} onClick={()=>window.dispatchEvent(new CustomEvent('lagom:open-global-search'))}><Search/><span>Search products...</span></m.button>
+          <Link className="icon-btn header-account" to="/account" aria-label="Account"><User/><span>Account</span></Link>
+          <Link className="icon-btn cart-icon" to="/cart" aria-label={`Cart, ${count} items`}><ShoppingBag/><span>Cart ({count})</span>{count>0&&<b>{count}</b>}</Link>
         </div>
       </div>
     </m.header>
