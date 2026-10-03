@@ -1,87 +1,389 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ArrowRight } from "lucide-react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { ArrowLeft, ArrowRight, X } from "lucide-react";
+import {
+  m,
+  Presence,
+  motionTokens,
+  useReducedMotion,
+} from "@/motionSystem";
 import { products } from "@/catalogData";
-import classic960Avif from "../assets/optimized/gummyShowcase/classic-960.avif";
-import classic1200Avif from "../assets/optimized/gummyShowcase/classic-1200.avif";
-import classic1806Avif from "../assets/optimized/gummyShowcase/classic-1806.avif";
-import classic480Avif from "../assets/optimized/gummyShowcase/classic-480.avif";
-import classic800Avif from "../assets/optimized/gummyShowcase/classic-800.avif";
-import classic960Webp from "../assets/optimized/gummyShowcase/classic-960.webp";
-import classic1200Webp from "../assets/optimized/gummyShowcase/classic-1200.webp";
-import classic1806Webp from "../assets/optimized/gummyShowcase/classic-1806.webp";
-import classic480Webp from "../assets/optimized/gummyShowcase/classic-480.webp";
-import classic800Webp from "../assets/optimized/gummyShowcase/classic-800.webp";
-import organic960Avif from "../assets/optimized/gummyShowcase/organic-960.avif";
-import organic1200Avif from "../assets/optimized/gummyShowcase/organic-1200.avif";
-import organic1806Avif from "../assets/optimized/gummyShowcase/organic-1806.avif";
-import organic480Avif from "../assets/optimized/gummyShowcase/organic-480.avif";
-import organic800Avif from "../assets/optimized/gummyShowcase/organic-800.avif";
-import organic960Webp from "../assets/optimized/gummyShowcase/organic-960.webp";
-import organic1200Webp from "../assets/optimized/gummyShowcase/organic-1200.webp";
-import organic1806Webp from "../assets/optimized/gummyShowcase/organic-1806.webp";
-import organic480Webp from "../assets/optimized/gummyShowcase/organic-480.webp";
-import organic800Webp from "../assets/optimized/gummyShowcase/organic-800.webp";
-import midnight960Avif from "../assets/optimized/gummyShowcase/midnight-drift-960.avif";
-import midnight1200Avif from "../assets/optimized/gummyShowcase/midnight-drift-1200.avif";
-import midnight1806Avif from "../assets/optimized/gummyShowcase/midnight-drift-1806.avif";
-import midnight480Avif from "../assets/optimized/gummyShowcase/midnight-drift-480.avif";
-import midnight800Avif from "../assets/optimized/gummyShowcase/midnight-drift-800.avif";
-import midnight960Webp from "../assets/optimized/gummyShowcase/midnight-drift-960.webp";
-import midnight1200Webp from "../assets/optimized/gummyShowcase/midnight-drift-1200.webp";
-import midnight1806Webp from "../assets/optimized/gummyShowcase/midnight-drift-1806.webp";
-import midnight480Webp from "../assets/optimized/gummyShowcase/midnight-drift-480.webp";
-import midnight800Webp from "../assets/optimized/gummyShowcase/midnight-drift-800.webp";
-
-const hero = (desktopAvif, mobileAvif, desktopWebp, mobileWebp, fallback) => ({ desktopAvif, mobileAvif, desktopWebp, mobileWebp, fallback });
-
-const HEROES = {
-  Classic: hero(
-    `${classic960Avif} 960w, ${classic1200Avif} 1200w, ${classic1806Avif} 1806w`, `${classic480Avif} 480w, ${classic800Avif} 800w`, `${classic960Webp} 960w, ${classic1200Webp} 1200w, ${classic1806Webp} 1806w`, `${classic480Webp} 480w, ${classic800Webp} 800w`, classic1806Webp,
-  ),
-  Organic: hero(
-    `${organic960Avif} 960w, ${organic1200Avif} 1200w, ${organic1806Avif} 1806w`, `${organic480Avif} 480w, ${organic800Avif} 800w`, `${organic960Webp} 960w, ${organic1200Webp} 1200w, ${organic1806Webp} 1806w`, `${organic480Webp} 480w, ${organic800Webp} 800w`, organic1806Webp,
-  ),
-  "Midnight Drift": hero(
-    `${midnight960Avif} 960w, ${midnight1200Avif} 1200w, ${midnight1806Avif} 1806w`, `${midnight480Avif} 480w, ${midnight800Avif} 800w`, `${midnight960Webp} 960w, ${midnight1200Webp} 1200w, ${midnight1806Webp} 1806w`, `${midnight480Webp} 480w, ${midnight800Webp} 800w`, midnight1806Webp,
-  ),
-};
+import { responsiveImages } from "@/generated/responsiveImages";
 
 const COLLECTIONS = [
-  { name: "Classic", description: "Fruit-forward favorites for everyday moments.", accent: "#d55f86", background: "#b9e5fa" },
-  { name: "Organic", description: "Organic fruit flavors with full-spectrum live resin.", accent: "#5f956c", background: "#c9e7c1" },
-  { name: "Midnight Drift", description: "A full-spectrum collection for slower evenings.", accent: "#6260a2", background: "#bdc7ee" },
+  {
+    name: "Classic",
+    tone: "classic",
+    productIds: ["push-pop", "strawberry-banana", "blueberry-yum-yum", "green-apple"],
+  },
+  {
+    name: "Organic",
+    tone: "organic",
+    productIds: ["berry-melon-bliss-organic", "blue-razz-organic", "cherry-bliss-organic", "push-pop-organic"],
+  },
+  {
+    name: "Midnight Drift",
+    tone: "midnight",
+    productIds: [
+      "strawberry-midnight-drift",
+      "blueberry-yum-yum-midnight-drift",
+      "peach-midnight-drift",
+      "pink-lemonade-midnight-drift",
+    ],
+  },
 ];
 
-function GummyHero({ collection, reducedMotion }) {
-  const image = HEROES[collection.name];
-  return <AnimatePresence initial={false} mode="sync"><motion.div key={collection.name} className="gummy-showcase__hero" initial={reducedMotion ? false : { opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={reducedMotion ? { duration: 0 } : { duration: 0.42, ease: [0.16, 1, 0.3, 1] }}><picture><source media="(max-width: 899px)" type="image/avif" srcSet={image.mobileAvif} sizes="100vw" /><source media="(max-width: 899px)" type="image/webp" srcSet={image.mobileWebp} sizes="100vw" /><source type="image/avif" srcSet={image.desktopAvif} sizes="100vw" /><source type="image/webp" srcSet={image.desktopWebp} sizes="100vw" /><img src={image.fallback} alt="" decoding="async" /></picture></motion.div></AnimatePresence>;
+const PRODUCT_MEDIA_KEYS = {
+  "push-pop": "Push-Pop-Photoroom-900x900",
+  "strawberry-banana": "Strawberry-Banana-Photoroom-900x900",
+  "blueberry-yum-yum": "Blueberry-Yum-Yum-1-Photoroom-900x900",
+  "green-apple": "Green-Apple-Photoroom-900x900",
+  "berry-melon-bliss-organic": "Berry-Melon-Bliss-Photoroom-900x900",
+  "blue-razz-organic": "Blue-Razz-Photoroom-Photoroom-1-900x900",
+  "cherry-bliss-organic": "Cherry-Bliss-Photoroom-900x900",
+  "push-pop-organic": "Push-Pop-1-Photoroom-900x900",
+  "strawberry-midnight-drift": "Strawberry-Photoroom-900x900",
+  "blueberry-yum-yum-midnight-drift": "Blueberry-Yum-Yum-3-Photoroom-900x900",
+  "peach-midnight-drift": "Peach-Photoroom-900x900",
+  "pink-lemonade-midnight-drift": "Pink-Lemonade-Photoroom-900x900",
+};
+
+const PRODUCT_THEMES = {
+  "push-pop": { surface: "linear-gradient(145deg,#ffcc8d 0%,#ffaf75 48%,#ffd5aa 100%)", accent: "#e66018" },
+  "strawberry-banana": { surface: "linear-gradient(145deg,#f4adb8 0%,#f58c9d 46%,#ffd0c6 100%)", accent: "#ca334d" },
+  "blueberry-yum-yum": { surface: "linear-gradient(145deg,#c2c5ff 0%,#989cf1 48%,#d7d4ff 100%)", accent: "#2454c7" },
+  "green-apple": { surface: "linear-gradient(145deg,#d9ef9c 0%,#b6d95d 48%,#ecf8c0 100%)", accent: "#3c8a27" },
+  "berry-melon-bliss-organic": { surface: "linear-gradient(145deg,#f58ab2 0%,#d94b86 48%,#ffc0d2 100%)", accent: "#8e164f" },
+  "blue-razz-organic": { surface: "linear-gradient(145deg,#73baf3 0%,#2e8bd6 48%,#b8ddfb 100%)", acent: "#0d5f9f" },
+  "cherry-bliss-organic": { surface: "linear-gradient(145deg,#f16672 0%,#c93348 48%,#ffadb2 100%)", acent: "#8f1526" },
+  "push-pop-organic": { surface: "linear-gradient(145deg,#ffb36d 0%,#ee7a2d 48%,#ffd1a1 100%)", accent: "#a94b15" },
+  "strawberry-midnight-drift": { surface: "linear-gradient(155deg,#4b6085 0%,#7384a8 44%,#ddb0ba 100%)", accent: "#ef758e" },
+  "blueberry-yum-yum-midnight-drift": { surface: "linear-gradient(155deg,#41577f 0%,#6077a3 44%,#b9fb6db 100%)", accent: "#7bbfff" },
+  "peach-midnight-drift": { surface: "linear-gradient(155deg,#52617e 0%,#8a7a80 43%,#e8a574 100%)", accent: "#f0a15c" },
+  "pink-lemonade-midnight-drift": { surface: "linear-gradient(155deg,#4d5879 0%,#876d86 44%,#dfa4b4 100%)", accent: "#f38ba9" },
+};
+
+function getProduct(id) {
+  return products.find((product) => product.id === id);
+}
+
+function getProductMedia(productId) {
+  const key = PRODUCT_MEDIA_KEYS[productId];
+  return key ? responsiveImages.homeGummies[key] : null;
+}
+
+function ProductPicture({ product, className, sizes = "( max-width: 899px) 46vw, 20vw", eager = false, layoutId }) {
+  const media = getProductMedia(product.id);
+  if (!media) return null;
+
+  return (
+    <m.picture className={className} layoutId={layoutId}>
+      {media.avifSrcSet ? <source type="image/avif" srcSet={media.avifSrcSet} sizes={sizes} /> : null}
+      {media.webpSrcSet ? <source type="image/webp" srcSet={media.webpSrcSet} sizes={sizes} /> : null}
+      <img src={media.src} alt="" loading={eager ? "eager" : "lazy"} decoding="async" draggable="false" />
+    </m.picture>
+  );
+}
+
+function collectionLabel(product) {
+  if (product.productLine === "Classic") return "Gummies";
+  return `${product.productLine} Gummies`;
+}
+
+function productFacts(product) {
+  const facts = [];
+  if (Number.isFinite(product.piecesPerPackage)) facts.push({ value: String(product.piecesPerPackage), label: "Count" });
+
+  if (Number.isFinite(product.thcMgPerPackage)) {
+    facts.push({ value: `${product.thcMgPerPackage} MG`, label: "THC total" });
+  } else if (Number.isFinite(product.thcMgPerPiece)) {
+    facts.push({ value: `${product.thcMgPerPiece} MG`, label: "THC / gummy" });
+  }
+
+  if (Number.isFinite(product.cbdMgPerPiece) && product.cbdMgPerPiece > 0) {
+    facts.push({ value: `${product.cbdMgPerPiece} MG`, label: "CBD / gummy" });
+  } else if (Number.isFinite(product.thcMgPerPiece)) {
+    facts.push({ value: `${product.thcMgPerPiece} MG`, label: "Per gummy" });
+  }
+
+  return facts.slice(0, 3);
+}
+
+function CollectionRail({ activeIndex, onSelect }) {
+  return (
+    <div className="gummy-mobile__collection-rail" role="tablist" aria-label="Gummy collections">
+      {COLLECTIONS.map((collection, index) => (
+        <button
+          type="button"
+          role="tab"
+          key={collection.name}
+          aria-selected={index === activeIndex}
+          aria-label={`Show ${collection.name} gummies`}
+          className={index === activeIndex ? "is-active" : ""}
+          onClick={() => onSelect(index)}
+        >
+          <span>{collection.name}</span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function ProductTile({ product, collectionTone, index, onOpen, buttonRef, reduceMotion }) {
+  const theme = PRODUCT_THEMES[product.id] || PRODUCT_THEMES["push-pop"];
+
+  return (
+    <m.article
+      className={`gummy-tile gummy-tile--${collectionTone}`}
+      style={{ "--gummy-tile-surface": theme.surface, "--gummy-tile-accent": theme.accent }}
+      layout={!reduceMotion}
+      layoutId={reduceMotion ? undefined : `gummy-surface-${product.id}`}
+      transition={motionTokens.springSoft}
+    >
+      <button
+        type="button"
+        ref={buttonRef}
+        className="gummy-tile__button"
+        aria-label={`Open ${product.name} quick view`}
+        onClick={() => onOpen(product.id)}
+      >
+        <span className="gummy-tile__art" aria-hidden="true">
+          <span className="gummy-tile__orb gummy-tile__orb--one" />
+          <span className="gummy-tile__orb gummy-tile__orb--two" />
+          <ProductPicture
+            product={product}
+            className="gummy-tile__product"
+            sizes="(max-width: 899px) 46vw, 20vw"
+            eager={index < 2}
+            layoutId={reduceMotion ? undefined : `gummy-media-${product.id}`}
+          />
+        </span>
+
+        <span className="gummy-tile__footer">
+          <span className="gummy-tile__identity">
+            <m.strong layoutId={reduceMotion ? undefined : `gummy-title-${product.id}`}>
+              {product.name}
+            </m.strong>
+            <small>{collectionLabel(product)}</small>
+          </span>
+          <span className="gummy-tile__arrow" aria-hidden="true"><ArrowRight /></span>
+        </span>
+      </button>
+    </m.article>
+  );
+}
+
+function ProductQuickView({ product, collectionTone, onClose, reduceMotion, detailHeadingRef }) {
+  const theme = PRODUCT_THEMES[product.id] || PRODUCT_THEMES["push-pop"];
+  const facts = productFacts(product);
+
+  return (
+    <m.article
+      className={`gummy-quick-view gummy-quick-view--${collectionTone}`}
+      style={{ "--gummy-tile-surface": theme.surface, "--gummy-tile-accent": theme.accent }}
+      layout={!reduceMotion}
+      layoutId={reduceMotion ? undefined : `gummy-surface-${product.id}`}
+      initial={reduceMotion ? { opacity: 0 } : false}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={reduceMotion ? { duration: 0.14 } : motionTokens.springSoft}
+      aria-labelledby={`gummy-quick-title-${product.id}`}
+    >
+      <div className="gummy-quick-view__hero">
+        <span className="gummy-quick-view__orb gummy-quick-view__orb--one" aria-hidden="true" />
+        <span className="gummy-quick-view__orb gummy-quick-view__orb--two" aria-hidden="true" />
+
+        <button type="button" className="gummy-quick-view__control gummy-quick-view__control--back" onClick={onClose} aria-label="Back to gummy grid"><ArrowLeft /></button>
+        <button type="button" className="gummy-quick-view__control gummy-quick-view__control--close" onClick={onClose} aria-label="Close product quick view"><X /></button>
+
+        <ProductPicture
+          product={product}
+          className="gummy-quick-view__product"
+          sizes="(max-width: 899px) 78vw, 34vw"
+          eager
+          layoutId={reduceMotion ? undefined : `gummy-media-${product.id}`}
+        />
+      </div>
+
+      <m.div
+        className="gummy-quick-view__info"
+        initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={reduceMotion ? { duration: 0 } : { delay: 0.12, duration: 0.38, ease: motionTokens.easeSoft }}
+      >
+        <p className="gummy-quick-view__eyebrow">Lagom Gummies · {product.productLine}</p>
+        <m.h3 id={`gummy-quick-title-${product.id}`} ref={detailHeadingRef} tabIndex={-1} layoutId={reduceMotion ? undefined : `gummy-title-${product.id}`}>
+          {product.name}
+        </m.h3>
+        <p className="gummy-quick-view__description">{product.description}</p>
+
+        {facts.length ? (
+          <div className="gummy-quick-view__facts" aria-label={`${product.name} product facts`}>
+            {facts.map((fact) => (
+              <span key={`${fact.value}-${fact.label}`}><b>{fact.value}</b><small>{fact.label}</small></span>
+            ))}
+          </div>
+        ) : null}
+
+        <Link className="gummy-quick-view__cta" to={`/product/${product.id}`}>
+          <span>View Product</span><ArrowRight aria-hidden="true" />
+        </Link>
+      </m.div>
+    </m.article>
+  );
+}
+
+function MobileGummyExperience() {
+  const reduceMotion = useReducedMotion();
+  const [collectionIndex, setCollectionIndex] = useState(0);
+  const [selectedId, setSelectedId] = useState(null);
+  const tileRefs = useRef(new Map());
+  const detailHeadingRef = useRef(null);
+  const pointerStart = useRef(null);
+
+  const collection = COLLECTIONS[collectionIndex];
+  const collectionProducts = useMemo(() => collection.productIds.map(getProduct).filter(Boolean), [collection]);
+  const selectedProduct = selectedId ? getProduct(selectedId) : null;
+
+  const closeQuickView = () => {
+    const returnTarget = selectedId;
+    setSelectedId(null);
+    window.requestAnimationFrame(() => tileRefs.current.get(returnTarget)?.focus());
+  };
+
+  const openQuickView = (productId) => {
+    setSelectedId(productId);
+    window.requestAnimationFrame(() => detailHeadingRef.current?.focus());
+  };
+
+  const selectCollection = (nextIndex) => {
+    if (selectedId) return;
+    setCollectionIndex((nextIndex + COLLECTIONS.length) % COLLECTIONS.length);
+  };
+
+  useEffect(() => {
+    if (!selectedId) return undefined;
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeQuickView();
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [selectedId]);
+
+  return (
+    <div
+      className="gummy-showcase__mobile gummy-mobile"
+      onPointerDown={(event) => {
+        if (selectedId || event.pointerType !== "touch") return;
+        pointerStart.current = { x: event.clientX, y: event.clientY };
+      }}
+      onPointerUp={(event) => {
+        if (selectedId || !pointerStart.current) return;
+        const dx = event.clientX - pointerStart.current.x;
+        const dy = event.clientY - pointerStart.current.y;
+        pointerStart.current = null;
+        if (Math.abs(dx) < 56 || Math.abs(dx) <= Math.abs(dy) * 1.15) return;
+        selectCollection(collectionIndex + (dx < 0 ? 1 : -1));
+      }}
+    >
+      <Presence mode="popLayout" initial={false}>
+        {selectedProduct ? (
+          <ProductQuickView
+            key={`quick-${selectedProduct.id}`}
+            product={selectedProduct}
+            collectionTone={collection.tone}
+            onClose={closeQuickView}
+            reduceMotion={reduceMotion}
+            detailHeadingRef={detailHeadingRef}
+          />
+        ) : (
+          <m.div
+            key={`grid-${collection.name}`}
+            className="gummy-mobile__grid-state"
+            initial={reduceMotion ? { opacity: 0 } : { opacity: 0, x: 18 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: -14 }}
+            transition={reduceMotion ? { duration: 0.14 } : { duration: 0.34, ease: motionTokens.easeSoft }}
+          >
+            <CollectionRail activeIndex={collectionIndex} onSelect={selectCollection} />
+
+            <div className={`gummy-mobile__grid gummy-mobile__grid--${collection.tone}`} aria-label={`${collection.name} gummy flavors`}>
+              {collectionProducts.map((product, index) => (
+                <ProductTile
+                  key={product.id}
+                  product={product}
+                  collectionTone={collection.tone}
+                  index={index}
+                  reduceMotion={reduceMotion}
+                  onOpen={openQuickView}
+                  buttonRef={(node) => {
+                    if (node) tileRefs.current.set(product.id, node);
+                    else tileRefs.current.delete(product.id);
+                  }}
+                />
+              ))}
+            </div>
+
+            <p className="sr-only" aria-live="polite">{collection.name} gummy collection, {collectionProducts.length} products</p>
+          </m.div>
+        )}
+      </Presence>
+    </div>
+  );
+}
+
+function DesktopGummyShowcase() {
+  const [index, setIndex] = useState(0);
+  const collection = COLLECTIONS[index];
+  const collectionProducts = collection.productIds.map(getProduct).filter(Boolean);
+  const change = (delta) => setIndex((current) => (current + delta + COLLECTIONS.length) % COLLECTIONS.length);
+
+  return (
+    <div className="gummy-showcase__desktop" aria-label="Lagom gummy collections">
+      <div className={`gummy-desktop gummy-desktop--${collection.tone}`}>
+        <div className="gummy-desktop__surface">
+          <div className="gummy-desktop__pouches">
+            {collectionProducts.map((product) => (
+              <ProductPicture key={product.id} product={product} className="gummy-desktop__pouch" sizes="18vw" eager />
+            ))}
+          </div>
+        </div>
+
+        <img className="gummy-desktop__brand" src={`${import.meta.env.BASE_URL}enhanced-lagom-naturals-logo-white.webp`} alt="" />
+        <button type="button" className="gummy-desktop__nav gummy-desktop__nav--previous" onClick={() => change(-1)} aria-label="Previous gummy collection"><ArrowLeft /></button>
+        <button type="button" className="gummy-desktop__nav gummy-desktop__nav--next" onClick={() => change(1)} aria-label="Next gummy collection"><ArrowRight /></button>
+
+        <div className="gummy-desktop__copy">
+          <p>Lagom Gummies</p>
+          <h2>{collection.name}</h2>
+          <Link to={`/shop/gummies?collection=${encodeURIComponent(collection.name)}`}>Explore collection <ArrowRight /></Link>
+        </div>
+
+        <div className="gummy-desktop__progress" aria-label="Gummy collection navigation">
+          {COLLECTIONS.map((item, itemIndex) => (
+            <button
+              key={item.name}
+              type="button"
+              className={itemIndex === index ? "is-active" : ""}
+              aria-label={`Show ${item.name} gummies`}
+              aria-pressed={itemIndex === index}
+              onClick={() => setIndex(itemIndex)}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default function GummyShowcase() {
-  const [index, setIndex] = useState(0);
-  const touchStart = useRef(null);
-  const reducedMotion = useReducedMotion();
-  const collection = COLLECTIONS[index];
-  const flavorCount = useMemo(() => products.filter((product) => product.category === "Gummies" && product.productLine === collection.name).length, [collection.name]);
-  const collectionUrl = `/shop/gummies?collection=${encodeURIComponent(collection.name)}`;
-  const change = (delta) => setIndex((current) => (current + delta + COLLECTIONS.length) % COLLECTIONS.length);
-  const selectCollection = (nextIndex) => { if (nextIndex !== index) setIndex(nextIndex); };
-
-  useEffect(() => {
-    const onKeyDown = (event) => { if (!(event.target instanceof HTMLAnchorElement) && event.key === "ArrowLeft") change(-1); if (!(event.target instanceof HTMLAnchorElement) && event.key === "ArrowRight") change(1); };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, []);
-
-  return <section className="seltzer-showcase gummy-showcase" style={{ "--seltzer-accent": collection.accent, "--seltzer-slide-background": collection.background }} aria-labelledby="gummy-showcase-title" onPointerDown={(event) => { if (event.pointerType === "touch") touchStart.current = event.clientX; }} onPointerUp={(event) => { if (touchStart.current === null) return; const distance = event.clientX - touchStart.current; touchStart.current = null; if (Math.abs(distance) > 48) change(distance > 0 ? -1 : 1); }}>
-    <h2 id="gummy-showcase-title" className="sr-only">Lagom gummy collections</h2>
-    <GummyHero collection={collection} reducedMotion={reducedMotion} />
-    <div className="seltzer-showcase__topline" aria-hidden="true"><img className="seltzer-showcase__brand-logo" src="/enhanced-lagom-naturals-logo-white.webp" alt="" /></div>
-    <button className="seltzer-showcase__nav seltzer-showcase__nav--previous" type="button" onClick={() => change(-1)} aria-label="Previous gummy collection"><ArrowLeft /></button>
-    <button className="seltzer-showcase__nav seltzer-showcase__nav--next" type="button" onClick={() => change(1)} aria-label="Next gummy collection"><ArrowRight /></button>
-    <div className="gummy-showcase__details"><div><p>{collection.description}</p><span>{flavorCount} flavors · Gummy collection</span></div><Link to={collectionUrl}>Explore collection <ArrowRight aria-hidden="true" /></Link></div>
-    <div className="seltzer-showcase__progress gummy-showcase__progress" role="tablist" aria-label="Gummy collections"><span>{String(index + 1).padStart(2, "0")} / {String(COLLECTIONS.length).padStart(2, "0")}</span>{COLLECTIONS.map((item, itemIndex) => <button type="button" role="tab" key={item.name} aria-selected={itemIndex === index} aria-label={`Show ${item.name} gummy collection`} className={itemIndex === index ? "is-active" : ""} onClick={() => selectCollection(itemIndex)} />)}</div>
-  </section>;
+  return (
+    <section className="gummy-showcase" aria-label="Lagom gummy showcase">
+      <MobileGummyExperience />
+      <DesktopGummyShowcase />
+    </section>
+  );
 }
