@@ -5,12 +5,13 @@
 :root{
   --home-snap-offset:0px;
   --home-desktop-snap-h:100dvh;
-  --home-mobile-header-h:calc(var(--mobile-header-content-h,72px) + env(safe-area-inset-top,0px));
-  --home-mobile-scene-h:calc(100vh - var(--home-mobile-header-h));
+  --home-mobile-viewport-h:100vh;
+  --home-mobile-header-h:calc(var(--mobile-header-row-h,var(--mobile-header-content-h,62px)) + env(safe-area-inset-top,0px));
+  --home-mobile-scene-h:calc(var(--home-mobile-viewport-h) - var(--home-mobile-header-h));
 }
 
-@supports (height:100svh){
-  :root{--home-mobile-scene-h:calc(100svh - var(--home-mobile-header-h))}
+@supports (height:100dvh){
+  :root{--home-mobile-viewport-h:100dvh}
 }
 
 /* --------------------------------------------------------------------------
@@ -163,9 +164,9 @@
   /* The first scene starts at document origin, so it owns the entire stable
      viewport. Subsequent scenes snap beneath the fixed mobile header. */
   .sky-home .atmospheric-scene-hero{
-    block-size:100svh!important;
-    min-block-size:100svh!important;
-    max-block-size:100svh!important;
+    block-size:var(--home-mobile-viewport-h)!important;
+    min-block-size:var(--home-mobile-viewport-h)!important;
+    max-block-size:var(--home-mobile-viewport-h)!important;
   }
 
   .sky-home [data-home-snap-scene].has-home-scene-overflow{
