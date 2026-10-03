@@ -470,22 +470,8 @@
     aspect-ratio:1.78/1!important;
     opacity:.13!important;
   }
-  .sky-home .beverage-hero{
-    width:100%!important;
-    height:auto!important;
-    min-height:max(660px,100svh)!important;
-    max-height:none!important;
-    padding:0!important;
-    overflow:hidden!important;
-    background:transparent!important;
-  }
-
-  .sky-home .legacy-sky-hero{
-    width:100%!important;
-    min-height:clamp(700px,100svh,860px)!important;
-    overflow:hidden!important;
-    background:transparent!important;
-  }
+  /* Hero vertical geometry is owned exclusively by home-scroll-snap.css.
+     This layer only styles the phone composition. */
 
   /* Mobile hero atmosphere: restore a deliberately sparse three-plane cloud
      composition. The desktop assets are reused, but with phone-specific scale,

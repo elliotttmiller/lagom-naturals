@@ -66,7 +66,8 @@
     overscroll-behavior-y:contain;
   }
 
-  html:has(.sky-home-product__variant.is-open){
+  html:has(.sky-home-product__variant.is-open),
+  html:has(.gummy-quick-view){
     scroll-snap-type:none;
     scroll-behavior:auto;
   }
@@ -147,6 +148,14 @@
     max-inline-size:100vw;
     overflow-x:clip;
     touch-action:pan-y pinch-zoom;
+  }
+
+  .sky-home > [data-home-snap-scene]{
+    margin-block:0!important;
+  }
+
+  .sky-home > [data-home-snap-scene] + [data-home-snap-scene]{
+    margin-block-start:0!important;
   }
 
   .sky-home [data-home-snap-scene]{

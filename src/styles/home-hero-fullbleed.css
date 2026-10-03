@@ -97,20 +97,24 @@
 }
 
 @media(max-width:899px){
-  .sky-home .atmospheric-scene-hero,
-  .sky-home .atmospheric-scene-hero .legacy-sky-hero,
-  .sky-home .atmospheric-scene-hero .legacy-sky-hero__product--fullbleed,
-  .sky-home .atmospheric-scene-hero .legacy-sky-hero__product--fullbleed picture,
-  .sky-home .atmospheric-scene-hero .legacy-sky-hero__product--fullbleed img{
+  .sky-home .atmospheric-scene-hero{
     inline-size:100%!important;
     height:var(--home-mobile-viewport-h)!important;
     block-size:var(--home-mobile-viewport-h)!important;
     min-block-size:var(--home-mobile-viewport-h)!important;
     max-block-size:var(--home-mobile-viewport-h)!important;
+    padding:0!important;
   }
 
-  .sky-home .atmospheric-scene-hero{
-    padding:0!important;
+  .sky-home .atmospheric-scene-hero .legacy-sky-hero,
+  .sky-home .atmospheric-scene-hero .legacy-sky-hero__product--fullbleed,
+  .sky-home .atmospheric-scene-hero .legacy-sky-hero__product--fullbleed picture,
+  .sky-home .atmospheric-scene-hero .legacy-sky-hero__product--fullbleed img{
+    inline-size:100%!important;
+    height:100%!important;
+    block-size:100%!important;
+    min-block-size:0!important;
+    max-block-size:none!important;
   }
 
   .sky-home .atmospheric-scene-hero .legacy-sky-hero__product--fullbleed{
