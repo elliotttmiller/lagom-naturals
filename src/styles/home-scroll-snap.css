@@ -248,14 +248,16 @@
   /* Interactive controls and the software keyboard must not be trapped by
      mandatory paging while their own UI is active. */
   html:has(.sky-home.is-home-snap-suspended),
-  html:has(.sky-home-product__variant.is-open){
+  html:has(.sky-home-product__variant.is-open),
+  html:has(.gummy-quick-view){
     scroll-snap-type:none!important;
     scroll-behavior:auto!important;
     overscroll-behavior-y:auto!important;
   }
 
   .sky-home.is-home-snap-suspended [data-home-snap-scene],
-  .sky-home:has(.sky-home-product__variant.is-open) [data-home-snap-scene]{
+  .sky-home:has(.sky-home-product__variant.is-open) [data-home-snap-scene],
+  .sky-home:has(.gummy-quick-view) [data-home-snap-scene]{
     scroll-snap-stop:normal!important;
   }
 
