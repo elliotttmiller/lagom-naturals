@@ -2,7 +2,6 @@ import { useEffect } from "react";
 
 const SCENE_SELECTOR = "[data-home-snap-scene]";
 const ACTIVE_CLASS = "is-snap-visible";
-const OVERFLOW_CLASS = "has-home-snap-overflow";
 const SCENE_OVERFLOW_CLASS = "has-home-scene-overflow";
 const SUSPENDED_CLASS = "is-home-snap-suspended";
 const KEYBOARD_CLASS = "is-home-keyboard-open";
@@ -75,12 +74,9 @@ export default function HomeScrollSnap({ rootRef }) {
       cancelAnimationFrame(measureFrame);
       measureFrame = requestAnimationFrame(() => {
         if (!mobileViewport.matches) {
-          root.classList.remove(OVERFLOW_CLASS);
           scenes.forEach((scene) => scene.classList.remove(SCENE_OVERFLOW_CLASS));
           return;
         }
-
-        let hasProductOverflow = false;
 
         scenes.forEach((scene) => {
           /*
@@ -99,10 +95,8 @@ export default function HomeScrollSnap({ rootRef }) {
           const overflows = required > available + OVERFLOW_TOLERANCE;
 
           scene.classList.toggle(SCENE_OVERFLOW_CLASS, overflows);
-          if (overflows) hasProductOverflow = true;
         });
 
-        root.classList.toggle(OVERFLOW_CLASS, hasProductOverflow);
       });
     };
 
@@ -237,7 +231,7 @@ export default function HomeScrollSnap({ rootRef }) {
       unlisten(reducedMotion, sync);
       unlisten(desktopViewport, sync);
       unlisten(mobileViewport, sync);
-      root.classList.remove(OVERFLOW_CLASS, SUSPENDED_CLASS, KEYBOARD_CLASS);
+      root.classList.remove(SUSPENDED_CLASS, KEYBOARD_CLASS);
       scenes.forEach((scene) => scene.classList.remove(SCENE_OVERFLOW_CLASS));
       document.documentElement.style.removeProperty("--home-snap-offset");
       document.documentElement.style.removeProperty("--home-desktop-snap-h");
