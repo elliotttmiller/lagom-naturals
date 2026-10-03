@@ -168,15 +168,11 @@
     max-block-size:100svh!important;
   }
 
-  .sky-home.has-home-snap-overflow [data-home-snap-scene]{
+  .sky-home [data-home-snap-scene].has-home-scene-overflow{
     block-size:auto!important;
     min-block-size:var(--home-mobile-scene-h)!important;
     max-block-size:none!important;
     overflow:visible!important;
-  }
-
-  .sky-home.has-home-snap-overflow .atmospheric-scene-hero{
-    min-block-size:100svh!important;
   }
 }
 
@@ -262,15 +258,12 @@
     scroll-snap-stop:normal!important;
   }
 
-  /* Real content overflow is the only layout-driven reason to relax paging. */
-  html:has(.sky-home.has-home-snap-overflow){
-    scroll-snap-type:y proximity!important;
-    scroll-behavior:auto!important;
-    overscroll-behavior-y:auto!important;
-  }
-
-  .sky-home.has-home-snap-overflow [data-home-snap-scene]{
+  /* A genuinely oversized scene remains reachable without changing the snap
+     contract for every other homepage scene. Oversized snap areas can be
+     traversed naturally by the browser between their start/end boundaries. */
+  .sky-home [data-home-snap-scene].has-home-scene-overflow{
     scroll-snap-stop:normal!important;
+    overscroll-behavior-y:auto!important;
   }
 }
 
