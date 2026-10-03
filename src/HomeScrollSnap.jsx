@@ -19,7 +19,7 @@ function isTextEntryTarget(node) {
  *
  * The browser remains the only vertical scroll engine. This controller:
  * 1) observes which scene is actually dominant in the viewport,
- * 2) detects genuine content overflow and relaxes mandatory snap only then,
+ * 2) detects genuine product-scene overflow without changing sibling scenes,
  * 3) suspends snapping while the on-screen keyboard is open, and
  * 4) measures desktop chrome without mutating mobile scroll geometry.
  */
