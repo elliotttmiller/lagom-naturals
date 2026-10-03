@@ -13,6 +13,7 @@ const watermelon4Pack = productMedia["4-Pack-Watermelon-Referesher-enhanced"].sr
 const blueberryYumYum = productMedia["Blueberry-Yum-Yum-enhanced"].src;
 const greenApple = productMedia["Green-Apple-enhanced"].src;
 const strawberryBanana = productMedia["Strawberry-Banana-enhanced"].src;
+const pushPopClassic = responsiveImages.homeGummies["Push-Pop-Photoroom-900x900"].src;
 const berryMelonBlissOrganic = productMedia["Berry-Melon-Bliss-organic-enhanced"].src;
 const blueRazzOrganic = productMedia["Blue-Razz-organic-enhanced"].src;
 const cherryBlissOrganic = productMedia["Cherry-Bliss-organic-enhanced"].src;
@@ -106,6 +107,15 @@ const GUMMY_LINE_DATA = {
 };
 
 const gummyCatalog = [
+  {
+    id: "push-pop",
+    name: "Push Pop",
+    flavor: "Push Pop",
+    productLine: "Classic",
+    image: pushPopClassic,
+    packageLabel: "10 pc",
+    packageDetail: "10-piece pouch",
+  },
   {
     id: "blueberry-yum-yum",
     name: "Blueberry Yum Yum",
