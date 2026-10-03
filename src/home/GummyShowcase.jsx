@@ -54,11 +54,11 @@ const PRODUCT_THEMES = {
   "blueberry-yum-yum": { surface: "linear-gradient(145deg,#c2c5ff 0%,#989cf1 48%,#d7d4ff 100%)", accent: "#2454c7" },
   "green-apple": { surface: "linear-gradient(145deg,#d9ef9c 0%,#b6d95d 48%,#ecf8c0 100%)", accent: "#3c8a27" },
   "berry-melon-bliss-organic": { surface: "linear-gradient(145deg,#f58ab2 0%,#d94b86 48%,#ffc0d2 100%)", accent: "#8e164f" },
-  "blue-razz-organic": { surface: "linear-gradient(145deg,#73baf3 0%,#2e8bd6 48%,#b8ddfb 100%)", acent: "#0d5f9f" },
-  "cherry-bliss-organic": { surface: "linear-gradient(145deg,#f16672 0%,#c93348 48%,#ffadb2 100%)", acent: "#8f1526" },
+  "blue-razz-organic": { surface: "linear-gradient(145deg,#73baf3 0%,#2e8bd6 48%,#b8ddfb 100%)", accent: "#0d5f9f" },
+  "cherry-bliss-organic": { surface: "linear-gradient(145deg,#f16672 0%,#c93348 48%,#ffadb2 100%)", accent: "#8f1526" },
   "push-pop-organic": { surface: "linear-gradient(145deg,#ffb36d 0%,#ee7a2d 48%,#ffd1a1 100%)", accent: "#a94b15" },
   "strawberry-midnight-drift": { surface: "linear-gradient(155deg,#4b6085 0%,#7384a8 44%,#ddb0ba 100%)", accent: "#ef758e" },
-  "blueberry-yum-yum-midnight-drift": { surface: "linear-gradient(155deg,#41577f 0%,#6077a3 44%,#b9fb6db 100%)", accent: "#7bbfff" },
+  "blueberry-yum-yum-midnight-drift": { surface: "linear-gradient(155deg,#41577f 0%,#6077a3 44%,#9fb6db 100%)", accent: "#7bbfff" },
   "peach-midnight-drift": { surface: "linear-gradient(155deg,#52617e 0%,#8a7a80 43%,#e8a574 100%)", accent: "#f0a15c" },
   "pink-lemonade-midnight-drift": { surface: "linear-gradient(155deg,#4d5879 0%,#876d86 44%,#dfa4b4 100%)", accent: "#f38ba9" },
 };
@@ -72,7 +72,7 @@ function getProductMedia(productId) {
   return key ? responsiveImages.homeGummies[key] : null;
 }
 
-function ProductPicture({ product, className, sizes = "( max-width: 899px) 46vw, 20vw", eager = false, layoutId }) {
+function ProductPicture({ product, className, sizes = "(max-width: 899px) 46vw, 20vw", eager = false, layoutId }) {
   const media = getProductMedia(product.id);
   if (!media) return null;
 
