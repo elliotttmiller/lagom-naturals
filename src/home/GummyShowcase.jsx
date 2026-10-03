@@ -9,6 +9,24 @@ import {
 } from "@/motionSystem";
 import { products } from "@/catalogData";
 import { responsiveImages } from "@/generated/responsiveImages";
+import classic960Avif from "../assets/optimized/gummyShowcase/classic-960.avif";
+import classic1200Avif from "../assets/optimized/gummyShowcase/classic-1200.avif";
+import classic1806Avif from "../assets/optimized/gummyShowcase/classic-1806.avif";
+import classic960Webp from "../assets/optimized/gummyShowcase/classic-960.webp";
+import classic1200Webp from "../assets/optimized/gummyShowcase/classic-1200.webp";
+import classic1806Webp from "../assets/optimized/gummyShowcase/classic-1806.webp";
+import organic960Avif from "../assets/optimized/gummyShowcase/organic-960.avif";
+import organic1200Avif from "../assets/optimized/gummyShowcase/organic-1200.avif";
+import organic1806Avif from "../assets/optimized/gummyShowcase/organic-1806.avif";
+import organic960Webp from "../assets/optimized/gummyShowcase/organic-960.webp";
+import organic1200Webp from "../assets/optimized/gummyShowcase/organic-1200.webp";
+import organic1806Webp from "../assets/optimized/gummyShowcase/organic-1806.webp";
+import midnight960Avif from "../assets/optimized/gummyShowcase/midnight-drift-960.avif";
+import midnight1200Avif from "../assets/optimized/gummyShowcase/midnight-drift-1200.avif";
+import midnight1806Avif from "../assets/optimized/gummyShowcase/midnight-drift-1806.avif";
+import midnight960Webp from "../assets/optimized/gummyShowcase/midnight-drift-960.webp";
+import midnight1200Webp from "../assets/optimized/gummyShowcase/midnight-drift-1200.webp";
+import midnight1806Webp from "../assets/optimized/gummyShowcase/midnight-drift-1806.webp";
 
 const COLLECTIONS = [
   {
@@ -31,6 +49,32 @@ const COLLECTIONS = [
       "pink-lemonade-midnight-drift",
     ],
   },
+];
+
+const desktopHero = (avif, webp, fallback) => ({ avif, webp, fallback });
+
+const DESKTOP_HEROES = {
+  Classic: desktopHero(
+    `${classic960Avif} 960w, ${classic1200Avif} 1200w, ${classic1806Avif} 1806w`,
+    `${classic960Webp} 960w, ${classic1200Webp} 1200w, ${classic1806Webp} 1806w`,
+    classic1806Webp,
+  ),
+  Organic: desktopHero(
+    `${organic960Avif} 960w, ${organic1200Avif} 1200w, ${organic1806Avif} 1806w`,
+    `${organic960Webp} 960w, ${organic1200Webp} 1200w, ${organic1806Webp} 1806w`,
+    organic1806Webp,
+  ),
+  "Midnight Drift": desktopHero(
+    `${midnight960Avif} 960w, ${midnight1200Avif} 1200w, ${midnight1806Avif} 1806w`,
+    `${midnight960Webp} 960w, ${midnight1200Webp} 1200w, ${midnight1806Webp} 1806w`,
+    midnight1806Webp,
+  ),
+};
+
+const DESKTOP_COLLECTIONS = [
+  { name: "Classic", description: "Fruit-forward favorites for everyday moments.", accent: "#d55f86", background: "#b9e5fa" },
+  { name: "Organic", description: "Organic fruit flavors with full-spectrum live resin.", accent: "#5f956c", background: "#c9e7c1" },
+  { name: "Midnight Drift", description: "A full-spectrum collection for slower evenings.", accent: "#6260a2", background: "#bdc7ee" },
 ];
 
 const PRODUCT_MEDIA_KEYS = {
@@ -354,45 +398,80 @@ function MobileGummyExperience() {
 }
 
 function DesktopGummyShowcase() {
+  const reduceMotion = useReducedMotion();
   const [index, setIndex] = useState(0);
-  const collection = COLLECTIONS[index];
-  const collectionProducts = collection.productIds.map(getProduct).filter(Boolean);
-  const change = (delta) => setIndex((current) => (current + delta + COLLECTIONS.length) % COLLECTIONS.length);
+  const touchStart = useRef(null);
+  const collection = DESKTOP_COLLECTIONS[index];
+  const image = DESKTOP_HEROES[collection.name];
+  const flavorCount = products.filter((product) => product.category === "Gummies" && product.productLine === collection.name).length;
+  const collectionUrl = `/shop/gummies?collection=${encodeURIComponent(collection.name)}`;
+  const change = (delta) => setIndex((current) => (current + delta + DESKTOP_COLLECTIONS.length) % DESKTOP_COLLECTIONS.length);
 
   return (
-    <div className="gummy-showcase__desktop" aria-label="Lagom gummy collections">
-      <div className={`gummy-desktop gummy-desktop--${collection.tone}`}>
-        <div className="gummy-desktop__surface">
-          <div className="gummy-desktop__pouches">
-            {collectionProducts.map((product) => (
-              <ProductPicture key={product.id} product={product} className="gummy-desktop__pouch" sizes="18vw" eager />
-            ))}
+    <div className="gummy-showcase__desktop">
+      <section
+        className="seltzer-showcase gummy-showcase gummy-showcase--desktop"
+        style={{ "--seltzer-accent": collection.accent, "--seltzer-slide-background": collection.background }}
+        aria-labelledby="gummy-showcase-desktop-title"
+        onPointerDown={(event) => {
+          if (event.pointerType === "touch") touchStart.current = event.clientX;
+        }}
+        onPointerUp={(event) => {
+          if (touchStart.current === null) return;
+          const distance = event.clientX - touchStart.current;
+          touchStart.current = null;
+          if (Math.abs(distance) > 48) change(distance > 0 ? -1 : 1);
+        }}
+      >
+        <h2 id="gummy-showcase-desktop-title" className="sr-only">Lagom gummy collections</h2>
+
+        <Presence mode="sync" initial={false}>
+          <m.div
+            key={collection.name}
+            className="gummy-showcase__hero"
+            initial={reduceMotion ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={reduceMotion ? { duration: 0 } : { duration: 0.42, ease: motionTokens.easeSoft }}
+          >
+            <picture>
+              <source type="image/avif" srcSet={image.avif} sizes="100vw" />
+              <source type="image/webp" srcSet={image.webp} sizes="100vw" />
+              <img src={image.fallback} alt="" decoding="async" />
+            </picture>
+          </m.div>
+        </Presence>
+
+        <div className="seltzer-showcase__topline" aria-hidden="true">
+          <img className="seltzer-showcase__brand-logo" src="/enhanced-lagom-naturals-logo-white.webp" alt="" />
+        </div>
+
+        <button className="seltzer-showcase__nav seltzer-showcase__nav--previous" type="button" onClick={() => change(-1)} aria-label="Previous gummy collection"><ArrowLeft /></button>
+        <button className="seltzer-showcase__nav seltzer-showcase__nav--next" type="button" onClick={() => change(1)} aria-label="Next gummy collection"><ArrowRight /></button>
+
+        <div className="gummy-showcase__details">
+          <div>
+            <p>{collection.description}</p>
+            <span>{flavorCount} flavors · Gummy collection</span>
           </div>
+          <Link to={collectionUrl}>Explore collection <ArrowRight aria-hidden="true" /></Link>
         </div>
 
-        <img className="gummy-desktop__brand" src={`${import.meta.env.BASE_URL}enhanced-lagom-naturals-logo-white.webp`} alt="" />
-        <button type="button" className="gummy-desktop__nav gummy-desktop__nav--previous" onClick={() => change(-1)} aria-label="Previous gummy collection"><ArrowLeft /></button>
-        <button type="button" className="gummy-desktop__nav gummy-desktop__nav--next" onClick={() => change(1)} aria-label="Next gummy collection"><ArrowRight /></button>
-
-        <div className="gummy-desktop__copy">
-          <p>Lagom Gummies</p>
-          <h2>{collection.name}</h2>
-          <Link to={`/shop/gummies?collection=${encodeURIComponent(collection.name)}`}>Explore collection <ArrowRight /></Link>
-        </div>
-
-        <div className="gummy-desktop__progress" aria-label="Gummy collection navigation">
-          {COLLECTIONS.map((item, itemIndex) => (
+        <div className="seltzer-showcase__progress gummy-showcase__progress" role="tablist" aria-label="Gummy collections">
+          <span>{String(index + 1).padStart(2, "0")} / {String(DESKTOP_COLLECTIONS.length).padStart(2, "0")}</span>
+          {DESKTOP_COLLECTIONS.map((item, itemIndex) => (
             <button
-              key={item.name}
               type="button"
+              role="tab"
+              key={item.name}
+              aria-selected={itemIndex === index}
+              aria-label={`Show ${item.name} gummy collection`}
               className={itemIndex === index ? "is-active" : ""}
-              aria-label={`Show ${item.name} gummies`}
-              aria-pressed={itemIndex === index}
               onClick={() => setIndex(itemIndex)}
             />
           ))}
         </div>
-      </div>
+      </section>
     </div>
   );
 }
