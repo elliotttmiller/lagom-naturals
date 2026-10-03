@@ -25,7 +25,7 @@ file. Runtime ownership and bundle boundaries take precedence over directory sym
 - `home/index.css` — single global homepage stylesheet boundary.
 - `home-scroll-snap.css` — authoritative homepage native vertical scroll-snap geometry and scene-height contract.
 - `desktop-snap-home.css` — desktop homepage scene presentation.
-- `mobile-home-composition.css` — mobile homepage composition inside the geometry contract.
+- `mobile-home-composition.css` — mobile Hero composition only; it must not define scroll-padding, scene heights, snap alignment, or product-stage geometry.
 - `home-product-stage.css` — static product-stage geometry/presentation; Motion owns product-stage transform/opacity choreography.
 - `lagom-motion-language.css` — shared presentation-level motion tokens/state feedback, not vertical document movement.
 - `styles/mobile/*` — structured mobile modules below 900px.
@@ -38,7 +38,7 @@ file. Runtime ownership and bundle boundaries take precedence over directory sym
 | Homepage vertical scroll owner | Browser/native document scroll |
 | Homepage snap type/alignment/scene height + mobile containment + terminal footer release | `home-scroll-snap.css` |
 | Desktop homepage composition | `desktop-snap-home.css` |
-| Mobile homepage composition | `mobile-home-composition.css` |
+| Mobile homepage Hero composition | `mobile-home-composition.css` |
 | Homepage product-stage static layout | `home-product-stage.css` |
 | Homepage product-stage animated transform/opacity | Motion in `HomeProductStage.jsx` |
 | Mobile viewport/safe-area baseline | `mobile/00-foundation.css` |
