@@ -3,132 +3,180 @@
   "entries": [
     {
       "source": "src/assets/products/home-gummies/Berry-Melon-Bliss-Photoroom-900x900.webp",
-      "hash": "220dcd9fe66b9dfacd98bc0b1d7ddf41f04a880eba23fe7ee46761950437d913",
-      "fingerprint": "7394cb6322c1c947620f0146d3b5100a4202a791ba71f38dc683e71a5730a26e",
+      "hash": "765d6bf2cc69023b60da7aad63cce8f185c3b215322220fee1263a4a4d5f992a",
+      "fingerprint": "ae0dd6c69195d0fa079a8bf742ab5da1ed9bce37c37f1bb56318aa379ac13372",
       "outputs": [
+        "homeGummies/Berry-Melon-Bliss-Photoroom-900x900-320.avif",
+        "homeGummies/Berry-Melon-Bliss-Photoroom-900x900-320.webp",
         "homeGummies/Berry-Melon-Bliss-Photoroom-900x900-480.avif",
         "homeGummies/Berry-Melon-Bliss-Photoroom-900x900-480.webp",
+        "homeGummies/Berry-Melon-Bliss-Photoroom-900x900-640.avif",
+        "homeGummies/Berry-Melon-Bliss-Photoroom-900x900-640.webp",
         "homeGummies/Berry-Melon-Bliss-Photoroom-900x900-900.avif",
         "homeGummies/Berry-Melon-Bliss-Photoroom-900x900-900.webp"
       ]
     },
     {
       "source": "src/assets/products/home-gummies/Blue-Razz-Photoroom-Photoroom-1-900x900.webp",
-      "hash": "123f8e35cf3687d6f138a56f26eedb4fd4ad5f5dac878e530f7bedd7cc6d63ea",
-      "fingerprint": "7394cb6322c1c947620f0146d3b5100a4202a791ba71f38dc683e71a5730a26e",
+      "hash": "be55df092de9571c023bc34f3a955f3cc1341ae711f159df07328863ef795320",
+      "fingerprint": "ae0dd6c69195d0fa079a8bf742ab5da1ed9bce37c37f1bb56318aa379ac13372",
       "outputs": [
+        "homeGummies/Blue-Razz-Photoroom-Photoroom-1-900x900-320.avif",
+        "homeGummies/Blue-Razz-Photoroom-Photoroom-1-900x900-320.webp",
         "homeGummies/Blue-Razz-Photoroom-Photoroom-1-900x900-480.avif",
         "homeGummies/Blue-Razz-Photoroom-Photoroom-1-900x900-480.webp",
+        "homeGummies/Blue-Razz-Photoroom-Photoroom-1-900x900-640.avif",
+        "homeGummies/Blue-Razz-Photoroom-Photoroom-1-900x900-640.webp",
         "homeGummies/Blue-Razz-Photoroom-Photoroom-1-900x900-900.avif",
         "homeGummies/Blue-Razz-Photoroom-Photoroom-1-900x900-900.webp"
       ]
     },
     {
       "source": "src/assets/products/home-gummies/Blueberry-Yum-Yum-1-Photoroom-900x900.webp",
-      "hash": "d02170c9b3dad33ad29863a4146f6445091c8d928375e3e04e729a06eab4b18d",
-      "fingerprint": "7394cb6322c1c947620f0146d3b5100a4202a791ba71f38dc683e71a5730a26e",
+      "hash": "bf60c009702e92a1e505d415240fd40cbe41be73b10a236ce0ff43b0b994d6de",
+      "fingerprint": "ae0dd6c69195d0fa079a8bf742ab5da1ed9bce37c37f1bb56318aa379ac13372",
       "outputs": [
+        "homeGummies/Blueberry-Yum-Yum-1-Photoroom-900x900-320.avif",
+        "homeGummies/Blueberry-Yum-Yum-1-Photoroom-900x900-320.webp",
         "homeGummies/Blueberry-Yum-Yum-1-Photoroom-900x900-480.avif",
         "homeGummies/Blueberry-Yum-Yum-1-Photoroom-900x900-480.webp",
+        "homeGummies/Blueberry-Yum-Yum-1-Photoroom-900x900-640.avif",
+        "homeGummies/Blueberry-Yum-Yum-1-Photoroom-900x900-640.webp",
         "homeGummies/Blueberry-Yum-Yum-1-Photoroom-900x900-900.avif",
         "homeGummies/Blueberry-Yum-Yum-1-Photoroom-900x900-900.webp"
       ]
     },
     {
       "source": "src/assets/products/home-gummies/Blueberry-Yum-Yum-3-Photoroom-900x900.webp",
-      "hash": "fbb6b40a9a747a72c3668c4da88b80730914b99dfb5bd85b298e0c513ae5fa14",
-      "fingerprint": "7394cb6322c1c947620f0146d3b5100a4202a791ba71f38dc683e71a5730a26e",
+      "hash": "0a56f3249ba8aa8096e4861580dbde608e708285d1c7c228145b099bac02fa61",
+      "fingerprint": "ae0dd6c69195d0fa079a8bf742ab5da1ed9bce37c37f1bb56318aa379ac13372",
       "outputs": [
+        "homeGummies/Blueberry-Yum-Yum-3-Photoroom-900x900-320.avif",
+        "homeGummies/Blueberry-Yum-Yum-3-Photoroom-900x900-320.webp",
         "homeGummies/Blueberry-Yum-Yum-3-Photoroom-900x900-480.avif",
         "homeGummies/Blueberry-Yum-Yum-3-Photoroom-900x900-480.webp",
+        "homeGummies/Blueberry-Yum-Yum-3-Photoroom-900x900-640.avif",
+        "homeGummies/Blueberry-Yum-Yum-3-Photoroom-900x900-640.webp",
         "homeGummies/Blueberry-Yum-Yum-3-Photoroom-900x900-900.avif",
         "homeGummies/Blueberry-Yum-Yum-3-Photoroom-900x900-900.webp"
       ]
     },
     {
       "source": "src/assets/products/home-gummies/Cherry-Bliss-Photoroom-900x900.webp",
-      "hash": "8683f8e333901d7da99ffe8bebe3408a7e510d2e75af1c8c4ea5d363ccb26d3e",
-      "fingerprint": "7394cb6322c1c947620f0146d3b5100a4202a791ba71f38dc683e71a5730a26e",
+      "hash": "cb7442bb5877cddd7c517f8862465aaa612e5bb521e390235cc6a6f6d8d5cc25",
+      "fingerprint": "ae0dd6c69195d0fa079a8bf742ab5da1ed9bce37c37f1bb56318aa379ac13372",
       "outputs": [
+        "homeGummies/Cherry-Bliss-Photoroom-900x900-320.avif",
+        "homeGummies/Cherry-Bliss-Photoroom-900x900-320.webp",
         "homeGummies/Cherry-Bliss-Photoroom-900x900-480.avif",
         "homeGummies/Cherry-Bliss-Photoroom-900x900-480.webp",
+        "homeGummies/Cherry-Bliss-Photoroom-900x900-640.avif",
+        "homeGummies/Cherry-Bliss-Photoroom-900x900-640.webp",
         "homeGummies/Cherry-Bliss-Photoroom-900x900-900.avif",
         "homeGummies/Cherry-Bliss-Photoroom-900x900-900.webp"
       ]
     },
     {
       "source": "src/assets/products/home-gummies/Green-Apple-Photoroom-900x900.webp",
-      "hash": "404d9c0f20e2d303fc41d9509de052f553ce8f4bd87b0f45a1cb6e47f617174a",
-      "fingerprint": "7394cb6322c1c947620f0146d3b5100a4202a791ba71f38dc683e71a5730a26e",
+      "hash": "7b8ac95d204c36279497b843185e16d80e7474a29e46dcc5baaa608d7054c3f9",
+      "fingerprint": "ae0dd6c69195d0fa079a8bf742ab5da1ed9bce37c37f1bb56318aa379ac13372",
       "outputs": [
+        "homeGummies/Green-Apple-Photoroom-900x900-320.avif",
+        "homeGummies/Green-Apple-Photoroom-900x900-320.webp",
         "homeGummies/Green-Apple-Photoroom-900x900-480.avif",
         "homeGummies/Green-Apple-Photoroom-900x900-480.webp",
+        "homeGummies/Green-Apple-Photoroom-900x900-640.avif",
+        "homeGummies/Green-Apple-Photoroom-900x900-640.webp",
         "homeGummies/Green-Apple-Photoroom-900x900-900.avif",
         "homeGummies/Green-Apple-Photoroom-900x900-900.webp"
       ]
     },
     {
       "source": "src/assets/products/home-gummies/Peach-Photoroom-900x900.webp",
-      "hash": "b3d09c8dc30ca889d2bb2eab8791aad8359a5b33dc41aaa9af0e0dd4a830d2dd",
-      "fingerprint": "7394cb6322c1c947620f0146d3b5100a4202a791ba71f38dc683e71a5730a26e",
+      "hash": "6f62476a69fd6befe95f27e6d845b5d3c2c2b69b7d100fd12d423ad4cfde68de",
+      "fingerprint": "ae0dd6c69195d0fa079a8bf742ab5da1ed9bce37c37f1bb56318aa379ac13372",
       "outputs": [
+        "homeGummies/Peach-Photoroom-900x900-320.avif",
+        "homeGummies/Peach-Photoroom-900x900-320.webp",
         "homeGummies/Peach-Photoroom-900x900-480.avif",
         "homeGummies/Peach-Photoroom-900x900-480.webp",
+        "homeGummies/Peach-Photoroom-900x900-640.avif",
+        "homeGummies/Peach-Photoroom-900x900-640.webp",
         "homeGummies/Peach-Photoroom-900x900-900.avif",
         "homeGummies/Peach-Photoroom-900x900-900.webp"
       ]
     },
     {
       "source": "src/assets/products/home-gummies/Pink-Lemonade-Photoroom-900x900.webp",
-      "hash": "165b5efb755e761f7b529777f0e31576bd1e54bcd1d19f0af41fb6339a941f89",
-      "fingerprint": "7394cb6322c1c947620f0146d3b5100a4202a791ba71f38dc683e71a5730a26e",
+      "hash": "f2aba828f70cb23709ea3520457bcde0c5a7c3cc1ff27ce51a4435a87d728ad9",
+      "fingerprint": "ae0dd6c69195d0fa079a8bf742ab5da1ed9bce37c37f1bb56318aa379ac13372",
       "outputs": [
+        "homeGummies/Pink-Lemonade-Photoroom-900x900-320.avif",
+        "homeGummies/Pink-Lemonade-Photoroom-900x900-320.webp",
         "homeGummies/Pink-Lemonade-Photoroom-900x900-480.avif",
         "homeGummies/Pink-Lemonade-Photoroom-900x900-480.webp",
+        "homeGummies/Pink-Lemonade-Photoroom-900x900-640.avif",
+        "homeGummies/Pink-Lemonade-Photoroom-900x900-640.webp",
         "homeGummies/Pink-Lemonade-Photoroom-900x900-900.avif",
         "homeGummies/Pink-Lemonade-Photoroom-900x900-900.webp"
       ]
     },
     {
       "source": "src/assets/products/home-gummies/Push-Pop-1-Photoroom-900x900.webp",
-      "hash": "af7d74587193317c25a7f6574b2ab1882c2906978424483c9b1fbf0a957b55a5",
-      "fingerprint": "7394cb6322c1c947620f0146d3b5100a4202a791ba71f38dc683e71a5730a26e",
+      "hash": "1d33d63dffd092cc590e6c6a82fe20da3169aec4503fe02d503d57d49f75af11",
+      "fingerprint": "ae0dd6c69195d0fa079a8bf742ab5da1ed9bce37c37f1bb56318aa379ac13372",
       "outputs": [
+        "homeGummies/Push-Pop-1-Photoroom-900x900-320.avif",
+        "homeGummies/Push-Pop-1-Photoroom-900x900-320.webp",
         "homeGummies/Push-Pop-1-Photoroom-900x900-480.avif",
         "homeGummies/Push-Pop-1-Photoroom-900x900-480.webp",
+        "homeGummies/Push-Pop-1-Photoroom-900x900-640.avif",
+        "homeGummies/Push-Pop-1-Photoroom-900x900-640.webp",
         "homeGummies/Push-Pop-1-Photoroom-900x900-900.avif",
         "homeGummies/Push-Pop-1-Photoroom-900x900-900.webp"
       ]
     },
     {
       "source": "src/assets/products/home-gummies/Push-Pop-Photoroom-900x900.webp",
-      "hash": "11ce2182a19e09da4b35dc150c40b13cb02f449536c107118b76351d65cae4ae",
-      "fingerprint": "7394cb6322c1c947620f0146d3b5100a4202a791ba71f38dc683e71a5730a26e",
+      "hash": "1bdfa471871e14a8459c15a24b9ae11630eb1f7738034cefe19ab186bd375155",
+      "fingerprint": "ae0dd6c69195d0fa079a8bf742ab5da1ed9bce37c37f1bb56318aa379ac13372",
       "outputs": [
+        "homeGummies/Push-Pop-Photoroom-900x900-320.avif",
+        "homeGummies/Push-Pop-Photoroom-900x900-320.webp",
         "homeGummies/Push-Pop-Photoroom-900x900-480.avif",
         "homeGummies/Push-Pop-Photoroom-900x900-480.webp",
+        "homeGummies/Push-Pop-Photoroom-900x900-640.avif",
+        "homeGummies/Push-Pop-Photoroom-900x900-640.webp",
         "homeGummies/Push-Pop-Photoroom-900x900-900.avif",
         "homeGummies/Push-Pop-Photoroom-900x900-900.webp"
       ]
     },
     {
       "source": "src/assets/products/home-gummies/Strawberry-Banana-Photoroom-900x900.webp",
-      "hash": "60b2cd83c8dbd0bd65fe7cb792d225a574aa25c09ad7b48ab8cb164fb1be70ab",
-      "fingerprint": "7394cb6322c1c947620f0146d3b5100a4202a791ba71f38dc683e71a5730a26e",
+      "hash": "242a8209ff6dd2ba1801a6d0d32efc3c94cc65094d4282dee00618cc6f13a573",
+      "fingerprint": "ae0dd6c69195d0fa079a8bf742ab5da1ed9bce37c37f1bb56318aa379ac13372",
       "outputs": [
+        "homeGummies/Strawberry-Banana-Photoroom-900x900-320.avif",
+        "homeGummies/Strawberry-Banana-Photoroom-900x900-320.webp",
         "homeGummies/Strawberry-Banana-Photoroom-900x900-480.avif",
         "homeGummies/Strawberry-Banana-Photoroom-900x900-480.webp",
+        "homeGummies/Strawberry-Banana-Photoroom-900x900-640.avif",
+        "homeGummies/Strawberry-Banana-Photoroom-900x900-640.webp",
         "homeGummies/Strawberry-Banana-Photoroom-900x900-900.avif",
         "homeGummies/Strawberry-Banana-Photoroom-900x900-900.webp"
       ]
     },
     {
       "source": "src/assets/products/home-gummies/Strawberry-Photoroom-900x900.webp",
-      "hash": "7a39cbc9096b37fee5cbcbe90c26fe44f9b573f37f2d6cd12d56c80a40d32485",
-      "fingerprint": "7394cb6322c1c947620f0146d3b5100a4202a791ba71f38dc683e71a5730a26e",
+      "hash": "216a67c27e5c561d110ac99591d76c541827602e2a163389dbbd225b417ca585",
+      "fingerprint": "ae0dd6c69195d0fa079a8bf742ab5da1ed9bce37c37f1bb56318aa379ac13372",
       "outputs": [
+        "homeGummies/Strawberry-Photoroom-900x900-320.avif",
+        "homeGummies/Strawberry-Photoroom-900x900-320.webp",
         "homeGummies/Strawberry-Photoroom-900x900-480.avif",
         "homeGummies/Strawberry-Photoroom-900x900-480.webp",
+        "homeGummies/Strawberry-Photoroom-900x900-640.avif",
+        "homeGummies/Strawberry-Photoroom-900x900-640.webp",
         "homeGummies/Strawberry-Photoroom-900x900-900.avif",
         "homeGummies/Strawberry-Photoroom-900x900-900.webp"
       ]

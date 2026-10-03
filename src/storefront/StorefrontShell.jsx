@@ -41,6 +41,7 @@ function Header({detail=false}){
   const desktopLinks=isAllProducts
     ? [['Shop','/shop'],['About','/about'],['Our Story','/about'],['FAQ','/learn']]
     : [['Shop','/shop'],['Collections','/shop'],['About','/about'],['Learn','/learn']]
+  const [desktopLeftLinks,desktopRightLinks]=[desktopLinks.slice(0,2),desktopLinks.slice(2)]
   const drawerLinks=[['Shop','/shop'],['Merch','/merch'],['Find Us','/visit'],['Our Story','/about']]
   const backdropTransition=reduceMotion?{duration:0}:{duration:motionTokens.duration.control,ease:motionTokens.ease}
   const drawerTransition=reduceMotion?{duration:0}:motionTokens.springDrawer
@@ -51,8 +52,9 @@ function Header({detail=false}){
         {detail?<m.button type="button" className="icon-btn" whileTap={motionTokens.tap} onClick={()=>nav(-1)} aria-label="Back"><ArrowLeft/></m.button>:<HamburgerToggle checked={open} onChange={toggle} controls="site-navigation-drawer" label={open?'Close menu':'Open menu'}/>}
         <Logo className="header-mobile-brand"/>
         <nav className="desktop-nav" aria-label="Primary navigation">
+          <div className="desktop-nav__group desktop-nav__group--left">{desktopLeftLinks.map(([label,to])=><NavLink key={label} to={to}>{label}</NavLink>)}</div>
           <Logo className="desktop-nav__brand"/>
-          <div className="desktop-nav__group desktop-nav__group--primary">{desktopLinks.map(([label,to])=><NavLink key={label} to={to}>{label}</NavLink>)}</div>
+          <div className="desktop-nav__group desktop-nav__group--right">{desktopRightLinks.map(([label,to])=><NavLink key={label} to={to}>{label}</NavLink>)}</div>
         </nav>
         <div className="header-tools">
           <m.button type="button" className="icon-btn header-search" aria-label="Search drinks" aria-controls="global-search-surface" aria-expanded="false" whileTap={motionTokens.tap} onClick={()=>window.dispatchEvent(new CustomEvent('lagom:open-global-search'))}><Search/><span>Search products...</span></m.button>

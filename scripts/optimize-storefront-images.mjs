@@ -16,8 +16,13 @@ const encoder = {
   webp: { quality: 76, effort: 4, smartSubsample: true },
 }
 
+const packagingEncoder = {
+  avif: { quality: 64, effort: 4, chromaSubsampling: '4:4:4' },
+  webp: { quality: 82, effort: 5, smartSubsample: true },
+}
+
 const groups = [
-  { name: 'homeGummies', directory: 'src/assets/products/home-gummies', widths: [480, 900] },
+  { name: 'homeGummies', directory: 'src/assets/products/home-gummies', widths: [320, 480, 640, 900], encoder: packagingEncoder },
   { name: 'products', directory: 'src/assets/products/enhanced', widths: [480, 960] },
   { name: 'merch', directory: 'src/assets/merch', widths: [480, 960] },
   { name: 'heroMobile', directory: 'src/assets/mobile', files: ['hero.webp', 'gummies-hero.webp', 'midnight-gummies-hero.webp', 'organic-gummies-hero.webp'], widths: [480, 800] },
@@ -68,11 +73,11 @@ const makeVariants = (group, key) => group.widths.flatMap(width => ['avif', 'web
   output: outputPath(group, key, width, format),
 })))
 
-const writeVariant = async (source, variant) => {
+const writeVariant = async (source, variant, variantEncoder) => {
   const temporary = `${variant.output}.${process.pid}.tmp.${variant.format}`
   const pipeline = sharp(source).rotate().resize({ width: variant.width, withoutEnlargement: true })
-  if (variant.format === 'avif') await pipeline.avif(encoder.avif).toFile(temporary)
-  else await pipeline.webp(encoder.webp).toFile(temporary)
+  if (variant.format === 'avif') await pipeline.avif(variantEncoder.avif).toFile(temporary)
+  else await pipeline.webp(variantEncoder.webp).toFile(temporary)
   await rename(temporary, variant.output)
 }
 
@@ -106,8 +111,9 @@ const buildModule = resolvedGroups => {
         imports.push(`import ${name} from ${JSON.stringify(importPath)};`)
         names[`${variant.format}${variant.width}`] = name
       }
-      const [small, large] = group.widths
-      entries.push(`${JSON.stringify(key)}:{src:${names[`webp${large}`]},webpSrcSet:\`${'${'}${names[`webp${small}`]}} ${small}w, ${'${'}${names[`webp${large}`]}} ${large}w\`,avifSrcSet:\`${'${'}${names[`avif${small}`]}} ${small}w, ${'${'}${names[`avif${large}`]}} ${large}w\`,widths:[${small},${large}]}`)
+      const largest = group.widths.at(-1)
+      const srcSet = format => group.widths.map(width => `${'${'}${names[`${format}${width}`]}} ${width}w`).join(', ')
+      entries.push(`${JSON.stringify(key)}:{src:${names[`webp${largest}`]},webpSrcSet:\`${srcSet('webp')}\`,avifSrcSet:\`${srcSet('avif')}\`,widths:[${group.widths.join(',')}]}`)
     }
     moduleGroups.push(`${group.name}:{${entries.join(',')}}`)
   }
@@ -143,13 +149,14 @@ try {
       const source = normalizePath(relative(root, sourcePath))
       const key = safeKey(file)
       const variants = makeVariants(group, key)
-      const fingerprint = digest(JSON.stringify({ group: group.name, widths: group.widths, encoder, sharp: sharp.versions.sharp }))
+      const variantEncoder = group.encoder ?? encoder
+      const fingerprint = digest(JSON.stringify({ group: group.name, widths: group.widths, encoder: variantEncoder, sharp: sharp.versions.sharp }))
       const hash = await sourceHash(sourcePath)
       const previousEntry = previousEntries.get(source)
       const outputsExist = await Promise.all(variants.map(variant => exists(variant.output))).then(results => results.every(Boolean))
       const needsOptimization = force || !previousEntry || previousEntry.hash !== hash || previousEntry.fingerprint !== fingerprint || !outputsExist
 
-      if (needsOptimization) stale.push({ source, variants })
+      if (needsOptimization) stale.push({ source, variants, encoder: variantEncoder })
       else skipped += 1
 
       const outputs = variants.map(variant => outputRelativePath(variant.output))
@@ -173,7 +180,7 @@ try {
     for (const entry of stale) {
       for (const variant of entry.variants) {
         await mkdir(dirname(variant.output), { recursive: true })
-        await writeVariant(join(root, entry.source), variant)
+        await writeVariant(join(root, entry.source), variant, entry.encoder)
       }
     }
 

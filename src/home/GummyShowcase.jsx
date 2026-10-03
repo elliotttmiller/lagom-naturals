@@ -71,7 +71,7 @@ function getProductMedia(productId) {
   return key ? responsiveImages.homeGummies[key] : null;
 }
 
-function ProductPicture({ product, className, sizes = "(max-width: 699px) 46vw, (max-width: 1099px) 30vw, 22vw", eager = false, layoutId }) {
+function ProductPicture({ product, className, sizes = "(max-width: 1099px) 48vw, (max-width: 1400px) 44vw, 39rem", eager = false, layoutId }) {
   const media = getProductMedia(product.id);
   if (!media) return null;
 
@@ -82,11 +82,6 @@ function ProductPicture({ product, className, sizes = "(max-width: 699px) 46vw, 
       <img src={media.src} alt="" loading={eager ? "eager" : "lazy"} decoding="async" draggable="false" />
     </m.picture>
   );
-}
-
-function collectionLabel(product) {
-  if (product.productLine === "Classic") return "Gummies";
-  return `${product.productLine} Gummies`;
 }
 
 function productFacts(product) {
@@ -169,26 +164,15 @@ function ProductTile({ product, collectionTone, index, onOpen, buttonRef, reduce
         onClick={() => onOpen(product.id)}
       >
         <span className="gummy-tile__art" aria-hidden="true">
-          <span className="gummy-tile__orb gummy-tile__orb--one" />
-          <span className="gummy-tile__orb gummy-tile__orb--two" />
           <ProductPicture
             product={product}
             className="gummy-tile__product"
-            sizes="(max-width: 699px) 46vw, (max-width: 1099px) 30vw, 22vw"
+            sizes="(max-width: 1099px) 48vw, (max-width: 1400px) 44vw, 39rem"
             eager={index < 2}
             layoutId={reduceMotion ? undefined : `gummy-media-${product.id}`}
           />
         </span>
-
-        <span className="gummy-tile__footer">
-          <span className="gummy-tile__identity">
-            <m.strong layoutId={reduceMotion ? undefined : `gummy-title-${product.id}`}>
-              {product.name}
-            </m.strong>
-            <small>{collectionLabel(product)}</small>
-          </span>
-          <span className="gummy-tile__arrow" aria-hidden="true"><ArrowRight /></span>
-        </span>
+        <span className="gummy-tile__arrow" aria-hidden="true"><ArrowRight /></span>
       </button>
     </m.article>
   );
@@ -212,16 +196,13 @@ function ProductQuickView({ product, collectionTone, onClose, reduceMotion, deta
       aria-labelledby={`gummy-quick-title-${product.id}`}
     >
       <div className="gummy-quick-view__hero">
-        <span className="gummy-quick-view__orb gummy-quick-view__orb--one" aria-hidden="true" />
-        <span className="gummy-quick-view__orb gummy-quick-view__orb--two" aria-hidden="true" />
-
         <button type="button" className="gummy-quick-view__control gummy-quick-view__control--back" onClick={onClose} aria-label="Back to gummy grid"><ArrowLeft /></button>
         <button type="button" className="gummy-quick-view__control gummy-quick-view__control--close" onClick={onClose} aria-label="Close product quick view"><X /></button>
 
         <ProductPicture
           product={product}
           className="gummy-quick-view__product"
-          sizes="(max-width: 699px) 78vw, (max-width: 1099px) 42vw, 36vw"
+          sizes="(max-width: 699px) 100vw, (max-width: 1099px) 56vw, 45rem"
           eager
           layoutId={reduceMotion ? undefined : `gummy-media-${product.id}`}
         />
