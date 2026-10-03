@@ -128,7 +128,20 @@ function CollectionRail({ activeIndex, onSelect }) {
           aria-selected={index === activeIndex}
           aria-label={`Show ${collection.name} gummies`}
           className={index === activeIndex ? "is-active" : ""}
+          tabIndex={index === activeIndex ? 0 : -1}
           onClick={() => onSelect(index)}
+          onKeyDown={(event) => {
+            if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+            event.preventDefault();
+            const nextIndex =
+              event.key === "Home"
+                ? 0
+                : event.key === "End"
+                  ? COLLECTIONS.length - 1
+                  : (index + (event.key === "ArrowRight" ? 1 : -1) + COLLECTIONS.length) % COLLECTIONS.length;
+            onSelect(nextIndex);
+            event.currentTarget.parentElement?.querySelectorAll("button")[nextIndex]?.focus();
+          }}
         >
           <span>{collection.name}</span>
         </button>
