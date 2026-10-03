@@ -834,15 +834,15 @@
 
 /* Overflow safety integrates with HomeScrollSnap's fit detector. */
 @media(max-width:899px){
-  .sky-home.has-home-snap-overflow .sky-home__section--product-stage{
+  .sky-home .sky-home__section--product-stage.has-home-scene-overflow{
     block-size:auto!important;
     min-block-size:var(--home-mobile-scene-h,100svh)!important;
     max-block-size:none!important;
     overflow:visible!important;
   }
 
-  .sky-home.has-home-snap-overflow .sky-home__section--product-stage .atmospheric-scene-section__content,
-  .sky-home.has-home-snap-overflow .home-product-stage{
+  .sky-home .sky-home__section--product-stage.has-home-scene-overflow .atmospheric-scene-section__content,
+  .sky-home .sky-home__section--product-stage.has-home-scene-overflow .home-product-stage{
     block-size:auto!important;
     min-block-size:var(--home-mobile-scene-h,100svh)!important;
     overflow:visible!important;
