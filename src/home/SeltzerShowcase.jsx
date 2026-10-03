@@ -30,7 +30,15 @@ import watermelon889Webp from "../assets/seltzers/watermelon-label-889.webp";
 const PRODUCT_ORDER = ["24k-lemonade", "strawberry-lime-fusion", "watermelon-refresher", "blackberry-breeze"];
 const showcaseProducts = PRODUCT_ORDER.map((id) => products.find((product) => product.id === id)).filter(Boolean);
 const blackberryIndex = showcaseProducts.findIndex((product) => product.id === "blackberry-breeze");
+const showcaseBackground = responsiveImages.showcaseDesktop["seltzer-background"];
+const showcaseMobileBackground = responsiveImages.showcaseMobile["seltzer-background-mobile"];
 const showcaseSplash = responsiveImages.showcaseDesktop["seltzer-splash"];
+const showcaseThemes = {
+  "24k-lemonade": { accent: "#c79300", color: "#f3d875", desktopMedia: responsiveImages.showcaseDesktop["flavor-24k-lemonade"], mobileMedia: responsiveImages.showcaseMobile["flavor-24k-lemonade-mobile"] },
+  "blackberry-breeze": { accent: "#5b3a88", color: "#c8b8eb", desktopMedia: responsiveImages.showcaseDesktop["flavor-blackberry-breeze"], mobileMedia: responsiveImages.showcaseMobile["flavor-blackberry-breeze-mobile"] },
+  "strawberry-lime-fusion": { accent: "#d76491", color: "#ffb7c7", desktopMedia: responsiveImages.showcaseDesktop["flavor-strawberry-lime-fusion"], mobileMedia: responsiveImages.showcaseMobile["flavor-strawberry-lime-fusion-mobile"] },
+  "watermelon-refresher": { accent: "#d84b4b", color: "#ffb4b4", desktopMedia: responsiveImages.showcaseDesktop["flavor-watermelon-refresher"], mobileMedia: responsiveImages.showcaseMobile["flavor-watermelon-refresher-mobile"] },
+};
 const labelMedia = {
   "24k-lemonade": { avif: `${lemonade480Avif} 480w, ${lemonade889Avif} 889w`, webp: `${lemonade480Webp} 480w, ${lemonade889Webp} 889w`, src: lemonade889Webp },
   "blackberry-breeze": { avif: `${blackberry480Avif} 480w, ${blackberry889Avif} 889w`, webp: `${blackberry480Webp} 480w, ${blackberry889Webp} 889w`, src: blackberry889Webp },
@@ -40,6 +48,13 @@ const labelMedia = {
 
 function ShowcaseBackdrop() {
   return <div className="seltzer-showcase__backdrop" aria-hidden="true">
+    <picture className="seltzer-showcase__background-layer">
+      <source media="(max-width: 899px)" type="image/avif" srcSet={showcaseMobileBackground.avifSrcSet} sizes="100vw" />
+      <source media="(max-width: 899px)" type="image/webp" srcSet={showcaseMobileBackground.webpSrcSet} sizes="100vw" />
+      <source type="image/avif" srcSet={showcaseBackground.avifSrcSet} sizes="100vw" />
+      <source type="image/webp" srcSet={showcaseBackground.webpSrcSet} sizes="100vw" />
+      <img src={showcaseBackground.src} alt="" decoding="async" />
+    </picture>
     <span className="seltzer-showcase__arc" />
     <picture className="seltzer-showcase__splash-layer">
       <source type="image/avif" srcSet={showcaseSplash.avifSrcSet} sizes="100vw" />
@@ -50,8 +65,8 @@ function ShowcaseBackdrop() {
 }
 
 function ShowcaseFrame({ direction, label, product, reducedMotion }) {
-  const displayName = product.name.replace(" ", "\n");
-  const offset = reducedMotion ? 0 : 44;
+  const displayName = product.name;
+  const offset = reducedMotion ? 0 : direction * 88;
   const transition = reducedMotion
     ? { duration: 0 }
     : { duration: 0.56, ease: [0.16, 1, 0.3, 1] };
@@ -67,22 +82,63 @@ function ShowcaseFrame({ direction, label, product, reducedMotion }) {
     >
       <div className="seltzer-showcase__product">
         <p className="seltzer-showcase__flavor-name" aria-hidden="true">
-          {displayName.split("\n").map((line) => <span key={line}>{line}</span>)}
+          {displayName}
         </p>
-        <span className="seltzer-showcase__can" aria-label={`${product.name} THC seltzer can`} role="img">
-          <picture className="seltzer-showcase__can-base">
-            <source type="image/avif" srcSet={`${canBase480Avif} 480w, ${canBase889Avif} 889w`} sizes="(max-width: 899px) 53vw, 21rem" />
-            <source type="image/webp" srcSet={`${canBase480Webp} 480w, ${canBase889Webp} 889w`} sizes="(max-width: 899px) 53vw, 21rem" />
-            <img src={canBase889Webp} alt="" />
-          </picture>
-          <picture className="seltzer-showcase__can-label">
-            <source type="image/avif" srcSet={label.avif} sizes="(max-width: 899px) 53vw, 21rem" />
-            <source type="image/webp" srcSet={label.webp} sizes="(max-width: 899px) 53vw, 21rem" />
-            <img src={label.src} alt="" />
-          </picture>
-        </span>
       </div>
     </motion.div>
+  );
+}
+
+function ShowcaseCan({ direction, label, product, reducedMotion }) {
+  const enterOffset = direction > 0 ? "100%" : "-100%";
+  const exitOffset = direction > 0 ? "-100%" : "100%";
+  const transition = reducedMotion ? { duration: 0 } : { duration: 0.68, ease: [0.77, 0, 0.18, 1] };
+
+  return <span className="seltzer-showcase__can" aria-label={`${product.name} THC seltzer can`} role="img">
+    <picture className="seltzer-showcase__can-base">
+      <source type="image/avif" srcSet={`${canBase480Avif} 480w, ${canBase889Avif} 889w`} sizes="(max-width: 899px) 53vw, 21rem" />
+      <source type="image/webp" srcSet={`${canBase480Webp} 480w, ${canBase889Webp} 889w`} sizes="(max-width: 899px) 53vw, 21rem" />
+      <img src={canBase889Webp} alt="" />
+    </picture>
+    <span className="seltzer-showcase__label-viewport">
+      <AnimatePresence initial={false} custom={direction} mode="sync">
+        <motion.picture key={product.id} className="seltzer-showcase__can-label" initial={{ x: reducedMotion ? 0 : enterOffset }} animate={{ x: 0 }} exit={{ x: reducedMotion ? 0 : exitOffset }} transition={transition}>
+          <source type="image/avif" srcSet={label.avif} sizes="(max-width: 899px) 53vw, 21rem" />
+          <source type="image/webp" srcSet={label.webp} sizes="(max-width: 899px) 53vw, 21rem" />
+          <img src={label.src} alt="" />
+        </motion.picture>
+      </AnimatePresence>
+    </span>
+  </span>;
+}
+
+function ShowcaseColorTrack({ background, desktopMedia, mobileMedia, direction, productId, reducedMotion }) {
+  const enterOffset = direction > 0 ? "100%" : "-100%";
+  const exitOffset = direction > 0 ? "-100%" : "100%";
+  const transition = reducedMotion
+    ? { duration: 0 }
+    : { duration: 0.68, ease: [0.77, 0, 0.18, 1] };
+
+  return (
+    <AnimatePresence initial={false} custom={direction} mode="sync">
+      <motion.div
+        key={productId}
+        className="seltzer-showcase__color-slide"
+        style={{ backgroundColor: background }}
+        initial={{ x: reducedMotion ? 0 : enterOffset }}
+        animate={{ x: 0 }}
+        exit={{ x: reducedMotion ? 0 : exitOffset }}
+        transition={transition}
+      >
+        <picture className="seltzer-showcase__flavor-background">
+          <source media="(max-width: 899px)" type="image/avif" srcSet={mobileMedia.avifSrcSet} sizes="100vw" />
+          <source media="(max-width: 899px)" type="image/webp" srcSet={mobileMedia.webpSrcSet} sizes="100vw" />
+          <source type="image/avif" srcSet={desktopMedia.avifSrcSet} sizes="100vw" />
+          <source type="image/webp" srcSet={desktopMedia.webpSrcSet} sizes="100vw" />
+          <img src={desktopMedia.src} alt="" decoding="async" />
+        </picture>
+      </motion.div>
+    </AnimatePresence>
   );
 }
 
@@ -92,6 +148,7 @@ export default function SeltzerShowcase() {
   const [direction, setDirection] = useState(1);
   const reducedMotion = useReducedMotion();
   const product = showcaseProducts[index];
+  const theme = showcaseThemes[product.id] ?? showcaseThemes["24k-lemonade"];
   const variants = useMemo(() => productVariants(product), [product]);
   const [variantId, setVariantId] = useState(variants[0]?.id);
   const [added, setAdded] = useState(false);
@@ -111,8 +168,9 @@ export default function SeltzerShowcase() {
   const selectedVariant = variants.find((variant) => variant.id === variantId) ?? variants[0];
   const label = labelMedia[product.id];
   const change = (delta) => {
+    const nextIndex = (index + delta + showcaseProducts.length) % showcaseProducts.length;
     setDirection(delta < 0 ? -1 : 1);
-    setIndex((value) => (value + delta + showcaseProducts.length) % showcaseProducts.length);
+    setIndex(nextIndex);
   };
   const selectProduct = (nextIndex) => {
     if (nextIndex === index) return;
@@ -124,13 +182,12 @@ export default function SeltzerShowcase() {
     setAdded(true);
     window.setTimeout(() => setAdded(false), 1200);
   };
-  return <section className="seltzer-showcase" aria-labelledby="seltzer-showcase-title" onPointerDown={(event) => { if (event.pointerType === "touch") touchStart.current = event.clientX; }} onPointerUp={(event) => { if (touchStart.current === null) return; const distance = event.clientX - touchStart.current; touchStart.current = null; if (Math.abs(distance) > 48) change(distance > 0 ? -1 : 1); }}>
+  return <section className="seltzer-showcase" style={{ "--seltzer-accent": theme.accent, "--seltzer-slide-background": theme.color }} aria-labelledby="seltzer-showcase-title" onPointerDown={(event) => { if (event.pointerType === "touch") touchStart.current = event.clientX; }} onPointerUp={(event) => { if (touchStart.current === null) return; const distance = event.clientX - touchStart.current; touchStart.current = null; if (Math.abs(distance) > 48) change(distance > 0 ? -1 : 1); }}>
     <h2 id="seltzer-showcase-title" className="sr-only">Lagom Naturals seltzer showcase</h2>
+    <ShowcaseColorTrack background={theme.color} desktopMedia={theme.desktopMedia} mobileMedia={theme.mobileMedia} direction={direction} productId={product.id} reducedMotion={reducedMotion} />
     <ShowcaseBackdrop />
-    <div className="seltzer-showcase__topline" aria-hidden="true"><span>Meet the seltzer line</span><span>Thoughtfully made. Simply enjoyed.</span></div>
-    <AnimatePresence initial={false} custom={direction} mode="sync">
-      <ShowcaseFrame key={product.id} direction={direction} label={label} product={product} reducedMotion={reducedMotion} />
-    </AnimatePresence>
+    <div className="seltzer-showcase__topline" aria-hidden="true"><span>Lagom</span></div>
+    <ShowcaseCan direction={direction} label={label} product={product} reducedMotion={reducedMotion} />
     <button className="seltzer-showcase__nav seltzer-showcase__nav--previous" type="button" onClick={() => change(-1)} aria-label="Previous seltzer"><ArrowLeft /></button>
     <button className="seltzer-showcase__nav seltzer-showcase__nav--next" type="button" onClick={() => change(1)} aria-label="Next seltzer"><ArrowRight /></button>
     <div className="seltzer-showcase__commerce">
