@@ -27,7 +27,7 @@ import watermelon480Webp from "../assets/seltzers/watermelon-label-480.webp";
 import watermelon889Avif from "../assets/seltzers/watermelon-label-889.avif";
 import watermelon889Webp from "../assets/seltzers/watermelon-label-889.webp";
 
-const PRODUCT_ORDER = ["24k-lemonade", "strawberry-lime-fusion", "watermelon-refresher", "blackberry-breeze"];
+const PUBLIC_BASE = import.meta.env.BASE_URL;\nconst publicAsset = (name) => `${PUBLIC_BASE}${name.replace(/^\\//, "")}`;\nconst PRODUCT_ORDER = ["24k-lemonade", "strawberry-lime-fusion", "watermelon-refresher", "blackberry-breeze"];
 const showcaseProducts = PRODUCT_ORDER.map((id) => products.find((product) => product.id === id)).filter(Boolean);
 const blackberryIndex = showcaseProducts.findIndex((product) => product.id === "blackberry-breeze");
 const showcaseBackground = responsiveImages.showcaseDesktop["seltzer-background"];
@@ -184,7 +184,7 @@ export default function SeltzerShowcase() {
     <h2 id="seltzer-showcase-title" className="sr-only">Lagom Naturals seltzer showcase</h2>
     <ShowcaseColorTrack background={theme.color} desktopMedia={theme.desktopMedia} mobileMedia={theme.mobileMedia} direction={direction} productId={product.id} reducedMotion={reducedMotion} />
     <ShowcaseBackdrop />
-    <div className="seltzer-showcase__topline" aria-hidden="true"><img className="seltzer-showcase__brand-logo" src="/enhanced-lagom-naturals-logo-white.webp" alt="" /></div>
+    <div className="seltzer-showcase__topline" aria-hidden="true"><img className="seltzer-showcase__brand-logo" src={publicAsset("enhanced-lagom-naturals-logo-white.webp")} alt="" /></div>
     <ShowcaseCan label={label} product={product} reducedMotion={reducedMotion} />
     <button className="seltzer-showcase__nav seltzer-showcase__nav--previous" type="button" onClick={() => change(-1)} aria-label="Previous seltzer"><ArrowLeft /></button>
     <button className="seltzer-showcase__nav seltzer-showcase__nav--next" type="button" onClick={() => change(1)} aria-label="Next seltzer"><ArrowRight /></button>
