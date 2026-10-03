@@ -2,7 +2,7 @@
    The mobile composition intentionally owns its full snap scene. The grid and
    quick view share geometry so product selection feels spatial, not modal. */
 
-.gummy-showcase{
+.gummy-showcase-shell{
   position:relative;
   inline-size:100%;
   block-size:100%;
@@ -25,7 +25,7 @@
     background:#f7f4ef!important;
   }
 
-  .gummy-showcase{
+  .gummy-showcase-shell{
     block-size:100%;
     min-block-size:0;
     background:#f7f4ef;
