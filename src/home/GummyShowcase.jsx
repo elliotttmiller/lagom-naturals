@@ -9,25 +9,6 @@ import {
 } from "@/motionSystem";
 import { products } from "@/catalogData";
 import { responsiveImages } from "@/generated/responsiveImages";
-import classic960Avif from "../assets/optimized/gummyShowcase/classic-960.avif";
-import classic1200Avif from "../assets/optimized/gummyShowcase/classic-1200.avif";
-import classic1806Avif from "../assets/optimized/gummyShowcase/classic-1806.avif";
-import classic960Webp from "../assets/optimized/gummyShowcase/classic-960.webp";
-import classic1200Webp from "../assets/optimized/gummyShowcase/classic-1200.webp";
-import classic1806Webp from "../assets/optimized/gummyShowcase/classic-1806.webp";
-import organic960Avif from "../assets/optimized/gummyShowcase/organic-960.avif";
-import organic1200Avif from "../assets/optimized/gummyShowcase/organic-1200.avif";
-import organic1806Avif from "../assets/optimized/gummyShowcase/organic-1806.avif";
-import organic960Webp from "../assets/optimized/gummyShowcase/organic-960.webp";
-import organic1200Webp from "../assets/optimized/gummyShowcase/organic-1200.webp";
-import organic1806Webp from "../assets/optimized/gummyShowcase/organic-1806.webp";
-import midnight960Avif from "../assets/optimized/gummyShowcase/midnight-drift-960.avif";
-import midnight1200Avif from "../assets/optimized/gummyShowcase/midnight-drift-1200.avif";
-import midnight1806Avif from "../assets/optimized/gummyShowcase/midnight-drift-1806.avif";
-import midnight960Webp from "../assets/optimized/gummyShowcase/midnight-drift-960.webp";
-import midnight1200Webp from "../assets/optimized/gummyShowcase/midnight-drift-1200.webp";
-import midnight1806Webp from "../assets/optimized/gummyShowcase/midnight-drift-1806.webp";
-
 const COLLECTIONS = [
   {
     name: "Classic",
@@ -49,32 +30,6 @@ const COLLECTIONS = [
       "pink-lemonade-midnight-drift",
     ],
   },
-];
-
-const desktopHero = (avif, webp, fallback) => ({ avif, webp, fallback });
-
-const DESKTOP_HEROES = {
-  Classic: desktopHero(
-    `${classic960Avif} 960w, ${classic1200Avif} 1200w, ${classic1806Avif} 1806w`,
-    `${classic960Webp} 960w, ${classic1200Webp} 1200w, ${classic1806Webp} 1806w`,
-    classic1806Webp,
-  ),
-  Organic: desktopHero(
-    `${organic960Avif} 960w, ${organic1200Avif} 1200w, ${organic1806Avif} 1806w`,
-    `${organic960Webp} 960w, ${organic1200Webp} 1200w, ${organic1806Webp} 1806w`,
-    organic1806Webp,
-  ),
-  "Midnight Drift": desktopHero(
-    `${midnight960Avif} 960w, ${midnight1200Avif} 1200w, ${midnight1806Avif} 1806w`,
-    `${midnight960Webp} 960w, ${midnight1200Webp} 1200w, ${midnight1806Webp} 1806w`,
-    midnight1806Webp,
-  ),
-};
-
-const DESKTOP_COLLECTIONS = [
-  { name: "Classic", description: "Fruit-forward favorites for everyday moments.", accent: "#d55f86", background: "#b9e5fa" },
-  { name: "Organic", description: "Organic fruit flavors with full-spectrum live resin.", accent: "#5f956c", background: "#c9e7c1" },
-  { name: "Midnight Drift", description: "A full-spectrum collection for slower evenings.", accent: "#6260a2", background: "#bdc7ee" },
 ];
 
 const PRODUCT_MEDIA_KEYS = {
@@ -116,7 +71,7 @@ function getProductMedia(productId) {
   return key ? responsiveImages.homeGummies[key] : null;
 }
 
-function ProductPicture({ product, className, sizes = "(max-width: 899px) 46vw, 20vw", eager = false, layoutId }) {
+function ProductPicture({ product, className, sizes = "(max-width: 699px) 46vw, (max-width: 1099px) 30vw, 22vw", eager = false, layoutId }) {
   const media = getProductMedia(product.id);
   if (!media) return null;
 
@@ -173,7 +128,20 @@ function CollectionRail({ activeIndex, onSelect }) {
           aria-selected={index === activeIndex}
           aria-label={`Show ${collection.name} gummies`}
           className={index === activeIndex ? "is-active" : ""}
+          tabIndex={index === activeIndex ? 0 : -1}
           onClick={() => onSelect(index)}
+          onKeyDown={(event) => {
+            if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+            event.preventDefault();
+            const nextIndex =
+              event.key === "Home"
+                ? 0
+                : event.key === "End"
+                  ? COLLECTIONS.length - 1
+                  : (index + (event.key === "ArrowRight" ? 1 : -1) + COLLECTIONS.length) % COLLECTIONS.length;
+            onSelect(nextIndex);
+            event.currentTarget.parentElement?.querySelectorAll("button")[nextIndex]?.focus();
+          }}
         >
           <span>{collection.name}</span>
         </button>
@@ -206,7 +174,7 @@ function ProductTile({ product, collectionTone, index, onOpen, buttonRef, reduce
           <ProductPicture
             product={product}
             className="gummy-tile__product"
-            sizes="(max-width: 899px) 46vw, 20vw"
+            sizes="(max-width: 699px) 46vw, (max-width: 1099px) 30vw, 22vw"
             eager={index < 2}
             layoutId={reduceMotion ? undefined : `gummy-media-${product.id}`}
           />
@@ -253,7 +221,7 @@ function ProductQuickView({ product, collectionTone, onClose, reduceMotion, deta
         <ProductPicture
           product={product}
           className="gummy-quick-view__product"
-          sizes="(max-width: 899px) 78vw, 34vw"
+          sizes="(max-width: 699px) 78vw, (max-width: 1099px) 42vw, 36vw"
           eager
           layoutId={reduceMotion ? undefined : `gummy-media-${product.id}`}
         />
@@ -295,7 +263,7 @@ function ProductQuickView({ product, collectionTone, onClose, reduceMotion, deta
   );
 }
 
-function MobileGummyExperience() {
+function ResponsiveGummyExperience() {
   const reduceMotion = useReducedMotion();
   const [collectionIndex, setCollectionIndex] = useState(0);
   const [selectedId, setSelectedId] = useState(null);
@@ -337,7 +305,7 @@ function MobileGummyExperience() {
 
   return (
     <div
-      className="gummy-showcase__mobile gummy-mobile"
+      className="gummy-showcase__experience gummy-mobile"
       onPointerDown={(event) => {
         if (selectedId || event.pointerType !== "touch") return;
         pointerStart.current = { x: event.clientX, y: event.clientY };
@@ -397,90 +365,10 @@ function MobileGummyExperience() {
   );
 }
 
-function DesktopGummyShowcase() {
-  const reduceMotion = useReducedMotion();
-  const [index, setIndex] = useState(0);
-  const touchStart = useRef(null);
-  const collection = DESKTOP_COLLECTIONS[index];
-  const image = DESKTOP_HEROES[collection.name];
-  const flavorCount = products.filter((product) => product.category === "Gummies" && product.productLine === collection.name).length;
-  const collectionUrl = `/shop/gummies?collection=${encodeURIComponent(collection.name)}`;
-  const change = (delta) => setIndex((current) => (current + delta + DESKTOP_COLLECTIONS.length) % DESKTOP_COLLECTIONS.length);
-
-  return (
-    <div className="gummy-showcase__desktop">
-      <section
-        className="seltzer-showcase gummy-showcase gummy-showcase--desktop"
-        style={{ "--seltzer-accent": collection.accent, "--seltzer-slide-background": collection.background }}
-        aria-labelledby="gummy-showcase-desktop-title"
-        onPointerDown={(event) => {
-          if (event.pointerType === "touch") touchStart.current = event.clientX;
-        }}
-        onPointerUp={(event) => {
-          if (touchStart.current === null) return;
-          const distance = event.clientX - touchStart.current;
-          touchStart.current = null;
-          if (Math.abs(distance) > 48) change(distance > 0 ? -1 : 1);
-        }}
-      >
-        <h2 id="gummy-showcase-desktop-title" className="sr-only">Lagom gummy collections</h2>
-
-        <Presence mode="sync" initial={false}>
-          <m.div
-            key={collection.name}
-            className="gummy-showcase__hero"
-            initial={reduceMotion ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={reduceMotion ? { duration: 0 } : { duration: 0.42, ease: motionTokens.easeSoft }}
-          >
-            <picture>
-              <source type="image/avif" srcSet={image.avif} sizes="100vw" />
-              <source type="image/webp" srcSet={image.webp} sizes="100vw" />
-              <img src={image.fallback} alt="" decoding="async" />
-            </picture>
-          </m.div>
-        </Presence>
-
-        <div className="seltzer-showcase__topline" aria-hidden="true">
-          <img className="seltzer-showcase__brand-logo" src="/enhanced-lagom-naturals-logo-white.webp" alt="" />
-        </div>
-
-        <button className="seltzer-showcase__nav seltzer-showcase__nav--previous" type="button" onClick={() => change(-1)} aria-label="Previous gummy collection"><ArrowLeft /></button>
-        <button className="seltzer-showcase__nav seltzer-showcase__nav--next" type="button" onClick={() => change(1)} aria-label="Next gummy collection"><ArrowRight /></button>
-
-        <div className="gummy-showcase__details">
-          <div>
-            <p>{collection.description}</p>
-            <span>{flavorCount} flavors · Gummy collection</span>
-          </div>
-          <Link to={collectionUrl}>Explore collection <ArrowRight aria-hidden="true" /></Link>
-        </div>
-
-        <div className="seltzer-showcase__progress gummy-showcase__progress" role="tablist" aria-label="Gummy collections">
-          <span>{String(index + 1).padStart(2, "0")} / {String(DESKTOP_COLLECTIONS.length).padStart(2, "0")}</span>
-          {DESKTOP_COLLECTIONS.map((item, itemIndex) => (
-            <button
-              type="button"
-              role="tab"
-              key={item.name}
-              aria-selected={itemIndex === index}
-              aria-label={`Show ${item.name} gummy collection`}
-              className={itemIndex === index ? "is-active" : ""}
-              onClick={() => setIndex(itemIndex)}
-            />
-          ))}
-        </div>
-      </section>
-    </div>
-  );
-}
-
 export default function GummyShowcase() {
   return (
     <section className="gummy-showcase-shell" aria-label="Lagom gummy showcase">
-      <MobileGummyExperience />
-      <DesktopGummyShowcase />
+      <ResponsiveGummyExperience />
     </section>
   );
 }
