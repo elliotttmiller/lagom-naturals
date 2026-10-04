@@ -18,13 +18,16 @@
   --lagom-ease-standard:cubic-bezier(.22,.82,.28,1);
   --lagom-ease-exit:cubic-bezier(.4,0,.2,1);
   --lagom-ease-check:cubic-bezier(.65,0,.35,1);
+  /* Mirrored by motionTokens.duration in motionSystem.jsx. */
+  --lagom-motion-instant:100ms;
   --lagom-motion-micro:160ms;
   --lagom-motion-fast:220ms;
   --lagom-motion-control:300ms;
-  --lagom-motion-component:420ms;
-  --lagom-motion-scene:640ms;
-  --lagom-motion-cinematic:760ms;
-  --lagom-motion-atmosphere:1100ms;
+  --lagom-motion-component:380ms;
+  --lagom-motion-scene:560ms;
+  --lagom-motion-cinematic:740ms;
+  --lagom-motion-atmosphere:1080ms;
+  --lagom-press-scale:.985;
   --motion-ease:var(--lagom-ease-standard);
   --motion-ease-soft:var(--lagom-ease-glide);
   --ease:var(--lagom-ease-standard);
@@ -32,8 +35,8 @@
   --ease-out:var(--lagom-ease-standard);
   --ease-exit:var(--lagom-ease-exit);
   --motion-fast:var(--lagom-motion-fast);
-  --motion-base:360ms;
-  --motion-slow:560ms;
+  --motion-base:var(--lagom-motion-component);
+  --motion-slow:var(--lagom-motion-scene);
   --lagom-menu-ease-standard:var(--lagom-ease-standard);
   --lagom-menu-ease-emphasized:var(--lagom-ease-glide);
   --lagom-menu-ease-exit:var(--lagom-ease-exit);
