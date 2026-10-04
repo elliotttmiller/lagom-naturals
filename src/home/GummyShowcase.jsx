@@ -192,7 +192,7 @@ function ProductQuickView({ product, collectionTone, onClose, reduceMotion, deta
       initial={reduceMotion ? { opacity: 0 } : false}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={reduceMotion ? { duration: 0.14 } : motionTokens.springSoft}
+      transition={reduceMotion ? { duration: motionTokens.duration.instant } : motionTokens.springProduct}
       aria-labelledby={`gummy-quick-title-${product.id}`}
     >
       <div className="gummy-quick-view__hero">
