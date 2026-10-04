@@ -60,7 +60,7 @@
 
 .legacy-sky-hero__product:not(.legacy-sky-hero__product--fullbleed) img{
   opacity:0;
-  transition:opacity 520ms var(--lagom-ease-glide)!important;
+  transition:opacity var(--lagom-motion-scene) var(--lagom-ease-glide)!important;
 }
 .legacy-sky-hero__product:not(.legacy-sky-hero__product--fullbleed) img.is-ready{
   opacity:1;
@@ -183,13 +183,13 @@
   opacity:1;
 }
 .sky-home .legacy-sky-hero__content h1{
-  transition:opacity 620ms var(--lagom-ease-glide),transform 720ms var(--lagom-ease-glide);
+  transition:opacity var(--lagom-motion-scene) var(--lagom-ease-glide),transform var(--lagom-motion-cinematic) var(--lagom-ease-glide);
 }
 .sky-home .legacy-sky-hero__lede{
-  transition:opacity 620ms var(--lagom-ease-glide) 70ms,transform 720ms var(--lagom-ease-glide) 70ms;
+  transition:opacity var(--lagom-motion-scene) var(--lagom-ease-glide) 70ms,transform var(--lagom-motion-cinematic) var(--lagom-ease-glide) 70ms;
 }
 .sky-home .legacy-sky-hero__actions{
-  transition:opacity 560ms var(--lagom-ease-glide) 130ms,transform 680ms var(--lagom-ease-glide) 130ms;
+  transition:opacity var(--lagom-motion-scene) var(--lagom-ease-glide) 130ms,transform var(--lagom-motion-cinematic) var(--lagom-ease-glide) 130ms;
 }
 
 /* Atmosphere settles more slowly than UI content, creating depth without
@@ -540,6 +540,6 @@
 .hamburger svg,
 .header-mobile-toggle.hamburger .line,
 .hamburger .line{
-  transition-duration:520ms!important;
+  transition-duration:var(--lagom-motion-scene)!important;
   transition-timing-function:var(--lagom-ease-glide)!important;
 }
