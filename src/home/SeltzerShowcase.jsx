@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ArrowRight, ChevronDown } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronDown, Search, ShoppingBag, Menu } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import AddToCartButton from "@/AddToCartButton";
 import { products } from "@/catalogData";
@@ -31,6 +31,13 @@ const PUBLIC_BASE = import.meta.env.BASE_URL;
 const publicAsset = (name) => `${PUBLIC_BASE}${name.replace(/^\//, "")}`;
 const PRODUCT_ORDER = ["24k-lemonade", "strawberry-lime-fusion", "watermelon-refresher", "blackberry-breeze"];
 const showcaseProducts = PRODUCT_ORDER.map((id) => products.find((product) => product.id === id)).filter(Boolean);
+const desktopCompositeFiles = [
+  "ChatGPT Image Oct 3, 2026, 08_32_07 PM-1",
+  "ChatGPT Image Oct 3, 2026, 08_32_08 PM-2",
+  "ChatGPT Image Oct 3, 2026, 08_32_10 PM-3",
+  "ChatGPT Image Oct 3, 2026, 08_32_11 PM-4",
+];
+const desktopCompositeProducts = ["watermelon-refresher", "strawberry-lime-fusion", "blackberry-breeze", "24k-lemonade"];
 const blackberryIndex = showcaseProducts.findIndex((product) => product.id === "blackberry-breeze");
 const showcaseBackground = responsiveImages.showcaseDesktop["seltzer-background"];
 const showcaseMobileBackground = responsiveImages.showcaseMobile["seltzer-background-mobile"];
@@ -167,6 +174,7 @@ export default function SeltzerShowcase() {
 
   const selectedVariant = variants.find((variant) => variant.id === variantId) ?? variants[0];
   const label = labelMedia[product.id];
+  const desktopComposite = responsiveImages.seltzerDesktopFlavors[desktopCompositeFiles[desktopCompositeProducts.indexOf(product.id)]];
   const change = (delta) => {
     const nextIndex = (index + delta + showcaseProducts.length) % showcaseProducts.length;
     setDirection(delta < 0 ? -1 : 1);
@@ -184,6 +192,20 @@ export default function SeltzerShowcase() {
   };
   return <section className="seltzer-showcase" style={{ "--seltzer-accent": theme.accent, "--seltzer-slide-background": theme.color }} aria-labelledby="seltzer-showcase-title" onPointerDown={(event) => { if (event.pointerType === "touch") touchStart.current = event.clientX; }} onPointerUp={(event) => { if (touchStart.current === null) return; const distance = event.clientX - touchStart.current; touchStart.current = null; if (Math.abs(distance) > 48) change(distance > 0 ? -1 : 1); }}>
     <h2 id="seltzer-showcase-title" className="sr-only">Lagom Naturals seltzer showcase</h2>
+    <div className="seltzer-showcase__desktop" aria-label={`${product.name} premium THC seltzer`}>
+      <AnimatePresence initial={false} mode="sync">
+        <motion.picture key={product.id} className="seltzer-showcase__desktop-art" initial={{ opacity: 0, scale: reducedMotion ? 1 : 1.012 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={reducedMotion ? { duration: 0 } : { duration: 0.42, ease: [0.16, 1, 0.3, 1] }}>
+          <source type="image/avif" srcSet={desktopComposite.avifSrcSet} sizes="100vw" />
+          <source type="image/webp" srcSet={desktopComposite.webpSrcSet} sizes="100vw" />
+          <img src={desktopComposite.src} alt="" fetchPriority="high" decoding="async" />
+        </motion.picture>
+      </AnimatePresence>
+      <button className="seltzer-showcase__desktop-menu" type="button" aria-label="Open navigation menu" onClick={() => window.dispatchEvent(new CustomEvent("lagom:open-site-menu"))}><Menu aria-hidden="true" /></button>
+      <Link className="seltzer-showcase__desktop-logo" to="/" aria-label="Lagom Naturals home"><img src={publicAsset("enhanced-lagom-naturals-logo-white.webp")} alt="" /></Link>
+      <button className="seltzer-showcase__desktop-search" type="button" aria-label="Search products" onClick={() => window.dispatchEvent(new CustomEvent("lagom:open-global-search"))}><Search aria-hidden="true" /></button>
+      <Link className="seltzer-showcase__desktop-cart" to="/cart" aria-label="View cart"><ShoppingBag aria-hidden="true" /></Link>
+      <Link className="seltzer-showcase__desktop-product-link" to={`/product/${product.id}`} aria-label={`Shop ${product.name}`} />
+    </div>
     <ShowcaseColorTrack background={theme.color} desktopMedia={theme.desktopMedia} mobileMedia={theme.mobileMedia} direction={direction} productId={product.id} reducedMotion={reducedMotion} />
     <ShowcaseBackdrop />
     <div className="seltzer-showcase__topline" aria-hidden="true"><img className="seltzer-showcase__brand-logo" src={publicAsset("enhanced-lagom-naturals-logo-white.webp")} alt="" /></div>

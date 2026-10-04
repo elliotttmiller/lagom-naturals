@@ -19,6 +19,8 @@ function Header({detail=false}){
   const close=()=>setOpen(false)
   const toggle=next=>setOpen(next)
 
+  useEffect(()=>{const openMenu=()=>setOpen(true);window.addEventListener('lagom:open-site-menu',openMenu);return()=>window.removeEventListener('lagom:open-site-menu',openMenu)},[])
+
   useEffect(()=>{
     if(!open)return undefined
     const previous=document.activeElement,overflow=document.body.style.overflow

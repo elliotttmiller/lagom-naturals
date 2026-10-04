@@ -10,7 +10,7 @@
     "dev": "vite",
     "build": "node scripts/build-pages.mjs",
     "build:pages": "node scripts/build-pages.mjs",
-    "check": "vite build --emptyOutDir",
+    "check": "vite build --outDir tmp/vite-check --emptyOutDir",
     "images:optimize": "node scripts/optimize-storefront-images.mjs",
     "images:check": "node scripts/optimize-storefront-images.mjs --check",
     "images:rebuild": "node scripts/optimize-storefront-images.mjs --force",

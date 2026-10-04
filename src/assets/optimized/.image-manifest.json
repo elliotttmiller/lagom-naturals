@@ -212,6 +212,58 @@
       ]
     },
     {
+      "source": "data/ui/seltzer-showcase/ChatGPT Image Oct 3, 2026, 08_32_07 PM-1.png",
+      "hash": "4de6e6d1b52add24cf90c53fce321390bbd582671dddbc52b4257f886e9d20a2",
+      "fingerprint": "ad6aeb0d2744eb88432f10dd826f1abad28d9eb10a78a073639c1e128264a27b",
+      "outputs": [
+        "seltzerDesktopFlavors/ChatGPT Image Oct 3, 2026, 08_32_07 PM-1-960.avif",
+        "seltzerDesktopFlavors/ChatGPT Image Oct 3, 2026, 08_32_07 PM-1-960.webp",
+        "seltzerDesktopFlavors/ChatGPT Image Oct 3, 2026, 08_32_07 PM-1-1440.avif",
+        "seltzerDesktopFlavors/ChatGPT Image Oct 3, 2026, 08_32_07 PM-1-1440.webp",
+        "seltzerDesktopFlavors/ChatGPT Image Oct 3, 2026, 08_32_07 PM-1-1920.avif",
+        "seltzerDesktopFlavors/ChatGPT Image Oct 3, 2026, 08_32_07 PM-1-1920.webp"
+      ]
+    },
+    {
+      "source": "data/ui/seltzer-showcase/ChatGPT Image Oct 3, 2026, 08_32_08 PM-2.png",
+      "hash": "7673f96dada3e20ca34f3e4a60fccd5e70dfffae9732b79117095272a1b45c15",
+      "fingerprint": "ad6aeb0d2744eb88432f10dd826f1abad28d9eb10a78a073639c1e128264a27b",
+      "outputs": [
+        "seltzerDesktopFlavors/ChatGPT Image Oct 3, 2026, 08_32_08 PM-2-960.avif",
+        "seltzerDesktopFlavors/ChatGPT Image Oct 3, 2026, 08_32_08 PM-2-960.webp",
+        "seltzerDesktopFlavors/ChatGPT Image Oct 3, 2026, 08_32_08 PM-2-1440.avif",
+        "seltzerDesktopFlavors/ChatGPT Image Oct 3, 2026, 08_32_08 PM-2-1440.webp",
+        "seltzerDesktopFlavors/ChatGPT Image Oct 3, 2026, 08_32_08 PM-2-1920.avif",
+        "seltzerDesktopFlavors/ChatGPT Image Oct 3, 2026, 08_32_08 PM-2-1920.webp"
+      ]
+    },
+    {
+      "source": "data/ui/seltzer-showcase/ChatGPT Image Oct 3, 2026, 08_32_10 PM-3.png",
+      "hash": "8a303c470184c94d130b05f17597e256e40d3a88609f9c4aca81c0a9d897b0aa",
+      "fingerprint": "ad6aeb0d2744eb88432f10dd826f1abad28d9eb10a78a073639c1e128264a27b",
+      "outputs": [
+        "seltzerDesktopFlavors/ChatGPT Image Oct 3, 2026, 08_32_10 PM-3-960.avif",
+        "seltzerDesktopFlavors/ChatGPT Image Oct 3, 2026, 08_32_10 PM-3-960.webp",
+        "seltzerDesktopFlavors/ChatGPT Image Oct 3, 2026, 08_32_10 PM-3-1440.avif",
+        "seltzerDesktopFlavors/ChatGPT Image Oct 3, 2026, 08_32_10 PM-3-1440.webp",
+        "seltzerDesktopFlavors/ChatGPT Image Oct 3, 2026, 08_32_10 PM-3-1920.avif",
+        "seltzerDesktopFlavors/ChatGPT Image Oct 3, 2026, 08_32_10 PM-3-1920.webp"
+      ]
+    },
+    {
+      "source": "data/ui/seltzer-showcase/ChatGPT Image Oct 3, 2026, 08_32_11 PM-4.png",
+      "hash": "70bf8fdad980fa1f0f62187189dcf4f66d0e9525f8c5a9163647ee9fe464ad0b",
+      "fingerprint": "ad6aeb0d2744eb88432f10dd826f1abad28d9eb10a78a073639c1e128264a27b",
+      "outputs": [
+        "seltzerDesktopFlavors/ChatGPT Image Oct 3, 2026, 08_32_11 PM-4-960.avif",
+        "seltzerDesktopFlavors/ChatGPT Image Oct 3, 2026, 08_32_11 PM-4-960.webp",
+        "seltzerDesktopFlavors/ChatGPT Image Oct 3, 2026, 08_32_11 PM-4-1440.avif",
+        "seltzerDesktopFlavors/ChatGPT Image Oct 3, 2026, 08_32_11 PM-4-1440.webp",
+        "seltzerDesktopFlavors/ChatGPT Image Oct 3, 2026, 08_32_11 PM-4-1920.avif",
+        "seltzerDesktopFlavors/ChatGPT Image Oct 3, 2026, 08_32_11 PM-4-1920.webp"
+      ]
+    },
+    {
       "source": "src/assets/products/enhanced/24K-Lemonade-enhanced.png",
       "hash": "63f04c7ff7abd7e1237a9eca33b2980b2940e61009552fc78697ac832808a34b",
       "fingerprint": "6b89090f6daf31b606c3aa004968c638df038ee8c3f4ff7ef2c2e37f7ce22118",
