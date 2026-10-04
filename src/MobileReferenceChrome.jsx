@@ -7,7 +7,7 @@ import {responsiveImages} from '@/generated/responsiveImages'
 
 const mobileHero=responsiveImages.heroMobile.hero.src
 
-const drawerItems=[['Shop','/shop'],['Merch','/merch'],['Find Us','/visit'],['Our Story','/about'],['Account','account'],['FAQ','/learn'],['Contact Us','/visit']]
+const drawerItems=[['All Products','/shop'],['Seltzers','/shop/seltzers'],['Gummies','/shop/gummies'],['Merch','/merch'],['Our Story','/about'],['Find Us','/visit'],['Account','account'],['FAQ','/learn'],['Contact Us','/visit']]
 const socialLinks=[['Instagram','https://www.instagram.com/lagomnaturalsmn?stkn=MXc1cnEyY2s2OTh2aQ==',InstagramIcon],['X','https://x.com/lagomnaturalsmn?s=21&t=o19JKEqucRv55S5u6wBKXQ',XSocialIcon],['Facebook','https://www.facebook.com/share/19fFEcDKpR/?mibextid=wwXIfr',FacebookIcon]]
 const accountRows=[[PackageCheck,'My Orders','orders']]
 const accountLower=[[Settings,'Account Settings','settings'],[Bell,'Notifications','notifications'],[CircleHelp,'Help & Support','support']]

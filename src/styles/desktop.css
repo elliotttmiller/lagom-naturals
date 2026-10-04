@@ -46,6 +46,29 @@
   .desktop-header-brand img{display:block;width:170px;height:62px;object-fit:contain}
   .desktop-nav{position:static;display:flex;align-items:center;justify-content:flex-start;min-width:0;width:100%;height:100%}
   .desktop-nav__links{display:flex;align-items:center;justify-content:flex-start;gap:clamp(18px,2vw,32px);min-width:0;width:100%;height:100%}
+  .desktop-nav__shop{position:relative;display:flex;align-items:center;height:100%}
+  .desktop-nav .desktop-nav__shop-trigger{position:relative;display:flex;align-items:center;gap:8px;height:100%;padding:0;border:0;background:none;color:#242620;font:800 12px/1 var(--font-ui);letter-spacing:.065em;text-transform:uppercase;cursor:pointer}
+  .desktop-nav .desktop-nav__shop-trigger svg{width:14px;height:14px;transition:transform .32s cubic-bezier(.22,1,.36,1)}
+  .desktop-nav__shop.is-open .desktop-nav__shop-trigger svg{transform:rotate(180deg)}
+  .desktop-nav .desktop-nav__shop-trigger::after{content:"";position:absolute;left:0;right:0;bottom:20px;height:2px;background:currentColor;opacity:0;transform:scaleX(.45);transition:opacity .2s ease,transform .35s cubic-bezier(.22,1,.36,1)}
+  .desktop-nav .desktop-nav__shop-trigger.active::after,.desktop-nav .desktop-nav__shop-trigger:hover::after,.desktop-nav .desktop-nav__shop-trigger:focus-visible::after{opacity:1;transform:scaleX(1)}
+  .desktop-nav .desktop-nav__shop-trigger:focus-visible{outline:2px solid #315f52;outline-offset:5px}
+  .desktop-shop-panel{position:absolute;z-index:169;top:100%;left:0;width:100%;overflow:hidden;background:rgba(250,249,245,.98);border-bottom:1px solid rgba(27,34,27,.12);box-shadow:0 24px 46px rgba(20,24,20,.12);transform-origin:top center;-webkit-backdrop-filter:blur(20px) saturate(1.14);backdrop-filter:blur(20px) saturate(1.14)}
+  .desktop-shop-panel__inner{width:min(var(--desktop-wide),calc(100% - 2 * clamp(28px,3vw,52px)));margin:0 auto;padding:clamp(32px,4vw,58px) 0 clamp(36px,4vw,62px);display:grid;grid-template-columns:minmax(190px,.62fr) minmax(0,2fr);gap:clamp(34px,6vw,100px)}
+  .desktop-shop-panel__intro{align-self:start;padding-top:8px}
+  .desktop-shop-panel__intro>span{color:#315f52;font:800 10px/1 var(--font-ui);letter-spacing:.2em;text-transform:uppercase}
+  .desktop-shop-panel__intro p{max-width:230px;margin:18px 0 0;color:#171915;font:500 clamp(26px,2.4vw,38px)/.98 var(--font-display);letter-spacing:-.045em}
+  .desktop-shop-panel__links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid rgba(25,28,24,.2);border-bottom:1px solid rgba(25,28,24,.2)}
+  .desktop-shop-panel__links>a{position:relative;min-width:0;min-height:148px;padding:22px 42px 22px 20px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;color:#20231e;text-decoration:none;transition:background .28s ease,color .28s ease,transform .32s cubic-bezier(.22,1,.36,1)}
+  .desktop-shop-panel__links>a+a{border-left:1px solid rgba(25,28,24,.14)}
+  .desktop-shop-panel__links>a>span{margin-bottom:17px;color:#687168;font:700 9px/1 var(--font-ui);letter-spacing:.16em}
+  .desktop-shop-panel__links>a>b{font:650 clamp(18px,1.55vw,24px)/1.1 var(--font-ui);letter-spacing:-.04em}
+  .desktop-shop-panel__links>a>small{margin-top:9px;color:#696d65;font:500 11px/1.4 var(--font-ui)}
+  .desktop-shop-panel__links>a>svg{position:absolute;right:18px;top:50%;width:17px;height:17px;opacity:0;transform:translate(-5px,-50%);transition:opacity .2s ease,transform .3s cubic-bezier(.22,1,.36,1)}
+  .desktop-shop-panel__links>a:hover,.desktop-shop-panel__links>a:focus-visible,.desktop-shop-panel__links>a.active{background:#efeee7}
+  .desktop-shop-panel__links>a:hover>svg,.desktop-shop-panel__links>a:focus-visible>svg,.desktop-shop-panel__links>a.active>svg{opacity:1;transform:translate(0,-50%)}
+  .desktop-shop-panel__links>a:focus-visible{z-index:1;outline:2px solid #315f52;outline-offset:-3px}
+  @media(prefers-reduced-motion:reduce){.desktop-nav .desktop-nav__shop-trigger svg,.desktop-nav .desktop-nav__shop-trigger::after,.desktop-shop-panel__links>a,.desktop-shop-panel__links>a>svg{transition-duration:0s}}
   .desktop-nav a{
     position:relative;flex:0 0 auto;height:100%;display:flex;align-items:center;
     color:#242620;font:800 12px/1 var(--font-ui);letter-spacing:.065em;text-transform:uppercase;text-decoration:none
