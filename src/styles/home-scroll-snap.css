@@ -204,12 +204,13 @@
 /* --------------------------------------------------------------------------
    Mobile/tablet full-viewport snap
    --------------------------------------------------------------------------
-   Every scene uses the same viewport contract. Proximity snap preserves a
-   natural touch scroll while settling deliberate swipes on scene boundaries.
+   Every scene uses the same viewport contract. Mandatory native snap plus
+   snap-stop:always creates deterministic one-scene-at-a-time paging while the
+   browser retains ownership of touch inertia and deceleration.
    -------------------------------------------------------------------------- */
 @media (max-width:899px) and (prefers-reduced-motion:no-preference){
   html:has(.sky-home){
-    scroll-snap-type:y proximity!important;
+    scroll-snap-type:y mandatory!important;
     scroll-padding-block-start:var(--home-mobile-header-h)!important;
     scroll-behavior:auto!important;
     overscroll-behavior-y:auto!important;
@@ -223,49 +224,32 @@
 
   .sky-home [data-home-snap-scene]{
     scroll-snap-align:start!important;
-    scroll-snap-stop:normal!important;
+    scroll-snap-stop:always!important;
   }
 
-  /* The footer exits the immersive scene system entirely. Once the user moves
-     beyond the final campaign, document scrolling is ordinary browser scrolling
-     with no magnetic footer capture. */
+  /* The footer is a terminal snap target only. This keeps mandatory paging from
+     pulling the user back into Gummies while leaving the footer's own height and
+     internal scrolling completely natural. */
   body:has(.sky-home) #root>.site-footer{
     block-size:auto!important;
     min-block-size:0!important;
     max-block-size:none!important;
     overflow:visible!important;
-    scroll-snap-align:none!important;
+    scroll-snap-align:end!important;
     scroll-snap-stop:normal!important;
     scroll-margin-block-start:0!important;
     overscroll-behavior-y:auto!important;
   }
 
-  /* Once the final product scene has been reached, it must not behave as a
-     hard terminal stop. The next downward gesture can resolve to the footer. */
-  .sky-home [data-home-snap-scene]:last-of-type{
-    scroll-snap-stop:normal!important;
-  }
-
-  /* Mobile content is always rendered. Observer state only identifies the
-     dominant scene; it must never gate core composition during a physical snap. */
+  /* Scene content stays present throughout the gesture; observer state may
+     refine opacity/position only. Never hide a scene while native snap is moving. */
   .sky-home [data-home-snap-content]>*{
-    opacity:1!important;
-    transform:none!important;
-    transition:none!important;
-  }
-
-  .sky-home [data-home-snap-scene] .atmospheric-scene-section__cloud{
-    opacity:.38!important;
-    transform:none!important;
-    filter:none!important;
-    transition:none!important;
+    will-change:auto;
   }
 
   .sky-home [data-home-snap-scene] .home-product-stage__topline,
   .sky-home [data-home-snap-scene] .home-product-stage__progress{
     opacity:1!important;
-    transform:none!important;
-    transition:none!important;
   }
 
   /* Interactive controls and the software keyboard retain ordinary scrolling
