@@ -10,8 +10,11 @@
   --home-mobile-scene-h:calc(var(--home-mobile-viewport-h) - var(--home-mobile-header-h));
 }
 
-@supports (height:100dvh){
-  :root{--home-mobile-viewport-h:100dvh}
+/* Mobile scene geometry deliberately uses the stable small viewport. Safari's
+   dynamic toolbar may resize 100dvh during the same physical gesture; svh keeps
+   snap anchors and art-directed compositions stationary while that chrome moves. */
+@supports (height:100svh){
+  :root{--home-mobile-viewport-h:100svh}
 }
 
 /* --------------------------------------------------------------------------
@@ -179,7 +182,7 @@
     inline-size:100%!important;
     max-inline-size:100%!important;
     overflow:clip!important;
-    overscroll-behavior:contain;
+    overscroll-behavior:auto;
   }
 
   /* The first scene starts at document origin, so it owns the entire stable
@@ -223,15 +226,15 @@
     scroll-snap-stop:normal!important;
   }
 
-  /* Terminal mobile snap region. The footer keeps its natural document height.
-     If it is taller than the snapport, CSS Scroll Snap permits normal scrolling
-     through the oversized snap area so every footer row remains reachable. */
+  /* The footer exits the immersive scene system entirely. Once the user moves
+     beyond the final campaign, document scrolling is ordinary browser scrolling
+     with no magnetic footer capture. */
   body:has(.sky-home) #root>.site-footer{
     block-size:auto!important;
     min-block-size:0!important;
     max-block-size:none!important;
     overflow:visible!important;
-    scroll-snap-align:start!important;
+    scroll-snap-align:none!important;
     scroll-snap-stop:normal!important;
     scroll-margin-block-start:0!important;
     overscroll-behavior-y:auto!important;
