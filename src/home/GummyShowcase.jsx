@@ -193,7 +193,6 @@ function ProductQuickView({ product, collectionTone, onClose, reduceMotion, deta
       transition={reduceMotion
         ? { duration: motionTokens.duration.instant }
         : { clipPath: { duration: motionTokens.duration.slow, ease: motionTokens.easeSoft }, opacity: { duration: motionTokens.duration.fast, ease: motionTokens.ease } }}
-      onAnimationComplete={() => detailHeadingRef.current?.focus()}
       aria-labelledby={`gummy-quick-title-${product.id}`}
     >
       <div className="gummy-quick-view__hero">
@@ -295,6 +294,15 @@ function ResponsiveGummyExperience() {
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [selectedId]);
+
+  useEffect(() => {
+    if (!selectedId) return undefined;
+    const focusDelay = reduceMotion ? 0 : Math.round(motionTokens.duration.control * 1000);
+    const timer = window.setTimeout(() => {
+      detailHeadingRef.current?.focus({ preventScroll: true });
+    }, focusDelay);
+    return () => window.clearTimeout(timer);
+  }, [selectedId, reduceMotion]);
 
   return (
     <div
