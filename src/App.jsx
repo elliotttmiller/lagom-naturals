@@ -656,6 +656,15 @@ function ShopPage() {
   return (
     <Shell>
       <div className={`shop-page shop-page--reference ${category === "All" ? "shop-page--all-products" : ""}`}>
+        {category === "All" && (
+          <picture className="shop-page__hero-media" aria-hidden="true">
+            <source media="(max-width: 899px)" type="image/avif" srcSet={responsiveImages.shopHeader["shop-header-image"].avifSrcSet} sizes="100vw" />
+            <source media="(max-width: 899px)" type="image/webp" srcSet={responsiveImages.shopHeader["shop-header-image"].webpSrcSet} sizes="100vw" />
+            <source type="image/avif" srcSet={responsiveImages.shopHeader["shop-header-image-desktop"].avifSrcSet} sizes="100vw" />
+            <source type="image/webp" srcSet={responsiveImages.shopHeader["shop-header-image-desktop"].webpSrcSet} sizes="100vw" />
+            <img src={responsiveImages.shopHeader["shop-header-image-desktop"].src} alt="" fetchPriority="high" decoding="async" />
+          </picture>
+        )}
         {category === "All" ? (
           <Reveal className="shop-intro">
             <div className="shop-intro__copy">

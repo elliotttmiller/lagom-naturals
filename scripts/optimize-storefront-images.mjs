@@ -23,6 +23,7 @@ const packagingEncoder = {
 
 const groups = [
   { name: 'homeGummies', directory: 'src/assets/products/home-gummies', widths: [320, 480, 640, 900], encoder: packagingEncoder },
+  { name: 'shopHeader', directory: 'data/ui', files: ['shop-header-image.png', 'shop-header-image-desktop.png'], widths: [480, 800, 1200, 2172] },
   { name: 'products', directory: 'src/assets/products/enhanced', widths: [480, 960] },
   { name: 'merch', directory: 'src/assets/merch', widths: [480, 960] },
   { name: 'heroMobile', directory: 'src/assets/mobile', files: ['hero.webp', 'gummies-hero.webp', 'midnight-gummies-hero.webp', 'organic-gummies-hero.webp'], widths: [480, 800] },

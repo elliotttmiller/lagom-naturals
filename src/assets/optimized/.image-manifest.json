@@ -182,6 +182,36 @@
       ]
     },
     {
+      "source": "data/ui/shop-header-image-desktop.png",
+      "hash": "59b06f1cc45f82d0b8a7bcfe9f23826fd5a394e99e4ee35bf9d3ac82738bb54d",
+      "fingerprint": "5cb91aa32d0e03adb1c6cdd3e4d6b78ace0bc1027fdd5410bce79430fe3b3344",
+      "outputs": [
+        "shopHeader/shop-header-image-desktop-480.avif",
+        "shopHeader/shop-header-image-desktop-480.webp",
+        "shopHeader/shop-header-image-desktop-800.avif",
+        "shopHeader/shop-header-image-desktop-800.webp",
+        "shopHeader/shop-header-image-desktop-1200.avif",
+        "shopHeader/shop-header-image-desktop-1200.webp",
+        "shopHeader/shop-header-image-desktop-2172.avif",
+        "shopHeader/shop-header-image-desktop-2172.webp"
+      ]
+    },
+    {
+      "source": "data/ui/shop-header-image.png",
+      "hash": "abeebb290ed6d865485654c8829a555b59c9530f6cb1b29025590d424c908fb6",
+      "fingerprint": "5cb91aa32d0e03adb1c6cdd3e4d6b78ace0bc1027fdd5410bce79430fe3b3344",
+      "outputs": [
+        "shopHeader/shop-header-image-480.avif",
+        "shopHeader/shop-header-image-480.webp",
+        "shopHeader/shop-header-image-800.avif",
+        "shopHeader/shop-header-image-800.webp",
+        "shopHeader/shop-header-image-1200.avif",
+        "shopHeader/shop-header-image-1200.webp",
+        "shopHeader/shop-header-image-2172.avif",
+        "shopHeader/shop-header-image-2172.webp"
+      ]
+    },
+    {
       "source": "src/assets/products/enhanced/24K-Lemonade-enhanced.png",
       "hash": "63f04c7ff7abd7e1237a9eca33b2980b2940e61009552fc78697ac832808a34b",
       "fingerprint": "6b89090f6daf31b606c3aa004968c638df038ee8c3f4ff7ef2c2e37f7ce22118",

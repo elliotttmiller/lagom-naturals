@@ -57,7 +57,7 @@ function Header({detail=false}){
           <div className="desktop-nav__group desktop-nav__group--right">{desktopRightLinks.map(([label,to])=><NavLink key={label} to={to}>{label}</NavLink>)}</div>
         </nav>
         <div className="header-tools">
-          <m.button type="button" className="icon-btn header-search" aria-label="Search drinks" aria-controls="global-search-surface" aria-expanded="false" whileTap={motionTokens.tap} onClick={()=>window.dispatchEvent(new CustomEvent('lagom:open-global-search'))}><Search/><span>Search products...</span></m.button>
+          <m.button type="button" className="icon-btn header-search" aria-label="Search products" aria-controls="global-search-surface" aria-expanded="false" whileTap={motionTokens.tap} onClick={()=>window.dispatchEvent(new CustomEvent('lagom:open-global-search'))}><Search aria-hidden="true"/><span>Search products…</span></m.button>
           <Link className="icon-btn header-account" to="/account" aria-label="Account"><User/><span>Account</span></Link>
           <Link className="icon-btn cart-icon" to="/cart" aria-label={`Cart, ${count} items`}><ShoppingBag/><span>Cart ({count})</span>{count>0&&<b>{count}</b>}</Link>
         </div>

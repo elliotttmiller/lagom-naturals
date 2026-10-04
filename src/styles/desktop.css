@@ -64,7 +64,14 @@
   .header-tools .header-account span,.header-tools .cart-icon span{display:block}
   .header-tools .header-account svg,.header-tools .cart-icon svg{width:21px;height:21px}
   .header-tools .icon-btn:hover{background:rgba(17,17,15,.055);transform:translateY(-1px)}
+  .header-tools .header-search:hover{background:rgba(255,255,255,.92);border-color:rgba(17,25,29,.23)}
   .header-tools .icon-btn svg{width:23px;height:23px;stroke-width:1.65}
+  .header-tools .header-search{width:clamp(188px,15vw,236px);height:44px;min-width:0;display:grid;grid-template-columns:20px minmax(0,1fr);align-items:center;justify-items:stretch;gap:10px;padding:0 15px;border:1px solid rgba(17,25,29,.13);border-radius:999px;background:rgba(255,255,255,.76);color:#172126;text-align:left;box-shadow:inset 0 1px 0 rgba(255,255,255,.8);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+  .header-tools .header-search svg{width:20px;height:20px;justify-self:center;stroke-width:1.8}
+  .header-tools .header-search span{display:block;min-width:0;overflow:hidden;color:#627078;font:500 12px/1 var(--font-ui);letter-spacing:-.01em;text-overflow:ellipsis;white-space:nowrap}
+  .header-tools .header-search:focus-visible{outline:2px solid #172126;outline-offset:3px}
+  .app-shell:has(.beverage-hero) .site-header .header-tools .header-search{width:clamp(188px,15vw,236px);height:44px;min-width:0;display:grid;grid-template-columns:20px minmax(0,1fr);gap:10px;padding:0 15px;border:1px solid rgba(255,255,255,.64);background:rgba(246,250,255,.58);box-shadow:inset 0 1px 0 rgba(255,255,255,.52);color:#172126}
+  .app-shell:has(.beverage-hero) .site-header .header-tools .header-search span{display:block;color:#536b82;text-shadow:none}
   .cart-icon b{
     position:absolute;top:1px;right:0;min-width:19px;height:19px;padding:0 4px;display:grid;place-items:center;
     border:2px solid #fff;border-radius:999px;background:#111;color:#fff;font:800 9px/13px var(--font-ui)
@@ -80,6 +87,7 @@
   .app-shell:has(.beverage-hero) .site-header .header-tools .icon-btn{color:#171915!important;text-shadow:none}
   .app-shell:has(.beverage-hero) .site-header .desktop-nav__brand img{filter:none!important}
   .app-shell:has(.beverage-hero) .site-header .header-tools .icon-btn:hover{background:rgba(17,17,15,.08)}
+  .app-shell:has(.beverage-hero) .site-header .header-tools .header-search:hover{background:rgba(255,255,255,.78)}
   .app-shell:has(.beverage-hero) .site-header .cart-icon b{border-color:transparent;background:#171915;color:#fff}
 
   /* Homepage hero */
