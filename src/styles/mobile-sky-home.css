@@ -116,21 +116,21 @@
   /* The mobile chrome begins transparent over the hero, then becomes a
      readable frosted sky surface after the hero clears the header. */
   .mobile-reference-header.is-home{
-    background:transparent!important;
-    border-bottom-color:transparent!important;
-    box-shadow:none!important;
+    background:rgba(250,249,245,.68)!important;
+    border-bottom-color:rgba(23,25,20,.10)!important;
+    box-shadow:0 5px 20px rgba(22,27,23,.045)!important;
     color:#111!important;
-    backdrop-filter:none!important;
-    -webkit-backdrop-filter:none!important;
+    backdrop-filter:blur(18px) saturate(1.14)!important;
+    -webkit-backdrop-filter:blur(18px) saturate(1.14)!important;
     transition:background-color 260ms ease,border-color 260ms ease,box-shadow 260ms ease,color 220ms ease,backdrop-filter 260ms ease!important;
   }
   .mobile-reference-header.is-home.is-home-scrolled{
-    background:rgba(238,247,250,.94)!important;
-    border-bottom:1px solid rgba(17,17,15,.10)!important;
-    box-shadow:0 8px 30px rgba(44,62,67,.07)!important;
+    background:rgba(250,249,245,.88)!important;
+    border-bottom:1px solid rgba(23,25,20,.11)!important;
+    box-shadow:0 7px 24px rgba(22,27,23,.07)!important;
     color:#111!important;
-    backdrop-filter:blur(18px) saturate(1.08)!important;
-    -webkit-backdrop-filter:blur(18px) saturate(1.08)!important;
+    backdrop-filter:blur(20px) saturate(1.16)!important;
+    -webkit-backdrop-filter:blur(20px) saturate(1.16)!important;
   }
   .mobile-reference-header.is-home.is-home-scrolled :is(a,button,.hamburger,.hamburger .line){
     color:#111!important;
