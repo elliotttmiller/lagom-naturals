@@ -13,6 +13,8 @@
 }
 
 .gummy-showcase__experience{
+  position:relative;
+  display:grid;
   inline-size:100%;
   block-size:100%;
   min-block-size:0;
@@ -47,6 +49,7 @@
 }
 
 .gummy-mobile__grid-state{
+  grid-area:1/1;
   display:grid;
   grid-template-rows:clamp(2.55rem,5.2vh,3.1rem) minmax(0,1fr);
   gap:clamp(.35rem,.8vw,.7rem);
@@ -215,6 +218,9 @@
 
 /* Quick view shares the exact scene footprint with the grid. */
 .gummy-quick-view{
+  position:relative;
+  z-index:6;
+  grid-area:1/1;
   display:grid;
   grid-template-rows:minmax(0,54%) minmax(0,46%);
   inline-size:100%;
@@ -225,6 +231,12 @@
   border-radius:clamp(1.2rem,2vw,2rem);
   background:#f7f2e9;
   box-shadow:0 1.15rem 2.5rem rgba(37,30,24,.11);
+  will-change:clip-path;
+}
+
+.gummy-mobile__grid-state.is-detail-open{
+  pointer-events:none;
+  transform-origin:center;
 }
 
 .gummy-quick-view__hero{
