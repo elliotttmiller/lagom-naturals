@@ -154,7 +154,7 @@ function ProductTile({ product, collectionTone, index, onOpen, buttonRef, reduce
       style={{ "--gummy-tile-surface": theme.surface, "--gummy-tile-accent": theme.accent }}
       layout={!reduceMotion}
       layoutId={reduceMotion ? undefined : `gummy-surface-${product.id}`}
-      transition={motionTokens.springSoft}
+      transition={motionTokens.springProduct}
     >
       <button
         type="button"
@@ -192,7 +192,7 @@ function ProductQuickView({ product, collectionTone, onClose, reduceMotion, deta
       initial={reduceMotion ? { opacity: 0 } : false}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={reduceMotion ? { duration: 0.14 } : motionTokens.springSoft}
+      transition={reduceMotion ? { duration: motionTokens.duration.instant } : motionTokens.springProduct}
       aria-labelledby={`gummy-quick-title-${product.id}`}
     >
       <div className="gummy-quick-view__hero">
@@ -212,7 +212,7 @@ function ProductQuickView({ product, collectionTone, onClose, reduceMotion, deta
         className="gummy-quick-view__info"
         initial={reduceMotion ? false : { opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={reduceMotion ? { duration: 0 } : { delay: 0.12, duration: 0.38, ease: motionTokens.easeSoft }}
+        transition={reduceMotion ? { duration: 0 } : { delay: motionTokens.duration.instant, duration: motionTokens.duration.base, ease: motionTokens.easeSoft }}
       >
         <p className="gummy-quick-view__eyebrow">Lagom Gummies · {product.productLine}</p>
         <m.h3 id={`gummy-quick-title-${product.id}`} ref={detailHeadingRef} tabIndex={-1} layoutId={reduceMotion ? undefined : `gummy-title-${product.id}`}>
@@ -296,11 +296,12 @@ function ResponsiveGummyExperience() {
         const dx = event.clientX - pointerStart.current.x;
         const dy = event.clientY - pointerStart.current.y;
         pointerStart.current = null;
-        if (Math.abs(dx) < 56 || Math.abs(dx) <= Math.abs(dy) * 1.15) return;
+        if (Math.abs(dx) < 56 || Math.abs(dx) <= Math.abs(dy) * 1.2) return;
         selectCollection(collectionIndex + (dx < 0 ? 1 : -1));
       }}
+      onPointerCancel={() => { pointerStart.current = null; }}
     >
-      <Presence mode="popLayout" initial={false}>
+      <Presence mode="sync" initial={false}>
         {selectedProduct ? (
           <ProductQuickView
             key={`quick-${selectedProduct.id}`}
@@ -317,7 +318,7 @@ function ResponsiveGummyExperience() {
             initial={reduceMotion ? { opacity: 0 } : { opacity: 0, x: 18 }}
             animate={{ opacity: 1, x: 0 }}
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: -14 }}
-            transition={reduceMotion ? { duration: 0.14 } : { duration: 0.34, ease: motionTokens.easeSoft }}
+            transition={reduceMotion ? { duration: motionTokens.duration.instant } : { duration: motionTokens.duration.control, ease: motionTokens.easeSoft }}
           >
             <CollectionRail activeIndex={collectionIndex} onSelect={selectCollection} />
 
