@@ -1,12 +1,11 @@
 import React from 'react'
-import {Link,NavLink,useLocation,useNavigate} from 'react-router-dom'
-import {Bell,ChevronLeft,ChevronRight,CircleHelp,Gift,LockKeyhole,Mail,MapPin,PackageCheck,Search,Settings,ShieldCheck,ShoppingBag,User,Truck,RotateCcw,FileText,MessageCircle} from 'lucide-react'
+import {Link,useLocation,useNavigate} from 'react-router-dom'
+import {Bell,ChevronLeft,ChevronRight,CircleHelp,Gift,LockKeyhole,Mail,MapPin,PackageCheck,Settings,ShieldCheck,ShoppingBag,User,Truck,RotateCcw,FileText,MessageCircle} from 'lucide-react'
 import {m,Stagger,StaggerItem,motionTokens} from './motionSystem'
+import {StorefrontHeader} from './storefront/StorefrontShell'
 import './styles/account.css'
 
-const CART_KEY='lagom-beverage-cart-v1'
 const accountBrandIcon=`${import.meta.env.BASE_URL}enhanced-lagom-naturals-icon.webp`
-const brandLogo=`${import.meta.env.BASE_URL}lagom-logo.svg`
 const navItems=[
   [PackageCheck,'My Orders','Review purchases and order status','orders'],
   [Gift,'Rewards','Shop. Earn. Get more.','rewards','reward'],
@@ -16,8 +15,7 @@ const navItems=[
 ]
 const notifications=[['Order updates','Status updates about your orders.',true],['Rewards & offers','News about rewards and offers.',true],['Product updates','New products and brand news.',false],['Account security','Important account alerts.',true]]
 
-function cartCount(){try{return(JSON.parse(localStorage.getItem(CART_KEY)||'[]')||[]).reduce((sum,item)=>sum+(Number(item.qty)||0),0)}catch{return 0}}
-function AccountHeader(){const[count,setCount]=React.useState(cartCount);React.useEffect(()=>{const sync=()=>setCount(cartCount());window.addEventListener('storage',sync);window.addEventListener('lagom-cart-change',sync);return()=>{window.removeEventListener('storage',sync);window.removeEventListener('lagom-cart-change',sync)}},[]);return <><div className="announcement account-announcement">HEMP-DERIVED THC · FOR ADULTS 21+ · ENJOY RESPONSIBLY</div><header className="account-site-header"><nav className="account-site-nav" aria-label="Primary navigation"><div className="account-site-nav__group"><NavLink to="/shop">Shop</NavLink><NavLink to="/merch">Merch</NavLink></div><Link className="account-site-brand" to="/"><img src={brandLogo} alt="Lagom Naturals"/></Link><div className="account-site-nav__group"><NavLink to="/visit">Find Us</NavLink><NavLink to="/about">Our Story</NavLink></div></nav><div className="account-site-tools"><Link to="/shop" aria-label="Search"><Search/></Link><Link to="/account" aria-current="page" aria-label="Account"><User/></Link><Link className="account-cart-icon" to="/cart" aria-label={`Cart, ${count} items`}><ShoppingBag/>{count>0&&<b>{count}</b>}</Link></div></header></>}
+function AccountHeader(){return <><div className="announcement account-announcement">HEMP-DERIVED THC · FOR ADULTS 21+ · ENJOY RESPONSIBLY</div><StorefrontHeader/></>}
 function HubRow({Icon,label,detail,section,reward=false,onOpen}){return <StaggerItem><m.button type="button" className={`account-hub-row${reward?' account-hub-row--reward':''}`} whileHover={{x:3}} whileTap={motionTokens.tap} onClick={()=>onOpen(section)}><span className="account-hub-row__icon"><Icon/></span><span className="account-hub-row__copy"><b>{label}</b><small>{detail}</small></span><ChevronRight className="account-hub-row__chevron"/></m.button></StaggerItem>}
 function PageHead({title,description,onBack}){return <div className="account-page-head"><button type="button" onClick={onBack} aria-label="Back to account"><ChevronLeft/></button><div><h1>{title}</h1><p>{description}</p></div></div>}
 function EmptyOrders(){return <section className="account-empty"><PackageCheck/><h2>No orders yet</h2><p>Your completed purchases will appear here when customer accounts and order history are connected.</p><Link to="/shop">Shop Lagom</Link></section>}

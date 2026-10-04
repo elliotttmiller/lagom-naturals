@@ -508,11 +508,108 @@
   .gummy-quick-view__cta{min-block-size:3.55rem;margin-top:.9rem}
 }
 
+/* Desktop scene layout: reserve the sticky-header band, then keep the tab rail
+   and four flavor tiles inside one bounded viewport grid. */
+@media (min-width:900px){
+  .gummy-showcase-shell{
+    box-sizing:border-box;
+    padding-block-start:var(--desktop-header-h,88px);
+    background:radial-gradient(ellipse at 50% 8%,#fff 0%,#f8f6f1 52%,#efede7 100%);
+  }
+
+  .gummy-showcase__experience{
+    display:grid;
+    inline-size:min(calc(100% - 2 * clamp(24px,4vw,72px)),1680px);
+    block-size:100%;
+    min-block-size:0;
+    margin-inline:auto;
+    padding-block-end:clamp(14px,2.1vh,24px);
+    box-sizing:border-box;
+  }
+
+  .gummy-mobile__grid-state{
+    display:grid;
+    grid-template-rows:3.5rem minmax(0,1fr);
+    gap:clamp(12px,1.2vw,18px);
+    inline-size:100%;
+    block-size:100%;
+    min-block-size:0;
+    overflow:hidden;
+  }
+
+  .gummy-mobile__collection-rail{
+    inline-size:min(100%,38rem);
+    block-size:3.25rem;
+    min-block-size:3.25rem;
+    justify-self:center;
+    padding:.22rem;
+    border:1px solid rgba(35,49,43,.1);
+    background:rgba(255,255,255,.9);
+    box-shadow:0 .45rem 1.25rem rgba(35,31,27,.075),inset 0 1px 0 rgba(255,255,255,.96);
+    -webkit-backdrop-filter:blur(12px);
+    backdrop-filter:blur(12px);
+  }
+
+  .gummy-mobile__collection-rail button{
+    min-block-size:2.7rem;
+    color:#59635d;
+    font-size:clamp(.66rem,.72vw,.76rem);
+    letter-spacing:.09em;
+    transition:background-color .24s ease,color .24s ease,box-shadow .24s ease,transform .24s cubic-bezier(.16,1,.3,1);
+  }
+
+  .gummy-mobile__collection-rail button.is-active{
+    background:#173d32;
+    color:#fff;
+    box-shadow:0 .35rem .9rem rgba(18,54,43,.2),inset 0 1px 0 rgba(255,255,255,.16);
+  }
+
+  .gummy-mobile__collection-rail button:focus-visible{
+    outline:2px solid #173d32;
+    outline-offset:3px;
+  }
+
+  .gummy-mobile__grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-template-rows:repeat(2,minmax(0,1fr));
+    gap:clamp(10px,1vw,16px);
+    inline-size:100%;
+    block-size:100%;
+    min-block-size:0;
+    overflow:visible;
+    border:0;
+    border-radius:0;
+    background:transparent;
+    box-shadow:none;
+  }
+
+  .gummy-tile,
+  .gummy-tile:nth-child(odd),
+  .gummy-tile:nth-child(-n+2){
+    border:1px solid rgba(32,39,34,.09);
+    border-radius:clamp(14px,1.25vw,22px);
+    box-shadow:0 12px 26px rgba(35,31,27,.11),0 2px 6px rgba(35,31,27,.055);
+  }
+
+  .gummy-tile__product img{object-position:center center}
+  .gummy-tile__arrow{
+    inline-size:clamp(2.7rem,3.3vw,3.35rem);
+    block-size:clamp(2.7rem,3.3vw,3.35rem);
+    border-color:rgba(255,255,255,.78);
+    background:rgba(255,255,255,.76);
+    box-shadow:0 5px 18px rgba(22,28,23,.14),inset 0 1px 0 rgba(255,255,255,.9);
+    -webkit-backdrop-filter:blur(12px);
+    backdrop-filter:blur(12px);
+  }
+}
+
 /* Large/ultrawide desktop: preserve composition instead of stretching. */
 @media (min-width:1600px){
   .gummy-showcase__experience{
     inline-size:min(88vw,96rem);
-    block-size:min(88vh,52rem);
+    block-size:100%;
+    margin-inline:auto;
   }
   .gummy-mobile__grid,
   .gummy-quick-view{inline-size:min(100%,84rem)}

@@ -24,7 +24,7 @@ const packagingEncoder = {
 const groups = [
   { name: 'homeGummies', directory: 'src/assets/products/home-gummies', widths: [320, 480, 640, 900], encoder: packagingEncoder },
   { name: 'shopHeader', directory: 'data/ui', files: ['shop-header-image.png', 'shop-header-image-desktop.png'], widths: [480, 800, 1200, 2172] },
-  { name: 'seltzerDesktopFlavors', directory: 'data/ui/seltzer-showcase', files: ['ChatGPT Image Oct 3, 2026, 08_32_07 PM-1.png', 'ChatGPT Image Oct 3, 2026, 08_32_08 PM-2.png', 'ChatGPT Image Oct 3, 2026, 08_32_10 PM-3.png', 'ChatGPT Image Oct 3, 2026, 08_32_11 PM-4.png'], widths: [960, 1440, 1920], encoder: { avif: { quality: 55, effort: 2, chromaSubsampling: '4:4:4' }, webp: { quality: 74, effort: 4, smartSubsample: true } } },
+  { name: 'seltzerDesktopFlavors', directory: 'data/ui/seltzer-showcase', files: ['watermelon.png', 'Strawberry Lime Splash Seltzer Ad (1).png', 'blackberry.png', '24k.png'], widths: [960, 1440, 1723], encoder: { avif: { quality: 55, effort: 2, chromaSubsampling: '4:4:4' }, webp: { quality: 74, effort: 4, smartSubsample: true } } },
   { name: 'products', directory: 'src/assets/products/enhanced', widths: [480, 960] },
   { name: 'merch', directory: 'src/assets/merch', widths: [480, 960] },
   { name: 'heroMobile', directory: 'src/assets/mobile', files: ['hero.webp', 'gummies-hero.webp', 'midnight-gummies-hero.webp', 'organic-gummies-hero.webp'], widths: [480, 800] },
@@ -32,7 +32,6 @@ const groups = [
   { name: 'findUs', directory: 'src/assets/mobile', files: ['find-us-hero.png'], widths: [480, 960] },
   { name: 'store', directory: 'src/assets/store', widths: [480, 960] },
   { name: 'storeDesktop', directory: 'src/assets/desktop', files: ['storefront.webp'], widths: [960, 1600] },
-  { name: 'showcaseDesktop', directory: 'src/assets/showcase', files: ['seltzer-background.png', 'seltzer-splash.png', 'flavor-24k-lemonade.png', 'flavor-blackberry-breeze.png', 'flavor-watermelon-refresher.png', 'flavor-strawberry-lime-fusion.png'], widths: [960, 1600] },
   { name: 'showcaseMobile', directory: 'src/assets/showcase', files: ['seltzer-background-mobile.png', 'blackberry-breeze-mobile.png', 'flavor-24k-lemonade-mobile.png', 'flavor-blackberry-breeze-mobile.png', 'flavor-watermelon-refresher-mobile.png', 'flavor-strawberry-lime-fusion-mobile.png'], widths: [480, 800] },
   { name: 'categories', directory: 'src/assets', files: ['seltzers-thumbnail.webp', 'gummies-thumbnail.webp'], widths: [320, 640] },
 ]
@@ -43,6 +42,26 @@ const normalizePath = path => path.replaceAll('\\', '/')
 const digest = value => createHash('sha256').update(value).digest('hex')
 const sourceHash = async source => digest(await readFile(source))
 const exists = async path => access(path).then(() => true).catch(() => false)
+
+const replaceFile = async (temporary, target) => {
+  const backup = `${target}.${process.pid}.${Date.now()}.bak`
+  let hasBackup = false
+  try {
+    await rename(target, backup)
+    hasBackup = true
+  } catch (error) {
+    if (error.code !== 'ENOENT') throw error
+  }
+
+  try {
+    await rename(temporary, target)
+  } catch (error) {
+    if (hasBackup) await rename(backup, target)
+    throw error
+  }
+
+  if (hasBackup) await rm(backup, { force: true })
+}
 
 const readManifest = async () => {
   try {
@@ -57,8 +76,12 @@ const readManifest = async () => {
 
 const atomicWrite = async (target, content) => {
   const temporary = `${target}.${process.pid}.tmp`
-  await writeFile(temporary, content, 'utf8')
-  await rename(temporary, target)
+  try {
+    await writeFile(temporary, content, 'utf8')
+    await replaceFile(temporary, target)
+  } finally {
+    await rm(temporary, { force: true })
+  }
 }
 
 const outputPath = (group, key, width, format) => join(outputRoot, group.name, `${key}-${width}.${format}`)
@@ -69,6 +92,19 @@ const safeOutputPath = output => {
   return resolved
 }
 
+const cleanInterruptedWrites = async directory => {
+  for (const entry of await readdir(directory, { withFileTypes: true })) {
+    const path = join(directory, entry.name)
+    if (entry.isDirectory()) {
+      await cleanInterruptedWrites(path)
+      continue
+    }
+    if (entry.isFile() && (entry.name.includes('.tmp.') || /\.bak\.\d+\.\d+$/i.test(entry.name))) {
+      await rm(path, { force: true })
+    }
+  }
+}
+
 const makeVariants = (group, key) => group.widths.flatMap(width => ['avif', 'webp'].map(format => ({
   width,
   format,
@@ -77,10 +113,14 @@ const makeVariants = (group, key) => group.widths.flatMap(width => ['avif', 'web
 
 const writeVariant = async (source, variant, variantEncoder) => {
   const temporary = `${variant.output}.${process.pid}.tmp.${variant.format}`
-  const pipeline = sharp(source).rotate().resize({ width: variant.width, withoutEnlargement: true })
-  if (variant.format === 'avif') await pipeline.avif(variantEncoder.avif).toFile(temporary)
-  else await pipeline.webp(variantEncoder.webp).toFile(temporary)
-  await rename(temporary, variant.output)
+  try {
+    const pipeline = sharp(source).rotate().resize({ width: variant.width, withoutEnlargement: true })
+    if (variant.format === 'avif') await pipeline.avif(variantEncoder.avif).toFile(temporary)
+    else await pipeline.webp(variantEncoder.webp).toFile(temporary)
+    await replaceFile(temporary, variant.output)
+  } finally {
+    await rm(temporary, { force: true })
+  }
 }
 
 const groupFiles = async group => {
@@ -133,6 +173,7 @@ try {
 }
 
 try {
+  await cleanInterruptedWrites(outputRoot)
   const previous = await readManifest()
   const previousEntries = new Map(previous.entries.map(entry => [entry.source, entry]))
   const resolvedGroups = []

@@ -114,10 +114,19 @@
 
   .sky-home .legacy-sky-hero__actions a:first-child {
     min-inline-size:clamp(220px,17vw,294px);
-    background:#111;
-    color:#fff;
-    border-color:#111;
-    box-shadow:none;
+    border-color:rgba(255,255,255,.78);
+    background:linear-gradient(135deg,rgba(255,255,255,.74),rgba(246,250,255,.48));
+    color:#101713;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.88),0 12px 32px rgba(18,56,76,.16);
+    backdrop-filter:blur(16px) saturate(1.2);
+    -webkit-backdrop-filter:blur(16px) saturate(1.2);
+    transition:transform .24s cubic-bezier(.2,.8,.2,1),background-color .24s ease,border-color .24s ease,box-shadow .24s ease;
+  }
+
+  .sky-home .legacy-sky-hero__actions a:first-child:hover {
+    border-color:rgba(255,255,255,.96);
+    background:linear-gradient(135deg,rgba(255,255,255,.88),rgba(246,250,255,.66));
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.98),0 16px 36px rgba(18,56,76,.2);
   }
 
   .sky-home .legacy-sky-hero__proofs { display:none; }

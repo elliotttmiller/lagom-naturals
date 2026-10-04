@@ -10,7 +10,7 @@ const publicAsset=name=>`${PUBLIC_BASE}${name.replace(/^\//,'')}`
 
 function Logo({onClick,className=''}){return <Link to="/" className={`brand ${className}`} onClick={onClick}><img src={publicAsset("enhanced-lagom-logo.webp")} alt="Lagom Naturals"/></Link>}
 
-function Header({detail=false}){
+export function StorefrontHeader({detail=false}){
   const{count}=useCart()
   const location=useLocation()
   const[open,setOpen]=useState(false)
@@ -43,20 +43,18 @@ function Header({detail=false}){
   const desktopLinks=isAllProducts
     ? [['Shop','/shop'],['About','/about'],['Our Story','/about'],['FAQ','/learn']]
     : [['Shop','/shop'],['Collections','/shop'],['About','/about'],['Learn','/learn']]
-  const [desktopLeftLinks,desktopRightLinks]=[desktopLinks.slice(0,2),desktopLinks.slice(2)]
   const drawerLinks=[['Shop','/shop'],['Merch','/merch'],['Find Us','/visit'],['Our Story','/about']]
   const backdropTransition=reduceMotion?{duration:0}:{duration:motionTokens.duration.control,ease:motionTokens.ease}
   const drawerTransition=reduceMotion?{duration:0}:motionTokens.springDrawer
 
   return <>
-    <m.header className={`site-header ${detail?'site-header--commerce':''} ${isAllProducts?'site-header--shop-all':''}`} layout="position">
+    <m.header className={`site-header ${detail?'site-header--commerce site-header--detail':''} ${isAllProducts?'site-header--shop-all':''}`} layout="position">
       <div className="header-inner">
         {detail?<m.button type="button" className="icon-btn" whileTap={motionTokens.tap} onClick={()=>nav(-1)} aria-label="Back"><ArrowLeft/></m.button>:<HamburgerToggle checked={open} onChange={toggle} controls="site-navigation-drawer" label={open?'Close menu':'Open menu'}/>}
         <Logo className="header-mobile-brand"/>
+        <Logo className="desktop-header-brand"/>
         <nav className="desktop-nav" aria-label="Primary navigation">
-          <div className="desktop-nav__group desktop-nav__group--left">{desktopLeftLinks.map(([label,to])=><NavLink key={label} to={to}>{label}</NavLink>)}</div>
-          <Logo className="desktop-nav__brand"/>
-          <div className="desktop-nav__group desktop-nav__group--right">{desktopRightLinks.map(([label,to])=><NavLink key={label} to={to}>{label}</NavLink>)}</div>
+          <div className="desktop-nav__links">{desktopLinks.map(([label,to])=><NavLink key={label} to={to}>{label}</NavLink>)}</div>
         </nav>
         <div className="header-tools">
           <m.button type="button" className="icon-btn header-search" aria-label="Search products" aria-controls="global-search-surface" aria-expanded="false" whileTap={motionTokens.tap} onClick={()=>window.dispatchEvent(new CustomEvent('lagom:open-global-search'))}><Search aria-hidden="true"/><span>Search products…</span></m.button>
@@ -98,4 +96,4 @@ function Header({detail=false}){
   </>
 }
 
-export default function Shell({children,detail=false}){return <div className="app-shell"><div className="announcement">HEMP-DERIVED THC · FOR ADULTS 21+ · ENJOY RESPONSIBLY</div><Header detail={detail}/><main>{children}</main></div>}
+export default function Shell({children,detail=false}){return <div className="app-shell"><div className="announcement">HEMP-DERIVED THC · FOR ADULTS 21+ · ENJOY RESPONSIBLY</div><StorefrontHeader detail={detail}/><main>{children}</main></div>}

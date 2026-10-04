@@ -48,6 +48,18 @@
     max-block-size:var(--home-desktop-scene-h);
     overflow:hidden;
   }
+
+  /* Full-height showcase scenes include the transparent sticky header's
+     overlay area. Keep their seam on the viewport boundary without pulling a
+     later scene upward into the preceding scene. */
+  .sky-home > .seltzer-showcase-section{
+    box-sizing:border-box!important;
+    block-size:var(--home-desktop-scene-h)!important;
+    min-block-size:var(--home-desktop-scene-h)!important;
+    max-block-size:var(--home-desktop-scene-h)!important;
+    margin-block:0!important;
+    padding-block-start:0!important;
+  }
 }
 
 /* --------------------------------------------------------------------------

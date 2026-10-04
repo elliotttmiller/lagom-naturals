@@ -7,7 +7,8 @@
 
 @media(min-width:900px){
   .app-shell:has(.pdp--flavor),.app-shell:has(.pdp--flavor)>main{background:linear-gradient(180deg,#fff 0%,var(--pdp-accent-soft) 100%)!important}
-  .pdp--flavor{width:min(1380px,calc(100vw - 64px))!important;grid-template-columns:76px minmax(0,1.04fr) minmax(420px,.96fr)!important;gap:0 clamp(42px,4.8vw,84px)!important;padding:clamp(34px,4vw,68px) 0 86px!important}
+  .pdp--flavor{width:min(1720px,calc(100vw - 64px))!important;grid-template-columns:76px minmax(0,1.12fr) minmax(420px,.88fr)!important;gap:0 clamp(28px,3vw,56px)!important;padding:clamp(34px,4vw,68px) 0 86px!important;align-items:stretch!important}
+  .pdp--flavor .pdp-media{height:min(72svh,860px)!important;min-height:620px!important;max-height:860px!important;aspect-ratio:auto!important}
   .pdp--flavor .pdp-media{border:1px solid color-mix(in srgb,var(--pdp-accent) 25%,#fff)!important;border-radius:24px!important;background:var(--pdp-accent-soft)!important;box-shadow:0 24px 54px color-mix(in srgb,var(--pdp-accent) 17%,transparent),inset 0 1px 0 rgba(255,255,255,.84)!important}
   .pdp--flavor .pdp-media::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(145deg,rgba(255,255,255,.28),transparent 36%,rgba(0,0,0,.035))}
   .pdp--flavor .pdp-media picture,.pdp--flavor .pdp-media img{position:relative;z-index:1}
