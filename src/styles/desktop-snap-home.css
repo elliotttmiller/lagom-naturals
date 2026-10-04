@@ -50,8 +50,8 @@
   .sky-home .legacy-sky-hero__content {
     position:absolute;
     z-index:4;
-    inset:50% 0 auto;
-    inline-size:min(calc(100% - 48px),920px);
+    inset:clamp(34px,5.2dvh,64px) 0 auto;
+    inline-size:min(calc(100% - 48px),1120px);
     min-block-size:0;
     min-height:0;
     display:flex;
@@ -61,7 +61,7 @@
     margin-inline:auto;
     padding:0;
     text-align:center;
-    transform:translateY(-50%);
+    transform:none;
   }
 
   .sky-home .legacy-sky-hero h1 {
@@ -69,7 +69,7 @@
     margin:0;
     color:var(--ink);
     font-family:var(--font-display);
-    font-size:clamp(66px,5.6vw,106px);
+    font-size:clamp(52px,4.8vw,88px);
     font-weight:400;
     line-height:.86;
     letter-spacing:-.058em;
@@ -100,11 +100,11 @@
     display:flex;
     justify-content:center;
     gap:0;
-    margin-top:clamp(18px,2.8dvh,32px);
+    margin-top:clamp(14px,2dvh,24px);
   }
 
   .sky-home .legacy-sky-hero__actions a {
-    min-block-size:clamp(54px,6.2dvh,64px);
+    min-block-size:clamp(48px,5.4dvh,58px);
     padding-inline:clamp(36px,3.1vw,52px);
     border:1px solid #111;
     border-radius:999px;
@@ -444,9 +444,8 @@
 }
 
 @media (min-width:900px) and (max-height:760px) {
-  .sky-home .legacy-sky-hero h1 { font-size:clamp(60px,5.5vw,86px); }
-  .sky-home .legacy-sky-hero__lede { margin-top:18px; font-size:17px; }
-  .sky-home .legacy-sky-hero__actions { margin-top:22px; }
+  .sky-home .legacy-sky-hero h1 { font-size:clamp(46px,4.2vw,72px); }
+  .sky-home .legacy-sky-hero__actions { margin-top:clamp(12px,1.7dvh,20px); }
   .sky-home .legacy-sky-hero__proofs { margin-top:22px; }
   .sky-home .legacy-sky-hero__product { inline-size:min(54vw,780px); }
 
@@ -469,7 +468,7 @@
 @media (min-width:900px) and (max-width:1180px) {
   .sky-home .legacy-sky-hero__content { inline-size:min(calc(100% - 64px),800px); }
   .sky-home .legacy-sky-hero__product { inline-size:min(64vw,780px); }
-  .sky-home .legacy-sky-hero h1 { font-size:clamp(64px,6vw,86px); }
+  .sky-home .legacy-sky-hero h1 { font-size:clamp(48px,4.8vw,58px); }
 
   .sky-home__section--flavors,
   .sky-home__section--gummies {
@@ -482,7 +481,7 @@
 }
 @media (min-width:900px) and (max-height:760px) {
   .sky-home .legacy-sky-hero__content {
-    inset-block-start:50%;
+    inset-block-start:clamp(24px,4dvh,40px);
   }
 
   .sky-home .legacy-sky-hero__proofs {

@@ -80,10 +80,14 @@ try {
   const manifest = JSON.parse(await readFile(join(outDir, '.vite', 'manifest.json'), 'utf8'))
   const findAsset = suffix => Object.entries(manifest).find(([key]) => key.endsWith(suffix))?.[1]?.file
   const mobileHero = findAsset('src/assets/mobile/hero.webp') || findAsset('assets/mobile/hero.webp')
-  const desktopHero = findAsset('src/assets/desktop/hero.webp') || findAsset('assets/desktop/hero.webp')
+  const desktopHeroAvif960 = findAsset('src/assets/optimized/heroDesktop/hero-960.avif')
+  const desktopHeroAvif1600 = findAsset('src/assets/optimized/heroDesktop/hero-1600.avif')
+  const desktopHeroWebp960 = findAsset('src/assets/optimized/heroDesktop/hero-960.webp')
+  const desktopHeroWebp1600 = findAsset('src/assets/optimized/heroDesktop/hero-1600.webp')
   const tags = []
   if (mobileHero) tags.push(`<link rel="preload" as="image" href="${base}${mobileHero}" media="(max-width: 699px)" fetchpriority="high" />`)
-  if (desktopHero) tags.push(`<link rel="preload" as="image" href="${base}${desktopHero}" media="(min-width: 700px)" fetchpriority="high" />`)
+  if (desktopHeroAvif960 && desktopHeroAvif1600) tags.push(`<link rel="preload" as="image" href="${base}${desktopHeroAvif1600}" imagesrcset="${base}${desktopHeroAvif960} 960w, ${base}${desktopHeroAvif1600} 1600w" imagesizes="100vw" type="image/avif" media="(min-width: 900px)" fetchpriority="high" />`)
+  else if (desktopHeroWebp960 && desktopHeroWebp1600) tags.push(`<link rel="preload" as="image" href="${base}${desktopHeroWebp1600}" imagesrcset="${base}${desktopHeroWebp960} 960w, ${base}${desktopHeroWebp1600} 1600w" imagesizes="100vw" type="image/webp" media="(min-width: 900px)" fetchpriority="high" />`)
   heroPreloads = tags.join('')
 } catch {
   console.warn('Unable to resolve hero preload assets from Vite manifest.')

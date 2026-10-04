@@ -17,6 +17,6 @@ export default function HomeHero() {
       <source type="image/webp" srcSet={desktopHero.webpSrcSet} sizes="100vw" />
       <img className={mediaReady ? "is-ready" : "is-loading"} src={desktopHero.src} alt="" fetchPriority="high" decoding="async" onLoad={() => setMediaReady(true)} onError={() => setMediaReady(true)} />
     </picture></div>
-    <div className="legacy-sky-hero__content" data-home-snap-content><h1 id="legacy-sky-hero-title">FIND YOUR<br /><strong>PERFECT BALANCE.</strong></h1><span className="legacy-sky-hero__lede">Full of flavor. Just the right amount of THC. Crafted for an easygoing experience that feels unmistakably <em>Lagom.</em></span><div className="legacy-sky-hero__actions"><Link to="/shop">SHOP NOW <ArrowRight aria-hidden="true" /></Link></div></div>
+    <div className="legacy-sky-hero__content" data-home-snap-content><h1 id="legacy-sky-hero-title">FIND YOUR<br /><strong>PERFECT BALANCE.</strong></h1><div className="legacy-sky-hero__actions"><Link to="/shop">SHOP NOW <ArrowRight aria-hidden="true" /></Link></div></div>
   </section>;
 }

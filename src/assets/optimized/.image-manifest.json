@@ -914,7 +914,7 @@
     },
     {
       "source": "src/assets/desktop/hero.webp",
-      "hash": "6ea57e156ba92bf47ebee67d46a3c0a135e5c33b5560aec49763a3dbd2bf022c",
+      "hash": "f265f33cf4f66dc46f8bd901c27950b04d7e74025a2e699d1b82df035d817bd4",
       "fingerprint": "0c1daa8b2449aa33001b962856e220e5f7c11a473352e3d29bcdb2d1316a4439",
       "outputs": [
         "heroDesktop/hero-960.avif",
