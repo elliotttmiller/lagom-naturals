@@ -2,18 +2,22 @@ import React from 'react'
 import { AnimatePresence, LayoutGroup, LazyMotion, MotionConfig, domMax, m, useMotionValue, useReducedMotion, useSpring, useTransform } from 'motion/react'
 
 export const motionTokens={
+  // Keep these values mirrored by src/styles/lagom-motion-language.css.
+  // JS owns Motion choreography; CSS owns lightweight interpolation only.
   ease:[.22,.82,.28,1],
   easeSoft:[.16,1,.3,1],
   easeExit:[.4,0,.2,1],
   easeLinear:[0,0,1,1],
-  spring:{type:'spring',stiffness:210,damping:27,mass:.94},
-  springSoft:{type:'spring',stiffness:165,damping:25,mass:1.02},
-  springSnappy:{type:'spring',stiffness:330,damping:31,mass:.82},
-  springDrawer:{type:'spring',stiffness:185,damping:27,mass:1.02},
-  springMedia:{type:'spring',stiffness:145,damping:24,mass:1.06},
-  duration:{instant:.14,micro:.18,fast:.22,control:.3,base:.38,slow:.56,cinematic:.74,atmosphere:1.08},
+  spring:{type:'spring',stiffness:220,damping:29,mass:.9},
+  springSoft:{type:'spring',stiffness:185,damping:28,mass:.96},
+  springSnappy:{type:'spring',stiffness:340,damping:32,mass:.8},
+  springDrawer:{type:'spring',stiffness:205,damping:30,mass:.96},
+  springMedia:{type:'spring',stiffness:175,damping:27,mass:1},
+  springProduct:{type:'spring',stiffness:210,damping:30,mass:.94},
+  duration:{instant:.1,micro:.16,fast:.22,control:.3,base:.38,slow:.56,cinematic:.74,atmosphere:1.08},
+  distance:{xs:6,sm:10,md:18,lg:28},
   hover:{y:-2,scale:1.006},
-  tap:{scale:.982},
+  tap:{scale:.985},
 }
 
 export const motionTransitions={
