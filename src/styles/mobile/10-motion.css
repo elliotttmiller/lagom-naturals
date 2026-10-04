@@ -18,8 +18,11 @@
   .product-media>a{width:100%;height:100%;display:grid;place-items:center;min-width:0}.product-media>a>img{width:100%;height:100%;object-fit:contain}
   .merch-card>a{display:block;color:inherit;height:100%}.merch-grid>div{min-width:0;height:100%}.merch-grid>div>.merch-card{height:100%}
 
+  /* Broad interactive styling must not own transforms. Motion components and
+     component-specific CSS own physical movement so press/drag/layout
+     transforms cannot be delayed by a second transition system. */
   a,button,.icon-btn,.category-card,.product-card,.merch-card,.primary-bar,.method-card,.pickup-card{
-    transition:background-color var(--motion-fast) ease,border-color var(--motion-fast) ease,color var(--motion-fast) ease,opacity var(--motion-fast) ease,box-shadow var(--motion-base) var(--ease),transform var(--motion-base) var(--ease);
+    transition:background-color var(--motion-fast) var(--ease),border-color var(--motion-fast) var(--ease),color var(--motion-fast) var(--ease),opacity var(--motion-fast) var(--ease),box-shadow var(--motion-base) var(--ease);
   }
   img{transition:opacity var(--motion-fast) ease}
 
