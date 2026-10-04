@@ -89,14 +89,16 @@ export default function HomeProductStage({
     }
   };
 
+  const mediaTravel = mobile ? 52 : 72;
+  const titleTravel = mobile ? 28 : 40;
   const mediaInitial = reduceMotion
     ? false
-    : { opacity: 0, x: direction * 86, rotate: direction * 4, scale: 0.9 };
+    : { opacity: 0, x: direction * mediaTravel, rotate: direction * (mobile ? 2.2 : 3), scale: mobile ? 0.96 : 0.94 };
   const mediaExit = reduceMotion
     ? { opacity: 0 }
-    : { opacity: 0, x: direction * -72, rotate: direction * -3, scale: 0.94 };
-  const titleInitial = reduceMotion ? false : { opacity: 0, x: direction * 46, y: 18 };
-  const titleExit = reduceMotion ? { opacity: 0 } : { opacity: 0, x: direction * -38, y: -12 };
+    : { opacity: 0, x: direction * -mediaTravel * 0.82, rotate: direction * (mobile ? -1.6 : -2.4), scale: mobile ? 0.975 : 0.96 };
+  const titleInitial = reduceMotion ? false : { opacity: 0, x: direction * titleTravel, y: mobile ? 10 : 14 };
+  const titleExit = reduceMotion ? { opacity: 0 } : { opacity: 0, x: direction * -titleTravel * 0.8, y: mobile ? -6 : -9 };
 
   const accentNodes = useMemo(() => [0, 1, 2, 3], []);
 
@@ -143,7 +145,7 @@ export default function HomeProductStage({
               initial={titleInitial}
               animate={{ opacity: 1, x: 0, y: 0 }}
               exit={titleExit}
-              transition={reduceMotion ? { duration: 0 } : { duration: 0.58, ease: motionTokens.easeSoft }}
+              transition={reduceMotion ? { duration: 0 } : { duration: motionTokens.duration.slow, ease: motionTokens.easeSoft }}
             >
               {activeTitle}
             </m.div>
@@ -160,7 +162,7 @@ export default function HomeProductStage({
               className="home-product-stage__media"
               initial={false}
               animate={reduceMotion ? undefined : { rotate: [0, direction * 1.5, 0], scale: [1, 0.988, 1] }}
-              transition={reduceMotion ? { duration: 0 } : { duration: 0.46, ease: motionTokens.easeSoft }}
+              transition={reduceMotion ? { duration: 0 } : { duration: motionTokens.duration.base, ease: motionTokens.easeSoft }}
             >
               {renderMedia(activeItem, activeIndex, { direction, reduceMotion })}
             </m.div>
@@ -187,11 +189,11 @@ export default function HomeProductStage({
             onClick={() => previous("button")}
             disabled={activeIndex === 0}
             aria-label="Previous"
-            whileHover={reduceMotion ? undefined : { scale: 1.045 }}
-            whileTap={reduceMotion ? undefined : { scale: 0.96 }}
+            whileHover={reduceMotion ? undefined : motionTokens.hover}
+            whileTap={reduceMotion ? undefined : motionTokens.tap}
           >
             <ArrowLeft aria-hidden="true" />
-            {pulse.side === "previous" && <m.span key={`prev-${pulse.key}`} className="home-product-stage__nav-wave" initial={{ opacity: 0.45, scale: 0.72 }} animate={{ opacity: 0, scale: 1.85 }} transition={{ duration: 0.58, ease: motionTokens.easeSoft }} />}
+            {pulse.side === "previous" && <m.span key={`prev-${pulse.key}`} className="home-product-stage__nav-wave" initial={{ opacity: 0.45, scale: 0.72 }} animate={{ opacity: 0, scale: 1.85 }} transition={{ duration: motionTokens.duration.slow, ease: motionTokens.easeSoft }} />}
           </m.button>
           <m.button
             type="button"
@@ -199,11 +201,11 @@ export default function HomeProductStage({
             onClick={() => next("button")}
             disabled={activeIndex === items.length - 1}
             aria-label="Next"
-            whileHover={reduceMotion ? undefined : { scale: 1.045 }}
-            whileTap={reduceMotion ? undefined : { scale: 0.96 }}
+            whileHover={reduceMotion ? undefined : motionTokens.hover}
+            whileTap={reduceMotion ? undefined : motionTokens.tap}
           >
             <ArrowRight aria-hidden="true" />
-            {pulse.side === "next" && <m.span key={`next-${pulse.key}`} className="home-product-stage__nav-wave" initial={{ opacity: 0.45, scale: 0.72 }} animate={{ opacity: 0, scale: 1.85 }} transition={{ duration: 0.58, ease: motionTokens.easeSoft }} />}
+            {pulse.side === "next" && <m.span key={`next-${pulse.key}`} className="home-product-stage__nav-wave" initial={{ opacity: 0.45, scale: 0.72 }} animate={{ opacity: 0, scale: 1.85 }} transition={{ duration: motionTokens.duration.slow, ease: motionTokens.easeSoft }} />}
           </m.button>
         </div>
       </div>
@@ -212,10 +214,10 @@ export default function HomeProductStage({
         <m.div
           key={`details-${itemKey}`}
           className="home-product-stage__details"
-          initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+          initial={reduceMotion ? false : { opacity: 0, y: motionTokens.distance.sm }}
           animate={{ opacity: 1, y: 0 }}
-          exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -8 }}
-          transition={reduceMotion ? { duration: 0 } : { duration: 0.46, ease: motionTokens.easeSoft }}
+          exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -motionTokens.distance.xs }}
+          transition={reduceMotion ? { duration: 0 } : { duration: motionTokens.duration.base, ease: motionTokens.easeSoft }}
         >
           {renderDetails(activeItem, activeIndex)}
         </m.div>
