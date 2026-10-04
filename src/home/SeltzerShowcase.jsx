@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { m, Presence, motionTokens, useReducedMotion } from "@/motionSystem";
 import { products } from "@/catalogData";
 import { responsiveImages } from "@/generated/responsiveImages";
 import canBase480Avif from "../assets/seltzers/lagom-seltzer-can-base-480.avif";
@@ -50,7 +50,7 @@ const labelMedia = {
 };
 
 function ShowcaseCan({ label, product, reducedMotion }) {
-  const transition = reducedMotion ? { duration: 0 } : { duration: 0.38, ease: [0.16, 1, 0.3, 1] };
+  const transition = reducedMotion ? { duration: 0 } : { duration: motionTokens.duration.base, ease: motionTokens.easeSoft };
 
   return <span className="seltzer-showcase__can" aria-label={`${product.name} THC seltzer can`} role="img">
     <picture className="seltzer-showcase__can-base">
@@ -59,13 +59,13 @@ function ShowcaseCan({ label, product, reducedMotion }) {
       <img src={canBase889Webp} alt="" />
     </picture>
     <span className="seltzer-showcase__label-viewport">
-      <AnimatePresence initial={false} mode="sync">
-        <motion.picture key={product.id} className="seltzer-showcase__can-label" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={transition}>
+      <Presence initial={false} mode="sync">
+        <m.picture key={product.id} className="seltzer-showcase__can-label" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={transition}>
           <source type="image/avif" srcSet={label.avif} sizes="(max-width: 899px) 53vw, 21rem" />
           <source type="image/webp" srcSet={label.webp} sizes="(max-width: 899px) 53vw, 21rem" />
           <img src={label.src} alt="" />
-        </motion.picture>
-      </AnimatePresence>
+        </m.picture>
+      </Presence>
     </span>
   </span>;
 }
@@ -75,11 +75,11 @@ function ShowcaseColorTrack({ background, desktopMedia, mobileMedia, direction, 
   const exitOffset = direction > 0 ? "-100%" : "100%";
   const transition = reducedMotion
     ? { duration: 0 }
-    : { duration: 0.68, ease: [0.77, 0, 0.18, 1] };
+    : { duration: motionTokens.duration.slow, ease: motionTokens.easeSoft };
 
   return (
     <AnimatePresence initial={false} custom={direction} mode="sync">
-      <motion.div
+      <m.div
         key={productId}
         className="seltzer-showcase__color-slide"
         style={{ backgroundColor: background }}
@@ -95,7 +95,7 @@ function ShowcaseColorTrack({ background, desktopMedia, mobileMedia, direction, 
           <source type="image/webp" srcSet={desktopMedia.webpSrcSet} sizes="100vw" />
           <img src={desktopMedia.src} alt="" decoding="async" />
         </picture>
-      </motion.div>
+      </m.div>
     </AnimatePresence>
   );
 }
@@ -135,7 +135,24 @@ export default function SeltzerShowcase() {
 
   const label = labelMedia[product.id];
   const desktopArtwork = responsiveImages.seltzerDesktopFlavors[desktopArtworkFiles[product.id]];
-  return <section className="seltzer-showcase" style={{ "--seltzer-accent": theme.accent, "--seltzer-slide-background": theme.color }} aria-labelledby="seltzer-showcase-title" onPointerDown={(event) => { if (event.pointerType === "touch") touchStart.current = event.clientX; }} onPointerUp={(event) => { if (touchStart.current === null) return; const distance = event.clientX - touchStart.current; touchStart.current = null; if (Math.abs(distance) > 48) change(distance > 0 ? -1 : 1); }}>
+  return <section
+    className="seltzer-showcase"
+    style={{ "--seltzer-accent": theme.accent, "--seltzer-slide-background": theme.color }}
+    aria-labelledby="seltzer-showcase-title"
+    onPointerDown={(event) => {
+      if (event.pointerType !== "touch") return;
+      touchStart.current = { x: event.clientX, y: event.clientY };
+    }}
+    onPointerUp={(event) => {
+      if (!touchStart.current) return;
+      const dx = event.clientX - touchStart.current.x;
+      const dy = event.clientY - touchStart.current.y;
+      touchStart.current = null;
+      if (Math.abs(dx) < 48 || Math.abs(dx) <= Math.abs(dy) * 1.2) return;
+      change(dx > 0 ? -1 : 1);
+    }}
+    onPointerCancel={() => { touchStart.current = null; }}
+  >
     <h2 id="seltzer-showcase-title" className="sr-only">Lagom Naturals seltzer showcase</h2>
     <ShowcaseColorTrack background={theme.color} desktopMedia={desktopArtwork} mobileMedia={theme.mobileMedia} direction={direction} productId={product.id} reducedMotion={reducedMotion} />
     <div className="seltzer-showcase__topline" aria-hidden="true"><img className="seltzer-showcase__brand-logo" src={publicAsset("enhanced-lagom-naturals-logo-white.webp")} alt="" /></div>
