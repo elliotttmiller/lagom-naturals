@@ -28,7 +28,7 @@ const groups = [
   { name: 'products', directory: 'src/assets/products/enhanced', widths: [480, 960] },
   { name: 'merch', directory: 'src/assets/merch', widths: [480, 960] },
   { name: 'heroMobile', directory: 'src/assets/mobile', files: ['hero.webp', 'gummies-hero.webp', 'midnight-gummies-hero.webp', 'organic-gummies-hero.webp'], widths: [480, 800] },
-  { name: 'heroDesktop', directory: 'src/assets/desktop', files: ['hero.webp', 'gummies-hero.webp', 'midnight-gummies-hero.webp', 'organic-gummies-hero.webp'], widths: [960, 1600] },
+  { name: 'heroDesktop', directory: 'src/assets/desktop', files: ['hero.webp', 'gummies-hero.webp', 'midnight-gummies-hero.webp', 'organic-gummies-hero.webp'], sourceFiles: { 'hero.webp': 'data/ui/desktop-hero.png' }, widths: [960, 1600] },
   { name: 'findUs', directory: 'src/assets/mobile', files: ['find-us-hero.png'], widths: [480, 960] },
   { name: 'store', directory: 'src/assets/store', widths: [480, 960] },
   { name: 'storeDesktop', directory: 'src/assets/desktop', files: ['storefront.webp'], widths: [960, 1600] },
@@ -39,6 +39,7 @@ const groups = [
 const safeKey = file => basename(file, extname(file))
 const importName = value => value.replace(/[^a-zA-Z0-9_$]/g, '_')
 const normalizePath = path => path.replaceAll('\\', '/')
+const sourcePathFor = (group, file) => join(root, group.sourceFiles?.[file] ?? group.directory, ...(group.sourceFiles?.[file] ? [] : [file]))
 const digest = value => createHash('sha256').update(value).digest('hex')
 const sourceHash = async source => digest(await readFile(source))
 const exists = async path => access(path).then(() => true).catch(() => false)
@@ -132,7 +133,7 @@ const groupFiles = async group => {
     const key = safeKey(file)
     if (keys.has(key)) throw new Error(`Duplicate responsive image key "${key}" in ${group.directory}`)
     keys.add(key)
-    if (!await exists(join(sourceDirectory, file))) throw new Error(`Missing configured source image: ${normalizePath(join(group.directory, file))}`)
+    if (!await exists(sourcePathFor(group, file))) throw new Error(`Missing configured source image: ${normalizePath(group.sourceFiles?.[file] ?? join(group.directory, file))}`)
   }
   return sorted
 }
@@ -188,7 +189,7 @@ try {
     resolvedGroups.push(resolvedGroup)
 
     for (const file of files) {
-      const sourcePath = join(root, group.directory, file)
+      const sourcePath = sourcePathFor(group, file)
       const source = normalizePath(relative(root, sourcePath))
       const key = safeKey(file)
       const variants = makeVariants(group, key)

@@ -913,8 +913,8 @@
       ]
     },
     {
-      "source": "src/assets/desktop/hero.webp",
-      "hash": "f265f33cf4f66dc46f8bd901c27950b04d7e74025a2e699d1b82df035d817bd4",
+      "source": "data/ui/desktop-hero.png",
+      "hash": "c4018b0113d57e305a54de08a8f2e8bd3d85cedfe96755635407ed92f17a267c",
       "fingerprint": "0c1daa8b2449aa33001b962856e220e5f7c11a473352e3d29bcdb2d1316a4439",
       "outputs": [
         "heroDesktop/hero-960.avif",
