@@ -78,7 +78,7 @@ function ShowcaseColorTrack({ background, desktopMedia, mobileMedia, direction, 
     : { duration: motionTokens.duration.slow, ease: motionTokens.easeSoft };
 
   return (
-    <AnimatePresence initial={false} custom={direction} mode="sync">
+    <Presence initial={false} custom={direction} mode="sync">
       <m.div
         key={productId}
         className="seltzer-showcase__color-slide"
@@ -96,7 +96,7 @@ function ShowcaseColorTrack({ background, desktopMedia, mobileMedia, direction, 
           <img src={desktopMedia.src} alt="" decoding="async" />
         </picture>
       </m.div>
-    </AnimatePresence>
+    </Presence>
   );
 }
 
