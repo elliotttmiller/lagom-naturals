@@ -178,7 +178,7 @@ function ProductTile({ product, collectionTone, index, onOpen, buttonRef, reduce
   );
 }
 
-function ProductQuickView({ product, collectionTone, onClose, reduceMotion, detailHeadingRef }) {
+function ProductQuickView({ product, collectionTone, onClose, reduceMotion, detailHeadingRef, revealClip }) {
   const theme = PRODUCT_THEMES[product.id] || PRODUCT_THEMES["push-pop"];
   const facts = productFacts(product);
   const highlights = productHighlights(product);
@@ -187,12 +187,12 @@ function ProductQuickView({ product, collectionTone, onClose, reduceMotion, deta
     <m.article
       className={`gummy-quick-view gummy-quick-view--${collectionTone}`}
       style={{ "--gummy-tile-surface": theme.surface, "--gummy-tile-accent": theme.accent }}
-      layout={!reduceMotion}
-      layoutId={reduceMotion ? undefined : `gummy-surface-${product.id}`}
-      initial={reduceMotion ? { opacity: 0 } : false}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={reduceMotion ? { duration: motionTokens.duration.instant } : motionTokens.springProduct}
+      initial={reduceMotion ? { opacity: 0 } : { opacity: 1, clipPath: revealClip }}
+      animate={reduceMotion ? { opacity: 1 } : { opacity: 1, clipPath: "inset(0px 0px 0px 0px round 1.2rem)" }}
+      exit={reduceMotion ? { opacity: 0 } : { opacity: 1, clipPath: revealClip }}
+      transition={reduceMotion
+        ? { duration: motionTokens.duration.instant }
+        : { clipPath: { duration: motionTokens.duration.slow, ease: motionTokens.easeSoft }, opacity: { duration: motionTokens.duration.fast, ease: motionTokens.ease } }}
       aria-labelledby={`gummy-quick-title-${product.id}`}
     >
       <div className="gummy-quick-view__hero">
@@ -204,7 +204,6 @@ function ProductQuickView({ product, collectionTone, onClose, reduceMotion, deta
           className="gummy-quick-view__product"
           sizes="(max-width: 699px) 100vw, (max-width: 1099px) 56vw, 45rem"
           eager
-          layoutId={reduceMotion ? undefined : `gummy-media-${product.id}`}
         />
       </div>
 
@@ -249,22 +248,34 @@ function ResponsiveGummyExperience() {
   const [collectionIndex, setCollectionIndex] = useState(0);
   const [selectedId, setSelectedId] = useState(null);
   const tileRefs = useRef(new Map());
+  const experienceRef = useRef(null);
   const detailHeadingRef = useRef(null);
+  const returnFocusRef = useRef(null);
   const pointerStart = useRef(null);
+  const [revealClip, setRevealClip] = useState("inset(18% 18% 18% 18% round 1.2rem)");
 
   const collection = COLLECTIONS[collectionIndex];
   const collectionProducts = useMemo(() => collection.productIds.map(getProduct).filter(Boolean), [collection]);
   const selectedProduct = selectedId ? getProduct(selectedId) : null;
 
   const closeQuickView = () => {
-    const returnTarget = selectedId;
+    returnFocusRef.current = selectedId;
     setSelectedId(null);
-    window.requestAnimationFrame(() => tileRefs.current.get(returnTarget)?.focus());
   };
 
   const openQuickView = (productId) => {
+    const experienceRect = experienceRef.current?.getBoundingClientRect();
+    const tileRect = tileRefs.current.get(productId)?.closest(".gummy-tile")?.getBoundingClientRect();
+
+    if (experienceRect && tileRect) {
+      const top = Math.max(0, tileRect.top - experienceRect.top);
+      const right = Math.max(0, experienceRect.right - tileRect.right);
+      const bottom = Math.max(0, experienceRect.bottom - tileRect.bottom);
+      const left = Math.max(0, tileRect.left - experienceRect.left);
+      setRevealClip(`inset(${top}px ${right}px ${bottom}px ${left}px round 1.2rem)`);
+    }
+
     setSelectedId(productId);
-    window.requestAnimationFrame(() => detailHeadingRef.current?.focus());
   };
 
   const selectCollection = (nextIndex) => {
@@ -284,8 +295,18 @@ function ResponsiveGummyExperience() {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [selectedId]);
 
+  useEffect(() => {
+    if (!selectedId) return undefined;
+    const focusDelay = reduceMotion ? 0 : Math.round(motionTokens.duration.control * 1000);
+    const timer = window.setTimeout(() => {
+      detailHeadingRef.current?.focus({ preventScroll: true });
+    }, focusDelay);
+    return () => window.clearTimeout(timer);
+  }, [selectedId, reduceMotion]);
+
   return (
     <div
+      ref={experienceRef}
       className="gummy-showcase__experience gummy-mobile"
       onPointerDown={(event) => {
         if (selectedId || event.pointerType !== "touch") return;
@@ -301,7 +322,52 @@ function ResponsiveGummyExperience() {
       }}
       onPointerCancel={() => { pointerStart.current = null; }}
     >
-      <Presence mode="sync" initial={false}>
+      <Presence mode="popLayout" initial={false}>
+        <m.div
+          key={`grid-${collection.name}`}
+          className={`gummy-mobile__grid-state${selectedProduct ? " is-detail-open" : ""}`}
+          initial={reduceMotion ? { opacity: 0 } : { opacity: 0, x: 18 }}
+          animate={selectedProduct && !reduceMotion
+            ? { opacity: 0.58, x: 0, scale: 0.992 }
+            : { opacity: 1, x: 0, scale: 1 }}
+          exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: -14 }}
+          transition={reduceMotion
+            ? { duration: motionTokens.duration.instant }
+            : { duration: motionTokens.duration.control, ease: motionTokens.easeSoft }}
+          aria-hidden={selectedProduct ? true : undefined}
+          inert={selectedProduct ? true : undefined}
+        >
+          <CollectionRail activeIndex={collectionIndex} onSelect={selectCollection} />
+
+          <div className={`gummy-mobile__grid gummy-mobile__grid--${collection.tone}`} aria-label={`${collection.name} gummy flavors`}>
+            {collectionProducts.map((product, index) => (
+              <ProductTile
+                key={product.id}
+                product={product}
+                collectionTone={collection.tone}
+                index={index}
+                reduceMotion={reduceMotion}
+                onOpen={openQuickView}
+                buttonRef={(node) => {
+                  if (node) tileRefs.current.set(product.id, node);
+                  else tileRefs.current.delete(product.id);
+                }}
+              />
+            ))}
+          </div>
+
+          <p className="sr-only" aria-live="polite">{collection.name} gummy collection, {collectionProducts.length} products</p>
+        </m.div>
+      </Presence>
+
+      <Presence
+        initial={false}
+        onExitComplete={() => {
+          const returnTarget = returnFocusRef.current;
+          returnFocusRef.current = null;
+          if (returnTarget) tileRefs.current.get(returnTarget)?.focus();
+        }}
+      >
         {selectedProduct ? (
           <ProductQuickView
             key={`quick-${selectedProduct.id}`}
@@ -310,38 +376,9 @@ function ResponsiveGummyExperience() {
             onClose={closeQuickView}
             reduceMotion={reduceMotion}
             detailHeadingRef={detailHeadingRef}
+            revealClip={revealClip}
           />
-        ) : (
-          <m.div
-            key={`grid-${collection.name}`}
-            className="gummy-mobile__grid-state"
-            initial={reduceMotion ? { opacity: 0 } : { opacity: 0, x: 18 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: -14 }}
-            transition={reduceMotion ? { duration: motionTokens.duration.instant } : { duration: motionTokens.duration.control, ease: motionTokens.easeSoft }}
-          >
-            <CollectionRail activeIndex={collectionIndex} onSelect={selectCollection} />
-
-            <div className={`gummy-mobile__grid gummy-mobile__grid--${collection.tone}`} aria-label={`${collection.name} gummy flavors`}>
-              {collectionProducts.map((product, index) => (
-                <ProductTile
-                  key={product.id}
-                  product={product}
-                  collectionTone={collection.tone}
-                  index={index}
-                  reduceMotion={reduceMotion}
-                  onOpen={openQuickView}
-                  buttonRef={(node) => {
-                    if (node) tileRefs.current.set(product.id, node);
-                    else tileRefs.current.delete(product.id);
-                  }}
-                />
-              ))}
-            </div>
-
-            <p className="sr-only" aria-live="polite">{collection.name} gummy collection, {collectionProducts.length} products</p>
-          </m.div>
-        )}
+        ) : null}
       </Presence>
     </div>
   );
