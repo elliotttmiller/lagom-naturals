@@ -145,6 +145,65 @@ function CollectionRail({ activeIndex, onSelect }) {
   );
 }
 
+
+function DesktopCollectionNavigator({ activeIndex, onSelect, reduceMotion }) {
+  const collection = COLLECTIONS[activeIndex];
+
+  return (
+    <div className="gummy-desktop-nav" aria-label="Gummy collection navigation">
+      <button
+        type="button"
+        className="gummy-desktop-nav__arrow gummy-desktop-nav__arrow--previous"
+        aria-label="Previous gummy collection"
+        onClick={() => onSelect(activeIndex - 1)}
+      >
+        <ArrowLeft aria-hidden="true" />
+      </button>
+
+      <div className="gummy-desktop-nav__status">
+        <span className="gummy-desktop-nav__count">
+          {String(activeIndex + 1).padStart(2, "0")} / {String(COLLECTIONS.length).padStart(2, "0")}
+        </span>
+        <Presence initial={false} mode="popLayout">
+          <m.span
+            key={collection.name}
+            className="gummy-desktop-nav__name"
+            initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -8 }}
+            transition={reduceMotion ? { duration: 0 } : { duration: motionTokens.duration.fast, ease: motionTokens.easeSoft }}
+          >
+            {collection.name}
+          </m.span>
+        </Presence>
+
+        <div className="gummy-desktop-nav__dots" role="tablist" aria-label="Select gummy collection">
+          {COLLECTIONS.map((item, index) => (
+            <button
+              key={item.name}
+              type="button"
+              role="tab"
+              aria-selected={index === activeIndex}
+              aria-label={`Show ${item.name} gummies`}
+              className={index === activeIndex ? "is-active" : ""}
+              onClick={() => onSelect(index)}
+            />
+          ))}
+        </div>
+      </div>
+
+      <button
+        type="button"
+        className="gummy-desktop-nav__arrow gummy-desktop-nav__arrow--next"
+        aria-label="Next gummy collection"
+        onClick={() => onSelect(activeIndex + 1)}
+      >
+        <ArrowRight aria-hidden="true" />
+      </button>
+    </div>
+  );
+}
+
 function ProductTile({ product, collectionTone, index, onOpen, buttonRef, reduceMotion }) {
   const theme = PRODUCT_THEMES[product.id] || PRODUCT_THEMES["push-pop"];
 
@@ -246,6 +305,7 @@ function ProductQuickView({ product, collectionTone, onClose, reduceMotion, deta
 function ResponsiveGummyExperience() {
   const reduceMotion = useReducedMotion();
   const [collectionIndex, setCollectionIndex] = useState(0);
+  const [collectionDirection, setCollectionDirection] = useState(1);
   const [selectedId, setSelectedId] = useState(null);
   const tileRefs = useRef(new Map());
   const experienceRef = useRef(null);
@@ -280,7 +340,13 @@ function ResponsiveGummyExperience() {
 
   const selectCollection = (nextIndex) => {
     if (selectedId) return;
-    setCollectionIndex((nextIndex + COLLECTIONS.length) % COLLECTIONS.length);
+    const normalized = (nextIndex + COLLECTIONS.length) % COLLECTIONS.length;
+    if (normalized === collectionIndex) return;
+
+    const forward = (normalized - collectionIndex + COLLECTIONS.length) % COLLECTIONS.length;
+    const backward = (collectionIndex - normalized + COLLECTIONS.length) % COLLECTIONS.length;
+    setCollectionDirection(forward <= backward ? 1 : -1);
+    setCollectionIndex(normalized);
   };
 
   useEffect(() => {
@@ -326,11 +392,11 @@ function ResponsiveGummyExperience() {
         <m.div
           key={`grid-${collection.name}`}
           className={`gummy-mobile__grid-state${selectedProduct ? " is-detail-open" : ""}`}
-          initial={reduceMotion ? { opacity: 0 } : { opacity: 0, x: 18 }}
+          initial={reduceMotion ? { opacity: 0 } : { opacity: 0, x: collectionDirection * 28, scale: 1.006 }}
           animate={selectedProduct && !reduceMotion
             ? { opacity: 0.58, x: 0, scale: 0.992 }
             : { opacity: 1, x: 0, scale: 1 }}
-          exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: -14 }}
+          exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: collectionDirection * -22, scale: 0.998 }}
           transition={reduceMotion
             ? { duration: motionTokens.duration.instant }
             : { duration: motionTokens.duration.control, ease: motionTokens.easeSoft }}
@@ -338,6 +404,7 @@ function ResponsiveGummyExperience() {
           inert={selectedProduct ? true : undefined}
         >
           <CollectionRail activeIndex={collectionIndex} onSelect={selectCollection} />
+          <DesktopCollectionNavigator activeIndex={collectionIndex} onSelect={selectCollection} reduceMotion={reduceMotion} />
 
           <div className={`gummy-mobile__grid gummy-mobile__grid--${collection.tone}`} aria-label={`${collection.name} gummy flavors`}>
             {collectionProducts.map((product, index) => (
