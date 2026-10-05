@@ -271,3 +271,156 @@
     transition:none!important;
   }
 }
+
+
+/* Mobile navigation drawer choreography ------------------------------------ */
+@media (max-width:899px){
+  .mobile-reference-menu{
+    transition:none!important;
+    will-change:transform,opacity,clip-path;
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
+  }
+
+  .mobile-reference-menu-backdrop{
+    transition:background-color .38s cubic-bezier(.16,1,.3,1)!important;
+  }
+
+  .mobile-reference-menu-backdrop.is-open{
+    background:rgba(8,18,14,.22)!important;
+  }
+
+  .mobile-drawer-top--menu{
+    grid-template-columns:48px minmax(0,1fr) 48px!important;
+    min-height:72px!important;
+    margin-bottom:14px!important;
+    border-bottom:1px solid rgba(16,23,19,.08)!important;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255,255,255,.88),
+        rgba(249,250,247,.78)
+      )!important;
+    box-shadow:0 8px 24px rgba(28,34,30,.045);
+    backdrop-filter:blur(20px) saturate(1.16)!important;
+    -webkit-backdrop-filter:blur(20px) saturate(1.16)!important;
+  }
+
+  .mobile-drawer-top--menu .mobile-drawer-top__hamburger{
+    justify-self:start;
+    width:48px!important;
+    height:48px!important;
+    margin:0!important;
+    color:#101713!important;
+    border-radius:50%!important;
+  }
+
+  .mobile-drawer-top--menu .mobile-drawer-top__hamburger svg{
+    width:40px!important;
+    height:40px!important;
+  }
+
+  .mobile-drawer-top--menu .mobile-drawer-top__center-brand{
+    display:grid;
+    place-items:center;
+    justify-self:center;
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    color:#101713;
+  }
+
+  .mobile-drawer-top--menu .mobile-drawer-top__center-brand img{
+    display:block;
+    width:40px;
+    height:40px;
+    object-fit:contain;
+  }
+
+  .mobile-drawer-top--menu .mobile-drawer-top__spacer{
+    display:block;
+    width:48px;
+    height:48px;
+  }
+
+  /* Restore the animated hamburger-to-close morph as the primary menu motion.
+     The icon rotates with a softer emphasized ease while the path geometry
+     contracts into the close state. */
+  .header-mobile-toggle.hamburger svg,
+  .hamburger svg{
+    transform-origin:50% 50%!important;
+    transition:
+      transform 440ms cubic-bezier(.16,1,.3,1)!important;
+  }
+
+  .header-mobile-toggle.hamburger .line,
+  .hamburger .line{
+    transition:
+      stroke-dasharray 440ms cubic-bezier(.16,1,.3,1),
+      stroke-dashoffset 440ms cubic-bezier(.16,1,.3,1),
+      stroke-width 220ms ease!important;
+  }
+
+  .header-mobile-toggle.hamburger input:checked + svg,
+  .hamburger input:checked + svg{
+    transform:rotate(-45deg)!important;
+  }
+
+  .header-mobile-toggle.hamburger input:checked + svg .line-top-bottom,
+  .hamburger input:checked + svg .line-top-bottom{
+    stroke-dasharray:20 300!important;
+    stroke-dashoffset:-32.42!important;
+  }
+
+  .mobile-reference-header .hamburger.mobile-reference-header__left{
+    transition:
+      transform 260ms cubic-bezier(.16,1,.3,1),
+      background-color 220ms ease!important;
+  }
+
+  .mobile-reference-header .hamburger.mobile-reference-header__left:active{
+    transform:scale(.94);
+  }
+}
+
+@media (max-width:380px){
+  .mobile-drawer-top--menu{
+    min-height:68px!important;
+  }
+
+  .mobile-drawer-top--menu .mobile-drawer-top__hamburger{
+    width:44px!important;
+    height:44px!important;
+  }
+
+  .mobile-drawer-top--menu .mobile-drawer-top__hamburger svg{
+    width:38px!important;
+    height:38px!important;
+  }
+
+  .mobile-drawer-top--menu .mobile-drawer-top__center-brand{
+    width:48px;
+    height:48px;
+  }
+
+  .mobile-drawer-top--menu .mobile-drawer-top__center-brand img{
+    width:36px;
+    height:36px;
+  }
+
+  .mobile-drawer-top--menu .mobile-drawer-top__spacer{
+    width:44px;
+    height:44px;
+  }
+}
+
+@media (prefers-reduced-motion:reduce) and (max-width:899px){
+  .mobile-reference-menu,
+  .mobile-reference-menu-backdrop,
+  .header-mobile-toggle.hamburger svg,
+  .hamburger svg,
+  .header-mobile-toggle.hamburger .line,
+  .hamburger .line{
+    transition-duration:1ms!important;
+  }
+}
