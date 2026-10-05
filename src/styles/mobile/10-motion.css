@@ -46,7 +46,6 @@
 }
 
 @media(prefers-reduced-transparency:reduce) and (max-width:899px){
-  .mobile-reference-header,.mobile-reference-bottom,.global-search-backdrop,.lagom-cart-toast{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
-  .mobile-reference-header,.mobile-reference-bottom{background:rgba(250,249,245,.94)!important}
-  .mobile-reference-header.is-home,.mobile-reference-header.is-about{background:rgba(250,249,245,.94)!important;color:#111!important}
+  .mobile-reference-bottom,.global-search-backdrop,.lagom-cart-toast{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+  .mobile-reference-bottom{background:rgba(250,249,245,.94)!important}
 }

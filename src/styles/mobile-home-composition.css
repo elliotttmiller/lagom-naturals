@@ -108,13 +108,15 @@
   .sky-home .legacy-sky-hero__actions a{
     min-block-size:2.9rem!important;
     padding-inline:1.15rem!important;
-    border:1px solid color-mix(in srgb,var(--ink) 52%,transparent)!important;
+    border:1px solid var(--lagom-home-hero-glass-border,color-mix(in srgb,var(--ink) 52%,transparent))!important;
     border-radius:999px!important;
-    background:rgb(255 255 255 / 56%)!important;
+    background:var(--lagom-home-hero-glass-fill,rgb(255 255 255 / 56%))!important;
     color:var(--ink)!important;
     font-size:.65rem!important;
     font-weight:800!important;
     letter-spacing:.1em!important;
+    -webkit-backdrop-filter:blur(var(--lagom-home-hero-glass-blur,10px)) saturate(var(--lagom-home-hero-glass-saturation,1.16));
+    backdrop-filter:blur(var(--lagom-home-hero-glass-blur,10px)) saturate(var(--lagom-home-hero-glass-saturation,1.16));
   }
 
   /* Scene shells remain width-contained here; their vertical geometry belongs
@@ -128,19 +130,6 @@
   }
 
   /* Keep transparent hero chrome coherent before its scrolled/frosted state. */
-  .mobile-reference-header.is-home:not(.is-home-scrolled){
-    color:#111!important;
-  }
-
-  .mobile-reference-header.is-home:not(.is-home-scrolled) :is(a,button,.hamburger,.hamburger .line){
-    color:#111!important;
-    text-shadow:none!important;
-  }
-
-  .mobile-reference-header.is-home:not(.is-home-scrolled) svg{
-    color:#111!important;
-    filter:none!important;
-  }
 }
 
 @media (max-width:374px){

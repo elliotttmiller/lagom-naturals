@@ -113,36 +113,6 @@
     opacity:.44!important;
   }
 
-  /* The mobile chrome begins transparent over the hero, then becomes a
-     readable frosted sky surface after the hero clears the header. */
-  .mobile-reference-header.is-home{
-    background:rgba(250,249,245,.68)!important;
-    border-bottom-color:rgba(23,25,20,.10)!important;
-    box-shadow:0 5px 20px rgba(22,27,23,.045)!important;
-    color:#111!important;
-    backdrop-filter:blur(18px) saturate(1.14)!important;
-    -webkit-backdrop-filter:blur(18px) saturate(1.14)!important;
-    transition:background-color 260ms ease,border-color 260ms ease,box-shadow 260ms ease,color 220ms ease,backdrop-filter 260ms ease!important;
-  }
-  .mobile-reference-header.is-home.is-home-scrolled{
-    background:rgba(250,249,245,.88)!important;
-    border-bottom:1px solid rgba(23,25,20,.11)!important;
-    box-shadow:0 7px 24px rgba(22,27,23,.07)!important;
-    color:#111!important;
-    backdrop-filter:blur(20px) saturate(1.16)!important;
-    -webkit-backdrop-filter:blur(20px) saturate(1.16)!important;
-  }
-  .mobile-reference-header.is-home.is-home-scrolled :is(a,button,.hamburger,.hamburger .line){
-    color:#111!important;
-    text-shadow:none!important;
-  }
-  .mobile-reference-header.is-home.is-home-scrolled svg{filter:none!important}
-  .mobile-reference-header.is-home.is-home-scrolled .mobile-reference-cart b{
-    background:#111!important;
-    color:#fff!important;
-    border-color:#111!important;
-  }
-
   .atmospheric-scene-hero,
   .atmospheric-scene-section{
     scroll-margin-top:calc(var(--mobile-header-row-h,72px) + env(safe-area-inset-top,0px) + 16px)!important;
@@ -733,9 +703,6 @@
 }
 
 @media (prefers-reduced-motion:reduce) and (max-width:899px){
-  .mobile-reference-header.is-home{
-    transition-duration:1ms!important;
-  }
   .sky-home .legacy-sky-hero__light,
   .sky-home .legacy-sky-hero__cloud{
     animation:none!important;

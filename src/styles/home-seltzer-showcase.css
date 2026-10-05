@@ -396,39 +396,6 @@
     );
   }
 
-  /* Home chrome becomes the mockup's transparent white navigation when the
-     seltzer scene is dominant. This reuses the real menu/search/cart actions
-     instead of painting non-functional icons inside the showcase. */
-  body:has(#home-scene-flavors.is-snap-visible) .mobile-reference-header.is-home{
-    background:rgba(255,255,255,.08)!important;
-    border-bottom-color:transparent!important;
-    box-shadow:0 8px 24px rgba(14,18,16,.08)!important;
-    color:#fff!important;
-    -webkit-backdrop-filter:blur(14px) saturate(1.14)!important;
-    backdrop-filter:blur(14px) saturate(1.14)!important;
-  }
-
-  body:has(#home-scene-flavors.is-snap-visible) .mobile-reference-header.is-home :is(a,button,.hamburger,.hamburger .line){
-    color:#fff!important;
-    text-shadow:0 1px 8px rgba(0,0,0,.18)!important;
-  }
-
-  body:has(#home-scene-flavors.is-snap-visible) .mobile-reference-header.is-home svg{
-    color:#fff!important;
-    filter:drop-shadow(0 1px 5px rgba(0,0,0,.18))!important;
-  }
-
-  body:has(#home-scene-flavors.is-snap-visible) .mobile-reference-header.is-home .mobile-reference-header__brand img{
-    filter:brightness(0) invert(1) drop-shadow(0 1px 5px rgba(0,0,0,.14))!important;
-    mix-blend-mode:normal!important;
-  }
-
-  body:has(#home-scene-flavors.is-snap-visible) .mobile-reference-header.is-home .mobile-reference-cart b{
-    border-color:#fff!important;
-    background:#fff!important;
-    color:#111!important;
-  }
-
   .seltzer-showcase__can-stage{
     top:40.8%;
     inline-size:clamp(12rem,49vw,15.75rem);

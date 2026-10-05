@@ -1,6 +1,6 @@
 /* Mobile accessibility/device hardening — safe areas, focus, coarse pointers, iOS inputs. */
 @media(max-width:899px){
-  :root{--mobile-header-row-h:72px!important;--m-header:72px!important;--mobile-header-content-h:72px!important}
+  :root{--m-header:72px!important;--mobile-header-content-h:72px!important}
 
   :where(a,button,input,select,textarea):focus-visible{outline:2px solid #157a5b!important;outline-offset:3px!important}
 
@@ -27,7 +27,7 @@
   }
 }
 
-@media(max-width:380px){:root{--mobile-header-row-h:68px!important;--m-header:68px!important;--mobile-header-content-h:68px!important}}
+@media(max-width:380px){:root{--m-header:68px!important;--mobile-header-content-h:68px!important}}
 
 @supports(padding:max(0px)){
   @media(max-width:899px){

@@ -1,29 +1,25 @@
-/* Mobile global glass header
-   Mirrors the premium desktop chrome while preserving the existing fixed
-   mobile-header geometry, route state, safe-area behavior, and touch targets. */
-
+/* Mobile header surface system.
+   Geometry lives in mobile/20-chrome.css. This file owns the shared glass
+   material and route/scroll contrast states; page styles only provide state. */
 @media (max-width:899px){
   :root{
-    --mobile-header-row-h:72px;
-    --mobile-header-inline:max(16px,var(--m-gutter));
+    --lagom-home-hero-glass-fill:rgb(255 255 255 / 56%);
+    --lagom-home-hero-glass-border:color-mix(in srgb,var(--ink,#111) 52%,transparent);
+    --lagom-home-hero-glass-blur:10px;
+    --lagom-home-hero-glass-saturation:1.16;
+    --lagom-mobile-header-glass-fill:rgba(250,249,245,.76);
+    --lagom-mobile-header-glass-blur:18px;
+    --lagom-mobile-header-scrolled-fill:rgba(250,249,245,.88);
+    --lagom-mobile-header-scrolled-blur:20px;
   }
 
-  .mobile-reference-header,
-  .mobile-reference-header.is-home,
-  .mobile-reference-header.is-home.is-home-scrolled{
-    position:fixed!important;
-    inset:0 0 auto 0!important;
-    width:100%!important;
-    height:calc(var(--mobile-header-row-h) + env(safe-area-inset-top,0px))!important;
-    min-height:calc(var(--mobile-header-row-h) + env(safe-area-inset-top,0px))!important;
-    padding:0!important;
-    border:0!important;
-    background:transparent!important;
-    box-shadow:none!important;
-    color:#111!important;
-    overflow:visible!important;
-    backdrop-filter:none!important;
-    -webkit-backdrop-filter:none!important;
+  .mobile-reference-header{
+    color:#111;
+    background:transparent;
+    border:0;
+    box-shadow:none;
+    -webkit-backdrop-filter:none;
+    backdrop-filter:none;
     isolation:isolate;
   }
 
@@ -33,157 +29,48 @@
     inset:0;
     content:"";
     pointer-events:none;
-    border:0;
-    border-bottom:1px solid rgba(255,255,255,.28);
-    border-radius:0;
-    background:
-      linear-gradient(
-        180deg,
-        rgba(255,255,255,.26) 0%,
-        rgba(247,249,247,.14) 68%,
-        rgba(246,244,248,.08) 100%
-      );
-    box-shadow:
-      0 8px 24px rgba(25,28,25,.045),
-      inset 0 1px 0 rgba(255,255,255,.52),
-      inset 0 -1px 0 rgba(255,255,255,.10);
-    backdrop-filter:blur(18px) saturate(1.16) brightness(1.04);
-    -webkit-backdrop-filter:blur(18px) saturate(1.16) brightness(1.04);
+    border-bottom:1px solid rgba(23,25,20,.11);
+    background:var(--lagom-mobile-header-glass-fill);
+    box-shadow:0 5px 20px rgba(22,27,23,.055),inset 0 1px 0 rgba(255,255,255,.56);
+    -webkit-backdrop-filter:blur(var(--lagom-mobile-header-glass-blur)) saturate(1.14);
+    backdrop-filter:blur(var(--lagom-mobile-header-glass-blur)) saturate(1.14);
     transform:translateZ(0);
-    transition:
-      background-color 320ms cubic-bezier(.16,1,.3,1),
-      border-color 280ms ease,
-      box-shadow 320ms cubic-bezier(.16,1,.3,1),
-      backdrop-filter 320ms ease;
+    transition:background 260ms ease,border-color 260ms ease,box-shadow 260ms ease,-webkit-backdrop-filter 260ms ease,backdrop-filter 260ms ease;
+  }
+
+  .mobile-reference-header.is-home{
+    color:#111;
+  }
+
+  .mobile-reference-header.is-home::before{
+    border-bottom-color:var(--lagom-home-hero-glass-border);
+    background:var(--lagom-home-hero-glass-fill);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.72),0 8px 24px rgba(14,18,16,.065);
+    -webkit-backdrop-filter:blur(var(--lagom-home-hero-glass-blur)) saturate(var(--lagom-home-hero-glass-saturation));
+    backdrop-filter:blur(var(--lagom-home-hero-glass-blur)) saturate(var(--lagom-home-hero-glass-saturation));
+  }
+
+  .mobile-reference-header.is-home :is(a,button,.hamburger,.hamburger .line){
+    color:#111;
+    text-shadow:none;
+  }
+
+  .mobile-reference-header.is-home svg,
+  .mobile-reference-header.is-home .mobile-reference-header__brand img{
+    filter:none;
   }
 
   .mobile-reference-header.is-home.is-home-scrolled::before{
-    border-bottom-color:rgba(255,255,255,.42);
-    background:
-      linear-gradient(
-        180deg,
-        rgba(255,255,255,.48) 0%,
-        rgba(247,249,247,.30) 70%,
-        rgba(246,244,248,.22) 100%
-      );
-    box-shadow:
-      0 10px 28px rgba(25,28,25,.07),
-      inset 0 1px 0 rgba(255,255,255,.72);
-    backdrop-filter:blur(22px) saturate(1.2) brightness(1.04);
-    -webkit-backdrop-filter:blur(22px) saturate(1.2) brightness(1.04);
+    border-bottom-color:rgba(23,25,20,.11);
+    background:var(--lagom-mobile-header-scrolled-fill);
+    box-shadow:0 7px 24px rgba(22,27,23,.07),inset 0 1px 0 rgba(255,255,255,.72);
+    -webkit-backdrop-filter:blur(var(--lagom-mobile-header-scrolled-blur)) saturate(1.16);
+    backdrop-filter:blur(var(--lagom-mobile-header-scrolled-blur)) saturate(1.16);
   }
 
-  /* Keep all live controls above the glass layer. */
-  .mobile-reference-header__left,
-  .mobile-reference-header__brand,
-  .mobile-reference-header__tools,
-  .mobile-reference-header__notice{
-    z-index:2!important;
-  }
-
-  .mobile-reference-header__left{
-    top:env(safe-area-inset-top,0px)!important;
-    left:max(var(--mobile-header-inline),env(safe-area-inset-left,0px))!important;
-    width:48px!important;
-    height:var(--mobile-header-row-h)!important;
-    color:#111!important;
-  }
-
-  .mobile-reference-header .hamburger.mobile-reference-header__left{
-    color:#111!important;
-  }
-
-  .mobile-reference-header .hamburger.mobile-reference-header__left .line{
-    stroke:#111!important;
-  }
-
-  .mobile-reference-header__brand{
-    top:env(safe-area-inset-top,0px)!important;
-    left:calc(50vw - 70px)!important;
-    width:140px!important;
-    min-width:140px!important;
-    max-width:140px!important;
-    height:var(--mobile-header-row-h)!important;
-  }
-
-  .mobile-reference-header__brand img,
-  .mobile-reference-header.is-home .mobile-reference-header__brand img,
-  body:has(#home-scene-flavors.is-snap-visible) .mobile-reference-header.is-home .mobile-reference-header__brand img{
-    width:auto!important;
-    max-width:140px!important;
-    height:48px!important;
-    object-fit:contain!important;
-    opacity:1!important;
-    filter:none!important;
-    mix-blend-mode:normal!important;
-  }
-
-  .mobile-reference-header__tools{
-    top:env(safe-area-inset-top,0px)!important;
-    right:max(var(--mobile-header-inline),env(safe-area-inset-right,0px))!important;
-    height:var(--mobile-header-row-h)!important;
-    gap:2px!important;
-  }
-
-  .mobile-reference-header__tools>a,
-  .mobile-reference-header__tools>button{
-    position:relative;
-    display:grid;
-    place-items:center;
-    width:44px!important;
-    min-width:44px!important;
-    height:44px!important;
-    min-height:44px!important;
-    border-radius:50%!important;
-    color:#111!important;
-    text-shadow:none!important;
-    transition:
-      background-color 220ms ease,
-      transform 260ms cubic-bezier(.16,1,.3,1);
-  }
-
-  .mobile-reference-header__tools>a:active,
-  .mobile-reference-header__tools>button:active,
-  .mobile-reference-header__left:active{
-    transform:scale(.95);
-  }
-
-  .mobile-reference-header__tools svg,
-  .mobile-reference-header.is-home svg,
-  body:has(#home-scene-flavors.is-snap-visible) .mobile-reference-header.is-home svg{
-    width:26px!important;
-    height:26px!important;
-    color:#111!important;
-    stroke:currentColor!important;
-    filter:none!important;
-  }
-
-  .mobile-reference-header.is-home :is(a,button,.hamburger,.hamburger .line),
-  .mobile-reference-header.is-home.is-home-scrolled :is(a,button,.hamburger,.hamburger .line),
-  body:has(#home-scene-flavors.is-snap-visible) .mobile-reference-header.is-home :is(a,button,.hamburger,.hamburger .line){
-    color:#111!important;
-    text-shadow:none!important;
-  }
-
-  .mobile-reference-cart b,
-  .mobile-reference-header.is-home .mobile-reference-cart b,
-  .mobile-reference-header.is-home.is-home-scrolled .mobile-reference-cart b,
-  body:has(#home-scene-flavors.is-snap-visible) .mobile-reference-header.is-home .mobile-reference-cart b{
-    top:-1px!important;
-    right:-1px!important;
-    min-width:17px!important;
-    height:17px!important;
-    border:2px solid #111!important;
-    background:#111!important;
-    color:#fff!important;
-    box-shadow:0 1px 5px rgba(0,0,0,.16);
-  }
-
-  /* About keeps the compliance notice but places the glass row beneath it. */
   .mobile-reference-header.is-about{
-    height:calc(24px + var(--mobile-header-row-h) + env(safe-area-inset-top,0px))!important;
-    min-height:calc(24px + var(--mobile-header-row-h) + env(safe-area-inset-top,0px))!important;
-    background:transparent!important;
+    color:#111;
+    background:transparent;
   }
 
   .mobile-reference-header.is-about::before{
@@ -191,280 +78,87 @@
   }
 
   .mobile-reference-header.is-about .mobile-reference-header__notice{
-    background:rgba(17,17,15,.92)!important;
-    backdrop-filter:blur(14px) saturate(1.08)!important;
-    -webkit-backdrop-filter:blur(14px) saturate(1.08)!important;
+    background:rgba(17,17,15,.91);
+    color:#fff;
+    -webkit-backdrop-filter:blur(12px);
+    backdrop-filter:blur(12px);
   }
 
-  .mobile-reference-header.is-about .mobile-reference-header__left,
-  .mobile-reference-header.is-about .mobile-reference-header__brand,
-  .mobile-reference-header.is-about .mobile-reference-header__tools{
-    top:calc(24px + env(safe-area-inset-top,0px))!important;
+  /* The seltzer scene changes icon contrast only. Its header uses the same
+     glass token and geometry as the hero CTA. */
+  body:has(#home-scene-flavors.is-snap-visible) .mobile-reference-header.is-home{
+    color:#fff;
   }
 
-  /* Overlay surfaces begin below the unchanged header contract. */
-  .mobile-reference-menu-backdrop{
-    top:calc(var(--mobile-header-row-h) + env(safe-area-inset-top,0px))!important;
-  }
-}
-
-@media (max-width:380px){
-  :root{
-    --mobile-header-row-h:68px;
-    --mobile-header-inline:14px;
+  body:has(#home-scene-flavors.is-snap-visible) .mobile-reference-header.is-home::before{
+    border-bottom-color:rgba(255,255,255,.5);
   }
 
-  .mobile-reference-header__left{
-    left:max(var(--mobile-header-inline),env(safe-area-inset-left,0px))!important;
-    width:44px!important;
+  body:has(#home-scene-flavors.is-snap-visible) .mobile-reference-header.is-home :is(a,button,.hamburger,.hamburger .line){
+    color:#fff;
+    text-shadow:0 1px 8px rgba(0,0,0,.18);
   }
 
-  .mobile-reference-header__brand{
-    left:calc(50vw - 65px)!important;
-    width:130px!important;
-    min-width:130px!important;
-    max-width:130px!important;
+  body:has(#home-scene-flavors.is-snap-visible) .mobile-reference-header.is-home svg{
+    color:#fff;
+    filter:drop-shadow(0 1px 5px rgba(0,0,0,.18));
   }
 
-  .mobile-reference-header__brand img{
-    max-width:130px!important;
-    height:45px!important;
+  body:has(#home-scene-flavors.is-snap-visible) .mobile-reference-header.is-home .mobile-reference-header__brand img{
+    filter:brightness(0) invert(1) drop-shadow(0 1px 5px rgba(0,0,0,.14));
+    mix-blend-mode:normal;
   }
 
-  .mobile-reference-header__tools{
-    right:max(var(--mobile-header-inline),env(safe-area-inset-right,0px))!important;
+  body:has(#home-scene-flavors.is-snap-visible) .mobile-reference-header.is-home .mobile-reference-cart b{
+    border-color:#fff;
+    background:#fff;
+    color:#111;
   }
 
-  .mobile-reference-header__tools>a,
-  .mobile-reference-header__tools>button{
-    width:40px!important;
-    min-width:40px!important;
+  .mobile-reference-header .mobile-reference-cart b{
+    border-color:#111;
+    background:#111;
+    color:#fff;
   }
 
-  .mobile-reference-header__tools svg,
-  .mobile-reference-header.is-home svg{
-    width:24px!important;
-    height:24px!important;
-  }
-}
-
-@media (hover:hover) and (pointer:fine) and (max-width:899px){
-  .mobile-reference-header__tools>a:hover,
-  .mobile-reference-header__tools>button:hover,
-  .mobile-reference-header__left:hover{
-    background:rgba(255,255,255,.34)!important;
-  }
-}
-
-@media (prefers-reduced-transparency:reduce) and (max-width:899px){
-  .mobile-reference-header::before{
-    background:rgba(250,250,247,.96)!important;
-    backdrop-filter:none!important;
-    -webkit-backdrop-filter:none!important;
-  }
-}
-
-@media (prefers-reduced-motion:reduce) and (max-width:899px){
-  .mobile-reference-header::before,
-  .mobile-reference-header__tools>a,
-  .mobile-reference-header__tools>button{
-    transition:none!important;
-  }
-}
-
-/* Final mobile drawer geometry guardrails. These selectors intentionally sit
-   at the end of the mobile chrome stylesheet so legacy logo/icon rules cannot
-   inflate the drawer brand or collapse the close affordance. */
-@media (max-width:899px){
-  .mobile-reference-menu .mobile-drawer-top--menu{
-    display:grid!important;
-    grid-template-columns:52px minmax(0,1fr) 52px!important;
-    align-items:center!important;
-    min-height:calc(72px + env(safe-area-inset-top,0px))!important;
-    padding:env(safe-area-inset-top,0px) 12px 0!important;
-    box-sizing:border-box!important;
-  }
-  .mobile-reference-menu .mobile-drawer-top--menu .mobile-drawer-top__center-brand{
-    position:relative!important;
-    display:grid!important;
-    place-items:center!important;
-    justify-self:center!important;
-    inline-size:52px!important;
-    block-size:52px!important;
-    min-inline-size:52px!important;
-    min-block-size:52px!important;
-    overflow:hidden!important;
-    transform:none!important;
-  }
-  .mobile-reference-menu .mobile-drawer-top--menu .mobile-drawer-top__center-brand img{
-    display:block!important;
-    inline-size:40px!important;
-    block-size:40px!important;
-    max-inline-size:40px!important;
-    max-block-size:40px!important;
-    object-fit:contain!important;
-    object-position:center!important;
-    transform:none!important;
-    scale:1!important;
-  }
-  .mobile-reference-menu .mobile-drawer-top--menu .mobile-drawer-top__hamburger,
-  .mobile-reference-menu .mobile-drawer-top--menu .mobile-drawer-top__spacer{
-    inline-size:48px!important;
-    block-size:48px!important;
-    min-inline-size:48px!important;
-    min-block-size:48px!important;
-  }
-}
-
-
-/* Mobile navigation drawer choreography ------------------------------------ */
-@media (max-width:899px){
-  .mobile-reference-menu{
-    transition:none!important;
-    will-change:transform,opacity,clip-path;
-    backface-visibility:hidden;
-    -webkit-backface-visibility:hidden;
+  .mobile-reference-header.is-home.is-home-scrolled .mobile-reference-cart b{
+    border-color:#111;
+    background:#111;
+    color:#fff;
   }
 
-  .mobile-reference-menu-backdrop{
-    transition:background-color .38s cubic-bezier(.16,1,.3,1)!important;
+  @media (hover:hover) and (pointer:fine){
+    .mobile-reference-header__tools>a:hover,
+    .mobile-reference-header__tools>button:hover,
+    .mobile-reference-header__left:hover{
+      background:rgba(255,255,255,.34);
+    }
   }
 
-  .mobile-reference-menu-backdrop.is-open{
-    background:rgba(8,18,14,.22)!important;
+  @media (prefers-reduced-transparency:reduce){
+    :root{
+      --lagom-home-hero-glass-fill:rgba(250,250,247,.96);
+      --lagom-mobile-header-glass-fill:rgba(250,250,247,.96);
+      --lagom-mobile-header-scrolled-fill:rgba(250,250,247,.98);
+      --lagom-home-hero-glass-blur:0px;
+      --lagom-mobile-header-glass-blur:0px;
+      --lagom-mobile-header-scrolled-blur:0px;
+    }
+    .mobile-reference-header::before{
+      -webkit-backdrop-filter:none;
+      backdrop-filter:none;
+    }
+    .sky-home .legacy-sky-hero__actions a:first-child{
+      -webkit-backdrop-filter:none!important;
+      backdrop-filter:none!important;
+    }
   }
 
-  .mobile-drawer-top--menu{
-    grid-template-columns:48px minmax(0,1fr) 48px!important;
-    min-height:72px!important;
-    margin-bottom:14px!important;
-    border-bottom:1px solid rgba(16,23,19,.08)!important;
-    background:
-      linear-gradient(
-        180deg,
-        rgba(255,255,255,.88),
-        rgba(249,250,247,.78)
-      )!important;
-    box-shadow:0 8px 24px rgba(28,34,30,.045);
-    backdrop-filter:blur(20px) saturate(1.16)!important;
-    -webkit-backdrop-filter:blur(20px) saturate(1.16)!important;
-  }
-
-  .mobile-drawer-top--menu .mobile-drawer-top__hamburger{
-    justify-self:start;
-    width:48px!important;
-    height:48px!important;
-    margin:0!important;
-    color:#101713!important;
-    border-radius:50%!important;
-  }
-
-  .mobile-drawer-top--menu .mobile-drawer-top__hamburger svg{
-    width:40px!important;
-    height:40px!important;
-  }
-
-  .mobile-drawer-top--menu .mobile-drawer-top__center-brand{
-    display:grid;
-    place-items:center;
-    justify-self:center;
-    width:52px;
-    height:52px;
-    border-radius:50%;
-    color:#101713;
-  }
-
-  .mobile-drawer-top--menu .mobile-drawer-top__center-brand img{
-    display:block;
-    width:40px;
-    height:40px;
-    object-fit:contain;
-  }
-
-  .mobile-drawer-top--menu .mobile-drawer-top__spacer{
-    display:block;
-    width:48px;
-    height:48px;
-  }
-
-  /* Restore the animated hamburger-to-close morph as the primary menu motion.
-     The icon rotates with a softer emphasized ease while the path geometry
-     contracts into the close state. */
-  .header-mobile-toggle.hamburger svg,
-  .hamburger svg{
-    transform-origin:50% 50%!important;
-    transition:
-      transform 440ms cubic-bezier(.16,1,.3,1)!important;
-  }
-
-  .header-mobile-toggle.hamburger .line,
-  .hamburger .line{
-    transition:
-      stroke-dasharray 440ms cubic-bezier(.16,1,.3,1),
-      stroke-dashoffset 440ms cubic-bezier(.16,1,.3,1),
-      stroke-width 220ms ease!important;
-  }
-
-  .header-mobile-toggle.hamburger input:checked + svg,
-  .hamburger input:checked + svg{
-    transform:rotate(-45deg)!important;
-  }
-
-  .header-mobile-toggle.hamburger input:checked + svg .line-top-bottom,
-  .hamburger input:checked + svg .line-top-bottom{
-    stroke-dasharray:20 300!important;
-    stroke-dashoffset:-32.42!important;
-  }
-
-  .mobile-reference-header .hamburger.mobile-reference-header__left{
-    transition:
-      transform 260ms cubic-bezier(.16,1,.3,1),
-      background-color 220ms ease!important;
-  }
-
-  .mobile-reference-header .hamburger.mobile-reference-header__left:active{
-    transform:scale(.94);
-  }
-}
-
-@media (max-width:380px){
-  .mobile-drawer-top--menu{
-    min-height:68px!important;
-  }
-
-  .mobile-drawer-top--menu .mobile-drawer-top__hamburger{
-    width:44px!important;
-    height:44px!important;
-  }
-
-  .mobile-drawer-top--menu .mobile-drawer-top__hamburger svg{
-    width:38px!important;
-    height:38px!important;
-  }
-
-  .mobile-drawer-top--menu .mobile-drawer-top__center-brand{
-    width:48px;
-    height:48px;
-  }
-
-  .mobile-drawer-top--menu .mobile-drawer-top__center-brand img{
-    width:36px;
-    height:36px;
-  }
-
-  .mobile-drawer-top--menu .mobile-drawer-top__spacer{
-    width:44px;
-    height:44px;
-  }
-}
-
-@media (prefers-reduced-motion:reduce) and (max-width:899px){
-  .mobile-reference-menu,
-  .mobile-reference-menu-backdrop,
-  .header-mobile-toggle.hamburger svg,
-  .hamburger svg,
-  .header-mobile-toggle.hamburger .line,
-  .hamburger .line{
-    transition-duration:1ms!important;
+  @media (prefers-reduced-motion:reduce){
+    .mobile-reference-header::before,
+    .mobile-reference-header__tools>a,
+    .mobile-reference-header__tools>button{
+      transition:none;
+    }
   }
 }
