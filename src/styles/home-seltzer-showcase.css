@@ -358,11 +358,44 @@
      than re-cropping them differently per device. */
   .seltzer-showcase__color-slide{
     inset:0;
+    background:var(--seltzer-slide-background);
+  }
+
+  /* Preserve the authored 9:16 mobile composition instead of sacrificing the
+     oversized editorial typography to an aggressive cover crop on tall phones.
+     The artwork is width-locked from the top; the scene color and soft lower
+     fade extend the composition beneath the image where extra viewport height
+     is available for the CTA/progress/flavor rail. */
+  .seltzer-showcase__flavor-background{
+    position:absolute;
+    inset:0;
+    overflow:hidden;
+    background:var(--seltzer-slide-background);
   }
 
   .seltzer-showcase__flavor-background img{
-    object-fit:cover;
-    object-position:50% 50%;
+    position:absolute;
+    inset:0 auto auto 0;
+    inline-size:100%;
+    block-size:auto;
+    max-inline-size:none;
+    object-fit:contain;
+    object-position:50% 0;
+  }
+
+  .seltzer-showcase__color-slide::after{
+    position:absolute;
+    z-index:1;
+    inset:58% 0 0;
+    content:"";
+    pointer-events:none;
+    background:linear-gradient(
+      to bottom,
+      transparent 0%,
+      color-mix(in srgb,var(--seltzer-slide-background) 10%,transparent) 36%,
+      color-mix(in srgb,var(--seltzer-slide-background) 58%,transparent) 76%,
+      var(--seltzer-slide-background) 100%
+    );
   }
 
   /* Home chrome becomes the mockup's transparent white navigation when the
@@ -653,6 +686,19 @@
     text-align:center;
     text-shadow:0 1px 4px rgba(0,0,0,.35);
     text-wrap:balance;
+  }
+}
+
+@media(min-width:600px) and (max-width:899px){
+  .seltzer-showcase__flavor-background img{
+    inline-size:100%;
+    block-size:100%;
+    object-fit:cover;
+    object-position:50% 50%;
+  }
+
+  .seltzer-showcase__color-slide::after{
+    inset:70% 0 0;
   }
 }
 
