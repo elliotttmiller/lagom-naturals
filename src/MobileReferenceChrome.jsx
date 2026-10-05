@@ -18,7 +18,23 @@ function InstagramIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><rec
 function FacebookIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.2 21v-8h2.8l.45-3.2H14.2V7.75c0-.93.3-1.56 1.63-1.56h1.73V3.33A23.2 23.2 0 0 0 15.03 3c-2.5 0-4.21 1.52-4.21 4.32V9.8H8v3.2h2.82v8h3.38Z" className="social-fill"/></svg>}
 function XSocialIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4l14 16M19 4 5 20"/></svg>}
 
-function DrawerTop({label,onClose}){
+function DrawerTop({label,onClose,menu=false}){
+  if(menu){
+    return <div className="mobile-drawer-top mobile-drawer-top--menu">
+      <HamburgerToggle
+        className="mobile-drawer-top__hamburger"
+        checked
+        onChange={()=>onClose()}
+        controls="mobile-reference-menu"
+        label="Close menu"
+      />
+      <Link className="mobile-drawer-top__center-brand" to="/" aria-label="Lagom Naturals home" onClick={onClose}>
+        <img src={logoIcon} alt="" aria-hidden="true"/>
+      </Link>
+      <span className="mobile-drawer-top__spacer" aria-hidden="true"/>
+    </div>
+  }
+
   return <div className="mobile-drawer-top">
     <Link className="mobile-drawer-top__brand" to="/" aria-label="Lagom Naturals home" onClick={onClose}><img src={logoIcon} alt="" aria-hidden="true"/></Link>
     <span>{label}</span>
@@ -122,13 +138,13 @@ export default function MobileReferenceChrome(){
           role="dialog"
           aria-modal="true"
           aria-label="Site navigation"
-          initial={reduceMotion?false:{opacity:.82,y:22,scale:.994}}
-          animate={{opacity:1,y:0,scale:1}}
-          exit={reduceMotion?{opacity:1}:{opacity:0,y:12,scale:.997}}
-          transition={menuPanelTransition}
+          initial={reduceMotion?false:{opacity:0,y:-10,scale:.994,clipPath:'inset(0 0 10% 0 round 0px)'}}
+          animate={{opacity:1,y:0,scale:1,clipPath:'inset(0 0 0% 0 round 0px)'}}
+          exit={reduceMotion?{opacity:0}:{opacity:0,y:-6,scale:.997,clipPath:'inset(0 0 7% 0 round 0px)'}}
+          transition={reduceMotion?{duration:0}:{duration:.48,ease:[.16,1,.3,1]}}
           onClick={e=>e.stopPropagation()}
         >
-          <DrawerTop label="Menu" onClose={()=>setMenuOpen(false)}/>
+          <DrawerTop label="Menu" menu onClose={()=>setMenuOpen(false)}/>
           <m.nav initial={reduceMotion?false:'hidden'} animate="visible" exit="exit" variants={motionVariants.stagger}>
             {drawerItems.map(([label,to])=><m.div key={label} variants={motionVariants.drawerItem}>
               {to==='account'
