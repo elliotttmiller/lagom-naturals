@@ -18,7 +18,9 @@
     "audit:assets": "node scripts/audit-source-assets.mjs",
     "preview": "vite preview",
     "predev": "node scripts/optimize-storefront-images.mjs",
-    "prebuild": "node scripts/optimize-storefront-images.mjs"
+    "prebuild": "node scripts/optimize-storefront-images.mjs",
+    "precheck": "node scripts/optimize-storefront-images.mjs",
+    "prebuild:pages": "node scripts/optimize-storefront-images.mjs"
   },
   "dependencies": {
     "lucide-react": "1.41.0",
