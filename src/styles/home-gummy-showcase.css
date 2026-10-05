@@ -75,6 +75,15 @@
       calc(env(safe-area-inset-top,0px) + .75rem)
     );
   }
+
+  .gummy-quick-view__info{
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  .gummy-quick-view__info::-webkit-scrollbar{display:none}
   
 .gummy-desktop-nav{
   display:none;
