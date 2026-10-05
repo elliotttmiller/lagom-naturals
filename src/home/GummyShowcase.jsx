@@ -429,12 +429,14 @@ function ResponsiveGummyExperience() {
           className={`gummy-mobile__grid-state${selectedProduct ? " is-detail-open" : ""}`}
           initial={reduceMotion ? { opacity: 0 } : { opacity: 0, x: collectionDirection * 28, scale: 1.006 }}
           animate={selectedProduct && !reduceMotion
-            ? { opacity: 0.58, x: 0, scale: 0.992 }
+            ? { opacity: 0.34, x: 0, scale: 0.996 }
             : { opacity: 1, x: 0, scale: 1 }}
           exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: collectionDirection * -22, scale: 0.998 }}
           transition={reduceMotion
             ? { duration: motionTokens.duration.instant }
-            : { duration: motionTokens.duration.control, ease: motionTokens.easeSoft }}
+            : selectedProduct
+              ? { duration: .52, ease: [.16, 1, .3, 1] }
+              : { duration: motionTokens.duration.control, ease: motionTokens.easeSoft }}
           aria-hidden={selectedProduct ? true : undefined}
           inert={selectedProduct ? true : undefined}
         >
