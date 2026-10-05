@@ -99,7 +99,7 @@ function DesktopShopPanel({onClose,reduceMotion}){
         <span className="desktop-shop-panel__botanical" aria-hidden="true"><i/><i/><i/></span>
       </m.div>
 
-      <div className="desktop-shop-panel__cards">
+      <div className="desktop-shop-panel__cards desktop-shop-panel__cards--full-width-nav">
         {SHOP_PANEL_CARDS.map((card,index)=>(
           <m.div
             className="desktop-shop-panel__card-shell"
@@ -108,7 +108,7 @@ function DesktopShopPanel({onClose,reduceMotion}){
             animate={{opacity:1,y:0,scale:1}}
             transition={reduceMotion?{duration:0}:{...itemTransition,delay:.08+index*.045}}
           >
-            <NavLink className="desktop-shop-panel__card" style={{'--menu-accent':card.accent}} to={card.to} end={card.to==='/shop'} onClick={onClose}>
+            <NavLink className="desktop-shop-panel__card desktop-shop-panel__card--glass-stack" style={{'--menu-accent':card.accent}} to={card.to} end={card.to==='/shop'} onClick={onClose}>
               <div className={`desktop-shop-panel__media desktop-shop-panel__media--${card.mediaClass}`}>
                 <span className="desktop-shop-panel__number">{card.index}</span>
                 <MenuMedia items={card.media}/>
