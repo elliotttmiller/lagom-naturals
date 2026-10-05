@@ -241,36 +241,71 @@ function ProductQuickView({ product, collectionTone, onClose, reduceMotion, deta
   const theme = PRODUCT_THEMES[product.id] || PRODUCT_THEMES["push-pop"];
   const facts = productFacts(product);
   const highlights = productHighlights(product);
+  const shellTransition = reduceMotion
+    ? { duration: 0 }
+    : {
+        clipPath: { duration: 0.62, ease: [.18, .92, .24, 1] },
+        opacity: { duration: 0.28, ease: motionTokens.ease },
+        scale: { duration: 0.62, ease: [.18, .92, .24, 1] },
+      };
 
   return (
     <m.article
       className={`gummy-quick-view gummy-quick-view--${collectionTone}`}
       style={{ "--gummy-tile-surface": theme.surface, "--gummy-tile-accent": theme.accent }}
-      initial={reduceMotion ? { opacity: 0 } : { opacity: 1, clipPath: revealClip }}
-      animate={reduceMotion ? { opacity: 1 } : { opacity: 1, clipPath: "inset(0px 0px 0px 0px round 1.2rem)" }}
-      exit={reduceMotion ? { opacity: 0 } : { opacity: 1, clipPath: revealClip }}
-      transition={reduceMotion
-        ? { duration: motionTokens.duration.instant }
-        : { clipPath: { duration: motionTokens.duration.slow, ease: motionTokens.easeSoft }, opacity: { duration: motionTokens.duration.fast, ease: motionTokens.ease } }}
+      initial={reduceMotion ? { opacity: 0 } : { opacity: .985, clipPath: revealClip, scale: .998 }}
+      animate={reduceMotion ? { opacity: 1 } : { opacity: 1, clipPath: "inset(0px 0px 0px 0px round 0px)", scale: 1 }}
+      exit={reduceMotion ? { opacity: 0 } : { opacity: .985, clipPath: revealClip, scale: .998 }}
+      transition={shellTransition}
       aria-labelledby={`gummy-quick-title-${product.id}`}
     >
-      <div className="gummy-quick-view__hero">
-        <button type="button" className="gummy-quick-view__control gummy-quick-view__control--back" onClick={onClose} aria-label="Back to gummy grid"><ArrowLeft /></button>
-        <button type="button" className="gummy-quick-view__control gummy-quick-view__control--close" onClick={onClose} aria-label="Close product quick view"><X /></button>
+      <m.div
+        className="gummy-quick-view__hero"
+        initial={reduceMotion ? false : { opacity: .92 }}
+        animate={{ opacity: 1 }}
+        exit={reduceMotion ? undefined : { opacity: .92 }}
+        transition={reduceMotion ? { duration: 0 } : { duration: .42, ease: motionTokens.easeSoft }}
+      >
+        <m.button
+          type="button"
+          className="gummy-quick-view__control gummy-quick-view__control--back"
+          onClick={onClose}
+          aria-label="Back to gummy grid"
+          initial={reduceMotion ? false : { opacity: 0, scale: .9, x: -6 }}
+          animate={{ opacity: 1, scale: 1, x: 0 }}
+          exit={reduceMotion ? undefined : { opacity: 0, scale: .94, x: -4 }}
+          transition={reduceMotion ? { duration: 0 } : { delay: .24, ...motionTokens.springSoft }}
+        >
+          <ArrowLeft />
+        </m.button>
+        <m.button
+          type="button"
+          className="gummy-quick-view__control gummy-quick-view__control--close"
+          onClick={onClose}
+          aria-label="Close product quick view"
+          initial={reduceMotion ? false : { opacity: 0, scale: .9, x: 6 }}
+          animate={{ opacity: 1, scale: 1, x: 0 }}
+          exit={reduceMotion ? undefined : { opacity: 0, scale: .94, x: 4 }}
+          transition={reduceMotion ? { duration: 0 } : { delay: .24, ...motionTokens.springSoft }}
+        >
+          <X />
+        </m.button>
 
         <ProductPicture
           product={product}
           className="gummy-quick-view__product"
           sizes="(max-width: 699px) 100vw, (max-width: 1099px) 56vw, 45rem"
           eager
+          layoutId={reduceMotion ? undefined : `gummy-media-${product.id}`}
         />
-      </div>
+      </m.div>
 
       <m.div
         className="gummy-quick-view__info"
-        initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={reduceMotion ? { duration: 0 } : { delay: motionTokens.duration.instant, duration: motionTokens.duration.base, ease: motionTokens.easeSoft }}
+        initial={reduceMotion ? false : { opacity: 0, y: 18, scale: .994 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={reduceMotion ? undefined : { opacity: 0, y: 10, scale: .997 }}
+        transition={reduceMotion ? { duration: 0 } : { delay: .12, duration: .5, ease: [.16, 1, .3, 1] }}
       >
         <p className="gummy-quick-view__eyebrow">Lagom Gummies · {product.productLine}</p>
         <m.h3 id={`gummy-quick-title-${product.id}`} ref={detailHeadingRef} tabIndex={-1} layoutId={reduceMotion ? undefined : `gummy-title-${product.id}`}>
