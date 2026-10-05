@@ -47,6 +47,21 @@ const PRODUCT_MEDIA_KEYS = {
   "pink-lemonade-midnight-drift": "Pink-Lemonade-Photoroom-900x900",
 };
 
+const PRODUCT_DESKTOP_MEDIA_KEYS = {
+  "push-pop": "push-pop-desktop",
+  "strawberry-banana": "strawberry-banana-desktop",
+  "blueberry-yum-yum": "blueberry-yum-yum-desktop",
+  "green-apple": "green-apple-desktop",
+  "berry-melon-bliss-organic": "berry-melon-bliss-organic-desktop",
+  "blue-razz-organic": "blue-razz-organic-desktop",
+  "cherry-bliss-organic": "cherry-bliss-organic-desktop",
+  "push-pop-organic": "push-pop-organic-desktop",
+  "strawberry-midnight-drift": "strawberry-midnight-drift-desktop",
+  "blueberry-yum-yum-midnight-drift": "blueberry-yum-yum-midnight-drift-desktop",
+  "peach-midnight-drift": "peach-midnight-drift-desktop",
+  "pink-lemonade-midnight-drift": "pink-lemonade-midnight-drift-desktop",
+};
+
 const PRODUCT_THEMES = {
   "push-pop": { surface: "linear-gradient(145deg,#ffcc8d 0%,#ffaf75 48%,#ffd5aa 100%)", accent: "#e66018" },
   "strawberry-banana": { surface: "linear-gradient(145deg,#f4adb8 0%,#f58c9d 46%,#ffd0c6 100%)", accent: "#ca334d" },
@@ -71,15 +86,37 @@ function getProductMedia(productId) {
   return key ? responsiveImages.homeGummies[key] : null;
 }
 
-function ProductPicture({ product, className, sizes = "(max-width: 1099px) 48vw, (max-width: 1400px) 44vw, 39rem", eager = false, layoutId }) {
+function getDesktopProductMedia(productId) {
+  const key = PRODUCT_DESKTOP_MEDIA_KEYS[productId];
+  return key ? responsiveImages.gummyDesktopShowcase?.[key] : null;
+}
+
+function ProductPicture({
+  product,
+  className,
+  sizes = "(max-width: 1099px) 48vw, (max-width: 1400px) 44vw, 39rem",
+  desktopSizes = "(min-width: 1100px) 50vw",
+  eager = false,
+  layoutId,
+  desktopShowcase = false,
+}) {
   const media = getProductMedia(product.id);
-  if (!media) return null;
+  const desktopMedia = desktopShowcase ? getDesktopProductMedia(product.id) : null;
+  if (!media && !desktopMedia) return null;
 
   return (
     <m.picture className={className} layoutId={layoutId}>
-      {media.avifSrcSet ? <source type="image/avif" srcSet={media.avifSrcSet} sizes={sizes} /> : null}
-      {media.webpSrcSet ? <source type="image/webp" srcSet={media.webpSrcSet} sizes={sizes} /> : null}
-      <img src={media.src} alt="" loading={eager ? "eager" : "lazy"} decoding="async" draggable="false" />
+      {desktopMedia?.avifSrcSet ? <source media="(min-width: 1100px)" type="image/avif" srcSet={desktopMedia.avifSrcSet} sizes={desktopSizes} /> : null}
+      {desktopMedia?.webpSrcSet ? <source media="(min-width: 1100px)" type="image/webp" srcSet={desktopMedia.webpSrcSet} sizes={desktopSizes} /> : null}
+      {media?.avifSrcSet ? <source type="image/avif" srcSet={media.avifSrcSet} sizes={sizes} /> : null}
+      {media?.webpSrcSet ? <source type="image/webp" srcSet={media.webpSrcSet} sizes={sizes} /> : null}
+      <img
+        src={media?.src ?? desktopMedia?.src}
+        alt=""
+        loading={eager ? "eager" : "lazy"}
+        decoding="async"
+        draggable="false"
+      />
     </m.picture>
   );
 }
@@ -226,7 +263,9 @@ function ProductTile({ product, collectionTone, index, onOpen, buttonRef, reduce
           <ProductPicture
             product={product}
             className="gummy-tile__product"
-            sizes="(max-width: 1099px) 48vw, (max-width: 1400px) 44vw, 39rem"
+            sizes="(max-width: 1099px) 48vw"
+            desktopSizes="50vw"
+            desktopShowcase
             eager={index < 2}
             layoutId={reduceMotion ? undefined : `gummy-media-${product.id}`}
           />
