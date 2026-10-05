@@ -21,13 +21,7 @@ function XSocialIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path 
 function DrawerTop({label,onClose,menu=false}){
   if(menu){
     return <div className="mobile-drawer-top mobile-drawer-top--menu">
-      <HamburgerToggle
-        className="mobile-drawer-top__hamburger"
-        checked
-        onChange={()=>onClose()}
-        controls="mobile-reference-menu"
-        label="Close menu"
-      />
+      <span className="mobile-drawer-top__spacer" aria-hidden="true"/>
       <Link className="mobile-drawer-top__center-brand" to="/" aria-label="Lagom Naturals home" onClick={onClose}>
         <img src={logoIcon} alt="" aria-hidden="true"/>
       </Link>

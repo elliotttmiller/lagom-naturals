@@ -16,6 +16,33 @@
     padding-top:env(safe-area-inset-top,0px);
     margin-bottom:10px;
   }
+  .mobile-reference-menu .mobile-drawer-top--menu{
+    grid-template-columns:52px minmax(0,1fr) 52px;
+  }
+  .mobile-drawer-top__center-brand{
+    width:48px;
+    height:48px;
+    display:grid;
+    place-items:center;
+    justify-self:center;
+    border-radius:50%;
+    color:inherit;
+  }
+  .mobile-drawer-top__center-brand:focus-visible{
+    outline:2px solid #101713;
+    outline-offset:2px;
+  }
+  .mobile-drawer-top__center-brand img{
+    display:block;
+    width:38px;
+    height:44px;
+    object-fit:contain;
+  }
+  .mobile-drawer-top__spacer{
+    display:block;
+    width:48px;
+    height:48px;
+  }
   .mobile-drawer-top{
     grid-template-columns:52px minmax(0,1fr) 52px!important;
   }
