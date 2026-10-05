@@ -162,3 +162,243 @@
     }
   }
 }
+
+
+/* Mobile drawer refinement ------------------------------------------------- */
+@media (max-width:899px){
+  .mobile-reference-menu-backdrop{
+    background:rgba(8,18,14,0)!important;
+    transition:background-color .34s cubic-bezier(.16,1,.3,1)!important;
+  }
+
+  .mobile-reference-menu-backdrop.is-open{
+    background:rgba(8,18,14,.18)!important;
+  }
+
+  .mobile-reference-menu{
+    background:
+      linear-gradient(180deg,rgba(248,250,249,.985),rgba(240,246,245,.985))!important;
+    color:#101713!important;
+    border-top:1px solid rgba(255,255,255,.74)!important;
+    box-shadow:none!important;
+    transition:none!important;
+    will-change:transform,opacity;
+    backface-visibility:hidden;
+  }
+
+  .mobile-drawer-top--menu{
+    position:sticky;
+    top:0;
+    z-index:6;
+    grid-template-columns:48px minmax(0,1fr) 48px!important;
+    min-height:74px!important;
+    margin:0 calc(clamp(20px,5.5vw,28px)*-1) 12px!important;
+    padding:0 clamp(20px,5.5vw,28px)!important;
+    border-bottom:1px solid rgba(16,23,19,.075)!important;
+    background:rgba(250,251,249,.82)!important;
+    box-shadow:0 7px 22px rgba(22,28,24,.045);
+    backdrop-filter:blur(20px) saturate(1.12)!important;
+    -webkit-backdrop-filter:blur(20px) saturate(1.12)!important;
+  }
+
+  .mobile-drawer-top--menu .mobile-drawer-top__hamburger{
+    justify-self:start!important;
+    width:48px!important;
+    height:48px!important;
+    margin:0!important;
+    padding:0!important;
+    color:#101713!important;
+    border-radius:50%!important;
+    background:transparent!important;
+  }
+
+  .mobile-drawer-top--menu .mobile-drawer-top__hamburger svg{
+    width:40px!important;
+    height:40px!important;
+  }
+
+  .mobile-drawer-top--menu .mobile-drawer-top__center-brand{
+    display:grid;
+    place-items:center;
+    justify-self:center;
+    width:52px;
+    height:52px;
+    border-radius:50%;
+  }
+
+  .mobile-drawer-top--menu .mobile-drawer-top__center-brand img{
+    display:block;
+    width:40px;
+    height:40px;
+    object-fit:contain;
+  }
+
+  .mobile-drawer-top--menu .mobile-drawer-top__spacer{
+    display:block;
+    width:48px;
+    height:48px;
+  }
+
+  .mobile-reference-menu nav{
+    display:grid!important;
+    gap:8px!important;
+    padding:4px 0 0!important;
+  }
+
+  .mobile-reference-menu nav>div{
+    min-width:0;
+  }
+
+  .mobile-reference-menu nav>div>.mobile-reference-menu__link,
+  .mobile-reference-menu nav>div>a{
+    min-height:60px!important;
+    padding:0 18px!important;
+    border:1px solid rgba(16,23,19,.08)!important;
+    border-radius:18px!important;
+    background:rgba(255,255,255,.68)!important;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.8),
+      0 5px 16px rgba(31,47,39,.035);
+    font:720 clamp(16px,4.2vw,19px)/1.1 var(--font-ui)!important;
+    letter-spacing:-.018em!important;
+    transition:
+      transform .24s cubic-bezier(.16,1,.3,1),
+      background-color .2s ease,
+      border-color .2s ease,
+      box-shadow .24s ease!important;
+  }
+
+  .mobile-reference-menu nav>div>.mobile-reference-menu__link:active,
+  .mobile-reference-menu nav>div>a:active{
+    transform:scale(.988);
+    background:rgba(255,255,255,.86)!important;
+  }
+
+  .mobile-reference-menu nav>div>.mobile-reference-menu__link svg,
+  .mobile-reference-menu nav>div>a svg{
+    opacity:.5!important;
+    transition:
+      transform .3s cubic-bezier(.16,1,.3,1),
+      opacity .2s ease!important;
+  }
+
+  .mobile-menu-shop-group{
+    display:grid;
+    gap:7px;
+  }
+
+  .mobile-menu-shop-trigger{
+    width:100%!important;
+  }
+
+  .mobile-menu-shop-trigger svg{
+    width:20px!important;
+    height:20px!important;
+    stroke-width:1.75!important;
+  }
+
+  .mobile-menu-shop-trigger.is-open{
+    border-color:rgba(18,78,60,.16)!important;
+    background:rgba(238,246,242,.9)!important;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.85),
+      0 7px 18px rgba(30,66,53,.055)!important;
+  }
+
+  .mobile-menu-shop-trigger.is-open svg{
+    transform:rotate(180deg);
+    opacity:.78!important;
+  }
+
+  .mobile-menu-shop-categories{
+    display:grid;
+    gap:6px;
+    overflow:hidden;
+    padding:0 0 2px;
+  }
+
+  .mobile-menu-shop-categories>div{
+    min-width:0;
+  }
+
+  .mobile-menu-shop-categories a{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:space-between!important;
+    min-height:52px!important;
+    padding:0 18px 0 28px!important;
+    border:1px solid rgba(17,75,57,.08)!important;
+    border-radius:15px!important;
+    background:
+      linear-gradient(135deg,rgba(236,245,241,.9),rgba(247,244,249,.78))!important;
+    color:#17392f!important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.72)!important;
+    font:680 clamp(14px,3.7vw,16px)/1 var(--font-ui)!important;
+  }
+
+  .mobile-menu-shop-categories a svg{
+    width:17px!important;
+    height:17px!important;
+    opacity:.48!important;
+  }
+
+  .mobile-reference-menu__footer{
+    margin-top:18px!important;
+    padding-top:22px!important;
+    border-top:1px solid rgba(16,23,19,.08)!important;
+  }
+
+  /* Reassert the hamburger morph in both the global header and drawer header.
+     The drawer keeps a real checked toggle, so it remains visible and tappable
+     while the menu is open. */
+  .header-mobile-toggle.hamburger svg,
+  .hamburger svg{
+    transition:transform .46s cubic-bezier(.16,1,.3,1)!important;
+  }
+
+  .header-mobile-toggle.hamburger .line,
+  .hamburger .line{
+    transition:
+      stroke-dasharray .46s cubic-bezier(.16,1,.3,1),
+      stroke-dashoffset .46s cubic-bezier(.16,1,.3,1)!important;
+  }
+
+  .mobile-drawer-top--menu .hamburger input:checked+svg{
+    transform:rotate(-45deg)!important;
+  }
+
+  .mobile-drawer-top--menu .hamburger input:checked+svg .line-top-bottom{
+    stroke-dasharray:20 300!important;
+    stroke-dashoffset:-32.42!important;
+  }
+}
+
+@media (max-width:380px){
+  .mobile-reference-menu nav{
+    gap:6px!important;
+  }
+
+  .mobile-reference-menu nav>div>.mobile-reference-menu__link,
+  .mobile-reference-menu nav>div>a{
+    min-height:56px!important;
+    padding-inline:15px!important;
+    border-radius:16px!important;
+  }
+
+  .mobile-menu-shop-categories a{
+    min-height:49px!important;
+    padding-left:23px!important;
+    border-radius:14px!important;
+  }
+}
+
+@media (prefers-reduced-motion:reduce) and (max-width:899px){
+  .mobile-reference-menu,
+  .mobile-reference-menu-backdrop,
+  .mobile-menu-shop-categories,
+  .mobile-menu-shop-categories *,
+  .mobile-reference-menu nav>div>.mobile-reference-menu__link,
+  .mobile-reference-menu nav>div>a{
+    transition:none!important;
+  }
+}
