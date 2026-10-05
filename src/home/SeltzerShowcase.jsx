@@ -203,7 +203,13 @@ function FlavorThumbnail({
         <picture aria-hidden="true">
           <source type="image/avif" srcSet={theme.mobileMedia.avifSrcSet} sizes="25vw" />
           <source type="image/webp" srcSet={theme.mobileMedia.webpSrcSet} sizes="25vw" />
-          <img src={theme.mobileMedia.src} alt="" loading="lazy" decoding="async" />
+          <img
+            src={theme.mobileMedia.src}
+            alt=""
+            loading={itemIndex === 0 ? "eager" : undefined}
+            fetchPriority={itemIndex === 0 ? "high" : "auto"}
+            decoding="async"
+          />
         </picture>
         <ShowcaseCan label={label} product={item} reducedMotion={reducedMotion} compact />
       </span>
