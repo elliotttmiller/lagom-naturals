@@ -76,9 +76,9 @@ function DesktopShopPanel({onClose,reduceMotion}){
     className="desktop-shop-panel"
     role="region"
     aria-label="Shop products"
-    initial={reduceMotion?false:{opacity:0,y:-10,scale:.994,clipPath:'inset(0 0 9% 0 round 28px)'}}
-    animate={{opacity:1,y:0,scale:1,clipPath:'inset(0 0 0% 0 round 28px)'}}
-    exit={reduceMotion?{opacity:0}:{opacity:0,y:-7,scale:.996,clipPath:'inset(0 0 7% 0 round 28px)'}}
+    initial={reduceMotion?false:{opacity:0,y:-8,scale:.998,clipPath:'inset(0 0 9% 0 round 26px)'}}
+    animate={{opacity:1,y:0,scale:1,clipPath:'inset(0 0 0% 0 round 26px)'}}
+    exit={reduceMotion?{opacity:0}:{opacity:0,y:-6,scale:.999,clipPath:'inset(0 0 7% 0 round 26px)'}}
     transition={reduceMotion?{duration:0}:{duration:.42,ease:[.16,1,.3,1]}}
   >
     <div className="desktop-shop-panel__inner">

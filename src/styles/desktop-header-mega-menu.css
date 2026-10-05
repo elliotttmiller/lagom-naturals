@@ -758,3 +758,343 @@
     transform:none!important;
   }
 }
+
+/* Desktop header and Shop overlay: full-bleed glass navigation system. */
+@media (min-width:900px){
+  .site-header{
+    top:0!important;
+    inline-size:100%!important;
+    width:100%!important;
+    margin:0!important;
+    border:0;
+    border-bottom:1px solid rgba(255,255,255,.68);
+    border-radius:0!important;
+    background:linear-gradient(105deg,rgba(255,252,241,.52),rgba(255,255,255,.38) 54%,rgba(250,249,245,.46));
+    box-shadow:0 5px 24px rgba(35,29,17,.07),inset 0 1px 0 rgba(255,255,255,.72);
+    -webkit-backdrop-filter:blur(22px) saturate(1.2);
+    backdrop-filter:blur(22px) saturate(1.2);
+  }
+
+  .site-header.site-header--shop-open{
+    border-bottom-color:rgba(255,255,255,.82);
+    background:linear-gradient(105deg,rgba(255,252,241,.62),rgba(255,255,255,.48) 54%,rgba(250,249,245,.56));
+    box-shadow:0 4px 20px rgba(35,29,17,.06),inset 0 1px 0 rgba(255,255,255,.82);
+  }
+
+  .site-header .header-inner{
+    inline-size:min(var(--desktop-wide,1600px),calc(100% - 2 * clamp(24px,4vw,72px)));
+    block-size:var(--desktop-header-h,88px);
+    min-block-size:72px;
+    margin-inline:auto;
+    padding-inline:0;
+    grid-template-columns:auto minmax(0,1fr) auto;
+    column-gap:clamp(30px,4vw,68px);
+  }
+
+  .site-header .desktop-header-brand{
+    inline-size:auto;
+    block-size:100%;
+  }
+
+  .site-header .desktop-header-brand img{
+    inline-size:clamp(142px,10.2vw,174px);
+    max-block-size:52px;
+  }
+
+  .site-header .desktop-nav__links{
+    gap:clamp(18px,2.25vw,36px);
+  }
+
+  .site-header .desktop-nav__shop-trigger{
+    min-inline-size:clamp(112px,8.2vw,136px);
+    inline-size:auto;
+    block-size:52px!important;
+    min-block-size:52px;
+    justify-content:space-between;
+    padding-inline:clamp(18px,1.5vw,24px);
+    border:1px solid transparent;
+    border-radius:12px;
+    background:transparent;
+    box-shadow:none;
+    -webkit-backdrop-filter:none;
+    backdrop-filter:none;
+    transition:background-color .2s ease,border-color .2s ease,color .2s ease;
+  }
+
+  .site-header .desktop-nav .desktop-nav__shop-trigger::after{
+    left:50%;
+    right:auto;
+    bottom:5px;
+    inline-size:20px;
+    block-size:2px;
+    border-radius:2px;
+    background:#c48a28;
+    transform:translateX(-50%) scaleX(.35);
+    transform-origin:center;
+  }
+
+  .site-header .desktop-nav__shop-trigger:hover,
+  .site-header .desktop-nav__shop-trigger:focus-visible,
+  .site-header .desktop-nav__shop-trigger.active,
+  .site-header .desktop-nav__shop.is-open .desktop-nav__shop-trigger{
+    border-color:rgba(255,255,255,.72);
+    background:rgba(255,255,255,.42);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 3px 10px rgba(35,29,17,.035);
+    transform:none;
+  }
+
+  .site-header .desktop-nav .desktop-nav__shop-trigger:hover::after,
+  .site-header .desktop-nav .desktop-nav__shop-trigger:focus-visible::after,
+  .site-header .desktop-nav .desktop-nav__shop-trigger.active::after,
+  .site-header .desktop-nav__shop.is-open .desktop-nav__shop-trigger::after{
+    opacity:1;
+    transform:translateX(-50%) scaleX(1);
+  }
+
+  .site-header .desktop-nav__links>a{
+    min-block-size:48px;
+    padding-inline:clamp(9px,.8vw,13px);
+    border-radius:11px;
+    transition:color .18s ease,opacity .18s ease,background-color .18s ease,box-shadow .18s ease;
+  }
+
+  .site-header .desktop-nav__links>a:hover,
+  .site-header .desktop-nav__links>a:focus-visible,
+  .site-header .desktop-nav__links>a.active{
+    transform:none;
+  }
+
+  .site-header .desktop-nav__links>a:hover,
+  .site-header .desktop-nav__links>a:focus-visible,
+  .site-header .desktop-nav__links>a.active{
+    background:rgba(255,255,255,.34);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.65);
+  }
+
+  .site-header .header-tools .icon-btn{
+    min-block-size:46px;
+    border-radius:14px;
+  }
+
+  .site-header .header-tools .icon-btn:hover{
+    background:rgba(255,255,255,.42);
+    transform:none;
+  }
+
+  .site-header :is(a,button):focus-visible{
+    outline:2px solid #245b49;
+    outline-offset:3px;
+  }
+
+  .desktop-shop-panel{
+    top:100%;
+    left:0;
+    right:0;
+    inline-size:min(1380px,calc(100vw - 2 * clamp(28px,9.5vw,160px)));
+    margin-inline:auto;
+    padding:clamp(12px,1vw,16px);
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,.76);
+    border-radius:clamp(22px,1.8vw,28px);
+    background:
+      radial-gradient(ellipse at 17% 0%,rgba(255,231,168,.28),transparent 43%),
+      linear-gradient(115deg,rgba(255,251,235,.93),rgba(255,255,255,.84) 58%,rgba(248,246,240,.9));
+    box-shadow:0 28px 64px rgba(19,31,24,.17),inset 0 1px 0 rgba(255,255,255,.88);
+    transform:none;
+    -webkit-backdrop-filter:blur(30px) saturate(1.22);
+    backdrop-filter:blur(30px) saturate(1.22);
+  }
+
+  .desktop-shop-panel__inner{
+    inline-size:100%;
+    min-block-size:clamp(250px,15.6vw,270px);
+    margin-inline:auto;
+    grid-template-columns:minmax(290px,1.25fr) minmax(0,2.35fr);
+    gap:clamp(18px,1.5vw,26px);
+    align-items:stretch;
+  }
+
+  .desktop-shop-panel__intro{
+    justify-content:center;
+    padding:clamp(8px,1.2vw,18px) 0;
+    border:0;
+    border-radius:0;
+    background:transparent;
+  }
+
+  .desktop-shop-panel__eyebrow{
+    margin-bottom:16px;
+    color:#426b5b;
+    letter-spacing:.16em;
+  }
+
+  .desktop-shop-panel__intro h2{
+    max-inline-size:10ch;
+    color:#172820;
+    font-size:clamp(2.15rem,2.5vw,3rem);
+    line-height:.94;
+    letter-spacing:-.048em;
+  }
+
+  .desktop-shop-panel__accent{
+    display:block;
+    inline-size:44px;
+    block-size:2px;
+    margin:12px 0 10px;
+    background:linear-gradient(90deg,#d89b25,#f1cc69);
+  }
+
+  .desktop-shop-panel__botanical{
+    display:block;
+    right:-18px;
+    bottom:-42px;
+    inline-size:9rem;
+    block-size:12rem;
+    opacity:.07;
+  }
+
+  .desktop-shop-panel__intro>p{
+    max-inline-size:29ch;
+    margin-top:15px;
+    color:rgba(23,40,32,.72);
+    font-size:clamp(.78rem,.85vw,.92rem);
+    line-height:1.48;
+  }
+
+  .desktop-shop-panel__explore{
+    inline-size:max-content;
+    min-inline-size:190px;
+    min-block-size:46px;
+    margin-top:22px;
+    border:1px solid rgba(255,255,255,.76);
+    background:linear-gradient(120deg,#f0bf47,#f7d476);
+    color:#19160f;
+    box-shadow:0 8px 20px rgba(125,91,23,.13),inset 0 1px 0 rgba(255,255,255,.6);
+  }
+
+  .desktop-shop-panel__cards--full-width-nav{
+    gap:clamp(12px,1.15vw,18px);
+  }
+
+  .desktop-shop-panel__card-shell{
+    min-block-size:0;
+  }
+
+  .desktop-shop-panel__card--glass-stack{
+    grid-template-rows:minmax(0,1fr) auto;
+    min-block-size:clamp(250px,15.6vw,270px);
+    border:1px solid rgba(255,255,255,.86);
+    border-radius:18px;
+    background:rgba(255,255,255,.56);
+    box-shadow:0 8px 24px rgba(25,38,30,.075),inset 0 1px 0 rgba(255,255,255,.9);
+    -webkit-backdrop-filter:blur(16px) saturate(1.12);
+    backdrop-filter:blur(16px) saturate(1.12);
+    transform:none;
+  }
+
+  .desktop-shop-panel__card--glass-stack:hover,
+  .desktop-shop-panel__card--glass-stack:focus-visible{
+    border-color:rgba(255,255,255,.98);
+    background:rgba(255,255,255,.7);
+    box-shadow:0 14px 32px rgba(25,38,30,.12),inset 0 1px 0 rgba(255,255,255,.96);
+    transform:translateY(-3px);
+  }
+
+  .desktop-shop-panel__media{
+    min-block-size:0;
+    background:color-mix(in srgb,var(--menu-accent,#7a8f86) 12%,#f5f6f3);
+  }
+
+  .desktop-shop-panel__media-grid::after{
+    background:linear-gradient(180deg,rgba(13,20,16,.015),transparent 48%,rgba(13,20,16,.13));
+  }
+
+  .desktop-shop-panel__media-piece + .desktop-shop-panel__media-piece{
+    border-left-color:rgba(255,255,255,.58);
+  }
+
+  .desktop-shop-panel__media-piece img{
+    transform:scale(1.015);
+    filter:saturate(1.015) contrast(1.005);
+  }
+
+  .desktop-shop-panel__card:hover .desktop-shop-panel__media-piece img{
+    transform:scale(1.045);
+    filter:saturate(1.04) contrast(1.01);
+  }
+
+  .desktop-shop-panel__number{
+    inline-size:30px;
+    block-size:30px;
+    border-color:rgba(255,255,255,.88);
+    background:rgba(250,251,249,.84);
+    color:#294c3e;
+    box-shadow:0 3px 12px rgba(17,30,22,.1),inset 0 1px 0 #fff;
+  }
+
+  .desktop-shop-panel__card-copy{
+    min-block-size:90px;
+    padding:17px 60px 18px 20px;
+    background:rgba(250,251,249,.78);
+    -webkit-backdrop-filter:blur(14px) saturate(1.08);
+    backdrop-filter:blur(14px) saturate(1.08);
+  }
+
+  .desktop-shop-panel__card-copy strong{
+    color:#1b2c23;
+    font-size:clamp(1.3rem,1.65vw,1.72rem);
+    line-height:1;
+  }
+
+  .desktop-shop-panel__card-copy small{
+    margin-top:7px;
+    color:rgba(27,44,35,.68);
+    font-size:clamp(.68rem,.72vw,.78rem);
+    line-height:1.35;
+  }
+
+  .desktop-shop-panel__card-arrow{
+    right:16px;
+    bottom:50%;
+    inline-size:38px;
+    block-size:38px;
+    border-color:rgba(255,255,255,.92);
+    background:color-mix(in srgb,#f1c454 60%,rgba(255,255,255,.88));
+    transform:translateY(50%);
+  }
+
+  .desktop-shop-panel__card:hover .desktop-shop-panel__card-arrow{
+    transform:translate(2px,50%);
+  }
+}
+
+@media (min-width:900px) and (max-width:1099px){
+  .site-header .header-inner{
+    inline-size:calc(100% - 40px);
+    column-gap:20px;
+  }
+  .site-header .desktop-header-brand img{inline-size:124px}
+  .site-header .desktop-nav__links{gap:14px}
+  .site-header .desktop-nav__shop-trigger{padding-inline:12px}
+  .site-header .header-account span,.site-header .cart-icon span{display:none}
+  .site-header .header-account::before,.site-header .cart-icon::before{margin-inline:.15rem}
+  .desktop-shop-panel{
+    inline-size:calc(100vw - 48px);
+    padding:14px;
+  }
+  .desktop-shop-panel__inner{grid-template-columns:minmax(220px,1.15fr) minmax(0,2.4fr);gap:16px}
+  .desktop-shop-panel__intro h2{font-size:2rem}
+  .desktop-shop-panel__intro>p{font-size:.72rem}
+  .desktop-shop-panel__explore{min-inline-size:170px}
+  .desktop-shop-panel__card-copy{padding-inline:15px 48px}
+  .desktop-shop-panel__card-copy strong{font-size:1.16rem}
+  .desktop-shop-panel__card-copy small{font-size:.64rem}
+  .desktop-shop-panel__card-arrow{right:10px;inline-size:34px;block-size:34px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .desktop-shop-panel,.desktop-shop-panel__card--glass-stack,
+  .desktop-shop-panel__media-piece img,.desktop-shop-panel__card-arrow{
+    transition:none!important;
+  }
+}
