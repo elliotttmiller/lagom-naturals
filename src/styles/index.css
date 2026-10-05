@@ -22,3 +22,5 @@
 /* Canonical homepage entry. Preserve this boundary; homepage modules are
    ordered internally by styles/home/index.css. */
 @import './home/index.css';
+
+@import './desktop-header-mega-menu.css';
