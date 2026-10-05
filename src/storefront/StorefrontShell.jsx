@@ -10,15 +10,43 @@ const PUBLIC_BASE=import.meta.env.BASE_URL
 const publicAsset=name=>`${PUBLIC_BASE}${name.replace(/^\//,'')}`
 
 const SHOP_PANEL_MEDIA={
-  all:responsiveImages.shopHeader['shop-header-image-desktop'],
-  seltzers:responsiveImages.seltzerDesktopFlavors['24k'],
-  gummies:responsiveImages.homeGummies['Berry-Melon-Bliss-Photoroom-900x900'],
+  watermelon:responsiveImages.seltzerDesktopFlavors['watermelon'],
+  blackberry:responsiveImages.seltzerDesktopFlavors['blackberry'],
+  lemonade:responsiveImages.seltzerDesktopFlavors['24k'],
+  strawberryLime:responsiveImages.seltzerDesktopFlavors['Strawberry Lime Splash Seltzer Ad (1)'],
+  berryMelon:responsiveImages.homeGummies['Berry-Melon-Bliss-Photoroom-900x900'],
+  blueRazz:responsiveImages.homeGummies['Blue-Razz-Photoroom-Photoroom-1-900x900'],
+  cherry:responsiveImages.homeGummies['Cherry-Bliss-Photoroom-900x900'],
 }
 
 const SHOP_PANEL_CARDS=[
-  {index:'01',title:'All Products',description:'Explore the full collection.',to:'/shop',media:SHOP_PANEL_MEDIA.all,mediaClass:'all-products'},
-  {index:'02',title:'Seltzers',description:'Bright, sparkling THC drinks.',to:'/shop/seltzers',media:SHOP_PANEL_MEDIA.seltzers,mediaClass:'seltzers'},
-  {index:'03',title:'Gummies',description:'Flavorful, easygoing favorites.',to:'/shop/gummies',media:SHOP_PANEL_MEDIA.gummies,mediaClass:'gummies'},
+  {
+    index:'01',
+    title:'All Products',
+    description:'Explore the full collection.',
+    to:'/shop',
+    media:[SHOP_PANEL_MEDIA.watermelon,SHOP_PANEL_MEDIA.berryMelon,SHOP_PANEL_MEDIA.blackberry],
+    mediaClass:'all-products',
+    accent:'#d95f63',
+  },
+  {
+    index:'02',
+    title:'Seltzers',
+    description:'Bright, sparkling THC drinks.',
+    to:'/shop/seltzers',
+    media:[SHOP_PANEL_MEDIA.strawberryLime,SHOP_PANEL_MEDIA.blackberry,SHOP_PANEL_MEDIA.lemonade],
+    mediaClass:'seltzers',
+    accent:'#8650a9',
+  },
+  {
+    index:'03',
+    title:'Gummies',
+    description:'Flavorful, easygoing favorites.',
+    to:'/shop/gummies',
+    media:[SHOP_PANEL_MEDIA.berryMelon,SHOP_PANEL_MEDIA.blueRazz,SHOP_PANEL_MEDIA.cherry],
+    mediaClass:'gummies',
+    accent:'#d74d7b',
+  },
 ]
 
 function Logo({onClick,className=''}){return <Link to="/" className={`brand ${className}`} onClick={onClick}><img src={publicAsset("enhanced-lagom-logo.webp")} alt="Lagom Naturals"/></Link>}
@@ -26,10 +54,19 @@ function Logo({onClick,className=''}){return <Link to="/" className={`brand ${cl
 function MenuPicture({media,className=''}) {
   if(!media)return null
   return <picture className={className} aria-hidden="true">
-    {media.avifSrcSet?<source type="image/avif" srcSet={media.avifSrcSet} sizes="(min-width:1100px) 24vw, 360px"/>:null}
-    {media.webpSrcSet?<source type="image/webp" srcSet={media.webpSrcSet} sizes="(min-width:1100px) 24vw, 360px"/>:null}
+    {media.avifSrcSet?<source type="image/avif" srcSet={media.avifSrcSet} sizes="(min-width:1100px) 12vw, 180px"/>:null}
+    {media.webpSrcSet?<source type="image/webp" srcSet={media.webpSrcSet} sizes="(min-width:1100px) 12vw, 180px"/>:null}
     <img src={media.src} alt="" loading="lazy" decoding="async" draggable="false"/>
   </picture>
+}
+
+function MenuMedia({items}) {
+  const mediaItems=Array.isArray(items)?items:[items]
+  return <div className="desktop-shop-panel__media-grid" aria-hidden="true">
+    {mediaItems.filter(Boolean).map((media,index)=>(
+      <MenuPicture key={index} media={media} className={`desktop-shop-panel__media-piece desktop-shop-panel__media-piece--${index+1}`}/>
+    ))}
+  </div>
 }
 
 function DesktopShopPanel({onClose,reduceMotion}){
@@ -71,10 +108,10 @@ function DesktopShopPanel({onClose,reduceMotion}){
             animate={{opacity:1,y:0,scale:1}}
             transition={reduceMotion?{duration:0}:{...itemTransition,delay:.08+index*.045}}
           >
-            <NavLink className="desktop-shop-panel__card" to={card.to} end={card.to==='/shop'} onClick={onClose}>
+            <NavLink className="desktop-shop-panel__card" style={{'--menu-accent':card.accent}} to={card.to} end={card.to==='/shop'} onClick={onClose}>
               <div className={`desktop-shop-panel__media desktop-shop-panel__media--${card.mediaClass}`}>
                 <span className="desktop-shop-panel__number">{card.index}</span>
-                <MenuPicture media={card.media}/>
+                <MenuMedia items={card.media}/>
               </div>
               <div className="desktop-shop-panel__card-copy">
                 <strong>{card.title}</strong>
