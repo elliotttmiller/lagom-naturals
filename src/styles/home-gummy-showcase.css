@@ -43,7 +43,12 @@
     min-block-size:0;
     max-block-size:100%;
   }
-  .gummy-mobile__grid-state{grid-template-rows:clamp(2.55rem,5.2vh,3.1rem) minmax(0,1fr)}
+  
+.gummy-desktop-nav{
+  display:none;
+}
+
+.gummy-mobile__grid-state{grid-template-rows:clamp(2.55rem,5.2vh,3.1rem) minmax(0,1fr)}
   .gummy-mobile__grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr))}
   .gummy-tile__art,.gummy-tile__product,.gummy-tile__product img{inline-size:100%;block-size:100%;min-inline-size:0;min-block-size:0}
 }
@@ -635,5 +640,262 @@
   .gummy-mobile__collection-rail button,
   .gummy-quick-view__cta{
     transition:none!important;
+  }
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* Desktop full-bleed gummy campaign                                          */
+/* -------------------------------------------------------------------------- */
+@media (min-width:1100px){
+  /* The global site header remains the persistent site chrome. The former
+     gummy collection pill is removed from desktop layout entirely; collection
+     switching now floats over the artwork so the 2x2 campaign owns every
+     remaining pixel of the snap scene. */
+  .gummy-showcase-shell{
+    padding-block-start:var(--desktop-header-h,88px);
+    background:#111;
+  }
+
+  .gummy-showcase__experience{
+    inline-size:100%;
+    block-size:100%;
+    margin:0;
+    padding:0;
+    overflow:hidden;
+  }
+
+  .gummy-mobile__grid-state{
+    position:relative;
+    display:grid;
+    grid-template-rows:minmax(0,1fr);
+    gap:0;
+    inline-size:100%;
+    block-size:100%;
+    overflow:hidden;
+    background:#111;
+  }
+
+  .gummy-mobile__collection-rail{
+    display:none;
+  }
+
+  .gummy-mobile__grid{
+    grid-row:1;
+    grid-column:1;
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-template-rows:repeat(2,minmax(0,1fr));
+    gap:1px;
+    inline-size:100%;
+    block-size:100%;
+    margin:0;
+    overflow:hidden;
+    border:0;
+    border-radius:0;
+    background:#111;
+    box-shadow:none;
+  }
+
+  .gummy-tile,
+  .gummy-tile:nth-child(odd),
+  .gummy-tile:nth-child(-n+2){
+    border:0;
+    border-radius:0;
+    box-shadow:none;
+  }
+
+  .gummy-tile__button{
+    overflow:hidden;
+  }
+
+  .gummy-tile__art,
+  .gummy-tile__product,
+  .gummy-tile__product img{
+    inline-size:100%;
+    block-size:100%;
+  }
+
+  .gummy-tile__product img{
+    aspect-ratio:auto;
+    object-fit:cover;
+    object-position:50% 47%;
+    transform:scale(1.015);
+    filter:saturate(1.02) contrast(1.015);
+  }
+
+  .gummy-tile__arrow{
+    right:clamp(1rem,1.35vw,1.55rem);
+    bottom:clamp(1rem,1.35vw,1.55rem);
+    inline-size:clamp(2.85rem,3vw,3.55rem);
+    block-size:clamp(2.85rem,3vw,3.55rem);
+    border:1px solid rgba(255,255,255,.62);
+    background:rgba(255,255,255,.34);
+    color:#fff;
+    box-shadow:
+      0 .55rem 1.5rem rgba(0,0,0,.14),
+      inset 0 1px 0 rgba(255,255,255,.32);
+    -webkit-backdrop-filter:blur(16px) saturate(1.15);
+    backdrop-filter:blur(16px) saturate(1.15);
+  }
+
+  .gummy-tile__arrow svg{
+    inline-size:1.15rem;
+    block-size:1.15rem;
+  }
+
+  @media (hover:hover) and (pointer:fine){
+    .gummy-tile__button:hover .gummy-tile__product{
+      transform:none;
+    }
+
+    .gummy-tile__button:hover .gummy-tile__product img{
+      transform:scale(1.055);
+    }
+
+    .gummy-tile__button:hover .gummy-tile__arrow{
+      transform:translate(3px,-3px) scale(1.055);
+      background:rgba(255,255,255,.52);
+      box-shadow:
+        0 .75rem 1.75rem rgba(0,0,0,.18),
+        inset 0 1px 0 rgba(255,255,255,.42);
+    }
+  }
+
+  /* Collection navigation becomes a compact floating scrubber anchored over
+     the lower center seam instead of consuming a dedicated horizontal row. */
+  .gummy-desktop-nav{
+    position:absolute;
+    z-index:12;
+    left:50%;
+    bottom:clamp(1rem,1.6vw,1.65rem);
+    display:grid;
+    grid-template-columns:3.15rem minmax(9.5rem,auto) 3.15rem;
+    align-items:center;
+    gap:.28rem;
+    min-block-size:3.45rem;
+    padding:.28rem;
+    border:1px solid rgba(255,255,255,.38);
+    border-radius:999px;
+    background:rgba(20,20,20,.28);
+    color:#fff;
+    box-shadow:
+      0 .8rem 2.2rem rgba(0,0,0,.18),
+      inset 0 1px 0 rgba(255,255,255,.2);
+    transform:translateX(-50%);
+    -webkit-backdrop-filter:blur(20px) saturate(1.22);
+    backdrop-filter:blur(20px) saturate(1.22);
+  }
+
+  .gummy-desktop-nav__arrow{
+    display:grid;
+    place-items:center;
+    inline-size:3rem;
+    block-size:3rem;
+    padding:0;
+    border:0;
+    border-radius:50%;
+    background:rgba(255,255,255,.12);
+    color:#fff;
+    cursor:pointer;
+    transition:
+      transform var(--lagom-motion-fast) var(--lagom-ease-glide),
+      background-color var(--lagom-motion-fast) var(--lagom-ease-standard);
+  }
+
+  .gummy-desktop-nav__arrow:hover{
+    background:rgba(255,255,255,.22);
+    transform:scale(1.04);
+  }
+
+  .gummy-desktop-nav__arrow:focus-visible,
+  .gummy-desktop-nav__dots button:focus-visible{
+    outline:2px solid #fff;
+    outline-offset:2px;
+  }
+
+  .gummy-desktop-nav__arrow svg{
+    inline-size:1.05rem;
+    block-size:1.05rem;
+    stroke-width:1.8;
+  }
+
+  .gummy-desktop-nav__status{
+    position:relative;
+    display:grid;
+    grid-template-columns:auto minmax(0,1fr);
+    grid-template-rows:auto auto;
+    align-items:center;
+    column-gap:.6rem;
+    min-inline-size:10rem;
+    padding:.18rem .58rem .12rem;
+  }
+
+  .gummy-desktop-nav__count{
+    grid-row:1/3;
+    align-self:center;
+    color:rgba(255,255,255,.62);
+    font:750 .56rem/1 var(--font-ui);
+    letter-spacing:.12em;
+    white-space:nowrap;
+  }
+
+  .gummy-desktop-nav__name{
+    grid-column:2;
+    grid-row:1;
+    display:block;
+    min-inline-size:0;
+    color:#fff;
+    font:760 clamp(.66rem,.72vw,.76rem)/1 var(--font-ui);
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    white-space:nowrap;
+  }
+
+  .gummy-desktop-nav__dots{
+    grid-column:2;
+    grid-row:2;
+    display:flex;
+    gap:.3rem;
+    margin-top:.36rem;
+  }
+
+  .gummy-desktop-nav__dots button{
+    inline-size:1.05rem;
+    block-size:.16rem;
+    padding:0;
+    border:0;
+    border-radius:999px;
+    background:rgba(255,255,255,.3);
+    cursor:pointer;
+    transition:
+      inline-size var(--lagom-motion-control) var(--lagom-ease-glide),
+      background-color var(--lagom-motion-fast) var(--lagom-ease-standard);
+  }
+
+  .gummy-desktop-nav__dots button.is-active{
+    inline-size:1.8rem;
+    background:#fff;
+  }
+
+  /* Quick view keeps the same exact full-bleed scene footprint as the grid,
+     so opening a flavor never exposes the page background. */
+  .gummy-quick-view{
+    grid-area:1/1;
+    inline-size:100%;
+    block-size:100%;
+    margin:0;
+    border:0;
+    border-radius:0;
+    box-shadow:none;
+  }
+}
+
+@media (min-width:1600px){
+  .gummy-showcase__experience,
+  .gummy-mobile__grid,
+  .gummy-quick-view{
+    inline-size:100%;
+    max-inline-size:none;
   }
 }
