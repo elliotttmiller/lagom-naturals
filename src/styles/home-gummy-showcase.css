@@ -236,7 +236,9 @@
   border-radius:clamp(1.2rem,2vw,2rem);
   background:#f7f2e9;
   box-shadow:0 1.15rem 2.5rem rgba(37,30,24,.11);
-  will-change:clip-path;
+  transform-origin:center;
+  will-change:clip-path,transform,opacity;
+  backface-visibility:hidden;
 }
 
 .gummy-mobile__grid-state.is-detail-open{
@@ -256,6 +258,8 @@
 
 .gummy-quick-view__product{
   position:absolute;
+  will-change:transform,opacity;
+  backface-visibility:hidden;
   inset:clamp(.75rem,1.5vw,1.5rem);
   z-index:2;
   display:grid;
@@ -294,6 +298,8 @@
 .gummy-quick-view__info{
   position:relative;
   z-index:4;
+  will-change:transform,opacity;
+  backface-visibility:hidden;
   display:flex;
   min-block-size:0;
   flex-direction:column;
