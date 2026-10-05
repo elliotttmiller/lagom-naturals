@@ -361,11 +361,9 @@
     background:var(--seltzer-slide-background);
   }
 
-  /* Preserve the authored 9:16 mobile composition instead of sacrificing the
-     oversized editorial typography to an aggressive cover crop on tall phones.
-     The artwork is width-locked from the top; the scene color and soft lower
-     fade extend the composition beneath the image where extra viewport height
-     is available for the CTA/progress/flavor rail. */
+  /* Preserve the authored 9:16 mobile composition while allowing the artwork
+     to cover the complete dynamic viewport. The focal point stays top-centre
+     so the editorial typography remains anchored above the can and controls. */
   .seltzer-showcase__flavor-background{
     position:absolute;
     inset:0;
