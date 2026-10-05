@@ -468,7 +468,7 @@
     display:flex;
     flex-direction:column;
     align-items:center;
-    gap:.72rem;
+    gap:.56rem;
     padding-inline:max(.9rem,env(safe-area-inset-left,0px),env(safe-area-inset-right,0px));
     pointer-events:none;
   }
@@ -531,8 +531,8 @@
     display:flex;
     align-items:center;
     justify-content:center;
-    gap:.82rem;
-    min-block-size:1.15rem;
+    gap:.62rem;
+    min-block-size:1rem;
     color:#fff;
     text-shadow:0 1px 8px rgba(0,0,0,.2);
   }
@@ -570,7 +570,7 @@
   .seltzer-showcase__flavor-rail{
     display:grid;
     grid-template-columns:repeat(4,minmax(0,1fr));
-    gap:.46rem;
+    gap:.42rem;
     inline-size:min(100%,31rem);
     margin:0;
   }
@@ -578,7 +578,7 @@
   .seltzer-showcase__flavor-card{
     position:relative;
     min-inline-size:0;
-    block-size:clamp(6.2rem,24vw,7.65rem);
+    block-size:clamp(5.6rem,20vw,7.2rem);
     padding:0;
     overflow:hidden;
     border:1px solid rgba(255,255,255,.30);
