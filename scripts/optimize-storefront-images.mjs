@@ -32,7 +32,27 @@ const groups = [
   { name: 'findUs', directory: 'src/assets/mobile', files: ['find-us-hero.png'], widths: [480, 960] },
   { name: 'store', directory: 'src/assets/store', widths: [480, 960] },
   { name: 'storeDesktop', directory: 'src/assets/desktop', files: ['storefront.webp'], widths: [960, 1600] },
-  { name: 'showcaseMobile', directory: 'src/assets/showcase', files: ['seltzer-background-mobile.png', 'blackberry-breeze-mobile.png', 'flavor-24k-lemonade-mobile.png', 'flavor-blackberry-breeze-mobile.png', 'flavor-watermelon-refresher-mobile.png', 'flavor-strawberry-lime-fusion-mobile.png'], widths: [480, 800] },
+  {
+    name: 'showcaseMobile',
+    directory: 'data/ui/seltzer-showcase',
+    files: [
+      'flavor-24k-lemonade-mobile.png',
+      'flavor-blackberry-breeze-mobile.png',
+      'flavor-watermelon-refresher-mobile.png',
+      'flavor-strawberry-lime-fusion-mobile.png',
+    ],
+    sourceFiles: {
+      'flavor-24k-lemonade-mobile.png': 'data/ui/seltzer-showcase/24k-lemonade-mobile.png',
+      'flavor-blackberry-breeze-mobile.png': 'data/ui/seltzer-showcase/blackberry-mobile.png',
+      'flavor-watermelon-refresher-mobile.png': 'data/ui/seltzer-showcase/watermelon-mobile.png',
+      'flavor-strawberry-lime-fusion-mobile.png': 'data/ui/seltzer-showcase/strawberry-lime-mobile.png',
+    },
+    widths: [480, 800, 1080, 1440],
+    encoder: {
+      avif: { quality: 62, effort: 4, chromaSubsampling: '4:4:4' },
+      webp: { quality: 82, effort: 5, smartSubsample: true },
+    },
+  },
   { name: 'categories', directory: 'src/assets', files: ['seltzers-thumbnail.webp', 'gummies-thumbnail.webp'], widths: [320, 640] },
 ]
 
