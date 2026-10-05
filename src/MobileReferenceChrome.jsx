@@ -1,13 +1,14 @@
 import React from 'react'
 import {Link,useLocation,useNavigate} from 'react-router-dom'
-import {ShoppingBag,Search,User,ChevronRight,PackageCheck,Gift,Settings,Bell,CircleHelp,X} from 'lucide-react'
+import {ShoppingBag,Search,User,ChevronDown,ChevronRight,PackageCheck,Gift,Settings,Bell,CircleHelp,X} from 'lucide-react'
 import HamburgerToggle from './HamburgerToggle'
 import {Presence,m,motionTokens,motionVariants,useReducedMotion} from './motionSystem'
 import {responsiveImages} from '@/generated/responsiveImages'
 
 const mobileHero=responsiveImages.heroMobile.hero.src
 
-const drawerItems=[['All Products','/shop'],['Seltzers','/shop/seltzers'],['Gummies','/shop/gummies'],['Merch','/merch'],['Our Story','/about'],['Find Us','/visit'],['Account','account'],['FAQ','/learn'],['Contact Us','/visit']]
+const drawerItems=[['Merch','/merch'],['Our Story','/about'],['Find Us','/visit'],['Account','account'],['FAQ','/learn'],['Contact Us','/visit']]
+const shopDrawerItems=[['All Products','/shop'],['Seltzers','/shop/seltzers'],['Gummies','/shop/gummies']]
 const socialLinks=[['Instagram','https://www.instagram.com/lagomnaturalsmn?stkn=MXc1cnEyY2s2OTh2aQ==',InstagramIcon],['X','https://x.com/lagomnaturalsmn?s=21&t=o19JKEqucRv55S5u6wBKXQ',XSocialIcon],['Facebook','https://www.facebook.com/share/19fFEcDKpR/?mibextid=wwXIfr',FacebookIcon]]
 const accountRows=[[PackageCheck,'My Orders','orders']]
 const accountLower=[[Settings,'Account Settings','settings'],[Bell,'Notifications','notifications'],[CircleHelp,'Help & Support','support']]
@@ -21,7 +22,13 @@ function XSocialIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path 
 function DrawerTop({label,onClose,menu=false}){
   if(menu){
     return <div className="mobile-drawer-top mobile-drawer-top--menu">
-      <span className="mobile-drawer-top__spacer" aria-hidden="true"/>
+      <HamburgerToggle
+        className="mobile-drawer-top__hamburger"
+        checked
+        onChange={()=>onClose()}
+        controls="mobile-reference-menu"
+        label="Close menu"
+      />
       <Link className="mobile-drawer-top__center-brand" to="/" aria-label="Lagom Naturals home" onClick={onClose}>
         <img src={logoIcon} alt="" aria-hidden="true"/>
       </Link>
@@ -43,6 +50,7 @@ export default function MobileReferenceChrome(){
   const navigate=useNavigate()
   const reduceMotion=useReducedMotion()
   const[menuOpen,setMenuOpen]=React.useState(false)
+  const[shopExpanded,setShopExpanded]=React.useState(false)
   const[accountOpen,setAccountOpen]=React.useState(false)
   const[count,setCount]=React.useState(cartCount)
   const[homeScrolled,setHomeScrolled]=React.useState(false)
@@ -52,6 +60,7 @@ export default function MobileReferenceChrome(){
 
   React.useEffect(()=>{
     setMenuOpen(false)
+    setShopExpanded(false)
     setAccountOpen(false)
     document.body.classList.toggle('mobile-recipes-route',isRecipes)
     const update=()=>setCount(cartCount())
@@ -131,14 +140,48 @@ export default function MobileReferenceChrome(){
           role="dialog"
           aria-modal="true"
           aria-label="Site navigation"
-          initial={reduceMotion?false:{opacity:0,y:-10,scale:.994,clipPath:'inset(0 0 10% 0 round 0px)'}}
-          animate={{opacity:1,y:0,scale:1,clipPath:'inset(0 0 0% 0 round 0px)'}}
-          exit={reduceMotion?{opacity:0}:{opacity:0,y:-6,scale:.997,clipPath:'inset(0 0 7% 0 round 0px)'}}
-          transition={reduceMotion?{duration:0}:{duration:.48,ease:[.16,1,.3,1]}}
+          initial={reduceMotion?false:{opacity:0,y:-14,scale:.997}}
+          animate={{opacity:1,y:0,scale:1}}
+          exit={reduceMotion?{opacity:0}:{opacity:0,y:-8,scale:.998}}
+          transition={reduceMotion?{duration:0}:{type:'spring',stiffness:190,damping:25,mass:.92}}
           onClick={e=>e.stopPropagation()}
         >
           <DrawerTop label="Menu" menu onClose={()=>setMenuOpen(false)}/>
           <m.nav initial={reduceMotion?false:'hidden'} animate="visible" exit="exit" variants={motionVariants.stagger}>
+            <m.div className="mobile-menu-shop-group" variants={motionVariants.drawerItem}>
+              <button
+                type="button"
+                className={`mobile-reference-menu__link mobile-menu-shop-trigger${shopExpanded?' is-open':''}`}
+                aria-expanded={shopExpanded}
+                aria-controls="mobile-shop-categories"
+                onClick={()=>setShopExpanded(value=>!value)}
+              >
+                <span>Shop</span>
+                <ChevronDown aria-hidden="true"/>
+              </button>
+              <Presence initial={false}>
+                {shopExpanded&&<m.div
+                  id="mobile-shop-categories"
+                  className="mobile-menu-shop-categories"
+                  initial={reduceMotion?false:{height:0,opacity:0,y:-6}}
+                  animate={{height:'auto',opacity:1,y:0}}
+                  exit={reduceMotion?{height:0,opacity:0}:{height:0,opacity:0,y:-4}}
+                  transition={reduceMotion?{duration:0}:{height:{duration:.38,ease:[.16,1,.3,1]},opacity:{duration:.24,ease:'easeOut'},y:{duration:.32,ease:[.16,1,.3,1]}}}
+                >
+                  {shopDrawerItems.map(([label,to],index)=><m.div
+                    key={label}
+                    initial={reduceMotion?false:{opacity:0,x:-8}}
+                    animate={{opacity:1,x:0}}
+                    transition={reduceMotion?{duration:0}:{delay:.045*index,duration:.28,ease:[.16,1,.3,1]}}
+                  >
+                    <Link to={to} onClick={()=>setMenuOpen(false)}>
+                      <span>{label}</span>
+                      <ChevronRight aria-hidden="true"/>
+                    </Link>
+                  </m.div>)}
+                </m.div>}
+              </Presence>
+            </m.div>
             {drawerItems.map(([label,to])=><m.div key={label} variants={motionVariants.drawerItem}>
               {to==='account'
                 ?<button type="button" className="mobile-reference-menu__link" onClick={openAccount}><span>{label}</span><ChevronRight/></button>
