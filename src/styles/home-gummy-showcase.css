@@ -66,6 +66,15 @@
     margin:0;
     border-radius:clamp(1rem,2vw,1.6rem);
   }
+
+  /* The global mobile header remains fixed above the scene. Keep the detail
+     controls below that chrome so they never become untappable beneath it. */
+  .gummy-quick-view__control{
+    top:max(
+      calc(var(--mobile-header-row-h,72px) + .75rem),
+      calc(env(safe-area-inset-top,0px) + .75rem)
+    );
+  }
   
 .gummy-desktop-nav{
   display:none;
