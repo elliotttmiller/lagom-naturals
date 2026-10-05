@@ -333,7 +333,9 @@ function ProductQuickView({ product, collectionTone, onClose, reduceMotion, deta
         <ProductPicture
           product={product}
           className="gummy-quick-view__product"
-          sizes="(max-width: 699px) 100vw, (max-width: 1099px) 56vw, 45rem"
+          sizes="(max-width: 699px) 100vw, (max-width: 1099px) 56vw"
+          desktopSizes="58vw"
+          desktopShowcase
           eager
           layoutId={reduceMotion ? undefined : `gummy-media-${product.id}`}
         />
