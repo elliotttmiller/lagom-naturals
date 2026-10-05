@@ -6,7 +6,6 @@ const SCENE_OVERFLOW_CLASS = "has-home-scene-overflow";
 const SUSPENDED_CLASS = "is-home-snap-suspended";
 const KEYBOARD_CLASS = "is-home-keyboard-open";
 const KEYBOARD_THRESHOLD = 140;
-const OVERFLOW_TOLERANCE = 24;
 
 function isTextEntryTarget(node) {
   if (!(node instanceof HTMLElement)) return false;
@@ -80,30 +79,16 @@ export default function HomeScrollSnap({ rootRef }) {
 
         scenes.forEach((scene) => {
           /*
-           * The hero is an art-directed full-viewport composition whose inner
-           * content intentionally uses padded positioning. Its scrollHeight is
-           * not a valid signal for relaxing downstream product-scene paging.
+           * The mobile homepage is a fixed-scene composition: every direct
+           * snap child owns one complete viewport, and its controls are
+           * intentionally layered inside that boundary. Measuring scrollHeight
+           * here is misleading because visual effects, transformed artwork,
+           * safe-area padding, and browser rounding can all look like overflow.
+           * Relaxing the scene height in response would expose the next scene
+           * and break deterministic native paging, so mobile geometry remains
+           * CSS-owned and overflow relaxation is disabled for all scenes.
            */
-          if (scene.classList.contains("atmospheric-scene-hero")) {
-            scene.classList.remove(SCENE_OVERFLOW_CLASS);
-            return;
-          }
-
-          /* Fixed product compositions deliberately distribute their controls
-             and media inside one viewport. Their internal scrollHeight can
-             include harmless grid rounding, so it must not turn one scene into
-             a second document-length stop. */
-          if (scene.hasAttribute("data-home-snap-fixed")) {
-            scene.classList.remove(SCENE_OVERFLOW_CLASS);
-            return;
-          }
-
-          const content = scene.querySelector("[data-home-snap-content]") || scene;
-          const available = Math.ceil(scene.clientHeight);
-          const required = Math.ceil(content.scrollHeight);
-          const overflows = required > available + OVERFLOW_TOLERANCE;
-
-          scene.classList.toggle(SCENE_OVERFLOW_CLASS, overflows);
+          scene.classList.remove(SCENE_OVERFLOW_CLASS);
         });
 
       });
