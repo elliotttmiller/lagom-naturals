@@ -43,6 +43,29 @@
     min-block-size:0;
     max-block-size:100%;
   }
+
+  /* The detail state replaces the grid inside the same scene footprint. */
+  .gummy-showcase__experience{
+    position:relative;
+    isolation:isolate;
+  }
+
+  .gummy-mobile__grid-state{
+    position:relative;
+    z-index:1;
+  }
+
+  .gummy-quick-view{
+    position:absolute;
+    inset:0;
+    z-index:20;
+    grid-area:auto;
+    inline-size:100%;
+    block-size:100%;
+    max-block-size:100%;
+    margin:0;
+    border-radius:clamp(1rem,2vw,1.6rem);
+  }
   
 .gummy-desktop-nav{
   display:none;
@@ -80,7 +103,7 @@
 
 .gummy-mobile__collection-rail button{
   min-inline-size:0;
-  min-block-size:2.35rem;
+  min-block-size:2.75rem;
   padding-inline:.7rem;
   border:0;
   border-radius:999px;
@@ -419,7 +442,7 @@
   .gummy-showcase__experience{padding:.38rem}
   .gummy-mobile__grid-state{grid-template-rows:2.55rem minmax(0,1fr);gap:.34rem}
   .gummy-mobile__collection-rail{padding:.12rem}
-  .gummy-mobile__collection-rail button{min-block-size:2.25rem;font-size:.54rem}
+  .gummy-mobile__collection-rail button{min-block-size:2.6rem;font-size:.54rem}
   .gummy-tile__arrow{inline-size:2.35rem;block-size:2.35rem}
   .gummy-quick-view{grid-template-rows:minmax(0,52%) minmax(0,48%)}
   .gummy-quick-view__product{inline-size:min(76vw,18rem)}
