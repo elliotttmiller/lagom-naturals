@@ -377,9 +377,9 @@
     position:absolute;
     inset:0 auto auto 0;
     inline-size:100%;
-    block-size:auto;
+    block-size:100%;
     max-inline-size:none;
-    object-fit:contain;
+    object-fit:cover;
     object-position:50% 0;
   }
 
@@ -647,10 +647,24 @@
     block-size:100%;
   }
 
+  /* Thumbnail artwork is critical above-the-fold content once the flavor
+     scene snaps into view. Keep the picture layer explicit and fully painted
+     so the flavor color never presents as a blank fallback panel while the
+     responsive source is resolving. */
+  .seltzer-showcase__flavor-card-media > picture{
+    position:absolute;
+    inset:0;
+    z-index:0;
+    overflow:hidden;
+    background:var(--seltzer-slide-background);
+  }
+
   .seltzer-showcase__flavor-card-media > picture img{
+    position:absolute;
+    inset:0;
     object-fit:cover;
-    object-position:50% 43%;
-    transform:scale(1.12);
+    object-position:50% 50%;
+    transform:none;
     filter:saturate(1.04) contrast(1.02);
   }
 
