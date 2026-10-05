@@ -402,12 +402,12 @@
      seltzer scene is dominant. This reuses the real menu/search/cart actions
      instead of painting non-functional icons inside the showcase. */
   body:has(#home-scene-flavors.is-snap-visible) .mobile-reference-header.is-home{
-    background:linear-gradient(180deg,rgba(0,0,0,.14),rgba(0,0,0,0))!important;
+    background:rgba(255,255,255,.08)!important;
     border-bottom-color:transparent!important;
-    box-shadow:none!important;
+    box-shadow:0 8px 24px rgba(14,18,16,.08)!important;
     color:#fff!important;
-    -webkit-backdrop-filter:none!important;
-    backdrop-filter:none!important;
+    -webkit-backdrop-filter:blur(14px) saturate(1.14)!important;
+    backdrop-filter:blur(14px) saturate(1.14)!important;
   }
 
   body:has(#home-scene-flavors.is-snap-visible) .mobile-reference-header.is-home :is(a,button,.hamburger,.hamburger .line){
