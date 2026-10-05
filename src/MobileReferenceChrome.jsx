@@ -105,7 +105,6 @@ export default function MobileReferenceChrome(){
   const goAccount=view=>{setAccountOpen(false);navigate(`/account?view=${view}`)}
 
   const backdropTransition=reduceMotion?{duration:0}:{duration:motionTokens.duration.control,ease:motionTokens.ease}
-  const menuPanelTransition=reduceMotion?{duration:0}:motionTokens.springDrawer
   const accountPanelTransition=reduceMotion?{duration:0}:motionTokens.springDrawer
 
   return <>
