@@ -70,6 +70,45 @@
 .global-search__empty strong{font:600 24px/1.1 var(--font-display)}
 .global-search__empty p{margin:7px 0 0;color:#707873;font:500 13px/1.4 var(--font-ui)}
 
+/* Desktop search is a full-bleed glass surface over a softened page. The
+   layer blurs only content behind it; the search controls and results stay
+   crisp above the glass so the header actions remain easy to find. */
+@media(min-width:900px){
+  .global-search-layer{
+    background:rgba(16,22,19,.16);
+    -webkit-backdrop-filter:blur(12px) saturate(.78);
+    backdrop-filter:blur(12px) saturate(.78);
+  }
+  .global-search{
+    border:0;
+    background:rgba(242,247,245,.48);
+    box-shadow:0 22px 64px rgba(10,17,13,.2),inset 0 1px 0 rgba(255,255,255,.58);
+    -webkit-backdrop-filter:blur(24px) saturate(1.22);
+    backdrop-filter:blur(24px) saturate(1.22);
+  }
+  .global-search__bar{
+    border-bottom:1px solid rgba(255,255,255,.46);
+    background:rgba(242,247,245,.28);
+  }
+  .global-search__form{
+    border-color:rgba(255,255,255,.68);
+    background:rgba(255,255,255,.68);
+    box-shadow:0 5px 18px rgba(14,24,18,.08),inset 0 1px 0 rgba(255,255,255,.82);
+    -webkit-backdrop-filter:blur(12px) saturate(1.14);
+    backdrop-filter:blur(12px) saturate(1.14);
+  }
+  .global-search__form:focus-within{
+    border-color:rgba(49,87,70,.55);
+    background:rgba(255,255,255,.84);
+  }
+  .global-search__panel{
+    border-top-color:rgba(255,255,255,.42);
+    background:rgba(244,248,246,.44);
+    -webkit-backdrop-filter:blur(24px) saturate(1.2);
+    backdrop-filter:blur(24px) saturate(1.2);
+  }
+}
+
 @media(max-width:899px){
   .global-search-layer{
     background:rgba(12,18,15,.1);
