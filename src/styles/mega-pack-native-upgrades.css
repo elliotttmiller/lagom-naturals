@@ -271,11 +271,11 @@
 }
 @media(max-width:899px){
   .lagom-scroll-indicator{
-    top:auto;
-    right:50%;
-    bottom:max(.75rem,env(safe-area-inset-bottom));
-    display:flex;
-    transform:translateX(50%);
+    top:50%;
+    right:max(.55rem,env(safe-area-inset-right));
+    bottom:auto;
+    display:grid;
+    transform:translateY(-50%);
   }
   .lagom-scroll-indicator button{inline-size:.38rem;block-size:.38rem}
 }
