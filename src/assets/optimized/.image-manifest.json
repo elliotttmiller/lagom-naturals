@@ -394,7 +394,7 @@
     {
       "source": "data/ui/seltzer-showcase/24k.png",
       "hash": "e4a8ea2165684fbd5d35960fee937e0e3368b33547086747a41f45bd630b9feb",
-      "fingerprint": "49454285d0901532482c005ba51fc4b7d79877d48e7679de8baef2885b7e98e6",
+      "fingerprint": "8450887706f53624ee79673aea6ae3e6e6de5f5ae997de742f0b62874addd3cf",
       "outputs": [
         "seltzerDesktopFlavors/24k-960.avif",
         "seltzerDesktopFlavors/24k-960.webp",
@@ -407,7 +407,7 @@
     {
       "source": "data/ui/seltzer-showcase/blackberry.png",
       "hash": "1f42874d41f20c2a72bec3ad9530a8f00a100d73b0e69a8d1700a753ef6b6682",
-      "fingerprint": "49454285d0901532482c005ba51fc4b7d79877d48e7679de8baef2885b7e98e6",
+      "fingerprint": "8450887706f53624ee79673aea6ae3e6e6de5f5ae997de742f0b62874addd3cf",
       "outputs": [
         "seltzerDesktopFlavors/blackberry-960.avif",
         "seltzerDesktopFlavors/blackberry-960.webp",
@@ -420,7 +420,7 @@
     {
       "source": "data/ui/seltzer-showcase/Strawberry Lime Splash Seltzer Ad (1).png",
       "hash": "c8adcbbaff4b0d1e88709b4eeeb1bc1aae2fc78c217dc7bd69f8fd2ae25dc5ac",
-      "fingerprint": "49454285d0901532482c005ba51fc4b7d79877d48e7679de8baef2885b7e98e6",
+      "fingerprint": "8450887706f53624ee79673aea6ae3e6e6de5f5ae997de742f0b62874addd3cf",
       "outputs": [
         "seltzerDesktopFlavors/Strawberry Lime Splash Seltzer Ad (1)-960.avif",
         "seltzerDesktopFlavors/Strawberry Lime Splash Seltzer Ad (1)-960.webp",
@@ -433,7 +433,7 @@
     {
       "source": "data/ui/seltzer-showcase/watermelon.png",
       "hash": "d23e3929334726d2af5f5f0af5379999b788ec96b5756d4dc8f7f81337908588",
-      "fingerprint": "49454285d0901532482c005ba51fc4b7d79877d48e7679de8baef2885b7e98e6",
+      "fingerprint": "8450887706f53624ee79673aea6ae3e6e6de5f5ae997de742f0b62874addd3cf",
       "outputs": [
         "seltzerDesktopFlavors/watermelon-960.avif",
         "seltzerDesktopFlavors/watermelon-960.webp",
@@ -1348,7 +1348,7 @@
     {
       "source": "data/ui/seltzer-showcase/24k-lemonade-mobile.png",
       "hash": "35295e5339a0f79315fa256d581a87bf304c0f8f5475de4ab234b3061e4363f2",
-      "fingerprint": "7f246bce68c318117ae97df35d92d777af5f0f8ced9e696b219ade46c865550d",
+      "fingerprint": "dae0729af3fdf4a0e096a5e5f2efa31abd848e8ab0904dc8cd1b2ffd91c0f7a7",
       "outputs": [
         "showcaseMobile/flavor-24k-lemonade-mobile-480.avif",
         "showcaseMobile/flavor-24k-lemonade-mobile-480.webp",
@@ -1361,7 +1361,7 @@
     {
       "source": "data/ui/seltzer-showcase/blackberry-mobile.png",
       "hash": "4e9a603c0dbbad9e8517ad74e193630ebe0852e61a6099779c97cc013be8e589",
-      "fingerprint": "7f246bce68c318117ae97df35d92d777af5f0f8ced9e696b219ade46c865550d",
+      "fingerprint": "dae0729af3fdf4a0e096a5e5f2efa31abd848e8ab0904dc8cd1b2ffd91c0f7a7",
       "outputs": [
         "showcaseMobile/flavor-blackberry-breeze-mobile-480.avif",
         "showcaseMobile/flavor-blackberry-breeze-mobile-480.webp",
@@ -1374,7 +1374,7 @@
     {
       "source": "data/ui/seltzer-showcase/strawberry-lime-mobile.png",
       "hash": "6b0bad3efd8360b56a7139c5f1330aab6a8decb637408fb6ab42061baf39469f",
-      "fingerprint": "7f246bce68c318117ae97df35d92d777af5f0f8ced9e696b219ade46c865550d",
+      "fingerprint": "dae0729af3fdf4a0e096a5e5f2efa31abd848e8ab0904dc8cd1b2ffd91c0f7a7",
       "outputs": [
         "showcaseMobile/flavor-strawberry-lime-fusion-mobile-480.avif",
         "showcaseMobile/flavor-strawberry-lime-fusion-mobile-480.webp",
@@ -1387,7 +1387,7 @@
     {
       "source": "data/ui/seltzer-showcase/watermelon-mobile.png",
       "hash": "392572dc867430b23c9441b9ff6dda4c676c69bb6ce8823b14283f9d47178cc2",
-      "fingerprint": "7f246bce68c318117ae97df35d92d777af5f0f8ced9e696b219ade46c865550d",
+      "fingerprint": "dae0729af3fdf4a0e096a5e5f2efa31abd848e8ab0904dc8cd1b2ffd91c0f7a7",
       "outputs": [
         "showcaseMobile/flavor-watermelon-refresher-mobile-480.avif",
         "showcaseMobile/flavor-watermelon-refresher-mobile-480.webp",

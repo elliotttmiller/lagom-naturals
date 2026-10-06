@@ -47,6 +47,9 @@
 .seltzer-showcase__flavor-background img{
   object-fit:cover;
   object-position:center;
+  image-rendering:auto;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
 }
 
 .seltzer-showcase__topline{
@@ -378,7 +381,9 @@
     block-size:100%;
     max-inline-size:none;
     object-fit:cover;
-    object-position:50% 0;
+    object-position:50% 50%;
+    image-rendering:auto;
+    transform:translateZ(0);
   }
 
   .seltzer-showcase__color-slide::after{
@@ -630,7 +635,7 @@
     object-fit:cover;
     object-position:50% 50%;
     transform:none;
-    filter:saturate(1.04) contrast(1.02);
+    image-rendering:auto;
   }
 
   .seltzer-showcase__can--compact{
