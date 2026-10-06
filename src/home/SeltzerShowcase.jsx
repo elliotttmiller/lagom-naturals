@@ -172,7 +172,15 @@ function ShowcaseColorTrack({
           <source media="(max-width: 899px)" type="image/webp" srcSet={mobileMedia.webpSrcSet} sizes="100vw" />
           <source type="image/avif" srcSet={desktopMedia.avifSrcSet} sizes="100vw" />
           <source type="image/webp" srcSet={desktopMedia.webpSrcSet} sizes="100vw" />
-          <img src={desktopMedia.src} alt="" decoding="async" />
+          <img
+            src={desktopMedia.src}
+            alt=""
+            width={desktopMedia.width || 1723}
+            height={desktopMedia.height || 913}
+            loading="eager"
+            fetchPriority="high"
+            decoding="sync"
+          />
         </picture>
       </m.div>
     </Presence>
