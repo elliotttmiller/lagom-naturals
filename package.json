@@ -16,8 +16,7 @@
     "images:rebuild": "node scripts/optimize-storefront-images.mjs --force",
     "images:clouds": "node scripts/create-cloud-atmosphere-assets.mjs",
     "audit:assets": "node scripts/audit-source-assets.mjs",
-    "preview": "vite preview",
-    "prebuild": "node scripts/optimize-storefront-images.mjs"
+    "preview": "vite preview"
   },
   "dependencies": {
     "lucide-react": "1.41.0",
