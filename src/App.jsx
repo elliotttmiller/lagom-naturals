@@ -587,7 +587,8 @@ function HomePage() {
   return (
     <Shell>
       <div className="sky-home" ref={homeRef}>
-        <HomeScrollSnap rootRef={homeRef} />\n        <LagomScrollIndicator/>
+        <HomeScrollSnap rootRef={homeRef} />
+        <LagomScrollIndicator/>
         <section id="home-scene-hero" className="beverage-hero atmospheric-scene-hero" data-home-snap-scene aria-label="Featured Lagom Naturals products"><HomeHero /></section>
 
         <section
