@@ -1,0 +1,293 @@
+/* Native Lagom interaction upgrades inspired by the UI Mega Pack.
+   Reference-only translation: no Framer runtime, no second motion system. */
+
+:root{
+  --lagom-upgrade-ease:cubic-bezier(.16,1,.3,1);
+  --lagom-upgrade-spring:cubic-bezier(.22,1,.36,1);
+  --lagom-upgrade-glass:rgba(255,255,255,.22);
+  --lagom-upgrade-glass-strong:rgba(255,255,255,.42);
+  --lagom-upgrade-glass-border:rgba(255,255,255,.62);
+}
+
+/* 1. MotionOverlayMenu translation: phased hamburger + origin-aware drawer surface. */
+@media(max-width:899px){
+  .header-mobile-toggle.hamburger svg,
+  .hamburger svg{
+    transition:transform .52s var(--lagom-upgrade-ease)!important;
+  }
+  .header-mobile-toggle.hamburger .line,
+  .hamburger .line{
+    transition:
+      stroke-dasharray .52s var(--lagom-upgrade-ease),
+      stroke-dashoffset .52s var(--lagom-upgrade-ease),
+      stroke-width .24s ease!important;
+  }
+  .mobile-reference-menu-backdrop{
+    isolation:isolate;
+    background:rgba(8,18,14,.26)!important;
+    backdrop-filter:blur(8px) saturate(1.04);
+    -webkit-backdrop-filter:blur(8px) saturate(1.04);
+  }
+  .mobile-reference-menu{
+    transform-origin:top left;
+    box-shadow:24px 0 70px rgba(8,18,14,.16),inset -1px 0 rgba(255,255,255,.52);
+  }
+  .mobile-reference-menu nav a,
+  .mobile-reference-menu nav button{
+    position:relative;
+    transition:
+      color .22s ease,
+      background-color .22s ease,
+      padding-inline-start .32s var(--lagom-upgrade-ease);
+  }
+  .mobile-reference-menu nav a::after,
+  .mobile-reference-menu nav button::after{
+    position:absolute;
+    right:1rem;
+    bottom:.35rem;
+    left:1rem;
+    block-size:1px;
+    content:"";
+    background:currentColor;
+    opacity:.16;
+    transform:scaleX(0);
+    transform-origin:left;
+    transition:transform .36s var(--lagom-upgrade-ease),opacity .2s ease;
+  }
+  .mobile-reference-menu nav a:hover::after,
+  .mobile-reference-menu nav a:focus-visible::after,
+  .mobile-reference-menu nav button:hover::after,
+  .mobile-reference-menu nav button:focus-visible::after{
+    opacity:.5;
+    transform:scaleX(1);
+  }
+}
+
+/* 2. MediaSliderCard translation: directional quick-view controls + position rail. */
+.gummy-quick-view__media-controls{
+  position:absolute;
+  right:clamp(1rem,3vw,2rem);
+  bottom:clamp(1rem,3vw,2rem);
+  z-index:5;
+  display:flex;
+  align-items:center;
+  gap:.5rem;
+  padding:.35rem;
+  border:1px solid rgba(255,255,255,.5);
+  border-radius:999px;
+  background:rgba(10,18,14,.24);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.24),0 8px 20px rgba(5,12,9,.14);
+  backdrop-filter:blur(14px) saturate(1.16);
+  -webkit-backdrop-filter:blur(14px) saturate(1.16);
+}
+.gummy-quick-view__media-controls button{
+  display:grid;
+  place-items:center;
+  inline-size:2.55rem;
+  block-size:2.55rem;
+  border:1px solid rgba(255,255,255,.5);
+  border-radius:50%;
+  background:rgba(255,255,255,.16);
+  color:#fff;
+  transition:transform .28s var(--lagom-upgrade-ease),background-color .2s ease;
+}
+.gummy-quick-view__media-controls button:hover,
+.gummy-quick-view__media-controls button:focus-visible{
+  background:rgba(255,255,255,.3);
+  transform:translateY(-2px);
+}
+.gummy-quick-view__media-controls svg{inline-size:1rem;block-size:1rem}
+.gummy-quick-view__media-position{
+  min-inline-size:3.2rem;
+  color:rgba(255,255,255,.9);
+  font:800 .62rem/1 var(--font-ui);
+  letter-spacing:.13em;
+  text-align:center;
+}
+@media(max-width:699px){
+  .gummy-quick-view__media-controls{right:1rem;bottom:1rem}
+  .gummy-quick-view__media-controls button{inline-size:2.35rem;block-size:2.35rem}
+}
+
+/* 3. Interactive Footer: richer brand-ending movement without changing legal content. */
+.site-footer__brand>a{
+  display:inline-block;
+  transform-origin:left center;
+  transition:transform .42s var(--lagom-upgrade-ease),filter .28s ease;
+}
+.site-footer__brand>a:hover,
+.site-footer__brand>a:focus-visible{
+  transform:translateY(-3px) scale(1.018);
+  filter:drop-shadow(0 8px 18px rgba(6,20,14,.22));
+}
+.site-footer__group h4{
+  position:relative;
+  display:inline-block;
+}
+.site-footer__group h4::after{
+  position:absolute;
+  right:0;
+  bottom:-.38rem;
+  left:0;
+  block-size:1px;
+  content:"";
+  background:#bfe1d1;
+  transform:scaleX(.24);
+  transform-origin:left;
+  transition:transform .34s var(--lagom-upgrade-ease);
+}
+.site-footer__group:hover h4::after,
+.site-footer__group:focus-within h4::after{transform:scaleX(1)}
+.site-footer__group a{
+  transition:color .18s ease,transform .32s var(--lagom-upgrade-ease)!important;
+}
+.site-footer__group a:hover,
+.site-footer__group a:focus-visible{
+  transform:translateX(4px);
+}
+
+/* 4. Text Arrow CTA + selective liquid-glass controls. */
+.story-pill,
+.gummy-quick-view__cta,
+.desktop-shop-panel__explore{
+  position:relative;
+  overflow:hidden;
+  transition:
+    transform .32s var(--lagom-upgrade-ease),
+    box-shadow .32s ease,
+    background-color .22s ease!important;
+}
+.story-pill span,
+.gummy-quick-view__cta svg,
+.desktop-shop-panel__explore svg{
+  transition:transform .3s var(--lagom-upgrade-ease);
+}
+.story-pill:hover span,
+.story-pill:focus-visible span,
+.gummy-quick-view__cta:hover svg,
+.gummy-quick-view__cta:focus-visible svg,
+.desktop-shop-panel__explore:hover svg,
+.desktop-shop-panel__explore:focus-visible svg{
+  transform:translateX(4px);
+}
+.mobile-reference-header__tools>a,
+.mobile-reference-header__tools>button,
+.gummy-quick-view__control,
+.seltzer-showcase__nav{
+  border-color:var(--lagom-upgrade-glass-border)!important;
+  background:var(--lagom-upgrade-glass)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.34),0 8px 22px rgba(16,24,19,.1)!important;
+  backdrop-filter:blur(14px) saturate(1.16)!important;
+  -webkit-backdrop-filter:blur(14px) saturate(1.16)!important;
+}
+
+/* 5. StickyScrollStory / ScrollText translation for editorial pages. */
+.about-story-page .story-origin,
+.about-story-page .story-life{
+  scroll-margin-top:1rem;
+}
+@media(min-width:900px){
+  .about-story-page .story-origin__copy,
+  .about-story-page .story-life__copy{
+    position:sticky;
+    top:clamp(6rem,10vh,9rem);
+    align-self:start;
+  }
+  .about-story-page .story-origin__copy h2,
+  .about-story-page .story-life__copy h2,
+  .editorial-page section h2{
+    text-wrap:balance;
+  }
+  .editorial-page{
+    --editorial-step:clamp(5rem,12vh,9rem);
+  }
+  .editorial-page section{
+    position:relative;
+    min-block-size:var(--editorial-step);
+    padding-block:clamp(1.5rem,4vw,3rem);
+  }
+}
+@media(max-width:899px){
+  .about-story-page .story-origin__copy,
+  .about-story-page .story-life__copy{
+    position:relative;
+  }
+  .editorial-page section{
+    scroll-margin-top:calc(var(--mobile-header-row-h,72px) + 1rem);
+  }
+}
+
+/* 6. animated-search-bar refinement, preserving PremiumGlobalSearch data behavior. */
+.global-search-layer{
+  transition:background-color .32s var(--lagom-upgrade-ease);
+}
+.global-search__form{
+  transition:
+    border-color .24s ease,
+    box-shadow .32s var(--lagom-upgrade-ease),
+    transform .32s var(--lagom-upgrade-ease),
+    background-color .24s ease!important;
+}
+.global-search__form:focus-within{
+  transform:translateY(-1px);
+}
+.global-search__close{
+  transition:transform .28s var(--lagom-upgrade-ease),background-color .2s ease!important;
+}
+.global-search__close:hover,
+.global-search__close:focus-visible{
+  transform:translateX(-2px);
+}
+
+/* 7. ScrollIndicator primitive. */
+.lagom-scroll-indicator{
+  position:fixed;
+  right:clamp(1rem,2.8vw,2.5rem);
+  top:50%;
+  z-index:40;
+  display:grid;
+  gap:.55rem;
+  transform:translateY(-50%);
+}
+.lagom-scroll-indicator button{
+  position:relative;
+  inline-size:.42rem;
+  block-size:.42rem;
+  padding:0;
+  border:1px solid rgba(18,38,30,.45);
+  border-radius:50%;
+  background:rgba(255,255,255,.34);
+  transition:transform .3s var(--lagom-upgrade-ease),background-color .2s ease,border-color .2s ease;
+}
+.lagom-scroll-indicator button::after{
+  position:absolute;
+  inset:-.42rem;
+  content:"";
+}
+.lagom-scroll-indicator button.is-active{
+  border-color:#173f33;
+  background:#173f33;
+  transform:scale(1.45);
+}
+@media(max-width:899px){
+  .lagom-scroll-indicator{
+    top:auto;
+    right:50%;
+    bottom:max(.75rem,env(safe-area-inset-bottom));
+    display:flex;
+    transform:translateX(50%);
+  }
+  .lagom-scroll-indicator button{inline-size:.38rem;block-size:.38rem}
+}
+@media(prefers-reduced-motion:reduce){
+  .header-mobile-toggle.hamburger svg,
+  .header-mobile-toggle.hamburger .line,
+  .gummy-quick-view__media-controls button,
+  .site-footer__brand>a,
+  .site-footer__group a,
+  .global-search__form,
+  .global-search__close,
+  .lagom-scroll-indicator button{
+    transition:none!important;
+  }
+}
