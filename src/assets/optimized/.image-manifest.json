@@ -1347,54 +1347,54 @@
     },
     {
       "source": "data/ui/seltzer-showcase/24k-lemonade-mobile.png",
-      "hash": "5303a286b5e0327e2734222e5ffeffd0cbdf756b09b54f89c072ba2d95a5d8c9",
-      "fingerprint": "a79d95cebc165ca0b8a4f453bb0338f365b1d298d4f49dc74d7c15ae6238e6c7",
+      "hash": "35295e5339a0f79315fa256d581a87bf304c0f8f5475de4ab234b3061e4363f2",
+      "fingerprint": "7f246bce68c318117ae97df35d92d777af5f0f8ced9e696b219ade46c865550d",
       "outputs": [
         "showcaseMobile/flavor-24k-lemonade-mobile-480.avif",
         "showcaseMobile/flavor-24k-lemonade-mobile-480.webp",
         "showcaseMobile/flavor-24k-lemonade-mobile-800.avif",
         "showcaseMobile/flavor-24k-lemonade-mobile-800.webp",
-        "showcaseMobile/flavor-24k-lemonade-mobile-1024.avif",
-        "showcaseMobile/flavor-24k-lemonade-mobile-1024.webp"
+        "showcaseMobile/flavor-24k-lemonade-mobile-941.avif",
+        "showcaseMobile/flavor-24k-lemonade-mobile-941.webp"
       ]
     },
     {
       "source": "data/ui/seltzer-showcase/blackberry-mobile.png",
-      "hash": "1106743e0edfdc46351423be97047a1ce31b4cfe45e3c86a996b2164f5a982d1",
-      "fingerprint": "a79d95cebc165ca0b8a4f453bb0338f365b1d298d4f49dc74d7c15ae6238e6c7",
+      "hash": "4e9a603c0dbbad9e8517ad74e193630ebe0852e61a6099779c97cc013be8e589",
+      "fingerprint": "7f246bce68c318117ae97df35d92d777af5f0f8ced9e696b219ade46c865550d",
       "outputs": [
         "showcaseMobile/flavor-blackberry-breeze-mobile-480.avif",
         "showcaseMobile/flavor-blackberry-breeze-mobile-480.webp",
         "showcaseMobile/flavor-blackberry-breeze-mobile-800.avif",
         "showcaseMobile/flavor-blackberry-breeze-mobile-800.webp",
-        "showcaseMobile/flavor-blackberry-breeze-mobile-1024.avif",
-        "showcaseMobile/flavor-blackberry-breeze-mobile-1024.webp"
+        "showcaseMobile/flavor-blackberry-breeze-mobile-941.avif",
+        "showcaseMobile/flavor-blackberry-breeze-mobile-941.webp"
       ]
     },
     {
       "source": "data/ui/seltzer-showcase/strawberry-lime-mobile.png",
-      "hash": "41dbef6cfce35b8506fde53ed70b68cf074606f63e81b7e3366a827ce325bef0",
-      "fingerprint": "a79d95cebc165ca0b8a4f453bb0338f365b1d298d4f49dc74d7c15ae6238e6c7",
+      "hash": "6b0bad3efd8360b56a7139c5f1330aab6a8decb637408fb6ab42061baf39469f",
+      "fingerprint": "7f246bce68c318117ae97df35d92d777af5f0f8ced9e696b219ade46c865550d",
       "outputs": [
         "showcaseMobile/flavor-strawberry-lime-fusion-mobile-480.avif",
         "showcaseMobile/flavor-strawberry-lime-fusion-mobile-480.webp",
         "showcaseMobile/flavor-strawberry-lime-fusion-mobile-800.avif",
         "showcaseMobile/flavor-strawberry-lime-fusion-mobile-800.webp",
-        "showcaseMobile/flavor-strawberry-lime-fusion-mobile-1024.avif",
-        "showcaseMobile/flavor-strawberry-lime-fusion-mobile-1024.webp"
+        "showcaseMobile/flavor-strawberry-lime-fusion-mobile-941.avif",
+        "showcaseMobile/flavor-strawberry-lime-fusion-mobile-941.webp"
       ]
     },
     {
       "source": "data/ui/seltzer-showcase/watermelon-mobile.png",
-      "hash": "d50c45c56c9c00dc737f77c500b4ed4f609945f76a45d08883992d128f21d344",
-      "fingerprint": "a79d95cebc165ca0b8a4f453bb0338f365b1d298d4f49dc74d7c15ae6238e6c7",
+      "hash": "392572dc867430b23c9441b9ff6dda4c676c69bb6ce8823b14283f9d47178cc2",
+      "fingerprint": "7f246bce68c318117ae97df35d92d777af5f0f8ced9e696b219ade46c865550d",
       "outputs": [
         "showcaseMobile/flavor-watermelon-refresher-mobile-480.avif",
         "showcaseMobile/flavor-watermelon-refresher-mobile-480.webp",
         "showcaseMobile/flavor-watermelon-refresher-mobile-800.avif",
         "showcaseMobile/flavor-watermelon-refresher-mobile-800.webp",
-        "showcaseMobile/flavor-watermelon-refresher-mobile-1024.avif",
-        "showcaseMobile/flavor-watermelon-refresher-mobile-1024.webp"
+        "showcaseMobile/flavor-watermelon-refresher-mobile-941.avif",
+        "showcaseMobile/flavor-watermelon-refresher-mobile-941.webp"
       ]
     },
     {

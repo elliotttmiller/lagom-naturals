@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "vite",
     "build": "node scripts/build-pages.mjs",
-    "build:pages": "node scripts/build-pages.mjs",
+    "build:pages": "npm run build",
     "check": "vite build --outDir tmp/vite-check --emptyOutDir",
     "images:optimize": "node scripts/optimize-storefront-images.mjs",
     "images:check": "node scripts/optimize-storefront-images.mjs --check",
@@ -17,10 +17,7 @@
     "images:clouds": "node scripts/create-cloud-atmosphere-assets.mjs",
     "audit:assets": "node scripts/audit-source-assets.mjs",
     "preview": "vite preview",
-    "predev": "node scripts/optimize-storefront-images.mjs",
-    "prebuild": "node scripts/optimize-storefront-images.mjs",
-    "precheck": "node scripts/optimize-storefront-images.mjs",
-    "prebuild:pages": "node scripts/optimize-storefront-images.mjs"
+    "prebuild": "node scripts/optimize-storefront-images.mjs"
   },
   "dependencies": {
     "lucide-react": "1.41.0",

@@ -84,7 +84,7 @@ const groups = [
       'flavor-watermelon-refresher-mobile.png': 'data/ui/seltzer-showcase/watermelon-mobile.png',
       'flavor-strawberry-lime-fusion-mobile.png': 'data/ui/seltzer-showcase/strawberry-lime-mobile.png',
     },
-    widths: [480, 800, 1024],
+    widths: [480, 800, 941],
     encoder: {
       avif: { quality: 62, effort: 4, chromaSubsampling: '4:4:4' },
       webp: { quality: 82, effort: 5, smartSubsample: true },
