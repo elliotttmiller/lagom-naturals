@@ -150,7 +150,12 @@
 
   body:has(.sky-home){
     min-block-size:var(--home-mobile-viewport-h);
-    overflow-x:hidden!important;
+    /* Keep the document viewport as the single vertical scroller. `hidden`
+       computes the visible y-axis to auto and can create a body scrollport,
+       while native snap is owned by html; clip contains width without that
+       competing scroll container. */
+    overflow-x:clip!important;
+    overflow-y:visible!important;
   }
 
   body:has(.sky-home) .app-shell>main{

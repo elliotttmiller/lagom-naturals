@@ -128,7 +128,7 @@ export default function PremiumGlobalSearch({openRequest=0,initialTrigger=null})
         animate={{opacity:1,y:0}}
         transition={reduceMotion?{duration:0}:{delay:.035,...motionTokens.springSoft}}
       >
-        <m.div initial={reduceMotion?false:{opacity:0,x:-6}} animate={{opacity:1,x:0}} transition={reduceMotion?{duration:0}:{delay:.08,...motionTokens.springSoft}}>
+        <m.div className="global-search__brand-wrap" initial={reduceMotion?false:{opacity:0,x:-6}} animate={{opacity:1,x:0}} transition={reduceMotion?{duration:0}:{delay:.08,...motionTokens.springSoft}}>
           <Link className="global-search__brand" to="/" aria-label="Lagom Naturals home" onClick={close}><img src={`${import.meta.env.BASE_URL}lagom-logo.svg`} alt="Lagom Naturals"/></Link>
         </m.div>
         <m.form

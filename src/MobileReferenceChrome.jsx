@@ -7,12 +7,13 @@ import {responsiveImages} from '@/generated/responsiveImages'
 
 const mobileHero=responsiveImages.heroMobile.hero.src
 
-const drawerItems=[['Merch','/merch'],['Our Story','/about'],['Find Us','/visit'],['Account','account'],['FAQ','/learn'],['Contact Us','/visit']]
+const drawerItems=[['Merch','/merch'],['Our Story','/about'],['Find Us','/visit'],['Account','account'],['FAQ','/learn']]
 const shopDrawerItems=[['All Products','/shop'],['Seltzers','/shop/seltzers'],['Gummies','/shop/gummies']]
 const socialLinks=[['Instagram','https://www.instagram.com/lagomnaturalsmn?stkn=MXc1cnEyY2s2OTh2aQ==',InstagramIcon],['X','https://x.com/lagomnaturalsmn?s=21&t=o19JKEqucRv55S5u6wBKXQ',XSocialIcon],['Facebook','https://www.facebook.com/share/19fFEcDKpR/?mibextid=wwXIfr',FacebookIcon]]
 const accountRows=[[PackageCheck,'My Orders','orders']]
 const accountLower=[[Settings,'Account Settings','settings'],[Bell,'Notifications','notifications'],[CircleHelp,'Help & Support','support']]
 const logoIcon=`${import.meta.env.BASE_URL}lagom-logo-icon.svg`
+const menuLogo=`${import.meta.env.BASE_URL}lagom-logo.svg`
 const headerLogo=`${import.meta.env.BASE_URL}enhanced-lagom-logo.webp`
 
 function InstagramIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.6" cy="6.6" r="1" className="social-fill"/></svg>}
@@ -30,7 +31,7 @@ function DrawerTop({label,onClose,menu=false}){
         label="Close menu"
       />
       <Link className="mobile-drawer-top__center-brand" to="/" aria-label="Lagom Naturals home" onClick={onClose}>
-        <img src={logoIcon} alt="" aria-hidden="true"/>
+        <img src={menuLogo} alt="" aria-hidden="true"/>
       </Link>
       <span className="mobile-drawer-top__spacer" aria-hidden="true"/>
     </div>
@@ -140,10 +141,10 @@ export default function MobileReferenceChrome(){
           role="dialog"
           aria-modal="true"
           aria-label="Site navigation"
-          initial={reduceMotion?false:{opacity:0,y:-14,scale:.997}}
-          animate={{opacity:1,y:0,scale:1}}
-          exit={reduceMotion?{opacity:0}:{opacity:0,y:-8,scale:.998}}
-          transition={reduceMotion?{duration:0}:{type:'spring',stiffness:190,damping:25,mass:.92}}
+          initial={reduceMotion?false:{opacity:0,clipPath:'circle(0% at calc(100% - 36px) 36px)'}}
+          animate={{opacity:1,clipPath:'circle(150% at calc(100% - 36px) 36px)'}}
+          exit={reduceMotion?{opacity:0}:{opacity:0,clipPath:'circle(0% at calc(100% - 36px) 36px)'}}
+          transition={reduceMotion?{duration:0}:{duration:.62,ease:[.22,1,.36,1]}}
           onClick={e=>e.stopPropagation()}
         >
           <DrawerTop label="Menu" menu onClose={()=>setMenuOpen(false)}/>

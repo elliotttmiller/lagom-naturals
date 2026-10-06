@@ -170,8 +170,6 @@
 .desktop-shop-panel__explore:focus-visible svg{
   transform:translateX(4px);
 }
-.mobile-reference-header__tools>a,
-.mobile-reference-header__tools>button,
 .gummy-quick-view__control,
 .seltzer-showcase__nav{
   border-color:var(--lagom-upgrade-glass-border)!important;
