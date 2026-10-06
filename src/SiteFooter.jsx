@@ -12,9 +12,9 @@ export default function SiteFooter(){
       <div className="site-footer__brand">
         <Link to="/" aria-label="Lagom Naturals home"><img src={brandLogo} alt="Lagom Naturals"/></Link>
         <div className="site-footer__socials" aria-label="Lagom Naturals social media">
-          <a className="site-footer__social" href="https://www.instagram.com/lagomnaturalsmn" target="_blank" rel="noopener noreferrer" aria-label="Lagom Naturals on Instagram"><InstagramIcon/></a>
-          <a className="site-footer__social" href="https://www.facebook.com/lagomnaturalsmn" target="_blank" rel="noopener noreferrer" aria-label="Lagom Naturals on Facebook"><FacebookIcon/></a>
-          <a className="site-footer__social" href="https://x.com/lagomnaturalsmn" target="_blank" rel="noopener noreferrer" aria-label="Lagom Naturals on X"><XIcon/></a>
+          <a className="site-footer__social" href="https://www.instagram.com/lagomnaturalsmn?stkn=MXc1cnEyY2s2OTh2aQ==" target="_blank" rel="noopener noreferrer" aria-label="Lagom Naturals on Instagram"><InstagramIcon/></a>
+          <a className="site-footer__social" href="https://www.facebook.com/share/19fFEcDKpR/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Lagom Naturals on Facebook"><FacebookIcon/></a>
+          <a className="site-footer__social" href="https://x.com/lagomnaturalsmn?s=21&t=o19JKEqucRv55S5u6wBKXQ" target="_blank" rel="noopener noreferrer" aria-label="Lagom Naturals on X"><XIcon/></a>
         </div>
       </div>
       <nav className="site-footer__group" aria-label="Shop"><h4>Shop</h4><Link to="/shop">All Products</Link><Link to="/shop/seltzers">Drinks</Link><Link to="/shop/gummies">Gummies</Link></nav>
