@@ -559,14 +559,8 @@
   font-style:normal;
 }
 
-/* Mobile: full-height portrait stage + swipe-only navigation. */
+/* Mobile product stages fill the scene owned by home-scroll-snap.css. */
 @media(max-width:899px){
-  .sky-home .sky-home__section--product-stage{
-    block-size:var(--home-mobile-scene-h,100svh)!important;
-    min-block-size:var(--home-mobile-scene-h,100svh)!important;
-    max-block-size:var(--home-mobile-scene-h,100svh)!important;
-  }
-
   .sky-home .sky-home__section--product-stage .atmospheric-scene-section__content{
     block-size:100%!important;
   }
@@ -829,23 +823,6 @@
 
   .home-product-stage__progress{
     padding-inline:clamp(4.5rem,8vw,8rem);
-  }
-}
-
-/* Overflow safety integrates with HomeScrollSnap's fit detector. */
-@media(max-width:899px){
-  .sky-home .sky-home__section--product-stage.has-home-scene-overflow{
-    block-size:auto!important;
-    min-block-size:var(--home-mobile-scene-h,100svh)!important;
-    max-block-size:none!important;
-    overflow:visible!important;
-  }
-
-  .sky-home .sky-home__section--product-stage.has-home-scene-overflow .atmospheric-scene-section__content,
-  .sky-home .sky-home__section--product-stage.has-home-scene-overflow .home-product-stage{
-    block-size:auto!important;
-    min-block-size:var(--home-mobile-scene-h,100svh)!important;
-    overflow:visible!important;
   }
 }
 

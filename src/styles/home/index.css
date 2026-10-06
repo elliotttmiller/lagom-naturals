@@ -10,6 +10,9 @@
    6. product-stage static geometry/presentation
    7. shared motion presentation tokens/states
 
+   home-scroll-snap.css is the only viewport/snap geometry authority. No later
+   global stylesheet may redefine homepage scene heights or snap boundaries.
+
    Vertical document position is always browser-owned. Motion/WAAPI may animate
    content inside a scene but must never compete with native vertical scrolling.
 */

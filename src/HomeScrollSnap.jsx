@@ -2,7 +2,6 @@ import { useEffect } from "react";
 
 const SCENE_SELECTOR = "[data-home-snap-scene]";
 const ACTIVE_CLASS = "is-snap-visible";
-const SCENE_OVERFLOW_CLASS = "has-home-scene-overflow";
 const SUSPENDED_CLASS = "is-home-snap-suspended";
 const KEYBOARD_CLASS = "is-home-keyboard-open";
 const KEYBOARD_THRESHOLD = 140;
@@ -14,13 +13,15 @@ function isTextEntryTarget(node) {
 }
 
 /**
- * Presentation/state controller for the native CSS scroll-snap homepage.
+ * State controller for the native CSS scroll-snap homepage.
  *
- * The browser remains the only vertical scroll engine. This controller:
- * 1) observes which scene is actually dominant in the viewport,
- * 2) detects genuine product-scene overflow without changing sibling scenes,
- * 3) suspends snapping while the on-screen keyboard is open, and
- * 4) measures desktop chrome without mutating mobile scroll geometry.
+ * The browser is the only vertical scroll engine. This controller only:
+ * 1) observes the dominant scene for presentation state,
+ * 2) suspends snap while the software keyboard is open, and
+ * 3) measures desktop chrome for desktop observer geometry.
+ *
+ * It deliberately never measures mobile scene height, mutates scroll position,
+ * intercepts touch/wheel input, or relaxes an individual scene's viewport.
  */
 export default function HomeScrollSnap({ rootRef }) {
   useEffect(() => {
@@ -34,7 +35,6 @@ export default function HomeScrollSnap({ rootRef }) {
 
     let sceneObserver;
     let resizeObserver;
-    let measureFrame = 0;
     let keyboardFrame = 0;
     let lastActiveScene = scenes[0] || null;
     const visibleRatios = new Map(scenes.map((scene) => [scene, 0]));
@@ -50,7 +50,7 @@ export default function HomeScrollSnap({ rootRef }) {
     };
 
     const setActiveScene = (scene) => {
-      if (!scene || scene === lastActiveScene && scene.classList.contains(ACTIVE_CLASS)) return;
+      if (!scene || (scene === lastActiveScene && scene.classList.contains(ACTIVE_CLASS))) return;
       lastActiveScene = scene;
       scenes.forEach((candidate) => candidate.classList.toggle(ACTIVE_CLASS, candidate === scene));
     };
@@ -67,31 +67,6 @@ export default function HomeScrollSnap({ rootRef }) {
       document.documentElement.style.setProperty("--home-snap-offset", `${offset}px`);
       document.documentElement.style.setProperty("--home-desktop-snap-h", `calc(100dvh - ${offset}px)`);
       return offset;
-    };
-
-    const measureOverflow = () => {
-      cancelAnimationFrame(measureFrame);
-      measureFrame = requestAnimationFrame(() => {
-        if (!mobileViewport.matches) {
-          scenes.forEach((scene) => scene.classList.remove(SCENE_OVERFLOW_CLASS));
-          return;
-        }
-
-        scenes.forEach((scene) => {
-          /*
-           * The mobile homepage is a fixed-scene composition: every direct
-           * snap child owns one complete viewport, and its controls are
-           * intentionally layered inside that boundary. Measuring scrollHeight
-           * here is misleading because visual effects, transformed artwork,
-           * safe-area padding, and browser rounding can all look like overflow.
-           * Relaxing the scene height in response would expose the next scene
-           * and break deterministic native paging, so mobile geometry remains
-           * CSS-owned and overflow relaxation is disabled for all scenes.
-           */
-          scene.classList.remove(SCENE_OVERFLOW_CLASS);
-        });
-
-      });
     };
 
     const syncKeyboardState = () => {
@@ -126,12 +101,12 @@ export default function HomeScrollSnap({ rootRef }) {
         ? {
             root: null,
             rootMargin: `-${desktopOffset}px 0px -10% 0px`,
-            threshold: [0, 0.2, 0.4, 0.55, 0.7, 0.85, 1],
+            threshold: [0, 0.2, 0.4, 0.52, 0.7, 0.85, 1],
           }
         : {
             root: null,
             rootMargin: "0px",
-            threshold: [0, 0.2, 0.4, 0.5, 0.6, 0.75, 0.9, 1],
+            threshold: [0, 0.25, 0.5, 0.52, 0.65, 0.8, 1],
           };
 
       scenes.forEach((scene) => scene.classList.remove(ACTIVE_CLASS));
@@ -153,7 +128,7 @@ export default function HomeScrollSnap({ rootRef }) {
           }
         });
 
-        if (dominantScene && (dominantRatio >= 0.5 || !lastActiveScene)) {
+        if (dominantScene && (dominantRatio >= 0.52 || !lastActiveScene)) {
           setActiveScene(dominantScene);
         }
       }, options);
@@ -164,19 +139,16 @@ export default function HomeScrollSnap({ rootRef }) {
     const sync = () => {
       measureDesktopChrome();
       configureSceneObserver();
-      measureOverflow();
       syncKeyboardState();
     };
 
     const handleWindowResize = () => {
       measureDesktopChrome();
-      measureOverflow();
       syncKeyboardState();
 
-      /* Mobile Safari may emit resize events as browser chrome expands or
-         collapses during a gesture. The mobile observer uses a zero rootMargin,
-         so rebuilding it on every toolbar resize only creates state churn.
-         Desktop chrome measurement, by contrast, changes observer geometry. */
+      // Mobile Safari emits resize events while browser chrome expands and
+      // collapses. Rebuilding the observer during that gesture causes needless
+      // state churn; mobile observer geometry itself does not depend on chrome.
       if (desktopViewport.matches) configureSceneObserver();
     };
 
@@ -187,14 +159,10 @@ export default function HomeScrollSnap({ rootRef }) {
 
     if ("ResizeObserver" in window) {
       resizeObserver = new ResizeObserver(() => {
-        measureDesktopChrome();
-        measureOverflow();
-      });
-
-      scenes.forEach((scene) => {
-        resizeObserver.observe(scene);
-        const content = scene.querySelector("[data-home-snap-content]");
-        if (content) resizeObserver.observe(content);
+        if (desktopViewport.matches) {
+          measureDesktopChrome();
+          configureSceneObserver();
+        }
       });
 
       const announcement = document.querySelector(".announcement");
@@ -215,7 +183,6 @@ export default function HomeScrollSnap({ rootRef }) {
     return () => {
       sceneObserver?.disconnect();
       resizeObserver?.disconnect();
-      cancelAnimationFrame(measureFrame);
       cancelAnimationFrame(keyboardFrame);
       window.removeEventListener("resize", handleWindowResize);
       visualViewport?.removeEventListener("resize", syncKeyboardState);
@@ -226,7 +193,6 @@ export default function HomeScrollSnap({ rootRef }) {
       unlisten(desktopViewport, sync);
       unlisten(mobileViewport, sync);
       root.classList.remove(SUSPENDED_CLASS, KEYBOARD_CLASS);
-      scenes.forEach((scene) => scene.classList.remove(SCENE_OVERFLOW_CLASS));
       document.documentElement.style.removeProperty("--home-snap-offset");
       document.documentElement.style.removeProperty("--home-desktop-snap-h");
     };

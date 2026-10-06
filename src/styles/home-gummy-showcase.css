@@ -31,12 +31,6 @@
    composition. Their internal layout must never expand this scene into a
    second document-length stop. */
 @media (max-width:899px){
-  .gummy-showcase-section{
-    block-size:var(--home-mobile-scene-h)!important;
-    min-block-size:var(--home-mobile-scene-h)!important;
-    max-block-size:var(--home-mobile-scene-h)!important;
-  }
-
   .gummy-showcase-section > .gummy-showcase-shell,
   .gummy-showcase-section .gummy-showcase__experience{
     block-size:100%;

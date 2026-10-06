@@ -6,8 +6,6 @@
 
 .seltzer-showcase-section{
   position:relative;
-  block-size:100dvh;
-  min-block-size:42rem;
   overflow:hidden;
 }
 
@@ -312,9 +310,6 @@
     margin-block:0!important;
     padding-top:0!important;
     box-sizing:border-box!important;
-    block-size:var(--home-desktop-scene-h,100dvh)!important;
-    min-block-size:var(--home-desktop-scene-h,100dvh)!important;
-    max-block-size:var(--home-desktop-scene-h,100dvh)!important;
   }
 
   .seltzer-showcase__desktop-product-link{
@@ -345,11 +340,6 @@
 /* -------------------------------------------------------------------------- */
 
 @media(max-width:899px){
-  .seltzer-showcase-section{
-    block-size:var(--home-mobile-scene-h,var(--home-mobile-viewport-h,100lvh));
-    min-block-size:0;
-  }
-
   .seltzer-showcase{
     block-size:100%;
     min-block-size:0;

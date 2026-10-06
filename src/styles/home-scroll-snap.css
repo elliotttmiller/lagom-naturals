@@ -1,28 +1,25 @@
 /* Homepage scene navigation.
-   Native document scrolling is the single vertical scroll owner. React observes
-   scene state only; it never drives touch/wheel scroll position. */
+   This file is the single authority for homepage viewport geometry and native
+   scroll-snap behavior. The browser remains the only vertical scroll engine;
+   React observes scene state but never drives touch/wheel scroll position. */
 
 :root{
   --home-snap-offset:0px;
   --home-desktop-snap-h:100dvh;
   --home-mobile-viewport-h:100vh;
-  --home-mobile-header-h:calc(var(--mobile-header-row-h,var(--mobile-header-content-h,62px)) + env(safe-area-inset-top,0px));
   --home-mobile-scene-h:var(--home-mobile-viewport-h);
+  --home-mobile-header-h:calc(var(--mobile-header-row-h,var(--mobile-header-content-h,62px)) + env(safe-area-inset-top,0px));
 }
 
-/* Mobile scenes use the stable large layout viewport. Modern iOS browser chrome
-   overlays this surface as it expands/collapses, so lvh preserves one immutable
-   full-page snap distance without the short-scene gap caused by svh or the
-   mid-gesture geometry churn caused by dvh. */
-@supports (height:100lvh){
-  :root{--home-mobile-viewport-h:100lvh}
+@supports (height:100dvh){
+  :root{
+    --home-mobile-viewport-h:100dvh;
+    --home-mobile-scene-h:100dvh;
+  }
 }
 
 /* --------------------------------------------------------------------------
    Desktop scene geometry
-   --------------------------------------------------------------------------
-   Geometry is independent of motion preference. Reduced-motion disables paging
-   and choreography, not the approved scene dimensions.
    -------------------------------------------------------------------------- */
 @media (min-width:900px){
   :root{
@@ -33,36 +30,28 @@
     --home-desktop-scene-h:100dvh;
   }
 
-  .sky-home [data-home-snap-scene]{
-    scroll-margin-top:0!important;
-    scroll-margin-block-start:0!important;
-  }
-
-  .sky-home .atmospheric-scene-hero{
-    block-size:var(--home-desktop-hero-h);
-    min-block-size:var(--home-desktop-hero-h);
-    max-block-size:var(--home-desktop-hero-h);
-    overflow:hidden;
-  }
-
-  .sky-home .atmospheric-scene-section{
+  .sky-home>[data-home-snap-scene]{
     box-sizing:border-box;
     block-size:var(--home-desktop-scene-h);
     min-block-size:var(--home-desktop-scene-h);
     max-block-size:var(--home-desktop-scene-h);
+    margin:0;
+    scroll-margin:0;
     overflow:hidden;
   }
 
-  /* Full-height showcase scenes include the transparent sticky header's
-     overlay area. Keep their seam on the viewport boundary without pulling a
-     later scene upward into the preceding scene. */
-  .sky-home > .seltzer-showcase-section{
-    box-sizing:border-box!important;
-    block-size:var(--home-desktop-scene-h)!important;
-    min-block-size:var(--home-desktop-scene-h)!important;
-    max-block-size:var(--home-desktop-scene-h)!important;
-    margin-block:0!important;
-    padding-block-start:0!important;
+  .sky-home>.atmospheric-scene-hero{
+    block-size:var(--home-desktop-hero-h);
+    min-block-size:var(--home-desktop-hero-h);
+    max-block-size:var(--home-desktop-hero-h);
+  }
+
+  .sky-home .atmospheric-scene-section{
+    box-sizing:border-box;
+    block-size:100%;
+    min-block-size:0;
+    max-block-size:100%;
+    overflow:hidden;
   }
 }
 
@@ -88,14 +77,11 @@
     scroll-behavior:auto;
   }
 
-  .sky-home [data-home-snap-scene]{
+  .sky-home>[data-home-snap-scene]{
     scroll-snap-align:start;
     scroll-snap-stop:always;
   }
 
-  /* The footer is the terminal desktop snap region. Aligning its end keeps the
-     compact desktop footer fully visible after the final product scene instead
-     of mandatory snapping back to Gummies. */
   body:has(.sky-home) #root>.site-footer{
     scroll-snap-align:end;
     scroll-snap-stop:normal;
@@ -146,7 +132,10 @@
 }
 
 /* --------------------------------------------------------------------------
-   Mobile/tablet scene geometry
+   Mobile/tablet full-viewport geometry
+   --------------------------------------------------------------------------
+   Header chrome overlays these scenes and is intentionally not subtracted.
+   Every direct snap scene has the exact same dynamic viewport boundary.
    -------------------------------------------------------------------------- */
 @media (max-width:899px){
   html:has(.sky-home),
@@ -154,65 +143,73 @@
     background:#b0e3fd;
   }
 
+  html:has(.sky-home){
+    scroll-padding:0!important;
+    overflow-x:hidden;
+  }
+
+  body:has(.sky-home){
+    min-block-size:var(--home-mobile-viewport-h);
+    overflow-x:hidden!important;
+  }
+
   body:has(.sky-home) .app-shell>main{
-    padding-top:0!important;
+    padding-block:0!important;
   }
 
   .sky-home{
+    display:block;
     inline-size:100%;
     min-inline-size:0;
-    max-inline-size:100vw;
+    max-inline-size:100%;
+    margin:0;
+    padding:0;
     overflow-x:clip;
     touch-action:pan-y pinch-zoom;
   }
 
-  .sky-home > [data-home-snap-scene]{
-    margin-block:0!important;
-  }
-
-  .sky-home > [data-home-snap-scene] + [data-home-snap-scene]{
-    margin-block-start:0!important;
-  }
-
-  .sky-home [data-home-snap-scene]{
+  .sky-home>[data-home-snap-scene]{
+    position:relative!important;
+    display:block!important;
     box-sizing:border-box!important;
+    inline-size:100%!important;
+    max-inline-size:100%!important;
     block-size:var(--home-mobile-scene-h)!important;
     min-block-size:var(--home-mobile-scene-h)!important;
     max-block-size:var(--home-mobile-scene-h)!important;
-    scroll-margin-block-start:0!important;
-    inline-size:100%!important;
-    max-inline-size:100%!important;
-    overflow:clip!important;
-    overscroll-behavior:auto;
+    margin:0!important;
+    padding:0!important;
+    overflow:hidden!important;
+    overflow-anchor:none;
+    scroll-margin:0!important;
+    isolation:isolate;
   }
 
-  /* Mobile chrome overlays the homepage rather than consuming scene geometry.
-     Every primary scene therefore owns the same complete stable viewport. */
-  .sky-home .atmospheric-scene-hero{
-    block-size:var(--home-mobile-viewport-h)!important;
-    min-block-size:var(--home-mobile-viewport-h)!important;
-    max-block-size:var(--home-mobile-viewport-h)!important;
+  .sky-home>[data-home-snap-scene]>.seltzer-showcase,
+  .sky-home>.gummy-showcase-section>.gummy-showcase-shell,
+  .sky-home>.gummy-showcase-section .gummy-showcase__experience{
+    inline-size:100%;
+    max-inline-size:100%;
+    block-size:100%;
+    min-block-size:0;
+    max-block-size:100%;
   }
 
-  .sky-home [data-home-snap-scene].has-home-scene-overflow{
-    block-size:auto!important;
+  .sky-home>.atmospheric-scene-hero{
+    inline-size:100%;
+    block-size:var(--home-mobile-scene-h)!important;
     min-block-size:var(--home-mobile-scene-h)!important;
-    max-block-size:none!important;
-    overflow:visible!important;
+    max-block-size:var(--home-mobile-scene-h)!important;
   }
 }
 
 /* --------------------------------------------------------------------------
-   Mobile/tablet full-viewport snap
-   --------------------------------------------------------------------------
-   Every scene uses the same viewport contract. Mandatory native snap plus
-   snap-stop:always creates deterministic one-scene-at-a-time paging while the
-   browser retains ownership of touch inertia and deceleration.
+   Mobile/tablet native snap
    -------------------------------------------------------------------------- */
 @media (max-width:899px) and (prefers-reduced-motion:no-preference){
   html:has(.sky-home){
     scroll-snap-type:y mandatory!important;
-    scroll-padding-block-start:0!important;
+    scroll-padding:0!important;
     scroll-behavior:auto!important;
     overscroll-behavior-y:auto!important;
     touch-action:pan-y pinch-zoom;
@@ -223,27 +220,27 @@
     touch-action:pan-y pinch-zoom;
   }
 
-  .sky-home [data-home-snap-scene]{
+  .sky-home>[data-home-snap-scene]{
     scroll-snap-align:start!important;
     scroll-snap-stop:always!important;
   }
 
-  /* The footer is a terminal snap target only. This keeps mandatory paging from
-     pulling the user back into Gummies while leaving the footer's own height and
-     internal scrolling completely natural. */
   body:has(.sky-home) #root>.site-footer{
+    position:relative;
     block-size:auto!important;
     min-block-size:0!important;
     max-block-size:none!important;
+    margin:0;
+    padding-bottom:max(0px,env(safe-area-inset-bottom,0px));
     overflow:visible!important;
     scroll-snap-align:end!important;
     scroll-snap-stop:normal!important;
-    scroll-margin-block-start:0!important;
+    scroll-margin:0!important;
     overscroll-behavior-y:auto!important;
   }
 
-  /* Scene content stays present throughout the gesture; observer state may
-     refine opacity/position only. Never hide a scene while native snap is moving. */
+  /* Keep all scene pixels painted during a swipe. Observer state may enhance
+     settled content, but must never blank or collapse the incoming scene. */
   .sky-home [data-home-snap-content]>*{
     will-change:auto;
   }
@@ -253,8 +250,8 @@
     opacity:1!important;
   }
 
-  /* Interactive controls and the software keyboard retain ordinary scrolling
-     while their own UI is active. */
+  /* Forms, product overlays, and quick views temporarily opt out of mandatory
+     paging so keyboard and nested interaction remain native and reachable. */
   html:has(.sky-home.is-home-snap-suspended),
   html:has(.sky-home-product__variant.is-open),
   html:has(.gummy-quick-view){
@@ -263,22 +260,15 @@
     overscroll-behavior-y:auto!important;
   }
 
-  .sky-home.is-home-snap-suspended [data-home-snap-scene],
-  .sky-home:has(.sky-home-product__variant.is-open) [data-home-snap-scene],
-  .sky-home:has(.gummy-quick-view) [data-home-snap-scene]{
+  .sky-home.is-home-snap-suspended>[data-home-snap-scene],
+  .sky-home:has(.sky-home-product__variant.is-open)>[data-home-snap-scene],
+  .sky-home:has(.gummy-quick-view)>[data-home-snap-scene]{
     scroll-snap-stop:normal!important;
-  }
-
-  /* A genuinely oversized scene remains reachable without changing the snap
-     contract for every other homepage scene. Oversized snap areas can be
-     traversed naturally by the browser between their start/end boundaries. */
-  .sky-home [data-home-snap-scene].has-home-scene-overflow{
-    scroll-snap-stop:normal!important;
-    overscroll-behavior-y:auto!important;
   }
 }
 
-/* Reduced motion removes forced paging and presentation choreography. */
+/* Reduced motion removes forced paging and presentation choreography while
+   preserving scene geometry and full access to all content. */
 @media (prefers-reduced-motion:reduce){
   html:has(.sky-home){
     scroll-snap-type:none!important;
@@ -286,7 +276,7 @@
     overscroll-behavior-y:auto!important;
   }
 
-  .sky-home [data-home-snap-scene],
+  .sky-home>[data-home-snap-scene],
   body:has(.sky-home) #root>.site-footer{
     scroll-snap-stop:normal!important;
   }
