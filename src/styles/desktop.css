@@ -86,14 +86,13 @@
   .header-tools .header-account,.header-tools .cart-icon{display:flex;width:auto;min-width:0;gap:.65rem;padding:0 .4rem;border-radius:999px;font:750 .82rem/1 var(--font-ui);letter-spacing:-.015em;white-space:nowrap}
   .header-tools .header-account span,.header-tools .cart-icon span{display:block}
   .header-tools .header-account svg,.header-tools .cart-icon svg{width:25px;height:25px;stroke-width:1.8}
-  .header-tools .icon-btn:hover{background:rgba(17,17,15,.055);transform:translateY(-1px)}
-  .header-tools .header-search:hover{background:rgba(255,255,255,.16);border-color:rgba(17,25,29,.2)}
+  .header-tools .icon-btn:hover{background:transparent;transform:none}
+  .header-tools .header-search:hover{background:transparent;border-color:transparent}
   .header-tools .icon-btn svg{width:25px;height:25px;stroke-width:1.7}
-  .header-tools .header-search{width:52px;height:52px;min-width:52px;display:grid;grid-template-columns:22px minmax(0,0fr);align-items:center;justify-items:center;gap:0;padding:0;border:1px solid transparent;border-radius:999px;background:transparent;color:inherit;text-align:left;box-shadow:none;overflow:hidden;transition:width 420ms cubic-bezier(.2,.8,.2,1),min-width 420ms cubic-bezier(.2,.8,.2,1),grid-template-columns 420ms cubic-bezier(.2,.8,.2,1),gap 420ms ease,padding 420ms ease,border-color 240ms ease,background-color 240ms ease}
-  .header-tools .header-search:hover,.header-tools .header-search:focus-visible{width:clamp(190px,15vw,232px);min-width:clamp(190px,15vw,232px);grid-template-columns:22px minmax(0,1fr);justify-items:stretch;gap:10px;padding:0 15px;border-color:rgba(17,25,29,.2);background:rgba(255,255,255,.30)}
+  .header-tools .header-search{width:52px;height:52px;min-width:52px;display:grid;grid-template-columns:22px minmax(0,0fr);align-items:center;justify-items:center;gap:0;padding:0;border:1px solid transparent;border-radius:50%;background:transparent;color:inherit;text-align:left;box-shadow:none;overflow:hidden;transition:color 220ms ease,opacity 220ms ease}
+  .header-tools .header-search:hover,.header-tools .header-search:focus-visible{width:52px;min-width:52px;grid-template-columns:22px minmax(0,0fr);justify-items:center;gap:0;padding:0;border-color:transparent;background:transparent}
   .header-tools .header-search svg{width:23px;height:23px;justify-self:center;stroke-width:1.8;flex:none}
-  .header-tools .header-search span{display:block;min-width:0;overflow:hidden;color:inherit;font:500 12px/1 var(--font-ui);letter-spacing:-.01em;text-overflow:clip;white-space:nowrap;opacity:0;transform:translateX(-5px);transition:opacity 180ms ease 70ms,transform 280ms cubic-bezier(.2,.8,.2,1) 40ms}
-  .header-tools .header-search:hover span,.header-tools .header-search:focus-visible span{opacity:.72;transform:translateX(0)}
+  .header-tools .header-search span{display:none}
   .header-tools .header-search:focus-visible{outline:2px solid #172126;outline-offset:3px}
   .cart-icon b{
     position:absolute;top:1px;right:0;min-width:19px;height:19px;padding:0 4px;display:grid;place-items:center;
@@ -106,8 +105,6 @@
   .app-shell:has(.beverage-hero) .site-header .desktop-nav a,
   .app-shell:has(.beverage-hero) .site-header .header-tools .icon-btn{color:#171915!important;text-shadow:none}
   .app-shell:has(.beverage-hero) .site-header .desktop-header-brand img{filter:none!important}
-  .app-shell:has(.beverage-hero) .site-header .header-tools .icon-btn:hover{background:rgba(17,17,15,.08)}
-  .app-shell:has(.beverage-hero) .site-header .header-tools .header-search:hover{background:rgba(255,255,255,.78)}
   .app-shell:has(.beverage-hero) .site-header .cart-icon b{border-color:transparent;background:#171915;color:#fff}
 
   /* Homepage hero */

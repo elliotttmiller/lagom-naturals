@@ -660,7 +660,7 @@ function ShopPage() {
   );
   return (
     <Shell>
-      <div className={`shop-page shop-page--reference shop-page--${category.toLowerCase()} ${category === "All" ? "shop-page--all-products" : ""}`}>
+      <div className={`shop-page shop-page--reference shop-page--${category.toLowerCase()} ${category === "All" ? "shop-page--all-products" : ""} shop-page--flavor-cards`}>
         <div className="shop-mobile-reference-heading">
           <h1>{category === "All" ? "All Products" : category}</h1>
           <span>{visible.length} {visible.length === 1 ? "product" : "products"}</span>
@@ -739,7 +739,7 @@ function ShopPage() {
         <Stagger className="product-grid listing-grid">
           {visible.map((p) => (
             <StaggerItem key={p.id}>
-              <ProductCard product={p} showDescription={category === "All"} />
+              <ProductCard product={p} showDescription />
             </StaggerItem>
           ))}
         </Stagger>
