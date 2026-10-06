@@ -274,8 +274,11 @@ function ProductCard({ product, showDescription = false }) {
       <div className={`shop-card-commerce ${hasVariantPicker ? "shop-card-commerce--variant" : "shop-card-commerce--single"}`.trim()}>
         {hasVariantPicker ? <div className="variant-picker shop-card-variant-picker" ref={pickerRef}>
           <m.button ref={triggerRef} type="button" className="variant-trigger shop-card-variant-trigger" whileTap={motionTokens.tap} aria-haspopup="listbox" aria-expanded={variantOpen} onClick={() => setVariantOpen((open) => !open)}>
-            <span>{selected.label} · ${selected.price.toFixed(2)}</span>
-            <m.span animate={{ rotate: variantOpen ? 180 : 0 }} transition={motionTokens.springSnappy} aria-hidden="true"><ChevronDown /></m.span>
+            <span className="shop-card-variant-copy">
+              <span className="shop-card-variant-label">{selected.label}</span>
+              <span className="shop-card-variant-price"> · ${selected.price.toFixed(2)}</span>
+            </span>
+            <m.span className="shop-card-variant-chevron" animate={{ rotate: variantOpen ? 180 : 0 }} transition={motionTokens.springSnappy} aria-hidden="true"><ChevronDown /></m.span>
           </m.button>
           <Presence>
             {variantOpen ? <AnchoredVariantMenu productName={product.name} variants={variants} selectedId={selected.id} onSelect={selectVariant} menuRef={menuRef} position={menuPosition} /> : null}
@@ -657,7 +660,11 @@ function ShopPage() {
   );
   return (
     <Shell>
-      <div className={`shop-page shop-page--reference ${category === "All" ? "shop-page--all-products" : ""}`}>
+      <div className={`shop-page shop-page--reference shop-page--${category.toLowerCase()} ${category === "All" ? "shop-page--all-products" : ""}`}>
+        <div className="shop-mobile-reference-heading">
+          <h1>{category === "All" ? "All Products" : category}</h1>
+          <span>{visible.length} {visible.length === 1 ? "product" : "products"}</span>
+        </div>
         {category === "All" && (
           <picture className="shop-page__hero-media" aria-hidden="true">
             <source media="(max-width: 899px)" type="image/avif" srcSet={responsiveImages.shopHeader["shop-header-image"].avifSrcSet} sizes="100vw" />

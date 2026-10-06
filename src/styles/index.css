@@ -18,6 +18,7 @@
 @import './liquid-glass-system.css';
 @import './coupon-ribbon-product-cards.css';
 @import './shop-all-products-mockup.css';
+@import './mobile-shop-reference.css';
 
 /* Canonical homepage entry. Preserve this boundary; homepage modules are
    ordered internally by styles/home/index.css. */
