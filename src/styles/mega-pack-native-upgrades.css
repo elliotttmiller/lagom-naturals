@@ -291,3 +291,21 @@
     transition:none!important;
   }
 }
+
+/* 8. Desktop mega-menu refinement: continuity, restrained lift, no cursor drift. */
+@media(min-width:900px){
+  .desktop-shop-panel{
+    transition:opacity .32s var(--lagom-upgrade-ease),transform .42s var(--lagom-upgrade-ease),clip-path .42s var(--lagom-upgrade-ease)!important;
+  }
+  .desktop-shop-panel__card,
+  .desktop-shop-panel__card--glass-stack{
+    transition:transform .32s var(--lagom-upgrade-ease),border-color .24s ease,box-shadow .32s ease,background-color .24s ease!important;
+  }
+  .desktop-shop-panel__card:hover,
+  .desktop-shop-panel__card:focus-visible{
+    transform:translateY(-3px)!important;
+  }
+  .desktop-shop-panel__media-grid::before{
+    animation:none!important;
+  }
+}
