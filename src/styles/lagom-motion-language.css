@@ -212,46 +212,33 @@
    Native scrolling supplies the large physical movement. Presentation motion is
    deliberately shallow so it enhances settling without fighting touch inertia. */
 @media (max-width:899px) and (prefers-reduced-motion:no-preference){
-  .sky-home [data-home-snap-scene]{
-    --lagom-scene-copy-y:10px;
-    --lagom-scene-scale:.997;
+  /* Native vertical movement is the entire scene transition on touch devices.
+     Keep both outgoing and incoming scenes fully painted throughout the drag;
+     no observer-dependent opacity, filter, scale, or translate handoff. */
+  .sky-home [data-home-snap-content] > *,
+  .sky-home [data-home-snap-scene]:not(.is-snap-visible) [data-home-snap-content] > *,
+  .sky-home [data-home-snap-scene].is-snap-visible [data-home-snap-content] > *{
+    opacity:1!important;
+    transform:none!important;
+    filter:none!important;
+    transition:none!important;
+    transition-delay:0ms!important;
+    will-change:auto!important;
   }
 
-  .sky-home [data-home-snap-scene]:not(.is-snap-visible) [data-home-snap-content] > *{
-    opacity:.9;
-  }
-
-  .sky-home .atmospheric-scene-hero:not(.is-snap-visible) .legacy-sky-hero__content h1{
-    transform:translate3d(0,10px,0);
-    opacity:.86;
-  }
-
-  .sky-home .atmospheric-scene-hero:not(.is-snap-visible) .legacy-sky-hero__lede{
-    transform:translate3d(0,8px,0);
-    opacity:.82;
-  }
-
-  .sky-home .atmospheric-scene-hero:not(.is-snap-visible) .legacy-sky-hero__actions{
-    transform:translate3d(0,6px,0);
-    opacity:.78;
-  }
-
-  .sky-home > .seltzer-showcase-section > .seltzer-showcase{
-    opacity:.93;
-    transition:opacity var(--lagom-motion-component) var(--lagom-ease-glide);
-  }
-
-  .sky-home > .seltzer-showcase-section.is-snap-visible > .seltzer-showcase{
-    opacity:1;
-  }
-
+  .sky-home .legacy-sky-hero__product,
+  .sky-home .legacy-sky-hero__atmosphere,
+  .sky-home .legacy-sky-hero__content h1,
+  .sky-home .legacy-sky-hero__lede,
+  .sky-home .legacy-sky-hero__actions,
+  .sky-home .atmospheric-scene-section__cloud,
+  .sky-home > .seltzer-showcase-section > .seltzer-showcase,
   .sky-home > .gummy-showcase-section > .gummy-showcase-shell{
-    opacity:.94;
-    transition:opacity var(--lagom-motion-component) var(--lagom-ease-glide);
-  }
-
-  .sky-home > .gummy-showcase-section.is-snap-visible > .gummy-showcase-shell{
-    opacity:1;
+    opacity:1!important;
+    transform:none!important;
+    filter:none!important;
+    transition:none!important;
+    will-change:auto!important;
   }
 }
 

@@ -89,11 +89,13 @@
   }
 
   .mobile-reference-header.is-home::before{
-    border-bottom-color:var(--lagom-home-hero-glass-border);
-    background:var(--lagom-home-hero-glass-fill);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.72),0 8px 24px rgba(14,18,16,.065);
-    -webkit-backdrop-filter:blur(var(--lagom-home-hero-glass-blur)) saturate(var(--lagom-home-hero-glass-saturation));
-    backdrop-filter:blur(var(--lagom-home-hero-glass-blur)) saturate(var(--lagom-home-hero-glass-saturation));
+    border-bottom-color:rgba(23,25,20,.11);
+    background:rgba(250,249,245,.94);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.82),0 5px 18px rgba(14,18,16,.055);
+    -webkit-backdrop-filter:none;
+    backdrop-filter:none;
+    transform:none;
+    transition:none;
   }
 
   .mobile-reference-header.is-home :is(a,button,.hamburger,.hamburger .line){
@@ -108,10 +110,12 @@
 
   .mobile-reference-header.is-home.is-home-scrolled::before{
     border-bottom-color:rgba(23,25,20,.11);
-    background:var(--lagom-mobile-header-scrolled-fill);
-    box-shadow:0 7px 24px rgba(22,27,23,.07),inset 0 1px 0 rgba(255,255,255,.72);
-    -webkit-backdrop-filter:blur(var(--lagom-mobile-header-scrolled-blur)) saturate(1.16);
-    backdrop-filter:blur(var(--lagom-mobile-header-scrolled-blur)) saturate(1.16);
+    background:rgba(250,249,245,.94);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.82),0 5px 18px rgba(14,18,16,.055);
+    -webkit-backdrop-filter:none;
+    backdrop-filter:none;
+    transform:none;
+    transition:none;
   }
 
   .mobile-reference-header.is-about{

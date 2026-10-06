@@ -352,6 +352,11 @@
   .seltzer-showcase__color-slide{
     inset:0;
     background:var(--seltzer-slide-background);
+    will-change:auto;
+    contain:paint;
+    /* On phones, flavor changes use a clean crossfade. Translating/scaling an
+       entire viewport-sized image layer is expensive and prone to WebKit flash. */
+    transform:none!important;
   }
 
   /* Preserve the authored 9:16 mobile composition while allowing the artwork
@@ -435,6 +440,12 @@
 
   .seltzer-showcase__mobile-controls > *{
     pointer-events:auto;
+  }
+
+  .seltzer-showcase__shop-now,
+  .seltzer-showcase__flavor-card{
+    -webkit-backdrop-filter:none!important;
+    backdrop-filter:none!important;
   }
 
   .seltzer-showcase__shop-now{

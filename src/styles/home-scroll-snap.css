@@ -11,10 +11,14 @@
   --home-mobile-header-h:calc(var(--mobile-header-row-h,var(--mobile-header-content-h,62px)) + env(safe-area-inset-top,0px));
 }
 
-@supports (height:100dvh){
+/* iOS Safari changes dvh continuously as the address/tab bars expand and
+   collapse. A snap point whose height changes during the gesture visibly jumps
+   and can trigger WebKit layer repaints. Use the stable large viewport for the
+   physical page distance; browser chrome may overlay it without moving seams. */
+@supports (height:100lvh){
   :root{
-    --home-mobile-viewport-h:100dvh;
-    --home-mobile-scene-h:100dvh;
+    --home-mobile-viewport-h:100lvh;
+    --home-mobile-scene-h:100lvh;
   }
 }
 
@@ -188,6 +192,7 @@
     overflow-anchor:none;
     scroll-margin:0!important;
     isolation:isolate;
+    contain:layout paint;
   }
 
   .sky-home>[data-home-snap-scene]>.seltzer-showcase,

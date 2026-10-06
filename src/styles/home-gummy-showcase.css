@@ -31,6 +31,18 @@
    composition. Their internal layout must never expand this scene into a
    second document-length stop. */
 @media (max-width:899px){
+  /* Static translucent fills retain the premium material hierarchy without
+     forcing Safari to re-blur four moving tiles and controls every frame. */
+  .gummy-mobile__collection-rail,
+  .gummy-tile__arrow,
+  .gummy-quick-view__control{
+    -webkit-backdrop-filter:none!important;
+    backdrop-filter:none!important;
+  }
+
+  .gummy-tile__arrow{background:rgba(255,255,255,.78)}
+  .gummy-quick-view__control{background:rgba(250,247,240,.96)}
+
   .gummy-showcase-section > .gummy-showcase-shell,
   .gummy-showcase-section .gummy-showcase__experience{
     block-size:100%;

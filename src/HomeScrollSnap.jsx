@@ -91,7 +91,11 @@ export default function HomeScrollSnap({ rootRef }) {
       sceneObserver = undefined;
       visibleRatios.forEach((_, scene) => visibleRatios.set(scene, 0));
 
-      if (reducedMotion.matches || !("IntersectionObserver" in window)) {
+      /* Mobile paging is already animated by native physical scrolling.
+         Observer-driven class changes during a swipe create an unnecessary
+         second animation system and can invalidate large composited layers in
+         Safari. Keep every mobile scene presentation-ready at all times. */
+      if (mobileViewport.matches || reducedMotion.matches || !("IntersectionObserver" in window)) {
         showAll();
         return;
       }

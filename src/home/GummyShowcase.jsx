@@ -266,7 +266,7 @@ function ProductTile({ product, collectionTone, index, onOpen, buttonRef, reduce
             sizes="(max-width: 1099px) 48vw"
             desktopSizes="50vw"
             desktopShowcase
-            eager={index < 2}
+            eager
             layoutId={reduceMotion ? undefined : `gummy-media-${product.id}`}
           />
         </span>

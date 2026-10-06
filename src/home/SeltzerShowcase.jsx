@@ -179,7 +179,7 @@ function ShowcaseColorTrack({
             height={desktopMedia.height || 913}
             loading="eager"
             fetchPriority="high"
-            decoding="sync"
+            decoding="async"
           />
         </picture>
       </m.div>
