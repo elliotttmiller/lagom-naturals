@@ -276,7 +276,7 @@ function ProductTile({ product, collectionTone, index, onOpen, buttonRef, reduce
   );
 }
 
-function ProductQuickView({ product, collectionTone, onClose, reduceMotion, detailHeadingRef, revealClip }) {
+function ProductQuickView({ product, collectionTone, onClose, onPrevious, onNext, position, total, reduceMotion, detailHeadingRef, revealClip }) {
   const theme = PRODUCT_THEMES[product.id] || PRODUCT_THEMES["push-pop"];
   const facts = productFacts(product);
   const highlights = productHighlights(product);
@@ -329,6 +329,12 @@ function ProductQuickView({ product, collectionTone, onClose, reduceMotion, deta
         >
           <X />
         </m.button>
+
+        <div className="gummy-quick-view__media-controls" aria-label="Browse gummy products">
+          <button type="button" onClick={onPrevious} aria-label="Previous gummy product"><ArrowLeft aria-hidden="true"/></button>
+          <span className="gummy-quick-view__media-position" aria-live="polite">{String(position).padStart(2, "0")} / {String(total).padStart(2, "0")}</span>
+          <button type="button" onClick={onNext} aria-label="Next gummy product"><ArrowRight aria-hidden="true"/></button>
+        </div>
 
         <ProductPicture
           product={product}
@@ -414,6 +420,13 @@ function ResponsiveGummyExperience() {
     setSelectedId(productId);
   };
 
+  const cycleQuickView = (delta) => {
+    if (!selectedId || !collectionProducts.length) return;
+    const currentIndex = collectionProducts.findIndex((item) => item.id === selectedId);
+    const nextIndex = (currentIndex + delta + collectionProducts.length) % collectionProducts.length;
+    setCollectionDirection(delta > 0 ? 1 : -1);
+    setSelectedId(collectionProducts[nextIndex].id);
+  };
   const selectCollection = (nextIndex) => {
     if (selectedId) return;
     const normalized = (nextIndex + COLLECTIONS.length) % COLLECTIONS.length;
@@ -519,6 +532,10 @@ function ResponsiveGummyExperience() {
             product={selectedProduct}
             collectionTone={collection.tone}
             onClose={closeQuickView}
+            onPrevious={() => cycleQuickView(-1)}
+            onNext={() => cycleQuickView(1)}
+            position={collectionProducts.findIndex((item) => item.id === selectedProduct.id) + 1}
+            total={collectionProducts.length}
             reduceMotion={reduceMotion}
             detailHeadingRef={detailHeadingRef}
             revealClip={revealClip}
