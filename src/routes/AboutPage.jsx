@@ -1,7 +1,8 @@
-import {Leaf} from 'lucide-react'
 import Shell from '@/storefront/StorefrontShell'
+import FeatureCard from '@/editorial/FeatureCard'
 import {responsiveImages} from '@/generated/responsiveImages'
 import '@/styles/mobile/70-editorial.css'
+import '@/styles/editorial-routes.css'
 
 function StoryPicture({desktopMedia,mobileMedia,alt='',className='',eager=false,sizes='100vw'}){
   return <picture className={className}>
@@ -28,7 +29,7 @@ export default function AboutPage(){
     <section className="story-life story-scroll-step" data-story-step="02" id="philosophy">
       <figure><StoryPicture desktopMedia={responsiveImages.story['just-enough-desktop']} mobileMedia={responsiveImages.story['just-enough-mobile']} alt="Sunset over a rocky Minnesota lakeshore" sizes="(max-width: 699px) 100vw, 50vw"/></figure>
       <div className="story-life__copy"><p className="story-kicker story-kicker--dark">MORE THAN A BEVERAGE</p><h2>Built For Real Life</h2><p>We believe balance leads to better days. That’s why Lagom is more than a drink — it’s a mindset, a community, and a commitment to thoughtful experiences.</p></div>
-      <div className="story-life__principles" aria-label="Lagom product principles"><span><Leaf aria-hidden="true"/><b>PREMIUM<br/>INGREDIENTS</b></span><span><span className="story-sun" aria-hidden="true">☼</span><b>THOUGHTFUL<br/>DOSING</b></span><span><span className="story-eye" aria-hidden="true">◉</span><b>A MORE<br/>BALANCED YOU</b></span></div>
+      <div className="story-life__principles editorial-story-principles" aria-label="Lagom product principles"><FeatureCard index="01" eyebrow="Product" title="Premium ingredients" body="Lagom product pages surface formulation and dietary details when verified product data is available."/><FeatureCard index="02" eyebrow="Approach" title="Thoughtful dosing" body="Potency stays visible alongside responsible-use information rather than being treated as decorative fine print."/><FeatureCard index="03" eyebrow="Philosophy" title="A more balanced you" body="The Lagom idea is neither too much nor too little — just right."/></div>
     </section>
     <section className="story-closing-reference story-scroll-step" data-story-step="03" aria-labelledby="lagom-way-title"><p>THE LAGOM WAY</p><h2 id="lagom-way-title">Premium Ingredients.<br/>A Brighter Tomorrow.</h2><i aria-hidden="true"/></section>
   </main></Shell>
