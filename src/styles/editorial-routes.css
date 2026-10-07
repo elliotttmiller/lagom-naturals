@@ -159,7 +159,10 @@
 
 @media(max-width:899px){
   .editorial-route{
-    padding:calc(var(--mobile-header-row-h,68px) + env(safe-area-inset-top,0px) + 1rem) 16px var(--space-section-md);
+    padding-top:calc(var(--mobile-header-row-h,68px) + env(safe-area-inset-top,0px) + 1rem);
+    padding-bottom:var(--space-section-md);
+    padding-left:max(16px,env(safe-area-inset-left));
+    padding-right:max(16px,env(safe-area-inset-right));
   }
   .editorial-page-header{
     display:block;
