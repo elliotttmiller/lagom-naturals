@@ -3,6 +3,7 @@
    horizontal flavor state; this sheet owns static spatial composition. */
 
 html:has(.editorial-home){
+  background:var(--color-paper)!important;
   scroll-snap-type:none!important;
   scroll-behavior:auto!important;
   overscroll-behavior-y:auto!important;
@@ -309,7 +310,7 @@ body:has(.editorial-home){
   grid-template-columns:2.2rem 1fr;
   gap:.7rem;
   align-items:center;
-  min-height:42px;
+  min-height:44px;
   padding:0;
   border:0;
   border-bottom:1px solid rgba(17,17,15,.14);
@@ -319,6 +320,7 @@ body:has(.editorial-home){
   opacity:.52;
 }
 .flavor-selector button.is-active{opacity:1}
+.flavor-selector button:focus-visible{outline:2px solid currentColor;outline-offset:3px;opacity:1}
 .flavor-selector span{
   font:750 var(--type-micro)/1 var(--font-ui);
   letter-spacing:.08em;
@@ -438,7 +440,7 @@ body:has(.editorial-home){
   margin-bottom:1.25rem;
 }
 .gummy-collection-tabs button{
-  min-height:42px;
+  min-height:44px;
   padding:0 1rem;
   border:1px solid var(--color-line);
   border-radius:999px;
