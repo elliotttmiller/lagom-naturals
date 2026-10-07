@@ -7,9 +7,11 @@ import Shell from '@/storefront/StorefrontShell'
 import {configuredProduct,productVariants,useCart} from '@/storefront/StorefrontContext'
 import useSwipeGallery from '@/storefront/useSwipeGallery'
 import ResponsiveImage from '@/storefront/ResponsiveImage'
+import Accordion from '@/editorial/Accordion'
 import '@/styles/mobile/50-pdp.css'
 import '@/styles/product-page-redesign.css'
 import '@/styles/product-page-flavor-theme.css'
+import '@/styles/editorial-pdp.css'
 
 const brandLogo = `${import.meta.env.BASE_URL}lagom-logo.svg`
 
@@ -163,7 +165,6 @@ function ProductPage() {
   );
 }
 function ProductDetailsAccordion({ product, selected }) {
-  const [open, setOpen] = useState("at-a-glance");
   const isSeltzer = product.category === "Seltzers";
   const hasPotency = Boolean(product.thcMgPerCan || product.thcMgPerPiece || product.thcMgPerPackage || product.cbdMgPerPiece);
   const hasNutrition = Boolean(product.nutritionFacts?.length || product.dietary?.length || product.formulationHighlights?.length);
@@ -172,142 +173,50 @@ function ProductDetailsAccordion({ product, selected }) {
     (selected.detail || selected.label) && { label: "Pack configuration", value: selected.detail || selected.label },
   ].filter(Boolean);
 
-  const rows = [
+  const items = [
     atAGlance.length > 0 && {
       id: "at-a-glance",
-      label: "At a glance",
-      content: (
-        <div className="pdp-detail-grid">
-          {atAGlance.map((item) => <span key={item.label}><b>{item.label}</b><small>{item.value}</small></span>)}
-        </div>
-      ),
+      title: "At a glance",
+      content: <div className="pdp-detail-grid">{atAGlance.map(item => <span key={item.label}><b>{item.label}</b><small>{item.value}</small></span>)}</div>,
     },
     hasPotency && {
       id: "potency",
-      label: "Potency & Cannabinoids",
-      content: (
-        <div className="pdp-detail-grid">
-          {product.thcMgPerCan && (
-            <span>
-              <b>THC</b>
-              <small>{product.thcMgPerCan} mg per can</small>
-            </span>
-          )}
-          {product.thcMgPerPiece && (
-            <span>
-              <b>THC</b>
-              <small>{product.thcMgPerPiece} mg per gummy</small>
-            </span>
-          )}
-          {product.thcMgPerPackage && (
-            <span>
-              <b>Total THC</b>
-              <small>{product.thcMgPerPackage} mg per pouch</small>
-            </span>
-          )}
-          {product.cbdMgPerPiece && (
-            <span>
-              <b>CBD</b>
-              <small>{product.cbdMgPerPiece} mg per gummy</small>
-            </span>
-          )}
-        </div>
-      ),
+      title: "Potency & cannabinoids",
+      content: <div className="pdp-detail-grid">
+        {product.thcMgPerCan && <span><b>THC</b><small>{product.thcMgPerCan} mg per can</small></span>}
+        {product.thcMgPerPiece && <span><b>THC</b><small>{product.thcMgPerPiece} mg per gummy</small></span>}
+        {product.thcMgPerPackage && <span><b>Total THC</b><small>{product.thcMgPerPackage} mg per pouch</small></span>}
+        {product.cbdMgPerPiece && <span><b>CBD</b><small>{product.cbdMgPerPiece} mg per gummy</small></span>}
+      </div>,
     },
     isSeltzer && hasNutrition && {
       id: "nutrition",
-      label: "Nutrition & Dietary",
-      content: (
-        <div className="pdp-detail-copy">
-          <ul>
-            {product.nutritionFacts?.map((fact) => <li key={fact}>{fact}</li>)}
-            {product.dietary?.map((fact) => <li key={fact}>{fact}</li>)}
-            {product.formulationHighlights?.map((fact) => <li key={fact}>{fact}</li>)}
-          </ul>
-        </div>
-      ),
+      title: "Nutrition & dietary",
+      content: <div className="pdp-detail-copy"><ul>
+        {product.nutritionFacts?.map(fact => <li key={fact}>{fact}</li>)}
+        {product.dietary?.map(fact => <li key={fact}>{fact}</li>)}
+        {product.formulationHighlights?.map(fact => <li key={fact}>{fact}</li>)}
+      </ul></div>,
     },
     !isSeltzer && product.productDetails?.length > 0 && {
       id: "gummy-facts",
-      label: "Gummy Details",
-      content: (
-        <div className="pdp-detail-copy">
-          <ul>
-            {product.productDetails.map((fact) => <li key={fact}>{fact}</li>)}
-          </ul>
-        </div>
-      ),
+      title: "Gummy details",
+      content: <div className="pdp-detail-copy"><ul>{product.productDetails.map(fact => <li key={fact}>{fact}</li>)}</ul></div>,
     },
     !isSeltzer && product.testingAndPackaging?.length > 0 && {
       id: "testing",
-      label: "Testing & Packaging",
-      content: (
-        <div className="pdp-detail-copy">
-          <ul>
-            {product.testingAndPackaging.map((fact) => <li key={fact}>{fact}</li>)}
-          </ul>
-        </div>
-      ),
+      title: "Testing & packaging",
+      content: <div className="pdp-detail-copy"><ul>{product.testingAndPackaging.map(fact => <li key={fact}>{fact}</li>)}</ul></div>,
     },
     {
       id: "responsible",
-      label: "Responsible Use",
-      content: (
-        <p>
-          {product.responsibleUse ||
-            (product.thcMgPerPiece
-              ? `Each gummy contains ${product.thcMgPerPiece} mg THC. If you are new to THC or prefer a lower amount, start with less and allow adequate time before consuming more. Do not drive or operate machinery after consuming THC. Keep away from children and pets.`
-              : "Use responsibly. Do not drive or operate machinery after consuming THC. Keep away from children and pets.")}
-        </p>
-      ),
+      title: "Responsible use",
+      content: <p>{product.responsibleUse || (product.thcMgPerPiece
+        ? "Each gummy contains "+product.thcMgPerPiece+" mg THC. If you are new to THC or prefer a lower amount, start with less and allow adequate time before consuming more. Do not drive or operate machinery after consuming THC. Keep away from children and pets."
+        : "Use responsibly. Do not drive or operate machinery after consuming THC. Keep away from children and pets.")}</p>,
     },
   ].filter(Boolean);
 
-  return (
-    <m.div className="pdp-details" variants={motionVariants.item}>
-      {rows.map((row) => {
-        const expanded = open === row.id;
-        return (
-          <div
-            className={`pdp-detail-item${expanded ? " is-open" : ""}`}
-            key={row.id}
-          >
-            <button
-              type="button"
-              className="pdp-detail-trigger"
-              aria-expanded={expanded}
-              aria-controls={`pdp-detail-${row.id}`}
-              onClick={() => setOpen(expanded ? null : row.id)}
-            >
-              <span>{row.label}</span>
-              <m.span
-                animate={{ rotate: expanded ? 180 : 0 }}
-                transition={motionTokens.springSnappy}
-              >
-                <ChevronDown />
-              </m.span>
-            </button>
-            <Presence initial={false}>
-              {expanded && (
-                <m.div
-                  id={`pdp-detail-${row.id}`}
-                  className="pdp-detail-panel"
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{
-                    height:{duration:.44,ease:motionTokens.easeSoft},
-                    opacity:{duration:motionTokens.duration.control,ease:motionTokens.ease},
-                  }}
-                >
-                  <div>{row.content}</div>
-                </m.div>
-              )}
-            </Presence>
-          </div>
-        );
-      })}
-    </m.div>
-  );
+  return <Accordion items={items} defaultOpen={0} className="pdp-details editorial-pdp-accordion"/>;
 }
 export default ProductPage
