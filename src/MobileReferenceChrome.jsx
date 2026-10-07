@@ -80,7 +80,7 @@ export default function MobileReferenceChrome(){
     const update=()=>{
       if(frame)cancelAnimationFrame(frame)
       frame=requestAnimationFrame(()=>{
-        const hero=document.querySelector('.sky-home .beverage-hero')
+        const hero=document.querySelector('.editorial-home__campaign-scene, .sky-home .beverage-hero')
         if(!(hero instanceof HTMLElement)){setHomeScrolled(window.scrollY>72);return}
         const headerHeight=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--mobile-header-row-h'))||72
         setHomeScrolled(hero.getBoundingClientRect().bottom<=headerHeight+8)
