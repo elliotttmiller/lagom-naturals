@@ -266,8 +266,8 @@
 
   .desktop-shop-panel__inner{
     display:grid;
-    grid-template-columns:minmax(280px,1.34fr) minmax(0,3fr);
-    gap:clamp(12px,1vw,16px);
+    grid-template-columns:minmax(0,1fr);
+    gap:0;
     min-block-size:clamp(240px,18.5vw,292px);
   }
 
@@ -468,6 +468,10 @@
     grid-template-columns:repeat(3,minmax(0,1fr));
   }
 
+  .desktop-shop-panel__media-grid--single{
+    grid-template-columns:minmax(0,1fr);
+  }
+
   .desktop-shop-panel__media-grid::after{
     position:absolute;
     inset:0;
@@ -510,9 +514,7 @@
   .desktop-shop-panel__media--all-products .desktop-shop-panel__media-piece--2 img{object-position:50% 48%}
   .desktop-shop-panel__media--all-products .desktop-shop-panel__media-piece--3 img{object-position:52% 49%}
 
-  .desktop-shop-panel__media--seltzers .desktop-shop-panel__media-piece--1 img{object-position:49% 47%}
-  .desktop-shop-panel__media--seltzers .desktop-shop-panel__media-piece--2 img{object-position:51% 49%}
-  .desktop-shop-panel__media--seltzers .desktop-shop-panel__media-piece--3 img{object-position:50% 48%}
+  .desktop-shop-panel__media--seltzers .desktop-shop-panel__media-piece img{object-position:center}
 
   .desktop-shop-panel__media--gummies .desktop-shop-panel__media-piece img{
     object-position:center;
@@ -648,7 +650,7 @@
   }
 
   .desktop-shop-panel__inner{
-    grid-template-columns:minmax(230px,.9fr) minmax(0,2.1fr);
+    grid-template-columns:minmax(0,1fr);
     min-block-size:230px;
   }
 
@@ -683,7 +685,7 @@
   }
 
   .desktop-shop-panel__inner{
-    grid-template-columns:minmax(330px,1.35fr) minmax(0,3fr);
+    grid-template-columns:minmax(0,1fr);
   }
 }
 
@@ -909,8 +911,8 @@
     inline-size:100%;
     min-block-size:clamp(250px,15.6vw,270px);
     margin-inline:auto;
-    grid-template-columns:minmax(290px,1.25fr) minmax(0,2.35fr);
-    gap:clamp(18px,1.5vw,26px);
+    grid-template-columns:minmax(0,1fr);
+    gap:0;
     align-items:stretch;
   }
 
@@ -1082,7 +1084,7 @@
     inline-size:calc(100vw - 48px);
     padding:14px;
   }
-  .desktop-shop-panel__inner{grid-template-columns:minmax(220px,1.15fr) minmax(0,2.4fr);gap:16px}
+  .desktop-shop-panel__inner{grid-template-columns:minmax(0,1fr);gap:0}
   .desktop-shop-panel__intro h2{font-size:2rem}
   .desktop-shop-panel__intro>p{font-size:.72rem}
   .desktop-shop-panel__explore{min-inline-size:170px}
@@ -1189,7 +1191,7 @@
 
   .desktop-shop-panel{
     top:calc(100% + 12px);
-    inline-size:min(1260px,calc(100vw - 2 * clamp(28px,7vw,112px)));
+    inline-size:min(1480px,calc(100vw - 2 * clamp(28px,5.5vw,88px)));
     padding:18px;
     border:1px solid rgba(36,51,41,.09);
     border-radius:24px;
@@ -1200,9 +1202,9 @@
   }
 
   .desktop-shop-panel__inner{
-    min-block-size:clamp(232px,15vw,258px);
-    grid-template-columns:minmax(255px,.88fr) minmax(0,2.45fr);
-    gap:24px;
+    min-block-size:clamp(210px,14vw,258px);
+    grid-template-columns:minmax(0,1fr);
+    gap:0;
   }
 
   .desktop-shop-panel__intro{
@@ -1262,7 +1264,7 @@
   .desktop-shop-panel__cards--full-width-nav{gap:14px}
 
   .desktop-shop-panel__card--glass-stack{
-    min-block-size:clamp(232px,15vw,258px);
+    min-block-size:clamp(210px,14vw,258px);
     border:1px solid rgba(36,51,41,.1);
     border-radius:17px;
     background:#fffefa;
@@ -1326,7 +1328,7 @@
 }
 
 @media (min-width:900px) and (max-width:1099px){
-  .desktop-shop-panel__inner{grid-template-columns:minmax(210px,.86fr) minmax(0,2.2fr);gap:14px}
+  .desktop-shop-panel__inner{grid-template-columns:minmax(0,1fr);gap:0}
   .desktop-shop-panel__intro{padding:17px}
   .desktop-shop-panel__intro h2{font-size:1.85rem}
   .desktop-shop-panel__explore{min-inline-size:150px}

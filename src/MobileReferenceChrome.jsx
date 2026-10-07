@@ -3,6 +3,8 @@ import {Link,useLocation,useNavigate} from 'react-router-dom'
 import {ShoppingBag,Search,User,ChevronDown,ChevronRight,PackageCheck,Gift,Settings,Bell,CircleHelp,X} from 'lucide-react'
 import HamburgerToggle from './HamburgerToggle'
 import {Presence,m,motionTokens,motionVariants,useReducedMotion} from './motionSystem'
+import {useCart} from './storefront/StorefrontContext'
+import {openCartDrawer} from './storefront/cartDrawerEvents'
 import {responsiveImages} from '@/generated/responsiveImages'
 
 const mobileHero=responsiveImages.heroMobile.hero.src
@@ -44,8 +46,6 @@ function DrawerTop({label,onClose,menu=false}){
   </div>
 }
 
-function cartCount(){try{return (JSON.parse(localStorage.getItem('lagom-beverage-cart-v1')||'[]')||[]).reduce((sum,item)=>sum+(item.qty||0),0)}catch{return 0}}
-
 export default function MobileReferenceChrome(){
   const location=useLocation()
   const navigate=useNavigate()
@@ -53,7 +53,7 @@ export default function MobileReferenceChrome(){
   const[menuOpen,setMenuOpen]=React.useState(false)
   const[shopExpanded,setShopExpanded]=React.useState(false)
   const[accountOpen,setAccountOpen]=React.useState(false)
-  const[count,setCount]=React.useState(cartCount)
+  const{count}=useCart()
   const[homeScrolled,setHomeScrolled]=React.useState(false)
   const accountTimerRef=React.useRef(null)
 
@@ -64,12 +64,7 @@ export default function MobileReferenceChrome(){
     setShopExpanded(false)
     setAccountOpen(false)
     document.body.classList.toggle('mobile-recipes-route',isRecipes)
-    const update=()=>setCount(cartCount())
-    const onCartUpdated=event=>{const nextCount=Number(event.detail?.count);setCount(Number.isFinite(nextCount)?nextCount:cartCount())}
-    update()
-    window.addEventListener('storage',update)
-    window.addEventListener('lagom:cart-updated',onCartUpdated)
-    return()=>{document.body.classList.remove('mobile-recipes-route');window.removeEventListener('storage',update);window.removeEventListener('lagom:cart-updated',onCartUpdated)}
+    return()=>{document.body.classList.remove('mobile-recipes-route')}
   },[location.pathname,isRecipes])
 
   React.useEffect(()=>{
@@ -121,7 +116,7 @@ export default function MobileReferenceChrome(){
       <div className="mobile-reference-header__tools">
         {!isDetail&&<Link to="/shop" aria-label="Search"><Search/></Link>}
         {isAbout&&<m.button type="button" aria-label="Open account" onClick={openAccount} whileTap={motionTokens.tap}><User/></m.button>}
-        <Link className="mobile-reference-cart" to="/cart" aria-label={`Cart, ${count} items`}><ShoppingBag/>{count>0&&<b>{count}</b>}</Link>
+        <m.button type="button" className="mobile-reference-cart" aria-label={`Open cart, ${count} items`} aria-haspopup="dialog" onClick={event=>openCartDrawer(event.currentTarget)} whileTap={reduceMotion?undefined:motionTokens.tap}><ShoppingBag/>{count>0&&<b>{count}</b>}</m.button>
       </div>
     </header>
 

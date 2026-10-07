@@ -72,7 +72,6 @@ import watermelonLabel480Webp from "./assets/seltzers/watermelon-label-480.webp"
 import watermelonLabel889Avif from "./assets/seltzers/watermelon-label-889.avif";
 import watermelonLabel889Webp from "./assets/seltzers/watermelon-label-889.webp";
 import {
-  CartProvider,
   configuredProduct,
   productVariants,
   useCart,
@@ -300,7 +299,6 @@ const CATEGORY_HERO_MEDIA = {
   Seltzers: {
     desktop: responsiveImages.heroDesktop.hero,
     mobile: responsiveImages.heroMobile.hero,
-    eyebrow: "GOOD DAYS IN BALANCE",
     title: "THC Seltzers",
     description: "Crisp, hemp-derived THC seltzers by flavor and pack format. Each current Lagom can contains 10 mg THC in a 12 fl oz serving.",
     note: "FLAVOR · BALANCE · RITUAL",
@@ -313,7 +311,6 @@ const CATEGORY_HERO_MEDIA = {
   Gummies: {
     desktop: responsiveImages.heroDesktop["gummies-hero"],
     mobile: responsiveImages.heroMobile["gummies-hero"],
-    eyebrow: "GOOD PLANTS · CONSIDERED FORMATS",
     title: "THC Gummies",
     description: "Explore Lagom THC gummies across Classic, Organic, and Midnight Drift collections, with flavor-led formats and clearly labeled cannabinoid content.",
     note: "THREE COLLECTIONS · MULTIPLE FLAVORS",
@@ -333,11 +330,6 @@ function CategoryShopHero({ category }) {
   return (
     <Reveal className={`category-shop-hero category-shop-hero--${category.toLowerCase()}`}>
       <div className="category-shop-hero__copy">
-        <div className="category-shop-hero__eyebrow">
-          <span aria-hidden="true" />
-          <p>{config.eyebrow}</p>
-          <span aria-hidden="true" />
-        </div>
         <h1>{config.title}</h1>
         <p className="category-shop-hero__description">{config.description}</p>
         <div className="category-shop-hero__features" aria-label={`${category} highlights`}>
@@ -762,7 +754,6 @@ function NotFoundPage() {
 }
 export default function App() {
   return (
-    <CartProvider>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/shop" element={<ShopPage />} />
@@ -778,6 +769,5 @@ export default function App() {
         <Route path="/checkout" element={<React.Suspense fallback={<RouteChunkFallback/>}><CheckoutPage /></React.Suspense>} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
-    </CartProvider>
   );
 }

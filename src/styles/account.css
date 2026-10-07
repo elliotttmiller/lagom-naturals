@@ -10,3 +10,112 @@
 .account-hub__brand-icon{display:block;width:144px;height:144px;object-fit:contain;object-position:center}
 @media(max-width:899px){.account-hub__brand-icon{width:92px;height:92px}}
 @media(max-width:420px){.account-hub__brand-icon{width:82px;height:82px}}
+
+/* Desktop account hub: consistent, quiet navigation surfaces with a clear
+   editorial introduction and restrained pointer feedback. */
+@media(min-width:900px){
+  .account-hub:not(.account-hub--page){
+    width:min(1120px,calc(100% - 96px));
+    padding:58px 0 88px;
+  }
+  .account-hub:not(.account-hub--page) .account-hub__intro{
+    grid-template-columns:112px minmax(0,1fr);
+    gap:34px;
+    padding-bottom:38px;
+    border-bottom-color:rgba(20,22,18,.12);
+  }
+  .account-hub:not(.account-hub--page) .account-hub__brand-icon{
+    width:112px;
+    height:112px;
+  }
+  .account-hub:not(.account-hub--page) .account-hub__intro p{
+    font-size:clamp(30px,2.5vw,38px);
+    letter-spacing:-.04em;
+  }
+  .account-hub:not(.account-hub--page) .account-hub__intro h1{
+    font-size:clamp(62px,5vw,78px);
+  }
+  .account-hub:not(.account-hub--page) .account-hub__intro>div:last-child>span{
+    margin-top:14px;
+    font-size:14px;
+  }
+  .account-hub:not(.account-hub--page) .account-hub__rows{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px 16px;
+    padding-top:24px;
+  }
+  .account-hub:not(.account-hub--page) .account-hub-row{
+    min-height:84px;
+    grid-template-columns:44px minmax(0,1fr) 34px;
+    gap:14px;
+    padding:12px 16px;
+    border:1px solid rgba(24,30,25,.09);
+    border-radius:14px;
+    background:rgba(255,255,255,.72);
+    box-shadow:0 3px 12px rgba(28,31,25,.025);
+    transition:border-color .2s ease,background-color .2s ease,box-shadow .2s ease,transform .2s ease,translate .2s ease;
+  }
+  .account-hub:not(.account-hub--page) .account-hub-row__icon{
+    width:42px;
+    height:42px;
+    background:#f0eee8;
+    color:#262923;
+  }
+  .account-hub:not(.account-hub--page) .account-hub-row__copy b{
+    font-size:14px;
+    font-weight:700;
+    letter-spacing:-.01em;
+  }
+  .account-hub:not(.account-hub--page) .account-hub-row__copy small{
+    font-size:12px;
+    line-height:1.4;
+  }
+  .account-hub:not(.account-hub--page) .account-hub-row__chevron{
+    display:block;
+    width:32px;
+    height:32px;
+    padding:7px;
+    border:1px solid rgba(24,30,25,.08);
+    border-radius:50%;
+    color:#656a62;
+    transition:color .2s ease,border-color .2s ease,background-color .2s ease,transform .2s ease;
+  }
+  .account-hub:not(.account-hub--page) .account-hub-row--reward{
+    min-height:84px;
+    margin:0;
+    padding:12px 16px;
+    border-color:rgba(24,30,25,.09);
+    background:rgba(255,255,255,.72);
+  }
+  .account-hub:not(.account-hub--page) .account-hub-row--reward .account-hub-row__icon{
+    background:#f0eee8;
+    color:#262923;
+  }
+  .account-hub:not(.account-hub--page) .account-hub__backend-note{
+    max-width:760px;
+    margin-top:22px;
+    font-size:11px;
+  }
+  .account-hub:not(.account-hub--page) .account-hub-row:focus-visible{
+    outline:2px solid #343a32;
+    outline-offset:3px;
+  }
+}
+@media(hover:hover) and (pointer:fine) and (min-width:900px){
+  .account-hub:not(.account-hub--page) .account-hub-row:hover{
+    translate:0 -2px;
+    border-color:rgba(24,30,25,.18);
+    background:#fff;
+    box-shadow:0 12px 28px rgba(28,31,25,.08);
+  }
+  .account-hub:not(.account-hub--page) .account-hub-row:hover .account-hub-row__chevron{
+    transform:translateX(2px);
+    border-color:rgba(24,30,25,.15);
+    background:#f5f3ee;
+    color:#22251f;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .account-hub:not(.account-hub--page) .account-hub-row,
+  .account-hub:not(.account-hub--page) .account-hub-row__chevron{transition:none}
+}

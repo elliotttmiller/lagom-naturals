@@ -1,8 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ArrowRight, Check, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronDown, X } from "lucide-react";
 import { m, Presence, motionTokens, useReducedMotion } from "@/motionSystem";
 import { products } from "@/catalogData";
+import AddToCartButton from "@/AddToCartButton";
+import { configuredProduct, productVariants, useCart } from "@/storefront/StorefrontContext";
 import { responsiveImages } from "@/generated/responsiveImages";
 import canBase480Avif from "../assets/seltzers/lagom-seltzer-can-base-480.avif";
 import canBase480Webp from "../assets/seltzers/lagom-seltzer-can-base-480.webp";
@@ -237,9 +239,31 @@ export default function SeltzerShowcase() {
   const quickViewRef = useRef(null);
   const quickViewCloseRef = useRef(null);
   const quickViewTriggerRef = useRef(null);
+  const variantPickerRef = useRef(null);
+  const variantTriggerRef = useRef(null);
+  const [variantOpen, setVariantOpen] = useState(false);
+  const [selectedVariantId, setSelectedVariantId] = useState(null);
+  const { add } = useCart();
   const product = showcaseProducts[index];
   const theme = showcaseThemes[product.id] || showcaseThemes["watermelon-refresher"];
   const touchStart = useRef(null);
+  const variants = useMemo(() => productVariants(product), [product]);
+  const selectedVariant = variants.find((variant) => variant.id === selectedVariantId) || variants[0];
+  const cartItem = selectedVariant ? configuredProduct(product, selectedVariant) : null;
+
+  useEffect(() => {
+    setSelectedVariantId(variants[0]?.id ?? null);
+    setVariantOpen(false);
+  }, [product.id, variants]);
+
+  useEffect(() => {
+    if (!variantOpen) return undefined;
+    const dismissOutside = (event) => {
+      if (!variantPickerRef.current?.contains(event.target)) setVariantOpen(false);
+    };
+    document.addEventListener("pointerdown", dismissOutside);
+    return () => document.removeEventListener("pointerdown", dismissOutside);
+  }, [variantOpen]);
 
   const change = useCallback((delta) => {
     const nextIndex = (indexRef.current + delta + showcaseProducts.length) % showcaseProducts.length;
@@ -300,6 +324,7 @@ export default function SeltzerShowcase() {
   const closeQuickView = () => {
     if (quickViewClosing) return;
     setQuickViewClosing(true);
+    setVariantOpen(false);
   };
 
   return (
@@ -390,16 +415,19 @@ export default function SeltzerShowcase() {
             }}
             onCancel={(event) => {
               event.preventDefault();
-              closeQuickView();
+              if (variantOpen) {
+                setVariantOpen(false);
+                variantTriggerRef.current?.focus();
+              } else {
+                closeQuickView();
+              }
             }}
             onClick={(event) => {
               if (event.target === event.currentTarget) closeQuickView();
             }}
           >
             <div className="seltzer-quick-view__scene" aria-hidden="true">
-              <span className="seltzer-quick-view__scene-kicker">Lagom Naturals · Seltzer</span>
               <ShowcaseCan label={label} product={product} reducedMotion={reducedMotion} />
-              <span className="seltzer-quick-view__scene-note">A considered pour, wherever the day takes you.</span>
             </div>
             <div className="seltzer-quick-view__details">
               <button
@@ -411,9 +439,7 @@ export default function SeltzerShowcase() {
               >
                 <X aria-hidden="true" />
               </button>
-              <p className="seltzer-quick-view__eyebrow">{product.flavorFamily || "Seltzer"} · THC infused</p>
               <h2 id="seltzer-quick-view-title">{product.name}</h2>
-              <p className="seltzer-quick-view__flavor">{product.flavor}</p>
               <p className="seltzer-quick-view__description">{product.description}</p>
 
               <div className="seltzer-quick-view__facts" aria-label={`${product.name} product details`}>
@@ -421,26 +447,78 @@ export default function SeltzerShowcase() {
                   <div><strong>{product.thcMgPerCan} mg</strong><span>THC per can</span></div>
                 ) : null}
                 {product.canVolume ? <div><strong>{product.canVolume}</strong><span>Can volume</span></div> : null}
-                {product.sugar ? <div><strong>{product.sugar}</strong><span>Sugar</span></div> : null}
               </div>
 
-              {product.formulationHighlights?.length ? (
-                <ul className="seltzer-quick-view__highlights" aria-label="Product highlights">
-                  {product.formulationHighlights.slice(0, 3).map((highlight) => (
-                    <li key={highlight}><Check aria-hidden="true" />{highlight}</li>
-                  ))}
-                </ul>
-              ) : null}
-
-              {Number.isFinite(product.price) ? (
-                <p className="seltzer-quick-view__price">Single can <strong>${product.price.toFixed(2)}</strong>
-                  {product.variants?.some((variant) => variant.label?.toLowerCase().includes("4-pack")) ? <span> · 4-pack also available</span> : null}
-                </p>
-              ) : null}
+              <div className="seltzer-quick-view__purchase">
+                {variants.length > 1 && selectedVariant ? (
+                  <div className="variant-picker shop-card-variant-picker seltzer-quick-view__variant-picker" ref={variantPickerRef}>
+                    <m.button
+                      ref={variantTriggerRef}
+                      type="button"
+                      className="variant-trigger shop-card-variant-trigger seltzer-quick-view__variant-trigger"
+                      whileTap={reducedMotion ? undefined : motionTokens.tap}
+                      aria-haspopup="listbox"
+                      aria-expanded={variantOpen}
+                      aria-label={`Pack size: ${selectedVariant.label}, $${selectedVariant.price.toFixed(2)}`}
+                      onClick={() => setVariantOpen((open) => !open)}
+                    >
+                      <span className="shop-card-variant-copy">
+                        <span className="shop-card-variant-label">{selectedVariant.label}</span>
+                        <span className="shop-card-variant-price"> · ${selectedVariant.price.toFixed(2)}</span>
+                      </span>
+                      <m.span
+                        className="shop-card-variant-chevron"
+                        animate={{ rotate: reducedMotion ? 0 : variantOpen ? 180 : 0 }}
+                        transition={reducedMotion ? { duration: 0 } : motionTokens.springSnappy}
+                        aria-hidden="true"
+                      ><ChevronDown /></m.span>
+                    </m.button>
+                    <Presence>
+                      {variantOpen ? (
+                        <m.div
+                          className="variant-menu shop-card-variant-menu seltzer-quick-view__variant-menu"
+                          role="listbox"
+                          aria-label={`${product.name} size options`}
+                          initial={reducedMotion ? { opacity: 0 } : { opacity: 0, y: 6, scale: .98 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={reducedMotion ? { opacity: 0 } : { opacity: 0, y: 4, scale: .98 }}
+                          transition={reducedMotion ? { duration: 0 } : motionTokens.springSoft}
+                        >
+                          {variants.map((variant) => (
+                            <button
+                              type="button"
+                              key={variant.id}
+                              role="option"
+                              aria-selected={variant.id === selectedVariant.id}
+                              className={variant.id === selectedVariant.id ? "active" : ""}
+                              onClick={() => {
+                                setSelectedVariantId(variant.id);
+                                setVariantOpen(false);
+                                variantTriggerRef.current?.focus();
+                              }}
+                            >
+                              <span>{variant.label}</span><b>${variant.price.toFixed(2)}</b>
+                            </button>
+                          ))}
+                        </m.div>
+                      ) : null}
+                    </Presence>
+                  </div>
+                ) : null}
+                {cartItem ? (
+                  <AddToCartButton
+                    size="wide"
+                    className="shop-card-add seltzer-quick-view__add"
+                    productId={product.id}
+                    onClick={() => add(cartItem)}
+                    aria-label={`Add ${product.name}, ${selectedVariant.label} to cart`}
+                  />
+                ) : null}
+              </div>
 
               <p className="seltzer-quick-view__responsible-use">{product.responsibleUse}</p>
-              <Link className="seltzer-quick-view__cta" to={`/product/${product.id}`} onClick={closeQuickView}>
-                <span>Explore this seltzer</span><ArrowRight aria-hidden="true" />
+              <Link className="seltzer-quick-view__pdp-link" to={`/product/${product.id}`} onClick={closeQuickView}>
+                <span>View product details</span><ArrowRight aria-hidden="true" />
               </Link>
             </div>
           </m.dialog>

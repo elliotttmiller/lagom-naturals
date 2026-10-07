@@ -420,33 +420,13 @@
     animation:seltzer-quick-can-arrive .72s cubic-bezier(.16,1,.3,1) both;
   }
 
-  .seltzer-quick-view__scene-kicker,
-  .seltzer-quick-view__scene-note{
-    position:absolute;
-    z-index:2;
-    color:rgba(31,26,24,.62);
-    font:750 .62rem/1.2 var(--font-ui);
-    letter-spacing:.17em;
-    text-transform:uppercase;
-  }
-
-  .seltzer-quick-view__scene-kicker{top:1.65rem;left:1.7rem}
-  .seltzer-quick-view__scene-note{
-    right:1.6rem;
-    bottom:1.55rem;
-    left:1.6rem;
-    text-align:center;
-    letter-spacing:.08em;
-    text-transform:none;
-  }
-
   .seltzer-quick-view__details{
     position:relative;
     display:flex;
     min-inline-size:0;
     flex-direction:column;
     align-items:flex-start;
-    padding:clamp(2rem,4vw,3.65rem);
+    padding:clamp(2rem,3.6vw,3.15rem);
     overflow:auto;
     background:linear-gradient(155deg,#fff 0%,#fbf9f4 74%,color-mix(in srgb,var(--seltzer-quick-surface) 12%,#fbf9f4) 100%);
   }
@@ -471,119 +451,157 @@
   .seltzer-quick-view__close:hover{transform:rotate(5deg) scale(1.04);background:#fff}
   .seltzer-quick-view__close svg{inline-size:1.15rem;block-size:1.15rem}
 
-  .seltzer-quick-view__eyebrow{
-    margin:0 3rem .75rem 0;
-    color:var(--seltzer-quick-accent);
-    font:800 .66rem/1.2 var(--font-ui);
-    letter-spacing:.17em;
-    text-transform:uppercase;
-  }
-
   .seltzer-quick-view__details h2{
     margin:0;
     color:#151713;
-    font:500 clamp(2.5rem,4.2vw,4.2rem)/.94 var(--font-display);
+    max-inline-size:11ch;
+    font:500 clamp(2.45rem,4vw,3.55rem)/.96 var(--font-display);
     letter-spacing:-.055em;
     text-wrap:balance;
   }
 
-  .seltzer-quick-view__flavor{
-    margin:.8rem 0 0;
-    color:rgba(24,27,23,.68);
-    font:750 .78rem/1.3 var(--font-ui);
-    letter-spacing:.1em;
-    text-transform:uppercase;
-  }
-
   .seltzer-quick-view__description{
     max-inline-size:29rem;
-    margin:1.05rem 0 0;
-    color:#4e514b;
-    font:500 .98rem/1.58 var(--font-ui);
+    margin:.85rem 0 0;
+    color:#51544e;
+    font:500 .91rem/1.5 var(--font-ui);
   }
 
   .seltzer-quick-view__facts{
-    display:grid;
-    grid-template-columns:repeat(3,minmax(0,1fr));
+    display:flex;
+    align-items:stretch;
+    flex-wrap:wrap;
     inline-size:100%;
-    margin:1.55rem 0 0;
-    overflow:hidden;
-    border:1px solid rgba(27,31,25,.09);
-    border-radius:1rem;
-    background:rgba(255,255,255,.68);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 .45rem 1.2rem rgba(34,34,28,.035);
+    margin:1.15rem 0 0;
+    border-block:1px solid rgba(27,31,25,.12);
   }
 
   .seltzer-quick-view__facts div{
     display:flex;
     min-inline-size:0;
-    min-block-size:4.5rem;
+    min-block-size:3.4rem;
     flex-direction:column;
     justify-content:center;
-    gap:.38rem;
-    padding:.65rem .8rem;
+    gap:.25rem;
+    padding:.5rem 1.1rem .5rem 0;
   }
 
-  .seltzer-quick-view__facts div+div{border-inline-start:1px solid rgba(27,31,25,.09)}
-  .seltzer-quick-view__facts strong{font:800 .92rem/1.05 var(--font-ui);color:#20231e}
-  .seltzer-quick-view__facts span{color:#74766f;font:700 .59rem/1.1 var(--font-ui);letter-spacing:.08em;text-transform:uppercase}
-
-  .seltzer-quick-view__highlights{
-    display:grid;
-    gap:.55rem;
-    margin:1.2rem 0 0;
-    padding:0;
-    list-style:none;
-  }
-
-  .seltzer-quick-view__highlights li{
-    display:flex;
-    align-items:center;
-    gap:.58rem;
-    color:#4f534c;
-    font:650 .78rem/1.25 var(--font-ui);
-  }
-
-  .seltzer-quick-view__highlights svg{inline-size:1rem;block-size:1rem;color:var(--seltzer-quick-accent);stroke-width:2.2}
-
-  .seltzer-quick-view__price{
-    margin:1rem 0 0;
-    color:#5d6059;
-    font:650 .72rem/1.3 var(--font-ui);
-  }
-
-  .seltzer-quick-view__price strong{color:#21241f;font-weight:850}
-  .seltzer-quick-view__price span{color:#777970}
+  .seltzer-quick-view__facts div+div{padding-inline-start:1.1rem;border-inline-start:1px solid rgba(27,31,25,.14)}
+  .seltzer-quick-view__facts strong{font:800 .88rem/1.05 var(--font-ui);color:#20231e}
+  .seltzer-quick-view__facts span{color:#74766f;font:700 .57rem/1.1 var(--font-ui);letter-spacing:.07em;text-transform:uppercase}
 
   .seltzer-quick-view__responsible-use{
-    margin:1rem 0 0;
+    margin:.9rem 0 1rem;
     color:#777970;
-    font:500 .64rem/1.45 var(--font-ui);
+    font:500 .62rem/1.42 var(--font-ui);
   }
 
-  .seltzer-quick-view__cta{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:1.2rem;
+  .seltzer-quick-view__purchase{
+    position:relative;
+    z-index:4;
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(8.5rem,.85fr);
+    align-items:stretch;
+    gap:.65rem;
     inline-size:100%;
-    min-block-size:3.5rem;
-    margin-block-start:auto;
-    padding:.55rem .65rem .55rem 1.25rem;
-    border:1px solid color-mix(in srgb,var(--seltzer-quick-accent) 80%,#171915);
-    border-radius:999px;
-    background:linear-gradient(115deg,color-mix(in srgb,var(--seltzer-quick-accent) 76%,#fff),var(--seltzer-quick-accent));
-    color:#fff;
-    box-shadow:0 .7rem 1.5rem color-mix(in srgb,var(--seltzer-quick-accent) 24%,transparent);
-    font:800 .76rem/1 var(--font-ui);
-    letter-spacing:.045em;
-    text-decoration:none;
-    transition:transform 220ms var(--lagom-ease-standard),box-shadow 220ms var(--lagom-ease-standard),filter 220ms var(--lagom-ease-standard);
+    margin-block-start:1.1rem;
   }
 
-  .seltzer-quick-view__cta:hover{transform:translateY(-2px);filter:saturate(1.07);box-shadow:0 .95rem 1.8rem color-mix(in srgb,var(--seltzer-quick-accent) 30%,transparent)}
-  .seltzer-quick-view__cta svg{inline-size:2.35rem;block-size:2.35rem;padding:.62rem;border-radius:50%;background:rgba(255,255,255,.2)}
-  .seltzer-quick-view__close:focus-visible,.seltzer-quick-view__cta:focus-visible{outline:3px solid #171915;outline-offset:4px}
+  .seltzer-quick-view__variant-picker{position:relative!important;z-index:2!important;min-inline-size:0!important;overflow:visible!important}
+  .seltzer-quick-view__variant-trigger{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:flex-start!important;
+    gap:.5rem!important;
+    inline-size:100%!important;
+    min-block-size:46px!important;
+    padding:0 2.25rem 0 .85rem!important;
+    overflow:hidden!important;
+    border:1px solid rgba(26,31,25,.16)!important;
+    border-radius:12px!important;
+    background:rgba(255,255,255,.84)!important;
+    color:#252923!important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 .25rem .7rem rgba(26,30,25,.045)!important;
+    font:750 .73rem/1 var(--font-ui)!important;
+    text-align:left!important;
+    white-space:nowrap!important;
+  }
+
+  .seltzer-quick-view__variant-trigger .shop-card-variant-copy{min-inline-size:0!important;overflow:hidden!important;text-overflow:ellipsis!important}
+  .seltzer-quick-view__variant-trigger .shop-card-variant-price{color:#777970!important;font-weight:650!important}
+  .seltzer-quick-view__variant-trigger .shop-card-variant-chevron{position:absolute!important;inset-inline-end:.7rem!important;display:grid!important;place-items:center!important;color:#51554e!important}
+  .seltzer-quick-view__variant-trigger .shop-card-variant-chevron svg{inline-size:1rem!important;block-size:1rem!important}
+
+  .seltzer-quick-view .shop-card-variant-menu{
+    position:absolute!important;
+    inset:auto 0 calc(100% + 8px)!important;
+    z-index:30!important;
+    min-inline-size:100%!important;
+    margin:0!important;
+    padding:5px!important;
+    overflow:hidden!important;
+    border:1px solid rgba(255,255,255,.3)!important;
+    border-radius:13px!important;
+    background:rgba(38,40,37,.94)!important;
+    box-shadow:0 12px 30px rgba(16,20,16,.2),inset 0 1px 0 rgba(255,255,255,.12)!important;
+    -webkit-backdrop-filter:blur(18px) saturate(1.55)!important;
+    backdrop-filter:blur(18px) saturate(1.55)!important;
+    transform-origin:bottom center!important;
+  }
+
+  .seltzer-quick-view .shop-card-variant-menu button{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:space-between!important;
+    gap:.8rem!important;
+    inline-size:100%!important;
+    min-block-size:40px!important;
+    padding:.55rem .7rem!important;
+    border:0!important;
+    border-radius:9px!important;
+    background:transparent!important;
+    color:#fff!important;
+    font:700 .72rem/1.15 var(--font-ui)!important;
+    text-align:start!important;
+  }
+
+  .seltzer-quick-view .shop-card-variant-menu button+button{border-block-start:1px solid rgba(255,255,255,.12)!important;border-start-start-radius:0!important;border-start-end-radius:0!important}
+  .seltzer-quick-view .shop-card-variant-menu button.active,
+  .seltzer-quick-view .shop-card-variant-menu button:hover,
+  .seltzer-quick-view .shop-card-variant-menu button:focus-visible{background:rgba(255,255,255,.13)!important;outline:none!important}
+  .seltzer-quick-view .shop-card-variant-menu button b{color:rgba(255,255,255,.92)!important;font:800 .72rem/1 var(--font-ui)!important}
+
+  .seltzer-quick-view__add{
+    --green:var(--seltzer-quick-accent);
+    inline-size:100%!important;
+    min-inline-size:0!important;
+    min-block-size:46px!important;
+    padding-inline:.85rem!important;
+    border-radius:12px!important;
+    font-size:.72rem!important;
+    letter-spacing:.005em!important;
+  }
+
+  .seltzer-quick-view__add .lagom-atc__content{gap:.4rem!important}
+  .seltzer-quick-view__add .lagom-atc__cart{inline-size:15px!important;block-size:15px!important}
+
+  .seltzer-quick-view__pdp-link{
+    display:inline-flex;
+    align-items:center;
+    gap:.45rem;
+    min-block-size:2.2rem;
+    color:#4e524a;
+    font:750 .68rem/1 var(--font-ui);
+    text-decoration:none;
+    transition:color 180ms var(--lagom-ease-standard),gap 180ms var(--lagom-ease-standard);
+  }
+
+  .seltzer-quick-view__pdp-link:hover{gap:.65rem;color:#181b16}
+  .seltzer-quick-view__pdp-link svg{inline-size:.95rem;block-size:.95rem}
+  .seltzer-quick-view__close:focus-visible,
+  .seltzer-quick-view__variant-trigger:focus-visible,
+  .seltzer-quick-view__add:focus-visible,
+  .seltzer-quick-view__pdp-link:focus-visible{outline:3px solid #171915;outline-offset:3px}
 }
 
 @keyframes seltzer-quick-can-arrive{
@@ -1030,7 +1048,7 @@
   }
 
   .seltzer-quick-view__scene .seltzer-showcase__can{animation:none}
-  .seltzer-quick-view__close,.seltzer-quick-view__cta{transition:none}
+  .seltzer-quick-view__close,.seltzer-quick-view__add,.seltzer-quick-view__pdp-link{transition:none}
 
   .seltzer-showcase__shop-now,
   .seltzer-showcase__shop-now svg{

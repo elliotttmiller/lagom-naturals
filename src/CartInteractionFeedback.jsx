@@ -37,6 +37,8 @@ function ensureEnhanced(button){
 function productNameFor(trigger){
   const pdp=trigger.closest('.pdp')
   if(pdp){const title=pdp.querySelector('h1');if(title?.textContent?.trim())return title.textContent.trim()}
+  const quickView=trigger.closest('.seltzer-quick-view')
+  if(quickView){const title=quickView.querySelector('#seltzer-quick-view-title');if(title?.textContent?.trim())return title.textContent.trim()}
   const card=trigger.closest('.product-card')
   if(card){
     const title=card.querySelector('.liquid-glass-product-card__name, .product-copy h3, h3')

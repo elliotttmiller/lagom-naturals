@@ -249,12 +249,13 @@
   box-shadow:inset 0 1px 0 rgba(255,255,255,.46),0 10px 28px rgba(22,42,31,.08)!important;
 }
 
-/* Account navigation rows receive depth while keeping their current layout. */
-.account-hub-row{
-  border-radius:var(--glass-radius-lg)!important;
-}
-.account-hub-row--reward{
-  background:linear-gradient(135deg,rgba(240,248,243,.78),rgba(255,255,255,.52))!important;
+/* Preserve the existing mobile account-card treatment. Desktop styling is
+   intentionally owned by account.css so all hub destinations stay aligned. */
+@media(max-width:899px){
+  .account-hub-row{border-radius:var(--glass-radius-lg)!important}
+  .account-hub-row--reward{
+    background:linear-gradient(135deg,rgba(240,248,243,.78),rgba(255,255,255,.52))!important;
+  }
 }
 
 /* Subtle hover/press response for fine pointers. */

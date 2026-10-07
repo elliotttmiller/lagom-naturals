@@ -5,6 +5,7 @@ import HamburgerToggle from '@/HamburgerToggle'
 import {Presence,m,motionTokens,motionVariants,useReducedMotion} from '@/motionSystem'
 import {responsiveImages} from '@/generated/responsiveImages'
 import {useCart} from './StorefrontContext'
+import {openCartDrawer} from './cartDrawerEvents'
 
 const PUBLIC_BASE=import.meta.env.BASE_URL
 const publicAsset=name=>`${PUBLIC_BASE}${name.replace(/^\//,'')}`
@@ -12,11 +13,9 @@ const publicAsset=name=>`${PUBLIC_BASE}${name.replace(/^\//,'')}`
 const SHOP_PANEL_MEDIA={
   watermelon:responsiveImages.seltzerDesktopFlavors['watermelon'],
   blackberry:responsiveImages.seltzerDesktopFlavors['blackberry'],
-  lemonade:responsiveImages.seltzerDesktopFlavors['24k'],
-  strawberryLime:responsiveImages.seltzerDesktopFlavors['Strawberry Lime Splash Seltzer Ad (1)'],
+  seltzersThumbnail:responsiveImages.categories['seltzers-thumbnail'],
+  gummiesThumbnail:responsiveImages.categories['gummies-thumbnail'],
   berryMelon:responsiveImages.homeGummies['Berry-Melon-Bliss-Photoroom-900x900'],
-  blueRazz:responsiveImages.homeGummies['Blue-Razz-Photoroom-Photoroom-1-900x900'],
-  cherry:responsiveImages.homeGummies['Cherry-Bliss-Photoroom-900x900'],
 }
 
 const SHOP_PANEL_CARDS=[
@@ -34,7 +33,7 @@ const SHOP_PANEL_CARDS=[
     title:'Seltzers',
     description:'Bright, sparkling THC drinks.',
     to:'/shop/seltzers',
-    media:[SHOP_PANEL_MEDIA.strawberryLime,SHOP_PANEL_MEDIA.blackberry,SHOP_PANEL_MEDIA.lemonade],
+    media:SHOP_PANEL_MEDIA.seltzersThumbnail,
     mediaClass:'seltzers',
     accent:'#8650a9',
   },
@@ -43,7 +42,7 @@ const SHOP_PANEL_CARDS=[
     title:'Gummies',
     description:'Flavorful, easygoing favorites.',
     to:'/shop/gummies',
-    media:[SHOP_PANEL_MEDIA.berryMelon,SHOP_PANEL_MEDIA.blueRazz,SHOP_PANEL_MEDIA.cherry],
+    media:SHOP_PANEL_MEDIA.gummiesThumbnail,
     mediaClass:'gummies',
     accent:'#d74d7b',
   },
@@ -51,20 +50,22 @@ const SHOP_PANEL_CARDS=[
 
 function Logo({onClick,className=''}){return <Link to="/" className={`brand ${className}`} onClick={onClick}><img src={publicAsset("enhanced-lagom-logo.webp")} alt="Lagom Naturals"/></Link>}
 
-function MenuPicture({media,className=''}) {
+function MenuPicture({media,className='',sizes='(min-width:1100px) 12vw, 180px'}) {
   if(!media)return null
   return <picture className={className} aria-hidden="true">
-    {media.avifSrcSet?<source type="image/avif" srcSet={media.avifSrcSet} sizes="(min-width:1100px) 12vw, 180px"/>:null}
-    {media.webpSrcSet?<source type="image/webp" srcSet={media.webpSrcSet} sizes="(min-width:1100px) 12vw, 180px"/>:null}
+    {media.avifSrcSet?<source type="image/avif" srcSet={media.avifSrcSet} sizes={sizes}/>:null}
+    {media.webpSrcSet?<source type="image/webp" srcSet={media.webpSrcSet} sizes={sizes}/>:null}
     <img src={media.src} alt="" loading="lazy" decoding="async" draggable="false"/>
   </picture>
 }
 
 function MenuMedia({items}) {
   const mediaItems=Array.isArray(items)?items:[items]
-  return <div className="desktop-shop-panel__media-grid" aria-hidden="true">
+  const isSingleImage=mediaItems.length===1
+  const imageSizes=isSingleImage?'(min-width:1100px) 34vw, (min-width:900px) 30vw, 100vw':undefined
+  return <div className={`desktop-shop-panel__media-grid${isSingleImage?' desktop-shop-panel__media-grid--single':''}`} aria-hidden="true">
     {mediaItems.filter(Boolean).map((media,index)=>(
-      <MenuPicture key={index} media={media} className={`desktop-shop-panel__media-piece desktop-shop-panel__media-piece--${index+1}`}/>
+      <MenuPicture key={index} media={media} sizes={imageSizes} className={`desktop-shop-panel__media-piece desktop-shop-panel__media-piece--${index+1}`}/>
     ))}
   </div>
 }
@@ -82,23 +83,6 @@ function DesktopShopPanel({onClose,reduceMotion}){
     transition={reduceMotion?{duration:0}:motionTokens.springSoft}
   >
     <div className="desktop-shop-panel__inner">
-      <m.div
-        className="desktop-shop-panel__intro"
-        initial={reduceMotion?false:{opacity:0,y:10}}
-        animate={{opacity:1,y:0}}
-        transition={reduceMotion?{duration:0}:{delay:.06,duration:.38,ease:[.16,1,.3,1]}}
-      >
-        <span className="desktop-shop-panel__eyebrow">Shop Lagom</span>
-        <h2>Find your kind<br/>of balance.</h2>
-        <i className="desktop-shop-panel__accent" aria-hidden="true"/>
-        <p>Functional THC beverages and gummies for a brighter, more balanced you.</p>
-        <Link className="desktop-shop-panel__explore" to="/shop" onClick={onClose}>
-          <span>Explore collection</span>
-          <ArrowRight aria-hidden="true"/>
-        </Link>
-        <span className="desktop-shop-panel__botanical" aria-hidden="true"><i/><i/><i/></span>
-      </m.div>
-
       <div className="desktop-shop-panel__cards desktop-shop-panel__cards--full-width-nav">
         {SHOP_PANEL_CARDS.map((card,index)=>(
           <m.div
@@ -189,7 +173,7 @@ export function StorefrontHeader({detail=false}){
         <div className="header-tools">
           <m.button type="button" className="icon-btn header-search" aria-label="Search products" aria-controls="global-search-surface" aria-expanded="false" whileTap={motionTokens.tap} onClick={()=>window.dispatchEvent(new CustomEvent('lagom:open-global-search'))}><Search aria-hidden="true"/><span>Search</span></m.button>
           <Link className="icon-btn header-account" to="/account" aria-label="Account"><User/><span>Account</span></Link>
-          <Link className="icon-btn cart-icon" to="/cart" aria-label={`Cart, ${count} items`}><ShoppingBag/><span>Cart ({count})</span>{count>0&&<b>{count}</b>}</Link>
+          <m.button type="button" className="icon-btn cart-icon" aria-label={`Open cart, ${count} items`} aria-haspopup="dialog" onClick={event=>openCartDrawer(event.currentTarget)} whileTap={motionTokens.tap}><ShoppingBag/><span>Cart ({count})</span>{count>0&&<b>{count}</b>}</m.button>
         </div>
       </div>
       <Presence initial={false}>
