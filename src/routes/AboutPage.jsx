@@ -15,7 +15,7 @@ function StoryPicture({desktopMedia,mobileMedia,alt='',className='',eager=false,
 }
 
 export default function AboutPage(){
-  return <Shell><main className="about-page about-story-page">
+  return <Shell><div className="about-page about-story-page">
     <section className="story-hero" aria-labelledby="story-title">
       <StoryPicture className="story-hero__picture" desktopMedia={responsiveImages.story['hero-desktop']} mobileMedia={responsiveImages.story['hero-mobile']} eager/>
       <div className="story-hero__shade" aria-hidden="true"/>
@@ -32,5 +32,5 @@ export default function AboutPage(){
       <div className="story-life__principles editorial-story-principles" aria-label="Lagom product principles"><FeatureCard index="01" eyebrow="Product" title="Premium ingredients" body="Lagom product pages surface formulation and dietary details when verified product data is available."/><FeatureCard index="02" eyebrow="Approach" title="Thoughtful dosing" body="Potency stays visible alongside responsible-use information rather than being treated as decorative fine print."/><FeatureCard index="03" eyebrow="Philosophy" title="A more balanced you" body="The Lagom idea is neither too much nor too little — just right."/></div>
     </section>
     <section className="story-closing-reference story-scroll-step" data-story-step="03" aria-labelledby="lagom-way-title"><p>THE LAGOM WAY</p><h2 id="lagom-way-title">Premium Ingredients.<br/>A Brighter Tomorrow.</h2><i aria-hidden="true"/></section>
-  </main></Shell>
+  </div></Shell>
 }
