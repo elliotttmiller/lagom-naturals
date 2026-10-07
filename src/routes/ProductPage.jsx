@@ -1,6 +1,6 @@
 import React,{useEffect,useMemo,useState} from 'react'
 import {Link,useParams} from 'react-router-dom'
-import {ChevronDown,Minus,Plus,ShoppingCart} from 'lucide-react'
+import {Minus,Plus,ShoppingCart} from 'lucide-react'
 import {m,Presence,motionTokens,motionVariants} from '@/motionSystem'
 import {products} from '@/catalogData'
 import Shell from '@/storefront/StorefrontShell'
