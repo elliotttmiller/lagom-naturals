@@ -667,8 +667,8 @@ body:has(.editorial-home){
   }
   .product-stage__controls{
     top:47%;
-    right:12px;
-    left:12px;
+    right:max(12px,env(safe-area-inset-right));
+    left:max(12px,env(safe-area-inset-left));
   }
   .product-stage__controls button{
     width:46px;
@@ -676,8 +676,8 @@ body:has(.editorial-home){
     background:rgba(255,255,255,.82);
   }
   .product-stage__meta{
-    left:16px;
-    right:16px;
+    left:max(16px,env(safe-area-inset-left));
+    right:max(16px,env(safe-area-inset-right));
     bottom:5.1rem;
     width:auto;
   }
@@ -702,9 +702,9 @@ body:has(.editorial-home){
   .campaign-meta__variant select{min-height:38px}
   .campaign-meta__add{min-height:40px!important;font-size:.62rem!important}
   .flavor-selector{
-    right:16px;
-    bottom:1rem;
-    left:16px;
+    right:max(16px,env(safe-area-inset-right));
+    bottom:max(1rem,env(safe-area-inset-bottom));
+    left:max(16px,env(safe-area-inset-left));
     width:auto;
     grid-template-columns:repeat(4,minmax(0,1fr));
     border-top:1px solid rgba(17,17,15,.22);
@@ -733,7 +733,8 @@ body:has(.editorial-home){
   .brand-principles,
   .home-retail,
   .home-education{
-    padding-inline:16px;
+    padding-left:max(16px,env(safe-area-inset-left));
+    padding-right:max(16px,env(safe-area-inset-right));
   }
   .editorial-statement{
     display:block;
