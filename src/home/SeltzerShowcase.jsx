@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, X } from "lucide-react";
 import { m, Presence, motionTokens, useReducedMotion } from "@/motionSystem";
 import { products } from "@/catalogData";
 import { responsiveImages } from "@/generated/responsiveImages";
@@ -232,6 +232,11 @@ export default function SeltzerShowcase() {
   indexRef.current = index;
   const [direction, setDirection] = useState(1);
   const reducedMotion = useReducedMotion();
+  const [quickViewOpen, setQuickViewOpen] = useState(false);
+  const [quickViewClosing, setQuickViewClosing] = useState(false);
+  const quickViewRef = useRef(null);
+  const quickViewCloseRef = useRef(null);
+  const quickViewTriggerRef = useRef(null);
   const product = showcaseProducts[index];
   const theme = showcaseThemes[product.id] || showcaseThemes["watermelon-refresher"];
   const touchStart = useRef(null);
@@ -280,6 +285,22 @@ export default function SeltzerShowcase() {
   const label = labelMedia[product.id];
   const desktopArtwork = responsiveImages.seltzerDesktopFlavors[desktopArtworkFiles[product.id]];
   const canEnterX = direction > 0 ? 26 : -26;
+
+  useEffect(() => {
+    const dialog = quickViewRef.current;
+    if (!quickViewOpen || !dialog) return undefined;
+    if (!dialog.open) dialog.showModal();
+    quickViewCloseRef.current?.focus();
+    return () => {
+      if (dialog.open) dialog.close();
+      quickViewTriggerRef.current?.focus();
+    };
+  }, [quickViewOpen]);
+
+  const closeQuickView = () => {
+    if (quickViewClosing) return;
+    setQuickViewClosing(true);
+  };
 
   return (
     <section
@@ -334,11 +355,97 @@ export default function SeltzerShowcase() {
         </m.div>
       </Presence>
 
-      <Link
+      <button
+        ref={quickViewTriggerRef}
         className="seltzer-showcase__desktop-product-link"
-        to={"/product/" + product.id}
-        aria-label={"Shop " + product.name}
+        type="button"
+        aria-label={`Quick view ${product.name}`}
+        aria-haspopup="dialog"
+        aria-expanded={quickViewOpen}
+        onClick={() => {
+          setQuickViewClosing(false);
+          setQuickViewOpen(true);
+        }}
       />
+
+      <Presence>
+        {quickViewOpen ? (
+          <m.dialog
+            ref={quickViewRef}
+            className="seltzer-quick-view"
+            style={{ "--seltzer-quick-accent": theme.accent, "--seltzer-quick-surface": theme.color }}
+            aria-labelledby="seltzer-quick-view-title"
+            initial={reducedMotion ? { opacity: 0 } : { opacity: 0, y: 18, scale: .975 }}
+            animate={quickViewClosing
+              ? (reducedMotion ? { opacity: 0 } : { opacity: 0, y: 10, scale: .985 })
+              : { opacity: 1, y: 0, scale: 1 }}
+            transition={reducedMotion
+              ? { duration: 0 }
+              : { duration: quickViewClosing ? .2 : .48, ease: quickViewClosing ? motionTokens.ease : [.16, 1, .3, 1] }}
+            onAnimationComplete={() => {
+              if (quickViewClosing) {
+                setQuickViewOpen(false);
+                setQuickViewClosing(false);
+              }
+            }}
+            onCancel={(event) => {
+              event.preventDefault();
+              closeQuickView();
+            }}
+            onClick={(event) => {
+              if (event.target === event.currentTarget) closeQuickView();
+            }}
+          >
+            <div className="seltzer-quick-view__scene" aria-hidden="true">
+              <span className="seltzer-quick-view__scene-kicker">Lagom Naturals · Seltzer</span>
+              <ShowcaseCan label={label} product={product} reducedMotion={reducedMotion} />
+              <span className="seltzer-quick-view__scene-note">A considered pour, wherever the day takes you.</span>
+            </div>
+            <div className="seltzer-quick-view__details">
+              <button
+                ref={quickViewCloseRef}
+                className="seltzer-quick-view__close"
+                type="button"
+                aria-label="Close product quick view"
+                onClick={closeQuickView}
+              >
+                <X aria-hidden="true" />
+              </button>
+              <p className="seltzer-quick-view__eyebrow">{product.flavorFamily || "Seltzer"} · THC infused</p>
+              <h2 id="seltzer-quick-view-title">{product.name}</h2>
+              <p className="seltzer-quick-view__flavor">{product.flavor}</p>
+              <p className="seltzer-quick-view__description">{product.description}</p>
+
+              <div className="seltzer-quick-view__facts" aria-label={`${product.name} product details`}>
+                {Number.isFinite(product.thcMgPerCan) ? (
+                  <div><strong>{product.thcMgPerCan} mg</strong><span>THC per can</span></div>
+                ) : null}
+                {product.canVolume ? <div><strong>{product.canVolume}</strong><span>Can volume</span></div> : null}
+                {product.sugar ? <div><strong>{product.sugar}</strong><span>Sugar</span></div> : null}
+              </div>
+
+              {product.formulationHighlights?.length ? (
+                <ul className="seltzer-quick-view__highlights" aria-label="Product highlights">
+                  {product.formulationHighlights.slice(0, 3).map((highlight) => (
+                    <li key={highlight}><Check aria-hidden="true" />{highlight}</li>
+                  ))}
+                </ul>
+              ) : null}
+
+              {Number.isFinite(product.price) ? (
+                <p className="seltzer-quick-view__price">Single can <strong>${product.price.toFixed(2)}</strong>
+                  {product.variants?.some((variant) => variant.label?.toLowerCase().includes("4-pack")) ? <span> · 4-pack also available</span> : null}
+                </p>
+              ) : null}
+
+              <p className="seltzer-quick-view__responsible-use">{product.responsibleUse}</p>
+              <Link className="seltzer-quick-view__cta" to={`/product/${product.id}`} onClick={closeQuickView}>
+                <span>Explore this seltzer</span><ArrowRight aria-hidden="true" />
+              </Link>
+            </div>
+          </m.dialog>
+        ) : null}
+      </Presence>
 
       <button
         className="seltzer-showcase__nav seltzer-showcase__nav--previous"
