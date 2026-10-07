@@ -32,7 +32,10 @@ export default function FlavorArtworkScene({scene,children,className="",eager=fa
   if(!scene)return null;
   const hasLayers=Array.isArray(scene.layers)&&scene.layers.length>0;
   return <div className={`flavor-artwork-scene ${className}`.trim()} data-flavor={scene.id}>
-    {!hasLayers&&<ArtPicture media={scene.media} className="flavor-artwork-scene__fallback" eager={eager}/>}
+    {!hasLayers&&<>
+      <ArtPicture media={scene.media} className="flavor-artwork-scene__fallback flavor-artwork-scene__fallback--bleed" eager={eager}/>
+      <ArtPicture media={scene.media} className="flavor-artwork-scene__fallback flavor-artwork-scene__fallback--primary" eager={eager}/>
+    </>}
     {hasLayers&&<div className="flavor-artwork-scene__layers" aria-hidden="true">{scene.layers.map(layer=><SceneLayer key={layer.id} layer={layer} reducedMotion={reducedMotion}/>)}</div>}
     {children&&<div className="flavor-artwork-scene__product">{children}</div>}
   </div>;
