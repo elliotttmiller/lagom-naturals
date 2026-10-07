@@ -66,8 +66,8 @@ export default function AgeGateTransition({
     const finish=()=>setHeroReady(true)
 
     frame=requestAnimationFrame(()=>{
-      const hero=document.querySelector('.sky-home .atmospheric-scene-hero')
-      media=hero?.querySelector('.legacy-sky-hero__product--fullbleed img')||null
+      const hero=document.querySelector('.editorial-home__campaign-scene, .sky-home .atmospheric-scene-hero')
+      media=hero?.querySelector('.flavor-artwork-scene__fallback img, .legacy-sky-hero__product--fullbleed img')||null
 
       if(!hero||!media||(media.complete&&media.naturalWidth>0)){
         finish()
@@ -108,12 +108,12 @@ export default function AgeGateTransition({
     const gateScene=gate.querySelector('.age-gate__static-scene')
     const gateClouds=gate.querySelector('.age-gate__static-clouds')
     const gateGlow=gate.querySelector('.age-gate__atmosphere-glow')
-    const hero=document.querySelector('.sky-home .atmospheric-scene-hero')
-    const heroMedia=hero?.querySelector('.legacy-sky-hero__product--fullbleed img')
-    const heroContent=hero?.querySelector('.legacy-sky-hero__content')
-    const heroTitle=hero?.querySelector('.legacy-sky-hero h1')
-    const heroLede=hero?.querySelector('.legacy-sky-hero__lede')
-    const heroActions=hero?.querySelector('.legacy-sky-hero__actions')
+    const hero=document.querySelector('.editorial-home__campaign-scene, .sky-home .atmospheric-scene-hero')
+    const heroMedia=hero?.querySelector('.flavor-artwork-scene__fallback img, .legacy-sky-hero__product--fullbleed img')
+    const heroContent=hero?.querySelector('.product-stage__meta, .legacy-sky-hero__content')
+    const heroTitle=hero?.querySelector('.campaign-headline h1, .legacy-sky-hero h1')
+    const heroLede=hero?.querySelector('.campaign-headline__eyebrow, .legacy-sky-hero__lede')
+    const heroActions=hero?.querySelector('.flavor-selector, .legacy-sky-hero__actions')
     const chrome=[
       document.querySelector('.announcement'),
       document.querySelector('.site-header'),
