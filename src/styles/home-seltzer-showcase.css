@@ -18,6 +18,7 @@
   overflow:hidden;
   color:#fff;
   background:var(--seltzer-slide-background,#301642);
+  --seltzer-can-inline-position:63%;
   outline:none;
   touch-action:pan-y pinch-zoom;
 }
@@ -29,7 +30,7 @@
 
 .seltzer-showcase__color-slide{
   position:absolute;
-  inset:-2%;
+  inset:0;
   z-index:0;
   overflow:hidden;
   will-change:transform,opacity;
@@ -42,12 +43,38 @@
   block-size:100%;
 }
 
+.seltzer-showcase__flavor-background--bleed{
+  position:absolute;
+  inset:-1.5rem;
+  z-index:0;
+  inline-size:auto;
+  block-size:auto;
+  overflow:hidden;
+  filter:blur(1.15rem) saturate(.82);
+  opacity:.66;
+  transform:scale(1.025);
+  pointer-events:none;
+}
+
+.seltzer-showcase__flavor-background:not(.seltzer-showcase__flavor-background--bleed){
+  position:absolute;
+  inset:0;
+  z-index:1;
+}
+
 .seltzer-showcase__flavor-background img{
-  object-fit:cover;
+  /* The desktop artwork includes editorial copy; keep the full composition
+     visible across viewport ratios and let the flavor surface fill any gap. */
+  object-fit:contain;
   object-position:center;
   image-rendering:auto;
   backface-visibility:hidden;
   -webkit-backface-visibility:hidden;
+}
+
+.seltzer-showcase__flavor-background.seltzer-showcase__flavor-background--bleed img{
+  object-fit:cover;
+  object-position:center;
 }
 
 .seltzer-showcase__topline{
@@ -57,9 +84,9 @@
 .seltzer-showcase__can-stage{
   position:absolute;
   top:50%;
-  left:50%;
+  left:var(--seltzer-can-inline-position,50%);
   z-index:3;
-  inline-size:clamp(12rem,20vw,18rem);
+  inline-size:clamp(11rem,16vw,16rem);
   aspect-ratio:889/1770;
   translate:-50% calc(-50% + 2rem);
   transform-origin:50% 68%;
@@ -223,7 +250,7 @@
 
 .seltzer-showcase__shop-now{
   position:absolute;
-  top:78%;
+  top:88%;
   right:clamp(7rem,21vw,24rem);
   z-index:5;
   display:inline-flex;
@@ -346,10 +373,10 @@
 
   .seltzer-showcase__desktop-product-link{
     position:absolute;
-    inset:50% auto auto 50%;
+    inset:calc(50% + 2rem) auto auto var(--seltzer-can-inline-position,50%);
     z-index:4;
     display:block;
-    inline-size:clamp(12rem,20vw,18rem);
+    inline-size:clamp(11rem,16vw,16rem);
     block-size:min(76vh,42rem);
     transform:translate(-50%,-50%);
     border-radius:2rem;
@@ -624,6 +651,7 @@
     block-size:100%;
     min-block-size:0;
     background:#3b223f;
+    --seltzer-can-inline-position:50%;
   }
 
   /* The uploaded flavor artworks are already composed for a 9:16 canvas.

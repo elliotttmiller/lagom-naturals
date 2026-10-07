@@ -8,7 +8,7 @@
   }
 
   .sky-home .atmospheric-scene-hero {
-    background:center bottom / cover no-repeat url('../assets/atmosphere/home-hero-sky.png') !important;
+    background:image-set(url('../assets/optimized/homeAtmosphere/home-hero-sky-1600.avif') type('image/avif'),url('../assets/optimized/homeAtmosphere/home-hero-sky-1600.webp') type('image/webp')) center bottom / cover no-repeat !important;
   }
 
   /* The legacy desktop shell supplied dark gradient pseudo-elements for a

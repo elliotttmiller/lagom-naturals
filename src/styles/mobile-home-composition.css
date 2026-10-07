@@ -40,7 +40,7 @@
     overflow:hidden!important;
     background:
       linear-gradient(180deg,rgba(176,227,253,.22),rgba(176,227,253,.06)),
-      #b0e3fd url('../assets/atmosphere/home-hero-sky.png') center bottom / cover no-repeat!important;
+      #b0e3fd image-set(url('../assets/optimized/homeAtmosphere/home-hero-sky-1600.avif') type('image/avif'),url('../assets/optimized/homeAtmosphere/home-hero-sky-1600.webp') type('image/webp')) center bottom / cover no-repeat!important;
   }
 
   .sky-home .beverage-hero::before,

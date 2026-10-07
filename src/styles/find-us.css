@@ -22,6 +22,12 @@ body:has(.find-experience) .route-stage .find-page,body:has(.find-experience) .v
 @media(max-width:380px){.find-intro{padding-inline:16px}.find-search,.find-map-pane,.find-result-meta,.find-location-list{margin-left:16px;margin-right:16px}.find-intro h2{font-size:clamp(36px,11.5vw,43px);line-height:.96;letter-spacing:-.042em}.find-location-row__main{padding-inline:12px;grid-template-columns:40px minmax(0,1fr) 18px;gap:9px}.find-brand{width:40px;height:40px;max-width:40px;flex-basis:40px}.find-brand img{max-width:38px;max-height:34px}.find-map-popover{padding:14px}.find-map-popover__links{grid-template-columns:1fr}.find-map-popover__links .find-directions{grid-column:1}}
 @media(min-width:900px) and (max-width:1180px){.find-shell{grid-template-columns:46% 54%}.find-sidebar{padding-left:38px;padding-right:38px}.find-map-popover{right:24px;width:340px}.find-intro h2{font-size:62px}}
 
+/* Keep the desktop shop overlay above Leaflet's elevated map panes on Find Us. */
+@media(min-width:900px){
+  body:has(.find-experience) .desktop-shop-backdrop{z-index:1000}
+  body:has(.find-experience) .site-header.site-header--shop-open{z-index:1010}
+}
+
 
 /* 2026-09 mobile Find Us redesign — the reference composition is image-led:
    storefront hero + editorial overlay, then search, then a clean branded map. */

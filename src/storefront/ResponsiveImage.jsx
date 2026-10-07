@@ -1,7 +1,7 @@
 import React from "react";
 import { responsiveImageBySrc } from "@/generated/responsiveImages";
 
-export default function ResponsiveImage({ src, alt, sizes = "100vw", className = "", onLoad, onError, ...imageProps }) {
+export default function ResponsiveImage({ src, alt, sizes = "100vw", className = "", width, height, onLoad, onError, ...imageProps }) {
   const [ready, setReady] = React.useState(false);
   const imageRef = React.useRef(null);
   const media = responsiveImageBySrc.get(src);
@@ -27,6 +27,8 @@ export default function ResponsiveImage({ src, alt, sizes = "100vw", className =
       ref={imageRef}
       src={media?.src || src}
       alt={alt}
+      width={width ?? media?.width}
+      height={height ?? media?.height}
       sizes={sizes}
       className={imageClassName}
       data-image-state={ready ? "ready" : "loading"}

@@ -115,6 +115,7 @@ const gummyCatalog = [
     image: pushPopClassic,
     packageLabel: "10 pc",
     packageDetail: "10-piece pouch",
+    cardDescription: "A sunny swirl of orange and cream with a bright, candy-shop finish.",
   },
   {
     id: "blueberry-yum-yum",
@@ -124,6 +125,7 @@ const gummyCatalog = [
     image: blueberryYumYum,
     packageLabel: "10 pc",
     packageDetail: "10-piece pouch",
+    cardDescription: "Deep berry flavor with a juicy blueberry finish and a soft, sweet tang.",
   },
   {
     id: "green-apple",
@@ -133,6 +135,7 @@ const gummyCatalog = [
     image: greenApple,
     packageLabel: "10 pc",
     packageDetail: "10-piece pouch",
+    cardDescription: "Crisp green-apple flavor brings a lively tart edge to every chewy bite.",
   },
   {
     id: "strawberry-banana",
@@ -142,6 +145,7 @@ const gummyCatalog = [
     image: strawberryBanana,
     packageLabel: "10 pc",
     packageDetail: "10-piece pouch",
+    cardDescription: "Ripe strawberry meets mellow banana in a smooth, fruit-forward pairing.",
   },
   {
     id: "berry-melon-bliss-organic",
@@ -151,6 +155,7 @@ const gummyCatalog = [
     image: berryMelonBlissOrganic,
     packageLabel: "Pouch",
     packageDetail: "Gummy pouch",
+    cardDescription: "A lush mix of ripe berries and cool melon, rounded with a mellow finish.",
   },
   {
     id: "blue-razz-organic",
@@ -160,6 +165,7 @@ const gummyCatalog = [
     image: blueRazzOrganic,
     packageLabel: "Pouch",
     packageDetail: "Gummy pouch",
+    cardDescription: "Bright blue-raspberry character balances sweet fruit with a lively tart finish.",
   },
   {
     id: "cherry-bliss-organic",
@@ -169,6 +175,7 @@ const gummyCatalog = [
     image: cherryBlissOrganic,
     packageLabel: "Pouch",
     packageDetail: "Gummy pouch",
+    cardDescription: "Full cherry flavor opens sweet, then settles into a clean, tangy finish.",
   },
   {
     id: "push-pop-organic",
@@ -178,6 +185,7 @@ const gummyCatalog = [
     image: pushPopOrganic,
     packageLabel: "Pouch",
     packageDetail: "Gummy pouch",
+    cardDescription: "A playful orange-and-cream flavor with a soft, nostalgic sweetness.",
   },
   {
     id: "blueberry-yum-yum-midnight-drift",
@@ -187,6 +195,7 @@ const gummyCatalog = [
     image: blueberryMidnightDrift,
     packageLabel: "Pouch",
     packageDetail: "Midnight Drift gummy pouch",
+    cardDescription: "Rich blueberry flavor pairs with a bright berry edge for a layered finish.",
   },
   {
     id: "peach-midnight-drift",
@@ -196,6 +205,7 @@ const gummyCatalog = [
     image: peachMidnightDrift,
     packageLabel: "Pouch",
     packageDetail: "Midnight Drift gummy pouch",
+    cardDescription: "Velvety peach notes bring ripe orchard sweetness and a delicate tang.",
   },
   {
     id: "pink-lemonade-midnight-drift",
@@ -205,6 +215,7 @@ const gummyCatalog = [
     image: pinkLemonadeMidnightDrift,
     packageLabel: "Pouch",
     packageDetail: "Midnight Drift gummy pouch",
+    cardDescription: "Pink lemonade pairs zesty citrus with a soft berry sweetness.",
   },
   {
     id: "strawberry-midnight-drift",
@@ -214,6 +225,7 @@ const gummyCatalog = [
     image: strawberryMidnightDrift,
     packageLabel: "Pouch",
     packageDetail: "Midnight Drift gummy pouch",
+    cardDescription: "Fresh strawberry flavor lands bright and juicy with a gently sweet finish.",
   },
 ];
 
@@ -249,6 +261,7 @@ const gummyProducts = gummyCatalog.map((gummy) => {
     testingAndPackaging: line.testingAndPackaging,
     image: gummy.image,
     imageAlt: `${gummy.name} ${gummy.productLine === "Classic" ? "" : `${gummy.productLine} `}gummy pouch`.trim(),
+    cardDescription: gummy.cardDescription,
     variants: [
       {
         id: "pouch",
@@ -258,12 +271,20 @@ const gummyProducts = gummyCatalog.map((gummy) => {
         image: gummy.image,
       },
     ],
-    accent:
-      gummy.productLine === "Midnight Drift"
-        ? "#191b25"
-        : gummy.productLine === "Organic"
-          ? "#3d6b45"
-          : "#0f513d",
+    accent: {
+      "push-pop": "#e66018",
+      "blueberry-yum-yum": "#2454c7",
+      "green-apple": "#3c8a27",
+      "strawberry-banana": "#ca334d",
+      "berry-melon-bliss-organic": "#a51c5b",
+      "blue-razz-organic": "#1769b2",
+      "cherry-bliss-organic": "#bb263d",
+      "push-pop-organic": "#df651d",
+      "blueberry-yum-yum-midnight-drift": "#709bd7",
+      "peach-midnight-drift": "#d98b58",
+      "pink-lemonade-midnight-drift": "#c779a2",
+      "strawberry-midnight-drift": "#dc5974",
+    }[gummy.id],
     source: {
       url: line.sourceUrl,
       verifiedAt: "2026-09-19",

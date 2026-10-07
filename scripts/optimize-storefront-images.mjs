@@ -23,6 +23,7 @@ const packagingEncoder = {
 
 const groups = [
   { name: 'homeGummies', directory: 'src/assets/products/home-gummies', widths: [320, 480, 640, 900], encoder: packagingEncoder },
+  { name: 'homeAtmosphere', directory: 'src/assets/atmosphere', files: ['home-hero-sky.png'], widths: [960, 1600] },
   {
     name: 'gummyDesktopShowcase',
     directory: 'data/ui/gummy-showcase/desktop',
@@ -76,12 +77,42 @@ const groups = [
     encoder: { avif: { quality: 78, effort: 4, chromaSubsampling: '4:4:4' }, webp: { quality: 92, effort: 5, smartSubsample: true } },
   },
   { name: 'products', directory: 'src/assets/products/enhanced', widths: [480, 960] },
-  { name: 'merch', directory: 'src/assets/merch', widths: [480, 960] },
+  {
+    name: 'merch',
+    directory: 'src/assets/merch',
+    files: [
+      'lagom-black-logo-tee-back.webp',
+      'lagom-black-logo-tee-folded-front.webp',
+      'lagom-black-logo-tee-front.webp',
+      'lagom-black-logo-tee-front-three-quarter.webp',
+      'lagom-mainstreet-hooded-sweatshirt-back.webp',
+      'lagom-mainstreet-hooded-sweatshirt-folded-front.webp',
+      'lagom-mainstreet-hooded-sweatshirt-front.webp',
+      'lagom-throwback-loon-cap-back.webp',
+      'lagom-throwback-loon-cap-front.webp',
+      'lagom-throwback-loon-cap-front-three-quarter-left.webp',
+      'lagom-throwback-loon-cap-front-three-quarter-right.webp',
+    ],
+    widths: [480, 960],
+  },
   { name: 'heroMobile', directory: 'src/assets/mobile', files: ['hero.webp', 'gummies-hero.webp', 'midnight-gummies-hero.webp', 'organic-gummies-hero.webp'], widths: [480, 800] },
   { name: 'heroDesktop', directory: 'src/assets/desktop', files: ['hero.webp', 'gummies-hero.webp', 'midnight-gummies-hero.webp', 'organic-gummies-hero.webp'], sourceFiles: { 'hero.webp': 'data/ui/desktop-hero.png' }, widths: [960, 1600] },
   { name: 'findUs', directory: 'src/assets/mobile', files: ['find-us-hero.png'], widths: [480, 960] },
-  { name: 'store', directory: 'src/assets/store', widths: [480, 960] },
+  {
+    name: 'store',
+    directory: 'src/assets/store',
+    files: [
+      'ChatGPT Image Sep 5, 2026, 06_12_52 AM.png',
+      'extra-store.webp',
+      'extra-store2.webp',
+      'main-store2.webp',
+      'storefront-day.webp',
+      'storefront-night.webp',
+    ],
+    widths: [480, 960],
+  },
   { name: 'storeDesktop', directory: 'src/assets/desktop', files: ['storefront.webp'], widths: [960, 1600] },
+  { name: 'story', directory: 'src/assets/our-story', files: ['hero-desktop.webp', 'hero-mobile.webp', 'just-enough-desktop.webp', 'just-enough-mobile.webp', 'cheers-desktop.webp', 'cheers-mobile.webp'], widths: [480, 800, 1200, 1600, 1920] },
   {
     name: 'showcaseMobile',
     directory: 'data/ui/seltzer-showcase',
@@ -113,6 +144,10 @@ const sourcePathFor = (group, file) => join(root, group.sourceFiles?.[file] ?? g
 const digest = value => createHash('sha256').update(value).digest('hex')
 const sourceHash = async source => digest(await readFile(source))
 const exists = async path => access(path).then(() => true).catch(() => false)
+const readTextOrEmpty = async path => readFile(path, 'utf8').catch(error => {
+  if (error.code === 'ENOENT') return ''
+  throw error
+})
 
 const replaceFile = async (temporary, target) => {
   const backup = `${target}.${process.pid}.${Date.now()}.bak`
@@ -176,7 +211,10 @@ const cleanInterruptedWrites = async directory => {
   }
 }
 
-const makeVariants = (group, key) => group.widths.flatMap(width => ['avif', 'webp'].map(format => ({
+const orientedWidth = metadata => [5, 6, 7, 8].includes(metadata.orientation) ? metadata.height : metadata.width
+const orientedHeight = metadata => [5, 6, 7, 8].includes(metadata.orientation) ? metadata.width : metadata.height
+
+const makeVariants = (group, key, sourceWidth) => [...new Set(group.widths.map(width => Math.min(width, sourceWidth)))].sort((a, b) => a - b).flatMap(width => ['avif', 'webp'].map(format => ({
   width,
   format,
   output: outputPath(group, key, width, format),
@@ -215,8 +253,8 @@ const buildModule = resolvedGroups => {
   for (const group of resolvedGroups) {
     const entries = []
     for (const file of group.files) {
-      const key = safeKey(file)
-      const variants = makeVariants(group, key)
+      const key = safeKey(file.name)
+      const variants = file.variants
       const names = {}
       for (const variant of variants) {
         const name = importName(`${group.name}_${key}_${variant.width}_${variant.format}`)
@@ -224,14 +262,19 @@ const buildModule = resolvedGroups => {
         imports.push(`import ${name} from ${JSON.stringify(importPath)};`)
         names[`${variant.format}${variant.width}`] = name
       }
-      const largest = group.widths.at(-1)
-      const srcSet = format => group.widths.map(width => `${'${'}${names[`${format}${width}`]}} ${width}w`).join(', ')
-      entries.push(`${JSON.stringify(key)}:{src:${names[`webp${largest}`]},webpSrcSet:\`${srcSet('webp')}\`,avifSrcSet:\`${srcSet('avif')}\`,widths:[${group.widths.join(',')}]}`)
+      const widths = [...new Set(variants.map(variant => variant.width))].sort((a, b) => a - b)
+      const largest = widths.at(-1)
+      const srcSet = format => widths.map(width => `${'${'}${names[`${format}${width}`]}} ${width}w`).join(', ')
+      entries.push(`${JSON.stringify(key)}:{src:${names[`webp${largest}`]},webpSrcSet:\`${srcSet('webp')}\`,avifSrcSet:\`${srcSet('avif')}\`,width:${file.width},height:${file.height},widths:[${widths.join(',')}]}`)
     }
     moduleGroups.push(`${group.name}:{${entries.join(',')}}`)
   }
 
-  return `${imports.join('\n')}\n\nexport const responsiveImages={${moduleGroups.join(',')}};\nexport const responsiveImageBySrc=new Map(Object.values(responsiveImages).flatMap(group=>Object.values(group)).map(media=>[media.src,media]));\n`
+  const responsiveImagesLookups = ['homeGummies', 'products', 'merch', 'store']
+    .map(group => `...Object.values(responsiveImages.${group})`)
+    .join(',')
+
+  return `${imports.join('\n')}\n\nexport const responsiveImages={${moduleGroups.join(',')}};\nexport const responsiveImageBySrc=new Map([${responsiveImagesLookups}].map(media=>[media.src,media]));\n`
 }
 
 await mkdir(outputRoot, { recursive: true })
@@ -255,19 +298,29 @@ try {
 
   for (const group of groups) {
     const files = await groupFiles(group)
-    const resolvedGroup = { ...group, files }
+    const resolvedGroup = { ...group, files: [] }
     resolvedGroups.push(resolvedGroup)
 
     for (const file of files) {
       const sourcePath = sourcePathFor(group, file)
       const source = normalizePath(relative(root, sourcePath))
       const key = safeKey(file)
-      const variants = makeVariants(group, key)
+      const metadata = await sharp(sourcePath).metadata()
+      const sourceWidth = orientedWidth(metadata)
+      const sourceHeight = orientedHeight(metadata)
+      if (!sourceWidth) throw new Error(`Cannot determine source image width: ${source}`)
+      const variants = makeVariants(group, key, sourceWidth)
+      resolvedGroup.files.push({ name: file, variants, width: sourceWidth, height: sourceHeight })
       const variantEncoder = group.encoder ?? encoder
       const fingerprint = digest(JSON.stringify({ group: group.name, widths: group.widths, encoder: variantEncoder, sharp: sharp.versions.sharp }))
       const hash = await sourceHash(sourcePath)
       const previousEntry = previousEntries.get(source)
-      const outputsExist = await Promise.all(variants.map(variant => exists(variant.output))).then(results => results.every(Boolean))
+      const outputsExist = await Promise.all(variants.map(async variant => {
+        if (!await exists(variant.output)) return false
+        const outputMetadata = await sharp(variant.output).metadata()
+        const expectedFormat = variant.format === 'avif' ? 'heif' : variant.format
+        return outputMetadata.width === variant.width && outputMetadata.format === expectedFormat
+      })).then(results => results.every(Boolean))
       const needsOptimization = force || !previousEntry || previousEntry.hash !== hash || previousEntry.fingerprint !== fingerprint || !outputsExist
 
       if (needsOptimization) stale.push({ source, variants, encoder: variantEncoder })
@@ -282,13 +335,18 @@ try {
   const removedOutputs = previous.entries
     .flatMap(entry => entry.outputs ?? [])
     .filter(output => !expectedOutputs.has(output))
+  const generatedModule = buildModule(resolvedGroups)
+  const generatedManifest = `${JSON.stringify({ version: 1, entries: nextEntries }, null, 2)}\n`
 
   if (check) {
-    if (stale.length || removedOutputs.length) {
-      console.error(`Image optimization is stale: ${stale.length} source entr${stale.length === 1 ? 'y' : 'ies'} need regeneration and ${removedOutputs.length} obsolete derivative${removedOutputs.length === 1 ? '' : 's'} need pruning.`)
+    const [existingModule, existingManifest] = await Promise.all([readTextOrEmpty(modulePath), readTextOrEmpty(manifestPath)])
+    const staleModule = existingModule !== generatedModule
+    const staleManifest = existingManifest !== generatedManifest
+    if (stale.length || removedOutputs.length || staleModule || staleManifest) {
+      console.error(`Image assets are out of sync: ${stale.length} source entr${stale.length === 1 ? 'y' : 'ies'} need regeneration, ${removedOutputs.length} obsolete derivative${removedOutputs.length === 1 ? '' : 's'} need pruning, generated module ${staleModule ? 'is stale' : 'is current'}, manifest ${staleManifest ? 'is stale' : 'is current'}.`)
       process.exitCode = 1
     } else {
-      console.log(`Image optimization is current: ${skipped} source entries verified.`)
+      console.log(`Image assets are synchronized: ${skipped} source entries, generated module, manifest, and output dimensions verified.`)
     }
   } else {
     for (const entry of stale) {
@@ -301,8 +359,8 @@ try {
     for (const output of removedOutputs) await rm(safeOutputPath(output), { force: true })
 
     await mkdir(join(root, 'src', 'generated'), { recursive: true })
-    await atomicWrite(modulePath, buildModule(resolvedGroups))
-    await atomicWrite(manifestPath, `${JSON.stringify({ version: 1, entries: nextEntries }, null, 2)}\n`)
+    await atomicWrite(modulePath, generatedModule)
+    await atomicWrite(manifestPath, generatedManifest)
     console.log(`Responsive images are current: ${stale.length} optimized, ${skipped} unchanged, ${removedOutputs.length} pruned.`)
   }
 } finally {

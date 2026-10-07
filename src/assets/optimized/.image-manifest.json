@@ -182,6 +182,17 @@
       ]
     },
     {
+      "source": "src/assets/atmosphere/home-hero-sky.png",
+      "hash": "043c6eacef277c7d4acfe7ceea9691f4b2f3332f7159888b23fce70bcf06b8d8",
+      "fingerprint": "8cfb17a5c3dfb1436d2cdedab5fd6938e95be32fa40a86c5a54447abc58631ff",
+      "outputs": [
+        "homeAtmosphere/home-hero-sky-960.avif",
+        "homeAtmosphere/home-hero-sky-960.webp",
+        "homeAtmosphere/home-hero-sky-1600.avif",
+        "homeAtmosphere/home-hero-sky-1600.webp"
+      ]
+    },
+    {
       "source": "data/ui/gummy-showcase/desktop/ChatGPT Image Oct 5, 2026, 06_25_53 PM-5.png",
       "hash": "4df057e7c3e54128d207a50b7ea1adbbcd692dc112e9e52c99b9e638a3d4b241",
       "fingerprint": "749c620c2818b4788c913e846805cef36871ad19d0e1363bf03d408903aef061",
@@ -190,10 +201,8 @@
         "gummyDesktopShowcase/berry-melon-bliss-organic-desktop-960.webp",
         "gummyDesktopShowcase/berry-melon-bliss-organic-desktop-1440.avif",
         "gummyDesktopShowcase/berry-melon-bliss-organic-desktop-1440.webp",
-        "gummyDesktopShowcase/berry-melon-bliss-organic-desktop-1920.avif",
-        "gummyDesktopShowcase/berry-melon-bliss-organic-desktop-1920.webp",
-        "gummyDesktopShowcase/berry-melon-bliss-organic-desktop-2560.avif",
-        "gummyDesktopShowcase/berry-melon-bliss-organic-desktop-2560.webp"
+        "gummyDesktopShowcase/berry-melon-bliss-organic-desktop-1896.avif",
+        "gummyDesktopShowcase/berry-melon-bliss-organic-desktop-1896.webp"
       ]
     },
     {
@@ -205,10 +214,8 @@
         "gummyDesktopShowcase/blue-razz-organic-desktop-960.webp",
         "gummyDesktopShowcase/blue-razz-organic-desktop-1440.avif",
         "gummyDesktopShowcase/blue-razz-organic-desktop-1440.webp",
-        "gummyDesktopShowcase/blue-razz-organic-desktop-1920.avif",
-        "gummyDesktopShowcase/blue-razz-organic-desktop-1920.webp",
-        "gummyDesktopShowcase/blue-razz-organic-desktop-2560.avif",
-        "gummyDesktopShowcase/blue-razz-organic-desktop-2560.webp"
+        "gummyDesktopShowcase/blue-razz-organic-desktop-1896.avif",
+        "gummyDesktopShowcase/blue-razz-organic-desktop-1896.webp"
       ]
     },
     {
@@ -220,10 +227,8 @@
         "gummyDesktopShowcase/blueberry-yum-yum-desktop-960.webp",
         "gummyDesktopShowcase/blueberry-yum-yum-desktop-1440.avif",
         "gummyDesktopShowcase/blueberry-yum-yum-desktop-1440.webp",
-        "gummyDesktopShowcase/blueberry-yum-yum-desktop-1920.avif",
-        "gummyDesktopShowcase/blueberry-yum-yum-desktop-1920.webp",
-        "gummyDesktopShowcase/blueberry-yum-yum-desktop-2560.avif",
-        "gummyDesktopShowcase/blueberry-yum-yum-desktop-2560.webp"
+        "gummyDesktopShowcase/blueberry-yum-yum-desktop-1896.avif",
+        "gummyDesktopShowcase/blueberry-yum-yum-desktop-1896.webp"
       ]
     },
     {
@@ -235,10 +240,8 @@
         "gummyDesktopShowcase/blueberry-yum-yum-midnight-drift-desktop-960.webp",
         "gummyDesktopShowcase/blueberry-yum-yum-midnight-drift-desktop-1440.avif",
         "gummyDesktopShowcase/blueberry-yum-yum-midnight-drift-desktop-1440.webp",
-        "gummyDesktopShowcase/blueberry-yum-yum-midnight-drift-desktop-1920.avif",
-        "gummyDesktopShowcase/blueberry-yum-yum-midnight-drift-desktop-1920.webp",
-        "gummyDesktopShowcase/blueberry-yum-yum-midnight-drift-desktop-2560.avif",
-        "gummyDesktopShowcase/blueberry-yum-yum-midnight-drift-desktop-2560.webp"
+        "gummyDesktopShowcase/blueberry-yum-yum-midnight-drift-desktop-1896.avif",
+        "gummyDesktopShowcase/blueberry-yum-yum-midnight-drift-desktop-1896.webp"
       ]
     },
     {
@@ -250,10 +253,8 @@
         "gummyDesktopShowcase/cherry-bliss-organic-desktop-960.webp",
         "gummyDesktopShowcase/cherry-bliss-organic-desktop-1440.avif",
         "gummyDesktopShowcase/cherry-bliss-organic-desktop-1440.webp",
-        "gummyDesktopShowcase/cherry-bliss-organic-desktop-1920.avif",
-        "gummyDesktopShowcase/cherry-bliss-organic-desktop-1920.webp",
-        "gummyDesktopShowcase/cherry-bliss-organic-desktop-2560.avif",
-        "gummyDesktopShowcase/cherry-bliss-organic-desktop-2560.webp"
+        "gummyDesktopShowcase/cherry-bliss-organic-desktop-1896.avif",
+        "gummyDesktopShowcase/cherry-bliss-organic-desktop-1896.webp"
       ]
     },
     {
@@ -265,10 +266,8 @@
         "gummyDesktopShowcase/green-apple-desktop-960.webp",
         "gummyDesktopShowcase/green-apple-desktop-1440.avif",
         "gummyDesktopShowcase/green-apple-desktop-1440.webp",
-        "gummyDesktopShowcase/green-apple-desktop-1920.avif",
-        "gummyDesktopShowcase/green-apple-desktop-1920.webp",
-        "gummyDesktopShowcase/green-apple-desktop-2560.avif",
-        "gummyDesktopShowcase/green-apple-desktop-2560.webp"
+        "gummyDesktopShowcase/green-apple-desktop-1896.avif",
+        "gummyDesktopShowcase/green-apple-desktop-1896.webp"
       ]
     },
     {
@@ -280,10 +279,8 @@
         "gummyDesktopShowcase/peach-midnight-drift-desktop-960.webp",
         "gummyDesktopShowcase/peach-midnight-drift-desktop-1440.avif",
         "gummyDesktopShowcase/peach-midnight-drift-desktop-1440.webp",
-        "gummyDesktopShowcase/peach-midnight-drift-desktop-1920.avif",
-        "gummyDesktopShowcase/peach-midnight-drift-desktop-1920.webp",
-        "gummyDesktopShowcase/peach-midnight-drift-desktop-2560.avif",
-        "gummyDesktopShowcase/peach-midnight-drift-desktop-2560.webp"
+        "gummyDesktopShowcase/peach-midnight-drift-desktop-1896.avif",
+        "gummyDesktopShowcase/peach-midnight-drift-desktop-1896.webp"
       ]
     },
     {
@@ -295,10 +292,8 @@
         "gummyDesktopShowcase/pink-lemonade-midnight-drift-desktop-960.webp",
         "gummyDesktopShowcase/pink-lemonade-midnight-drift-desktop-1440.avif",
         "gummyDesktopShowcase/pink-lemonade-midnight-drift-desktop-1440.webp",
-        "gummyDesktopShowcase/pink-lemonade-midnight-drift-desktop-1920.avif",
-        "gummyDesktopShowcase/pink-lemonade-midnight-drift-desktop-1920.webp",
-        "gummyDesktopShowcase/pink-lemonade-midnight-drift-desktop-2560.avif",
-        "gummyDesktopShowcase/pink-lemonade-midnight-drift-desktop-2560.webp"
+        "gummyDesktopShowcase/pink-lemonade-midnight-drift-desktop-1896.avif",
+        "gummyDesktopShowcase/pink-lemonade-midnight-drift-desktop-1896.webp"
       ]
     },
     {
@@ -310,10 +305,8 @@
         "gummyDesktopShowcase/push-pop-desktop-960.webp",
         "gummyDesktopShowcase/push-pop-desktop-1440.avif",
         "gummyDesktopShowcase/push-pop-desktop-1440.webp",
-        "gummyDesktopShowcase/push-pop-desktop-1920.avif",
-        "gummyDesktopShowcase/push-pop-desktop-1920.webp",
-        "gummyDesktopShowcase/push-pop-desktop-2560.avif",
-        "gummyDesktopShowcase/push-pop-desktop-2560.webp"
+        "gummyDesktopShowcase/push-pop-desktop-1896.avif",
+        "gummyDesktopShowcase/push-pop-desktop-1896.webp"
       ]
     },
     {
@@ -325,10 +318,8 @@
         "gummyDesktopShowcase/push-pop-organic-desktop-960.webp",
         "gummyDesktopShowcase/push-pop-organic-desktop-1440.avif",
         "gummyDesktopShowcase/push-pop-organic-desktop-1440.webp",
-        "gummyDesktopShowcase/push-pop-organic-desktop-1920.avif",
-        "gummyDesktopShowcase/push-pop-organic-desktop-1920.webp",
-        "gummyDesktopShowcase/push-pop-organic-desktop-2560.avif",
-        "gummyDesktopShowcase/push-pop-organic-desktop-2560.webp"
+        "gummyDesktopShowcase/push-pop-organic-desktop-1896.avif",
+        "gummyDesktopShowcase/push-pop-organic-desktop-1896.webp"
       ]
     },
     {
@@ -340,10 +331,8 @@
         "gummyDesktopShowcase/strawberry-banana-desktop-960.webp",
         "gummyDesktopShowcase/strawberry-banana-desktop-1440.avif",
         "gummyDesktopShowcase/strawberry-banana-desktop-1440.webp",
-        "gummyDesktopShowcase/strawberry-banana-desktop-1920.avif",
-        "gummyDesktopShowcase/strawberry-banana-desktop-1920.webp",
-        "gummyDesktopShowcase/strawberry-banana-desktop-2560.avif",
-        "gummyDesktopShowcase/strawberry-banana-desktop-2560.webp"
+        "gummyDesktopShowcase/strawberry-banana-desktop-1896.avif",
+        "gummyDesktopShowcase/strawberry-banana-desktop-1896.webp"
       ]
     },
     {
@@ -355,10 +344,8 @@
         "gummyDesktopShowcase/strawberry-midnight-drift-desktop-960.webp",
         "gummyDesktopShowcase/strawberry-midnight-drift-desktop-1440.avif",
         "gummyDesktopShowcase/strawberry-midnight-drift-desktop-1440.webp",
-        "gummyDesktopShowcase/strawberry-midnight-drift-desktop-1920.avif",
-        "gummyDesktopShowcase/strawberry-midnight-drift-desktop-1920.webp",
-        "gummyDesktopShowcase/strawberry-midnight-drift-desktop-2560.avif",
-        "gummyDesktopShowcase/strawberry-midnight-drift-desktop-2560.webp"
+        "gummyDesktopShowcase/strawberry-midnight-drift-desktop-1896.avif",
+        "gummyDesktopShowcase/strawberry-midnight-drift-desktop-1896.webp"
       ]
     },
     {
@@ -387,8 +374,8 @@
         "shopHeader/shop-header-image-800.webp",
         "shopHeader/shop-header-image-1200.avif",
         "shopHeader/shop-header-image-1200.webp",
-        "shopHeader/shop-header-image-2172.avif",
-        "shopHeader/shop-header-image-2172.webp"
+        "shopHeader/shop-header-image-1774.avif",
+        "shopHeader/shop-header-image-1774.webp"
       ]
     },
     {
@@ -735,28 +722,6 @@
       ]
     },
     {
-      "source": "src/assets/merch/lagom-black-logo-tee-back-480.webp",
-      "hash": "ca934c7e35a52c46ec3ff95e28257119496b9d0023d3ca8f6c7649925553f02e",
-      "fingerprint": "c52324479a9e9793358179d1ee4b4895aabbaeb0e0019d3dcd7f49fa24109a96",
-      "outputs": [
-        "merch/lagom-black-logo-tee-back-480-480.avif",
-        "merch/lagom-black-logo-tee-back-480-480.webp",
-        "merch/lagom-black-logo-tee-back-480-960.avif",
-        "merch/lagom-black-logo-tee-back-480-960.webp"
-      ]
-    },
-    {
-      "source": "src/assets/merch/lagom-black-logo-tee-back-960.webp",
-      "hash": "85f749810c321725e9db915a8ffc5360147f4b1b4d8b5bc672c2e2805267eba0",
-      "fingerprint": "c52324479a9e9793358179d1ee4b4895aabbaeb0e0019d3dcd7f49fa24109a96",
-      "outputs": [
-        "merch/lagom-black-logo-tee-back-960-480.avif",
-        "merch/lagom-black-logo-tee-back-960-480.webp",
-        "merch/lagom-black-logo-tee-back-960-960.avif",
-        "merch/lagom-black-logo-tee-back-960-960.webp"
-      ]
-    },
-    {
       "source": "src/assets/merch/lagom-black-logo-tee-back.webp",
       "hash": "093b776eb84da10ba095a1c6447703c45e6177479f2fde4c26cdb054172b707f",
       "fingerprint": "c52324479a9e9793358179d1ee4b4895aabbaeb0e0019d3dcd7f49fa24109a96",
@@ -768,28 +733,6 @@
       ]
     },
     {
-      "source": "src/assets/merch/lagom-black-logo-tee-folded-front-480.webp",
-      "hash": "6198225facbd5630e30d6da7c89c1eb91fc51cd7e7383ae4677f6e8a115c9cef",
-      "fingerprint": "c52324479a9e9793358179d1ee4b4895aabbaeb0e0019d3dcd7f49fa24109a96",
-      "outputs": [
-        "merch/lagom-black-logo-tee-folded-front-480-480.avif",
-        "merch/lagom-black-logo-tee-folded-front-480-480.webp",
-        "merch/lagom-black-logo-tee-folded-front-480-960.avif",
-        "merch/lagom-black-logo-tee-folded-front-480-960.webp"
-      ]
-    },
-    {
-      "source": "src/assets/merch/lagom-black-logo-tee-folded-front-960.webp",
-      "hash": "04c118e19ca7ef3205258557bcb99713e49a66ce69d85fed8f671c5684a91ada",
-      "fingerprint": "c52324479a9e9793358179d1ee4b4895aabbaeb0e0019d3dcd7f49fa24109a96",
-      "outputs": [
-        "merch/lagom-black-logo-tee-folded-front-960-480.avif",
-        "merch/lagom-black-logo-tee-folded-front-960-480.webp",
-        "merch/lagom-black-logo-tee-folded-front-960-960.avif",
-        "merch/lagom-black-logo-tee-folded-front-960-960.webp"
-      ]
-    },
-    {
       "source": "src/assets/merch/lagom-black-logo-tee-folded-front.webp",
       "hash": "7fb42660ecbfaba8b37d1f108159608056c42b23021d3088bae32aea714b0f06",
       "fingerprint": "c52324479a9e9793358179d1ee4b4895aabbaeb0e0019d3dcd7f49fa24109a96",
@@ -798,50 +741,6 @@
         "merch/lagom-black-logo-tee-folded-front-480.webp",
         "merch/lagom-black-logo-tee-folded-front-960.avif",
         "merch/lagom-black-logo-tee-folded-front-960.webp"
-      ]
-    },
-    {
-      "source": "src/assets/merch/lagom-black-logo-tee-front-480.webp",
-      "hash": "2b74ea6ce17694801e0b919208a47c5921e2e25eef2f90aeee5aba9792b68b9b",
-      "fingerprint": "c52324479a9e9793358179d1ee4b4895aabbaeb0e0019d3dcd7f49fa24109a96",
-      "outputs": [
-        "merch/lagom-black-logo-tee-front-480-480.avif",
-        "merch/lagom-black-logo-tee-front-480-480.webp",
-        "merch/lagom-black-logo-tee-front-480-960.avif",
-        "merch/lagom-black-logo-tee-front-480-960.webp"
-      ]
-    },
-    {
-      "source": "src/assets/merch/lagom-black-logo-tee-front-960.webp",
-      "hash": "b1dc08366c0ced7fa7dff13a70ee11cf3b1587ed583544ea4099cfe6ba90b3c2",
-      "fingerprint": "c52324479a9e9793358179d1ee4b4895aabbaeb0e0019d3dcd7f49fa24109a96",
-      "outputs": [
-        "merch/lagom-black-logo-tee-front-960-480.avif",
-        "merch/lagom-black-logo-tee-front-960-480.webp",
-        "merch/lagom-black-logo-tee-front-960-960.avif",
-        "merch/lagom-black-logo-tee-front-960-960.webp"
-      ]
-    },
-    {
-      "source": "src/assets/merch/lagom-black-logo-tee-front-three-quarter-480.webp",
-      "hash": "356d727f859ccb737c73cdb1296a79776f063bfe8ea3b6cb6bc117be9e778727",
-      "fingerprint": "c52324479a9e9793358179d1ee4b4895aabbaeb0e0019d3dcd7f49fa24109a96",
-      "outputs": [
-        "merch/lagom-black-logo-tee-front-three-quarter-480-480.avif",
-        "merch/lagom-black-logo-tee-front-three-quarter-480-480.webp",
-        "merch/lagom-black-logo-tee-front-three-quarter-480-960.avif",
-        "merch/lagom-black-logo-tee-front-three-quarter-480-960.webp"
-      ]
-    },
-    {
-      "source": "src/assets/merch/lagom-black-logo-tee-front-three-quarter-960.webp",
-      "hash": "bc84d83a49ea481c18af044599a9c3c50b529345fc4f430390f2a5fbbc5eaae9",
-      "fingerprint": "c52324479a9e9793358179d1ee4b4895aabbaeb0e0019d3dcd7f49fa24109a96",
-      "outputs": [
-        "merch/lagom-black-logo-tee-front-three-quarter-960-480.avif",
-        "merch/lagom-black-logo-tee-front-three-quarter-960-480.webp",
-        "merch/lagom-black-logo-tee-front-three-quarter-960-960.avif",
-        "merch/lagom-black-logo-tee-front-three-quarter-960-960.webp"
       ]
     },
     {
@@ -867,28 +766,6 @@
       ]
     },
     {
-      "source": "src/assets/merch/lagom-mainstreet-hooded-sweatshirt-back-480.webp",
-      "hash": "abc4a9864602d60ddae3b159b5a67de02a9d7c6d42d3fa09e096a861a5c3a70a",
-      "fingerprint": "c52324479a9e9793358179d1ee4b4895aabbaeb0e0019d3dcd7f49fa24109a96",
-      "outputs": [
-        "merch/lagom-mainstreet-hooded-sweatshirt-back-480-480.avif",
-        "merch/lagom-mainstreet-hooded-sweatshirt-back-480-480.webp",
-        "merch/lagom-mainstreet-hooded-sweatshirt-back-480-960.avif",
-        "merch/lagom-mainstreet-hooded-sweatshirt-back-480-960.webp"
-      ]
-    },
-    {
-      "source": "src/assets/merch/lagom-mainstreet-hooded-sweatshirt-back-960.webp",
-      "hash": "fee085957af516673eeb7a84ee2b6e0b86b44c159a621df95d733e270140fb2d",
-      "fingerprint": "c52324479a9e9793358179d1ee4b4895aabbaeb0e0019d3dcd7f49fa24109a96",
-      "outputs": [
-        "merch/lagom-mainstreet-hooded-sweatshirt-back-960-480.avif",
-        "merch/lagom-mainstreet-hooded-sweatshirt-back-960-480.webp",
-        "merch/lagom-mainstreet-hooded-sweatshirt-back-960-960.avif",
-        "merch/lagom-mainstreet-hooded-sweatshirt-back-960-960.webp"
-      ]
-    },
-    {
       "source": "src/assets/merch/lagom-mainstreet-hooded-sweatshirt-back.webp",
       "hash": "4f1f54324286bfb1da717b2053d3cd90eb8ef812710ccc03afa33f2ffe35c2ea",
       "fingerprint": "c52324479a9e9793358179d1ee4b4895aabbaeb0e0019d3dcd7f49fa24109a96",
@@ -897,28 +774,6 @@
         "merch/lagom-mainstreet-hooded-sweatshirt-back-480.webp",
         "merch/lagom-mainstreet-hooded-sweatshirt-back-960.avif",
         "merch/lagom-mainstreet-hooded-sweatshirt-back-960.webp"
-      ]
-    },
-    {
-      "source": "src/assets/merch/lagom-mainstreet-hooded-sweatshirt-folded-front-480.webp",
-      "hash": "5912fe286b261d7dad6895d42fbb18693981962c1a928dfd04b641abb45d37c5",
-      "fingerprint": "c52324479a9e9793358179d1ee4b4895aabbaeb0e0019d3dcd7f49fa24109a96",
-      "outputs": [
-        "merch/lagom-mainstreet-hooded-sweatshirt-folded-front-480-480.avif",
-        "merch/lagom-mainstreet-hooded-sweatshirt-folded-front-480-480.webp",
-        "merch/lagom-mainstreet-hooded-sweatshirt-folded-front-480-960.avif",
-        "merch/lagom-mainstreet-hooded-sweatshirt-folded-front-480-960.webp"
-      ]
-    },
-    {
-      "source": "src/assets/merch/lagom-mainstreet-hooded-sweatshirt-folded-front-960.webp",
-      "hash": "52c6c53b65d3c707d37949573a64c0e53160639fd7b725b25d67d32b08a65559",
-      "fingerprint": "c52324479a9e9793358179d1ee4b4895aabbaeb0e0019d3dcd7f49fa24109a96",
-      "outputs": [
-        "merch/lagom-mainstreet-hooded-sweatshirt-folded-front-960-480.avif",
-        "merch/lagom-mainstreet-hooded-sweatshirt-folded-front-960-480.webp",
-        "merch/lagom-mainstreet-hooded-sweatshirt-folded-front-960-960.avif",
-        "merch/lagom-mainstreet-hooded-sweatshirt-folded-front-960-960.webp"
       ]
     },
     {
@@ -933,28 +788,6 @@
       ]
     },
     {
-      "source": "src/assets/merch/lagom-mainstreet-hooded-sweatshirt-front-480.webp",
-      "hash": "c2d08cf65395019b871409681970b820e03b896022b2195e25f157de7c167878",
-      "fingerprint": "c52324479a9e9793358179d1ee4b4895aabbaeb0e0019d3dcd7f49fa24109a96",
-      "outputs": [
-        "merch/lagom-mainstreet-hooded-sweatshirt-front-480-480.avif",
-        "merch/lagom-mainstreet-hooded-sweatshirt-front-480-480.webp",
-        "merch/lagom-mainstreet-hooded-sweatshirt-front-480-960.avif",
-        "merch/lagom-mainstreet-hooded-sweatshirt-front-480-960.webp"
-      ]
-    },
-    {
-      "source": "src/assets/merch/lagom-mainstreet-hooded-sweatshirt-front-960.webp",
-      "hash": "ae0faf8e8859bac11db8bdc49de87128e4a490e19c70d82e6197f743c13c69bd",
-      "fingerprint": "c52324479a9e9793358179d1ee4b4895aabbaeb0e0019d3dcd7f49fa24109a96",
-      "outputs": [
-        "merch/lagom-mainstreet-hooded-sweatshirt-front-960-480.avif",
-        "merch/lagom-mainstreet-hooded-sweatshirt-front-960-480.webp",
-        "merch/lagom-mainstreet-hooded-sweatshirt-front-960-960.avif",
-        "merch/lagom-mainstreet-hooded-sweatshirt-front-960-960.webp"
-      ]
-    },
-    {
       "source": "src/assets/merch/lagom-mainstreet-hooded-sweatshirt-front.webp",
       "hash": "578f9bf3c4b5abf5defcbd74df09d9233f644a970194468186d9bcb42c9c4a94",
       "fingerprint": "c52324479a9e9793358179d1ee4b4895aabbaeb0e0019d3dcd7f49fa24109a96",
@@ -963,28 +796,6 @@
         "merch/lagom-mainstreet-hooded-sweatshirt-front-480.webp",
         "merch/lagom-mainstreet-hooded-sweatshirt-front-960.avif",
         "merch/lagom-mainstreet-hooded-sweatshirt-front-960.webp"
-      ]
-    },
-    {
-      "source": "src/assets/merch/lagom-throwback-loon-cap-back-480.webp",
-      "hash": "729567240687221d0d3ca872415e82894640526e9ee36d69e52b2e6368740895",
-      "fingerprint": "c52324479a9e9793358179d1ee4b4895aabbaeb0e0019d3dcd7f49fa24109a96",
-      "outputs": [
-        "merch/lagom-throwback-loon-cap-back-480-480.avif",
-        "merch/lagom-throwback-loon-cap-back-480-480.webp",
-        "merch/lagom-throwback-loon-cap-back-480-960.avif",
-        "merch/lagom-throwback-loon-cap-back-480-960.webp"
-      ]
-    },
-    {
-      "source": "src/assets/merch/lagom-throwback-loon-cap-back-960.webp",
-      "hash": "1b94823f8ba13573938058a263f42f86213a0b40a1ba51223514268e56bf1754",
-      "fingerprint": "c52324479a9e9793358179d1ee4b4895aabbaeb0e0019d3dcd7f49fa24109a96",
-      "outputs": [
-        "merch/lagom-throwback-loon-cap-back-960-480.avif",
-        "merch/lagom-throwback-loon-cap-back-960-480.webp",
-        "merch/lagom-throwback-loon-cap-back-960-960.avif",
-        "merch/lagom-throwback-loon-cap-back-960-960.webp"
       ]
     },
     {
@@ -999,50 +810,6 @@
       ]
     },
     {
-      "source": "src/assets/merch/lagom-throwback-loon-cap-front-480.webp",
-      "hash": "831c0de9c910594290186a91e9184ab368d415995a376eb95f21c22c5c070040",
-      "fingerprint": "c52324479a9e9793358179d1ee4b4895aabbaeb0e0019d3dcd7f49fa24109a96",
-      "outputs": [
-        "merch/lagom-throwback-loon-cap-front-480-480.avif",
-        "merch/lagom-throwback-loon-cap-front-480-480.webp",
-        "merch/lagom-throwback-loon-cap-front-480-960.avif",
-        "merch/lagom-throwback-loon-cap-front-480-960.webp"
-      ]
-    },
-    {
-      "source": "src/assets/merch/lagom-throwback-loon-cap-front-960.webp",
-      "hash": "a9bacb9e6bb0fbe1557ba2852b87fb9fd851937348e2826033774e7cbac6a7b0",
-      "fingerprint": "c52324479a9e9793358179d1ee4b4895aabbaeb0e0019d3dcd7f49fa24109a96",
-      "outputs": [
-        "merch/lagom-throwback-loon-cap-front-960-480.avif",
-        "merch/lagom-throwback-loon-cap-front-960-480.webp",
-        "merch/lagom-throwback-loon-cap-front-960-960.avif",
-        "merch/lagom-throwback-loon-cap-front-960-960.webp"
-      ]
-    },
-    {
-      "source": "src/assets/merch/lagom-throwback-loon-cap-front-three-quarter-left-480.webp",
-      "hash": "1d5e24499920f81b9cdb4d2f66bac43f91503af922ccad4ed7f61d26cb5f670d",
-      "fingerprint": "c52324479a9e9793358179d1ee4b4895aabbaeb0e0019d3dcd7f49fa24109a96",
-      "outputs": [
-        "merch/lagom-throwback-loon-cap-front-three-quarter-left-480-480.avif",
-        "merch/lagom-throwback-loon-cap-front-three-quarter-left-480-480.webp",
-        "merch/lagom-throwback-loon-cap-front-three-quarter-left-480-960.avif",
-        "merch/lagom-throwback-loon-cap-front-three-quarter-left-480-960.webp"
-      ]
-    },
-    {
-      "source": "src/assets/merch/lagom-throwback-loon-cap-front-three-quarter-left-960.webp",
-      "hash": "31c0e3f90f2e804109e63db3c8f5d714f65ca46b8c8509f08ea13a427fb34c4f",
-      "fingerprint": "c52324479a9e9793358179d1ee4b4895aabbaeb0e0019d3dcd7f49fa24109a96",
-      "outputs": [
-        "merch/lagom-throwback-loon-cap-front-three-quarter-left-960-480.avif",
-        "merch/lagom-throwback-loon-cap-front-three-quarter-left-960-480.webp",
-        "merch/lagom-throwback-loon-cap-front-three-quarter-left-960-960.avif",
-        "merch/lagom-throwback-loon-cap-front-three-quarter-left-960-960.webp"
-      ]
-    },
-    {
       "source": "src/assets/merch/lagom-throwback-loon-cap-front-three-quarter-left.webp",
       "hash": "63efcfbe826d0e7a844995360fb690511f5b7a6aee493f60f0a28b1553b2db82",
       "fingerprint": "c52324479a9e9793358179d1ee4b4895aabbaeb0e0019d3dcd7f49fa24109a96",
@@ -1051,28 +818,6 @@
         "merch/lagom-throwback-loon-cap-front-three-quarter-left-480.webp",
         "merch/lagom-throwback-loon-cap-front-three-quarter-left-960.avif",
         "merch/lagom-throwback-loon-cap-front-three-quarter-left-960.webp"
-      ]
-    },
-    {
-      "source": "src/assets/merch/lagom-throwback-loon-cap-front-three-quarter-right-480.webp",
-      "hash": "cb14dc2dd0c644b16604e04e2bdddfe321851cf0f60f7f81d71a4b6fc5e8e249",
-      "fingerprint": "c52324479a9e9793358179d1ee4b4895aabbaeb0e0019d3dcd7f49fa24109a96",
-      "outputs": [
-        "merch/lagom-throwback-loon-cap-front-three-quarter-right-480-480.avif",
-        "merch/lagom-throwback-loon-cap-front-three-quarter-right-480-480.webp",
-        "merch/lagom-throwback-loon-cap-front-three-quarter-right-480-960.avif",
-        "merch/lagom-throwback-loon-cap-front-three-quarter-right-480-960.webp"
-      ]
-    },
-    {
-      "source": "src/assets/merch/lagom-throwback-loon-cap-front-three-quarter-right-960.webp",
-      "hash": "b50b2d0edfc70dc393c75c3eb9eb82d32a3e5447dd572af73be37ee766d5b428",
-      "fingerprint": "c52324479a9e9793358179d1ee4b4895aabbaeb0e0019d3dcd7f49fa24109a96",
-      "outputs": [
-        "merch/lagom-throwback-loon-cap-front-three-quarter-right-960-480.avif",
-        "merch/lagom-throwback-loon-cap-front-three-quarter-right-960-480.webp",
-        "merch/lagom-throwback-loon-cap-front-three-quarter-right-960-960.avif",
-        "merch/lagom-throwback-loon-cap-front-three-quarter-right-960-960.webp"
       ]
     },
     {
@@ -1197,28 +942,6 @@
       ]
     },
     {
-      "source": "src/assets/store/ChatGPT Image Sep 5, 2026, 06_12_52 AM-480.webp",
-      "hash": "51333cd0e88a8f7c4c900977d2994a80538eff38f603c9caa06a7ccfcbd736f5",
-      "fingerprint": "5caaa649be8aa2a1264ae8d6e23a96858da2c76d4e2a6e47e9383c1502e3606a",
-      "outputs": [
-        "store/ChatGPT Image Sep 5, 2026, 06_12_52 AM-480-480.avif",
-        "store/ChatGPT Image Sep 5, 2026, 06_12_52 AM-480-480.webp",
-        "store/ChatGPT Image Sep 5, 2026, 06_12_52 AM-480-960.avif",
-        "store/ChatGPT Image Sep 5, 2026, 06_12_52 AM-480-960.webp"
-      ]
-    },
-    {
-      "source": "src/assets/store/ChatGPT Image Sep 5, 2026, 06_12_52 AM-960.webp",
-      "hash": "aff135790675d4f33e19b52db7a06e271cc2d0bf425d5cbdf4958653a910b9dc",
-      "fingerprint": "5caaa649be8aa2a1264ae8d6e23a96858da2c76d4e2a6e47e9383c1502e3606a",
-      "outputs": [
-        "store/ChatGPT Image Sep 5, 2026, 06_12_52 AM-960-480.avif",
-        "store/ChatGPT Image Sep 5, 2026, 06_12_52 AM-960-480.webp",
-        "store/ChatGPT Image Sep 5, 2026, 06_12_52 AM-960-960.avif",
-        "store/ChatGPT Image Sep 5, 2026, 06_12_52 AM-960-960.webp"
-      ]
-    },
-    {
       "source": "src/assets/store/ChatGPT Image Sep 5, 2026, 06_12_52 AM.png",
       "hash": "2fc0dae871a0413ea51195da54e1d789ec474e1c99919ba17e23444c764b4b6e",
       "fingerprint": "5caaa649be8aa2a1264ae8d6e23a96858da2c76d4e2a6e47e9383c1502e3606a",
@@ -1230,58 +953,14 @@
       ]
     },
     {
-      "source": "src/assets/store/extra-store-480.webp",
-      "hash": "6c92a4ff3d5cca695f55ea3d6b5b903b564f9334ae1f7d05c86fb9cb13cda3dd",
-      "fingerprint": "5caaa649be8aa2a1264ae8d6e23a96858da2c76d4e2a6e47e9383c1502e3606a",
-      "outputs": [
-        "store/extra-store-480-480.avif",
-        "store/extra-store-480-480.webp",
-        "store/extra-store-480-960.avif",
-        "store/extra-store-480-960.webp"
-      ]
-    },
-    {
-      "source": "src/assets/store/extra-store-960.webp",
-      "hash": "695e413dcb46e80ebfd6933391fb69c9cd1de5a799d6622011dffbac41fd7fbe",
-      "fingerprint": "5caaa649be8aa2a1264ae8d6e23a96858da2c76d4e2a6e47e9383c1502e3606a",
-      "outputs": [
-        "store/extra-store-960-480.avif",
-        "store/extra-store-960-480.webp",
-        "store/extra-store-960-960.avif",
-        "store/extra-store-960-960.webp"
-      ]
-    },
-    {
       "source": "src/assets/store/extra-store.webp",
       "hash": "5c375d4e53c690a8a35126950c8dcb41fb69b05140175c416c7e6f1cb454aa2b",
       "fingerprint": "5caaa649be8aa2a1264ae8d6e23a96858da2c76d4e2a6e47e9383c1502e3606a",
       "outputs": [
         "store/extra-store-480.avif",
         "store/extra-store-480.webp",
-        "store/extra-store-960.avif",
-        "store/extra-store-960.webp"
-      ]
-    },
-    {
-      "source": "src/assets/store/extra-store2-480.webp",
-      "hash": "431d16ec69076fd3e9659ce7f1448e0e82e8ae11d98bea00030f45cd6c99b864",
-      "fingerprint": "5caaa649be8aa2a1264ae8d6e23a96858da2c76d4e2a6e47e9383c1502e3606a",
-      "outputs": [
-        "store/extra-store2-480-480.avif",
-        "store/extra-store2-480-480.webp",
-        "store/extra-store2-480-960.avif",
-        "store/extra-store2-480-960.webp"
-      ]
-    },
-    {
-      "source": "src/assets/store/extra-store2-960.webp",
-      "hash": "0549e9c3ae6266f19008caa8a7051443633d3443700fd14eaea94383aeaf8e18",
-      "fingerprint": "5caaa649be8aa2a1264ae8d6e23a96858da2c76d4e2a6e47e9383c1502e3606a",
-      "outputs": [
-        "store/extra-store2-960-480.avif",
-        "store/extra-store2-960-480.webp",
-        "store/extra-store2-960-960.avif",
-        "store/extra-store2-960-960.webp"
+        "store/extra-store-626.avif",
+        "store/extra-store-626.webp"
       ]
     },
     {
@@ -1291,30 +970,8 @@
       "outputs": [
         "store/extra-store2-480.avif",
         "store/extra-store2-480.webp",
-        "store/extra-store2-960.avif",
-        "store/extra-store2-960.webp"
-      ]
-    },
-    {
-      "source": "src/assets/store/main-store2-480.webp",
-      "hash": "de941b69350bd2b96ba6a6055257555711514edf9cd94dfbc8d8bb08ba377d83",
-      "fingerprint": "5caaa649be8aa2a1264ae8d6e23a96858da2c76d4e2a6e47e9383c1502e3606a",
-      "outputs": [
-        "store/main-store2-480-480.avif",
-        "store/main-store2-480-480.webp",
-        "store/main-store2-480-960.avif",
-        "store/main-store2-480-960.webp"
-      ]
-    },
-    {
-      "source": "src/assets/store/main-store2-960.webp",
-      "hash": "b514f6664010c389bb1560887ddbc188ec40e51fa9beb1cd96f7a7b547c20806",
-      "fingerprint": "5caaa649be8aa2a1264ae8d6e23a96858da2c76d4e2a6e47e9383c1502e3606a",
-      "outputs": [
-        "store/main-store2-960-480.avif",
-        "store/main-store2-960-480.webp",
-        "store/main-store2-960-960.avif",
-        "store/main-store2-960-960.webp"
+        "store/extra-store2-622.avif",
+        "store/extra-store2-622.webp"
       ]
     },
     {
@@ -1324,30 +981,8 @@
       "outputs": [
         "store/main-store2-480.avif",
         "store/main-store2-480.webp",
-        "store/main-store2-960.avif",
-        "store/main-store2-960.webp"
-      ]
-    },
-    {
-      "source": "src/assets/store/storefront-day-480.webp",
-      "hash": "3cb5a9af7e15667ca74ec633bb0f956dbf36535968393e52e21d0a4ab0ccca17",
-      "fingerprint": "5caaa649be8aa2a1264ae8d6e23a96858da2c76d4e2a6e47e9383c1502e3606a",
-      "outputs": [
-        "store/storefront-day-480-480.avif",
-        "store/storefront-day-480-480.webp",
-        "store/storefront-day-480-960.avif",
-        "store/storefront-day-480-960.webp"
-      ]
-    },
-    {
-      "source": "src/assets/store/storefront-day-960.webp",
-      "hash": "0ef42522dfd3508122be0595918ecbe3c507722a8709e03a8595196ab04df901",
-      "fingerprint": "5caaa649be8aa2a1264ae8d6e23a96858da2c76d4e2a6e47e9383c1502e3606a",
-      "outputs": [
-        "store/storefront-day-960-480.avif",
-        "store/storefront-day-960-480.webp",
-        "store/storefront-day-960-960.avif",
-        "store/storefront-day-960-960.webp"
+        "store/main-store2-921.avif",
+        "store/main-store2-921.webp"
       ]
     },
     {
@@ -1359,28 +994,6 @@
         "store/storefront-day-480.webp",
         "store/storefront-day-960.avif",
         "store/storefront-day-960.webp"
-      ]
-    },
-    {
-      "source": "src/assets/store/storefront-night-480.webp",
-      "hash": "8dd48a9be9ef7e83d60e91dc984d75e256e52c7b87d4e86a027ff2cbe4e17b6d",
-      "fingerprint": "5caaa649be8aa2a1264ae8d6e23a96858da2c76d4e2a6e47e9383c1502e3606a",
-      "outputs": [
-        "store/storefront-night-480-480.avif",
-        "store/storefront-night-480-480.webp",
-        "store/storefront-night-480-960.avif",
-        "store/storefront-night-480-960.webp"
-      ]
-    },
-    {
-      "source": "src/assets/store/storefront-night-960.webp",
-      "hash": "b180f0dbc50f54528f8c2c5d9be799c6e86a4205cc63adf850dcfebe1ab479b9",
-      "fingerprint": "5caaa649be8aa2a1264ae8d6e23a96858da2c76d4e2a6e47e9383c1502e3606a",
-      "outputs": [
-        "store/storefront-night-960-480.avif",
-        "store/storefront-night-960-480.webp",
-        "store/storefront-night-960-960.avif",
-        "store/storefront-night-960-960.webp"
       ]
     },
     {
@@ -1403,6 +1016,100 @@
         "storeDesktop/storefront-960.webp",
         "storeDesktop/storefront-1600.avif",
         "storeDesktop/storefront-1600.webp"
+      ]
+    },
+    {
+      "source": "src/assets/our-story/cheers-desktop.webp",
+      "hash": "7b0dca7fa10630fe0e2b90a6ab3c64eaa2a53e63dbf5b6ea21e5c08f578d9b86",
+      "fingerprint": "5d9a108423873c08ebdcac1822686763bf89ecbfafc0484b743f12d57a5e8efd",
+      "outputs": [
+        "story/cheers-desktop-480.avif",
+        "story/cheers-desktop-480.webp",
+        "story/cheers-desktop-800.avif",
+        "story/cheers-desktop-800.webp",
+        "story/cheers-desktop-1200.avif",
+        "story/cheers-desktop-1200.webp",
+        "story/cheers-desktop-1600.avif",
+        "story/cheers-desktop-1600.webp",
+        "story/cheers-desktop-1672.avif",
+        "story/cheers-desktop-1672.webp"
+      ]
+    },
+    {
+      "source": "src/assets/our-story/cheers-mobile.webp",
+      "hash": "d8cc13db5c47a297a552a4de95e2e784c8d11c5d7def17d0af9f7789b1c362ec",
+      "fingerprint": "5d9a108423873c08ebdcac1822686763bf89ecbfafc0484b743f12d57a5e8efd",
+      "outputs": [
+        "story/cheers-mobile-480.avif",
+        "story/cheers-mobile-480.webp",
+        "story/cheers-mobile-800.avif",
+        "story/cheers-mobile-800.webp",
+        "story/cheers-mobile-941.avif",
+        "story/cheers-mobile-941.webp"
+      ]
+    },
+    {
+      "source": "src/assets/our-story/hero-desktop.webp",
+      "hash": "36ddb5c5a3de8bbbf0b4a3050f5be57f84b41b5f62ceb4d26956fb61ac7cc494",
+      "fingerprint": "5d9a108423873c08ebdcac1822686763bf89ecbfafc0484b743f12d57a5e8efd",
+      "outputs": [
+        "story/hero-desktop-480.avif",
+        "story/hero-desktop-480.webp",
+        "story/hero-desktop-800.avif",
+        "story/hero-desktop-800.webp",
+        "story/hero-desktop-1200.avif",
+        "story/hero-desktop-1200.webp",
+        "story/hero-desktop-1600.avif",
+        "story/hero-desktop-1600.webp",
+        "story/hero-desktop-1707.avif",
+        "story/hero-desktop-1707.webp"
+      ]
+    },
+    {
+      "source": "src/assets/our-story/hero-mobile.webp",
+      "hash": "5e9e38c527c6d13979cb6a54688a536c81fe3ff89ffafcf80fcbec3e16d42030",
+      "fingerprint": "5d9a108423873c08ebdcac1822686763bf89ecbfafc0484b743f12d57a5e8efd",
+      "outputs": [
+        "story/hero-mobile-480.avif",
+        "story/hero-mobile-480.webp",
+        "story/hero-mobile-800.avif",
+        "story/hero-mobile-800.webp",
+        "story/hero-mobile-941.avif",
+        "story/hero-mobile-941.webp"
+      ]
+    },
+    {
+      "source": "src/assets/our-story/just-enough-desktop.webp",
+      "hash": "5f682c4f8407c5f7d87cc870274f2d11cfe58012c8e94962e189e3ccc7626994",
+      "fingerprint": "5d9a108423873c08ebdcac1822686763bf89ecbfafc0484b743f12d57a5e8efd",
+      "outputs": [
+        "story/just-enough-desktop-480.avif",
+        "story/just-enough-desktop-480.webp",
+        "story/just-enough-desktop-800.avif",
+        "story/just-enough-desktop-800.webp",
+        "story/just-enough-desktop-1200.avif",
+        "story/just-enough-desktop-1200.webp",
+        "story/just-enough-desktop-1600.avif",
+        "story/just-enough-desktop-1600.webp",
+        "story/just-enough-desktop-1672.avif",
+        "story/just-enough-desktop-1672.webp"
+      ]
+    },
+    {
+      "source": "src/assets/our-story/just-enough-mobile.webp",
+      "hash": "a3c09626b45863c2974e9da8a81dd0339ca9ed96861456c30897c185aeae6f35",
+      "fingerprint": "5d9a108423873c08ebdcac1822686763bf89ecbfafc0484b743f12d57a5e8efd",
+      "outputs": [
+        "story/just-enough-mobile-480.avif",
+        "story/just-enough-mobile-480.webp",
+        "story/just-enough-mobile-800.avif",
+        "story/just-enough-mobile-800.webp",
+        "story/just-enough-mobile-1200.avif",
+        "story/just-enough-mobile-1200.webp",
+        "story/just-enough-mobile-1600.avif",
+        "story/just-enough-mobile-1600.webp",
+        "story/just-enough-mobile-1920.avif",
+        "story/just-enough-mobile-1920.webp"
       ]
     },
     {

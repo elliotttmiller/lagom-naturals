@@ -68,7 +68,7 @@ body.age-gate-open{
   pointer-events:none;
   background:
     linear-gradient(180deg,rgba(176,227,253,.03),rgba(176,227,253,.01)),
-    url('../assets/atmosphere/home-hero-sky.png') center 48% / cover no-repeat;
+    image-set(url('../assets/optimized/homeAtmosphere/home-hero-sky-1600.avif') type('image/avif'),url('../assets/optimized/homeAtmosphere/home-hero-sky-1600.webp') type('image/webp')) center 48% / cover no-repeat;
   transform:scale(1);
   transform-origin:50% 50%;
   backface-visibility:hidden;

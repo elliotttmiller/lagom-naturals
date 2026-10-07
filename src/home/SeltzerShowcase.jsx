@@ -169,6 +169,13 @@ function ShowcaseColorTrack({
         exit={reducedMotion ? { opacity: 0 } : { x: exitOffset, opacity: 0.35, scale: 1.025 }}
         transition={transition}
       >
+        <picture className="seltzer-showcase__flavor-background seltzer-showcase__flavor-background--bleed" aria-hidden="true">
+          <source media="(max-width: 899px)" type="image/avif" srcSet={mobileMedia.avifSrcSet} sizes="100vw" />
+          <source media="(max-width: 899px)" type="image/webp" srcSet={mobileMedia.webpSrcSet} sizes="100vw" />
+          <source type="image/avif" srcSet={desktopMedia.avifSrcSet} sizes="100vw" />
+          <source type="image/webp" srcSet={desktopMedia.webpSrcSet} sizes="100vw" />
+          <img src={desktopMedia.src} alt="" aria-hidden="true" width={desktopMedia.width || 2560} height={desktopMedia.height || 1120} loading="eager" decoding="async" />
+        </picture>
         <picture className="seltzer-showcase__flavor-background">
           <source media="(max-width: 899px)" type="image/avif" srcSet={mobileMedia.avifSrcSet} sizes="100vw" />
           <source media="(max-width: 899px)" type="image/webp" srcSet={mobileMedia.webpSrcSet} sizes="100vw" />
@@ -307,7 +314,7 @@ export default function SeltzerShowcase() {
   }, [change]);
 
   const label = labelMedia[product.id];
-  const desktopArtwork = responsiveImages.seltzerDesktopFlavors[desktopArtworkFiles[product.id]];
+  const desktopArtwork = responsiveImages.seltzerDesktopShowcaseArtwork[desktopArtworkFiles[product.id]];
   const canEnterX = direction > 0 ? 26 : -26;
 
   useEffect(() => {

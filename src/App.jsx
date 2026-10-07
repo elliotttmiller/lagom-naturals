@@ -208,7 +208,9 @@ function ProductCard({ product, showDescription = false }) {
   const item = configuredProduct(product, selected);
   const facts = productCardFacts(product);
   const contextLabel = product.category === "Gummies" ? product.productLine : null;
-  const hasVariantPicker = product.category === "Seltzers" && variants.length > 1;
+  const hasVariantPicker = variants.length > 1;
+  const hasSingleSizeControl = product.category === "Gummies" && variants.length === 1;
+  const hasPurchaseControl = hasVariantPicker || hasSingleSizeControl;
   const menuPosition = useAnchoredVariantMenu(variantOpen && hasVariantPicker, triggerRef, variants.length);
 
   useEffect(() => {
@@ -249,7 +251,7 @@ function ProductCard({ product, showDescription = false }) {
       className={`product-card product-card--shop-reference ${product.category === "Gummies" ? "product-card--gummy" : ""} ${!hasVariantPicker ? "product-card--single-purchase" : ""} ${variantOpen ? "is-variant-open" : ""}`}
       mediaClassName="product-media"
       copyClassName="product-copy"
-      showPrice
+      showPrice={!hasPurchaseControl}
       compactPurchase={!hasVariantPicker}
       metaBeforePrice
       meta={facts.length ? (
@@ -257,10 +259,10 @@ function ProductCard({ product, showDescription = false }) {
           {facts.map((fact) => <span key={fact}>{fact}</span>)}
         </span>
       ) : null}
-      reviewStatus={showDescription ? product.description : null}
+      reviewStatus={showDescription ? (product.cardDescription || product.description) : null}
       motionProps={{ variants: motionVariants.item, layout: "position", style: { "--accent": product.accent } }}
     >
-      <div className={`shop-card-commerce ${hasVariantPicker ? "shop-card-commerce--variant" : "shop-card-commerce--single"}`.trim()}>
+      <div className={`shop-card-commerce ${hasPurchaseControl ? "shop-card-commerce--variant" : "shop-card-commerce--single"}`.trim()}>
         {hasVariantPicker ? <div className="variant-picker shop-card-variant-picker" ref={pickerRef}>
           <m.button ref={triggerRef} type="button" className="variant-trigger shop-card-variant-trigger" whileTap={motionTokens.tap} aria-haspopup="listbox" aria-expanded={variantOpen} onClick={() => setVariantOpen((open) => !open)}>
             <span className="shop-card-variant-copy">
@@ -272,6 +274,13 @@ function ProductCard({ product, showDescription = false }) {
           <Presence>
             {variantOpen ? <AnchoredVariantMenu productName={product.name} variants={variants} selectedId={selected.id} onSelect={selectVariant} menuRef={menuRef} position={menuPosition} /> : null}
           </Presence>
+        </div> : hasSingleSizeControl ? <div className="variant-picker shop-card-variant-picker">
+          <div className="variant-trigger shop-card-variant-trigger shop-card-variant-trigger--static" role="group" aria-label={`${product.name}: ${selected.label}, $${selected.price.toFixed(2)}`}>
+            <span className="shop-card-variant-copy">
+              <span className="shop-card-variant-label">{product.piecesPerPackage ? `${product.piecesPerPackage}-piece pouch` : selected.label}</span>
+              <span className="shop-card-variant-price"> · ${selected.price.toFixed(2)}</span>
+            </span>
+          </div>
         </div> : null}
         <AddToCartButton
           size="card"

@@ -956,17 +956,33 @@
   }
 
   .gummy-quick-view__product{
-    inset:0;
-    inline-size:100%;
-    block-size:100%;
+    position:absolute;
+    inset:0!important;
+    display:block;
+    inline-size:100%!important;
+    block-size:100%!important;
+    max-inline-size:none;
+    max-block-size:none;
     overflow:hidden;
   }
 
   .gummy-quick-view__product img{
-    inline-size:100%;
-    block-size:100%;
+    display:block;
+    inline-size:100%!important;
+    block-size:100%!important;
+    max-inline-size:none;
+    max-block-size:none;
     object-fit:cover;
     object-position:50% 50%;
+  }
+}
+
+/* On portrait displays, keep each baked-in campaign composition intact by
+   stacking the four art panels into a viewport-height column. */
+@media (min-width:1100px) and (max-aspect-ratio:1/1){
+  .gummy-mobile__grid{
+    grid-template-columns:minmax(0,1fr);
+    grid-template-rows:repeat(4,minmax(0,1fr));
   }
 }
 

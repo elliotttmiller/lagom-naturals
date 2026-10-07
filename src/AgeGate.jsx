@@ -1,7 +1,9 @@
 import React from 'react'
 import { ArrowRight } from 'lucide-react'
 import AgeGateTransition from '@/AgeGateTransition'
-import ageGateSky from '@/assets/atmosphere/home-hero-sky.png'
+import { responsiveImages } from '@/generated/responsiveImages'
+
+const ageGateSky=responsiveImages.homeAtmosphere['home-hero-sky'].src
 
 const publicAsset=name=>`${import.meta.env.BASE_URL}${name.replace(/^\//,'')}`
 
