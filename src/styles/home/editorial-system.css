@@ -123,9 +123,24 @@ body:has(.editorial-home){
   z-index:1;
 }
 .flavor-artwork-scene__fallback img{
-  object-fit:cover;
   object-position:center;
   image-rendering:auto;
+}
+.flavor-artwork-scene__fallback--bleed{
+  z-index:1;
+  overflow:hidden;
+  opacity:.58;
+}
+.flavor-artwork-scene__fallback--bleed img{
+  object-fit:cover;
+  transform:scale(1.075);
+  filter:blur(18px) saturate(.98);
+}
+.flavor-artwork-scene__fallback--primary{
+  z-index:2;
+}
+.flavor-artwork-scene__fallback--primary img{
+  object-fit:contain;
 }
 .flavor-artwork-scene__fallback::after{
   content:"";
