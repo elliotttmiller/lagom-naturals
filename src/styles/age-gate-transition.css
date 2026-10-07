@@ -119,6 +119,11 @@ body.age-gate-transitioning{
 
 /* WAAPI owns these properties during the handoff. Disable the Hero's normal
    load transitions so there is one and only one animation authority. */
+body.age-gate-cinematic-handoff .editorial-home__campaign-scene .flavor-artwork-scene__fallback img,
+body.age-gate-cinematic-handoff .editorial-home__campaign-scene .product-stage__meta,
+body.age-gate-cinematic-handoff .editorial-home__campaign-scene .campaign-headline h1,
+body.age-gate-cinematic-handoff .editorial-home__campaign-scene .campaign-headline__eyebrow,
+body.age-gate-cinematic-handoff .editorial-home__campaign-scene .flavor-selector,
 body.age-gate-cinematic-handoff .sky-home .atmospheric-scene-hero .legacy-sky-hero__product--fullbleed img,
 body.age-gate-cinematic-handoff .sky-home .atmospheric-scene-hero .legacy-sky-hero__content,
 body.age-gate-cinematic-handoff .sky-home .atmospheric-scene-hero .legacy-sky-hero h1,
