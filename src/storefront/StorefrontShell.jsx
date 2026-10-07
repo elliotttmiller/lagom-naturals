@@ -50,7 +50,7 @@ const SHOP_PANEL_CARDS=[
 
 function Logo({onClick,className=''}){return <Link to="/" className={`brand ${className}`} onClick={onClick}><img src={publicAsset("enhanced-lagom-logo.webp")} alt="Lagom Naturals"/></Link>}
 
-function MenuPicture({media,className='',sizes='(min-width:1100px) 12vw, 180px'}) {
+function MenuPicture({media,className='',sizes='(min-width:900px) 22vw, 100vw'}) {
   if(!media)return null
   return <picture className={className} aria-hidden="true">
     {media.avifSrcSet?<source type="image/avif" srcSet={media.avifSrcSet} sizes={sizes}/>:null}
@@ -59,52 +59,88 @@ function MenuPicture({media,className='',sizes='(min-width:1100px) 12vw, 180px'}
   </picture>
 }
 
-function MenuMedia({items}) {
+function MenuMedia({items,className=''}) {
   const mediaItems=Array.isArray(items)?items:[items]
   const isSingleImage=mediaItems.length===1
-  const imageSizes=isSingleImage?'(min-width:1100px) 34vw, (min-width:900px) 30vw, 100vw':undefined
-  return <div className={`desktop-shop-panel__media-grid${isSingleImage?' desktop-shop-panel__media-grid--single':''}`} aria-hidden="true">
+  const imageSizes=isSingleImage?'(min-width:900px) 64vw, 100vw':undefined
+  return <div className={`desktop-shop-panel__media-grid${isSingleImage?' desktop-shop-panel__media-grid--single':''} ${className}`} aria-hidden="true">
     {mediaItems.filter(Boolean).map((media,index)=>(
       <MenuPicture key={index} media={media} sizes={imageSizes} className={`desktop-shop-panel__media-piece desktop-shop-panel__media-piece--${index+1}`}/>
     ))}
   </div>
 }
 
-function DesktopShopPanel({onClose,reduceMotion}){
-  const itemTransition=reduceMotion?{duration:0}:motionTokens.springSoft
+function DesktopShopPanel({onClose,reduceMotion,currentPath}){
+  const routeIndex=SHOP_PANEL_CARDS.findIndex(card=>card.to===currentPath)
+  const [activeIndex,setActiveIndex]=useState(routeIndex>=0?routeIndex:0)
+  const tabRefs=useRef([])
+  const activeCard=SHOP_PANEL_CARDS[activeIndex]
+  const focusTab=index=>{
+    const next=(index+SHOP_PANEL_CARDS.length)%SHOP_PANEL_CARDS.length
+    setActiveIndex(next)
+    tabRefs.current[next]?.focus()
+  }
   return <m.div
     id="desktop-shop-panel"
     className="desktop-shop-panel"
     role="region"
-    aria-label="Shop products"
-    initial={reduceMotion?false:{opacity:0,y:-8,scale:.998,clipPath:'inset(0 0 9% 0 round 26px)'}}
-    animate={{opacity:1,y:0,scale:1,clipPath:'inset(0 0 0% 0 round 26px)'}}
-    exit={reduceMotion?{opacity:0}:{opacity:0,y:-6,scale:.999,clipPath:'inset(0 0 7% 0 round 26px)'}}
-    transition={reduceMotion?{duration:0}:motionTokens.springSoft}
+    aria-label="Shop collections"
+    initial={reduceMotion?false:{opacity:0,y:-5}}
+    animate={{opacity:1,y:0}}
+    exit={reduceMotion?{opacity:0}:{opacity:0,y:-3}}
+    transition={reduceMotion?{duration:0}:{duration:.24,ease:motionTokens.ease}}
   >
     <div className="desktop-shop-panel__inner">
-      <div className="desktop-shop-panel__cards desktop-shop-panel__cards--full-width-nav">
-        {SHOP_PANEL_CARDS.map((card,index)=>(
-          <m.div
-            className="desktop-shop-panel__card-shell"
+      <div className="desktop-shop-panel__navigation">
+        <span className="desktop-shop-panel__eyebrow">Shop Lagom</span>
+        <div className="desktop-shop-panel__tabs" role="tablist" aria-label="Shop categories">
+          {SHOP_PANEL_CARDS.map((card,index)=><button
             key={card.title}
-            initial={reduceMotion?false:{opacity:0,y:12,scale:.99}}
-            animate={{opacity:1,y:0,scale:1}}
-            transition={reduceMotion?{duration:0}:{...itemTransition,delay:.08+index*.045}}
+            ref={element=>{tabRefs.current[index]=element}}
+            type="button"
+            role="tab"
+            id={`desktop-shop-tab-${index}`}
+            aria-selected={activeIndex===index}
+            aria-controls="desktop-shop-collection"
+            tabIndex={activeIndex===index?0:-1}
+            className={`desktop-shop-panel__tab${activeIndex===index?' is-active':''}`}
+            style={{'--menu-accent':card.accent}}
+            onClick={()=>setActiveIndex(index)}
+            onMouseEnter={()=>setActiveIndex(index)}
+            onKeyDown={event=>{
+              if(event.key==='ArrowDown'||event.key==='ArrowRight'){event.preventDefault();focusTab(index+1)}
+              else if(event.key==='ArrowUp'||event.key==='ArrowLeft'){event.preventDefault();focusTab(index-1)}
+              else if(event.key==='Home'){event.preventDefault();focusTab(0)}
+              else if(event.key==='End'){event.preventDefault();focusTab(SHOP_PANEL_CARDS.length-1)}
+            }}
           >
-            <NavLink className="desktop-shop-panel__card desktop-shop-panel__card--glass-stack" style={{'--menu-accent':card.accent}} to={card.to} end={card.to==='/shop'} onClick={onClose}>
-              <div className={`desktop-shop-panel__media desktop-shop-panel__media--${card.mediaClass}`}>
-                <span className="desktop-shop-panel__number">{card.index}</span>
-                <MenuMedia items={card.media}/>
-              </div>
-              <div className="desktop-shop-panel__card-copy">
-                <strong>{card.title}</strong>
-                <small>{card.description}</small>
-                <span className="desktop-shop-panel__card-arrow" aria-hidden="true"><ArrowRight/></span>
-              </div>
-            </NavLink>
+            <span className="desktop-shop-panel__tab-index">{card.index}</span>
+            <span className="desktop-shop-panel__tab-label">{card.title}</span>
+            <ArrowRight aria-hidden="true"/>
+          </button>)}
+        </div>
+        <NavLink className="desktop-shop-panel__all-link" to="/shop" end onClick={onClose}>Explore all products <ArrowRight aria-hidden="true"/></NavLink>
+      </div>
+      <div className="desktop-shop-panel__feature" role="tabpanel" id="desktop-shop-collection" aria-labelledby={`desktop-shop-tab-${activeIndex}`}>
+        <Presence initial={false} mode="wait">
+          <m.div
+            className={`desktop-shop-panel__feature-content desktop-shop-panel__feature-content--${activeCard.mediaClass}`}
+            key={activeCard.title}
+            initial={reduceMotion?false:{opacity:0,scale:1.015}}
+            animate={{opacity:1,scale:1}}
+            exit={reduceMotion?{opacity:0}:{opacity:0,scale:1.01}}
+            transition={reduceMotion?{duration:0}:{duration:.22,ease:motionTokens.ease}}
+          >
+            <MenuMedia items={activeCard.media} className={`desktop-shop-panel__media desktop-shop-panel__media--${activeCard.mediaClass} desktop-shop-panel__feature-media`}/>
+            <div className="desktop-shop-panel__feature-shade" aria-hidden="true"/>
+            <div className="desktop-shop-panel__feature-copy">
+              <span className="desktop-shop-panel__feature-kicker">Lagom Naturals · {activeCard.index}</span>
+              <h2>{activeCard.title}</h2>
+              <p>{activeCard.description}</p>
+              <NavLink to={activeCard.to} end={activeCard.to==='/shop'} onClick={onClose} className="desktop-shop-panel__feature-link">Discover {activeCard.title.toLowerCase()} <ArrowRight aria-hidden="true"/></NavLink>
+            </div>
           </m.div>
-        ))}
+        </Presence>
       </div>
     </div>
   </m.div>
@@ -152,6 +188,7 @@ export function StorefrontHeader({detail=false}){
   },[shopOpen])
   const drawerLinks=[['All Products','/shop'],['Seltzers','/shop/seltzers'],['Gummies','/shop/gummies'],['Merch','/merch'],['Our Story','/about'],['Find Us','/visit']]
   const backdropTransition=reduceMotion?{duration:0}:{duration:motionTokens.duration.control,ease:motionTokens.ease}
+  const shopBackdropTransition=reduceMotion?{duration:0}:{duration:.2,ease:motionTokens.ease}
   const drawerTransition=reduceMotion?{duration:0}:motionTokens.springDrawer
 
   return <>
@@ -177,9 +214,20 @@ export function StorefrontHeader({detail=false}){
         </div>
       </div>
       <Presence initial={false}>
-        {shopOpen&&<DesktopShopPanel onClose={()=>setShopOpen(false)} reduceMotion={reduceMotion}/>}
+        {shopOpen&&<DesktopShopPanel onClose={()=>setShopOpen(false)} reduceMotion={reduceMotion} currentPath={location.pathname}/>}
       </Presence>
     </m.header>
+    <Presence initial={false}>
+      {shopOpen&&<m.div
+        className="desktop-shop-backdrop"
+        aria-hidden="true"
+        initial={reduceMotion?false:{opacity:0}}
+        animate={{opacity:1}}
+        exit={{opacity:0}}
+        transition={shopBackdropTransition}
+        onClick={()=>setShopOpen(false)}
+      />}
+    </Presence>
     <Presence initial={false}>
       {open&&<m.div
         key="site-drawer"

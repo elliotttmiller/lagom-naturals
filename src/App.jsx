@@ -92,16 +92,6 @@ const CartPage=React.lazy(()=>loadCommerceRoutes().then(module=>({default:module
 const CheckoutPage=React.lazy(()=>loadCommerceRoutes().then(module=>({default:module.CheckoutPage})));
 const ProductPage=React.lazy(loadProductPage);
 
-export function preloadStorefrontRoute(pathname){
-  if(pathname.startsWith('/product/'))return loadProductPage();
-  if(pathname==='/visit')return loadVisitPage();
-  if(pathname==='/about')return loadAboutPage();
-  if(pathname==='/learn')return loadLearnPage();
-  if(pathname==='/merch'||pathname.startsWith('/merch/'))return loadMerchRoutes();
-  if(pathname==='/cart'||pathname==='/checkout')return loadCommerceRoutes();
-  return Promise.resolve();
-}
-
 function RouteChunkFallback(){
   return <Shell><div className="route-chunk-fallback" role="status" aria-live="polite" aria-busy="true"><span className="route-chunk-fallback__mark" aria-hidden="true"><i/></span><span className="sr-only">Loading page…</span></div></Shell>
 }

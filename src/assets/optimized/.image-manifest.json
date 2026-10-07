@@ -444,6 +444,66 @@
       ]
     },
     {
+      "source": "data/ui/seltzer-showcase/desktop/24k-lemonade-production-water-desktop-2560x1120.png",
+      "hash": "0f2afb62e35a3ce3fe0f8d877f0eb16ee7568ba0d5908ad6cf9808de9bc9b28a",
+      "fingerprint": "bdaa5645b1f9e38d0ecbbd5ced5f036f1781e26b2f02b35f59a55fed50109439",
+      "outputs": [
+        "seltzerDesktopShowcaseArtwork/24k-lemonade-desktop-960.avif",
+        "seltzerDesktopShowcaseArtwork/24k-lemonade-desktop-960.webp",
+        "seltzerDesktopShowcaseArtwork/24k-lemonade-desktop-1440.avif",
+        "seltzerDesktopShowcaseArtwork/24k-lemonade-desktop-1440.webp",
+        "seltzerDesktopShowcaseArtwork/24k-lemonade-desktop-1920.avif",
+        "seltzerDesktopShowcaseArtwork/24k-lemonade-desktop-1920.webp",
+        "seltzerDesktopShowcaseArtwork/24k-lemonade-desktop-2560.avif",
+        "seltzerDesktopShowcaseArtwork/24k-lemonade-desktop-2560.webp"
+      ]
+    },
+    {
+      "source": "data/ui/seltzer-showcase/desktop/blackberry-breeze-production-water-desktop-2560x1120.png",
+      "hash": "3632eb8ebd9c20ee10277aa3eea52ccd098cc08ff3d51a989ee4283872ab0556",
+      "fingerprint": "bdaa5645b1f9e38d0ecbbd5ced5f036f1781e26b2f02b35f59a55fed50109439",
+      "outputs": [
+        "seltzerDesktopShowcaseArtwork/blackberry-breeze-desktop-960.avif",
+        "seltzerDesktopShowcaseArtwork/blackberry-breeze-desktop-960.webp",
+        "seltzerDesktopShowcaseArtwork/blackberry-breeze-desktop-1440.avif",
+        "seltzerDesktopShowcaseArtwork/blackberry-breeze-desktop-1440.webp",
+        "seltzerDesktopShowcaseArtwork/blackberry-breeze-desktop-1920.avif",
+        "seltzerDesktopShowcaseArtwork/blackberry-breeze-desktop-1920.webp",
+        "seltzerDesktopShowcaseArtwork/blackberry-breeze-desktop-2560.avif",
+        "seltzerDesktopShowcaseArtwork/blackberry-breeze-desktop-2560.webp"
+      ]
+    },
+    {
+      "source": "data/ui/seltzer-showcase/desktop/strawberry-lime-fusion-production-water-desktop-2560x1120.png",
+      "hash": "d00b7e9f6360e0b5b67c1770ee71e4bbe5061cf381ed44fefeed7d0d9a0e2dc3",
+      "fingerprint": "bdaa5645b1f9e38d0ecbbd5ced5f036f1781e26b2f02b35f59a55fed50109439",
+      "outputs": [
+        "seltzerDesktopShowcaseArtwork/strawberry-lime-fusion-desktop-960.avif",
+        "seltzerDesktopShowcaseArtwork/strawberry-lime-fusion-desktop-960.webp",
+        "seltzerDesktopShowcaseArtwork/strawberry-lime-fusion-desktop-1440.avif",
+        "seltzerDesktopShowcaseArtwork/strawberry-lime-fusion-desktop-1440.webp",
+        "seltzerDesktopShowcaseArtwork/strawberry-lime-fusion-desktop-1920.avif",
+        "seltzerDesktopShowcaseArtwork/strawberry-lime-fusion-desktop-1920.webp",
+        "seltzerDesktopShowcaseArtwork/strawberry-lime-fusion-desktop-2560.avif",
+        "seltzerDesktopShowcaseArtwork/strawberry-lime-fusion-desktop-2560.webp"
+      ]
+    },
+    {
+      "source": "data/ui/seltzer-showcase/desktop/watermelon-refresher-production-water-desktop-2560x1120.png",
+      "hash": "e9da72199e8a265eb47218107c50e0762a71a3ec18413437406318bdbac5536c",
+      "fingerprint": "bdaa5645b1f9e38d0ecbbd5ced5f036f1781e26b2f02b35f59a55fed50109439",
+      "outputs": [
+        "seltzerDesktopShowcaseArtwork/watermelon-refresher-desktop-960.avif",
+        "seltzerDesktopShowcaseArtwork/watermelon-refresher-desktop-960.webp",
+        "seltzerDesktopShowcaseArtwork/watermelon-refresher-desktop-1440.avif",
+        "seltzerDesktopShowcaseArtwork/watermelon-refresher-desktop-1440.webp",
+        "seltzerDesktopShowcaseArtwork/watermelon-refresher-desktop-1920.avif",
+        "seltzerDesktopShowcaseArtwork/watermelon-refresher-desktop-1920.webp",
+        "seltzerDesktopShowcaseArtwork/watermelon-refresher-desktop-2560.avif",
+        "seltzerDesktopShowcaseArtwork/watermelon-refresher-desktop-2560.webp"
+      ]
+    },
+    {
       "source": "src/assets/products/enhanced/24K-Lemonade-enhanced.png",
       "hash": "63f04c7ff7abd7e1237a9eca33b2980b2940e61009552fc78697ac832808a34b",
       "fingerprint": "6b89090f6daf31b606c3aa004968c638df038ee8c3f4ff7ef2c2e37f7ce22118",

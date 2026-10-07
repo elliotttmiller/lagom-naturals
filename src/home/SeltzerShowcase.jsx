@@ -39,10 +39,10 @@ const showcaseProducts = PRODUCT_ORDER
   .filter(Boolean);
 
 const desktopArtworkFiles = {
-  "watermelon-refresher": "watermelon",
-  "strawberry-lime-fusion": "Strawberry Lime Splash Seltzer Ad (1)",
-  "blackberry-breeze": "blackberry",
-  "24k-lemonade": "24k",
+  "watermelon-refresher": "watermelon-refresher-desktop",
+  "strawberry-lime-fusion": "strawberry-lime-fusion-desktop",
+  "blackberry-breeze": "blackberry-breeze-desktop",
+  "24k-lemonade": "24k-lemonade-desktop",
 };
 
 const showcaseThemes = {
@@ -177,8 +177,8 @@ function ShowcaseColorTrack({
           <img
             src={desktopMedia.src}
             alt=""
-            width={desktopMedia.width || 1723}
-            height={desktopMedia.height || 913}
+            width={desktopMedia.width || 2560}
+            height={desktopMedia.height || 1120}
             loading="eager"
             fetchPriority="high"
             decoding="async"
