@@ -236,7 +236,8 @@
   .editorial-product-card__meta .product-facts{display:grid!important;gap:.22rem}
   .editorial-product-card__meta .product-facts span+span::before{display:none}
   .shop-page--reference .listing-grid{
-    padding-inline:14px;
+    padding-left:max(14px,env(safe-area-inset-left));
+    padding-right:max(14px,env(safe-area-inset-right));
     gap:10px!important;
   }
 }
@@ -461,25 +462,37 @@
   .shop-page--reference .shop-page__hero-media{height:52svh!important}
   .shop-page--reference .shop-intro{
     display:block!important;
-    padding:2.5rem 16px 3rem!important;
+    padding-top:2.5rem!important;
+    padding-bottom:3rem!important;
+    padding-left:max(16px,env(safe-area-inset-left))!important;
+    padding-right:max(16px,env(safe-area-inset-right))!important;
   }
   .shop-page--reference .shop-intro__copy h1{font-size:clamp(3.5rem,16vw,6rem)!important}
   .shop-page--reference .shop-intro__count{display:block;margin-top:1.5rem}
   .shop-page--reference .shop-catalog{
-    padding:2rem 14px 1rem!important;
+    padding-top:2rem!important;
+    padding-bottom:1rem!important;
+    padding-left:max(14px,env(safe-area-inset-left))!important;
+    padding-right:max(14px,env(safe-area-inset-right))!important;
   }
   .shop-page--reference .shop-catalog__toolbar{
     display:block!important;
   }
   .shop-page--reference .shop-catalog__heading{margin-bottom:1rem}
-  .shop-page--reference .collection-filter{padding-inline:14px}
+  .shop-page--reference .collection-filter{
+    padding-left:max(14px,env(safe-area-inset-left));
+    padding-right:max(14px,env(safe-area-inset-right));
+  }
   .shop-page--reference .listing-grid{
     grid-template-columns:repeat(2,minmax(0,1fr))!important;
     padding-top:1.25rem!important;
   }
   .category-shop-hero{
     min-height:0!important;
-    padding:2.5rem 16px 3rem!important;
+    padding-top:2.5rem!important;
+    padding-bottom:3rem!important;
+    padding-left:max(16px,env(safe-area-inset-left))!important;
+    padding-right:max(16px,env(safe-area-inset-right))!important;
     display:flex!important;
     flex-direction:column!important;
     gap:2rem!important;
