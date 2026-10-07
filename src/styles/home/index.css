@@ -25,3 +25,6 @@
 @import '../lagom-motion-language.css';
 @import '../home-seltzer-showcase.css';
 @import '../home-gummy-showcase.css';
+
+/* New canonical template-inspired editorial homepage layer. */
+@import './editorial-system.css';
