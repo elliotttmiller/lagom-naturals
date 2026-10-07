@@ -9,7 +9,7 @@ export default function GummyShowcase(){
   const [active,setActive]=useState(collections[0]||"");
   const visible=gummies.filter(product=>!active||product.productLine===active).slice(0,4);
 
-  return <section className="editorial-gummy-showcase" aria-labelledby="gummy-showcase-title">
+  return <div className="editorial-gummy-showcase">
     <ProductRail
       eyebrow="Gummy collections"
       title="A different format, the same clarity."
@@ -17,10 +17,10 @@ export default function GummyShowcase(){
       to="/shop/gummies"
       linkLabel="Shop gummies"
     >
-      <div className="gummy-collection-tabs" role="tablist" aria-label="Gummy collections">
-        {collections.map(collection=><button key={collection} type="button" role="tab" aria-selected={active===collection} className={active===collection?"is-active":""} onClick={()=>setActive(collection)}>{collection}</button>)}
+      <div className="gummy-collection-tabs" role="group" aria-label="Gummy collections">
+        {collections.map(collection=><button key={collection} type="button" aria-pressed={active===collection} className={active===collection?"is-active":""} onClick={()=>setActive(collection)}>{collection}</button>)}
       </div>
-      <div className="gummy-collection-grid" id="gummy-showcase-title">
+      <div className="gummy-collection-grid">
         {visible.map(product=><CatalogProductCard
           key={product.id}
           id={product.id}
@@ -35,5 +35,5 @@ export default function GummyShowcase(){
         />)}
       </div>
     </ProductRail>
-  </section>;
+  </div>;
 }
