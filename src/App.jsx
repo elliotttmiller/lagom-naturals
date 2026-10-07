@@ -43,6 +43,7 @@ import {
   gummyCollections,
 } from "./catalogData";
 import Shell from "@/storefront/StorefrontShell";
+import EditorialHomePage from "@/routes/HomePage";
 import HomeHero from "@/HomeHeroPortal";
 import SeltzerShowcase from "@/home/SeltzerShowcase";
 import GummyShowcase from "@/home/GummyShowcase";
@@ -754,7 +755,7 @@ function NotFoundPage() {
 export default function App() {
   return (
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<EditorialHomePage />} />
         <Route path="/shop" element={<ShopPage />} />
         <Route path="/shop/seltzers" element={<ShopPage />} />
         <Route path="/shop/gummies" element={<ShopPage />} />
