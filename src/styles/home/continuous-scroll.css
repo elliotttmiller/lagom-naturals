@@ -210,3 +210,117 @@ body:has(.sky-home) #root>.site-footer{
 @media(prefers-reduced-motion:reduce){
   .sky-home .home-cloud-interlude__mist{animation:none!important;transform:none!important}
 }
+
+/* Parallax continuity: the transition is a transparent depth corridor between
+   fully interactive sections. Existing global LiveClouds continues underneath.
+   Animate only small decorative planes; never transform a product stage, the
+   scroll root, fixed header, or the shared cloud canvas. */
+.sky-home{
+  --lagom-flow-space:clamp(7rem,17svh,15rem);
+}
+.sky-home>.home-cloud-interlude{
+  --flow-cloud-near-opacity:.43;
+  --flow-cloud-far-opacity:.26;
+  block-size:var(--lagom-flow-space);
+  min-block-size:var(--lagom-flow-space);
+  overflow:visible;
+  isolation:auto;
+  z-index:2;
+}
+.sky-home>.home-cloud-interlude::before{
+  inset:-18% 0;
+  z-index:-1;
+  background:linear-gradient(
+    to bottom,
+    rgba(222,241,250,0) 0%,
+    rgba(225,242,250,.065) 24%,
+    rgba(224,242,251,.14) 50%,
+    rgba(225,242,250,.065) 78%,
+    rgba(222,241,250,0) 100%
+  );
+}
+.sky-home .home-cloud-interlude__mist{
+  background-size:contain;
+  filter:drop-shadow(0 1rem 2rem rgba(53,119,161,.07));
+}
+.sky-home .home-cloud-interlude__mist--near{
+  top:-46%;
+  left:-3%;
+  inline-size:clamp(19rem,54vw,55rem);
+  opacity:var(--flow-cloud-near-opacity);
+}
+.sky-home .home-cloud-interlude__mist--far{
+  top:-20%;
+  right:-8%;
+  inline-size:clamp(16rem,40vw,42rem);
+  opacity:var(--flow-cloud-far-opacity);
+}
+/* A continuous cloud curtain overlays only scene edges, masking the abrupt
+   viewport-to-viewport cut visible in the provided screenshot. */
+.sky-home>.home-cloud-interlude::after{
+  position:absolute;
+  z-index:0;
+  inset:-5rem 0;
+  content:"";
+  background:radial-gradient(ellipse 75% 42% at 48% 49%,
+             rgba(237,248,254,.12),transparent 80%);
+  pointer-events:none;
+}
+@keyframes lagom-parallax-near{
+  0%{opacity:.06;transform:translate3d(-6%,31%,0) scale(.88)}
+  32%{opacity:.36;transform:translate3d(-2%,12%,0) scale(.96)}
+  64%{opacity:.44;transform:translate3d(2%,-8%,0) scale(1.04)}
+  100%{opacity:.09;transform:translate3d(7%,-35%,0) scale(1.13)}
+}
+@keyframes lagom-parallax-far{
+  0%{opacity:.04;transform:translate3d(6%,-12%,0) scale(1.07)}
+  34%{opacity:.2;transform:translate3d(2%,-3%,0) scale(1.02)}
+  68%{opacity:.3;transform:translate3d(-2%,7%,0) scale(.98)}
+  100%{opacity:.04;transform:translate3d(-7%,17%,0) scale(.91)}
+}
+@keyframes lagom-flow-veiling{
+  0%,100%{opacity:.2}
+  44%,60%{opacity:1}
+}
+@supports(animation-timeline:view(block)){
+  @media(prefers-reduced-motion:no-preference){
+    .sky-home>.home-cloud-interlude .home-cloud-interlude__mist--near{
+      animation:lagom-parallax-near linear both;
+      animation-timeline:view(block);
+      animation-range:entry 0% exit 100%;
+    }
+    .sky-home>.home-cloud-interlude .home-cloud-interlude__mist--far{
+      animation:lagom-parallax-far linear both;
+      animation-timeline:view(block);
+      animation-range:entry 0% exit 100%;
+    }
+    .sky-home>.home-cloud-interlude::after{
+      animation:lagom-flow-veiling linear both;
+      animation-timeline:view(block);
+      animation-range:entry 0% exit 100%;
+    }
+  }
+}
+@media(max-width:899px){
+  .sky-home{--lagom-flow-space:clamp(4rem,11svh,7rem)}
+  .sky-home>.home-cloud-interlude{
+    overflow:hidden;
+    isolation:isolate;
+  }
+  .sky-home .home-cloud-interlude__mist--near{
+    top:-17%;
+    left:-12%;
+    inline-size:min(75vw,22rem);
+  }
+  .sky-home .home-cloud-interlude__mist--far{
+    top:0;
+    right:-15%;
+    inline-size:min(64vw,18rem);
+  }
+  .sky-home>.home-cloud-interlude::after{
+    inset:0;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .sky-home>.home-cloud-interlude::after{animation:none!important}
+}
