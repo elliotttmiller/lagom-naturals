@@ -163,14 +163,14 @@ body:has(.sky-home) #root>.site-footer{
 .sky-home .home-cloud-interlude__mist--near{
   left:4%;
   top:-35%;
-  background-image:url('../assets/atmosphere/clouds/cloud-17.webp');
+  background-image:url('../../assets/atmosphere/clouds/cloud-17.webp');
 }
 .sky-home .home-cloud-interlude__mist--far{
   right:2%;
   top:4%;
   inline-size:clamp(11rem,26vw,29rem);
   opacity:.2;
-  background-image:url('../assets/atmosphere/clouds/cloud-21.webp');
+  background-image:url('../../assets/atmosphere/clouds/cloud-21.webp');
 }
 @keyframes home-cloud-breath-near{
   from{opacity:.08;transform:translate3d(-4%,15%,0) scale(.93)}
