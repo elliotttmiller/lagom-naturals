@@ -1,8 +1,9 @@
-import React,{useMemo,useRef} from "react";
+import React,{useMemo} from "react";
 import {Link} from "react-router-dom";
 import {ArrowRight} from "lucide-react";
 import Shell from "@/storefront/StorefrontShell";
-import HomeScrollSnap from "@/HomeScrollSnap";
+import HomepageAtmosphere from "@/home/HomepageAtmosphere";
+import ScrollCloudParallax from "@/home/ScrollCloudParallax";
 import SeltzerShowcase from "@/home/SeltzerShowcase";
 import GummyShowcase from "@/home/GummyShowcase";
 import LifestyleMosaic from "@/home/LifestyleMosaic";
@@ -33,15 +34,15 @@ const LEARN_ITEMS=[
 ];
 
 export default function HomePage(){
-  const snapRef=useRef(null);
   const seltzers=useMemo(()=>products.filter(product=>product.category==="Seltzers"),[]);
   const storefront=responsiveImages.store["storefront-day"];
 
   return <Shell>
     <div className="editorial-home">
-      <div className="editorial-home__campaign sky-home" ref={snapRef}>
-        <HomeScrollSnap rootRef={snapRef}/>
-        <section id="home-scene-hero" className="editorial-home__campaign-scene atmospheric-scene-section is-snap-visible" data-home-snap-scene aria-label="Lagom THC seltzer flavor campaign">
+      <div className="editorial-home__campaign sky-home">
+        <HomepageAtmosphere/>
+        <ScrollCloudParallax/>
+        <section id="home-scene-hero" className="editorial-home__campaign-scene atmospheric-scene-section is-snap-visible" aria-label="Lagom THC seltzer flavor campaign">
           <SeltzerShowcase/>
         </section>
       </div>
