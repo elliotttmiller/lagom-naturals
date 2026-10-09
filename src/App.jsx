@@ -47,6 +47,7 @@ import HomeHero from "@/HomeHeroPortal";
 import HomepageAtmosphere from "@/home/HomepageAtmosphere";
 import SeltzerShowcase from "@/home/SeltzerShowcase";
 import GummyShowcase from "@/home/GummyShowcase";
+import { HomeBrandEditorial, HomeCollectionDiscovery } from "@/home/HomeCampaignScenes";
 import HomeProductStage from "@/HomeProductStage";
 import CatalogProductCard from "@/storefront/CatalogProductCard";
 import AddToCartButton from "@/AddToCartButton";
@@ -596,6 +597,8 @@ function HomePage() {
           <SeltzerShowcase />
         </section>
 
+        <HomeBrandEditorial />
+
         <section
           id="gummies"
           className="seltzer-showcase-section gummy-showcase-section"
@@ -605,6 +608,8 @@ function HomePage() {
         >
           <GummyShowcase />
         </section>
+
+        <HomeCollectionDiscovery />
 
       </div>
     </Shell>
