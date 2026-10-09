@@ -132,7 +132,7 @@ export default function AgeGate({cinematic=true}){
     {ready&&<>
       <div className="age-gate__static-scene" aria-hidden="true">
         <div className="age-gate__scene"/>
-        {!cinematic&&<AgeGateAtmosphere />}
+        <AgeGateAtmosphere />
         <div className="age-gate__atmosphere-glow"/>
       </div>
 
