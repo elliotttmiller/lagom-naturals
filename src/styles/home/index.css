@@ -30,3 +30,6 @@
 
 /* Scrubbed decorative transition artwork; geometry remains owned by home-scroll-snap.css. */
 @import './scene-choreography.css';
+
+/* Final motion/navigation authority: natural continuous scroll, no snap pagination. */
+@import './continuous-scroll.css';
