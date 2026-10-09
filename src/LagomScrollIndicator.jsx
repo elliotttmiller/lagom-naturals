@@ -51,6 +51,6 @@ export default function LagomScrollIndicator(){
       aria-label={`Go to ${label}`}
       aria-current={index===active?'step':undefined}
       onClick={()=>jump(id)}
-    />)}
+    ><span className="lagom-scroll-indicator__dot" aria-hidden="true"/><span className="lagom-scroll-indicator__label" aria-hidden="true">{label}</span></button>)}
   </nav>
 }
