@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
+import SceneTransitionArtwork from "@/home/SceneTransitionArtwork";
 import { useReducedMotion } from "@/motionSystem";
 import { ShowcaseCan, labelMedia, showcaseProducts } from "@/home/SeltzerShowcase";
 import { responsiveImages } from "@/generated/responsiveImages";
@@ -81,6 +82,7 @@ export function HomeBrandEditorial() {
       aria-labelledby="home-editorial-title"
     >
       <FlavorTicker />
+      <SceneTransitionArtwork index={3} word="LIVING" variant="editorial" />
       <div className="home-editorial-scene__layout" data-home-snap-content>
         <div className="home-editorial-scene__copy">
           <span className="home-campaign-kicker">The Lagom perspective <span aria-hidden="true">/</span> 01</span>
@@ -118,6 +120,7 @@ export function HomeCollectionDiscovery() {
       data-home-snap-scene
       aria-labelledby="home-collections-title"
     >
+      <SceneTransitionArtwork index={5} word="EXPLORE" variant="editorial" />
       <div className="home-collections-scene__layout" data-home-snap-content>
         <header className="home-collections-scene__heading">
           <span className="home-campaign-kicker">Find your favorite <span aria-hidden="true">/</span> 02</span>

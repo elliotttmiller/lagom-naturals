@@ -48,6 +48,7 @@ import HomepageAtmosphere from "@/home/HomepageAtmosphere";
 import SeltzerShowcase from "@/home/SeltzerShowcase";
 import GummyShowcase from "@/home/GummyShowcase";
 import { HomeBrandEditorial, HomeCollectionDiscovery } from "@/home/HomeCampaignScenes";
+import SceneTransitionArtwork from "@/home/SceneTransitionArtwork";
 import HomeProductStage from "@/HomeProductStage";
 import CatalogProductCard from "@/storefront/CatalogProductCard";
 import AddToCartButton from "@/AddToCartButton";
@@ -586,7 +587,7 @@ function HomePage() {
         <HomepageAtmosphere />
         <HomeScrollSnap rootRef={homeRef} />
         <LagomScrollIndicator/>
-        <section id="home-scene-hero" className="beverage-hero atmospheric-scene-hero" data-home-snap-scene aria-label="Featured Lagom Naturals products"><HomeHero /></section>
+        <section id="home-scene-hero" className="beverage-hero atmospheric-scene-hero" data-home-snap-scene aria-label="Featured Lagom Naturals products"><HomeHero /><SceneTransitionArtwork index={1} word="BALANCE" /></section>
 
         <section
           id="home-scene-flavors"
@@ -595,6 +596,7 @@ function HomePage() {
           aria-label="Lagom seltzer flavors"
         >
           <SeltzerShowcase />
+          <SceneTransitionArtwork index={2} word="FLAVOR" />
         </section>
 
         <HomeBrandEditorial />
@@ -607,6 +609,7 @@ function HomePage() {
           aria-label="Lagom gummy collections"
         >
           <GummyShowcase />
+          <SceneTransitionArtwork index={4} word="DISCOVER" />
         </section>
 
         <HomeCollectionDiscovery />

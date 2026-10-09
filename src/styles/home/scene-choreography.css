@@ -1,0 +1,169 @@
+/* Lagom native scene choreography, translated from donut-template's
+   ScrollText, SVG draw-on-scroll and scrubbing text reveal concepts.
+   Scroll stays browser-owned. Scene artwork is decorative and paint-safe. */
+.sky-home>[data-home-snap-scene]{
+  --scene-motion-t:0;
+}
+.sky-home .lagom-scene-transition{
+  position:absolute;
+  inset:0;
+  z-index:5;
+  overflow:hidden;
+  pointer-events:none;
+  user-select:none;
+  color:rgba(255,255,255,.78);
+}
+.sky-home .lagom-scene-transition__index{
+  position:absolute;
+  left:clamp(1.4rem,4vw,5rem);
+  bottom:clamp(1.2rem,4vh,3.25rem);
+  display:block;
+  font:750 clamp(.7rem,1vw,1rem)/1 var(--font-ui,system-ui,sans-serif);
+  letter-spacing:.18em;
+}
+.sky-home .lagom-scene-transition__word{
+  position:absolute;
+  right:clamp(-.5rem,2vw,2rem);
+  bottom:clamp(-.9rem,-1.7vw,-.2rem);
+  max-inline-size:80vw;
+  font:900 clamp(6rem,18vw,23rem)/.7 var(--font-primary,system-ui,sans-serif);
+  letter-spacing:-.095em;
+  text-transform:uppercase;
+  white-space:nowrap;
+  color:rgba(255,255,255,.07);
+  transform:translate3d(12%,0,0);
+  will-change:auto;
+}
+.sky-home .lagom-scene-transition__line{
+  position:absolute;
+  left:clamp(1.4rem,4vw,5rem);
+  bottom:clamp(3.2rem,7vh,5rem);
+  inline-size:clamp(4rem,15vw,16rem);
+  block-size:2px;
+  background:rgba(255,255,255,.65);
+  transform-origin:left center;
+}
+.sky-home .lagom-scene-transition__orb{
+  position:absolute;
+  top:4%;
+  right:-16%;
+  inline-size:min(55vw,42rem);
+  aspect-ratio:1;
+  border:1px solid rgba(255,255,255,.24);
+  border-radius:50%;
+  box-shadow:0 0 0 2.7rem rgba(255,255,255,.045),
+             0 0 0 5.4rem rgba(255,255,255,.025);
+  opacity:.6;
+}
+.sky-home .lagom-scene-transition--editorial .lagom-scene-transition__orb{
+  right:-25%;
+  top:15%;
+}
+.sky-home .lagom-scene-transition--editorial .lagom-scene-transition__word{
+  opacity:.65;
+}
+
+/* Timeline-specific choreography is deliberately desktop-first. Unlike the
+   legacy observer, CSS view timelines track physical section progress without
+   JS-driven scroll position, a second RAF loop or new dependencies. */
+@keyframes lagom-scene-type-sweep{
+  0%{opacity:0;transform:translate3d(28%,0,0) skewX(-6deg)}
+  27%{opacity:1}
+  55%{opacity:1;transform:translate3d(0,0,0) skewX(0)}
+  100%{opacity:.1;transform:translate3d(-22%,0,0)}
+}
+@keyframes lagom-scene-line-draw{
+  0%{transform:scaleX(0);opacity:.3}
+  40%,68%{transform:scaleX(1);opacity:1}
+  100%{transform:scaleX(.12);opacity:.3}
+}
+@keyframes lagom-scene-orbit-travel{
+  0%{opacity:0;transform:translate3d(16%,10%,0) scale(.72) rotate(-19deg)}
+  40%{opacity:.75;transform:translate3d(0,0,0) scale(1) rotate(0)}
+  100%{opacity:.1;transform:translate3d(-19%,-8%,0) scale(1.25) rotate(14deg)}
+}
+@keyframes lagom-editorial-kinetic-copy{
+  0%{opacity:.3;transform:translate3d(0,3rem,0) scale(.93)}
+  40%,64%{opacity:1;transform:translate3d(0,0,0) scale(1)}
+  100%{opacity:.65;transform:translate3d(0,-2rem,0) scale(.98)}
+}
+@keyframes lagom-editorial-kinetic-card{
+  0%{opacity:.35;transform:translate3d(0,4rem,0) rotate(-3deg) scale(.92)}
+  42%,75%{opacity:1;transform:translate3d(0,0,0) rotate(0) scale(1)}
+  100%{opacity:.8;transform:translate3d(0,-1rem,0) rotate(1deg) scale(.99)}
+}
+@media(min-width:900px) and (prefers-reduced-motion:no-preference){
+  @supports(animation-timeline:view(block)){
+    .sky-home>[data-home-snap-scene]{
+      view-timeline-name:--lagom-scene;
+      view-timeline-axis:block;
+    }
+    .sky-home .lagom-scene-transition__word{
+      animation:lagom-scene-type-sweep linear both;
+      animation-timeline:--lagom-scene;
+      animation-range:cover 0% cover 100%;
+    }
+    .sky-home .lagom-scene-transition__line{
+      animation:lagom-scene-line-draw linear both;
+      animation-timeline:--lagom-scene;
+      animation-range:cover 0% cover 100%;
+    }
+    .sky-home .lagom-scene-transition__orb{
+      animation:lagom-scene-orbit-travel linear both;
+      animation-timeline:--lagom-scene;
+      animation-range:cover 0% cover 100%;
+    }
+    /* Override isolated entrance-only animations for the *new* editorial
+       sections with true enter/hold/exit timeline choreography. */
+    .sky-home .home-editorial-scene__copy h2,
+    .sky-home .home-collections-scene__heading h2{
+      animation:lagom-editorial-kinetic-copy linear both;
+      animation-timeline:--lagom-scene;
+      animation-range:cover 0% cover 100%;
+    }
+    .sky-home .home-collections-scene__grid .home-collection-card{
+      animation:lagom-editorial-kinetic-card linear both;
+      animation-timeline:--lagom-scene;
+      animation-range:cover 0% cover 100%;
+    }
+    .sky-home .home-collections-scene__grid .home-collection-card:nth-child(2){
+      animation-delay:0s;
+      animation-range:cover 5% cover 100%;
+    }
+  }
+}
+@media(max-width:899px){
+  .sky-home .lagom-scene-transition__index{
+    left:max(.9rem,env(safe-area-inset-left,0px));
+    bottom:max(.65rem,env(safe-area-inset-bottom,0px));
+    font-size:.64rem;
+  }
+  .sky-home .lagom-scene-transition__line{
+    left:max(.9rem,env(safe-area-inset-left,0px));
+    bottom:max(2rem,calc(env(safe-area-inset-bottom,0px) + 1.2rem));
+    inline-size:3.5rem;
+  }
+  .sky-home .lagom-scene-transition__word{
+    right:-.45rem;
+    bottom:.2rem;
+    font-size:clamp(4rem,23vw,9rem);
+    opacity:.65;
+    transform:translate3d(0,0,0);
+  }
+  .sky-home .lagom-scene-transition__orb{
+    inline-size:65vw;
+    right:-30vw;
+    box-shadow:0 0 0 1.5rem rgba(255,255,255,.025);
+  }
+  /* Deliberately no scroll-linked transforms on mobile:
+     Safari's collapsing toolbar and mandatory snap must never repaint
+     large product/cloud layers during touch gestures. */
+}
+@media(prefers-reduced-motion:reduce){
+  .sky-home .lagom-scene-transition__word,
+  .sky-home .lagom-scene-transition__line,
+  .sky-home .lagom-scene-transition__orb{
+    animation:none!important;
+    will-change:auto!important;
+  }
+}
