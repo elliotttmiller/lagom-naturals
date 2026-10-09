@@ -30,20 +30,11 @@ body.age-gate-open{
   color:var(--age-ink);
 }
 
-/* On the homepage, the gate is transparent over the single live homepage
-   atmosphere, so the same cloud frame continues through the handoff. */
+/* The homepage uses the same live cloud renderer, but the gate remains a
+   self-contained opaque scene until verification. This prevents route content
+   from bleeding through while preserving one visual atmosphere language. */
 .age-gate--shared-sky{
-  background:transparent;
-}
-
-.age-gate--shared-sky .age-gate__prepare-surface,
-.age-gate--shared-sky .age-gate__scene{
-  background:transparent;
-}
-
-.age-gate--shared-sky .age-gate__scene::after,
-.age-gate--shared-sky .age-gate__atmosphere-glow{
-  display:none;
+  background:linear-gradient(180deg,#0879D1 0%,#1689D8 48%,#37A5E4 100%);
 }
 
 .age-gate__prepare-surface{
@@ -75,7 +66,7 @@ body.age-gate-open{
 .age-gate__live-clouds{
   position:absolute;
   inset:0;
-  z-index:1;
+  z-index:2;
   overflow:hidden;
   pointer-events:none;
   transform:translate3d(0,0,0) scale(1);
@@ -106,7 +97,7 @@ body.age-gate-open{
 .age-gate__atmosphere-glow{
   position:absolute;
   inset:-10%;
-  z-index:1;
+  z-index:3;
   pointer-events:none;
   background:radial-gradient(
     ellipse 60% 42% at 50% 52%,
