@@ -67,7 +67,8 @@ export const labelMedia = {
   },
 };
 
-export function ShowcaseCan({ label, product, reducedMotion, compact = false, interactive = false }) {
+export function ShowcaseCan({ label, product, reducedMotion, compact = false, interactive = false, mediaSizes }) {
+  const responsiveSizes = mediaSizes || (compact ? "68px" : "(max-width: 899px) 45vw, 21rem");
   const transition = reducedMotion
     ? { duration: 0 }
     : { duration: motionTokens.duration.base, ease: motionTokens.easeSoft };
@@ -83,12 +84,12 @@ export function ShowcaseCan({ label, product, reducedMotion, compact = false, in
         <source
           type="image/avif"
           srcSet={canBase480Avif + " 480w, " + canBase889Avif + " 889w"}
-          sizes={compact ? "68px" : "(max-width: 899px) 45vw, 21rem"}
+          sizes={responsiveSizes}
         />
         <source
           type="image/webp"
           srcSet={canBase480Webp + " 480w, " + canBase889Webp + " 889w"}
-          sizes={compact ? "68px" : "(max-width: 899px) 45vw, 21rem"}
+          sizes={responsiveSizes}
         />
         <img src={canBase889Webp} alt="" />
       </picture>
@@ -109,8 +110,8 @@ export function ShowcaseCan({ label, product, reducedMotion, compact = false, in
               exit={{ opacity: 0 }}
               transition={transition}
             >
-              <source type="image/avif" srcSet={label.avif} sizes="(max-width: 899px) 45vw, 21rem" />
-              <source type="image/webp" srcSet={label.webp} sizes="(max-width: 899px) 45vw, 21rem" />
+              <source type="image/avif" srcSet={label.avif} sizes={responsiveSizes} />
+              <source type="image/webp" srcSet={label.webp} sizes={responsiveSizes} />
               <img src={label.src} alt="" />
             </m.picture>
           </Presence>
