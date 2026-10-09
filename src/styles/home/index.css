@@ -36,3 +36,6 @@
 
 /* Shared cross-scene cloud/product/editorial scroll timelines. */
 @import './coordinated-flow.css';
+
+/* Real scroll-reactive atmosphere over the existing shared WebGL sky. */
+@import './scroll-cloud-parallax.css';
