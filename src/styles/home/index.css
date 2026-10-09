@@ -33,3 +33,6 @@
 
 /* Final motion/navigation authority: natural continuous scroll, no snap pagination. */
 @import './continuous-scroll.css';
+
+/* Shared cross-scene cloud/product/editorial scroll timelines. */
+@import './coordinated-flow.css';
