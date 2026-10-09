@@ -1,14 +1,6 @@
-/* Homepage stylesheet manifest.
-   The browser remains the only vertical scroll engine.
-
-   - home-scroll-snap.css: native scene geometry/observer contract retained for
-     the campaign viewport.
-   - lagom-motion-language.css: shared image, route and interaction lifecycle.
-   - editorial-system.css: canonical homepage presentation.
-
-   The previous sky hero, product-stage, flavor-showcase and gummy-showcase
-   presentation layers were retired with their superseded component owners.
-*/
-@import '../home-scroll-snap.css';
+/* PR24 editorial presentation with main's continuous animated atmosphere.
+   Vertical scrolling remains browser owned, no snap controller.
+   Existing cloud renderer and scroll-reactive layers are both preserved. */
 @import '../lagom-motion-language.css';
 @import './editorial-system.css';
+@import './scroll-cloud-parallax.css';
