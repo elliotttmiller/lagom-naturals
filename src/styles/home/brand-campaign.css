@@ -573,3 +573,142 @@
   .sky-home .lagom-scroll-indicator__dot,
   .sky-home .lagom-scroll-indicator__label{transition:none!important}
 }
+
+/* 2026 editorial kinetic upgrade: the donut reference's oversized type and
+   typographic running bands, translated into Lagom's native cloud environment.
+   All motion is decorative; document scroll, stage layout and quick views are untouched. */
+.sky-home .home-flavor-ticker{
+  position:absolute;
+  z-index:5;
+  inset:clamp(5.8rem,12vh,8rem) 0 auto;
+  inline-size:100%;
+  block-size:clamp(2rem,3.5vw,3.45rem);
+  overflow:hidden;
+  color:#103955;
+  background:#f6eee3;
+  box-shadow:0 .4rem 1.8rem rgba(8,49,77,.1);
+  transform:rotate(-1.25deg) scale(1.04);
+  pointer-events:none;
+}
+.sky-home .home-flavor-ticker__track{
+  display:flex;
+  inline-size:max-content;
+  block-size:100%;
+  align-items:center;
+  animation:lagom-flavor-ticker 34s linear infinite;
+}
+.sky-home .home-flavor-ticker__group{
+  display:inline-flex;
+  flex:none;
+  align-items:center;
+  gap:clamp(1.1rem,3vw,3.2rem);
+  padding-inline:clamp(.55rem,1.5vw,1.5rem);
+  white-space:nowrap;
+}
+.sky-home .home-flavor-ticker__item{
+  display:inline-flex;
+  align-items:center;
+  gap:clamp(1rem,2.5vw,2rem);
+  font:850 clamp(.82rem,1.45vw,1.6rem)/1 var(--font-primary,system-ui,sans-serif);
+  letter-spacing:-.045em;
+  text-transform:uppercase;
+}
+.sky-home .home-flavor-ticker__spark{
+  font-size:.72em;
+  color:#eb7057;
+}
+@keyframes lagom-flavor-ticker{
+  to{transform:translate3d(-50%,0,0)}
+}
+.sky-home .home-editorial-scene__copy h2{
+  position:relative;
+  z-index:2;
+  font-size:clamp(3.5rem,7.4vw,10rem);
+}
+.sky-home .home-editorial-scene__headline-line{
+  display:block;
+  overflow:visible;
+}
+.sky-home .home-editorial-scene__headline-line--soft{
+  padding:.05em 0 .13em;
+  color:#fff5dd;
+}
+.sky-home .home-editorial-scene__headline-line--soft em{
+  font-family:var(--font-display,Georgia,serif);
+  font-weight:500;
+  font-size:1.04em;
+}
+.sky-home .home-editorial-scene__orbit-word{
+  position:absolute;
+  z-index:1;
+  inset:10% -11% auto;
+  display:block;
+  text-align:center;
+  white-space:nowrap;
+  font:850 clamp(1.15rem,3.15vw,3.6rem)/1 var(--font-primary,system-ui,sans-serif);
+  letter-spacing:.075em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.16);
+  transform:rotate(-20deg);
+  pointer-events:none;
+}
+.sky-home .home-editorial-scene__stage-halo{
+  background:radial-gradient(circle at 50% 48%,rgba(255,250,229,.83),rgba(232,243,255,.23) 58%,transparent 75%);
+}
+.sky-home .home-editorial-scene__stage-ring--one{
+  border:1px solid rgba(255,255,255,.7);
+  box-shadow:0 0 0 1.5rem rgba(255,255,255,.025),0 0 0 3.2rem rgba(255,255,255,.018);
+}
+.sky-home .home-collections-scene__heading h2{
+  line-height:.89;
+}
+.sky-home .home-collections-scene__heading h2 > span{
+  display:inline-block;
+}
+.sky-home .home-collection-card{
+  transform-origin:50% 60%;
+}
+.sky-home .home-collection-card__body h3{
+  text-transform:uppercase;
+}
+.sky-home .home-collection-card__topline svg{
+  transition:transform .4s cubic-bezier(.16,1,.3,1);
+}
+@media(hover:hover) and (pointer:fine){
+  .sky-home .home-collection-card:hover .home-collection-card__topline svg{
+    transform:translate3px(-3px);
+  }
+  .sky-home .home-flavor-ticker:hover .home-flavor-ticker__track{animation-play-state:paused}
+}
+@media(max-width:899px){
+  .sky-home .home-flavor-ticker{
+    top:calc(var(--mobile-header-row-h,72px) + env(safe-area-inset-top,0px) + .15rem);
+    block-size:2rem;
+    transform:rotate(-1deg) scale(1.035);
+  }
+  .sky-home .home-flavor-ticker__item{font-size:.9rem}
+  .sky-home .home-editorial-scene__layout{
+    padding-top:calc(var(--mobile-header-row-h,72px) + env(safe-area-inset-top,0px) + clamp(3.3rem,7svh,4.3rem));
+  }
+  .sky-home .home-editorial-scene__copy h2{
+    font-size:clamp(2.75rem,11vw,5.2rem);
+  }
+  .sky-home .home-editorial-scene__orbit-word{
+    inset:8% -15% auto;
+    font-size:clamp(.85rem,3.5vw,1.6rem);
+  }
+}
+@media(max-width:430px){
+  .sky-home .home-editorial-scene__copy h2{font-size:clamp(2.5rem,10.4vw,3.65rem)}
+}
+@media(max-width:899px) and (max-height:700px){
+  .sky-home .home-flavor-ticker{block-size:1.7rem}
+  .sky-home .home-editorial-scene__layout{
+    padding-top:calc(var(--mobile-header-row-h,72px) + env(safe-area-inset-top,0px) + 2.4rem);
+  }
+  .sky-home .home-editorial-scene__copy h2{font-size:clamp(2.1rem,8svh,2.9rem)}
+}
+@media(prefers-reduced-motion:reduce){
+  .sky-home .home-flavor-ticker__track{animation:none}
+  .sky-home .home-collection-card__topline svg{transition:none}
+}
