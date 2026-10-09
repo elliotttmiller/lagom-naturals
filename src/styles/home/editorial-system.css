@@ -810,3 +810,48 @@ body:has(.editorial-home){
   .editorial-tile__media img{transition:none!important}
   .product-stage__drag-layer{display:none}
 }
+
+/* Editorial integration: preserve Lagom's approved blue atmospheric identity.
+   The campaign renders above the shared WebGL sky and native scroll parallax
+   without reinstating snap paging or affecting non-homepage editorial routes. */
+.editorial-home__campaign.sky-home{
+  position:relative;
+  isolation:isolate;
+  background:linear-gradient(180deg,#0879d1,#1689d8 52%,#37a5e4);
+  overflow:clip;
+}
+.editorial-home__campaign .sky-home__page-atmosphere{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  display:block;
+  width:100vw;
+  height:100dvh;
+  pointer-events:none;
+  overflow:hidden;
+  background:linear-gradient(180deg,#0879d1,#1689d8 52%,#37a5e4);
+}
+.editorial-home__campaign .sky-home__page-atmosphere [aria-hidden="true"]{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+}
+.editorial-home__campaign .editorial-home__campaign-scene{
+  z-index:2;
+}
+.editorial-home__campaign .product-stage__viewport,
+.editorial-home__campaign .campaign-hero{
+  background:transparent;
+}
+.editorial-home__campaign .flavor-environment{
+  background:
+    radial-gradient(circle at 50% 42%,color-mix(in srgb,var(--flavor-secondary) 34%,transparent) 0 18%,transparent 58%),
+    linear-gradient(180deg,rgba(255,255,255,.22),color-mix(in srgb,var(--flavor-soft) 37%,transparent) 52%,rgba(255,255,255,.15));
+}
+@media(prefers-reduced-motion:reduce){
+  .editorial-home__campaign .sky-home__scroll-clouds-mid,
+  .editorial-home__campaign .sky-home__scroll-clouds-near{
+    transform:none!important;
+  }
+}
