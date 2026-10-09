@@ -11,6 +11,7 @@
   --cloud-scroll-near-y:0px;
   --cloud-scroll-mid-y:0px;
   --cloud-scroll-drift-x:0px;
+  --cloud-scroll-mid-x:0px;
 }
 .sky-home__scroll-clouds-mid,
 .sky-home__scroll-clouds-near{
@@ -25,7 +26,7 @@
   background-image:url('../../assets/atmosphere/clouds/cloud-19.webp');
   background-position:96% 19%;
   opacity:.21;
-  transform:translate3d(calc(var(--cloud-scroll-drift-x) * -.55),var(--cloud-scroll-mid-y),0);
+  transform:translate3d(var(--cloud-scroll-mid-x),var(--cloud-scroll-mid-y),0);
 }
 .sky-home__scroll-clouds-near{
   background-image:url('../../assets/atmosphere/clouds/cloud-21.webp');
