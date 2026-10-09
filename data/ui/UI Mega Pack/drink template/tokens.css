@@ -1,0 +1,109 @@
+/**
+ * Project design tokens extracted from the Framer canvas.
+ * Import this file once at the root of your app so the
+ * --token-<uuid> CSS variables referenced by exported components resolve.
+ */
+@font-face {
+  font-family: 'Mona Sans Condensed Bold';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('https://framerusercontent.com/assets/6iwC6STWvic4aW9ENkaXYx1Abto.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Rodger Test Regular';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://framerusercontent.com/assets/CHHEgiPutcka3RZ3CakKwm3uQGc.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Rodger Test Medium';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('https://framerusercontent.com/assets/VYqVfZiXh1pMTaGoOh0lQEOWiQ.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Clash Display';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('https://framerusercontent.com/third-party-assets/fontshare/wf/FPDAZ2S6SW4QMSRIIKNNGTPM6VIXYMKO/5HNPQ453FRLIQWV2FNOBUU3FKTDZQVSG/Z3MGHFHX6DCTLQ55LJYRJ5MDCZPMFZU6.woff2') format('woff2');
+}
+
+/* Fallback @imports for families not covered by @font-face above. */
+/* These rely on Google Fonts publishing the family under the exact name; */
+/* will silently 404 for custom or non-Google fonts. */
+@import url('https://fonts.googleapis.com/css2?family=Mona%20Sans%20Condensed:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rodger%20Test:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --token-7daf6eb7-d9e1-4b76-b6ce-53b466f5991b: rgb(51, 51, 51);
+  --token-419394a1-565d-4952-8ba3-b4f1eb92339c: rgb(26, 26, 26);
+  --token-15c58398-6ad6-435c-8016-009834f90629: rgb(238, 203, 58);
+  --token-a87a1b5b-5ffb-4186-aa38-97c8281399f0: rgb(255, 249, 224);
+  --token-42ea8082-5244-4850-882c-34ee79535faf: rgb(5, 5, 5);
+  --token-d50a4c6b-7fb8-4dd9-8aeb-fa37ba09e423: rgb(255, 240, 173);
+  --token-c305447d-a595-41e4-b98e-071cedbb1679: rgb(255, 246, 214);
+  --token-d48ce39d-fe6a-4a1f-9a01-26e7e720a86c: rgb(253, 146, 64);
+  --token-3e04ca37-775c-4f2c-9b7c-44e058b1e061: rgb(252, 114, 81);
+  --token-273a969b-6536-4443-a392-0ff6be50b880: rgb(249, 59, 135);
+  --token-a6f6538b-cdfe-4de4-ac3c-1a9789486957: rgb(252, 56, 47);
+  --token-ef67b299-4283-46d0-9423-d104b5535547: rgb(245, 119, 72);
+  --token-6a4b9964-47a2-4dca-ade0-08c53bf5c875: rgb(223, 253, 157);
+  --token-c82b3c99-dcf2-4cfb-9590-7107ca2394b2: rgb(197, 249, 79);
+  --token-94f1f73b-1649-4fd6-aeca-936a2a849189: rgb(255, 58, 36);
+  --token-5f160d08-eec1-4cb0-b0f8-61342bece767: rgb(255, 99, 99);
+  --token-32c99322-830a-4e9a-8e41-dd6911ce8e95: rgb(248, 154, 190);
+}
+
+.text-style-buW5U3nQC {
+  font-family: 'Mona Sans Condensed', sans-serif;
+  font-size: 90px;
+  line-height: 0.9em;
+  color: rgb(255, 255, 255);
+}
+.text-style-Sh7HNKvMq {
+  font-family: 'Mona Sans Condensed', sans-serif;
+  font-size: 40px;
+  line-height: 1.2em;
+  color: rgb(5, 5, 5);
+}
+.text-style-peANJhUp3 {
+  font-family: 'Mona Sans Condensed', sans-serif;
+  font-size: 60px;
+  line-height: 0.9em;
+  color: rgb(5, 5, 5);
+}
+.text-style-SpBts6IeV {
+  font-family: 'Inter', sans-serif;
+  font-size: 26px;
+  line-height: 1.4em;
+  color: #000;
+}
+.text-style-iP_48Ll8u {
+  font-family: 'Rodger Test', sans-serif;
+  font-size: 22px;
+  line-height: 1.4em;
+  color: rgb(252, 114, 81);
+}
+.text-style-CyRDeLq5D {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  line-height: 1.4em;
+  color: #000;
+}
+.text-style-pMn1GYsaH {
+  font-family: 'Rodger Test', sans-serif;
+  font-size: 20px;
+  line-height: 1.2em;
+  color: rgb(255, 255, 255);
+}
+.text-style-rCTDunOqT {
+  font-family: 'Rodger Test', sans-serif;
+  font-size: 20px;
+  line-height: 1.2em;
+  color: rgb(252, 114, 81);
+}

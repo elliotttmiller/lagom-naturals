@@ -1,0 +1,434 @@
+{
+  "name": "Pre-Loading",
+  "version": "1.0.0",
+  "description": "Exported Framer components: Pre, ButtonMain, Svgdrawonscroll1, Svgdrawonscroll12, ScrollText, ButtonMain2, Title, KeyFeaturedCard, KeyFeaturedCard2, KeyFeaturedCard3, KeyFeaturedCard4, Bg, Textrevealscroll, ProductCard, ProductCard2, ProductCard3, ButtonMain3, Pre2, ButtonMain4, Svgdrawonscroll13, Svgdrawonscroll14, ScrollText2, ButtonMain5, Title2, KeyFeaturedCard5, KeyFeaturedCard6, KeyFeaturedCard7, KeyFeaturedCard8, Bg2, Textrevealscroll2, ProductCard4, ProductCard5, ProductCard6, ButtonMain6, Pre3, ButtonMain7, Svgdrawonscroll15, Svgdrawonscroll16, ScrollText3, ButtonMain8, Title3, KeyFeaturedCard9, KeyFeaturedCard10, KeyFeaturedCard11, KeyFeaturedCard12, Bg3, Textrevealscroll3, ProductCard7, ProductCard8, ProductCard9, ButtonMain9, Pre4, ButtonMain10, Svgdrawonscroll17, Svgdrawonscroll18, ScrollText4, ButtonMain11, Title4, KeyFeaturedCard13, KeyFeaturedCard14, KeyFeaturedCard15, KeyFeaturedCard16, Bg4, Textrevealscroll4, ProductCard10, ProductCard11, ProductCard12, ButtonMain12, Pre5, ButtonMain13, Svgdrawonscroll19, Svgdrawonscroll110, ScrollText5, ButtonMain14, Title5, KeyFeaturedCard17, KeyFeaturedCard18, KeyFeaturedCard19, KeyFeaturedCard20, Bg5, Textrevealscroll5, ProductCard13, ProductCard14, ProductCard15, ButtonMain15, Pre6, ButtonMain16, Svgdrawonscroll111, Svgdrawonscroll112, ScrollText6, ButtonMain17, Title6, KeyFeaturedCard21, KeyFeaturedCard22, KeyFeaturedCard23, KeyFeaturedCard24, Bg6, Textrevealscroll6, ProductCard16, ProductCard17, ProductCard18, ButtonMain18",
+  "type": "module",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "types": "./index.d.ts"
+    },
+    "./Pre": {
+      "import": "./Pre.js",
+      "types": "./Pre.d.ts"
+    },
+    "./ButtonMain": {
+      "import": "./ButtonMain.js",
+      "types": "./ButtonMain.d.ts"
+    },
+    "./Svgdrawonscroll1": {
+      "import": "./Svgdrawonscroll1.js",
+      "types": "./Svgdrawonscroll1.d.ts"
+    },
+    "./Svgdrawonscroll12": {
+      "import": "./Svgdrawonscroll12.js",
+      "types": "./Svgdrawonscroll12.d.ts"
+    },
+    "./ScrollText": {
+      "import": "./ScrollText.js",
+      "types": "./ScrollText.d.ts"
+    },
+    "./ButtonMain2": {
+      "import": "./ButtonMain2.js",
+      "types": "./ButtonMain2.d.ts"
+    },
+    "./Title": {
+      "import": "./Title.js",
+      "types": "./Title.d.ts"
+    },
+    "./KeyFeaturedCard": {
+      "import": "./KeyFeaturedCard.js",
+      "types": "./KeyFeaturedCard.d.ts"
+    },
+    "./KeyFeaturedCard2": {
+      "import": "./KeyFeaturedCard2.js",
+      "types": "./KeyFeaturedCard2.d.ts"
+    },
+    "./KeyFeaturedCard3": {
+      "import": "./KeyFeaturedCard3.js",
+      "types": "./KeyFeaturedCard3.d.ts"
+    },
+    "./KeyFeaturedCard4": {
+      "import": "./KeyFeaturedCard4.js",
+      "types": "./KeyFeaturedCard4.d.ts"
+    },
+    "./Bg": {
+      "import": "./Bg.js",
+      "types": "./Bg.d.ts"
+    },
+    "./Textrevealscroll": {
+      "import": "./Textrevealscroll.js",
+      "types": "./Textrevealscroll.d.ts"
+    },
+    "./ProductCard": {
+      "import": "./ProductCard.js",
+      "types": "./ProductCard.d.ts"
+    },
+    "./ProductCard2": {
+      "import": "./ProductCard2.js",
+      "types": "./ProductCard2.d.ts"
+    },
+    "./ProductCard3": {
+      "import": "./ProductCard3.js",
+      "types": "./ProductCard3.d.ts"
+    },
+    "./ButtonMain3": {
+      "import": "./ButtonMain3.js",
+      "types": "./ButtonMain3.d.ts"
+    },
+    "./Pre2": {
+      "import": "./Pre2.js",
+      "types": "./Pre2.d.ts"
+    },
+    "./ButtonMain4": {
+      "import": "./ButtonMain4.js",
+      "types": "./ButtonMain4.d.ts"
+    },
+    "./Svgdrawonscroll13": {
+      "import": "./Svgdrawonscroll13.js",
+      "types": "./Svgdrawonscroll13.d.ts"
+    },
+    "./Svgdrawonscroll14": {
+      "import": "./Svgdrawonscroll14.js",
+      "types": "./Svgdrawonscroll14.d.ts"
+    },
+    "./ScrollText2": {
+      "import": "./ScrollText2.js",
+      "types": "./ScrollText2.d.ts"
+    },
+    "./ButtonMain5": {
+      "import": "./ButtonMain5.js",
+      "types": "./ButtonMain5.d.ts"
+    },
+    "./Title2": {
+      "import": "./Title2.js",
+      "types": "./Title2.d.ts"
+    },
+    "./KeyFeaturedCard5": {
+      "import": "./KeyFeaturedCard5.js",
+      "types": "./KeyFeaturedCard5.d.ts"
+    },
+    "./KeyFeaturedCard6": {
+      "import": "./KeyFeaturedCard6.js",
+      "types": "./KeyFeaturedCard6.d.ts"
+    },
+    "./KeyFeaturedCard7": {
+      "import": "./KeyFeaturedCard7.js",
+      "types": "./KeyFeaturedCard7.d.ts"
+    },
+    "./KeyFeaturedCard8": {
+      "import": "./KeyFeaturedCard8.js",
+      "types": "./KeyFeaturedCard8.d.ts"
+    },
+    "./Bg2": {
+      "import": "./Bg2.js",
+      "types": "./Bg2.d.ts"
+    },
+    "./Textrevealscroll2": {
+      "import": "./Textrevealscroll2.js",
+      "types": "./Textrevealscroll2.d.ts"
+    },
+    "./ProductCard4": {
+      "import": "./ProductCard4.js",
+      "types": "./ProductCard4.d.ts"
+    },
+    "./ProductCard5": {
+      "import": "./ProductCard5.js",
+      "types": "./ProductCard5.d.ts"
+    },
+    "./ProductCard6": {
+      "import": "./ProductCard6.js",
+      "types": "./ProductCard6.d.ts"
+    },
+    "./ButtonMain6": {
+      "import": "./ButtonMain6.js",
+      "types": "./ButtonMain6.d.ts"
+    },
+    "./Pre3": {
+      "import": "./Pre3.js",
+      "types": "./Pre3.d.ts"
+    },
+    "./ButtonMain7": {
+      "import": "./ButtonMain7.js",
+      "types": "./ButtonMain7.d.ts"
+    },
+    "./Svgdrawonscroll15": {
+      "import": "./Svgdrawonscroll15.js",
+      "types": "./Svgdrawonscroll15.d.ts"
+    },
+    "./Svgdrawonscroll16": {
+      "import": "./Svgdrawonscroll16.js",
+      "types": "./Svgdrawonscroll16.d.ts"
+    },
+    "./ScrollText3": {
+      "import": "./ScrollText3.js",
+      "types": "./ScrollText3.d.ts"
+    },
+    "./ButtonMain8": {
+      "import": "./ButtonMain8.js",
+      "types": "./ButtonMain8.d.ts"
+    },
+    "./Title3": {
+      "import": "./Title3.js",
+      "types": "./Title3.d.ts"
+    },
+    "./KeyFeaturedCard9": {
+      "import": "./KeyFeaturedCard9.js",
+      "types": "./KeyFeaturedCard9.d.ts"
+    },
+    "./KeyFeaturedCard10": {
+      "import": "./KeyFeaturedCard10.js",
+      "types": "./KeyFeaturedCard10.d.ts"
+    },
+    "./KeyFeaturedCard11": {
+      "import": "./KeyFeaturedCard11.js",
+      "types": "./KeyFeaturedCard11.d.ts"
+    },
+    "./KeyFeaturedCard12": {
+      "import": "./KeyFeaturedCard12.js",
+      "types": "./KeyFeaturedCard12.d.ts"
+    },
+    "./Bg3": {
+      "import": "./Bg3.js",
+      "types": "./Bg3.d.ts"
+    },
+    "./Textrevealscroll3": {
+      "import": "./Textrevealscroll3.js",
+      "types": "./Textrevealscroll3.d.ts"
+    },
+    "./ProductCard7": {
+      "import": "./ProductCard7.js",
+      "types": "./ProductCard7.d.ts"
+    },
+    "./ProductCard8": {
+      "import": "./ProductCard8.js",
+      "types": "./ProductCard8.d.ts"
+    },
+    "./ProductCard9": {
+      "import": "./ProductCard9.js",
+      "types": "./ProductCard9.d.ts"
+    },
+    "./ButtonMain9": {
+      "import": "./ButtonMain9.js",
+      "types": "./ButtonMain9.d.ts"
+    },
+    "./Pre4": {
+      "import": "./Pre4.js",
+      "types": "./Pre4.d.ts"
+    },
+    "./ButtonMain10": {
+      "import": "./ButtonMain10.js",
+      "types": "./ButtonMain10.d.ts"
+    },
+    "./Svgdrawonscroll17": {
+      "import": "./Svgdrawonscroll17.js",
+      "types": "./Svgdrawonscroll17.d.ts"
+    },
+    "./Svgdrawonscroll18": {
+      "import": "./Svgdrawonscroll18.js",
+      "types": "./Svgdrawonscroll18.d.ts"
+    },
+    "./ScrollText4": {
+      "import": "./ScrollText4.js",
+      "types": "./ScrollText4.d.ts"
+    },
+    "./ButtonMain11": {
+      "import": "./ButtonMain11.js",
+      "types": "./ButtonMain11.d.ts"
+    },
+    "./Title4": {
+      "import": "./Title4.js",
+      "types": "./Title4.d.ts"
+    },
+    "./KeyFeaturedCard13": {
+      "import": "./KeyFeaturedCard13.js",
+      "types": "./KeyFeaturedCard13.d.ts"
+    },
+    "./KeyFeaturedCard14": {
+      "import": "./KeyFeaturedCard14.js",
+      "types": "./KeyFeaturedCard14.d.ts"
+    },
+    "./KeyFeaturedCard15": {
+      "import": "./KeyFeaturedCard15.js",
+      "types": "./KeyFeaturedCard15.d.ts"
+    },
+    "./KeyFeaturedCard16": {
+      "import": "./KeyFeaturedCard16.js",
+      "types": "./KeyFeaturedCard16.d.ts"
+    },
+    "./Bg4": {
+      "import": "./Bg4.js",
+      "types": "./Bg4.d.ts"
+    },
+    "./Textrevealscroll4": {
+      "import": "./Textrevealscroll4.js",
+      "types": "./Textrevealscroll4.d.ts"
+    },
+    "./ProductCard10": {
+      "import": "./ProductCard10.js",
+      "types": "./ProductCard10.d.ts"
+    },
+    "./ProductCard11": {
+      "import": "./ProductCard11.js",
+      "types": "./ProductCard11.d.ts"
+    },
+    "./ProductCard12": {
+      "import": "./ProductCard12.js",
+      "types": "./ProductCard12.d.ts"
+    },
+    "./ButtonMain12": {
+      "import": "./ButtonMain12.js",
+      "types": "./ButtonMain12.d.ts"
+    },
+    "./Pre5": {
+      "import": "./Pre5.js",
+      "types": "./Pre5.d.ts"
+    },
+    "./ButtonMain13": {
+      "import": "./ButtonMain13.js",
+      "types": "./ButtonMain13.d.ts"
+    },
+    "./Svgdrawonscroll19": {
+      "import": "./Svgdrawonscroll19.js",
+      "types": "./Svgdrawonscroll19.d.ts"
+    },
+    "./Svgdrawonscroll110": {
+      "import": "./Svgdrawonscroll110.js",
+      "types": "./Svgdrawonscroll110.d.ts"
+    },
+    "./ScrollText5": {
+      "import": "./ScrollText5.js",
+      "types": "./ScrollText5.d.ts"
+    },
+    "./ButtonMain14": {
+      "import": "./ButtonMain14.js",
+      "types": "./ButtonMain14.d.ts"
+    },
+    "./Title5": {
+      "import": "./Title5.js",
+      "types": "./Title5.d.ts"
+    },
+    "./KeyFeaturedCard17": {
+      "import": "./KeyFeaturedCard17.js",
+      "types": "./KeyFeaturedCard17.d.ts"
+    },
+    "./KeyFeaturedCard18": {
+      "import": "./KeyFeaturedCard18.js",
+      "types": "./KeyFeaturedCard18.d.ts"
+    },
+    "./KeyFeaturedCard19": {
+      "import": "./KeyFeaturedCard19.js",
+      "types": "./KeyFeaturedCard19.d.ts"
+    },
+    "./KeyFeaturedCard20": {
+      "import": "./KeyFeaturedCard20.js",
+      "types": "./KeyFeaturedCard20.d.ts"
+    },
+    "./Bg5": {
+      "import": "./Bg5.js",
+      "types": "./Bg5.d.ts"
+    },
+    "./Textrevealscroll5": {
+      "import": "./Textrevealscroll5.js",
+      "types": "./Textrevealscroll5.d.ts"
+    },
+    "./ProductCard13": {
+      "import": "./ProductCard13.js",
+      "types": "./ProductCard13.d.ts"
+    },
+    "./ProductCard14": {
+      "import": "./ProductCard14.js",
+      "types": "./ProductCard14.d.ts"
+    },
+    "./ProductCard15": {
+      "import": "./ProductCard15.js",
+      "types": "./ProductCard15.d.ts"
+    },
+    "./ButtonMain15": {
+      "import": "./ButtonMain15.js",
+      "types": "./ButtonMain15.d.ts"
+    },
+    "./Pre6": {
+      "import": "./Pre6.js",
+      "types": "./Pre6.d.ts"
+    },
+    "./ButtonMain16": {
+      "import": "./ButtonMain16.js",
+      "types": "./ButtonMain16.d.ts"
+    },
+    "./Svgdrawonscroll111": {
+      "import": "./Svgdrawonscroll111.js",
+      "types": "./Svgdrawonscroll111.d.ts"
+    },
+    "./Svgdrawonscroll112": {
+      "import": "./Svgdrawonscroll112.js",
+      "types": "./Svgdrawonscroll112.d.ts"
+    },
+    "./ScrollText6": {
+      "import": "./ScrollText6.js",
+      "types": "./ScrollText6.d.ts"
+    },
+    "./ButtonMain17": {
+      "import": "./ButtonMain17.js",
+      "types": "./ButtonMain17.d.ts"
+    },
+    "./Title6": {
+      "import": "./Title6.js",
+      "types": "./Title6.d.ts"
+    },
+    "./KeyFeaturedCard21": {
+      "import": "./KeyFeaturedCard21.js",
+      "types": "./KeyFeaturedCard21.d.ts"
+    },
+    "./KeyFeaturedCard22": {
+      "import": "./KeyFeaturedCard22.js",
+      "types": "./KeyFeaturedCard22.d.ts"
+    },
+    "./KeyFeaturedCard23": {
+      "import": "./KeyFeaturedCard23.js",
+      "types": "./KeyFeaturedCard23.d.ts"
+    },
+    "./KeyFeaturedCard24": {
+      "import": "./KeyFeaturedCard24.js",
+      "types": "./KeyFeaturedCard24.d.ts"
+    },
+    "./Bg6": {
+      "import": "./Bg6.js",
+      "types": "./Bg6.d.ts"
+    },
+    "./Textrevealscroll6": {
+      "import": "./Textrevealscroll6.js",
+      "types": "./Textrevealscroll6.d.ts"
+    },
+    "./ProductCard16": {
+      "import": "./ProductCard16.js",
+      "types": "./ProductCard16.d.ts"
+    },
+    "./ProductCard17": {
+      "import": "./ProductCard17.js",
+      "types": "./ProductCard17.d.ts"
+    },
+    "./ProductCard18": {
+      "import": "./ProductCard18.js",
+      "types": "./ProductCard18.d.ts"
+    },
+    "./ButtonMain18": {
+      "import": "./ButtonMain18.js",
+      "types": "./ButtonMain18.d.ts"
+    }
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
+    "framer-motion": ">=10.0.0"
+  },
+  "keywords": [
+    "framer",
+    "react",
+    "components",
+    "exported"
+  ],
+  "license": "MIT"
+}

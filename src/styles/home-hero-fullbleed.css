@@ -17,6 +17,29 @@
   z-index:3!important;
 }
 
+/* A quiet callback to the original hero artwork: a small flock crosses the
+   open sky well above the cans, with no pointer or reading-order footprint. */
+.sky-home .atmospheric-scene-hero .legacy-sky-hero__bird-flock{
+  position:absolute;
+  z-index:1;
+  top:clamp(7.5rem,25vh,14rem);
+  left:0;
+  display:block;
+  width:clamp(10rem,17vw,19rem);
+  height:auto;
+  overflow:visible;
+  fill:rgba(255,255,255,.9);
+  filter:drop-shadow(0 1px 5px rgba(10,67,105,.16));
+  opacity:.72;
+  pointer-events:none;
+  will-change:transform;
+  animation:lagom-hero-bird-crossing 42s cubic-bezier(.42,.05,.58,.95) infinite -17s;
+}
+@keyframes lagom-hero-bird-crossing{
+  0%{transform:translate3d(110vw,0,0)}
+  97%,100%{transform:translate3d(-22rem,-1.1rem,0)}
+}
+
 .sky-home .atmospheric-scene-hero .legacy-sky-hero h1{
   color:#fff!important;
   font-weight:500;
@@ -126,6 +149,12 @@
 }
 
 @media(max-width:899px){
+  .sky-home .atmospheric-scene-hero .legacy-sky-hero__bird-flock{
+    top:clamp(7.5rem,24vh,11rem);
+    width:clamp(8.5rem,37vw,12rem);
+    opacity:.52;
+    animation-duration:50s;
+  }
   .sky-home .atmospheric-scene-hero .legacy-sky-hero__flavor-stage{
     inset-inline-start:50%;
     inset-inline-end:auto;
@@ -302,6 +331,13 @@
 
   .sky-home .atmospheric-scene-hero .legacy-sky-hero__flavor-can{
     inline-size:clamp(5.8rem,16vw,7.8rem)!important;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .sky-home .atmospheric-scene-hero .legacy-sky-hero__bird-flock{
+    animation:none;
+    transform:translate3d(50vw,0,0);
   }
 }
 

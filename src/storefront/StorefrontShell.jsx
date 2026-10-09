@@ -203,7 +203,7 @@ export function StorefrontHeader({detail=false}){
         <nav className="desktop-nav" aria-label="Primary navigation">
           <div className="desktop-nav__links">
             <div className={`desktop-nav__shop ${shopOpen?'is-open':''}`}>
-              <button type="button" className={`desktop-nav__shop-trigger ${isShopRoute?'active':''}`} aria-haspopup="true" aria-expanded={shopOpen} aria-controls="desktop-shop-panel" onClick={()=>setShopOpen(value=>!value)} onMouseEnter={()=>setShopOpen(true)}>Shop<ChevronDown aria-hidden="true"/></button>
+              <button type="button" className={`desktop-nav__shop-trigger ${isShopRoute?'active':''}`} aria-haspopup="true" aria-expanded={shopOpen} aria-controls="desktop-shop-panel" onClick={()=>setShopOpen(value=>!value)}>Shop<ChevronDown aria-hidden="true"/></button>
             </div>
             <NavLink to="/merch">Merch</NavLink>
             <NavLink to="/about">Our Story</NavLink>

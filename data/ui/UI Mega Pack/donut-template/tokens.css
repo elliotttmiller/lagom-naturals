@@ -1,0 +1,185 @@
+/**
+ * Project design tokens extracted from the Framer canvas.
+ * Import this file once at the root of your app so the
+ * --token-<uuid> CSS variables referenced by exported components resolve.
+ */
+@font-face {
+  font-family: 'Boldonse';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/boldonse/v1/ZgNQjPxGPbbJUZemjC35hmHmNpCO.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://framerusercontent.com/assets/5vvr9Vy74if2I6bQbJvbw7SY1pQ.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://framerusercontent.com/assets/EOr0mi4hNtlgWNn9if640EZzXCo.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://framerusercontent.com/assets/Y9k9QrlZAqio88Klkmbd8VoMQc.woff2') format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://framerusercontent.com/assets/OYrD2tBIBPvoJXiIHnLoOXnY9M.woff2') format('woff2');
+  unicode-range: U+0370-03FF;
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://framerusercontent.com/assets/JeYwfuaPfZHQhEG8U5gtPDZ7WQ.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://framerusercontent.com/assets/GrgcKwrN6d3Uz8EwcLHZxwEfC4.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2070, U+2074-207E, U+2080-208E, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://framerusercontent.com/assets/b6Y37FthZeALduNqHicBT6FutY.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Chillax';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://framerusercontent.com/third-party-assets/fontshare/wf/WSPWZKQM26GGKSLVGSP2CFUHUMS5BCYQ/UE3YJANJM3SE3IWT4TOMYQVMLCQ6GZGG/XESIRBQU62YFBC7YQZI6D2NT5CNZ4PPU.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Chillax';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('https://framerusercontent.com/third-party-assets/fontshare/wf/UM553GIXLG5E46TUH763VYPGAQ77BPQ5/NN4EI53RUGC4BO5HP5F46SYQ4WY4U4CE/T2KA2X72VGASVXFVB7QCOIFYVH5GZJTW.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Chillax';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('https://framerusercontent.com/third-party-assets/fontshare/wf/XASL35KKT35X3ACCBCOQKKABSR6AT3FX/6MU5BWUUPHCFUHM2F3E3QPQGKXCVBUOO/WZY5PMNTII6NKOB2TTIAX7QVAWMSY2DQ.woff2') format('woff2');
+}
+
+:root {
+  --token-6bb30bad-8756-4356-9c41-728d60b200cc: rgb(219, 87, 131);
+  --token-4afec5b3-c9ca-4318-8586-8033acd8e73b: rgb(255, 236, 229);
+  --token-9f934226-8073-4603-9f51-fca416659f29: rgb(191, 191, 191);
+  --token-24a3f659-fe6c-4365-b978-da49d1fb6a4a: rgb(128, 128, 128);
+  --token-38918c26-0d71-4f9f-acc4-ce766b590086: rgb(64, 64, 64);
+  --token-a1d1db55-0222-4ade-a9f1-09b6162be2a3: rgb(23, 23, 23);
+  --token-45051b95-95f4-4500-8ea4-680290236b85: rgb(255, 255, 255);
+  --token-7a381f4a-a873-46d2-95c9-a72e430e1732: rgb(217, 217, 217);
+  --token-9fc4716d-f205-4025-a3cd-c4e40b6dea0b: rgb(128, 128, 128);
+  --token-71ca0af7-12ef-4a0c-aaf5-e48f6a18fcd5: rgb(64, 64, 64);
+  --token-86af3992-a5bb-447d-94d3-5391f479d420: rgb(219, 87, 131);
+  --token-955a487d-0233-4fc4-9ec9-1e13d781a048: rgb(75, 88, 155);
+  --token-e4fc807d-102e-4839-b91e-d6f174f62c2e: rgb(151, 198, 57);
+  --token-0f1215d1-a939-4d93-b5f3-fa7d349fb892: rgb(245, 163, 190);
+}
+
+.text-style-Bg6moUAf0 {
+  font-family: 'Boldonse', sans-serif;
+  font-size: 64px;
+  line-height: 140%;
+  color: rgb(219, 87, 131);
+}
+.text-style-nqYznXGVD {
+  font-family: 'Boldonse', sans-serif;
+  font-size: 80px;
+  line-height: 140%;
+  color: rgb(219, 87, 131);
+}
+.text-style-HxaBsiQgO {
+  font-family: 'Boldonse', sans-serif;
+  font-size: 120px;
+  line-height: 140%;
+  color: rgb(219, 87, 131);
+}
+.text-style-Gwy_nKUUa {
+  font-family: 'Boldonse', sans-serif;
+  font-size: 52px;
+  line-height: 140%;
+  color: rgb(219, 87, 131);
+}
+.text-style-zfGqUZJYU {
+  font-family: 'Boldonse', sans-serif;
+  font-size: 32px;
+  line-height: 140%;
+  color: rgb(219, 87, 131);
+}
+.text-style-Hh_dqeJaF {
+  font-family: 'Chillax', sans-serif;
+  font-size: 24px;
+  line-height: 150%;
+  color: rgb(219, 87, 131);
+}
+.text-style-KRUEduuRo {
+  font-family: 'Chillax', sans-serif;
+  font-size: 20px;
+  line-height: 140%;
+  color: rgb(219, 87, 131);
+}
+.text-style-cRhro8yAF {
+  font-family: 'Boldonse', sans-serif;
+  font-size: 16px;
+  line-height: 140%;
+  color: rgb(219, 87, 131);
+}
+.text-style-YY88YzDKP {
+  font-family: 'Chillax', sans-serif;
+  font-size: 14px;
+  line-height: 140%;
+  color: rgb(255, 255, 255);
+}
+.text-style-NZ0UJW1Vx {
+  font-family: 'Chillax', sans-serif;
+  font-size: 14px;
+  line-height: 140%;
+  color: rgb(255, 255, 255);
+}
+.text-style-BAtYGGHfj {
+  font-family: 'Chillax', sans-serif;
+  font-size: 16px;
+  line-height: 140%;
+  color: rgb(255, 255, 255);
+}
+.text-style-qn73LUNcy {
+  font-family: 'Chillax', sans-serif;
+  font-size: 16px;
+  line-height: 140%;
+  color: rgb(255, 255, 255);
+}
+.text-style-kJFpmPtbb {
+  font-family: 'Chillax', sans-serif;
+  font-size: 18px;
+  line-height: 140%;
+  color: rgb(64, 64, 64);
+}
