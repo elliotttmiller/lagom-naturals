@@ -2,8 +2,10 @@ import {useEffect,useState} from 'react'
 
 const SCENES=[
   ['home-scene-hero','Hero'],
-  ['home-scene-flavors','Flavors'],
+  ['home-scene-flavors','Seltzer flavors'],
+  ['home-scene-editorial','Our story'],
   ['gummies','Gummies'],
+  ['home-scene-collections','Shop collections'],
 ]
 
 export default function LagomScrollIndicator(){
