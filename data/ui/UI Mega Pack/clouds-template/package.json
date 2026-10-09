@@ -1,0 +1,194 @@
+{
+  "name": "Hero Countdown",
+  "version": "1.0.0",
+  "description": "Exported Framer components: Countdown, Liveclouds, Ud0etfbk, Nz7hvacwu, Qdc8M4bs, Stickygridgallery, Waitlist, Countdown2, Liveclouds2, Ud0etfbk2, Nz7hvacwu2, Qdc8M4bs2, Stickygridgallery2, Waitlist2, Countdown3, Liveclouds3, Ud0etfbk3, Nz7hvacwu3, Qdc8M4bs3, Stickygridgallery3, Waitlist3, Countdown4, Liveclouds4, Ud0etfbk4, Nz7hvacwu4, Qdc8M4bs4, Stickygridgallery4, Waitlist4, Countdown5, Liveclouds5, Ud0etfbk5, Nz7hvacwu5, Qdc8M4bs5, Stickygridgallery5, Waitlist5, Countdown6, Liveclouds6, Ud0etfbk6, Nz7hvacwu6, Qdc8M4bs6, Stickygridgallery6, Waitlist6",
+  "type": "module",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "types": "./index.d.ts"
+    },
+    "./Countdown": {
+      "import": "./Countdown.js",
+      "types": "./Countdown.d.ts"
+    },
+    "./Liveclouds": {
+      "import": "./Liveclouds.js",
+      "types": "./Liveclouds.d.ts"
+    },
+    "./Ud0etfbk": {
+      "import": "./Ud0etfbk.js",
+      "types": "./Ud0etfbk.d.ts"
+    },
+    "./Nz7hvacwu": {
+      "import": "./Nz7hvacwu.js",
+      "types": "./Nz7hvacwu.d.ts"
+    },
+    "./Qdc8M4bs": {
+      "import": "./Qdc8M4bs.js",
+      "types": "./Qdc8M4bs.d.ts"
+    },
+    "./Stickygridgallery": {
+      "import": "./Stickygridgallery.js",
+      "types": "./Stickygridgallery.d.ts"
+    },
+    "./Waitlist": {
+      "import": "./Waitlist.js",
+      "types": "./Waitlist.d.ts"
+    },
+    "./Countdown2": {
+      "import": "./Countdown2.js",
+      "types": "./Countdown2.d.ts"
+    },
+    "./Liveclouds2": {
+      "import": "./Liveclouds2.js",
+      "types": "./Liveclouds2.d.ts"
+    },
+    "./Ud0etfbk2": {
+      "import": "./Ud0etfbk2.js",
+      "types": "./Ud0etfbk2.d.ts"
+    },
+    "./Nz7hvacwu2": {
+      "import": "./Nz7hvacwu2.js",
+      "types": "./Nz7hvacwu2.d.ts"
+    },
+    "./Qdc8M4bs2": {
+      "import": "./Qdc8M4bs2.js",
+      "types": "./Qdc8M4bs2.d.ts"
+    },
+    "./Stickygridgallery2": {
+      "import": "./Stickygridgallery2.js",
+      "types": "./Stickygridgallery2.d.ts"
+    },
+    "./Waitlist2": {
+      "import": "./Waitlist2.js",
+      "types": "./Waitlist2.d.ts"
+    },
+    "./Countdown3": {
+      "import": "./Countdown3.js",
+      "types": "./Countdown3.d.ts"
+    },
+    "./Liveclouds3": {
+      "import": "./Liveclouds3.js",
+      "types": "./Liveclouds3.d.ts"
+    },
+    "./Ud0etfbk3": {
+      "import": "./Ud0etfbk3.js",
+      "types": "./Ud0etfbk3.d.ts"
+    },
+    "./Nz7hvacwu3": {
+      "import": "./Nz7hvacwu3.js",
+      "types": "./Nz7hvacwu3.d.ts"
+    },
+    "./Qdc8M4bs3": {
+      "import": "./Qdc8M4bs3.js",
+      "types": "./Qdc8M4bs3.d.ts"
+    },
+    "./Stickygridgallery3": {
+      "import": "./Stickygridgallery3.js",
+      "types": "./Stickygridgallery3.d.ts"
+    },
+    "./Waitlist3": {
+      "import": "./Waitlist3.js",
+      "types": "./Waitlist3.d.ts"
+    },
+    "./Countdown4": {
+      "import": "./Countdown4.js",
+      "types": "./Countdown4.d.ts"
+    },
+    "./Liveclouds4": {
+      "import": "./Liveclouds4.js",
+      "types": "./Liveclouds4.d.ts"
+    },
+    "./Ud0etfbk4": {
+      "import": "./Ud0etfbk4.js",
+      "types": "./Ud0etfbk4.d.ts"
+    },
+    "./Nz7hvacwu4": {
+      "import": "./Nz7hvacwu4.js",
+      "types": "./Nz7hvacwu4.d.ts"
+    },
+    "./Qdc8M4bs4": {
+      "import": "./Qdc8M4bs4.js",
+      "types": "./Qdc8M4bs4.d.ts"
+    },
+    "./Stickygridgallery4": {
+      "import": "./Stickygridgallery4.js",
+      "types": "./Stickygridgallery4.d.ts"
+    },
+    "./Waitlist4": {
+      "import": "./Waitlist4.js",
+      "types": "./Waitlist4.d.ts"
+    },
+    "./Countdown5": {
+      "import": "./Countdown5.js",
+      "types": "./Countdown5.d.ts"
+    },
+    "./Liveclouds5": {
+      "import": "./Liveclouds5.js",
+      "types": "./Liveclouds5.d.ts"
+    },
+    "./Ud0etfbk5": {
+      "import": "./Ud0etfbk5.js",
+      "types": "./Ud0etfbk5.d.ts"
+    },
+    "./Nz7hvacwu5": {
+      "import": "./Nz7hvacwu5.js",
+      "types": "./Nz7hvacwu5.d.ts"
+    },
+    "./Qdc8M4bs5": {
+      "import": "./Qdc8M4bs5.js",
+      "types": "./Qdc8M4bs5.d.ts"
+    },
+    "./Stickygridgallery5": {
+      "import": "./Stickygridgallery5.js",
+      "types": "./Stickygridgallery5.d.ts"
+    },
+    "./Waitlist5": {
+      "import": "./Waitlist5.js",
+      "types": "./Waitlist5.d.ts"
+    },
+    "./Countdown6": {
+      "import": "./Countdown6.js",
+      "types": "./Countdown6.d.ts"
+    },
+    "./Liveclouds6": {
+      "import": "./Liveclouds6.js",
+      "types": "./Liveclouds6.d.ts"
+    },
+    "./Ud0etfbk6": {
+      "import": "./Ud0etfbk6.js",
+      "types": "./Ud0etfbk6.d.ts"
+    },
+    "./Nz7hvacwu6": {
+      "import": "./Nz7hvacwu6.js",
+      "types": "./Nz7hvacwu6.d.ts"
+    },
+    "./Qdc8M4bs6": {
+      "import": "./Qdc8M4bs6.js",
+      "types": "./Qdc8M4bs6.d.ts"
+    },
+    "./Stickygridgallery6": {
+      "import": "./Stickygridgallery6.js",
+      "types": "./Stickygridgallery6.d.ts"
+    },
+    "./Waitlist6": {
+      "import": "./Waitlist6.js",
+      "types": "./Waitlist6.d.ts"
+    }
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
+    "framer-motion": ">=10.0.0"
+  },
+  "keywords": [
+    "framer",
+    "react",
+    "components",
+    "exported"
+  ],
+  "license": "MIT"
+}

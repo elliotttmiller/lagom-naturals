@@ -75,36 +75,39 @@
    crisp above the glass so the header actions remain easy to find. */
 @media(min-width:900px){
   .global-search{
-    --search-glass-fill:rgba(255,255,255,.44);
-    --search-glass-edge:rgba(255,255,255,.76);
-    --search-glass-highlight:inset 0 1px 0 rgba(255,255,255,.88);
+    --search-glass-fill:rgba(255,255,255,.3);
+    --search-glass-edge:rgba(255,255,255,.58);
+    --search-glass-highlight:inset 0 1px 0 rgba(255,255,255,.66);
   }
   .global-search-layer{
-    background:rgba(16,22,19,.12);
-    -webkit-backdrop-filter:blur(7px) saturate(.88);
-    backdrop-filter:blur(7px) saturate(.88);
+    background:rgba(7,48,76,.1);
+    -webkit-backdrop-filter:blur(11px) saturate(.94);
+    backdrop-filter:blur(11px) saturate(.94);
   }
   .global-search{
     border:0;
-    background:rgba(244,248,246,.54);
-    box-shadow:0 22px 58px rgba(10,17,13,.14),inset 0 1px 0 rgba(255,255,255,.72);
-    -webkit-backdrop-filter:blur(24px) saturate(1.18);
-    backdrop-filter:blur(24px) saturate(1.18);
+    background:rgba(198,230,247,.24);
+    box-shadow:0 22px 58px rgba(7,47,75,.12),inset 0 1px 0 rgba(255,255,255,.56);
+    -webkit-backdrop-filter:blur(26px) saturate(1.14);
+    backdrop-filter:blur(26px) saturate(1.14);
   }
   .global-search__bar{
     box-sizing:border-box;
     width:100%;
     padding-inline:max(clamp(28px,3vw,52px),calc((100vw - var(--desktop-wide,1600px))/2));
-    gap:clamp(24px,3.6vw,64px);
+    grid-template-columns:minmax(150px,1fr) minmax(340px,min(48vw,780px)) minmax(110px,1fr);
+    gap:clamp(20px,2.8vw,48px);
     border-bottom:0;
     background:transparent;
   }
+  .global-search__brand{justify-self:start}
+  .global-search__close{justify-self:end}
   .global-search__form{
     border-color:var(--search-glass-edge);
     background:var(--search-glass-fill);
     box-shadow:0 8px 26px rgba(14,24,18,.07),var(--search-glass-highlight);
-    -webkit-backdrop-filter:blur(14px) saturate(1.16);
-    backdrop-filter:blur(14px) saturate(1.16);
+    -webkit-backdrop-filter:blur(18px) saturate(1.16);
+    backdrop-filter:blur(18px) saturate(1.16);
   }
   .global-search__form:focus-within{
     border-color:rgba(49,87,70,.55);
@@ -122,10 +125,10 @@
     padding:18px clamp(20px,2.2vw,32px);
     border:1px solid var(--search-glass-edge);
     border-radius:24px;
-    background:var(--search-glass-fill);
+    background:rgba(207,234,248,.25);
     box-shadow:0 8px 26px rgba(14,24,18,.07),var(--search-glass-highlight);
-    -webkit-backdrop-filter:blur(14px) saturate(1.16);
-    backdrop-filter:blur(14px) saturate(1.16);
+    -webkit-backdrop-filter:blur(20px) saturate(1.16);
+    backdrop-filter:blur(20px) saturate(1.16);
   }
   .global-search__close{
     min-width:88px;
@@ -139,7 +142,7 @@
   }
   .global-search__chips button{
     border-color:var(--search-glass-edge);
-    background:rgba(255,255,255,.56);
+    background:rgba(255,255,255,.38);
     box-shadow:0 3px 12px rgba(18,28,23,.04),var(--search-glass-highlight);
   }
   .global-search__chips button:hover{
@@ -149,7 +152,7 @@
   }
   .global-search__result{
     border-color:rgba(255,255,255,.72);
-    background:rgba(255,255,255,.62);
+    background:rgba(255,255,255,.48);
     box-shadow:0 8px 24px rgba(18,28,23,.06),inset 0 1px 0 rgba(255,255,255,.76);
   }
   .global-search__result:hover{
@@ -165,7 +168,7 @@
   }
   .global-search__empty{
     border-color:rgba(255,255,255,.72);
-    background:rgba(250,251,249,.58);
+    background:rgba(231,244,251,.36);
     box-shadow:0 8px 24px rgba(18,28,23,.05),inset 0 1px 0 rgba(255,255,255,.8);
   }
   .global-search__clear:focus-visible,

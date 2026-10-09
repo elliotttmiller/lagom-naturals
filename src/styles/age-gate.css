@@ -15,7 +15,7 @@ body.age-gate-open{
 
 
 .age-gate{
-  --age-sky:#b0e3fd;
+  --age-sky:#1689d8;
   --age-ink:#0b0d12;
   --age-copy:#26343c;
   position:fixed;
@@ -30,14 +30,30 @@ body.age-gate-open{
   color:var(--age-ink);
 }
 
+/* On the homepage, the gate is transparent over the single live homepage
+   atmosphere, so the same cloud frame continues through the handoff. */
+.age-gate--shared-sky{
+  background:transparent;
+}
+
+.age-gate--shared-sky .age-gate__prepare-surface,
+.age-gate--shared-sky .age-gate__scene{
+  background:transparent;
+}
+
+.age-gate--shared-sky .age-gate__scene::after,
+.age-gate--shared-sky .age-gate__atmosphere-glow{
+  display:none;
+}
+
 .age-gate__prepare-surface{
   position:absolute;
   inset:0;
   z-index:40;
   pointer-events:none;
   background:
-    radial-gradient(ellipse 72% 42% at 50% 45%,rgba(255,255,255,.18),transparent 72%),
-    linear-gradient(180deg,#b0e3fd 0%,#bae7fd 55%,#d3f0fd 100%);
+    radial-gradient(ellipse 72% 42% at 50% 45%,rgba(255,255,255,.12),transparent 72%),
+    linear-gradient(180deg,#0879D1 0%,#1689D8 48%,#37A5E4 100%);
   opacity:1;
   transition:opacity 520ms cubic-bezier(.16,1,.3,1);
 }
@@ -46,8 +62,7 @@ body.age-gate-open{
   opacity:0;
 }
 
-.age-gate__static-scene,
-.age-gate__static-clouds{
+.age-gate__static-scene{
   position:absolute;
   inset:0;
   pointer-events:none;
@@ -57,8 +72,15 @@ body.age-gate-open{
   z-index:0;
 }
 
-.age-gate__static-clouds{
-  z-index:2;
+.age-gate__live-clouds{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  overflow:hidden;
+  pointer-events:none;
+  transform:translate3d(0,0,0) scale(1);
+  transform-origin:50% 54%;
+  backface-visibility:hidden;
 }
 
 .age-gate__scene{
@@ -66,9 +88,7 @@ body.age-gate-open{
   inset:-2%;
   z-index:0;
   pointer-events:none;
-  background:
-    linear-gradient(180deg,rgba(176,227,253,.03),rgba(176,227,253,.01)),
-    image-set(url('../assets/optimized/homeAtmosphere/home-hero-sky-1600.avif') type('image/avif'),url('../assets/optimized/homeAtmosphere/home-hero-sky-1600.webp') type('image/webp')) center 48% / cover no-repeat;
+  background:linear-gradient(180deg,#0879D1 0%,#1689D8 48%,#37A5E4 100%);
   transform:scale(1);
   transform-origin:50% 50%;
   backface-visibility:hidden;
@@ -96,123 +116,6 @@ body.age-gate-open{
   );
   opacity:.55;
   transform:scale(1);
-}
-
-.age-gate__cloud-depth{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  transform:translate3d(0,0,0);
-  backface-visibility:hidden;
-}
-
-.age-gate__cloud-depth--far{z-index:0}
-.age-gate__cloud-depth--mid{z-index:1}
-
-.age-gate__cloud-frame{
-  position:absolute;
-  pointer-events:none;
-  background-repeat:no-repeat;
-  background-position:center;
-  background-size:contain;
-  filter:none;
-  transform:translate3d(0,0,0) scale(1);
-  transform-origin:50% 50%;
-  backface-visibility:hidden;
-}
-
-/* Far atmosphere */
-.age-gate__cloud-frame--far-left{
-  top:8%;
-  left:-8%;
-  width:min(29vw,440px);
-  aspect-ratio:1.75/1;
-  opacity:.24;
-  background-image:url('../assets/atmosphere/clouds/cloud-16.webp');
-}
-
-.age-gate__cloud-frame--far-right{
-  top:28%;
-  right:-8%;
-  width:min(31vw,470px);
-  aspect-ratio:1.8/1;
-  opacity:.25;
-  background-image:url('../assets/atmosphere/clouds/cloud-09.webp');
-}
-
-.age-gate__cloud-frame--far-top{
-  top:-8%;
-  left:34%;
-  width:min(38vw,620px);
-  aspect-ratio:1.84/1;
-  opacity:.22;
-  background-image:url('../assets/atmosphere/clouds/cloud-10.webp');
-}
-
-.age-gate__cloud-frame--far-low{
-  left:31%;
-  bottom:7%;
-  width:min(35vw,560px);
-  aspect-ratio:1.82/1;
-  opacity:.2;
-  background-image:url('../assets/atmosphere/clouds/cloud-14.webp');
-}
-
-/* Mid atmosphere */
-.age-gate__cloud-frame--left{
-  top:-10%;
-  left:-15%;
-  width:min(50vw,800px);
-  aspect-ratio:1.9/1;
-  opacity:.45;
-  background-image:url('../assets/atmosphere/clouds/cloud-left-fragment.webp');
-}
-
-.age-gate__cloud-frame--right{
-  top:-7%;
-  right:-17%;
-  width:min(52vw,820px);
-  aspect-ratio:1.9/1;
-  opacity:.45;
-  background-image:url('../assets/atmosphere/clouds/cloud-right-fragment.webp');
-}
-
-.age-gate__cloud-frame--center{
-  top:32%;
-  left:50%;
-  width:min(48vw,760px);
-  aspect-ratio:1.85/1;
-  opacity:.24;
-  translate:-50% 0;
-  background-image:url('../assets/atmosphere/clouds/cloud-21.webp');
-}
-
-.age-gate__cloud-frame--bottom{
-  left:50%;
-  bottom:-28%;
-  width:min(108vw,1760px);
-  aspect-ratio:1.82/1;
-  opacity:.34;
-  translate:-50% 0;
-  background-image:url('../assets/atmosphere/clouds/cloud-mid-field.webp');
-}
-
-.age-gate__cloud-frame--mid-lower-left{
-  top:49%;
-  left:-7%;
-  width:min(43vw,690px);
-  aspect-ratio:1.8/1;
-  opacity:.22;
-  background-image:url('../assets/atmosphere/clouds/cloud-19.webp');
-}
-
-.age-gate__cloud-frame--mid-lower-right{
-  top:52%;
-  right:-8%;
-  width:min(41vw,660px);
-  aspect-ratio:1.78/1;
-  opacity:.21;
-  background-image:url('../assets/atmosphere/clouds/natural-white-cumulus-cloud-floating-on-transparent-background-png.webp');
 }
 
 /* Decision layer */
@@ -387,18 +290,6 @@ body.age-gate-open{
     width:min(100%,410px);
   }
 
-  .age-gate__cloud-frame--far-left{top:9%;left:-22%;width:60vw;opacity:.19}
-  .age-gate__cloud-frame--far-right{top:30%;right:-24%;width:64vw;opacity:.2}
-  .age-gate__cloud-frame--far-top{top:-5%;left:19%;width:70vw;opacity:.17}
-  .age-gate__cloud-frame--far-low{left:18%;bottom:17%;width:66vw;opacity:.15}
-
-  .age-gate__cloud-frame--left{top:-4%;left:-42%;width:98vw;opacity:.34}
-  .age-gate__cloud-frame--right{top:1%;right:-45%;width:100vw;opacity:.34}
-  .age-gate__cloud-frame--center{top:34%;width:92vw;opacity:.19}
-  .age-gate__cloud-frame--bottom{bottom:-14%;width:154vw;opacity:.3}
-  .age-gate__cloud-frame--mid-lower-left{top:51%;left:-30%;width:92vw;opacity:.17}
-  .age-gate__cloud-frame--mid-lower-right{top:54%;right:-31%;width:94vw;opacity:.16}
-
 }
 
 @media(max-width:599px){
@@ -452,18 +343,6 @@ body.age-gate-open{
     width:19px;
     height:19px;
   }
-
-  .age-gate__cloud-frame--far-left{top:8%;left:-36%;width:86vw}
-  .age-gate__cloud-frame--far-right{top:30%;right:-39%;width:90vw}
-  .age-gate__cloud-frame--far-top{top:-2%;left:8%;width:92vw}
-  .age-gate__cloud-frame--far-low{left:7%;bottom:21%;width:88vw}
-
-  .age-gate__cloud-frame--left{left:-64%;width:134vw;opacity:.31}
-  .age-gate__cloud-frame--right{right:-67%;width:136vw;opacity:.31}
-  .age-gate__cloud-frame--center{top:37%;width:122vw;opacity:.17}
-  .age-gate__cloud-frame--bottom{bottom:-6%;width:198vw;opacity:.28}
-  .age-gate__cloud-frame--mid-lower-left{top:51%;left:-53%;width:136vw;opacity:.15}
-  .age-gate__cloud-frame--mid-lower-right{top:55%;right:-59%;width:140vw;opacity:.14}
 
 }
 

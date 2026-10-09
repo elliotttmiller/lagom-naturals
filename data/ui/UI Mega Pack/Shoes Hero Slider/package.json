@@ -1,0 +1,30 @@
+{
+  "name": "Shoes Hero Slider",
+  "version": "1.0.0",
+  "description": "Exported Framer components: Hk97gg2qr",
+  "type": "module",
+  "main": "Hk97gg2qr.js",
+  "types": "Hk97gg2qr.d.ts",
+  "exports": {
+    ".": {
+      "import": "./Hk97gg2qr.js",
+      "types": "./Hk97gg2qr.d.ts"
+    },
+    "./Hk97gg2qr": {
+      "import": "./Hk97gg2qr.js",
+      "types": "./Hk97gg2qr.d.ts"
+    }
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
+    "framer-motion": ">=10.0.0"
+  },
+  "keywords": [
+    "framer",
+    "react",
+    "components",
+    "exported"
+  ],
+  "license": "MIT"
+}

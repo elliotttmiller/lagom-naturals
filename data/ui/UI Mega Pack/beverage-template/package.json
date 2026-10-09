@@ -1,0 +1,290 @@
+{
+  "name": "Button",
+  "version": "1.0.0",
+  "description": "Exported Framer components: Button, ParallaximageProd, IngriedentsList, ParallaximageProd2, Enjoy, Form, SingleFaq, SingleFaq2, SingleFaq3, SingleFaq4, SingleFaq5, Button2, ParallaximageProd3, IngriedentsList2, ParallaximageProd4, Enjoy2, Form2, SingleFaq6, SingleFaq7, SingleFaq8, SingleFaq9, SingleFaq10, Button3, ParallaximageProd5, IngriedentsList3, ParallaximageProd6, Enjoy3, Form3, SingleFaq11, SingleFaq12, SingleFaq13, SingleFaq14, SingleFaq15, Button4, ParallaximageProd7, IngriedentsList4, ParallaximageProd8, Enjoy4, Form4, SingleFaq16, SingleFaq17, SingleFaq18, SingleFaq19, SingleFaq20, Button5, ParallaximageProd9, IngriedentsList5, ParallaximageProd10, Enjoy5, Form5, SingleFaq21, SingleFaq22, SingleFaq23, SingleFaq24, SingleFaq25, Button6, ParallaximageProd11, IngriedentsList6, ParallaximageProd12, Enjoy6, Form6, SingleFaq26, SingleFaq27, SingleFaq28, SingleFaq29, SingleFaq30",
+  "type": "module",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "types": "./index.d.ts"
+    },
+    "./Button": {
+      "import": "./Button.js",
+      "types": "./Button.d.ts"
+    },
+    "./ParallaximageProd": {
+      "import": "./ParallaximageProd.js",
+      "types": "./ParallaximageProd.d.ts"
+    },
+    "./IngriedentsList": {
+      "import": "./IngriedentsList.js",
+      "types": "./IngriedentsList.d.ts"
+    },
+    "./ParallaximageProd2": {
+      "import": "./ParallaximageProd2.js",
+      "types": "./ParallaximageProd2.d.ts"
+    },
+    "./Enjoy": {
+      "import": "./Enjoy.js",
+      "types": "./Enjoy.d.ts"
+    },
+    "./Form": {
+      "import": "./Form.js",
+      "types": "./Form.d.ts"
+    },
+    "./SingleFaq": {
+      "import": "./SingleFaq.js",
+      "types": "./SingleFaq.d.ts"
+    },
+    "./SingleFaq2": {
+      "import": "./SingleFaq2.js",
+      "types": "./SingleFaq2.d.ts"
+    },
+    "./SingleFaq3": {
+      "import": "./SingleFaq3.js",
+      "types": "./SingleFaq3.d.ts"
+    },
+    "./SingleFaq4": {
+      "import": "./SingleFaq4.js",
+      "types": "./SingleFaq4.d.ts"
+    },
+    "./SingleFaq5": {
+      "import": "./SingleFaq5.js",
+      "types": "./SingleFaq5.d.ts"
+    },
+    "./Button2": {
+      "import": "./Button2.js",
+      "types": "./Button2.d.ts"
+    },
+    "./ParallaximageProd3": {
+      "import": "./ParallaximageProd3.js",
+      "types": "./ParallaximageProd3.d.ts"
+    },
+    "./IngriedentsList2": {
+      "import": "./IngriedentsList2.js",
+      "types": "./IngriedentsList2.d.ts"
+    },
+    "./ParallaximageProd4": {
+      "import": "./ParallaximageProd4.js",
+      "types": "./ParallaximageProd4.d.ts"
+    },
+    "./Enjoy2": {
+      "import": "./Enjoy2.js",
+      "types": "./Enjoy2.d.ts"
+    },
+    "./Form2": {
+      "import": "./Form2.js",
+      "types": "./Form2.d.ts"
+    },
+    "./SingleFaq6": {
+      "import": "./SingleFaq6.js",
+      "types": "./SingleFaq6.d.ts"
+    },
+    "./SingleFaq7": {
+      "import": "./SingleFaq7.js",
+      "types": "./SingleFaq7.d.ts"
+    },
+    "./SingleFaq8": {
+      "import": "./SingleFaq8.js",
+      "types": "./SingleFaq8.d.ts"
+    },
+    "./SingleFaq9": {
+      "import": "./SingleFaq9.js",
+      "types": "./SingleFaq9.d.ts"
+    },
+    "./SingleFaq10": {
+      "import": "./SingleFaq10.js",
+      "types": "./SingleFaq10.d.ts"
+    },
+    "./Button3": {
+      "import": "./Button3.js",
+      "types": "./Button3.d.ts"
+    },
+    "./ParallaximageProd5": {
+      "import": "./ParallaximageProd5.js",
+      "types": "./ParallaximageProd5.d.ts"
+    },
+    "./IngriedentsList3": {
+      "import": "./IngriedentsList3.js",
+      "types": "./IngriedentsList3.d.ts"
+    },
+    "./ParallaximageProd6": {
+      "import": "./ParallaximageProd6.js",
+      "types": "./ParallaximageProd6.d.ts"
+    },
+    "./Enjoy3": {
+      "import": "./Enjoy3.js",
+      "types": "./Enjoy3.d.ts"
+    },
+    "./Form3": {
+      "import": "./Form3.js",
+      "types": "./Form3.d.ts"
+    },
+    "./SingleFaq11": {
+      "import": "./SingleFaq11.js",
+      "types": "./SingleFaq11.d.ts"
+    },
+    "./SingleFaq12": {
+      "import": "./SingleFaq12.js",
+      "types": "./SingleFaq12.d.ts"
+    },
+    "./SingleFaq13": {
+      "import": "./SingleFaq13.js",
+      "types": "./SingleFaq13.d.ts"
+    },
+    "./SingleFaq14": {
+      "import": "./SingleFaq14.js",
+      "types": "./SingleFaq14.d.ts"
+    },
+    "./SingleFaq15": {
+      "import": "./SingleFaq15.js",
+      "types": "./SingleFaq15.d.ts"
+    },
+    "./Button4": {
+      "import": "./Button4.js",
+      "types": "./Button4.d.ts"
+    },
+    "./ParallaximageProd7": {
+      "import": "./ParallaximageProd7.js",
+      "types": "./ParallaximageProd7.d.ts"
+    },
+    "./IngriedentsList4": {
+      "import": "./IngriedentsList4.js",
+      "types": "./IngriedentsList4.d.ts"
+    },
+    "./ParallaximageProd8": {
+      "import": "./ParallaximageProd8.js",
+      "types": "./ParallaximageProd8.d.ts"
+    },
+    "./Enjoy4": {
+      "import": "./Enjoy4.js",
+      "types": "./Enjoy4.d.ts"
+    },
+    "./Form4": {
+      "import": "./Form4.js",
+      "types": "./Form4.d.ts"
+    },
+    "./SingleFaq16": {
+      "import": "./SingleFaq16.js",
+      "types": "./SingleFaq16.d.ts"
+    },
+    "./SingleFaq17": {
+      "import": "./SingleFaq17.js",
+      "types": "./SingleFaq17.d.ts"
+    },
+    "./SingleFaq18": {
+      "import": "./SingleFaq18.js",
+      "types": "./SingleFaq18.d.ts"
+    },
+    "./SingleFaq19": {
+      "import": "./SingleFaq19.js",
+      "types": "./SingleFaq19.d.ts"
+    },
+    "./SingleFaq20": {
+      "import": "./SingleFaq20.js",
+      "types": "./SingleFaq20.d.ts"
+    },
+    "./Button5": {
+      "import": "./Button5.js",
+      "types": "./Button5.d.ts"
+    },
+    "./ParallaximageProd9": {
+      "import": "./ParallaximageProd9.js",
+      "types": "./ParallaximageProd9.d.ts"
+    },
+    "./IngriedentsList5": {
+      "import": "./IngriedentsList5.js",
+      "types": "./IngriedentsList5.d.ts"
+    },
+    "./ParallaximageProd10": {
+      "import": "./ParallaximageProd10.js",
+      "types": "./ParallaximageProd10.d.ts"
+    },
+    "./Enjoy5": {
+      "import": "./Enjoy5.js",
+      "types": "./Enjoy5.d.ts"
+    },
+    "./Form5": {
+      "import": "./Form5.js",
+      "types": "./Form5.d.ts"
+    },
+    "./SingleFaq21": {
+      "import": "./SingleFaq21.js",
+      "types": "./SingleFaq21.d.ts"
+    },
+    "./SingleFaq22": {
+      "import": "./SingleFaq22.js",
+      "types": "./SingleFaq22.d.ts"
+    },
+    "./SingleFaq23": {
+      "import": "./SingleFaq23.js",
+      "types": "./SingleFaq23.d.ts"
+    },
+    "./SingleFaq24": {
+      "import": "./SingleFaq24.js",
+      "types": "./SingleFaq24.d.ts"
+    },
+    "./SingleFaq25": {
+      "import": "./SingleFaq25.js",
+      "types": "./SingleFaq25.d.ts"
+    },
+    "./Button6": {
+      "import": "./Button6.js",
+      "types": "./Button6.d.ts"
+    },
+    "./ParallaximageProd11": {
+      "import": "./ParallaximageProd11.js",
+      "types": "./ParallaximageProd11.d.ts"
+    },
+    "./IngriedentsList6": {
+      "import": "./IngriedentsList6.js",
+      "types": "./IngriedentsList6.d.ts"
+    },
+    "./ParallaximageProd12": {
+      "import": "./ParallaximageProd12.js",
+      "types": "./ParallaximageProd12.d.ts"
+    },
+    "./Enjoy6": {
+      "import": "./Enjoy6.js",
+      "types": "./Enjoy6.d.ts"
+    },
+    "./Form6": {
+      "import": "./Form6.js",
+      "types": "./Form6.d.ts"
+    },
+    "./SingleFaq26": {
+      "import": "./SingleFaq26.js",
+      "types": "./SingleFaq26.d.ts"
+    },
+    "./SingleFaq27": {
+      "import": "./SingleFaq27.js",
+      "types": "./SingleFaq27.d.ts"
+    },
+    "./SingleFaq28": {
+      "import": "./SingleFaq28.js",
+      "types": "./SingleFaq28.d.ts"
+    },
+    "./SingleFaq29": {
+      "import": "./SingleFaq29.js",
+      "types": "./SingleFaq29.d.ts"
+    },
+    "./SingleFaq30": {
+      "import": "./SingleFaq30.js",
+      "types": "./SingleFaq30.d.ts"
+    }
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
+    "framer-motion": ">=10.0.0"
+  },
+  "keywords": [
+    "framer",
+    "react",
+    "components",
+    "exported"
+  ],
+  "license": "MIT"
+}

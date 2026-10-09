@@ -3,9 +3,9 @@
 
 @media (max-width:899px){
   .sky-home{
-    --mobile-sky-top:#b0e3fd;
-    --mobile-sky-mid:#b7e6fd;
-    --mobile-sky-low:#cceefd;
+    --mobile-sky-top:#0879D1;
+    --mobile-sky-mid:#1689D8;
+    --mobile-sky-low:#37A5E4;
     width:100%;
     max-width:100vw;
     overflow-x:clip;
@@ -23,45 +23,11 @@
     transform-origin:50% 46%!important;
   }
 
-  /* Low-cost page-wide cloud banks preserve atmospheric continuity between
-     animated scenes without adding more MotionValues or promoted layers. */
+  /* The shared Live Clouds canvas owns homepage atmosphere on every device. */
   .sky-home::before,
   .sky-home::after{
-    display:block!important;
-    position:absolute!important;
-    z-index:0!important;
-    content:""!important;
-    pointer-events:none!important;
-    animation:none!important;
-    will-change:auto!important;
-    background-repeat:no-repeat!important;
-    background-position:center!important;
-    background-size:contain!important;
-    filter:none!important;
-  }
-  .sky-home::before{
-    top:24%!important;
-    right:-24%!important;
-    bottom:auto!important;
-    left:auto!important;
-    width:min(88vw,760px)!important;
-    height:auto!important;
-    aspect-ratio:1.9/1!important;
-    max-width:none!important;
-    opacity:.28!important;
-    background-image:url('../assets/atmosphere/clouds/cloud-17.webp')!important;
-  }
-  .sky-home::after{
-    top:63%!important;
-    right:auto!important;
-    bottom:auto!important;
-    left:-28%!important;
-    width:min(94vw,820px)!important;
-    height:auto!important;
-    aspect-ratio:1.78/1!important;
-    max-width:none!important;
-    opacity:.24!important;
-    background-image:url('../assets/atmosphere/clouds/cloud-21.webp')!important;
+    display:none!important;
+    content:none!important;
   }
 
   .sky-home[data-motion-profile="phone"] .sky-home__cloud-scroll--mid,

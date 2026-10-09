@@ -1,9 +1,7 @@
 import React from 'react'
 import { ArrowRight } from 'lucide-react'
 import AgeGateTransition from '@/AgeGateTransition'
-import { responsiveImages } from '@/generated/responsiveImages'
-
-const ageGateSky=responsiveImages.homeAtmosphere['home-hero-sky'].src
+import AgeGateAtmosphere from '@/home/AgeGateAtmosphere'
 
 const publicAsset=name=>`${import.meta.env.BASE_URL}${name.replace(/^\//,'')}`
 
@@ -24,23 +22,6 @@ function preloadImage(src){
   })
 }
 
-const CLOUD_GROUPS={
-  far:[
-    ['far-left','age-gate__cloud-frame--far-left'],
-    ['far-right','age-gate__cloud-frame--far-right'],
-    ['far-top','age-gate__cloud-frame--far-top'],
-    ['far-low','age-gate__cloud-frame--far-low'],
-  ],
-  mid:[
-    ['left','age-gate__cloud-frame--left'],
-    ['right','age-gate__cloud-frame--right'],
-    ['center','age-gate__cloud-frame--center'],
-    ['bottom','age-gate__cloud-frame--bottom'],
-    ['mid-lower-left','age-gate__cloud-frame--mid-lower-left'],
-    ['mid-lower-right','age-gate__cloud-frame--mid-lower-right'],
-  ],
-}
-
 export default function AgeGate({cinematic=true}){
   const [verified,setVerified]=React.useState(()=>{
     try{return sessionStorage.getItem('lagom-age-verified')==='true'}catch{return false}
@@ -48,7 +29,6 @@ export default function AgeGate({cinematic=true}){
   const [phase,setPhase]=React.useState(()=>verified?'complete':'idle')
   const [ready,setReady]=React.useState(verified)
   const gateRef=React.useRef(null)
-  const pointerFrameRef=React.useRef(0)
 
   const entering=phase==='entering'
   const finished=phase==='complete'
@@ -64,7 +44,6 @@ export default function AgeGate({cinematic=true}){
 
     Promise.all([
       preloadImage(publicAsset('enhanced-lagom-naturals-icon.webp')),
-      preloadImage(ageGateSky),
     ]).then(()=>{
       if(cancelled)return
       window.clearTimeout(fallback)
@@ -117,8 +96,6 @@ export default function AgeGate({cinematic=true}){
     return()=>gate.removeEventListener('keydown',trapFocus)
   },[entering,finished,ready])
 
-  React.useEffect(()=>()=>cancelAnimationFrame(pointerFrameRef.current),[])
-
   const finishTransition=React.useCallback(()=>{
     try{sessionStorage.setItem('lagom-age-verified','true')}catch{}
     setVerified(true)
@@ -140,58 +117,23 @@ export default function AgeGate({cinematic=true}){
     setPhase('entering')
   }
 
-  const handlePointerMove=event=>{
-    if(entering||event.pointerType!=='mouse')return
-    const gate=gateRef.current
-    if(!gate)return
-
-    cancelAnimationFrame(pointerFrameRef.current)
-    pointerFrameRef.current=requestAnimationFrame(()=>{
-      const rect=gate.getBoundingClientRect()
-      const x=((event.clientX-rect.left)/rect.width-.5)*10
-      const y=((event.clientY-rect.top)/rect.height-.5)*7
-      const far=gate.querySelector('.age-gate__cloud-depth--far')
-      const mid=gate.querySelector('.age-gate__cloud-depth--mid')
-      if(far)far.style.transform=`translate3d(${(x*.22).toFixed(2)}px,${(y*.16).toFixed(2)}px,0)`
-      if(mid)mid.style.transform=`translate3d(${(x*.44).toFixed(2)}px,${(y*.32).toFixed(2)}px,0)`
-    })
-  }
-
-  const resetPointer=()=>{
-    const gate=gateRef.current
-    if(!gate)return
-    gate.querySelectorAll('.age-gate__cloud-depth').forEach(node=>{
-      node.style.transform='translate3d(0,0,0)'
-    })
-  }
-
   if(finished)return null
 
   return <div
     ref={gateRef}
-    className={'age-gate'+(ready?' is-ready':' is-preparing')+(entering?' is-transitioning':'')}
+    className={'age-gate'+(cinematic?' age-gate--shared-sky':'')+(ready?' is-ready':' is-preparing')+(entering?' is-transitioning':'')}
     role="dialog"
     aria-modal="true"
     aria-labelledby="age-gate-title"
     aria-describedby="age-gate-description"
-    onPointerMove={handlePointerMove}
-    onPointerLeave={resetPointer}
   >
     <div className="age-gate__prepare-surface" aria-hidden="true"/>
 
     {ready&&<>
       <div className="age-gate__static-scene" aria-hidden="true">
         <div className="age-gate__scene"/>
+        {!cinematic&&<AgeGateAtmosphere />}
         <div className="age-gate__atmosphere-glow"/>
-        <div className="age-gate__static-clouds">
-          {Object.entries(CLOUD_GROUPS).map(([depth,clouds])=>
-            <div key={depth} className={'age-gate__cloud-depth age-gate__cloud-depth--'+depth}>
-              {clouds.map(([key,className])=>
-                <div key={key} className={'age-gate__cloud-frame '+className}/>
-              )}
-            </div>
-          )}
-        </div>
       </div>
 
       <div className="age-gate__panel" aria-hidden={entering?'true':undefined}>

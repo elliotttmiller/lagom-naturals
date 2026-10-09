@@ -1858,3 +1858,28 @@
     transform:none!important;
   }
 }
+
+/* Homepage glass uses the live sky as its color source and has no lower edge. */
+.brand__logo--light{display:none!important}
+@media (min-width:900px){
+  .app-shell:has(.beverage-hero) .site-header,
+  .app-shell:has(.beverage-hero) .site-header.site-header--shop-open{
+    border:0!important;
+    background:transparent!important;
+    box-shadow:none!important;
+    -webkit-backdrop-filter:blur(16px) saturate(1.08)!important;
+    backdrop-filter:blur(16px) saturate(1.08)!important;
+  }
+
+  .app-shell:has(.beverage-hero) .site-header .desktop-nav a,
+  .app-shell:has(.beverage-hero) .site-header .desktop-nav__shop-trigger,
+  .app-shell:has(.beverage-hero) .site-header .header-tools .icon-btn,
+  .app-shell:has(.beverage-hero) .site-header .header-tools .header-account,
+  .app-shell:has(.beverage-hero) .site-header .header-tools .cart-icon{
+    color:#fff!important;
+    text-shadow:0 1px 7px rgba(0,53,87,.42);
+  }
+
+  .app-shell:has(.beverage-hero) .site-header .brand__logo--dark{display:none!important}
+  .app-shell:has(.beverage-hero) .site-header .brand__logo--light{display:block!important}
+}

@@ -5,7 +5,6 @@ import { m, Presence, motionTokens, useReducedMotion } from "@/motionSystem";
 import { products } from "@/catalogData";
 import AddToCartButton from "@/AddToCartButton";
 import { configuredProduct, productVariants, useCart } from "@/storefront/StorefrontContext";
-import { responsiveImages } from "@/generated/responsiveImages";
 import canBase480Avif from "../assets/seltzers/lagom-seltzer-can-base-480.avif";
 import canBase480Webp from "../assets/seltzers/lagom-seltzer-can-base-480.webp";
 import canBase889Avif from "../assets/seltzers/lagom-seltzer-can-base-889.avif";
@@ -34,41 +33,18 @@ const PRODUCT_ORDER = [
   "24k-lemonade",
 ];
 
-const showcaseProducts = PRODUCT_ORDER
+export const showcaseProducts = PRODUCT_ORDER
   .map((id) => products.find((product) => product.id === id))
   .filter(Boolean);
-
-const desktopArtworkFiles = {
-  "watermelon-refresher": "watermelon-refresher-desktop",
-  "strawberry-lime-fusion": "strawberry-lime-fusion-desktop",
-  "blackberry-breeze": "blackberry-breeze-desktop",
-  "24k-lemonade": "24k-lemonade-desktop",
+const showcaseCarouselStep = 360 / showcaseProducts.length;
+const showcaseSlideTransition = {
+  delay: 0.3,
+  duration: 0.7,
+  ease: [0.44, 0, 0.56, 1],
+  type: "tween",
 };
 
-const showcaseThemes = {
-  "watermelon-refresher": {
-    accent: "#e7463f",
-    color: "#ef7770",
-    mobileMedia: responsiveImages.showcaseMobile["flavor-watermelon-refresher-mobile"],
-  },
-  "strawberry-lime-fusion": {
-    accent: "#e73577",
-    color: "#ee7678",
-    mobileMedia: responsiveImages.showcaseMobile["flavor-strawberry-lime-fusion-mobile"],
-  },
-  "blackberry-breeze": {
-    accent: "#7f38b7",
-    color: "#73368c",
-    mobileMedia: responsiveImages.showcaseMobile["flavor-blackberry-breeze-mobile"],
-  },
-  "24k-lemonade": {
-    accent: "#d99a00",
-    color: "#e3ac19",
-    mobileMedia: responsiveImages.showcaseMobile["flavor-24k-lemonade-mobile"],
-  },
-};
-
-const labelMedia = {
+export const labelMedia = {
   "24k-lemonade": {
     avif: lemonade480Avif + " 480w, " + lemonade889Avif + " 889w",
     webp: lemonade480Webp + " 480w, " + lemonade889Webp + " 889w",
@@ -91,7 +67,7 @@ const labelMedia = {
   },
 };
 
-function ShowcaseCan({ label, product, reducedMotion, compact = false }) {
+export function ShowcaseCan({ label, product, reducedMotion, compact = false, interactive = false }) {
   const transition = reducedMotion
     ? { duration: 0 }
     : { duration: motionTokens.duration.base, ease: motionTokens.easeSoft };
@@ -99,9 +75,9 @@ function ShowcaseCan({ label, product, reducedMotion, compact = false }) {
   return (
     <span
       className={"seltzer-showcase__can" + (compact ? " seltzer-showcase__can--compact" : "")}
-      aria-label={compact ? undefined : product.name + " THC seltzer can"}
-      aria-hidden={compact ? "true" : undefined}
-      role={compact ? undefined : "img"}
+      aria-label={compact || interactive ? undefined : product.name + " THC seltzer can"}
+      aria-hidden={compact || interactive ? "true" : undefined}
+      role={compact || interactive ? undefined : "img"}
     >
       <picture className="seltzer-showcase__can-base">
         <source
@@ -144,124 +120,47 @@ function ShowcaseCan({ label, product, reducedMotion, compact = false }) {
   );
 }
 
-function ShowcaseColorTrack({
-  background,
-  desktopMedia,
-  mobileMedia,
-  direction,
-  productId,
-  reducedMotion,
-}) {
-  const enterOffset = direction > 0 ? "12%" : "-12%";
-  const exitOffset = direction > 0 ? "-8%" : "8%";
-  const transition = reducedMotion
-    ? { duration: 0 }
-    : { duration: 0.62, ease: motionTokens.easeSoft };
-
-  return (
-    <Presence initial={false} custom={direction} mode="sync">
-      <m.div
-        key={productId}
-        className="seltzer-showcase__color-slide"
-        style={{ backgroundColor: background }}
-        initial={reducedMotion ? { opacity: 1 } : { x: enterOffset, opacity: 0.45, scale: 1.045 }}
-        animate={{ x: 0, opacity: 1, scale: 1 }}
-        exit={reducedMotion ? { opacity: 0 } : { x: exitOffset, opacity: 0.35, scale: 1.025 }}
-        transition={transition}
-      >
-        <picture className="seltzer-showcase__flavor-background seltzer-showcase__flavor-background--bleed" aria-hidden="true">
-          <source media="(max-width: 899px)" type="image/avif" srcSet={mobileMedia.avifSrcSet} sizes="100vw" />
-          <source media="(max-width: 899px)" type="image/webp" srcSet={mobileMedia.webpSrcSet} sizes="100vw" />
-          <source type="image/avif" srcSet={desktopMedia.avifSrcSet} sizes="100vw" />
-          <source type="image/webp" srcSet={desktopMedia.webpSrcSet} sizes="100vw" />
-          <img src={desktopMedia.src} alt="" aria-hidden="true" width={desktopMedia.width || 2560} height={desktopMedia.height || 1120} loading="eager" decoding="async" />
-        </picture>
-        <picture className="seltzer-showcase__flavor-background">
-          <source media="(max-width: 899px)" type="image/avif" srcSet={mobileMedia.avifSrcSet} sizes="100vw" />
-          <source media="(max-width: 899px)" type="image/webp" srcSet={mobileMedia.webpSrcSet} sizes="100vw" />
-          <source type="image/avif" srcSet={desktopMedia.avifSrcSet} sizes="100vw" />
-          <source type="image/webp" srcSet={desktopMedia.webpSrcSet} sizes="100vw" />
-          <img
-            src={desktopMedia.src}
-            alt=""
-            width={desktopMedia.width || 2560}
-            height={desktopMedia.height || 1120}
-            loading="eager"
-            fetchPriority="high"
-            decoding="async"
-          />
-        </picture>
-      </m.div>
-    </Presence>
-  );
-}
-
-function FlavorThumbnail({
-  item,
-  itemIndex,
-  selected,
-  onSelect,
-  reducedMotion,
-}) {
-  const theme = showcaseThemes[item.id];
-  const label = labelMedia[item.id];
-
-  return (
-    <m.button
-      type="button"
-      role="tab"
-      aria-selected={selected}
-      aria-label={"Show " + item.name}
-      className={"seltzer-showcase__flavor-card" + (selected ? " is-active" : "")}
-      onClick={() => onSelect(itemIndex)}
-      whileTap={reducedMotion ? undefined : { scale: 0.975 }}
-    >
-      <span className="seltzer-showcase__flavor-card-media">
-        <picture aria-hidden="true">
-          <source type="image/avif" srcSet={theme.mobileMedia.avifSrcSet} sizes="25vw" />
-          <source type="image/webp" srcSet={theme.mobileMedia.webpSrcSet} sizes="25vw" />
-          <img
-            src={theme.mobileMedia.src}
-            alt=""
-            loading={itemIndex === 0 ? "eager" : undefined}
-            fetchPriority={itemIndex === 0 ? "high" : "auto"}
-            decoding="async"
-          />
-        </picture>
-        <ShowcaseCan label={label} product={item} reducedMotion={reducedMotion} compact />
-      </span>
-      <span className="seltzer-showcase__flavor-card-label">{item.name}</span>
-    </m.button>
-  );
-}
-
 export default function SeltzerShowcase() {
   const [index, setIndex] = useState(0);
   const indexRef = useRef(index);
   indexRef.current = index;
-  const [direction, setDirection] = useState(1);
   const reducedMotion = useReducedMotion();
   const [quickViewOpen, setQuickViewOpen] = useState(false);
   const [quickViewClosing, setQuickViewClosing] = useState(false);
+  const [quickViewProductId, setQuickViewProductId] = useState(showcaseProducts[0]?.id);
   const quickViewRef = useRef(null);
   const quickViewCloseRef = useRef(null);
   const quickViewTriggerRef = useRef(null);
   const variantPickerRef = useRef(null);
   const variantTriggerRef = useRef(null);
   const [variantOpen, setVariantOpen] = useState(false);
+  const [carouselRotation, setCarouselRotation] = useState(0);
   const [selectedVariantId, setSelectedVariantId] = useState(null);
   const { add } = useCart();
   const product = showcaseProducts[index];
-  const theme = showcaseThemes[product.id] || showcaseThemes["watermelon-refresher"];
   const touchStart = useRef(null);
-  const variants = useMemo(() => productVariants(product), [product]);
+  const quickViewProduct = showcaseProducts.find((item) => item.id === quickViewProductId) || product;
+  const variants = useMemo(() => productVariants(quickViewProduct), [quickViewProduct]);
   const selectedVariant = variants.find((variant) => variant.id === selectedVariantId) || variants[0];
-  const cartItem = selectedVariant ? configuredProduct(product, selectedVariant) : null;
+  const cartItem = selectedVariant ? configuredProduct(quickViewProduct, selectedVariant) : null;
 
   useEffect(() => {
     setSelectedVariantId(variants[0]?.id ?? null);
     setVariantOpen(false);
-  }, [product.id, variants]);
+  }, [quickViewProduct.id, variants]);
+
+  useEffect(() => {
+    const onQuickViewRequest = (event) => {
+      const { productId, trigger } = event.detail || {};
+      if (!showcaseProducts.some((item) => item.id === productId)) return;
+      quickViewTriggerRef.current = trigger instanceof HTMLElement ? trigger : null;
+      setQuickViewProductId(productId);
+      setQuickViewClosing(false);
+      setQuickViewOpen(true);
+    };
+    window.addEventListener("lagom:seltzer-quick-view", onQuickViewRequest);
+    return () => window.removeEventListener("lagom:seltzer-quick-view", onQuickViewRequest);
+  }, []);
 
   useEffect(() => {
     if (!variantOpen) return undefined;
@@ -273,9 +172,10 @@ export default function SeltzerShowcase() {
   }, [variantOpen]);
 
   const change = useCallback((delta) => {
-    const nextIndex = (indexRef.current + delta + showcaseProducts.length) % showcaseProducts.length;
+    const currentIndex = indexRef.current;
+    const nextIndex = (currentIndex + delta + showcaseProducts.length) % showcaseProducts.length;
+    setCarouselRotation((rotation) => rotation + delta * showcaseCarouselStep);
     indexRef.current = nextIndex;
-    setDirection(delta < 0 ? -1 : 1);
     setIndex(nextIndex);
   }, []);
 
@@ -284,8 +184,9 @@ export default function SeltzerShowcase() {
     if (nextIndex === currentIndex) return;
     const forwardDistance = (nextIndex - currentIndex + showcaseProducts.length) % showcaseProducts.length;
     const backwardDistance = (currentIndex - nextIndex + showcaseProducts.length) % showcaseProducts.length;
+    const selectedDirection = forwardDistance <= backwardDistance ? 1 : -1;
+    setCarouselRotation((rotation) => rotation + selectedDirection * Math.min(forwardDistance, backwardDistance) * showcaseCarouselStep);
     indexRef.current = nextIndex;
-    setDirection(forwardDistance <= backwardDistance ? 1 : -1);
     setIndex(nextIndex);
   }, []);
 
@@ -314,9 +215,6 @@ export default function SeltzerShowcase() {
   }, [change]);
 
   const label = labelMedia[product.id];
-  const desktopArtwork = responsiveImages.seltzerDesktopShowcaseArtwork[desktopArtworkFiles[product.id]];
-  const canEnterX = direction > 0 ? 26 : -26;
-
   useEffect(() => {
     const dialog = quickViewRef.current;
     if (!quickViewOpen || !dialog) return undefined;
@@ -337,10 +235,6 @@ export default function SeltzerShowcase() {
   return (
     <section
       className="seltzer-showcase"
-      style={{
-        "--seltzer-accent": theme.accent,
-        "--seltzer-slide-background": theme.color,
-      }}
       aria-labelledby="seltzer-showcase-title"
       tabIndex={0}
       onPointerDown={(event) => {
@@ -363,50 +257,120 @@ export default function SeltzerShowcase() {
         Lagom Naturals seltzer showcase
       </h2>
 
-      <ShowcaseColorTrack
-        background={theme.color}
-        desktopMedia={desktopArtwork}
-        mobileMedia={theme.mobileMedia}
-        direction={direction}
-        productId={product.id}
-        reducedMotion={reducedMotion}
-      />
+      <div className="seltzer-showcase__card">
 
-      <div className="seltzer-showcase__topline" aria-hidden="true" />
+        <div className="seltzer-showcase__layout">
+          <div className="seltzer-showcase__content">
+          <Presence initial={false} mode="sync">
+            <m.div
+              key={product.id}
+              className="seltzer-showcase__copy"
+              style={{ "--product-accent": product.accent || "#fff8ed" }}
+              initial={reducedMotion ? false : { opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={reducedMotion ? { opacity: 0 } : { opacity: 0, y: -12 }}
+              transition={reducedMotion ? { duration: 0 } : { delay: 0.5, duration: 0.7, ease: [0.44, 0, 0.56, 1], type: "tween" }}
+            >
+              <p className="seltzer-showcase__eyebrow">Premium THC infused seltzer</p>
+              <h3 className="seltzer-showcase__product-name">{product.name}</h3>
+              <p className="seltzer-showcase__description">{product.description}</p>
+              <div className="seltzer-showcase__facts" aria-label={`${product.name} product details`}>
+                {Number.isFinite(product.thcMgPerCan) ? (
+                  <span><strong>{product.thcMgPerCan} mg</strong> THC per can</span>
+                ) : null}
+                {product.canVolume ? <span>{product.canVolume}</span> : null}
+              </div>
+              <Link className="seltzer-showcase__shop-link" to={`/product/${product.id}`}>
+                <span>Explore flavor</span><ArrowRight aria-hidden="true" />
+              </Link>
+            </m.div>
+          </Presence>
+          </div>
 
-      <Presence initial={false} mode="sync">
-        <m.div
-          key={product.id}
-          className="seltzer-showcase__can-stage"
-          initial={reducedMotion ? false : { x: canEnterX, y: 10, rotate: direction > 0 ? 1.8 : -1.8, opacity: 0, scale: 0.965 }}
-          animate={{ x: 0, y: 0, rotate: 0, opacity: 1, scale: 1 }}
-          exit={reducedMotion ? { opacity: 0 } : { x: -canEnterX * 0.55, y: -4, rotate: direction > 0 ? -1.2 : 1.2, opacity: 0, scale: 0.98 }}
-          transition={reducedMotion ? { duration: 0 } : { type: "spring", stiffness: 220, damping: 26, mass: 0.88 }}
-        >
-          <ShowcaseCan label={label} product={product} reducedMotion={reducedMotion} />
-        </m.div>
-      </Presence>
+          <div className="seltzer-showcase__product-stage">
+            <m.div
+              className="seltzer-showcase__carousel-track"
+              initial={false}
+              animate={{ rotate: carouselRotation }}
+              transition={reducedMotion ? { duration: 0 } : showcaseSlideTransition}
+            >
+              {showcaseProducts.map((slide, slideIndex) => {
+                const slideIsActive = slide.id === product.id;
+                const slotAngle = -slideIndex * showcaseCarouselStep;
+                return (
+                  <m.div
+                    key={slide.id}
+                    className="seltzer-showcase__can-layer"
+                    aria-hidden={!slideIsActive}
+                    style={{ pointerEvents: slideIsActive ? "auto" : "none" }}
+                    initial={false}
+                    animate={{ opacity: slideIsActive ? 1 : 0, rotate: slotAngle }}
+                    transition={reducedMotion ? { duration: 0 } : showcaseSlideTransition}
+                  >
+                    <div className="seltzer-showcase__can-orbit-position">
+                      <m.div
+                        className="seltzer-showcase__can-stage"
+                        initial={false}
+                        animate={{ scale: slideIsActive ? 1 : 0.8, rotate: -(carouselRotation + slotAngle) }}
+                        transition={reducedMotion ? { duration: 0 } : showcaseSlideTransition}
+                      >
+                        <m.button
+                          ref={slideIsActive ? quickViewTriggerRef : null}
+                          className="seltzer-showcase__can-quick-view"
+                          type="button"
+                          aria-label={`Quick view ${slide.name}`}
+                          aria-haspopup="dialog"
+                          aria-expanded={slideIsActive && quickViewOpen}
+                          tabIndex={slideIsActive ? 0 : -1}
+                          disabled={!slideIsActive}
+                          onClick={() => {
+                            setQuickViewProductId(slide.id);
+                            setQuickViewClosing(false);
+                            setQuickViewOpen(true);
+                          }}
+                          whileHover={reducedMotion ? undefined : { scale: 1.018, y: -3 }}
+                          whileTap={reducedMotion ? undefined : { scale: 0.99 }}
+                          transition={reducedMotion ? { duration: 0 } : { type: "spring", stiffness: 260, damping: 24 }}
+                        >
+                          <ShowcaseCan
+                            label={labelMedia[slide.id]}
+                            product={slide}
+                            reducedMotion={reducedMotion}
+                            interactive
+                          />
+                        </m.button>
+                      </m.div>
+                    </div>
+                  </m.div>
+                );
+              })}
+            </m.div>
+            <button className="seltzer-showcase__nav seltzer-showcase__nav--previous" type="button" onClick={() => change(-1)} aria-label="Previous seltzer">
+              <m.span whileHover={reducedMotion ? undefined : { x: -3 }} whileTap={reducedMotion ? undefined : { scale: 0.9 }}><ArrowLeft /></m.span>
+            </button>
+            <button className="seltzer-showcase__nav seltzer-showcase__nav--next" type="button" onClick={() => change(1)} aria-label="Next seltzer">
+              <m.span whileHover={reducedMotion ? undefined : { x: 3 }} whileTap={reducedMotion ? undefined : { scale: 0.9 }}><ArrowRight /></m.span>
+            </button>
+          </div>
 
-      <button
-        ref={quickViewTriggerRef}
-        className="seltzer-showcase__desktop-product-link"
-        type="button"
-        aria-label={`Quick view ${product.name}`}
-        aria-haspopup="dialog"
-        aria-expanded={quickViewOpen}
-        onClick={() => {
-          setQuickViewClosing(false);
-          setQuickViewOpen(true);
-        }}
-      />
+          <div className="seltzer-showcase__desktop-progress" aria-label="Seltzer flavor position">
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <div className="seltzer-showcase__progress-track" role="tablist" aria-label="Seltzer flavors">
+              {showcaseProducts.map((item, itemIndex) => (
+                <button key={item.id} type="button" role="tab" aria-selected={itemIndex === index} aria-label={`Show ${item.name}`} className={itemIndex === index ? "is-active" : ""} onClick={() => selectProduct(itemIndex)} />
+              ))}
+            </div>
+            <span>{String(showcaseProducts.length).padStart(2, "0")}</span>
+          </div>
+        </div>
 
       <Presence>
         {quickViewOpen ? (
           <m.dialog
             ref={quickViewRef}
             className="seltzer-quick-view"
-            style={{ "--seltzer-quick-accent": theme.accent, "--seltzer-quick-surface": theme.color }}
             aria-labelledby="seltzer-quick-view-title"
+            style={{ "--product-accent": quickViewProduct.accent || "#20221e" }}
             initial={reducedMotion ? { opacity: 0 } : { opacity: 0, y: 18, scale: .975 }}
             animate={quickViewClosing
               ? (reducedMotion ? { opacity: 0 } : { opacity: 0, y: 10, scale: .985 })
@@ -434,7 +398,7 @@ export default function SeltzerShowcase() {
             }}
           >
             <div className="seltzer-quick-view__scene" aria-hidden="true">
-              <ShowcaseCan label={label} product={product} reducedMotion={reducedMotion} />
+              <ShowcaseCan label={labelMedia[quickViewProduct.id]} product={quickViewProduct} reducedMotion={reducedMotion} />
             </div>
             <div className="seltzer-quick-view__details">
               <button
@@ -446,14 +410,14 @@ export default function SeltzerShowcase() {
               >
                 <X aria-hidden="true" />
               </button>
-              <h2 id="seltzer-quick-view-title">{product.name}</h2>
-              <p className="seltzer-quick-view__description">{product.description}</p>
+              <h2 id="seltzer-quick-view-title">{quickViewProduct.name}</h2>
+              <p className="seltzer-quick-view__description">{quickViewProduct.description}</p>
 
-              <div className="seltzer-quick-view__facts" aria-label={`${product.name} product details`}>
-                {Number.isFinite(product.thcMgPerCan) ? (
-                  <div><strong>{product.thcMgPerCan} mg</strong><span>THC per can</span></div>
+              <div className="seltzer-quick-view__facts" aria-label={`${quickViewProduct.name} product details`}>
+                {Number.isFinite(quickViewProduct.thcMgPerCan) ? (
+                  <div><strong>{quickViewProduct.thcMgPerCan} mg</strong><span>THC per can</span></div>
                 ) : null}
-                {product.canVolume ? <div><strong>{product.canVolume}</strong><span>Can volume</span></div> : null}
+                {quickViewProduct.canVolume ? <div><strong>{quickViewProduct.canVolume}</strong><span>Can volume</span></div> : null}
               </div>
 
               <div className="seltzer-quick-view__purchase">
@@ -485,7 +449,7 @@ export default function SeltzerShowcase() {
                         <m.div
                           className="variant-menu shop-card-variant-menu seltzer-quick-view__variant-menu"
                           role="listbox"
-                          aria-label={`${product.name} size options`}
+                          aria-label={`${quickViewProduct.name} size options`}
                           initial={reducedMotion ? { opacity: 0 } : { opacity: 0, y: 6, scale: .98 }}
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={reducedMotion ? { opacity: 0 } : { opacity: 0, y: 4, scale: .98 }}
@@ -516,15 +480,15 @@ export default function SeltzerShowcase() {
                   <AddToCartButton
                     size="wide"
                     className="shop-card-add seltzer-quick-view__add"
-                    productId={product.id}
+                    productId={quickViewProduct.id}
                     onClick={() => add(cartItem)}
-                    aria-label={`Add ${product.name}, ${selectedVariant.label} to cart`}
+                    aria-label={`Add ${quickViewProduct.name}, ${selectedVariant.label} to cart`}
                   />
                 ) : null}
               </div>
 
-              <p className="seltzer-quick-view__responsible-use">{product.responsibleUse}</p>
-              <Link className="seltzer-quick-view__pdp-link" to={`/product/${product.id}`} onClick={closeQuickView}>
+              <p className="seltzer-quick-view__responsible-use">{quickViewProduct.responsibleUse}</p>
+              <Link className="seltzer-quick-view__pdp-link" to={`/product/${quickViewProduct.id}`} onClick={closeQuickView}>
                 <span>View product details</span><ArrowRight aria-hidden="true" />
               </Link>
             </div>
@@ -532,71 +496,6 @@ export default function SeltzerShowcase() {
         ) : null}
       </Presence>
 
-      <button
-        className="seltzer-showcase__nav seltzer-showcase__nav--previous"
-        type="button"
-        onClick={() => change(-1)}
-        aria-label="Previous seltzer"
-      >
-        <ArrowLeft />
-      </button>
-      <button
-        className="seltzer-showcase__nav seltzer-showcase__nav--next"
-        type="button"
-        onClick={() => change(1)}
-        aria-label="Next seltzer"
-      >
-        <ArrowRight />
-      </button>
-
-      <div className="seltzer-showcase__mobile-controls">
-        <Link
-          className="seltzer-showcase__shop-now"
-          to={"/product/" + product.id}
-          aria-label={"Shop " + product.name}
-        >
-          <span>Shop now</span>
-          <span className="seltzer-showcase__shop-arrow" aria-hidden="true">
-            <ArrowRight />
-          </span>
-        </Link>
-
-        <div className="seltzer-showcase__progress" aria-label="Seltzer flavor position">
-          <span>{index + 1} / {showcaseProducts.length}</span>
-          <div className="seltzer-showcase__progress-track" aria-hidden="true">
-            {showcaseProducts.map((item, itemIndex) => (
-              <i key={item.id} className={itemIndex === index ? "is-active" : ""} />
-            ))}
-          </div>
-        </div>
-
-        <div className="seltzer-showcase__flavor-rail" role="tablist" aria-label="Seltzer flavors">
-          {showcaseProducts.map((item, itemIndex) => (
-            <FlavorThumbnail
-              key={item.id}
-              item={item}
-              itemIndex={itemIndex}
-              selected={itemIndex === index}
-              onSelect={selectProduct}
-              reducedMotion={reducedMotion}
-            />
-          ))}
-        </div>
-      </div>
-
-      <div className="seltzer-showcase__desktop-progress" role="tablist" aria-label="Seltzer flavors">
-        <span>{String(index + 1).padStart(2, "0")} / {String(showcaseProducts.length).padStart(2, "0")}</span>
-        {showcaseProducts.map((item, itemIndex) => (
-          <button
-            type="button"
-            role="tab"
-            key={item.id}
-            aria-selected={itemIndex === index}
-            aria-label={"Show " + item.name}
-            className={itemIndex === index ? "is-active" : ""}
-            onClick={() => selectProduct(itemIndex)}
-          />
-        ))}
       </div>
 
       <p className="sr-only" aria-live="polite">

@@ -1,22 +1,32 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import { responsiveImages } from "@/generated/responsiveImages";
-
-const mobileHero = responsiveImages.heroMobile.hero;
-const desktopHero = responsiveImages.heroDesktop.hero;
+import { m, useReducedMotion } from "@/motionSystem";
+import { ShowcaseCan, labelMedia, showcaseProducts } from "@/home/SeltzerShowcase";
 
 export default function HomeHero() {
-  const [mediaReady, setMediaReady] = useState(false);
+  const reducedMotion = useReducedMotion();
 
   return <section className="legacy-sky-hero" aria-labelledby="legacy-sky-hero-title">
-    <div className="legacy-sky-hero__product legacy-sky-hero__product--fullbleed" aria-hidden="true"><picture>
-      <source media="(max-width: 899px)" type="image/avif" srcSet={mobileHero.avifSrcSet} sizes="100vw" />
-      <source media="(max-width: 899px)" type="image/webp" srcSet={mobileHero.webpSrcSet} sizes="100vw" />
-      <source type="image/avif" srcSet={desktopHero.avifSrcSet} sizes="100vw" />
-      <source type="image/webp" srcSet={desktopHero.webpSrcSet} sizes="100vw" />
-      <img className={mediaReady ? "is-ready" : "is-loading"} src={desktopHero.src} alt="" fetchPriority="high" decoding="async" onLoad={() => setMediaReady(true)} onError={() => setMediaReady(true)} />
-    </picture></div>
     <div className="legacy-sky-hero__content" data-home-snap-content><h1 id="legacy-sky-hero-title">FIND YOUR<br /><strong>PERFECT BALANCE.</strong></h1><div className="legacy-sky-hero__actions"><Link to="/shop">SHOP NOW <ArrowRight aria-hidden="true" /></Link></div></div>
+    <div className="legacy-sky-hero__flavor-stage" role="group" aria-label="Explore our four seltzer flavors">
+      {showcaseProducts.map((product, index) => (
+        <div className="legacy-sky-hero__flavor" key={product.id}>
+          <m.button
+            type="button"
+            className="legacy-sky-hero__flavor-can"
+            aria-label={`Quick view ${product.name}`}
+            aria-haspopup="dialog"
+            onClick={(event) => window.dispatchEvent(new CustomEvent("lagom:seltzer-quick-view", {
+              detail: { productId: product.id, trigger: event.currentTarget },
+            }))}
+            whileHover={reducedMotion ? undefined : { y: -7, rotate: index % 2 ? 1.1 : -1.1, scale: 1.035 }}
+            whileTap={reducedMotion ? undefined : { scale: .98 }}
+            transition={reducedMotion ? { duration: 0 } : { type: "spring", stiffness: 220, damping: 24 }}
+          >
+            <ShowcaseCan label={labelMedia[product.id]} product={product} reducedMotion={reducedMotion} interactive />
+          </m.button>
+        </div>
+      ))}
+    </div>
   </section>;
 }

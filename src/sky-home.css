@@ -1,5 +1,5 @@
 .sky-home {
-  --home-atmosphere-sky: #b0e3fd;
+  --home-atmosphere-sky: #1689d8;
   --sky-pointer-x: 0px;
   --sky-pointer-y: 0px;
   --sky-section-cloud-x: 0px;
@@ -7,13 +7,25 @@
   position: relative;
   isolation: isolate;
   overflow: clip;
-  background:
-    radial-gradient(ellipse 76% 38% at 52% 2%, rgba(255,255,255,.26), rgba(255,255,255,0) 68%),
-    radial-gradient(ellipse 58% 38% at 8% 42%, rgba(123,205,249,.22), rgba(123,205,249,0) 72%),
-    radial-gradient(ellipse 66% 42% at 92% 70%, rgba(132,210,250,.2), rgba(132,210,250,0) 76%),
-    linear-gradient(180deg, var(--home-atmosphere-sky) 0%, #b7e6fd 36%, #bfe9fd 66%, #cceefd 100%);
+  background:linear-gradient(180deg,#0879D1 0%,#1689D8 48%,#37A5E4 100%);
   color: var(--ink);
 }
+
+.sky-home__page-atmosphere{
+  position:fixed;
+  z-index:0;
+  top:0;
+  left:0;
+  display:block;
+  inline-size:100vw;
+  block-size:100vh;
+  block-size:100dvh;
+  overflow:hidden;
+  background:linear-gradient(180deg,#0879D1 0%,#1689D8 48%,#37A5E4 100%);
+  pointer-events:none;
+}
+.sky-home__page-atmosphere [aria-hidden="true"]{position:absolute;inset:0;width:100%;height:100%}
+.sky-home>[data-home-snap-scene]{position:relative;z-index:1}
 
 .sky-home .beverage-hero,
 .sky-home .legacy-sky-hero { background: transparent !important; }

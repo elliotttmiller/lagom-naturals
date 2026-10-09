@@ -89,18 +89,18 @@
   }
 
   .mobile-reference-header.is-home::before{
-    border-bottom-color:rgba(23,25,20,.11);
-    background:rgba(250,249,245,.94);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.82),0 5px 18px rgba(14,18,16,.055);
-    -webkit-backdrop-filter:none;
-    backdrop-filter:none;
-    transform:none;
-    transition:none;
+    border-bottom:0;
+    background:transparent;
+    box-shadow:none;
+    -webkit-backdrop-filter:blur(16px) saturate(1.08);
+    backdrop-filter:blur(16px) saturate(1.08);
+    transform:translateZ(0);
+    transition:background 260ms ease,border-color 260ms ease,box-shadow 260ms ease,-webkit-backdrop-filter 260ms ease,backdrop-filter 260ms ease;
   }
 
   .mobile-reference-header.is-home :is(a,button,.hamburger,.hamburger .line){
-    color:#111;
-    text-shadow:none;
+    color:#fff;
+    text-shadow:0 1px 7px rgba(0,53,87,.46);
   }
 
   .mobile-reference-header.is-home svg,
@@ -108,14 +108,18 @@
     filter:none;
   }
 
+  .mobile-reference-header .brand__logo--light{display:none!important}
+  .mobile-reference-header.is-home .brand__logo--dark{display:none!important}
+  .mobile-reference-header.is-home .brand__logo--light{display:block!important}
+
   .mobile-reference-header.is-home.is-home-scrolled::before{
-    border-bottom-color:rgba(23,25,20,.11);
-    background:rgba(250,249,245,.94);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.82),0 5px 18px rgba(14,18,16,.055);
-    -webkit-backdrop-filter:none;
-    backdrop-filter:none;
-    transform:none;
-    transition:none;
+    border-bottom:0;
+    background:transparent;
+    box-shadow:none;
+    -webkit-backdrop-filter:blur(16px) saturate(1.08);
+    backdrop-filter:blur(16px) saturate(1.08);
+    transform:translateZ(0);
+    transition:background 260ms ease,border-color 260ms ease,box-shadow 260ms ease,-webkit-backdrop-filter 260ms ease,backdrop-filter 260ms ease;
   }
 
   .mobile-reference-header.is-about{
@@ -141,9 +145,15 @@
   }
 
   .mobile-reference-header.is-home.is-home-scrolled .mobile-reference-cart b{
-    border-color:#111;
-    background:#111;
-    color:#fff;
+    border-color:rgba(255,255,255,.96);
+    background:rgba(255,255,255,.96);
+    color:#126ca7;
+  }
+
+  .mobile-reference-header.is-home .mobile-reference-cart b{
+    border-color:rgba(255,255,255,.96);
+    background:rgba(255,255,255,.96);
+    color:#126ca7;
   }
 
   @media (hover:hover) and (pointer:fine){
@@ -166,6 +176,12 @@
     .mobile-reference-header::before{
       -webkit-backdrop-filter:none;
       backdrop-filter:none;
+    }
+    .mobile-reference-header.is-home::before,
+    .mobile-reference-header.is-home.is-home-scrolled::before{
+      border-bottom:0;
+      background:rgba(220,239,249,.96);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.88),0 5px 18px rgba(14,48,68,.08);
     }
     .sky-home .legacy-sky-hero__actions a:first-child{
       -webkit-backdrop-filter:none!important;

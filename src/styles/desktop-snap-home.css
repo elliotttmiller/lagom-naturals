@@ -7,10 +7,6 @@
     --home-desktop-gutter:clamp(54px,5.2vw,104px);
   }
 
-  .sky-home .atmospheric-scene-hero {
-    background:image-set(url('../assets/optimized/homeAtmosphere/home-hero-sky-1600.avif') type('image/avif'),url('../assets/optimized/homeAtmosphere/home-hero-sky-1600.webp') type('image/webp')) center bottom / cover no-repeat !important;
-  }
-
   /* The legacy desktop shell supplied dark gradient pseudo-elements for a
      retired photo hero. The homepage sky is the only hero backdrop now. */
   .sky-home .beverage-hero::before,
@@ -587,18 +583,6 @@
   .sky-home__section--gummies .gummy-collection-card__cta svg { width:15px; height:15px; transition:transform .25s var(--ease-out); }
   .sky-home__section--gummies .gummy-collection-card:hover .gummy-collection-card__cta svg,
   .sky-home__section--gummies .gummy-collection-card:focus-visible .gummy-collection-card__cta svg { transform:translateX(4px); }
-}
-
-@media (min-width:900px) {
-  /* The responsive foreground artwork is intentionally a full-width layer:
-     its transparent upper field leaves room for the headline while the sky
-     image on .beverage-hero remains the sole background. */
-  .sky-home .legacy-sky-hero__product {
-    inset:auto 50% 0 auto;
-    inline-size:min(100vw,1770px);
-    max-inline-size:none;
-    transform:translateX(50%);
-  }
 }
 
 @media (min-width:900px) {

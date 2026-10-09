@@ -11,3 +11,60 @@
 @media(max-width:380px){.site-footer>.site-footer__inner{grid-template-columns:1fr!important}.site-footer__brand,.site-footer__bottom{grid-column:1!important}}
 @media(hover:none) and (pointer:coarse){.site-footer__group a:hover{color:rgba(232,241,236,.76)!important}}
 @media(prefers-reduced-motion:reduce){.site-footer__group a{transition:none!important}}
+
+/* The footer shares the header's blue glass material while keeping its own
+   restrained cloud motion inside two edge accents. */
+.site-footer{
+  position:relative;
+  isolation:isolate;
+  border-top:0!important;
+  /* Reuse the homepage sky stops as a light veil: this softens the global
+     viewport clouds behind the footer without introducing a new blue hue. */
+  background:linear-gradient(180deg,rgba(8,121,209,.9) 0%,rgba(22,137,216,.9) 48%,rgba(55,165,228,.9) 100%)!important;
+  background-attachment:fixed;
+  -webkit-backdrop-filter:blur(16px) saturate(1.08);
+  backdrop-filter:blur(16px) saturate(1.08);
+  box-shadow:none;
+}
+.site-footer::before,.site-footer::after{
+  position:absolute;
+  z-index:0;
+  display:block;
+  content:"";
+  pointer-events:none;
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:contain;
+  filter:brightness(1.06) saturate(.82);
+  will-change:transform;
+}
+.site-footer::before{
+  top:9%;
+  right:2%;
+  width:min(26vw,360px);
+  height:130px;
+  background-image:url('./assets/atmosphere/clouds/cloud-19.webp');
+  opacity:.04;
+  animation:footer-cloud-drift-right 78s ease-in-out infinite alternate;
+}
+.site-footer::after{
+  bottom:8%;
+  left:1%;
+  width:min(22vw,300px);
+  height:115px;
+  background-image:url('./assets/atmosphere/clouds/cloud-09.webp');
+  opacity:.028;
+  animation:footer-cloud-drift-left 92s ease-in-out infinite alternate;
+}
+.site-footer>.site-footer__inner{position:relative;z-index:1}
+@keyframes footer-cloud-drift-right{
+  from{transform:translate3d(-7px,0,0)}
+  to{transform:translate3d(7px,-3px,0)}
+}
+@keyframes footer-cloud-drift-left{
+  from{transform:translate3d(6px,0,0)}
+  to{transform:translate3d(-6px,3px,0)}
+}
+@media(prefers-reduced-motion:reduce){
+  .site-footer::before,.site-footer::after{animation:none!important;transform:none!important}
+}

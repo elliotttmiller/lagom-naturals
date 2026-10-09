@@ -144,7 +144,7 @@
 @media (max-width:899px){
   html:has(.sky-home),
   body:has(.sky-home){
-    background:#b0e3fd;
+    background:#1689D8;
   }
 
   html:has(.sky-home){

@@ -1,0 +1,35 @@
+var __dai_window=typeof window!=="undefined"?window:undefined;var __dai_navigator=typeof __dai_window!=="undefined"?navigator:undefined;
+
+// http-url:https://framerusercontent.com/modules/Y0c19ostjQ6JrIrS9EpB/H6GkscheXEvK1c9LQrFc/QDC8_m4BS.js
+import { jsx as _jsx } from "react/jsx-runtime";
+import { addPropertyControls, ControlType, cx, motion, useSVGTemplate, withCSS } from "./_framer-runtime.js";
+import * as React from "react";
+import { forwardRef as forwardRef2 } from "react";
+var mask = "var(--framer-icon-mask)";
+var Base = /* @__PURE__ */ forwardRef2(function(props, ref) {
+  return /* @__PURE__ */ _jsx("svg", { ...props, ref, children: props.children });
+});
+var MotionSVG = motion.create(Base);
+var SVG = /* @__PURE__ */ forwardRef2((props, ref) => {
+  const { animated, layoutId, children, ...rest } = props;
+  return animated ? /* @__PURE__ */ _jsx(MotionSVG, { ...rest, layoutId, ref, children }) : /* @__PURE__ */ _jsx("svg", { ...rest, ref, children });
+});
+var svg = '<svg display="block" role="presentation" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M 0 9 C 0 4.029 4.029 0 9 0 C 13.971 0 18 4.029 18 9 C 18 13.971 13.971 18 9 18 C 4.029 18 0 13.971 0 9 Z" fill-opacity="var(--1m6trwb, 0)" fill="var(--21h8s6, rgb(0, 0, 0))" height="18px" id="toDPs7Y9O" transform="translate(3 3)" width="18px"/><path d="M 0 9 C 0 4.029 4.029 0 9 0 C 13.971 0 18 4.029 18 9 C 18 13.971 13.971 18 9 18 C 4.029 18 0 13.971 0 9 Z" fill="transparent" height="18px" id="nB8qhy58t" stroke-dasharray="" stroke-linecap="round" stroke-linejoin="round" stroke-width="var(--pgex8v, 1.5)" stroke="var(--21h8s6, rgb(0, 0, 0))" transform="translate(3 3)" width="18px"/><path d="M 3.75 0 L 2.25 0 C 1.007 0 0 1.007 0 2.25 L 0 12.75" fill="transparent" height="12.75px" id="QFOnXWoYe" stroke-dasharray="" stroke-linecap="round" stroke-linejoin="round" stroke-width="var(--pgex8v, 1.5)" stroke="var(--21h8s6, rgb(0, 0, 0))" transform="translate(12 8.25)" width="3.75px"/><path d="M 0 0 L 6 0" fill="transparent" height="1px" id="rOK6Xhani" stroke-dasharray="" stroke-linecap="round" stroke-linejoin="round" stroke-width="var(--pgex8v, 1.5)" stroke="var(--21h8s6, rgb(0, 0, 0))" transform="translate(9 13.5)" width="6px"/></svg>';
+var getProps = ({ alpha, color, height, id, width, width1, ...props }) => {
+  return { ...props, ezTt3ayMo: color ?? props.ezTt3ayMo ?? "rgb(0, 0, 0)", lschgej4H: width1 ?? props.lschgej4H ?? 1.5, qxTvv_EBh: alpha ?? props.qxTvv_EBh };
+};
+var Component = /* @__PURE__ */ React.forwardRef(function(props, ref) {
+  const { style, className, layoutId, variant, ezTt3ayMo, lschgej4H, qxTvv_EBh, ...restProps } = getProps(props);
+  const href = useSVGTemplate("1426455308", svg);
+  return /* @__PURE__ */ _jsx(SVG, { ...restProps, className: cx("framer-UHDx1", className), layoutId, ref, role: "presentation", style: { "--1m6trwb": qxTvv_EBh, "--21h8s6": ezTt3ayMo, "--pgex8v": lschgej4H, ...style }, viewBox: "0 0 24 24", children: /* @__PURE__ */ _jsx("use", { href }) });
+});
+var css = [`.framer-UHDx1 { -webkit-mask: ${mask}; aspect-ratio: 1; display: block; mask: ${mask}; width: 24px; }`];
+var Icon = withCSS(Component, css, "framer-UHDx1");
+Icon.displayName = "Facebook Logo";
+var QDC8_m4BS_default = Icon;
+addPropertyControls(Icon, { ezTt3ayMo: { defaultValue: "rgb(0, 0, 0)", hidden: false, title: "Color", type: ControlType.Color }, lschgej4H: { defaultValue: 1.5, displayStepper: true, hidden: false, max: 6, min: 0, step: 0.5, title: "Width", type: ControlType.Number }, qxTvv_EBh: { defaultValue: 0, displayStepper: true, hidden: false, max: 1, min: 0, step: 0.1, title: "Alpha", type: ControlType.Number } });
+var __FramerMetadata__ = { "exports": { "default": { "type": "reactComponent", "name": "Icon", "slots": [], "annotations": { "framerImmutableVariables": "true", "framerDisableUnlink": "true", "framerVector": '{"name":"Facebook Logo","color":{"type":"variable","value":"21h8s6"},"set":{"localId":"vectorSet/NGVKdicsm","id":"NGVKdicsm","moduleId":"omX0gWFPqDwhaiWwf6ab"}}', "framerIntrinsicHeight": "24", "framerSupportedLayoutHeight": "any-prefer-fixed", "framerContractVersion": "1", "framerSupportedLayoutWidth": "any-prefer-fixed", "framerIntrinsicWidth": "24", "framerVariables": '{"ezTt3ayMo":"color","lschgej4H":"width1","qxTvv_EBh":"alpha"}' } }, "__FramerMetadata__": { "type": "variable" } } };
+export {
+  __FramerMetadata__,
+  QDC8_m4BS_default as default
+};

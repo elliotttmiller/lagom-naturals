@@ -9,7 +9,7 @@
   min-inline-size:0;
   overflow:hidden;
   isolation:isolate;
-  background:#f7f4ef;
+  background:transparent;
 }
 
 .gummy-showcase__experience{
@@ -513,8 +513,7 @@
     display:grid;
     place-items:stretch;
     padding:0;
-    background:
-      radial-gradient(circle at 50% 18%,rgba(255,255,255,.92),rgba(247,244,239,.92) 44%,#f1eee8 100%);
+    background:transparent;
   }
 
   .gummy-showcase__experience{
@@ -584,7 +583,7 @@
   .gummy-showcase-shell{
     box-sizing:border-box;
     padding-block-start:var(--desktop-header-h,88px);
-    background:radial-gradient(ellipse at 50% 8%,#fff 0%,#f8f6f1 52%,#efede7 100%);
+    background:transparent;
   }
 
   .gummy-showcase__experience{
@@ -707,7 +706,7 @@
      remaining pixel of the snap scene. */
   .gummy-showcase-shell{
     padding-block-start:var(--desktop-header-h,88px);
-    background:#111;
+    background:transparent;
   }
 
   .gummy-showcase__experience{

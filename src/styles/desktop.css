@@ -101,9 +101,22 @@
   .header-tools .cart-icon b{display:none}
 
   /* Homepage hero keeps the shared header in normal sticky document flow. */
-  .app-shell:has(.beverage-hero) .site-header{position:sticky!important;top:0!important;left:auto;right:auto}
+  .app-shell:has(.beverage-hero) .site-header{
+    position:sticky!important;top:0!important;left:auto;right:auto;
+    border-bottom:0!important;
+    background:linear-gradient(105deg,rgba(216,240,252,.34),rgba(121,194,232,.24) 52%,rgba(216,240,252,.32))!important;
+    box-shadow:0 8px 26px rgba(7,65,104,.12),inset 0 1px 0 rgba(255,255,255,.5)!important;
+    -webkit-backdrop-filter:blur(20px) saturate(1.28)!important;
+    backdrop-filter:blur(20px) saturate(1.28)!important;
+  }
   .app-shell:has(.beverage-hero) .site-header .desktop-nav a,
-  .app-shell:has(.beverage-hero) .site-header .header-tools .icon-btn{color:#171915!important;text-shadow:none}
+  .app-shell:has(.beverage-hero) .site-header .desktop-nav__shop-trigger,
+  .app-shell:has(.beverage-hero) .site-header .header-tools .icon-btn{color:#fff!important;text-shadow:0 1px 7px rgba(0,53,87,.42)}
+  .app-shell:has(.beverage-hero) .site-header .desktop-nav__shop-trigger:hover,
+  .app-shell:has(.beverage-hero) .site-header .desktop-nav__shop-trigger:focus-visible{background:rgba(255,255,255,.12)}
+  .app-shell:has(.beverage-hero) .site-header :is(a,button):focus-visible{outline-color:rgba(255,255,255,.96)!important}
+  .app-shell:has(.beverage-hero) .site-header .header-account::before,
+  .app-shell:has(.beverage-hero) .site-header .cart-icon::before{background:rgba(255,255,255,.48)}
   .app-shell:has(.beverage-hero) .site-header .desktop-header-brand img{filter:none!important}
   .app-shell:has(.beverage-hero) .site-header .cart-icon b{border-color:transparent;background:#171915;color:#fff}
 
@@ -217,7 +230,7 @@
   .about-closing{padding:clamp(90px,9vw,160px) var(--desktop-gutter);background:#18372f;color:#fff}.about-closing>p{margin:0 0 38px;color:#cbd9d1;font:800 10px/1 var(--font-ui);letter-spacing:.2em}.about-page .about-closing h2{max-width:1060px;margin:0;font:500 clamp(70px,7vw,126px)/.83 var(--font-display);letter-spacing:-.062em}.about-page .about-closing em{display:block;margin-top:20px;color:#dbe9df;font:400 clamp(44px,4vw,70px)/1 var(--font-display)}
 
   /* Footer */
-  .site-footer{margin:0!important;background:#11110f!important;color:#f7f4ee!important;border-top:0!important}
+  .site-footer{margin:0!important;color:#f7f4ee!important;border-top:0!important}
   .site-footer>.site-footer__inner{width:min(var(--desktop-wide),calc(100% - 2 * var(--desktop-gutter)))!important;max-width:none!important;margin:0 auto!important;padding:clamp(68px,6vw,94px) 0 0!important;display:grid!important;grid-template-columns:minmax(270px,1.2fr) repeat(3,minmax(150px,1fr))!important;gap:clamp(36px,4.5vw,76px)!important}.site-footer__brand img{width:180px!important;filter:brightness(0) invert(1)!important}.site-footer__group h4{color:#fff!important;font:800 11px/1 var(--font-ui)!important;letter-spacing:.09em!important;text-transform:uppercase}.site-footer__group a,.site-footer__group>span{color:rgba(247,244,238,.72)!important;font:500 13px/1.5 var(--font-ui)!important}.site-footer__bottom{grid-column:1/-1!important}.site-footer__social{color:#fff!important}.site-footer__social svg{stroke:#fff!important}.site-footer__social .social-fill{fill:#fff!important}
   .site-footer__brand{display:flex!important;flex-direction:column!important;align-items:flex-start!important}.site-footer__brand>a{display:block;width:180px}.site-footer__brand .site-footer__socials{display:flex!important;width:180px;margin-top:12px!important;justify-content:center!important;gap:9px!important}
 

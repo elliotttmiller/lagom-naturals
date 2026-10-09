@@ -48,7 +48,10 @@ const SHOP_PANEL_CARDS=[
   },
 ]
 
-function Logo({onClick,className=''}){return <Link to="/" className={`brand ${className}`} onClick={onClick}><img src={publicAsset("enhanced-lagom-logo.webp")} alt="Lagom Naturals"/></Link>}
+function Logo({onClick,className=''}){return <Link to="/" className={`brand ${className}`} onClick={onClick}>
+  <img className="brand__logo brand__logo--dark" src={publicAsset("enhanced-lagom-logo.webp")} alt="Lagom Naturals"/>
+  <img className="brand__logo brand__logo--light" src={publicAsset("enhanced-lagom-naturals-logo-white.webp")} alt="" aria-hidden="true"/>
+</Link>}
 
 function MenuPicture({media,className='',sizes='(min-width:900px) 22vw, 100vw'}) {
   if(!media)return null
