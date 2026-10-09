@@ -27,3 +27,6 @@
 @import '../home-gummy-showcase.css';
 @import './editorial-template.css';
 @import './brand-campaign.css';
+
+/* Scrubbed decorative transition artwork; geometry remains owned by home-scroll-snap.css. */
+@import './scene-choreography.css';
