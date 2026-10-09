@@ -33,6 +33,7 @@ export default function ScrollCloudParallax() {
       element.style.setProperty("--cloud-scroll-near-y", `${near.toFixed(2)}px`);
       element.style.setProperty("--cloud-scroll-mid-y", `${middle.toFixed(2)}px`);
       element.style.setProperty("--cloud-scroll-drift-x", `${drift.toFixed(2)}px`);
+      element.style.setProperty("--cloud-scroll-mid-x", `${(-drift * 0.55).toFixed(2)}px`);
 
       if (Math.abs(target - current) >= 0.4) frame = window.requestAnimationFrame(render);
     };
@@ -52,6 +53,7 @@ export default function ScrollCloudParallax() {
         element.style.removeProperty("--cloud-scroll-near-y");
         element.style.removeProperty("--cloud-scroll-mid-y");
         element.style.removeProperty("--cloud-scroll-drift-x");
+        element.style.removeProperty("--cloud-scroll-mid-x");
       } else schedule();
     };
 
