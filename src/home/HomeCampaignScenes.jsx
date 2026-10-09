@@ -12,6 +12,27 @@ import { responsiveImages } from "@/generated/responsiveImages";
  * existing homepage architecture. Product values/media come from catalogData
  * and the existing responsive media manifest.
  */
+const FLAVOR_NAMES = showcaseProducts.map((item) => item.name);
+
+function FlavorTicker() {
+  if (!FLAVOR_NAMES.length) return null;
+  return (
+    <div className="home-flavor-ticker" aria-hidden="true">
+      <div className="home-flavor-ticker__track">
+        {Array.from({ length: 2 }, (_, copy) => (
+          <span className="home-flavor-ticker__group" key={copy}>
+            {FLAVOR_NAMES.map((name) => (
+              <span className="home-flavor-ticker__item" key={name}>
+                {name}<span className="home-flavor-ticker__spark">✳</span>
+              </span>
+            ))}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 const CATEGORY_CARDS = [
   {
     id: "seltzers",
@@ -59,10 +80,11 @@ export function HomeBrandEditorial() {
       data-home-snap-scene
       aria-labelledby="home-editorial-title"
     >
+      <FlavorTicker />
       <div className="home-editorial-scene__layout" data-home-snap-content>
         <div className="home-editorial-scene__copy">
           <span className="home-campaign-kicker">The Lagom perspective <span aria-hidden="true">/</span> 01</span>
-          <h2 id="home-editorial-title">More flavor.<br /><em>More living.</em></h2>
+          <h2 id="home-editorial-title"><span className="home-editorial-scene__headline-line">More flavor.</span><span className="home-editorial-scene__headline-line home-editorial-scene__headline-line--soft"><em>More living.</em></span></h2>
           <p>A bright new perspective on sparkling drinks. Made for the moments worth sharing.</p>
           <Link className="home-campaign-link" to="/about">
             Discover Lagom <ArrowUpRight aria-hidden="true" />
@@ -70,6 +92,7 @@ export function HomeBrandEditorial() {
         </div>
         <div className="home-editorial-scene__stage" aria-hidden="true">
           <span className="home-editorial-scene__stage-halo" />
+          <span className="home-editorial-scene__orbit-word">FIND YOUR BALANCE · FIND YOUR BALANCE ·</span>
           <span className="home-editorial-scene__stage-ring home-editorial-scene__stage-ring--one" />
           <span className="home-editorial-scene__stage-ring home-editorial-scene__stage-ring--two" />
           <div className="home-editorial-scene__can">
@@ -98,7 +121,7 @@ export function HomeCollectionDiscovery() {
       <div className="home-collections-scene__layout" data-home-snap-content>
         <header className="home-collections-scene__heading">
           <span className="home-campaign-kicker">Find your favorite <span aria-hidden="true">/</span> 02</span>
-          <h2 id="home-collections-title">Your kind of <em>good.</em></h2>
+          <h2 id="home-collections-title"><span>Your kind of</span> <em>good.</em></h2>
           <p>Two ways to discover Lagom. Always led by flavor.</p>
         </header>
         <div className="home-collections-scene__grid">
