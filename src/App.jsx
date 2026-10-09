@@ -45,6 +45,7 @@ import {
 import Shell from "@/storefront/StorefrontShell";
 import HomeHero from "@/HomeHeroPortal";
 import HomepageAtmosphere from "@/home/HomepageAtmosphere";
+import ScrollCloudParallax from "@/home/ScrollCloudParallax";
 import SeltzerShowcase from "@/home/SeltzerShowcase";
 import GummyShowcase from "@/home/GummyShowcase";
 import { HomeBrandEditorial, HomeCollectionDiscovery } from "@/home/HomeCampaignScenes";
@@ -585,6 +586,7 @@ function HomePage() {
     <Shell>
       <div className="sky-home" ref={homeRef}>
         <HomepageAtmosphere />
+        <ScrollCloudParallax />
         <section id="home-scene-hero" className="beverage-hero atmospheric-scene-hero" data-home-snap-scene aria-label="Featured Lagom Naturals products"><HomeHero /><SceneTransitionArtwork index={1} word="BALANCE" /></section>
 
         <div className="home-cloud-interlude" data-flow-boundary="1" aria-hidden="true"><span className="home-cloud-interlude__mist home-cloud-interlude__mist--near" /><span className="home-cloud-interlude__mist home-cloud-interlude__mist--far" /></div>
