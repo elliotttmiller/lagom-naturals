@@ -120,3 +120,93 @@ body:has(.sky-home) #root>.site-footer{
     transform:none!important;
   }
 }
+
+/* Atmospheric interludes: native scroll passes through a real spatial gap,
+   exposing the shared sky. Two small transparent cloud planes create a
+   perceptible depth handoff without moving the existing LiveClouds canvas. */
+.sky-home{
+  --home-cloud-breath:clamp(5rem,12svh,10rem);
+}
+.sky-home>.home-cloud-interlude{
+  position:relative;
+  isolation:isolate;
+  box-sizing:border-box;
+  display:block;
+  block-size:var(--home-cloud-breath);
+  min-block-size:var(--home-cloud-breath);
+  inline-size:100%;
+  overflow:clip;
+  pointer-events:none;
+  background:transparent;
+}
+.sky-home>.home-cloud-interlude::before{
+  position:absolute;
+  inset:0;
+  z-index:0;
+  content:"";
+  background:linear-gradient(180deg,rgba(235,246,250,0),rgba(232,244,250,.14) 48%,rgba(235,246,250,0));
+  pointer-events:none;
+}
+.sky-home .home-cloud-interlude__mist{
+  position:absolute;
+  display:block;
+  z-index:1;
+  inline-size:clamp(12rem,35vw,37rem);
+  aspect-ratio:1.8;
+  background-position:center;
+  background-size:contain;
+  background-repeat:no-repeat;
+  opacity:.28;
+  pointer-events:none;
+  transform:translate3d(0,0,0);
+}
+.sky-home .home-cloud-interlude__mist--near{
+  left:4%;
+  top:-35%;
+  background-image:url('../../assets/atmosphere/clouds/cloud-17.webp');
+}
+.sky-home .home-cloud-interlude__mist--far{
+  right:2%;
+  top:4%;
+  inline-size:clamp(11rem,26vw,29rem);
+  opacity:.2;
+  background-image:url('../../assets/atmosphere/clouds/cloud-21.webp');
+}
+@keyframes home-cloud-breath-near{
+  from{opacity:.08;transform:translate3d(-4%,15%,0) scale(.93)}
+  50%{opacity:.36;transform:translate3d(0,-2%,0) scale(1)}
+  to{opacity:.12;transform:translate3d(5%,-18%,0) scale(1.06)}
+}
+@keyframes home-cloud-breath-far{
+  from{opacity:.08;transform:translate3d(4%,-14%,0) scale(1.04)}
+  50%{opacity:.23;transform:translate3d(0,0,0) scale(1)}
+  to{opacity:.06;transform:translate3d(-5%,16%,0) scale(.95)}
+}
+@supports(animation-timeline:view(block)){
+  @media(prefers-reduced-motion:no-preference){
+    .sky-home .home-cloud-interlude__mist--near{
+      animation:home-cloud-breath-near linear both;
+      animation-timeline:view(block);
+      animation-range:entry 0% exit 100%;
+    }
+    .sky-home .home-cloud-interlude__mist--far{
+      animation:home-cloud-breath-far linear both;
+      animation-timeline:view(block);
+      animation-range:entry 0% exit 100%;
+    }
+  }
+}
+@media(max-width:899px){
+  .sky-home{--home-cloud-breath:clamp(3rem,8svh,5.75rem)}
+  .sky-home .home-cloud-interlude__mist{
+    inline-size:min(62vw,18rem);
+    opacity:.22;
+  }
+  .sky-home .home-cloud-interlude__mist--far{
+    inline-size:min(48vw,14rem);
+    opacity:.15;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .sky-home .home-cloud-interlude__mist{animation:none!important;transform:none!important}
+}
