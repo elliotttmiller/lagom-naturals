@@ -7,7 +7,7 @@ export default function HomeHero() {
   const reducedMotion = useReducedMotion();
 
   return <section className="legacy-sky-hero" aria-labelledby="legacy-sky-hero-title">
-    <div className="legacy-sky-hero__content" data-home-snap-content><h1 id="legacy-sky-hero-title">FIND YOUR<br /><strong>PERFECT BALANCE.</strong></h1><div className="legacy-sky-hero__actions"><Link to="/shop">SHOP NOW <ArrowRight aria-hidden="true" /></Link></div></div>
+    <div className="legacy-sky-hero__content" data-home-snap-content><p className="legacy-sky-hero__eyebrow">A more balanced way to unwind</p><h1 id="legacy-sky-hero-title">FIND YOUR<br /><strong>PERFECT BALANCE.</strong></h1><div className="legacy-sky-hero__actions"><Link to="/shop">SHOP NOW <ArrowRight aria-hidden="true" /></Link></div></div>
     <div className="legacy-sky-hero__flavor-stage" role="group" aria-label="Explore our four seltzer flavors">
       {showcaseProducts.map((product, index) => (
         <div className="legacy-sky-hero__flavor" key={product.id}>
