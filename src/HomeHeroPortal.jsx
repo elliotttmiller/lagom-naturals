@@ -23,7 +23,13 @@ export default function HomeHero() {
             whileTap={reducedMotion ? undefined : { scale: .98 }}
             transition={reducedMotion ? { duration: 0 } : { type: "spring", stiffness: 220, damping: 24 }}
           >
-            <ShowcaseCan label={labelMedia[product.id]} product={product} reducedMotion={reducedMotion} interactive />
+            <ShowcaseCan
+              label={labelMedia[product.id]}
+              product={product}
+              reducedMotion={reducedMotion}
+              interactive
+              mediaSizes="(max-width: 430px) 20vw, (max-width: 899px) 17vw, 15rem"
+            />
           </m.button>
         </div>
       ))}
