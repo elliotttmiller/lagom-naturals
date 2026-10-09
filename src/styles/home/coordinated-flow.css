@@ -1,0 +1,118 @@
+/* One browser-native scroll timeline per inter-scene cloud corridor.
+   Each boundary synchronizes preceding content, approaching content and
+   foreground/background cloud planes. No JS scroll listener or scroll hijack.
+   timeline-scope exposes sibling timelines to the five scene components. */
+@supports (animation-timeline: view()) and (timeline-scope: --lagom-flow-1) {
+  @media (min-width:900px) and (prefers-reduced-motion:no-preference) {
+    .sky-home{
+      timeline-scope:--lagom-flow-1,--lagom-flow-2,--lagom-flow-3,--lagom-flow-4;
+    }
+    .sky-home>.home-cloud-interlude[data-flow-boundary="1"]{view-timeline-name:--lagom-flow-1}
+    .sky-home>.home-cloud-interlude[data-flow-boundary="2"]{view-timeline-name:--lagom-flow-2}
+    .sky-home>.home-cloud-interlude[data-flow-boundary="3"]{view-timeline-name:--lagom-flow-3}
+    .sky-home>.home-cloud-interlude[data-flow-boundary="4"]{view-timeline-name:--lagom-flow-4}
+    .sky-home>.home-cloud-interlude{view-timeline-axis:block}
+
+    /* Product containers only: preserve real can rotation, carousel movement
+       and quick-view transforms deeper in each component's DOM. */
+    .sky-home #home-scene-hero .legacy-sky-hero__flavor-stage{
+      animation:lagom-flow-product-exit linear both;
+      animation-timeline:--lagom-flow-1;
+      animation-range:entry -55svh exit 55svh;
+    }
+    .sky-home #home-scene-flavors .seltzer-showcase__product-stage{
+      animation:lagom-flow-product-enter linear both;
+      animation-timeline:--lagom-flow-1;
+      animation-range:entry -60svh exit 50svh;
+    }
+    .sky-home #home-scene-flavors .seltzer-showcase__copy{
+      animation:lagom-flow-copy-exit linear both;
+      animation-timeline:--lagom-flow-2;
+      animation-range:entry -55svh exit 50svh;
+    }
+    .sky-home #home-scene-editorial .home-editorial-scene__stage{
+      animation:lagom-flow-product-enter linear both;
+      animation-timeline:--lagom-flow-2;
+      animation-range:entry -60svh exit 50svh;
+    }
+    .sky-home #home-scene-editorial .home-editorial-scene__copy{
+      animation:lagom-flow-copy-exit linear both;
+      animation-timeline:--lagom-flow-3;
+      animation-range:entry -55svh exit 50svh;
+    }
+    .sky-home #gummies .gummy-showcase-shell{
+      animation:lagom-flow-content-enter linear both;
+      animation-timeline:--lagom-flow-3;
+      animation-range:entry -60svh exit 50svh;
+    }
+    .sky-home #gummies .lagom-scene-transition__word{
+      animation:lagom-flow-type-exit linear both;
+      animation-timeline:--lagom-flow-4;
+      animation-range:entry -55svh exit 50svh;
+    }
+    .sky-home #home-scene-collections .home-collections-scene__layout{
+      animation:lagom-flow-content-enter linear both;
+      animation-timeline:--lagom-flow-4;
+      animation-range:entry -60svh exit 50svh;
+    }
+    .sky-home>.home-cloud-interlude[data-flow-boundary="1"] .home-cloud-interlude__mist--near,
+    .sky-home>.home-cloud-interlude[data-flow-boundary="2"] .home-cloud-interlude__mist--near,
+    .sky-home>.home-cloud-interlude[data-flow-boundary="3"] .home-cloud-interlude__mist--near,
+    .sky-home>.home-cloud-interlude[data-flow-boundary="4"] .home-cloud-interlude__mist--near{
+      animation:lagom-flow-cloud-front linear both;
+    }
+    .sky-home>.home-cloud-interlude[data-flow-boundary="1"] .home-cloud-interlude__mist{animation-timeline:--lagom-flow-1;animation-range:entry -55svh exit 55svh}
+    .sky-home>.home-cloud-interlude[data-flow-boundary="2"] .home-cloud-interlude__mist{animation-timeline:--lagom-flow-2;animation-range:entry -55svh exit 55svh}
+    .sky-home>.home-cloud-interlude[data-flow-boundary="3"] .home-cloud-interlude__mist{animation-timeline:--lagom-flow-3;animation-range:entry -55svh exit 55svh}
+    .sky-home>.home-cloud-interlude[data-flow-boundary="4"] .home-cloud-interlude__mist{animation-timeline:--lagom-flow-4;animation-range:entry -55svh exit 55svh}
+    .sky-home>.home-cloud-interlude .home-cloud-interlude__mist--far{
+      animation-name:lagom-flow-cloud-rear;
+    }
+  }
+}
+/* The center of every animation represents the SAME boundary midpoint.
+   Keyframes maintain full legibility at rest, moving only modest distances. */
+@keyframes lagom-flow-product-exit{
+  0%,20%{opacity:1;transform:translate3d(0,0,0) scale(1)}
+  50%{opacity:.92;transform:translate3d(0,-3.5svh,0) scale(.975)}
+  80%,100%{opacity:.78;transform:translate3d(0,-7svh,0) scale(.955)}
+}
+@keyframes lagom-flow-product-enter{
+  0%,20%{opacity:.78;transform:translate3d(0,8svh,0) scale(.95)}
+  50%{opacity:.93;transform:translate3d(0,3svh,0) scale(.98)}
+  80%,100%{opacity:1;transform:translate3d(0,0,0) scale(1)}
+}
+@keyframes lagom-flow-copy-exit{
+  0%,24%{opacity:1;transform:translate3d(0,0,0)}
+  55%{opacity:.95;transform:translate3d(0,-2svh,0)}
+  100%{opacity:.78;transform:translate3d(0,-4svh,0)}
+}
+@keyframes lagom-flow-content-enter{
+  0%,20%{opacity:.83;transform:translate3d(0,4svh,0)}
+  65%,100%{opacity:1;transform:translate3d(0,0,0)}
+}
+@keyframes lagom-flow-type-exit{
+  0%,20%{opacity:1;transform:translate3d(0,0,0)}
+  100%{opacity:.22;transform:translate3d(-6vw,-2svh,0)}
+}
+@keyframes lagom-flow-cloud-front{
+  0%{opacity:.06;transform:translate3d(-5%,23%,0) scale(.9)}
+  50%{opacity:.42;transform:translate3d(0,0,0) scale(1)}
+  100%{opacity:.08;transform:translate3d(6%,-25%,0) scale(1.1)}
+}
+@keyframes lagom-flow-cloud-rear{
+  0%{opacity:.05;transform:translate3d(3%,-9%,0) scale(1.03)}
+  50%{opacity:.26;transform:translate3d(0,0,0) scale(1)}
+  100%{opacity:.05;transform:translate3d(-3%,10%,0) scale(.97)}
+}
+/* Reduced motion or unsupported timelines keep everything visible and usable.
+   Small phones retain existing native scroll without heavy product transforms. */
+@media(prefers-reduced-motion:reduce){
+  .sky-home #home-scene-hero .legacy-sky-hero__flavor-stage,
+  .sky-home #home-scene-flavors .seltzer-showcase__product-stage,
+  .sky-home #home-scene-editorial .home-editorial-scene__stage,
+  .sky-home #gummies .gummy-showcase-shell,
+  .sky-home #home-scene-collections .home-collections-scene__layout{
+    animation:none!important;
+  }
+}
