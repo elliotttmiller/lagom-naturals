@@ -1183,3 +1183,27 @@
     line-height:1.4!important;
   }
 }
+
+
+/* Shared WebGL atmosphere must use the same stable mobile viewport contract as
+   the snap scenes. Avoid 100dvh canvas reallocations while Safari chrome moves. */
+@media (max-width:899px){
+  .sky-home__page-atmosphere{
+    inline-size:100%!important;
+    block-size:var(--home-mobile-viewport-h,100vh)!important;
+    min-block-size:var(--home-mobile-viewport-h,100vh)!important;
+    max-block-size:var(--home-mobile-viewport-h,100vh)!important;
+    transform:translateZ(0);
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
+    contain:strict;
+  }
+
+  .sky-home__page-atmosphere canvas{
+    inline-size:100%!important;
+    block-size:100%!important;
+    transform:translateZ(0);
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
+  }
+}
