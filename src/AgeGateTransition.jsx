@@ -261,9 +261,9 @@ export default function AgeGateTransition({
     ],{duration:940,delay:occlusionAt,easing:drift},registry)
 
     play(gate,[
-      {backgroundColor:'rgba(176,227,253,1)'},
-      {backgroundColor:'rgba(176,227,253,1)',offset:.42},
-      {backgroundColor:'rgba(176,227,253,.18)',offset:.72},
+      {backgroundColor:'rgba(22,137,216,1)'},
+      {backgroundColor:'rgba(22,137,216,1)',offset:.42},
+      {backgroundColor:'rgba(22,137,216,.18)',offset:.72},
       {backgroundColor:'rgba(176,227,253,0)'},
     ],{duration:1120,delay:occlusionAt,easing:drift},registry)
 
