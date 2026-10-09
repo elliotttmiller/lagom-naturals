@@ -587,6 +587,8 @@ function HomePage() {
         <HomepageAtmosphere />
         <section id="home-scene-hero" className="beverage-hero atmospheric-scene-hero" data-home-snap-scene aria-label="Featured Lagom Naturals products"><HomeHero /><SceneTransitionArtwork index={1} word="BALANCE" /></section>
 
+        <div className="home-cloud-interlude" aria-hidden="true"><span className="home-cloud-interlude__mist home-cloud-interlude__mist--near" /><span className="home-cloud-interlude__mist home-cloud-interlude__mist--far" /></div>
+
         <section
           id="home-scene-flavors"
           className="seltzer-showcase-section"
@@ -597,7 +599,11 @@ function HomePage() {
           <SceneTransitionArtwork index={2} word="FLAVOR" />
         </section>
 
+        <div className="home-cloud-interlude" aria-hidden="true"><span className="home-cloud-interlude__mist home-cloud-interlude__mist--near" /><span className="home-cloud-interlude__mist home-cloud-interlude__mist--far" /></div>
+
         <HomeBrandEditorial />
+
+        <div className="home-cloud-interlude" aria-hidden="true"><span className="home-cloud-interlude__mist home-cloud-interlude__mist--near" /><span className="home-cloud-interlude__mist home-cloud-interlude__mist--far" /></div>
 
         <section
           id="gummies"
@@ -609,6 +615,8 @@ function HomePage() {
           <GummyShowcase />
           <SceneTransitionArtwork index={4} word="DISCOVER" />
         </section>
+
+        <div className="home-cloud-interlude" aria-hidden="true"><span className="home-cloud-interlude__mist home-cloud-interlude__mist--near" /><span className="home-cloud-interlude__mist home-cloud-interlude__mist--far" /></div>
 
         <HomeCollectionDiscovery />
 
