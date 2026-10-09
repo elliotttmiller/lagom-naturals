@@ -17,7 +17,6 @@ const accountLower=[[Settings,'Account Settings','settings'],[Bell,'Notification
 const logoIcon=`${import.meta.env.BASE_URL}lagom-logo-icon.svg`
 const menuLogo=`${import.meta.env.BASE_URL}lagom-logo.svg`
 const headerLogo=`${import.meta.env.BASE_URL}enhanced-lagom-logo.webp`
-const headerLogoWhite=`${import.meta.env.BASE_URL}enhanced-lagom-naturals-logo-white.webp`
 
 function InstagramIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.6" cy="6.6" r="1" className="social-fill"/></svg>}
 function FacebookIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.2 21v-8h2.8l.45-3.2H14.2V7.75c0-.93.3-1.56 1.63-1.56h1.73V3.33A23.2 23.2 0 0 0 15.03 3c-2.5 0-4.21 1.52-4.21 4.32V9.8H8v3.2h2.82v8h3.38Z" className="social-fill"/></svg>}
@@ -81,7 +80,7 @@ export default function MobileReferenceChrome(){
     const update=()=>{
       if(frame)cancelAnimationFrame(frame)
       frame=requestAnimationFrame(()=>{
-        const hero=document.querySelector('.sky-home .beverage-hero')
+        const hero=document.querySelector('.editorial-home__campaign-scene, .sky-home .beverage-hero')
         if(!(hero instanceof HTMLElement)){setHomeScrolled(window.scrollY>72);return}
         const headerHeight=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--mobile-header-row-h'))||72
         setHomeScrolled(hero.getBoundingClientRect().bottom<=headerHeight+8)
@@ -113,10 +112,7 @@ export default function MobileReferenceChrome(){
       {isDetail
         ?<m.button type="button" className="mobile-reference-header__left" aria-label="Go back" onClick={()=>navigate(-1)} whileTap={motionTokens.tap}><span className="mobile-back-glyph">‹</span></m.button>
         :<HamburgerToggle className="mobile-reference-header__left" checked={menuOpen} onChange={setMenuOpen} controls="mobile-reference-menu" label={menuOpen?'Close menu':'Open menu'}/>}
-      <Link className="mobile-reference-header__brand" to="/" aria-label="Lagom Naturals home" onClick={()=>setMenuOpen(false)}>
-        <img className="brand__logo brand__logo--dark" src={headerLogo} alt="Lagom Naturals"/>
-        <img className="brand__logo brand__logo--light" src={headerLogoWhite} alt="" aria-hidden="true"/>
-      </Link>
+      <Link className="mobile-reference-header__brand" to="/" aria-label="Lagom Naturals home" onClick={()=>setMenuOpen(false)}><img src={headerLogo} alt="Lagom Naturals"/></Link>
       <div className="mobile-reference-header__tools">
         {!isDetail&&<Link to="/shop" aria-label="Search"><Search/></Link>}
         {isAbout&&<m.button type="button" aria-label="Open account" onClick={openAccount} whileTap={motionTokens.tap}><User/></m.button>}

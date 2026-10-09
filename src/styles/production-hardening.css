@@ -1,0 +1,35 @@
+/* Cross-cutting production hardening only.
+   Presentation belongs to its component/route owner. */
+
+.mobile-nav{display:none!important}
+.app-shell main{padding-bottom:0!important}
+.site-header .header-tools button[aria-label="Share"]{display:none!important}
+
+button,
+a,
+input,
+textarea,
+select{
+  -webkit-tap-highlight-color:transparent;
+}
+
+button,
+a{
+  touch-action:manipulation;
+}
+
+.shop-search input[type="search"]::-webkit-search-cancel-button{
+  cursor:pointer;
+}
+
+.site-footer{
+  padding-left:max(var(--page-gutter),env(safe-area-inset-left))!important;
+  padding-right:max(var(--page-gutter),env(safe-area-inset-right))!important;
+}
+
+@media(prefers-reduced-motion:reduce){
+  .route-stage{
+    transform:none!important;
+    filter:none!important;
+  }
+}

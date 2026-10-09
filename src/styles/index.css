@@ -27,3 +27,9 @@
 @import './desktop-header-mega-menu.css';
 
 @import './mega-pack-native-upgrades.css';
+
+
+/* Canonical template-inspired presentation owners. These intentionally load
+   after compatibility layers while migration work retires the superseded CSS. */
+@import './editorial-commerce.css';
+@import './editorial-chrome.css';
