@@ -493,8 +493,8 @@
              opacity .25s ease,margin-inline-start .45s cubic-bezier(.16,1,.3,1);
 }
 .sky-home .lagom-scroll-indicator button.is-active{
-  inline-size:auto;
-  max-inline-size:12rem;
+  inline-size:11.25rem;
+  max-inline-size:11.25rem;
   background:rgba(255,255,255,.94);
   border-color:#fff;
   color:#174e70;
@@ -517,7 +517,7 @@
 @media(max-width:899px){
   .sky-home .lagom-scroll-indicator{gap:.15rem;padding:.2rem}
   .sky-home .lagom-scroll-indicator button{inline-size:2.5rem;block-size:2.75rem;min-block-size:2.75rem;padding:0 .9rem}
-  .sky-home .lagom-scroll-indicator button.is-active{max-inline-size:10.5rem}
+  .sky-home .lagom-scroll-indicator button.is-active{inline-size:9.5rem;max-inline-size:9.5rem}
   .sky-home .lagom-scroll-indicator__label{font-size:.53rem}
 }
 /* New scene choreography: source patterns translated from Sweet Morels title
