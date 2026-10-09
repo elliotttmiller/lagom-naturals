@@ -23,12 +23,6 @@ import {
   Sparkles,
   Plus,
 } from "lucide-react";
-import "./sky-home.css";
-import {
-  AtmosphericSceneSection,
-} from "@/AtmosphericScrollExperience";
-import HomeScrollSnap from "@/HomeScrollSnap";
-import LagomScrollIndicator from "@/LagomScrollIndicator";
 import {
   m,
   Presence,
@@ -43,38 +37,10 @@ import {
   gummyCollections,
 } from "./catalogData";
 import Shell from "@/storefront/StorefrontShell";
-import HomeHero from "@/HomeHeroPortal";
-import HomepageAtmosphere from "@/home/HomepageAtmosphere";
-import ScrollCloudParallax from "@/home/ScrollCloudParallax";
-import SeltzerShowcase from "@/home/SeltzerShowcase";
-import GummyShowcase from "@/home/GummyShowcase";
-import { HomeBrandEditorial, HomeCollectionDiscovery } from "@/home/HomeCampaignScenes";
-import SceneTransitionArtwork from "@/home/SceneTransitionArtwork";
-import HomeProductStage from "@/HomeProductStage";
+import EditorialHomePage from "@/routes/HomePage";
 import CatalogProductCard from "@/storefront/CatalogProductCard";
 import AddToCartButton from "@/AddToCartButton";
-import ResponsiveImage from "@/storefront/ResponsiveImage";
 import { responsiveImages } from "@/generated/responsiveImages";
-import seltzerCanBase480Avif from "./assets/seltzers/lagom-seltzer-can-base-480.avif";
-import seltzerCanBase480Webp from "./assets/seltzers/lagom-seltzer-can-base-480.webp";
-import seltzerCanBase889Avif from "./assets/seltzers/lagom-seltzer-can-base-889.avif";
-import seltzerCanBase889Webp from "./assets/seltzers/lagom-seltzer-can-base-889.webp";
-import blackberryBreezeLabel480Avif from "./assets/seltzers/blackberry-breeze-label-480.avif";
-import blackberryBreezeLabel480Webp from "./assets/seltzers/blackberry-breeze-label-480.webp";
-import blackberryBreezeLabel889Avif from "./assets/seltzers/blackberry-breeze-label-889.avif";
-import blackberryBreezeLabel889Webp from "./assets/seltzers/blackberry-breeze-label-889.webp";
-import lemonadeLabel480Avif from "./assets/seltzers/24k-lemonade-label-480.avif";
-import lemonadeLabel480Webp from "./assets/seltzers/24k-lemonade-label-480.webp";
-import lemonadeLabel889Avif from "./assets/seltzers/24k-lemonade-label-889.avif";
-import lemonadeLabel889Webp from "./assets/seltzers/24k-lemonade-label-889.webp";
-import strawberryLimeLabel480Avif from "./assets/seltzers/strawberry-lime-label-aligned-480.avif";
-import strawberryLimeLabel480Webp from "./assets/seltzers/strawberry-lime-label-aligned-480.webp";
-import strawberryLimeLabel889Avif from "./assets/seltzers/strawberry-lime-label-aligned-889.avif";
-import strawberryLimeLabel889Webp from "./assets/seltzers/strawberry-lime-label-aligned-889.webp";
-import watermelonLabel480Avif from "./assets/seltzers/watermelon-label-480.avif";
-import watermelonLabel480Webp from "./assets/seltzers/watermelon-label-480.webp";
-import watermelonLabel889Avif from "./assets/seltzers/watermelon-label-889.avif";
-import watermelonLabel889Webp from "./assets/seltzers/watermelon-label-889.webp";
 import {
   configuredProduct,
   productVariants,
@@ -375,257 +341,6 @@ function CategoryShopHero({ category }) {
   );
 }
 
-const HOME_GUMMY_COLLECTIONS = [
-  {
-    name: "Classic",
-    description: "Fruit-forward favorites for everyday moments.",
-    tone: "classic",
-    productIds: ["blueberry-yum-yum", "green-apple"],
-  },
-  {
-    name: "Organic",
-    description: "Organic fruit flavors with full-spectrum live resin.",
-    tone: "organic",
-    productIds: ["berry-melon-bliss-organic", "blue-razz-organic"],
-  },
-  {
-    name: "Midnight Drift",
-    description: "A full-spectrum collection for slower evenings.",
-    tone: "midnight",
-    productIds: ["blueberry-yum-yum-midnight-drift", "peach-midnight-drift"],
-  },
-];
-
-const HOME_GUMMY_PACKSHOTS = {
-  "blueberry-yum-yum": responsiveImages.homeGummies["Blueberry-Yum-Yum-1-Photoroom-900x900"].src,
-  "green-apple": responsiveImages.homeGummies["Green-Apple-Photoroom-900x900"].src,
-  "strawberry-banana": responsiveImages.homeGummies["Strawberry-Banana-Photoroom-900x900"].src,
-  "berry-melon-bliss-organic": responsiveImages.homeGummies["Berry-Melon-Bliss-Photoroom-900x900"].src,
-  "blue-razz-organic": responsiveImages.homeGummies["Blue-Razz-Photoroom-Photoroom-1-900x900"].src,
-  "cherry-bliss-organic": responsiveImages.homeGummies["Cherry-Bliss-Photoroom-900x900"].src,
-  "push-pop-organic": responsiveImages.homeGummies["Push-Pop-1-Photoroom-900x900"].src,
-  "blueberry-yum-yum-midnight-drift": responsiveImages.homeGummies["Blueberry-Yum-Yum-3-Photoroom-900x900"].src,
-  "peach-midnight-drift": responsiveImages.homeGummies["Peach-Photoroom-900x900"].src,
-  "pink-lemonade-midnight-drift": responsiveImages.homeGummies["Pink-Lemonade-Photoroom-900x900"].src,
-  "strawberry-midnight-drift": responsiveImages.homeGummies["Strawberry-Photoroom-900x900"].src,
-};
-
-function HomePackSelector({ productId, variants, selectedId, onChange }) {
-  const selected = variants.find((variant) => variant.id === selectedId) || variants[0];
-  return <label className="sky-home-product__variant"><span className="sky-home-product__variant-label">Pack size</span><select className="sky-home-product__variant-trigger" value={selected.id} onChange={(event) => onChange(event.target.value)} aria-label={`Pack size for ${productId}`}>{variants.map((variant) => <option key={variant.id} value={variant.id}>{variant.label} — ${variant.price.toFixed(2)}</option>)}</select></label>;
-}
-
-const HOME_GUMMY_STAGE_ACCENTS = {
-  Classic: "#df6d86",
-  Organic: "#75996b",
-  "Midnight Drift": "#6763a6",
-};
-
-const SELTZER_LABEL_SOURCES = {
-  "24k-lemonade": {
-    avif: `${lemonadeLabel480Avif} 480w, ${lemonadeLabel889Avif} 889w`,
-    webp: `${lemonadeLabel480Webp} 480w, ${lemonadeLabel889Webp} 889w`,
-    fallback: lemonadeLabel889Webp,
-  },
-  "blackberry-breeze": {
-    avif: `${blackberryBreezeLabel480Avif} 480w, ${blackberryBreezeLabel889Avif} 889w`,
-    webp: `${blackberryBreezeLabel480Webp} 480w, ${blackberryBreezeLabel889Webp} 889w`,
-    fallback: blackberryBreezeLabel889Webp,
-  },
-  "strawberry-lime-fusion": {
-    avif: `${strawberryLimeLabel480Avif} 480w, ${strawberryLimeLabel889Avif} 889w`,
-    webp: `${strawberryLimeLabel480Webp} 480w, ${strawberryLimeLabel889Webp} 889w`,
-    fallback: strawberryLimeLabel889Webp,
-  },
-  "watermelon-refresher": {
-    avif: `${watermelonLabel480Avif} 480w, ${watermelonLabel889Avif} 889w`,
-    webp: `${watermelonLabel480Webp} 480w, ${watermelonLabel889Webp} 889w`,
-    fallback: watermelonLabel889Webp,
-  },
-};
-
-function HomeSeltzerStageMedia({ product, reduceMotion = false }) {
-  const labelSource = SELTZER_LABEL_SOURCES[product.id];
-  return (
-    <div className="home-product-stage__seltzer-media">
-      <div className="home-product-stage__seltzer-can">
-        <picture className="home-product-stage__seltzer-base">
-          <source type="image/avif" srcSet={`${seltzerCanBase480Avif} 480w, ${seltzerCanBase889Avif} 889w`} sizes="(max-width: 899px) 50vw, 18rem" />
-          <source type="image/webp" srcSet={`${seltzerCanBase480Webp} 480w, ${seltzerCanBase889Webp} 889w`} sizes="(max-width: 899px) 50vw, 18rem" />
-          <img src={seltzerCanBase889Webp} alt={`${product.name} THC seltzer can`} decoding="async" />
-        </picture>
-        <Presence mode="sync" initial={false}>
-          {labelSource ? <m.picture
-            key={product.id}
-            className="home-product-stage__seltzer-label-image"
-            initial={reduceMotion ? false : { opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -10 }}
-            transition={reduceMotion ? { duration: 0 } : { duration: 0.34, ease: motionTokens.easeSoft }}
-            aria-hidden="true"
-          >
-            <source type="image/avif" srcSet={labelSource.avif} sizes="(max-width: 899px) 50vw, 18rem" />
-            <source type="image/webp" srcSet={labelSource.webp} sizes="(max-width: 899px) 50vw, 18rem" />
-            <img src={labelSource.fallback} alt="" decoding="async" />
-          </m.picture> : null}
-        </Presence>
-      </div>
-    </div>
-  );
-}
-
-function HomeSeltzerStageDetails({ product }) {
-  const variants = productVariants(product);
-  const [selectedVariantId, setSelectedVariantId] = useState(variants[0]?.id);
-  const [cartState, setCartState] = useState("idle");
-  const cartFeedbackTimeout = useRef(null);
-  const { add } = useCart();
-  const selectedVariant = variants.find((variant) => variant.id === selectedVariantId) || variants[0];
-  const potency = `${product.thcMgPerCan} MG THC · ${product.canVolume}`;
-  const description = HOME_FLAVOR_DESCRIPTIONS[product.id] || product.description;
-
-  useEffect(() => {
-    setSelectedVariantId(variants[0]?.id);
-    setCartState("idle");
-  }, [product.id]);
-
-  useEffect(() => () => window.clearTimeout(cartFeedbackTimeout.current), []);
-
-  const handleAddToCart = () => {
-    add(configuredProduct(product, selectedVariant));
-    setCartState("added");
-    window.clearTimeout(cartFeedbackTimeout.current);
-    cartFeedbackTimeout.current = window.setTimeout(() => setCartState("idle"), 1400);
-  };
-
-  return (
-    <>
-      <div className="home-product-stage__detail-copy">
-        <p>{description}</p>
-        <div className="home-product-stage__facts">
-          <span>${selectedVariant.price.toFixed(2)}</span>
-          <span>{potency}</span>
-          <Link to={`/product/${product.id}`}>View details <ArrowRight aria-hidden="true" /></Link>
-        </div>
-      </div>
-      <div className="home-product-stage__purchase">
-        {variants.length > 1 && (
-          <HomePackSelector
-            productId={product.id}
-            variants={variants}
-            selectedId={selectedVariant.id}
-            onChange={(variantId) => {
-              setSelectedVariantId(variantId);
-              setCartState("idle");
-            }}
-          />
-        )}
-        <AddToCartButton
-          className="home-product-stage__add-to-cart"
-          label="Add to cart"
-          productId={product.id}
-          state={cartState}
-          onClick={handleAddToCart}
-          aria-label={`Add ${product.name}, ${selectedVariant.label}, to cart`}
-        />
-      </div>
-    </>
-  );
-}
-
-function HomeGummyStageMedia({ collection }) {
-  const packshots = collection.productIds
-    .map((id) => HOME_GUMMY_PACKSHOTS[id])
-    .filter(Boolean)
-    .slice(0, 2);
-
-  return (
-    <div className="home-product-stage__gummy-media" aria-label={`${collection.name} gummy collection`}>
-      {packshots.map((packshot, index) => (
-        <ResponsiveImage
-          key={packshot}
-          className={`home-product-stage__gummy-pouch home-product-stage__gummy-pouch--${index + 1}`}
-          src={packshot}
-          alt=""
-          sizes="(max-width: 899px) 42vw, 20vw"
-          loading="eager"
-          decoding="async"
-        />
-      ))}
-    </div>
-  );
-}
-
-function HomeGummyStageDetails({ collection }) {
-  const productsInCollection = products.filter((product) => (
-    product.category === "Gummies" && product.productLine === collection.name
-  ));
-  const collectionUrl = `/shop/gummies?collection=${encodeURIComponent(collection.name)}`;
-
-  return (
-    <>
-      <div className="home-product-stage__detail-copy">
-        <p>{collection.description}</p>
-        <div className="home-product-stage__facts">
-          <span>{productsInCollection.length} flavors</span>
-          <span>Gummy collection</span>
-        </div>
-      </div>
-      <div className="home-product-stage__purchase home-product-stage__purchase--collection">
-        <Link className="home-product-stage__collection-link" to={collectionUrl}>
-          Explore collection <ArrowRight aria-hidden="true" />
-        </Link>
-      </div>
-    </>
-  );
-}
-
-function HomePage() {
-  const homeRef = useRef(null);
-  return (
-    <Shell>
-      <div className="sky-home" ref={homeRef}>
-        <HomepageAtmosphere />
-        <ScrollCloudParallax />
-        <section id="home-scene-hero" className="beverage-hero atmospheric-scene-hero" data-home-snap-scene aria-label="Featured Lagom Naturals products"><HomeHero /><SceneTransitionArtwork index={1} word="BALANCE" /></section>
-
-        <div className="home-cloud-interlude" data-flow-boundary="1" aria-hidden="true"><span className="home-cloud-interlude__mist home-cloud-interlude__mist--near" /><span className="home-cloud-interlude__mist home-cloud-interlude__mist--far" /></div>
-
-        <section
-          id="home-scene-flavors"
-          className="seltzer-showcase-section"
-          data-home-snap-scene
-          aria-label="Lagom seltzer flavors"
-        >
-          <SeltzerShowcase />
-          <SceneTransitionArtwork index={2} word="FLAVOR" />
-        </section>
-
-        <div className="home-cloud-interlude" data-flow-boundary="2" aria-hidden="true"><span className="home-cloud-interlude__mist home-cloud-interlude__mist--near" /><span className="home-cloud-interlude__mist home-cloud-interlude__mist--far" /></div>
-
-        <HomeBrandEditorial />
-
-        <div className="home-cloud-interlude" data-flow-boundary="3" aria-hidden="true"><span className="home-cloud-interlude__mist home-cloud-interlude__mist--near" /><span className="home-cloud-interlude__mist home-cloud-interlude__mist--far" /></div>
-
-        <section
-          id="gummies"
-          className="seltzer-showcase-section gummy-showcase-section"
-          data-home-snap-scene
-          data-home-snap-fixed
-          aria-label="Lagom gummy collections"
-        >
-          <GummyShowcase />
-          <SceneTransitionArtwork index={4} word="DISCOVER" />
-        </section>
-
-        <div className="home-cloud-interlude" data-flow-boundary="4" aria-hidden="true"><span className="home-cloud-interlude__mist home-cloud-interlude__mist--near" /><span className="home-cloud-interlude__mist home-cloud-interlude__mist--far" /></div>
-
-        <HomeCollectionDiscovery />
-
-      </div>
-    </Shell>
-  );
-}
 function ShopPage() {
   const [params] = useSearchParams();
   const location = useLocation();
@@ -772,7 +487,7 @@ function NotFoundPage() {
 export default function App() {
   return (
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<EditorialHomePage />} />
         <Route path="/shop" element={<ShopPage />} />
         <Route path="/shop/seltzers" element={<ShopPage />} />
         <Route path="/shop/gummies" element={<ShopPage />} />

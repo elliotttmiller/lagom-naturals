@@ -1,14 +1,39 @@
 import Shell from '@/storefront/StorefrontShell'
+import EditorialPageHeader from '@/editorial/EditorialPageHeader'
+import Accordion from '@/editorial/Accordion'
 import '@/styles/mobile/70-editorial.css'
+import '@/styles/editorial-routes.css'
+
+const ITEMS=[
+  {
+    id:'what-is-thc-beverage',
+    title:'What is a THC beverage?',
+    content:<p>Lagom is a sparkling beverage infused with hemp-derived THC. It contains no alcohol. Individual experiences with THC vary.</p>,
+  },
+  {
+    id:'read-the-can',
+    title:'Read the can',
+    content:<p>Current Lagom seltzers are labeled with 10 mg THC per can and 12 fl oz (355 mL). Read product labeling before consuming and do not assume that THC affects everyone the same way.</p>,
+  },
+  {
+    id:'take-your-time',
+    title:'Take your time',
+    content:<><p>If you are unfamiliar with THC, begin with a lower amount and allow adequate time before consuming more. Effects vary based on the individual, amount consumed, food intake, and other factors.</p><p>Do not drive or operate machinery after consuming THC. Keep products away from children and pets. Follow local law and product labeling.</p></>,
+  },
+]
 
 export default function LearnPage(){
   return <Shell>
-    <div className="editorial-page">
-      <p>THC, EXPLAINED</p>
-      <h1>A considered place to start.</h1>
-      <section className="editorial-step" data-story-step="01"><h2>What is a THC beverage?</h2><p>Lagom is a sparkling beverage infused with hemp-derived THC. It contains no alcohol. Individual experiences with THC vary.</p></section>
-      <section className="editorial-step" data-story-step="02"><h2>Read the can</h2><p>Every current Lagom can image states 10 mg THC per can and 12 fl oz (355 mL). A verified serving size is not available in the current source, so this site does not infer one.</p></section>
-      <section className="editorial-step" data-story-step="03" id="responsible-use"><h2>Take your time</h2><p>If you are unfamiliar with THC, begin with a lower serving and allow adequate time before consuming more. Effects vary based on the individual, dose, food intake, and other factors.</p><p>Do not drive or operate machinery after consuming THC. Keep products away from children and pets. Follow local law and product labeling.</p></section>
+    <div className="editorial-route editorial-learn">
+      <EditorialPageHeader
+        eyebrow="THC, explained"
+        title="A considered place to start."
+        lede={<p>Clear product information and responsible-use guidance without pretending there is one universal THC experience.</p>}
+      />
+      <section className="editorial-route__content" aria-label="THC education">
+        <div className="editorial-route__aside"><span>01—03</span><p>Product information</p></div>
+        <Accordion items={ITEMS}/>
+      </section>
     </div>
   </Shell>
 }

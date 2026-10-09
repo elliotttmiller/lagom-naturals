@@ -1,43 +1,99 @@
 :root{
-  --color-bg:#f7f4ee;
+  /* Core surfaces */
+  --color-bg:#f4f1ea;
+  --color-paper:#f8f6f1;
   --color-surface:#fff;
+  --color-surface-muted:#eeebe4;
   --color-ink:#11110f;
-  --color-muted:#696860;
-  --color-line:#ddd8ce;
-  --color-line-strong:#c9c2b6;
+  --color-ink-soft:#2d2d29;
+  --color-muted:#6f6d65;
+  --color-line:#dcd7cd;
+  --color-line-strong:#c6c0b4;
   --color-accent:#0f513d;
 
-  /* Brand type package: editorial serif + crisp contemporary sans.
-     Nunito remains available for legacy content but is no longer the global voice. */
-  --font-display:"Playfair Display",Georgia,serif;
+  /* Editorial type system. The template is a scale reference, not a font source. */
+  --font-display:"Playfair Display",Georgia,"Times New Roman",serif;
   --font-primary:"Manrope","Avenir Next","Segoe UI",sans-serif;
   --font-ui:"Manrope","Avenir Next","Segoe UI",sans-serif;
   --font-body:var(--font-primary);
   --font-utility:var(--font-ui);
 
-  --page-gutter:clamp(24px,4.2vw,72px);
+  --type-campaign:clamp(4.25rem,13.5vw,13.75rem);
+  --type-display:clamp(3.25rem,8vw,8.5rem);
+  --type-heading-xl:clamp(2.55rem,5.2vw,5.5rem);
+  --type-heading-lg:clamp(2rem,3.3vw,3.6rem);
+  --type-heading-md:clamp(1.45rem,2vw,2.2rem);
+  --type-body-lg:clamp(1.05rem,1.25vw,1.3rem);
+  --type-body:1rem;
+  --type-meta:.75rem;
+  --type-micro:.6875rem;
+
+  --tracking-display:-.045em;
+  --tracking-heading:-.025em;
+  --tracking-meta:.08em;
+
+  /* Spatial system */
+  --page-gutter:clamp(18px,4.2vw,72px);
   --page-wide:1480px;
   --page-content:1320px;
+  --content-editorial:1100px;
+  --content-reading:760px;
 
+  --space-1:.5rem;
+  --space-2:.75rem;
+  --space-3:1rem;
+  --space-4:1.5rem;
+  --space-5:2rem;
+  --space-6:3rem;
+  --space-7:4.5rem;
+  --space-8:6rem;
+  --space-section-sm:clamp(3.5rem,7vw,6rem);
+  --space-section-md:clamp(5rem,10vw,9rem);
+  --space-section-lg:clamp(7rem,14vw,13rem);
+
+  --radius-control:999px;
+  --radius-media:2px;
   --radius-sm:6px;
   --radius-md:10px;
   --radius-lg:14px;
   --shadow-soft:0 12px 32px rgba(20,18,14,.045);
 
+  --layer-base:0;
+  --layer-product:3;
+  --layer-copy:5;
+  --layer-header:40;
+  --layer-overlay:80;
+
+  /* Flavor/campaign variables are overridden per product scene. */
+  --flavor-primary:#d6b35a;
+  --flavor-secondary:#f1e3ae;
+  --flavor-soft:#f5eedb;
+  --flavor-ink:#191711;
+
+  /* Motion */
   --ease:cubic-bezier(.22,.82,.28,1);
-  --ease-soft:cubic-bezier(.18,.92,.26,1);
+  --ease-soft:cubic-bezier(.16,1,.3,1);
   --ease-exit:cubic-bezier(.42,0,.22,1);
   --motion-fast:220ms;
   --motion-base:380ms;
   --motion-slow:580ms;
 
-  /* Compatibility aliases retained while legacy root sheets are retired. */
+  /* Compatibility aliases retained while legacy presentation layers are retired. */
   --green:var(--color-accent);
   --green-soft:#edf5f1;
   --ink:var(--color-ink);
-  --ink-soft:#25302a;
+  --ink-soft:var(--color-ink-soft);
   --muted:var(--color-muted);
   --line:var(--color-line);
   --line-strong:var(--color-line-strong);
   --surface-soft:#f7f8f6;
+}
+
+@media (max-width:899px){
+  :root{
+    --page-gutter:max(16px,env(safe-area-inset-left));
+    --type-campaign:clamp(3.5rem,19vw,6.75rem);
+    --type-display:clamp(3rem,15vw,5.75rem);
+    --space-section-lg:clamp(5rem,18vw,8rem);
+  }
 }

@@ -1,41 +1,14 @@
 /* Homepage stylesheet manifest.
-   Import order is intentional. This file is the single global entry for the
-   homepage visual system; individual modules retain one narrow responsibility.
+   The browser remains the only vertical scroll engine.
 
-   1. atmospheric base
-   2. native browser scroll-snap geometry
-   3. desktop scene presentation
-   4. mobile scene presentation
-   5. hero media composition
-   6. product-stage static geometry/presentation
-   7. shared motion presentation tokens/states
+   - home-scroll-snap.css: native scene geometry/observer contract retained for
+     the campaign viewport.
+   - lagom-motion-language.css: shared image, route and interaction lifecycle.
+   - editorial-system.css: canonical homepage presentation.
 
-   home-scroll-snap.css is the only viewport/snap geometry authority. No later
-   global stylesheet may redefine homepage scene heights or snap boundaries.
-
-   Vertical document position is always browser-owned. Motion/WAAPI may animate
-   content inside a scene but must never compete with native vertical scrolling.
+   The previous sky hero, product-stage, flavor-showcase and gummy-showcase
+   presentation layers were retired with their superseded component owners.
 */
-@import '../mobile-sky-home.css';
 @import '../home-scroll-snap.css';
-@import '../desktop-snap-home.css';
-@import '../mobile-home-composition.css';
-@import '../home-hero-fullbleed.css';
-@import '../home-product-stage.css';
 @import '../lagom-motion-language.css';
-@import '../home-seltzer-showcase.css';
-@import '../home-gummy-showcase.css';
-@import './editorial-template.css';
-@import './brand-campaign.css';
-
-/* Scrubbed decorative transition artwork; geometry remains owned by home-scroll-snap.css. */
-@import './scene-choreography.css';
-
-/* Final motion/navigation authority: natural continuous scroll, no snap pagination. */
-@import './continuous-scroll.css';
-
-/* Shared cross-scene cloud/product/editorial scroll timelines. */
-@import './coordinated-flow.css';
-
-/* Real scroll-reactive atmosphere over the existing shared WebGL sky. */
-@import './scroll-cloud-parallax.css';
+@import './editorial-system.css';

@@ -5,73 +5,87 @@
 ## Runtime loading model
 
 Global CSS is loaded through `styles/index.css`. Route-specific systems remain
-code-split and are imported by the routes that own them. In particular:
+code-split and are imported by the routes that own them.
 
 - `mobile/50-pdp.css` is route-owned by the product detail route.
 - `mobile/60-commerce.css` and `mobile/65-checkout.css` are route-owned by commerce routes.
-- `mobile/70-editorial.css` is route-owned by editorial/merch routes.
+- `mobile/70-editorial.css` remains a compatibility layer for editorial/merch routes.
+- `editorial-pdp.css` is the final presentation owner for the redesigned PDP.
+- `editorial-routes.css` owns the shared About/Learn/Visit editorial primitives.
 
-Do not globalize these modules merely to make `mobile/index.css` list every mobile
-file. Runtime ownership and bundle boundaries take precedence over directory symmetry.
+Do not globalize route-owned modules merely for directory symmetry. Runtime
+ownership and bundle boundaries take precedence.
 
-## Architecture
+## Canonical global architecture
 
-- `tokens.css` — shared design tokens and compatibility aliases.
+- `tokens.css` — semantic color, typography, spacing, content width, layer and flavor tokens.
 - `legacy-core.css` — temporary shared/desktop compatibility bridge only.
-- `mobile.css` → `mobile/index.css` — globally required mobile foundation, motion, chrome, catalog, overlay and accessibility layers.
-- `desktop.css` — shared desktop presentation.
-- `age-gate.css` — sole static Age Gate presentation owner. `src/AgeGate.jsx` owns verification state, focus/accessibility and the static decision scene.
-- `age-gate-transition.css` — sole cinematic handoff presentation owner. `src/AgeGateTransition.jsx` owns transition asset preloading, WAAPI choreography and the temporary Hero reveal contract.
-- `home/index.css` — single global homepage stylesheet boundary.
-- `home-scroll-snap.css` — authoritative homepage native vertical scroll-snap geometry and scene-height contract.
-- `desktop-snap-home.css` — desktop homepage scene presentation.
-- `mobile-home-composition.css` — mobile Hero composition only; it must not define scroll-padding, scene heights, snap alignment, or product-stage geometry.
-- `home-product-stage.css` — static product-stage geometry/presentation; Motion owns product-stage transform/opacity choreography.
-- `lagom-motion-language.css` — shared presentation-level motion tokens/state feedback, not vertical document movement.
-- `styles/mobile/*` — structured mobile modules below 900px.
-- route-scoped redesign sheets — loaded only by their owning routes/components.
+- `production-hardening.css` — cross-cutting production safeguards only; no page layout.
+- `mobile.css` → `mobile/index.css` — globally required mobile foundation, motion, chrome, catalog, overlays and accessibility.
+- `desktop.css` — shared desktop compatibility presentation.
+- `age-gate.css` — static Age Gate presentation.
+- `age-gate-transition.css` — Age Gate → campaign transition presentation.
+- `home/index.css` — homepage stylesheet boundary.
+- `home-scroll-snap.css` — retained native scene/observer geometry contract for the campaign viewport.
+- `home/editorial-system.css` — canonical homepage campaign + editorial layout.
+- `editorial-commerce.css` — canonical product-card, product-rail and Shop presentation.
+- `editorial-chrome.css` — canonical desktop/mobile chrome and footer presentation.
+- `lagom-motion-language.css` — shared image/route/interaction lifecycle tokens and non-scroll choreography.
 
-## Canonical high-risk ownership
+## Editorial migration ownership
 
-| System | Canonical authority |
+The October 2026 lifestyle-template migration intentionally uses the imported
+Framer template as a visual specification only. Generated Framer runtime,
+responsive wrappers and numbered component variants are never production
+dependencies.
+
+| Responsibility | Canonical authority |
 | --- | --- |
-| Homepage vertical scroll owner | Browser/native document scroll |
-| Homepage snap type/alignment/scene height + mobile containment + terminal footer release | `home-scroll-snap.css` |
-| Desktop homepage composition | `desktop-snap-home.css` |
-| Mobile homepage Hero composition | `mobile-home-composition.css` |
-| Homepage product-stage static layout | `home-product-stage.css` |
-| Homepage product-stage animated transform/opacity | Motion in `HomeProductStage.jsx` |
+| App motion primitives | `src/motionSystem.jsx` |
+| Campaign product carousel behavior | `src/home/ProductStage.jsx` |
+| Seltzer can rendering | `src/products/SeltzerCan.jsx` |
+| Flavor scene contract | `src/home/FlavorArtworkScene.jsx` + `src/products/flavorScenes.js` |
+| Homepage campaign/editorial presentation | `home/editorial-system.css` |
+| Product collection layout | `src/storefront/ProductRail.jsx` |
+| Product tile behavior/presentation | `CatalogProductCard.jsx` + `editorial-commerce.css` |
+| FAQ/education disclosure | `src/editorial/Accordion.jsx` |
+| Site chrome/footer presentation | `editorial-chrome.css` |
+| PDP presentation | `editorial-pdp.css` |
+| About/Learn/Visit shared presentation | `editorial-routes.css` |
+| Global production safeguards | `production-hardening.css` |
 | Mobile viewport/safe-area baseline | `mobile/00-foundation.css` |
-| Site mobile chrome | `mobile/20-chrome.css` |
-| Age-gate static layout | `age-gate.css` |
-| Age-gate → Hero cinematic handoff | `AgeGateTransition.jsx` + `age-gate-transition.css` (WAAPI runtime choreography) |
 | Reduced-motion mobile policy | `mobile/10-motion.css` + `mobile/90-accessibility.css` |
-| Shared design tokens | `tokens.css` |
 
-The rule is one canonical authority **per responsibility**, not one technology for
-an entire feature. CSS, Motion, WAAPI and native scrolling may participate only
-when their property/runtime-state boundaries do not compete.
+## Retired owners
 
-## Mobile migration policy
+The following systems were removed after the new route/component owners were
+wired:
 
-The structured files under `src/styles/mobile/` are the production mobile system.
-Historical root-level `mobile-*.css` files that were fully superseded and had no
-runtime import path were removed on 2026-10-02. Do not recreate them.
+- `HomeHeroPortal.jsx`
+- `HomeProductStage.jsx`
+- `AtmosphericScrollExperience.jsx`
+- `LagomScrollIndicator.jsx`
+- root `sky-home.css`
+- `mobile-sky-home.css`
+- `desktop-snap-home.css`
+- `mobile-home-composition.css`
+- `home-hero-fullbleed.css`
+- `home-product-stage.css`
+- `home-seltzer-showcase.css`
+- `home-gummy-showcase.css`
+- root `production.css`
 
-Some root-level component styles remain because live components still import them
-directly. A legacy-looking filename is not deletion evidence.
+Do not recreate `*-fix.css`, `*-polish.css`, or another generic production
+override layer for the new system. Put new rules in the narrowest canonical
+owner above.
 
 ## Ownership rules
 
-1. Do not add additional global CSS imports to `main.jsx`; use `styles/index.css` or a deliberate route/component boundary.
-2. Do not create root-level `mobile-*.css`, `desktop-*.css`, or ad-hoc `*-fix.css`/`*-polish.css` layers.
-3. New mobile rules belong in the narrowest canonical module under `styles/mobile/`.
-4. Homepage modules must enter globally through `styles/home/index.css`.
-5. `home-scroll-snap.css` alone owns homepage snap geometry. Presentation sheets may not compensate for bad snap geometry.
-6. Motion/WAAPI own runtime choreography only where explicitly documented; CSS must not independently animate the same transform/opacity property in that state.
-7. Prefer shared tokens over repeated literals when the value is genuinely systemic.
-8. Avoid `!important` except for intentional compatibility neutralization with a documented upstream owner.
-9. Preserve safe-area handling, keyboard focus, reduced motion, coarse-pointer behavior and native vertical scroll ownership.
-10. Delete a stylesheet only after classifying it as MIGRATED, OBSOLETE, DEAD, DUPLICATED or SUPERSEDED and identifying the surviving authority.
-
-See `mobile/AUDIT.md` for the migration/disposition record.
+1. Do not add additional global CSS imports to `main.jsx`.
+2. New homepage rules enter through `styles/home/index.css`.
+3. Motion owns runtime transform/opacity choreography; CSS owns static layout and lightweight state interpolation.
+4. Browser-native document scrolling remains the vertical scroll authority.
+5. Keep commerce/data contracts separate from campaign and editorial presentation.
+6. Prefer semantic tokens over repeated literals when the value is genuinely systemic.
+7. Preserve safe-area handling, keyboard focus, reduced motion, semantic landmarks and 44px+ interactive targets.
+8. Delete a stylesheet only after its runtime owner has been replaced and its surviving responsibility identified.
