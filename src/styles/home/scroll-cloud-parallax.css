@@ -1,0 +1,55 @@
+/* Visible cross-section cloud parallax: the WebGL sky remains the far
+   atmosphere; two fixed photographic cloud planes move at different rates
+   against the scroll. No product/card container or scrolling element moves. */
+.sky-home>.sky-home__scroll-clouds{
+  position:fixed;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  overflow:hidden;
+  contain:layout paint style;
+  --cloud-scroll-near-y:0px;
+  --cloud-scroll-mid-y:0px;
+  --cloud-scroll-drift-x:0px;
+  --cloud-scroll-mid-x:0px;
+}
+.sky-home__scroll-clouds-mid,
+.sky-home__scroll-clouds-near{
+  position:absolute;
+  inset:-10% -12%;
+  pointer-events:none;
+  background-repeat:no-repeat;
+  background-size:contain;
+  will-change:transform;
+}
+.sky-home__scroll-clouds-mid{
+  background-image:url('../../assets/atmosphere/clouds/cloud-19.webp');
+  background-position:96% 19%;
+  opacity:.21;
+  transform:translate3d(var(--cloud-scroll-mid-x),var(--cloud-scroll-mid-y),0);
+}
+.sky-home__scroll-clouds-near{
+  background-image:url('../../assets/atmosphere/clouds/cloud-21.webp');
+  background-position:3% 87%;
+  opacity:.24;
+  transform:translate3d(var(--cloud-scroll-drift-x),var(--cloud-scroll-near-y),0);
+}
+@media(max-width:899px){
+  .sky-home__scroll-clouds-mid{
+    background-position:110% 12%;
+    background-size:82% auto;
+    opacity:.15;
+  }
+  .sky-home__scroll-clouds-near{
+    background-position:-35% 86%;
+    background-size:110% auto;
+    opacity:.18;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .sky-home__scroll-clouds-mid,
+  .sky-home__scroll-clouds-near{
+    transform:none!important;
+    will-change:auto;
+  }
+}
