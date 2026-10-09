@@ -433,3 +433,143 @@
 @media(prefers-reduced-motion:reduce){
   .sky-home .lagom-scroll-indicator button::before{transition:none}
 }
+
+/* Template-derived kinetic navigation: active scene expands into a labeled,
+   tactile capsule instead of remaining a decorative pagination dot. */
+.sky-home .lagom-scroll-indicator{
+  z-index:65;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:clamp(.2rem,.6vh,.55rem);
+  padding:.35rem;
+  background:transparent;
+}
+.sky-home .lagom-scroll-indicator button{
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content:flex-end;
+  gap:0;
+  inline-size:2.75rem;
+  block-size:2.75rem;
+  min-block-size:2.75rem;
+  padding:0 .8rem;
+  overflow:hidden;
+  color:#fff;
+  border:1px solid rgba(255,255,255,.35);
+  border-radius:999px;
+  background:rgba(12,49,77,.3);
+  box-shadow:0 .4rem 1.2rem rgba(7,35,57,.08);
+  -webkit-backdrop-filter:none;
+  backdrop-filter:none;
+  transition:inline-size .5s cubic-bezier(.16,1,.3,1),
+             background-color .35s ease,border-color .35s ease,
+             box-shadow .35s ease;
+}
+.sky-home .lagom-scroll-indicator button::before,
+.sky-home .lagom-scroll-indicator button::after{display:none;content:none}
+.sky-home .lagom-scroll-indicator__dot{
+  flex:none;
+  display:block;
+  inline-size:.45rem;
+  block-size:.45rem;
+  border:1px solid currentColor;
+  border-radius:50%;
+  background:transparent;
+  transition:background-color .28s ease,transform .35s cubic-bezier(.16,1,.3,1);
+}
+.sky-home .lagom-scroll-indicator__label{
+  display:block;
+  flex:none;
+  max-inline-size:0;
+  overflow:hidden;
+  opacity:0;
+  white-space:nowrap;
+  font:750 .59rem/1.15 var(--font-ui,system-ui,sans-serif);
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  transition:max-inline-size .45s cubic-bezier(.16,1,.3,1),
+             opacity .25s ease,margin-inline-start .45s cubic-bezier(.16,1,.3,1);
+}
+.sky-home .lagom-scroll-indicator button.is-active{
+  inline-size:auto;
+  max-inline-size:12rem;
+  background:rgba(255,255,255,.94);
+  border-color:#fff;
+  color:#174e70;
+  box-shadow:0 .55rem 1.35rem rgba(7,35,57,.15);
+  transform:none;
+}
+.sky-home .lagom-scroll-indicator button.is-active .lagom-scroll-indicator__dot{
+  background:currentColor;
+  transform:scale(1.15);
+}
+.sky-home .lagom-scroll-indicator button.is-active .lagom-scroll-indicator__label{
+  max-inline-size:9rem;
+  margin-inline-start:.65rem;
+  opacity:1;
+}
+.sky-home .lagom-scroll-indicator button:focus-visible{
+  outline:3px solid #fff;
+  outline-offset:3px;
+}
+@media(max-width:899px){
+  .sky-home .lagom-scroll-indicator{gap:.15rem;padding:.2rem}
+  .sky-home .lagom-scroll-indicator button{inline-size:2.5rem;block-size:2.75rem;min-block-size:2.75rem;padding:0 .9rem}
+  .sky-home .lagom-scroll-indicator button.is-active{max-inline-size:10.5rem}
+  .sky-home .lagom-scroll-indicator__label{font-size:.53rem}
+}
+/* New scene choreography: source patterns translated from Sweet Morels title
+   reveals and Happipops product-stage motion. Scroll drives *only* the visual
+   contents; native document position and clouds are not transformed. */
+@keyframes lagom-campaign-title-enter{
+  from{opacity:.15;clip-path:inset(0 0 100% 0);transform:translate3d(0,3.5rem,0)}
+  to{opacity:1;clip-path:inset(0 0 0 0);transform:translate3d(0,0,0)}
+}
+@keyframes lagom-campaign-copy-enter{
+  from{opacity:.15;transform:translate3d(0,2.25rem,0)}
+  to{opacity:1;transform:translate3d(0,0,0)}
+}
+@keyframes lagom-campaign-media-enter{
+  from{opacity:.25;transform:translate3d(0,3rem,0) scale(.84) rotate(-7deg)}
+  to{opacity:1;transform:translate3d(0,0,0) scale(1) rotate(0)}
+}
+@keyframes lagom-campaign-card-enter{
+  from{opacity:.25;transform:translate3d(0,4rem,0) scale(.92)}
+  to{opacity:1;transform:translate3d(0,0,0) scale(1)}
+}
+@supports(animation-timeline:view(block)){
+  @media(prefers-reduced-motion:no-preference){
+    .sky-home .home-editorial-scene__copy h2,
+    .sky-home .home-collections-scene__heading h2{
+      animation:lagom-campaign-title-enter linear both;
+      animation-timeline:view(block);
+      animation-range:entry 0% entry 90%;
+    }
+    .sky-home .home-editorial-scene__copy p,
+    .sky-home .home-collections-scene__heading p{
+      animation:lagom-campaign-copy-enter linear both;
+      animation-timeline:view(block);
+      animation-range:entry 0% cover 22%;
+    }
+    .sky-home .home-editorial-scene__stage{
+      animation:lagom-campaign-media-enter linear both;
+      animation-timeline:view(block);
+      animation-range:entry 0% cover 35%;
+    }
+    .sky-home .home-collections-scene__grid .home-collection-card{
+      animation:lagom-campaign-card-enter linear both;
+      animation-timeline:view(block);
+      animation-range:entry 0% cover 30%;
+    }
+    .sky-home .home-collections-scene__grid .home-collection-card:nth-child(2){
+      animation-range:entry 5% cover 40%;
+    }
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .sky-home .lagom-scroll-indicator button,
+  .sky-home .lagom-scroll-indicator__dot,
+  .sky-home .lagom-scroll-indicator__label{transition:none!important}
+}
