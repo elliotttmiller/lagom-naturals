@@ -1,0 +1,122 @@
+/* Continuous native scrolling — intentionally loaded AFTER legacy snap,
+   layout, and scene choreography files. No wheel hijack, snap points or JS
+   smooth-scroll surrogate. The homepage becomes a continuous editorial canvas. */
+html:has(.sky-home),
+html:has(.sky-home) body {
+  scroll-snap-type:none!important;
+  scroll-behavior:auto!important;
+  overscroll-behavior-y:auto!important;
+}
+html:has(.sky-home) {
+  scroll-padding-block-start:0!important;
+}
+body:has(.sky-home) #root>.site-footer{
+  scroll-snap-align:none!important;
+  scroll-snap-stop:normal!important;
+}
+.sky-home{
+  touch-action:pan-y pinch-zoom;
+  overflow-x:clip;
+}
+.sky-home>.lagom-scroll-indicator{display:none!important}
+.sky-home>[data-home-snap-scene]{
+  scroll-snap-align:none!important;
+  scroll-snap-stop:normal!important;
+  scroll-margin:0!important;
+  overflow-anchor:auto;
+}
+/* Keep the three existing fullscreen interactive product stages intact.
+   Full-height sections do not imply full-height scroll *paging*: the browser
+   now crosses them continuously, at any intermediate scroll offset. */
+.sky-home>.atmospheric-scene-hero,
+.sky-home>.seltzer-showcase-section {
+  box-sizing:border-box!important;
+  block-size:100svh!important;
+  min-block-size:100svh!important;
+  max-block-size:none!important;
+}
+.sky-home>.home-editorial-scene,
+.sky-home>.home-collections-scene {
+  box-sizing:border-box!important;
+  block-size:100svh!important;
+  min-block-size:100svh!important;
+  max-block-size:none!important;
+}
+@supports(height:100dvh){
+  @media(min-width:900px){
+    .sky-home>[data-home-snap-scene]{
+      block-size:100dvh!important;
+      min-block-size:100dvh!important;
+    }
+  }
+}
+/* Disable desktop's old observer-gated entrances. There is no observer after
+   removing HomeScrollSnap. Existing typography and stage art remain visible
+   even when view timelines are not supported. */
+.sky-home [data-home-snap-content]>*,
+.sky-home [data-home-snap-scene]:not(.is-snap-visible) [data-home-snap-content]>*{
+  opacity:1;
+  transform:none;
+  transition:none;
+}
+.sky-home .legacy-sky-hero__atmosphere,
+.sky-home .atmospheric-scene-section__cloud{
+  opacity:1;
+}
+/* Keep product-stage and product-card animations owned by their components.
+   Only decorative scene artwork and editorial text get scroll-scrub effects. */
+@supports(animation-timeline:view(block)){
+  @media(prefers-reduced-motion:no-preference){
+    .sky-home .home-editorial-scene__copy p,
+    .sky-home .home-collections-scene__heading p {
+      animation:lagom-continuous-copy linear both;
+      animation-timeline:view(block);
+      animation-range:entry 0% cover 55%;
+    }
+    .sky-home .home-editorial-scene__stage {
+      animation:lagom-continuous-stage linear both;
+      animation-timeline:view(block);
+      animation-range:entry 0% cover 72%;
+    }
+    .sky-home .home-collections-scene__grid{
+      animation:lagom-continuous-stage linear both;
+      animation-timeline:view(block);
+      animation-range:entry 0% cover 60%;
+    }
+  }
+}
+@keyframes lagom-continuous-copy{
+  0%{opacity:.4;transform:translate3d(0,2rem,0)}
+  64%,100%{opacity:1;transform:translate3d(0,0,0)}
+}
+@keyframes lagom-continuous-stage{
+  0%{opacity:.72;transform:translate3d(0,3rem,0) scale(.95)}
+  75%,100%{opacity:1;transform:translate3d(0,0,0) scale(1)}
+}
+@media(max-width:899px){
+  /* Mobile scroll is entirely native: eliminate forced snap length, scroll
+     container competition, and observer-triggered presentation blanking. */
+  html:has(.sky-home),body:has(.sky-home){
+    overflow-y:visible!important;
+    scroll-snap-type:none!important;
+  }
+  .sky-home>[data-home-snap-scene]{
+    block-size:100svh!important;
+    min-block-size:100svh!important;
+    max-block-size:none!important;
+    scroll-snap-align:none!important;
+    scroll-snap-stop:normal!important;
+  }
+  .sky-home .home-editorial-scene__layout,
+  .sky-home .home-collections-scene__layout{min-block-size:0}
+}
+@media(prefers-reduced-motion:reduce){
+  .sky-home .home-editorial-scene__copy p,
+  .sky-home .home-collections-scene__heading p,
+  .sky-home .home-editorial-scene__stage,
+  .sky-home .home-collections-scene__grid{
+    animation:none!important;
+    opacity:1!important;
+    transform:none!important;
+  }
+}
