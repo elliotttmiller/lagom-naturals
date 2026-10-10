@@ -4,3 +4,6 @@
 @import '../lagom-motion-language.css';
 @import './editorial-system.css';
 @import './scroll-cloud-parallax.css';
+
+/* PR24 responsive/editorial regression recovery: final homepage CSS authority. */
+@import './editorial-recovery.css';
