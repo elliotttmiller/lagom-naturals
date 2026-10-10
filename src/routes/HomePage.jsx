@@ -6,6 +6,7 @@ import HomepageAtmosphere from "@/home/HomepageAtmosphere";
 import ScrollCloudParallax from "@/home/ScrollCloudParallax";
 import HomeHero from "@/HomeHeroPortal";
 import GummyShowcase from "@/home/GummyShowcase";
+import { HomepageSeltzerMedia } from "@/home/HomepageProductMedia";
 import LifestyleMosaic from "@/home/LifestyleMosaic";
 import BrandPrinciples from "@/home/BrandPrinciples";
 import ProductRail from "@/storefront/ProductRail";
@@ -61,8 +62,7 @@ export default function HomePage(){
           key={product.id}
           id={product.id}
           to={"/product/"+product.id}
-          image={product.image}
-          imageAlt={product.name+" THC seltzer can"}
+          mediaNode={<HomepageSeltzerMedia product={product}/>}
           contextLabel={product.flavorFamily}
           name={product.name}
           price={product.price}
