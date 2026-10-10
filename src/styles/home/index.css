@@ -11,3 +11,6 @@
 /* Reuse approved four-can hero layout without returning to snap pagination. */
 @import '../home-hero-fullbleed.css';
 @import './restored-hero-chrome.css';
+
+/* Final editorial spacing and native scroll progression. */
+@import './section-rhythm.css';

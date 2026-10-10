@@ -1,0 +1,87 @@
+/* Compact editorial section rhythm with native scroll-linked transitions.
+ * Previous PR24 large section tokens added blank space without motion.
+ * No artificial spacer nodes, sticky pinning, scroll capture, or snap paging. */
+#root .editorial-home{
+  --home-section-gap:clamp(2.25rem,5vw,4.5rem);
+  --home-section-gap-mobile:clamp(1.75rem,5svh,3rem);
+}
+#root .editorial-home > :is(
+  .editorial-statement,.product-rail,.lifestyle-mosaic,
+  .brand-principles,.home-retail,.home-education
+){
+  padding-block:var(--home-section-gap)!important;
+}
+#root .editorial-home .editorial-statement{
+  row-gap:clamp(1.25rem,2.5vw,2rem);
+}
+#root .editorial-home .product-rail__header,
+#root .editorial-home .lifestyle-mosaic__header,
+#root .editorial-home .brand-principles>header{
+  margin-bottom:clamp(1.25rem,2.8vw,2.5rem);
+}
+#root .editorial-home .home-retail{
+  min-height:0;
+}
+#root .editorial-home .home-retail>picture,
+#root .editorial-home .home-retail>picture img,
+#root .editorial-home .home-retail>img{
+  min-height:clamp(18rem,36vw,28rem);
+}
+#root .editorial-home .editorial-tile{
+  min-height:clamp(19rem,35vw,36rem);
+}
+@media(max-width:899px){
+  #root .editorial-home > :is(
+    .editorial-statement,.product-rail,.lifestyle-mosaic,
+    .brand-principles,.home-retail,.home-education
+  ){
+    padding-block:var(--home-section-gap-mobile)!important;
+  }
+  #root .editorial-home .editorial-statement>p{
+    margin-bottom:1rem;
+  }
+  #root .editorial-home .editorial-statement>div{
+    margin-top:1.25rem;
+  }
+  #root .editorial-home .home-retail>picture,
+  #root .editorial-home .home-retail>picture img,
+  #root .editorial-home .home-retail>img{
+    min-height:clamp(15rem,45svh,24rem);
+  }
+  #root .editorial-home .editorial-tile{
+    min-height:clamp(20rem,55svh,31rem);
+  }
+}
+/* Each *real* editorial section owns its own view progress.
+   Copy and media move at different rates for perceptible depth;
+   timelines are scrubbable, never time-based entrance delays. */
+@keyframes lagom-editorial-copy-flow{
+  0%{opacity:.58;translate:0 1.5rem}
+  52%,100%{opacity:1;translate:0 0}
+}
+@keyframes lagom-editorial-media-flow{
+  0%{opacity:.74;translate:0 2.25rem;scale:.975}
+  56%,100%{opacity:1;translate:0 0;scale:1}
+}
+@supports(animation-timeline:view(block)){
+  @media(prefers-reduced-motion:no-preference){
+    #root .editorial-home > :is(.editorial-statement,.product-rail,.lifestyle-mosaic,.brand-principles,.home-retail,.home-education) :is(h2,.product-rail__header,.home-retail__copy){
+      animation:lagom-editorial-copy-flow linear both;
+      animation-timeline:view(block);
+      animation-range:entry 0% cover 42%;
+    }
+    #root .editorial-home :is(.product-rail__track,.lifestyle-mosaic__grid,.home-retail>picture){
+      animation:lagom-editorial-media-flow linear both;
+      animation-timeline:view(block);
+      animation-range:entry 0% cover 48%;
+    }
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  #root .editorial-home :is(.product-rail__track,.lifestyle-mosaic__grid,.home-retail>picture,h2,.product-rail__header,.home-retail__copy){
+    animation:none!important;
+    opacity:1!important;
+    translate:none!important;
+    scale:1!important;
+  }
+}
