@@ -1,7 +1,11 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { m, useReducedMotion } from "@/motionSystem";
-import { ShowcaseCan, labelMedia, showcaseProducts } from "@/home/SeltzerShowcase";
+import SeltzerCan from "@/products/SeltzerCan";
+import { products } from "@/catalogData";
+
+const HERO_IDS = ["24k-lemonade", "blackberry-breeze", "strawberry-lime-fusion", "watermelon-refresher"];
+const showcaseProducts = HERO_IDS.map(id => products.find(product => product.id === id)).filter(Boolean);
 
 export default function HomeHero() {
   const reducedMotion = useReducedMotion();
@@ -14,26 +18,11 @@ export default function HomeHero() {
     <div className="legacy-sky-hero__flavor-stage" role="group" aria-label="Explore our four seltzer flavors">
       {showcaseProducts.map((product, index) => (
         <div className="legacy-sky-hero__flavor" key={product.id}>
-          <m.button
-            type="button"
-            className="legacy-sky-hero__flavor-can"
-            aria-label={`Quick view ${product.name}`}
-            aria-haspopup="dialog"
-            onClick={(event) => window.dispatchEvent(new CustomEvent("lagom:seltzer-quick-view", {
-              detail: { productId: product.id, trigger: event.currentTarget },
-            }))}
-            whileHover={reducedMotion ? undefined : { y: -7, rotate: index % 2 ? 1.1 : -1.1, scale: 1.035 }}
-            whileTap={reducedMotion ? undefined : { scale: .98 }}
-            transition={reducedMotion ? { duration: 0 } : { type: "spring", stiffness: 220, damping: 24 }}
-          >
-            <ShowcaseCan
-              label={labelMedia[product.id]}
-              product={product}
-              reducedMotion={reducedMotion}
-              interactive
-              mediaSizes="(max-width: 430px) 20vw, (max-width: 899px) 17vw, 15rem"
-            />
-          </m.button>
+          <m.div className="legacy-sky-hero__flavor-can" whileHover={reducedMotion ? undefined : { y: -7, rotate: index % 2 ? 1.1 : -1.1, scale: 1.035 }} transition={reducedMotion ? { duration: 0 } : { type: "spring", stiffness: 220, damping: 24 }}>
+            <Link className="legacy-sky-hero__can-link" to={`/product/${product.id}`} aria-label={`Explore ${product.name} THC seltzer`}>
+              <SeltzerCan product={product} decorative sizes="(max-width: 430px) 20vw, (max-width: 899px) 17vw, 15rem" eager={index < 2} />
+            </Link>
+          </m.div>
         </div>
       ))}
     </div>
