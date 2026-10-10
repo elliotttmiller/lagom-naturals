@@ -2,6 +2,7 @@ import React,{useMemo,useState} from "react";
 import {products} from "@/catalogData";
 import ProductRail from "@/storefront/ProductRail";
 import CatalogProductCard from "@/storefront/CatalogProductCard";
+import { HomepageGummyMedia } from "@/home/HomepageProductMedia";
 
 export default function GummyShowcase(){
   const gummies=useMemo(()=>products.filter(product=>product.category==="Gummies"),[]);
@@ -25,8 +26,7 @@ export default function GummyShowcase(){
           key={product.id}
           id={product.id}
           to={"/product/"+product.id}
-          image={product.image}
-          imageAlt={product.imageAlt||product.name}
+          mediaNode={<HomepageGummyMedia product={product}/>}
           contextLabel={product.productLine}
           name={product.name}
           price={product.price}
