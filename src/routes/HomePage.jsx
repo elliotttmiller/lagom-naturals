@@ -4,7 +4,7 @@ import {ArrowRight} from "lucide-react";
 import Shell from "@/storefront/StorefrontShell";
 import HomepageAtmosphere from "@/home/HomepageAtmosphere";
 import ScrollCloudParallax from "@/home/ScrollCloudParallax";
-import SeltzerShowcase from "@/home/SeltzerShowcase";
+import HomeHero from "@/HomeHeroPortal";
 import GummyShowcase from "@/home/GummyShowcase";
 import LifestyleMosaic from "@/home/LifestyleMosaic";
 import BrandPrinciples from "@/home/BrandPrinciples";
@@ -43,7 +43,7 @@ export default function HomePage(){
         <HomepageAtmosphere/>
         <ScrollCloudParallax/>
         <section id="home-scene-hero" className="editorial-home__campaign-scene atmospheric-scene-section is-snap-visible" aria-label="Lagom THC seltzer flavor campaign">
-          <SeltzerShowcase/>
+          <HomeHero/>
         </section>
       </div>
 
