@@ -1,0 +1,161 @@
+/* Lagom atmospheric editorial system. The homepage is one continuous
+   beverage-led sky canvas—not a paper sheet after the hero. Product cards
+   present transparent real packaging; the catalog remains unchanged. */
+html:has(.editorial-home),
+body:has(.editorial-home),
+#root .editorial-home{
+  background:#a8d9f0!important;
+}
+#root .editorial-home{
+  isolation:isolate;
+  background:
+    radial-gradient(ellipse 85% 24% at 42% 23%,rgba(255,255,255,.57),transparent 84%),
+    radial-gradient(ellipse 70% 19% at 75% 55%,rgba(231,245,252,.55),transparent 86%),
+    radial-gradient(ellipse 95% 22% at 18% 81%,rgba(255,255,255,.42),transparent 86%),
+    linear-gradient(180deg,#1689d8 0%,#92cde9 21%,#cfebf4 42%,#c5e5ee 64%,#98cddf 100%)!important;
+}
+#root .editorial-home > :not(.editorial-home__campaign){
+  background:transparent!important;
+  color:#132c3a!important;
+}
+#root .editorial-home > .editorial-statement{
+  position:relative;
+  border-top:1px solid rgba(255,255,255,.36);
+}
+#root .editorial-home > .editorial-statement::before,
+#root .editorial-home > .brand-principles::before{
+  position:absolute;
+  content:"";
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background:radial-gradient(ellipse 78% 75% at 50% 50%,rgba(255,255,255,.25),transparent 88%);
+}
+#root .editorial-home .product-rail__header,
+#root .editorial-home .lifestyle-mosaic__header,
+#root .editorial-home .brand-principles>header,
+#root .editorial-home .home-education>header{
+  color:#122d3e;
+}
+#root .editorial-home :is(.editorial-statement,.product-rail,.brand-principles,.home-retail,.home-education) :is(p,small){
+  color:#335365;
+}
+#root .editorial-home :is(.editorial-statement,.product-rail,.brand-principles,.home-retail,.home-education) :is(h2,h3){
+  color:#102c3d;
+}
+#root .editorial-home .product-rail__track,
+#root .editorial-home .gummy-collection-grid{
+  position:relative;
+}
+#root .editorial-home .editorial-product-card{
+  background:transparent!important;
+  min-width:0;
+}
+#root .editorial-home .editorial-product-card__card{
+  height:100%;
+  overflow:hidden;
+  border-radius:clamp(1rem,1.8vw,1.5rem);
+  border:1px solid rgba(255,255,255,.48);
+  background:linear-gradient(150deg,rgba(255,255,255,.34),rgba(240,250,255,.12))!important;
+  -webkit-backdrop-filter:blur(12px) saturate(112%);
+  backdrop-filter:blur(12px) saturate(112%);
+  box-shadow:0 13px 38px rgba(21,89,125,.08);
+}
+#root .editorial-home .editorial-product-card__media{
+  position:relative;
+  display:grid!important;
+  place-items:center;
+  aspect-ratio:1/1.06;
+  overflow:hidden;
+  padding:clamp(.75rem,2vw,1.4rem);
+  background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.58),rgba(255,255,255,.07) 68%,transparent)!important;
+}
+#root .editorial-home .editorial-product-card__media > a{
+  position:relative;
+  display:grid;
+  place-items:center;
+  width:100%;
+  height:100%;
+  min-width:0;
+}
+#root .editorial-home .home-product-art{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  height:100%;
+  min-height:0;
+  pointer-events:none;
+}
+#root .editorial-home .home-product-art--can .seltzer-can{
+  width:auto!important;
+  height:min(90%,19rem)!important;
+  aspect-ratio:889/1770;
+  flex:none;
+  filter:drop-shadow(0 1rem 1rem rgba(13,65,98,.18));
+  transition:transform .55s cubic-bezier(.2,.7,.25,1);
+}
+#root .editorial-home .home-product-art--gummy img{
+  display:block;
+  width:100%;
+  height:100%;
+  max-height:19rem;
+  object-fit:contain;
+  filter:drop-shadow(0 1.1rem .85rem rgba(26,65,88,.14));
+  transition:transform .55s cubic-bezier(.2,.7,.25,1);
+}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+  #root .editorial-home .editorial-product-card:hover .home-product-art--can .seltzer-can,
+  #root .editorial-home .editorial-product-card:hover .home-product-art--gummy img{
+    transform:translateY(-.45rem) scale(1.045);
+  }
+}
+#root .editorial-home .editorial-product-card__body{
+  background:transparent!important;
+  padding:clamp(.85rem,1.75vw,1.35rem);
+}
+#root .editorial-home .editorial-product-card__name,
+#root .editorial-home .editorial-product-card__name a{
+  color:#102c3d!important;
+}
+#root .editorial-home .editorial-product-card__description,
+#root .editorial-home .editorial-product-card__meta{
+  color:#3c5b6c!important;
+}
+#root .editorial-home .gummy-collection-tabs button{
+  color:#143b50;
+  border-color:rgba(18,63,89,.26);
+  background:rgba(255,255,255,.27);
+}
+#root .editorial-home .gummy-collection-tabs button.is-active{
+  background:#11394f;
+  color:white;
+}
+#root .editorial-home .editorial-feature-card{
+  border-color:rgba(18,64,89,.2);
+}
+#root .editorial-home .editorial-accordion__item{
+  border-color:rgba(18,64,89,.22);
+}
+@media(max-width:899px){
+  #root .editorial-home .editorial-product-card__media{
+    padding:clamp(.55rem,2vw,.9rem);
+  }
+  #root .editorial-home .home-product-art--can .seltzer-can{
+    height:min(89%,13rem)!important;
+  }
+  #root .editorial-home .home-product-art--gummy img{
+    max-height:13rem;
+  }
+  #root .editorial-home .editorial-product-card__card{
+    backdrop-filter:blur(7px);
+    -webkit-backdrop-filter:blur(7px);
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  #root .editorial-home .home-product-art--can .seltzer-can,
+  #root .editorial-home .home-product-art--gummy img{
+    transition:none!important;
+    transform:none!important;
+  }
+}
