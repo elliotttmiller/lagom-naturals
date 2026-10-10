@@ -1,0 +1,134 @@
+/* PR24 post-merge recovery. Editorial content must not inherit the
+   full-screen blue sky/product-stage canvas. All selectors are confined
+   to the editorial homepage; shop, PDP, age gate and cart are untouched. */
+html:has(.editorial-home),body:has(.editorial-home){
+  overflow-x:clip;
+}
+#root .editorial-home{
+  display:block;
+  position:relative;
+  inline-size:100%;
+  min-inline-size:0;
+  max-inline-size:100%;
+  color:var(--color-ink,#11110f);
+  background:var(--color-paper,#f8f6f1);
+  overflow:clip;
+}
+#root .editorial-home > :not(.editorial-home__campaign){
+  position:relative;
+  z-index:1;
+  box-sizing:border-box;
+  clear:both;
+  color:var(--color-ink,#11110f);
+  background:var(--color-paper,#f8f6f1);
+}
+#root .editorial-home > .editorial-home__campaign{
+  position:relative;
+  display:block;
+  inline-size:100%;
+  max-inline-size:100%;
+  min-block-size:100svh;
+  overflow:clip;
+}
+#root .editorial-home .editorial-statement,
+#root .editorial-home .product-rail,
+#root .editorial-home .lifestyle-mosaic,
+#root .editorial-home .brand-principles,
+#root .editorial-home .home-retail,
+#root .editorial-home .home-education{
+  box-sizing:border-box;
+  inline-size:min(100%,var(--page-wide,1480px));
+  max-inline-size:100%;
+  min-inline-size:0;
+  margin-inline:auto;
+}
+#root .editorial-home .product-rail{
+  display:block;
+  padding-block:var(--space-section-md,5rem);
+}
+#root .editorial-home .product-rail__header,
+#root .editorial-home .product-rail__track{
+  width:100%;
+  max-width:100%;
+  min-width:0;
+}
+#root .editorial-home .product-rail__track{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:clamp(.75rem,1.4vw,1.4rem);
+  align-items:start;
+}
+#root .editorial-home .product-rail__track > *{
+  min-width:0;
+  max-width:100%;
+}
+#root .editorial-home .editorial-gummy-showcase .product-rail__track{
+  display:block;
+}
+#root .editorial-home .product-rail :is(h2,h3,p,span),
+#root .editorial-home .editorial-statement :is(h2,p),
+#root .editorial-home .brand-principles :is(h2,h3,p),
+#root .editorial-home .home-education :is(h2,h3,p){
+  text-shadow:none;
+}
+#root .editorial-home .home-retail{
+  display:grid;
+  grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);
+}
+#root .editorial-home .home-education{
+  display:grid;
+  grid-template-columns:minmax(0,.42fr) minmax(0,.58fr);
+}
+@media(max-width:899px){
+  #root .editorial-home > :not(.editorial-home__campaign){
+    overflow-x:clip;
+  }
+  #root .editorial-home .editorial-statement,
+  #root .editorial-home .product-rail,
+  #root .editorial-home .lifestyle-mosaic,
+  #root .editorial-home .brand-principles,
+  #root .editorial-home .home-retail,
+  #root .editorial-home .home-education{
+    padding-inline:max(16px,env(safe-area-inset-left,0px),env(safe-area-inset-right,0px));
+  }
+  #root .editorial-home .product-rail{
+    padding-block:clamp(3rem,8svh,5rem);
+  }
+  #root .editorial-home .product-rail__header{
+    display:block;
+    margin-bottom:1.5rem;
+  }
+  #root .editorial-home .product-rail__track{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+  }
+  #root .editorial-home .home-retail,
+  #root .editorial-home .home-education{
+    display:flex;
+    flex-direction:column;
+    gap:1.5rem;
+    min-height:0;
+  }
+  #root .editorial-home .home-retail__copy{
+    padding:0;
+  }
+  #root .editorial-home .editorial-statement{
+    display:block;
+  }
+  #root .editorial-home .editorial-statement h2,
+  #root .editorial-home .product-rail__header h2{
+    max-width:12ch;
+    overflow-wrap:normal;
+  }
+  #root .editorial-home .lifestyle-mosaic__grid{
+    grid-template-columns:minmax(0,1fr);
+  }
+}
+@media(max-width:420px){
+  #root .editorial-home .product-rail__track{
+    gap:10px;
+  }
+  #root .editorial-home .product-rail__track > *{
+    min-width:0;
+  }
+}
