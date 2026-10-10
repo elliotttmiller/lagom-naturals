@@ -42,7 +42,7 @@ export default function HomePage(){
       <div className="editorial-home__campaign sky-home">
         <HomepageAtmosphere/>
         <ScrollCloudParallax/>
-        <section id="home-scene-hero" className="editorial-home__campaign-scene atmospheric-scene-section is-snap-visible" aria-label="Lagom THC seltzer flavor campaign">
+        <section id="home-scene-hero" className="editorial-home__campaign-scene atmospheric-scene-hero beverage-hero" aria-label="Lagom THC seltzer flavor campaign">
           <HomeHero/>
         </section>
       </div>
