@@ -1,0 +1,13 @@
+{
+  "source": "https://helpful-instance-487483.framer.app/",
+  "platform": "framer",
+  "captureMode": "html-with-runtime",
+  "generatedAt": "2026-10-10T18:08:14.402Z",
+  "assets": 737,
+  "failedAssets": [],
+  "subpages": 44,
+  "visualValidation": "not-run",
+  "limitations": [
+    "Server-side accounts, payments, search and form processing are not exported."
+  ]
+}
