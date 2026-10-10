@@ -8,6 +8,7 @@ export default function CatalogProductCard({
   to,
   image,
   imageAlt,
+  mediaNode,
   contextLabel,
   name,
   price,
@@ -35,7 +36,7 @@ export default function CatalogProductCard({
       <div className={"cpc-13__img editorial-product-card__media "+mediaClassName}>
         {ribbonLabel?<span className="cpc-13__ribbon editorial-product-card__ribbon">{ribbonLabel}</span>:null}
         <Link to={to} aria-label={"View "+name}>
-          <ResponsiveImage src={image} alt={imageAlt||name} sizes="(max-width: 899px) 50vw, 25vw" loading="lazy" decoding="async"/>
+          {mediaNode || <ResponsiveImage src={image} alt={imageAlt||name} sizes="(max-width: 899px) 50vw, 25vw" loading="lazy" decoding="async"/>}
         </Link>
       </div>
 
