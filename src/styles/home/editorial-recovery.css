@@ -132,3 +132,26 @@ html:has(.editorial-home),body:has(.editorial-home){
     min-width:0;
   }
 }
+
+/* Existing footer template renders on a dark surface in the recording.
+   Enforce legible white-on-black links and headings, including legacy
+   .site-footer--template specificity, without recoloring logo raster assets. */
+body:has(.editorial-home) #root .site-footer{
+  background:#101314!important;
+  color:#f9f8f4!important;
+  border-top-color:rgba(255,255,255,.15)!important;
+}
+body:has(.editorial-home) #root .site-footer :is(h2,h3,h4,a,p,small,li,span){
+  color:inherit!important;
+}
+body:has(.editorial-home) #root .site-footer .site-footer__group h4,
+body:has(.editorial-home) #root .site-footer .site-footer__legal{
+  color:rgba(249,248,244,.72)!important;
+}
+body:has(.editorial-home) #root .site-footer .site-footer__bottom{
+  border-top-color:rgba(255,255,255,.18)!important;
+}
+body:has(.editorial-home) #root .site-footer .site-footer__social{
+  color:#fff!important;
+  border-color:rgba(255,255,255,.36)!important;
+}
