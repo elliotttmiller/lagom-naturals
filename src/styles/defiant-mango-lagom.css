@@ -367,3 +367,59 @@ body{background:var(--color-paper);color:var(--color-ink)}
   .shs__plank,.shs__product{opacity:1;translate:0 0}
   .shs__product:hover,.shs__product:focus-visible{transform:none}
 }
+
+
+/* Hero-only product choreography. Artwork is deliberately graphic, not a simulated
+   liquid photograph: no additional network requests, WebGL or layout animation. */
+.shs__product{--shs-flavor:#eb7694;--shs-flavor-light:#ffdce5}
+.shs__product:has([data-flavor="24k-lemonade"]){--shs-flavor:#e9b73c;--shs-flavor-light:#fff2b9}
+.shs__product:has([data-flavor="blackberry-breeze"]){--shs-flavor:#8152a6;--shs-flavor-light:#dfc7f0}
+.shs__product:has([data-flavor="watermelon-refresher"]){--shs-flavor:#e76c67;--shs-flavor-light:#ffd3c9}
+.shs__flavor,.shs__splash{position:absolute;inset:0;pointer-events:none}
+.shs__flavor{z-index:0;transform:translateZ(-12px);transition:transform .55s cubic-bezier(.22,1,.36,1)}
+.shs__fruit{
+  position:absolute;width:42px;height:42px;border:5px solid var(--shs-flavor);
+  border-radius:50%;background:var(--shs-flavor-light);
+  box-shadow:inset 0 0 0 4px rgba(255,255,255,.7);
+  transition:transform .6s cubic-bezier(.22,1,.36,1);
+}
+.shs__fruit::after{
+  content:"";position:absolute;inset:8px;border:1px solid var(--shs-flavor);
+  border-radius:50%;opacity:.65;
+}
+.shs__fruit--rear{left:1%;bottom:28px;transform:rotate(-25deg) scale(.84)}
+.shs__fruit--front{right:0;bottom:9px;width:30px;height:30px;border-width:4px;transform:rotate(20deg)}
+.shs__fruit--front::after{inset:5px}
+.shs__splash{z-index:1;overflow:visible;opacity:0;transform:translateY(12px) scale(.85)}
+.shs__splash-arc{stroke:rgba(240,252,255,.94);stroke-width:5;stroke-linecap:round;stroke-dasharray:180;stroke-dashoffset:180;filter:drop-shadow(0 1px 1px rgba(70,145,165,.2))}
+.shs__drop{fill:#e5faff;stroke:#95d2e6;stroke-width:1;opacity:0}
+.shs__can{transform-origin:50% 90%;transition:transform .52s cubic-bezier(.2,.85,.25,1),filter .52s ease}
+.shs__product-shadow{transition:opacity .5s ease,scale .5s ease}
+@media(hover:hover) and (pointer:fine){
+  .shs__product:is(:hover,:focus-visible) .shs__can{transform:translateY(-12px) rotateZ(-3deg) scale(1.045);filter:drop-shadow(0 19px 11px rgba(20,35,31,.18))}
+}
+.shs__product[data-active="true"] .shs__can{transform:translateY(-12px) rotateZ(-3deg) scale(1.045)}
+.shs__product[data-active="true"] .shs__product-shadow{opacity:.55;scale:1.22 .8}
+.shs__product[data-active="true"] .shs__fruit--rear{transform:translate(-11px,-8px) rotate(-38deg) scale(.96)}
+.shs__product[data-active="true"] .shs__fruit--front{transform:translate(9px,-8px) rotate(35deg)}
+.shs__product[data-active="true"] .shs__splash{animation:lagom-splash-rise .88s cubic-bezier(.2,.8,.25,1) both}
+.shs__product[data-active="true"] .shs__splash-arc{animation:lagom-splash-draw .72s cubic-bezier(.22,.7,.35,1) both}
+.shs__product[data-active="true"] .shs__drop{animation:lagom-splash-drop .68s ease-out .2s both}
+@keyframes lagom-splash-rise{0%{opacity:0;transform:translateY(14px) scale(.8)}18%{opacity:1}72%{opacity:1}100%{opacity:0;transform:translateY(-9px) scale(1.05)}}
+@keyframes lagom-splash-draw{0%{stroke-dashoffset:180}56%{stroke-dashoffset:0}100%{stroke-dashoffset:180}}
+@keyframes lagom-splash-drop{0%{opacity:0;transform:translateY(8px)}35%{opacity:1}100%{opacity:0;transform:translateY(-18px)}}
+@media(max-width:809px){
+ .shs__mobile-products .shs__product{isolation:isolate}
+ .shs__mobile-products .shs__can{height:calc(100% - 64px);z-index:3}
+ .shs__mobile-products .shs__splash,.shs__mobile-products .shs__flavor{bottom:64px}
+ .shs__mobile-products .shs__fruit--rear{bottom:24px}
+ .shs__mobile-products .shs__fruit--front{bottom:12px}
+ .shs__mobile-products .shs__product-shadow{display:block;bottom:64px;left:16%;right:16%}
+ .shs__mobile-products .shs__product[data-active="true"] .shs__can{transform:translateY(-9px) rotate(-2deg) scale(1.035)}
+ .shs__mobile-products .shs__tag{z-index:8}
+}
+@media(prefers-reduced-motion:reduce){
+ .shs__can,.shs__fruit,.shs__product-shadow{transition:none!important}
+ .shs__product[data-active="true"] .shs__can{transform:none}
+ .shs__product[data-active="true"] .shs__splash,.shs__product[data-active="true"] .shs__splash-arc,.shs__product[data-active="true"] .shs__drop{animation:none!important;opacity:0}
+}

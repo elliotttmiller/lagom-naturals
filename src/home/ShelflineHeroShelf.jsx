@@ -26,6 +26,8 @@ export default function ShelflineHeroShelf({ products, tilt = 1 }) {
   const unitRef = useRef(null);
   const targetsRef = useRef({ x: 0, y: 0 });
   const [entered, setEntered] = useState(false);
+  const [activeId, setActiveId] = useState(null);
+  const touchUntilRef = useRef(0);
   const reducedMotion = useReducedMotion();
   const items = (Array.isArray(products) ? products : []).filter(Boolean);
   const mid = Math.ceil(items.length / 2);
@@ -129,17 +131,47 @@ export default function ShelflineHeroShelf({ products, tilt = 1 }) {
     };
   }, [reducedMotion, tilt]);
 
+  useEffect(() => {
+    if (!activeId) return undefined;
+    const timeout = window.setTimeout(() => setActiveId(null), 2100);
+    return () => window.clearTimeout(timeout);
+  }, [activeId]);
+
   if (!items.length) return null;
 
+  const showProduct = id => { setActiveId(id); };
+  const onProductClick = (event, id) => {
+    if (event.detail === 0 || !window.matchMedia("(hover: none)").matches) return;
+    if (activeId !== id || Date.now() > touchUntilRef.current) {
+      event.preventDefault();
+      touchUntilRef.current = Date.now() + 3200;
+      showProduct(id);
+    }
+  };
   const productsMarkup = items.map((product, index) => (
     <Link
       className="shs__product"
+      data-active={activeId === product.id ? "true" : "false"}
+      onPointerEnter={event => { if (event.pointerType === "mouse") showProduct(product.id); }}
+      onFocus={() => showProduct(product.id)}
+      onClick={event => onProductClick(event, product.id)}
       key={product.id}
       to={`/product/${encodeURIComponent(product.id)}`}
       style={{ "--shs-index": index }}
       aria-label={`Discover ${product.name}${product.thcMgPerCan != null ? `, ${product.thcMgPerCan} milligrams THC per can` : ""}`}
     >
       <span className="shs__product-shadow" aria-hidden="true" />
+      <span className="shs__flavor" aria-hidden="true" data-flavor={product.id}>
+        <span className="shs__fruit shs__fruit--rear" />
+        <span className="shs__fruit shs__fruit--front" />
+      </span>
+      <svg className="shs__splash" viewBox="0 0 180 160" fill="none" aria-hidden="true" focusable="false">
+        <path className="shs__splash-arc shs__splash-arc--left" d="M90 147 C44 130 21 88 39 49 C43 40 50 32 56 29" />
+        <path className="shs__splash-arc shs__splash-arc--right" d="M90 147 C132 130 158 89 143 52 C140 43 136 36 131 32" />
+        <circle className="shs__drop shs__drop--one" cx="49" cy="32" r="4" />
+        <circle className="shs__drop shs__drop--two" cx="140" cy="40" r="3" />
+        <circle className="shs__drop shs__drop--three" cx="95" cy="15" r="2.5" />
+      </svg>
       <span className="shs__can" aria-hidden="true">
         <SeltzerCan product={product} decorative eager={index < 2} sizes="(max-width: 809px) 44vw, (max-width: 1200px) 16vw, 172px" />
       </span>
