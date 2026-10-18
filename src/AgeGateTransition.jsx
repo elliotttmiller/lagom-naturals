@@ -71,7 +71,7 @@ export default function AgeGateTransition({
 
     frame=requestAnimationFrame(()=>{
       const hero=document.querySelector('.dm-home .dm-hero, .editorial-home__campaign-scene, .sky-home .atmospheric-scene-hero')
-      media=hero?.querySelector('.shs__can img, .flavor-artwork-scene__fallback img, .legacy-sky-hero__product--fullbleed img')||null
+      media=hero?.querySelector('.lagom-desktop-hero-wrapper .lagom-beverage-stage__can img, .lagom-mobile-hero-wrapper .shs__can img, .shs__can img, .flavor-artwork-scene__fallback img, .legacy-sky-hero__product--fullbleed img')||null
 
       if(!hero||!media||(media.complete&&media.naturalWidth>0)){
         finish()
@@ -127,7 +127,10 @@ export default function AgeGateTransition({
     document.body.classList.add('age-gate-transitioning')
     if(cinematic&&hero)document.body.classList.add('age-gate-cinematic-handoff')
 
+    let completed=false
     const complete=()=>{
+      if(completed)return
+      completed=true
       animationsRef.current=[]
       document.body.classList.remove('age-gate-transitioning','age-gate-cinematic-handoff')
       onComplete?.()
@@ -264,12 +267,16 @@ export default function AgeGateTransition({
       {opacity:0,transform:'scale(1.025)'},
     ],{duration:940,delay:occlusionAt,easing:drift},registry)
 
+    // The gate has a CSS background *image*, so animating backgroundColor alone
+    // cannot expose the homepage. Fade the actual opaque gate toward the end
+    // of the cloud zoom to produce a continuous smoke-out reveal.
     play(gate,[
-      {backgroundColor:'rgba(176,227,253,1)'},
-      {backgroundColor:'rgba(176,227,253,1)',offset:.42},
-      {backgroundColor:'rgba(176,227,253,.18)',offset:.72},
-      {backgroundColor:'rgba(176,227,253,0)'},
-    ],{duration:1120,delay:occlusionAt,easing:drift},registry)
+      {opacity:1,offset:0},
+      {opacity:1,offset:.30},
+      {opacity:.82,offset:.54},
+      {opacity:.2,offset:.84},
+      {opacity:0,offset:1},
+    ],{duration:duration-occlusionAt+220,delay:occlusionAt,easing:drift},registry)
 
     if(heroMedia){
       play(heroMedia,[
