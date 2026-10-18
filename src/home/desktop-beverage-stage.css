@@ -29,11 +29,20 @@
  .lagom-beverage-stage__can:nth-child(2){--bx:-55px}
  .lagom-beverage-stage__can:nth-child(3){--bx:55px}
  .lagom-beverage-stage__can:nth-child(4){--bx:150px}
- .lagom-beverage-stage__collection{inset-right:25%}
+ .lagom-beverage-stage__collection{right:25%}
  .lagom-beverage-stage__editorial{right:0;min-width:170px}
 }
 @media(max-width:899px){.lagom-beverage-stage{display:none}}
 @media(prefers-reduced-motion:reduce){
  .lagom-beverage-stage__can,.lagom-beverage-stage__can-inner,.lagom-beverage-stage__can-caption{transition:none!important}
  .lagom-beverage-stage__can[data-active="true"] .lagom-beverage-stage__can-inner{transform:none}
+}
+
+/* Desktop replaces the product shelf, never the mobile composition. */
+.lagom-desktop-hero-wrapper{display:none}
+.lagom-mobile-hero-wrapper{display:block}
+@media(min-width:900px){
+ #root .dm-home.sky-home .dm-hero--lagom .dm-hero__stage:has(.lagom-beverage-stage){width:min(100%,1160px);max-width:none;margin-top:clamp(-12px,-.5vw,0px)}
+ .lagom-desktop-hero-wrapper{display:block}
+ .lagom-mobile-hero-wrapper{display:none}
 }
