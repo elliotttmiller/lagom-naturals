@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import ShelflineHeroShelf from "@/home/ShelflineHeroShelf";
+import DesktopBeverageStage from "@/home/DesktopBeverageStage";
 import { products } from "@/catalogData";
 
 const HERO_IDS = ["24k-lemonade", "blackberry-breeze", "strawberry-lime-fusion", "watermelon-refresher"];
@@ -11,8 +12,8 @@ const potencyCopy = potencyValues.length === 1 ? `${potencyValues[0]} mg THC per
 
 /**
  * Lagom's original sky campaign copy and SHOP NOW action (pre-PR41) restored.
- * Defiant Mango's composed hero frame and Shelfline's native 3D stage remain.
- * Never replace the shelf with a static four-can image.
+ * Desktop uses its own beverage-led interactive campaign composition.
+ * The prior mobile stage is deliberately preserved.
  */
 export default function HomeHero() {
   return (
@@ -30,7 +31,8 @@ export default function HomeHero() {
           </Link>
         </div>
         <div className="dm-hero__stage">
-          <ShelflineHeroShelf products={showcaseProducts} />
+          <div className="lagom-desktop-hero-wrapper"><DesktopBeverageStage products={showcaseProducts} /></div>
+          <div className="lagom-mobile-hero-wrapper"><ShelflineHeroShelf products={showcaseProducts} /></div>
         </div>
         <div className="dm-hero__foot">
           <div className="dm-hero__copy">
