@@ -136,7 +136,7 @@ export default function AgeGateTransition({
       onComplete?.()
     }
 
-    if(reduced||!cinematic||!hero){
+    if(reduced||!cinematic){
       play(panel,[{opacity:1},{opacity:0}],{duration:120,easing:'linear'},registry)
       play(gate,[{opacity:1},{opacity:0}],{duration:220,delay:90,easing:'linear'},registry)
       finishTimerRef.current=window.setTimeout(complete,330)
